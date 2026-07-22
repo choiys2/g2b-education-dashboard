@@ -343,56 +343,63 @@ def render(scored, out_path, sample_notice=True):
     print(f"saved: {out_path}")
 
 
-V2_STYLE = '''
-  :root[data-theme="dark"] {
-    --paper:#14161A; --ink:#E8E6E0; --navy:#7C93C9; --line:#2E3238; --accent:#E08670;
-    --card-bg:#1C1F24;
+BMW_STYLE = '''
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+  :root {
+    --canvas:#000000; --ink:#ffffff; --body:#bbbbbb; --body-strong:#e6e6e6; --muted:#7e7e7e;
+    --hairline:#3c3c3c; --hairline-strong:#262626;
+    --surface-card:#1a1a1a; --surface-soft:#0d0d0d; --surface-elevated:#262626; --carbon:#2b2b2b;
+    --m-blue-light:#0066b1; --m-blue-dark:#1c69d4; --m-red:#e22718; --electric-blue:#0653b6;
+    --warning:#f4b400; --success:#0fa336;
   }
-  :root { --card-bg:#ffffff; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --paper:#14161A; --ink:#E8E6E0; --navy:#7C93C9; --line:#2E3238; --accent:#E08670;
-      --card-bg:#1C1F24;
-    }
-  }
-  .theme-toggle { position:absolute; top:20px; right:24px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25); color:#EFE9DA; border-radius:20px; padding:6px 14px; font-size:12px; font-family:'JetBrains Mono',monospace; cursor:pointer; }
-  .nav { display:flex; gap:4px; flex-wrap:wrap; padding:10px 0; margin-bottom:6px; }
-  .nav a { font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#6b6b62; text-decoration:none; padding:5px 10px; border:1px solid var(--line); border-radius:14px; }
-  .nav a:hover { background:var(--navy); color:#fff; border-color:var(--navy); }
-  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-top:16px; }
-  .kpi { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:6px; padding:12px 14px; }
-  .kpi b { font-family:'JetBrains Mono',monospace; font-size:19px; display:block; }
-  .kpi span { font-size:10.5px; opacity:.75; }
-  section.blk { margin:34px 0; }
-  .blk h2 { font-family:'Noto Serif KR',serif; font-size:17px; border-bottom:2px solid var(--ink); padding-bottom:7px; margin-bottom:14px; }
-  .blk h2 small { font-family:'JetBrains Mono',monospace; font-weight:400; font-size:11px; color:#7a7a72; margin-left:8px; }
-  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  @media (max-width:760px) { .grid2 { grid-template-columns:1fr; } }
-  .panel { background:var(--card-bg); border:1px solid var(--line); border-radius:6px; padding:16px; }
-  .insight-list { list-style:none; display:grid; gap:10px; }
-  .insight-list li { font-size:13px; line-height:1.55; padding:10px 12px; background:var(--card-bg); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:4px; }
-  .cloud { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:baseline; padding:8px 4px; }
-  .cloud span { font-family:'Noto Serif KR',serif; color:var(--navy); font-weight:600; }
-  table.dt { width:100%; border-collapse:collapse; font-size:12.5px; }
-  table.dt th, table.dt td { padding:7px 9px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; }
-  table.dt th { font-family:'JetBrains Mono',monospace; font-size:11px; color:#7a7a72; cursor:pointer; user-select:none; position:sticky; top:0; background:var(--paper); }
-  table.dt th:hover { color:var(--accent); }
-  table.dt td.title { white-space:normal; max-width:340px; }
-  table.dt td.title a { color:var(--ink); text-decoration:none; }
-  table.dt td.title a:hover { text-decoration:underline; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--canvas); color:var(--body); font-family:'Inter',-apple-system,'Segoe UI',sans-serif; font-weight:300; padding:0 0 72px; }
+  a { color:inherit; }
+  header { background:var(--canvas); padding:40px 24px 0; }
+  .m-stripe { height:4px; margin-top:28px; background:linear-gradient(90deg, var(--m-blue-light) 0%, var(--m-blue-light) 33%, var(--m-blue-dark) 33%, var(--m-blue-dark) 66%, var(--m-red) 66%, var(--m-red) 100%); }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-family:'Inter',sans-serif; font-weight:700; font-size:clamp(28px,4vw,44px); letter-spacing:-0.5px; text-transform:uppercase; color:var(--ink); margin-top:10px; text-wrap:balance; }
+  .sub { font-size:13px; font-weight:300; color:var(--muted); margin-top:10px; }
+  main { max-width:1080px; margin:0 auto; padding:0 24px; }
+  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--hairline); margin-top:28px; border:1px solid var(--hairline); }
+  .kpi { background:var(--surface-soft); padding:18px 16px; }
+  .kpi b { font-family:'Inter',sans-serif; font-weight:700; font-size:28px; font-variant-numeric:tabular-nums; display:block; color:var(--ink); }
+  .kpi span { font-size:10.5px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--muted); }
+  .nav { display:flex; gap:24px; flex-wrap:wrap; padding:22px 0; margin-bottom:8px; border-bottom:1px solid var(--hairline); }
+  .nav a { font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--body); text-decoration:none; padding-bottom:4px; border-bottom:2px solid transparent; }
+  .nav a:hover, .nav a:focus-visible { color:var(--ink); border-bottom-color:var(--ink); }
+  section.blk { margin:56px 0; }
+  .blk h2 { font-family:'Inter',sans-serif; font-size:20px; font-weight:700; letter-spacing:-0.2px; text-transform:uppercase; color:var(--ink); border-bottom:1px solid var(--hairline); padding-bottom:12px; margin-bottom:18px; }
+  .blk h2 small { font-size:11px; font-weight:400; letter-spacing:.4px; text-transform:none; color:var(--muted); margin-left:10px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .grid2 .blk { margin:0; }
+  @media (max-width:760px) { .grid2 { grid-template-columns:1fr; gap:0; } }
+  .panel { background:var(--surface-card); border:1px solid var(--hairline); padding:20px; }
+  .insight-list { list-style:none; display:grid; gap:1px; background:var(--hairline); border:1px solid var(--hairline); }
+  .insight-list li { font-size:13.5px; font-weight:300; line-height:1.6; color:var(--body-strong); padding:14px 16px; background:var(--surface-card); }
+  .insight-list li:first-child { border-left:4px solid var(--m-red); }
+  .cloud { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; padding:6px 2px; }
+  .cloud span { font-family:'Inter',sans-serif; font-weight:700; color:var(--ink); }
+  .cloud sub { color:var(--muted); font-weight:400; }
+  table.dt { width:100%; border-collapse:collapse; font-size:12.5px; font-weight:300; }
+  table.dt th, table.dt td { padding:10px 12px; border-bottom:1px solid var(--hairline); text-align:left; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  table.dt th { font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); cursor:pointer; user-select:none; position:sticky; top:0; background:var(--surface-card); }
+  table.dt th:hover { color:var(--ink); }
+  table.dt td.title { white-space:normal; max-width:340px; font-weight:400; color:var(--body-strong); }
+  table.dt td.title a { color:var(--body-strong); text-decoration:none; }
+  table.dt td.title a:hover { color:var(--ink); text-decoration:underline; }
   .table-wrap { overflow-x:auto; }
-  .filters { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin-bottom:14px; }
-  .filters select, .filters input { padding:8px 10px; border:1px solid var(--line); border-radius:4px; font-size:12.5px; background:var(--card-bg); color:var(--ink); font-family:'Noto Sans KR',sans-serif; }
-  .btn { display:inline-block; padding:7px 14px; border:1px solid var(--line); border-radius:4px; background:var(--card-bg); color:var(--ink); font-size:12px; font-family:'JetBrains Mono',monospace; cursor:pointer; }
-  .btn:hover { border-color:var(--navy); color:var(--navy); }
-  .tag { display:inline-block; font-size:10.5px; padding:2px 7px; border-radius:10px; font-family:'JetBrains Mono',monospace; }
-  .tag-bid { background:#E6F4EC; color:#0B3D2E; }
-  .tag-spec { background:#E8ECF7; color:#243B7A; }
-  .tag-win { background:#FBF3D9; color:#7A5C00; }
-  :root[data-theme="dark"] .tag-bid, :root:not([data-theme="light"]) .tag-bid { background:#0B3D2E; color:#B7E8C8; }
-  :root[data-theme="dark"] .tag-spec, :root:not([data-theme="light"]) .tag-spec { background:#243B7A; color:#C7D3F2; }
-  :root[data-theme="dark"] .tag-win, :root:not([data-theme="light"]) .tag-win { background:#5C4900; color:#F2DE9E; }
-  .caveat { font-size:11px; color:#9a9a90; margin-top:8px; }
+  .filters { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; margin-bottom:16px; background:var(--hairline); border:1px solid var(--hairline); }
+  .filters select, .filters input { padding:12px 14px; border:0; background:var(--surface-card); color:var(--ink); font-size:12.5px; font-family:'Inter',sans-serif; font-weight:300; }
+  .filters select:focus, .filters input:focus, .btn:focus-visible { outline:2px solid var(--ink); outline-offset:-2px; }
+  .btn { display:inline-block; padding:12px 24px; border:1px solid var(--ink); background:transparent; color:var(--ink); font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; cursor:pointer; }
+  .btn:hover { background:var(--ink); color:var(--canvas); }
+  .tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; padding:3px 8px; border-radius:2px; }
+  .tag-bid { background:var(--m-blue-dark); color:#ffffff; }
+  .tag-spec { background:var(--m-blue-light); color:#ffffff; }
+  .tag-win { background:var(--m-red); color:#ffffff; }
+  .caveat { font-size:11px; font-weight:300; color:var(--muted); margin-top:10px; }
+  footer { max-width:1080px; margin:64px auto 0; padding:32px 24px 0; font-size:11.5px; font-weight:300; color:var(--muted); border-top:1px solid var(--hairline); line-height:1.7; }
 '''
 
 
@@ -474,49 +481,43 @@ def _detail_table(rows):
     return "".join(trs)
 
 
-V2_SCRIPT_TEMPLATE = '''
+BMW_SCRIPT_TEMPLATE = '''
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-(function() {
-  var root = document.documentElement;
-  var saved = null;
-  try { saved = localStorage.getItem('g2b-theme'); } catch (e) {}
-  if (saved) root.setAttribute('data-theme', saved);
-  var btn = document.getElementById('themeToggle');
-  if (btn) btn.addEventListener('click', function() {
-    var cur = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', cur);
-    try { localStorage.setItem('g2b-theme', cur); } catch (e) {}
-  });
-})();
+Chart.defaults.color = '#bbbbbb';
+Chart.defaults.font.family = "'Inter',sans-serif";
+Chart.defaults.font.weight = 300;
+Chart.defaults.borderColor = '#3c3c3c';
 
 var TREND = __TREND__;
 new Chart(document.getElementById('trendChart'), {
   type: 'line',
   data: { labels: TREND.months, datasets: [
-    { label: '사전규격', data: TREND['사전규격'], borderColor: '#7C93C9', tension: .25 },
-    { label: '입찰공고', data: TREND['입찰공고'], borderColor: '#B23A28', tension: .25 },
-    { label: '낙찰', data: TREND['낙찰'], borderColor: '#0B3D2E', tension: .25 },
+    { label: '사전규격', data: TREND['사전규격'], borderColor: '#0066b1', backgroundColor: '#0066b1', tension: .25, borderWidth: 2, pointRadius: 2 },
+    { label: '입찰공고', data: TREND['입찰공고'], borderColor: '#1c69d4', backgroundColor: '#1c69d4', tension: .25, borderWidth: 2, pointRadius: 2 },
+    { label: '낙찰', data: TREND['낙찰'], borderColor: '#e22718', backgroundColor: '#e22718', tension: .25, borderWidth: 2, pointRadius: 2 },
   ]},
-  options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#e6e6e6' } } },
+    scales: { x: { grid: { color: '#262626' } }, y: { grid: { color: '#262626' }, beginAtZero: true } } }
 });
 
 var REGION = __REGION__;
 new Chart(document.getElementById('regionChart'), {
   type: 'bar',
   data: { labels: REGION.map(r => r['지역']), datasets: [
-    { label: '건수', data: REGION.map(r => r['건수']), backgroundColor: '#14213D' }
+    { label: '건수', data: REGION.map(r => r['건수']), backgroundColor: '#1c69d4' }
   ]},
-  options: { responsive: true, plugins: { legend: { display: false } } }
+  options: { responsive: true, plugins: { legend: { display: false } },
+    scales: { x: { grid: { display: false } }, y: { grid: { color: '#262626' }, beginAtZero: true } } }
 });
 
 var BIZ = __BIZ__;
 new Chart(document.getElementById('bizChart'), {
   type: 'pie',
   data: { labels: BIZ.map(b => b['유형']), datasets: [
-    { data: BIZ.map(b => b['건수']), backgroundColor: ['#14213D','#B23A28','#7C93C9','#0B3D2E','#E0A458','#6B6B6B','#9A6FB0'] }
+    { data: BIZ.map(b => b['건수']), backgroundColor: ['#e22718','#1c69d4','#0066b1','#ffffff','#0653b6','#7e7e7e','#e6e6e6','#2b2b2b'], borderColor: '#000000', borderWidth: 2 }
   ]},
-  options: { responsive: true, plugins: { legend: { position: 'right' } } }
+  options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#e6e6e6' } } } }
 });
 
 (function() {
@@ -638,14 +639,14 @@ def render_v2(full, out_path, company_name="비상교육"):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{company_name} 교육청 B2G 전략 대시보드</title>
-<style>{BASE_STYLE}{V2_STYLE}</style>
+<style>{BMW_STYLE}</style>
 </head>
 <body>
-<header style="position:relative">
-  <button id="themeToggle" class="theme-toggle">🌙 다크모드</button>
+<header>
   <div class="eyebrow">{company_name} · 비바샘원격교육연수원 · B2G 전략 대시보드</div>
   <h1>교육청·연수원 나라장터 시장 현황</h1>
   <div class="sub">기준일시 {full.get("generated_at", datetime.now().strftime("%Y-%m-%d %H:%M"))} · 대상: 발주기관/수요기관명에 "교육청" 또는 "연수원" 포함 건</div>
+  <div class="m-stripe"></div>
   {_kpi_grid([
       ("오늘 등록 사전규격", kpi_today_spec),
       ("오늘 등록 입찰공고", kpi_today_bid),
@@ -729,7 +730,7 @@ def render_v2(full, out_path, company_name="비상교육"):
   스코어링 — 키워드적합도 40 · 예산규모적합도 25 · 지역적합도 20 · 마감임박도 15 (총 100점) · 강점권역: 대구·강원·경북·광주·전북·전남·경기·충남·세종·충북<br>
   구성상 생략된 기능 — 발주계획현황서비스(오퍼레이션 미확인), 5개년 예측 모델·Slack/Teams/메일 알림·PDF 리포트(외부 연동·과거 스냅샷 DB 필요, 별도 요청 시 추가 가능)
 </footer>
-{V2_SCRIPT_TEMPLATE.replace("__TREND__", json.dumps(trend, ensure_ascii=False)).replace("__REGION__", json.dumps(regions, ensure_ascii=False)).replace("__BIZ__", json.dumps(biztypes, ensure_ascii=False))}
+{BMW_SCRIPT_TEMPLATE.replace("__TREND__", json.dumps(trend, ensure_ascii=False)).replace("__REGION__", json.dumps(regions, ensure_ascii=False)).replace("__BIZ__", json.dumps(biztypes, ensure_ascii=False))}
 </body>
 </html>'''
     with open(out_path, "w", encoding="utf-8") as f:
