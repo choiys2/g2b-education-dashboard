@@ -1,0 +1,39 @@
+{
+  "_설명": "data.go.kr 조달청 나라장터 OpenAPI 접속 정보 템플릿. 실제 서비스키는 절대 이 파일(깃 커밋 대상)에 넣지 않는다 — 로컬은 g2b_config.json(gitignore됨)에, CI는 GitHub Secrets(G2B_SERVICE_KEY)에 보관하고 fetch_g2b_listings.load_config()가 환경변수로 덮어쓴다.",
+  "service_key": "YOUR_DATA_GO_KR_SERVICE_KEY_HERE",
+  "services": {
+    "bid_public": {
+      "설명": "입찰공고정보서비스 - 용역 입찰공고",
+      "base_url": "https://apis.data.go.kr/1230000/ad/BidPublicInfoService",
+      "operation": "getBidPblancListInfoServcPPSSrch",
+      "keyword_param": "bidNtceNm",
+      "keyword_filter_server_side": true
+    },
+    "pre_spec": {
+      "설명": "사전규격정보서비스 - 용역 사전규격(조기 정보)",
+      "base_url": "https://apis.data.go.kr/1230000/ao/HrcspSsstndrdInfoService",
+      "operation": "getPublicPrcureThngInfoServc",
+      "keyword_param": "prdctClsfcNoNm",
+      "keyword_filter_server_side": false,
+      "비고": "prdctClsfcNoNm 파라미터는 실제로는 서버에서 무시됨(실측 확인). 전체 목록을 받아 클라이언트에서 제목 키워드로 필터링한다."
+    },
+    "scsbid": {
+      "설명": "낙찰정보서비스 - 경쟁사/낙찰가 인텔리전스(별도 리포트, 대시보드 스코어링 파이프라인에는 미포함)",
+      "base_url": "https://apis.data.go.kr/1230000/as/ScsbidInfoService",
+      "operation": "getScsbidListSttusServcPPSSrch",
+      "keyword_param": "bidNtceNm",
+      "keyword_filter_server_side": true
+    },
+    "order_plan": {
+      "설명": "발주계획현황서비스 - 아직 미확인",
+      "base_url": "https://apis.data.go.kr/1230000/ao/OrderPlanSttusService",
+      "operation": null,
+      "비고": "제공된 엔드포인트로 getOrderPlanSttusListInfoService/Servc/Thng/Cnstwk 등 여러 오퍼레이션명을 시도했으나 모두 'API not found'(게이트웨이 라우팅 실패, 인증 이전 단계). 조달청 참고문서(조달청_OpenAPI참고자료_나라장터_발주계획현황서비스_1.0.docx)에서 정확한 오퍼레이션 ID를 확인해 operation 값을 채우면 fetch_g2b_listings.py의 fetch_order_plan()이 활성화된다."
+    }
+  },
+  "date_range_chunk_days": 28,
+  "default_lookback_days": 21,
+  "request_interval_sec": 0.15,
+  "org_filter_keywords": ["교육청", "연수원"],
+  "org_filter_설명": "발주기관/수요기관명에 이 목록 중 하나라도 포함돼야 결과에 남긴다(교육청·연수원 발주 건으로 범위 한정). 대학교/평생교육원 등으로 넓히려면 이 목록에 추가."
+}
