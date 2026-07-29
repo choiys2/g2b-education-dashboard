@@ -29,8 +29,10 @@ data.go.kr 조달청 나라장터 OpenAPI 실데이터 수집기
     클라이언트에서 제목 키워드로 걸러낸다.
   - 조회 기간(inqryBgnDt~inqryEndDt)이 약 30일을 넘으면 "입력범위값 초과 에러"
     발생 -> date_chunks()로 g2b_config.json의 date_range_chunk_days 단위로 분할 호출.
-  - 발주계획현황서비스는 제공된 엔드포인트에서 시도한 오퍼레이션명이 전부
-    "API not found"(게이트웨이 라우팅 실패). g2b_config.json 참고.
+  - 발주계획현황서비스(2026-07-28 활성화): 오퍼레이션명은 getOrderPlanSttusListServc
+    ("Info"를 끼워 넣은 이름들은 전부 API not found였음). orderBgnYm/orderEndYm은
+    서버가 사실상 무시하는 롤링 스냅샷 서비스라, 매일 파이프라인을 돌려야 예정사업이
+    누적된다. 자세한 내용은 g2b_config.json의 order_plan.비고 참고.
 """
 import sys, os, json, time, argparse
 from datetime import datetime, timedelta
@@ -305,13 +307,63 @@ def fetch_scsbid_intel(cfg, keywords=SEARCH_KEYWORDS, days_back=21):
 
 
 def fetch_order_plan(cfg, **_):
+    """발주계획현황서비스(용역, getOrderPlanSttusListServc) - 아직 정식 입찰공고로
+    뜨기 전 단계의 '연간 발주계획'을 조회한다. 2026-07-28 실측 확인:
+      - orderBgnYm/orderEndYm(YYYYMM) 파라미터는 서버가 실제로는 무시한다(값을
+        바꿔도 결과 동일) -> 사전규격서비스와 같은 패턴. 대신 이 서비스는 '오늘
+        기준으로 등록/갱신된 발주계획 전체'를 돌려주는 롤링 스냅샷이다(조회일마다
+        nticeDt가 당일로 찍힌 건들만 잡힘). 즉 한 번 호출로 연간 전체를 못 받고,
+        파이프라인을 매일 돌려야 시간이 지날수록 예정사업이 누적된다.
+      - inqryDiv=1 은 필수(없으면 ERROR-08 필수값 누락).
+    """
     svc = cfg["services"]["order_plan"]
-    if not svc.get("operation"):
-        raise RuntimeError(
-            "발주계획현황서비스 오퍼레이션명이 g2b_config.json에 설정되지 않았습니다. "
-            "조달청 참고문서에서 정확한 오퍼레이션 ID를 확인해 채워주세요."
-        )
-    raise NotImplementedError("operation 확인 후 fetch_bid_announcements 패턴을 참고해 구현하세요.")
+    interval = cfg.get("request_interval_sec", 0.15)
+    today = datetime.now()
+    params_base = {
+        "serviceKey": cfg["service_key"],
+        "type": "json",
+        "inqryDiv": 1,
+        "orderBgnYm": today.strftime("%Y%m"),
+        "orderEndYm": today.strftime("%Y%m"),
+    }
+    all_items = []
+    page = 1
+    while True:
+        params = {**params_base, "pageNo": page, "numOfRows": 500}
+        try:
+            items, total = call_api(svc["base_url"], svc["operation"], params)
+        except Exception as e:
+            print(f"  [경고] 발주계획 조회 실패 (page={page}): {e}", file=sys.stderr)
+            break
+        all_items.extend(items)
+        time.sleep(interval)
+        if page * 500 >= total or not items or page >= 10:
+            break
+        page += 1
+
+    rows = []
+    skipped_org = 0
+    for it in all_items:
+        orderInstt = it.get("orderInsttNm", "")
+        totlmng = it.get("totlmngInsttNm", "")
+        if not is_target_org(cfg, orderInstt, totlmng):
+            skipped_org += 1
+            continue
+        rows.append({
+            "공고명": it.get("bizNm", ""),
+            "발주기관": orderInstt or totlmng,
+            "지역": guess_region(orderInstt, totlmng),
+            "예산": to_int(it.get("sumOrderAmt")),
+            "발주예정월": it.get("orderMnth", ""),
+            "계약방법": it.get("cntrctMthdNm", ""),
+            "등록일": to_date(it.get("nticeDt")),
+            "url": "https://www.g2b.go.kr/",
+            "_출처": "발주계획",
+            "_key": it.get("orderPlanUntyNo") or f'{orderInstt}-{it.get("bizNm","")}',
+        })
+    result = dedupe(rows, lambda r: r["_key"])
+    print(f"  발주계획: 오늘 스냅샷 {len(all_items)}건 중 교육청/연수원 매칭 -> {len(result)}건(그 외 {skipped_org}건 제외)")
+    return result
 
 
 def is_open(deadline_str, today=None):
@@ -338,6 +390,11 @@ def build_full_digest(cfg, analytics_days=200):
     bid_rows = fetch_bid_announcements(cfg, days_back=analytics_days)
     spec_rows = fetch_pre_specs(cfg, days_back=analytics_days)
     win_rows = fetch_scsbid_intel(cfg, days_back=analytics_days)
+    try:
+        plan_rows = fetch_order_plan(cfg)
+    except Exception as e:
+        print(f"  [경고] 발주계획 조회 실패, 이번 실행에서는 제외: {e}", file=sys.stderr)
+        plan_rows = []
 
     def scored(rows):
         out = []
@@ -352,6 +409,8 @@ def build_full_digest(cfg, analytics_days=200):
     spec_scored = scored(spec_rows)
     for r in win_rows:
         r.pop("_key", None)
+    for r in plan_rows:
+        r.pop("_key", None)
 
     action_bid = [x for x in bid_scored if is_open(x.get("마감일", ""))]
     action_spec = [x for x in spec_scored if is_open(x.get("마감일", ""))]
@@ -361,6 +420,7 @@ def build_full_digest(cfg, analytics_days=200):
         "analytics_days": analytics_days,
         "action": {"입찰공고": action_bid, "사전규격": action_spec},
         "analytics": {"입찰공고": bid_scored, "사전규격": spec_scored, "낙찰정보": win_rows},
+        "발주계획_오늘스냅샷": plan_rows,
     }
 
 

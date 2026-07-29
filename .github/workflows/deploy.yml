@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -32,15 +32,57 @@ jobs:
       - name: prepare local config (service key comes from secret at runtime)
         run: cp g2b_config.example.json g2b_config.json
 
-      - name: fetch G2B data + build dashboard
+      - name: fetch G2B data + build 기존 단독 대시보드
         env:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
         run: python run_pipeline.py
+
+      # ---- 통합 대시보드(나이스+G2B+선도학교+자사파이프라인) 확장 파이프라인 ----
+      # NEIS_KEY / ODCLOUD_KEY 시크릿이 없으면 이 스텝들은 개별적으로 실패해도
+      # continue-on-error로 넘어가고, 기존 단독 대시보드만 배포된다(하위 호환).
+      - name: G2B 분석 데이터 export (analytics.py 재사용, 스크레이핑 없음)
+        continue-on-error: true
+        run: python g2b_full_export.py live/full_live.json live/g2b_full_export.json
+
+      - name: 나이스 학교수 + AI 선도학교(odcloud) export
+        continue-on-error: true
+        env:
+          NEIS_KEY: ${{ secrets.NEIS_KEY }}
+          ODCLOUD_KEY: ${{ secrets.ODCLOUD_KEY }}
+        run: python neis_full_export.py live/neis_full_export.json
+
+      - name: 자사 영업 파이프라인 export (안전 필드만, 담당자 익명화)
+        continue-on-error: true
+        run: python own_pipeline_export.py live/own_pipeline_export.json
+
+      - name: 통합 대시보드 조합
+        id: combine
+        continue-on-error: true
+        run: python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html
+
+      - name: 일별 히스토리 누적 (history/daily_stats.jsonl)
+        if: steps.combine.outcome == 'success'
+        continue-on-error: true
+        run: python history_tracker.py
+
+      - name: 히스토리 커밋 (있으면)
+        if: steps.combine.outcome == 'success'
+        continue-on-error: true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add history/daily_stats.jsonl
+          git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(date -u +%F)"
+          git push || true
 
       - name: prepare pages artifact
         run: |
           mkdir -p _site
           cp live/dashboard_live.html _site/index.html
+          if [ -f live/neis_dashboard_full.html ]; then
+            mkdir -p _site/full
+            cp live/neis_dashboard_full.html _site/full/index.html
+          fi
 
       - uses: actions/upload-pages-artifact@v3
         with:
