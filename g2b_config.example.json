@@ -25,10 +25,10 @@
       "keyword_filter_server_side": true
     },
     "order_plan": {
-      "설명": "발주계획현황서비스 - 아직 미확인",
+      "설명": "발주계획현황서비스(용역) - 2026-07-28 활성화 완료",
       "base_url": "https://apis.data.go.kr/1230000/ao/OrderPlanSttusService",
-      "operation": null,
-      "비고": "제공된 엔드포인트로 getOrderPlanSttusListInfoService/Servc/Thng/Cnstwk 등 여러 오퍼레이션명을 시도했으나 모두 'API not found'(게이트웨이 라우팅 실패, 인증 이전 단계). 조달청 참고문서(조달청_OpenAPI참고자료_나라장터_발주계획현황서비스_1.0.docx)에서 정확한 오퍼레이션 ID를 확인해 operation 값을 채우면 fetch_g2b_listings.py의 fetch_order_plan()이 활성화된다."
+      "operation": "getOrderPlanSttusListServc",
+      "비고": "기존에 'API not found'였던 원인은 오퍼레이션명에 없는 'Info'를 끼워 넣었기 때문(getOrderPlanSttusListInfoServc 등은 전부 실패, Info 뺀 getOrderPlanSttusListServc가 정답). inqryDiv=1 필수 파라미터. orderBgnYm/orderEndYm(YYYYMM)은 값을 바꿔도 결과가 동일해 서버가 사실상 무시함(사전규격 서비스와 같은 패턴) - 이 서비스는 연간 전체 계획 조회가 아니라 '조회일 기준으로 등록/갱신된 발주계획'만 돌려주는 롤링 스냅샷이다. 물품(Thng)·공사(Cnstwk)·외자(Frgcpt)도 같은 패턴으로 존재하나 교원연수 사업 특성상 용역(Servc)만 사용."
     }
   },
   "date_range_chunk_days": 28,
