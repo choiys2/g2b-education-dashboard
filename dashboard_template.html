@@ -674,9 +674,9 @@
               <th data-key="학교명">학교<span class="arrow">▾</span></th>
               <th data-key="상품명">구매 품목<span class="arrow">▾</span></th>
               <th data-key="지역">지역<span class="arrow">▾</span></th>
-              <th data-key="예산" class="num sorted">금액<span class="arrow">▾</span></th>
+              <th data-key="예산" class="num">금액<span class="arrow">▾</span></th>
               <th data-key="_출처">상태<span class="arrow">▾</span></th>
-              <th data-key="공고일">일자<span class="arrow">▾</span></th>
+              <th data-key="공고일" class="num sorted">일자<span class="arrow">▾</span></th>
             </tr>
           </thead>
           <tbody id="schoolTableBody"></tbody>
@@ -932,8 +932,8 @@
               <th data-key="공고명">공고명<span class="arrow">▾</span></th>
               <th data-key="기관">기관<span class="arrow">▾</span></th>
               <th data-key="지역">지역<span class="arrow">▾</span></th>
-              <th data-key="예산" class="num sorted">예산/금액<span class="arrow">▾</span></th>
-              <th data-key="날짜">날짜<span class="arrow">▾</span></th>
+              <th data-key="예산" class="num">예산/금액<span class="arrow">▾</span></th>
+              <th data-key="날짜" class="num sorted">날짜<span class="arrow">▾</span></th>
             </tr>
           </thead>
           <tbody id="g2bDetailTableBody"></tbody>
@@ -1939,7 +1939,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     regionSel.appendChild(opt);
   });
 
-  let sortKey = '예산', sortDir = -1;
+  let sortKey = '공고일', sortDir = -1;
 
   function draw(){
     const gf = gradeSel.value, rf = regionSel.value, af = amountSel.value;
@@ -1987,7 +1987,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   ths.forEach(th => {
     th.addEventListener('click', () => {
       const key = th.dataset.key;
-      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = key==='예산' ? -1 : 1; }
+      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = (key==='예산'||key==='공고일') ? -1 : 1; }
       ths.forEach(t => { t.classList.remove('sorted'); t.querySelector('.arrow').textContent='▾'; });
       th.classList.add('sorted');
       th.querySelector('.arrow').textContent = sortDir===1 ? '▴' : '▾';
@@ -2404,7 +2404,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     regionSel.appendChild(opt);
   });
 
-  let sortKey='예산', sortDir=-1;
+  let sortKey='날짜', sortDir=-1;
 
   function draw(){
     const q = searchInput.value.trim().toLowerCase();
@@ -2442,7 +2442,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   ths.forEach(th => {
     th.addEventListener('click', () => {
       const key = th.dataset.key;
-      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = key==='예산' ? -1 : 1; }
+      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = (key==='예산'||key==='날짜') ? -1 : 1; }
       ths.forEach(t => { t.classList.remove('sorted'); const a=t.querySelector('.arrow'); if(a) a.textContent='▾'; });
       th.classList.add('sorted');
       const arrow = th.querySelector('.arrow'); if (arrow) arrow.textContent = sortDir===1?'▴':'▾';
