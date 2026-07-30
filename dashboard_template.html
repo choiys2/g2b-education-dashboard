@@ -306,6 +306,41 @@
   .net-node{cursor:pointer;}
   .net-node:active{cursor:grabbing;}
 
+  /* ---------- 상태연동 설정 / 인라인 상태 변경 ---------- */
+  .btn-ghost{
+    font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink-2);background:var(--surface-2);
+    border:1px solid var(--border);border-radius:100px;padding:8px 16px;cursor:pointer;white-space:nowrap;
+  }
+  .btn-ghost:hover{color:var(--ink);border-color:var(--accent);}
+  .btn-primary{
+    font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;background:var(--accent);
+    border:none;border-radius:100px;padding:9px 18px;cursor:pointer;white-space:nowrap;
+  }
+  .btn-primary:hover{background:var(--accent-dark);}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+  .sync-settings{
+    background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:14px 0 18px;
+  }
+  .sync-settings-desc{font-size:12.5px;color:var(--ink-2);line-height:1.6;margin:0 0 12px;}
+  .sync-settings-desc code{background:var(--surface);padding:1px 6px;border-radius:5px;font-size:11.5px;}
+  .sync-settings-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .sync-settings-row label{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--muted);font-weight:600;flex:1;min-width:200px;}
+  .sync-settings-row input{
+    font-family:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--border);
+    border-radius:8px;padding:8px 10px;
+  }
+  .sync-settings-status{font-size:12px;margin:10px 0 0;min-height:16px;}
+  .sync-settings-status.ok{color:var(--good);}
+  .sync-settings-status.err{color:var(--critical);}
+  .status-select{
+    font-family:inherit;font-size:12px;font-weight:700;border-radius:100px;padding:4px 8px;border:1px solid var(--border);
+    background:var(--surface);color:var(--ink);cursor:pointer;
+  }
+  .status-select:disabled{opacity:.5;cursor:wait;}
+  .status-save-hint{font-size:11px;margin-left:6px;}
+  .status-save-hint.ok{color:var(--good);}
+  .status-save-hint.err{color:var(--critical);}
+
   footer{margin-top:8px;}
   .foot-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:12.5px;color:var(--muted);line-height:1.7;}
   @media (max-width:760px){.foot-grid{grid-template-columns:1fr;}}
@@ -583,7 +618,7 @@
         <h3>이 탭은 지금까지와 다른 채널을 봅니다 — 그리고 중요한 사각지대가 있습니다</h3>
         <p>앞의 두 탭은 <b>시도교육청·연수원 단위 &lsquo;용역&rsquo;</b>(위탁연수 등) 발주였습니다. 이 탭은 <b>개별 학교(초·중·고)가 직접 발주자로 나서는 &lsquo;물품&rsquo;</b>(기자재·SW라이선스 등 제품) 구매 건을 나라장터에서 걷어온 것입니다.</p>
         <p>금액에 하한선을 두지 않았습니다 — 아래 표는 2천만원 이하 소액 건(현재 7건, 최소 600만원)까지 나라장터에 실제 등록된 건은 빠짐없이 담았습니다. 소액이라고 걸러낸 적은 없습니다.</p>
-        <p><b>사각지대:</b> 다만 2천만원 이하 소액 물품은 학교가 나라장터 대신 <b>학교장터(S2B, 한국교직원공제회 운영)</b>라는 별도 시스템으로 훨씬 많이 몰립니다. S2B는 공공데이터포털에 등록된 Open API가 없고(직접 확인), 종합쇼핑몰 품목정보 서비스도 시도해봤지만 이건 &lsquo;구매자별 거래내역&rsquo;이 아니라 &lsquo;등록 품목의 계약단가&rsquo; 정보라 학교명 단위 구매 확인에는 쓸 수 없었습니다. 그래서 아래 리스트는 <b>나라장터에 실제 등록된 건 전부</b>이지만, S2B로 빠지는 소액 구매 상당수는 원천적으로 이 대시보드 밖에 있습니다.</p>
+        <p><b>사각지대(기술적으로는 가능 확인, 자동화는 보류):</b> 2천만원 이하 소액 물품은 학교가 나라장터 대신 <b>학교장터(S2B, 한국교직원공제회 운영)</b>라는 별도 시스템으로 훨씬 많이 몰립니다. S2B는 공공데이터포털 Open API가 없지만, s2b.kr의 공개 견적요청 조회 페이지(로그인 불필요)를 직접 호출하면 데이터를 받아올 수 있다는 것까지는 확인했습니다. 다만 <b>s2b.kr/robots.txt가 모든 자동화 접근을 명시적으로 금지</b>하고 있어, 매일 자동으로 도는 파이프라인에는 연결하지 않기로 했습니다. 아래는 그 기술 검증 과정에서 얻은 <b>1회성 수동 조회 스냅샷(경기·서울)</b>이며, 자동 갱신되지 않습니다.</p>
       </div>
     </div>
 
@@ -649,11 +684,30 @@
       </div>
     </section>
 
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">S2B(학교장터) 수동 스냅샷 — 경기·서울, AI 관련만</p>
+          <p class="panel-desc">s2b.kr robots.txt가 자동화 접근을 금지하고 있어 이 데이터는 <b>자동 갱신되지 않는 1회성 수동 조회 결과</b>입니다(최근 21일치, 조회 당시 기준). 전체 견적요청 중 AI 키워드가 포함된 건만 표시하며, 행을 클릭하면 학교장터 원문으로 이동합니다.</p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="s2bTable">
+          <thead>
+            <tr>
+              <th>공고명</th><th>기관명</th><th>지역</th><th>거래구분</th><th>계약구분</th><th>마감일</th>
+            </tr>
+          </thead>
+          <tbody id="s2bTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
     <div class="callout">
       <div class="icon">✓</div>
       <div>
         <h3>추가 고도화 제안</h3>
-        <p><b>⑥ 학교장터(S2B) 커버리지 확보</b> — 가장 중요합니다. S2B는 열린 API가 없어 자동 연동이 안 되지만, 각 시도교육청 정보공개 페이지(예: 부산·서울교육청 &lsquo;입찰/계약정보&rsquo; 게시판)에 S2B 낙찰 내역이 공개돼 있는 곳들이 있습니다. 이 페이지들을 17개 시도별로 스크레이핑하면 지금 비어 있는 소액 구매 시장을 상당 부분 메울 수 있습니다. 다만 사이트마다 형식이 달라 개발 공수가 큽니다.</p>
+        <p><b>⑥ 학교장터(S2B) 커버리지 확보 — robots.txt 문제 해결이 선결 과제</b> — 공개 조회 페이지를 직접 호출하는 방식 자체는 기술적으로 검증됐지만(위 스냅샷), s2b.kr이 robots.txt로 모든 자동화 접근을 금지하고 있어 자동 파이프라인화는 보류했습니다. The-K 한국교직원공제회에 데이터 제공을 공식 요청하거나, 각 시도교육청이 자체 공개하는 S2B 낙찰 내역 게시판을 스크레이핑하는 우회로를 검토해야 합니다.</p>
         <p><b>⑦ 품목분류코드 기반 정밀 분류</b> — 지금은 제목 키워드 매칭이지만, 나라장터 API의 품목분류명(dtilPrdctClsfcNoNm) 필드를 쓰면 &lsquo;교육용소프트웨어&rsquo;·&lsquo;전자칠판&rsquo;·&lsquo;태블릿PC&rsquo; 같은 표준 품목으로 훨씬 정확하게 잡아낼 수 있습니다.</p>
         <p><b>⑧ 학교급별 침투율</b> — 나이스 학교 수(초 6,340 · 중 3,327)와 이 탭의 구매 학교 수를 나누면 &ldquo;초등학교 중 몇 %가 이미 나라장터로 AI 기자재를 샀는가&rdquo;를 계산할 수 있고, 나머지(미구매) 학교가 영업 타겟이 됩니다.</p>
         <p><b>⑨ 소액·중액·대액 세그먼트 전략</b> — 2천만원 이하(S2B, 수의계약)·2천만원~고시금액(제한경쟁)·고시금액 이상(일반경쟁)으로 나누면 진입장벽이 다른 세 시장에 각각 다른 영업 전략(카탈로그 등록 vs 제안서 vs 컨소시엄)을 쓸 수 있습니다.</p>
@@ -981,8 +1035,25 @@
       <div class="panel-head">
         <div>
           <p class="panel-title">전체 사업 리스트 (54건)</p>
+          <p class="panel-desc">상태 칩을 클릭하면 드롭다운으로 바로 변경할 수 있습니다(연동 설정 시 구글시트에 즉시 반영).</p>
         </div>
+        <button class="btn-ghost" id="pipeSyncSettingsBtn" type="button">⚙ 상태연동 설정</button>
       </div>
+
+      <div class="sync-settings" id="pipeSyncSettings" hidden>
+        <p class="sync-settings-desc">
+          대시보드에서 상태를 바꾸면 구글시트에 바로 반영되게 하려면, <code>pipeline_status_webhook.gs.txt</code>를
+          해당 시트의 Apps Script로 배포한 뒤(SETUP_ADVANCED.md 참고) 아래에 웹앱 URL과 토큰을 입력하세요.
+          입력값은 이 브라우저에만 저장되고(localStorage) 서버로 전송되지 않습니다.
+        </p>
+        <div class="sync-settings-row">
+          <label>웹앱 URL <input type="text" id="pipeSyncUrl" placeholder="https://script.google.com/macros/s/.../exec"></label>
+          <label>토큰 <input type="password" id="pipeSyncToken" placeholder="Apps Script SECRET_TOKEN과 동일하게"></label>
+          <button class="btn-primary" id="pipeSyncSaveBtn" type="button">저장</button>
+        </div>
+        <p class="sync-settings-status" id="pipeSyncStatus"></p>
+      </div>
+
       <div class="filter-row">
         <select id="pipeRegionFilter"><option value="">전체 지역</option></select>
         <select id="pipeStatusFilter"><option value="">전체 상태</option></select>
@@ -1056,8 +1127,8 @@
     <div class="callout">
       <div class="icon">i</div>
       <div>
-        <h3>베타 기능 — 두 가지 모두 표본이 얇습니다</h3>
-        <p>아래 두 표는 "최고 난이도" 제안 중 데이터가 충분치 않아 정확도를 보장할 수 없는 항목입니다. 머신러닝 모델이 아니라 전부 규칙 기반 계산이며, 각 표 위에 한계를 그대로 적어뒀습니다. 참고용으로만 사용하세요.</p>
+        <h3>베타 기능 — 전부 표본이 얇습니다</h3>
+        <p>아래 표들은 "최고 난이도" 제안 중 데이터가 충분치 않아 정확도를 보장할 수 없는 항목입니다. 머신러닝 모델이 아니라 전부 규칙 기반 계산이며, 각 표 위에 한계를 그대로 적어뒀습니다. 참고용으로만 사용하세요.</p>
       </div>
     </div>
 
@@ -1089,6 +1160,31 @@
           <tbody id="betaMomentumTableBody"></tbody>
         </table>
       </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">진행중 공고 낙찰가 추정 (베타)</p>
+          <p class="panel-desc" id="betaBidRangeNote"></p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="betaBidRangeTable">
+          <thead><tr><th>공고명</th><th>기관</th><th>지역</th><th class="num">예산</th><th class="num">예상낙찰가(하)</th><th class="num">예상낙찰가(중앙)</th><th class="num">예상낙찰가(상)</th><th>마감일</th></tr></thead>
+          <tbody id="betaBidRangeTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">지표 추세 예측 (베타)</p>
+          <p class="panel-desc" id="betaTrendForecastNote"></p>
+        </div>
+      </div>
+      <div id="betaTrendForecastBody"></div>
     </section>
 
   </div><!-- /panel-beta -->
@@ -1146,6 +1242,7 @@ const COMPETITORS = {"top": [{"company": "주식회사 아이스크림미디어"
 const TREND = {"monthly": {"2026-07": 11, "2026-05": 34, "2026-06": 22, "2026-04": 22, "2026-01": 6, "2026-03": 5, "2026-02": 2}, "repeaters": [{"org": "경기도교육청 경기도교육청남부연수원", "count": 6, "amount": 312160940}, {"org": "부산광역시교육청", "count": 3, "amount": 1033444746}, {"org": "서울특별시교육청 서울특별시강서양천교육지원청", "count": 3, "amount": 289538000}, {"org": "서울특별시교육청 서울특별시성동광진교육지원청", "count": 3, "amount": 265930200}, {"org": "강원특별자치도교육청 강원특별자치도춘천교육지원청", "count": 3, "amount": 210000000}, {"org": "세종특별자치시교육청", "count": 2, "amount": 1115230000}, {"org": "울산광역시교육청", "count": 2, "amount": 403176170}, {"org": "대전광역시교육청", "count": 2, "amount": 400228000}, {"org": "서울특별시교육청 서울특별시남부교육지원청", "count": 2, "amount": 378115000}, {"org": "강원특별자치도교육청 강원특별자치도교육청교육연수원", "count": 2, "amount": 338000000}, {"org": "부산광역시교육청 부산광역시교육청학력개발원", "count": 2, "amount": 269591262}, {"org": "서울특별시교육청 서울특별시동부교육지원청", "count": 2, "amount": 182862000}, {"org": "서울특별시교육청 서울특별시북부교육지원청", "count": 2, "amount": 218047000}, {"org": "충청북도교육청 충청북도교육연구정보원", "count": 2, "amount": 85000000}]};
 const ORDER_PLAN = [{"지역": "경기", "공고명": "2026년 의정부교육지원청 행정과 시설공사 하자검사용역", "발주기관": "경기도교육청 경기도의정부교육지원청", "예산": 54015000, "계약방법": "수의계약"}, {"지역": "울산", "공고명": "울산중 등 4교(울산제일중, 상안중, 화봉초)조리장 환기설비 개선공사 설계용역", "발주기관": "울산광역시교육청 울산광역시강북교육지원청", "예산": 35310000, "계약방법": "수의계약"}, {"지역": "경남", "공고명": "김해삼문고등학교 내진보강 및 내덕중학교 치장벽돌 내진보강 건축설계용역", "발주기관": "경상남도교육청 경상남도김해교육지원청", "예산": 16768000, "계약방법": "수의계약"}, {"지역": "경기", "공고명": "소일초 본관동 화장실 개선공사 설계용역", "발주기관": "경기도교육청 경기도부천교육지원청", "예산": 33705000, "계약방법": "수의계약"}, {"지역": "울산", "공고명": "월평중 본관동 정밀안전점검용역", "발주기관": "울산광역시교육청 울산광역시강남교육지원청", "예산": 17848000, "계약방법": "수의계약"}, {"지역": "경남", "공고명": "삽량초 외 1교(신양초) 내진보강 전기(통신, 소방)공사 설계용역", "발주기관": "경상남도교육청 경상남도양산교육지원청", "예산": 4059000, "계약방법": "수의계약"}, {"지역": "경기", "공고명": "샘모루초 외 3교(부흥고, 평촌경영고, 호계초) LED 조명교체 전기, 통신, 소방공사 설계용역", "발주기관": "경기도교육청 경기도안양과천교육지원청", "예산": 17668000, "계약방법": "수의계약"}, {"지역": "서울", "공고명": "공릉초 외 3교(공연초, 신화초, 태릉초) 정밀안전점검용역", "발주기관": "서울특별시교육청 서울특별시북부교육지원청", "예산": 90770000, "계약방법": "제한경쟁"}, {"지역": "경북", "공고명": "송림초등학교 본관동 냉난방시설개선 기계설비공사 설계용역", "발주기관": "경상북도교육청 경상북도포항교육지원청", "예산": 26181000, "계약방법": "수의계약"}, {"지역": "경기", "공고명": "안양호암초 화장실 개선 전기, 통신, 소방공사 설계용역", "발주기관": "경기도교육청 경기도안양과천교육지원청", "예산": 19409000, "계약방법": "수의계약"}, {"지역": "전북", "공고명": "전주동북초 그린스마트스쿨 개축 소방공사 감리용역", "발주기관": "전북특별자치도교육청 전북특별자치도전주교육지원청", "예산": 36748000, "계약방법": "제한경쟁"}, {"지역": "경북", "공고명": "동부 교직원연립관사 리모델링공사 설계용역", "발주기관": "경상북도교육청 경상북도예천교육지원청", "예산": 51683000, "계약방법": "수의계약"}, {"지역": "부산", "공고명": "부산자동차고등학교 미래자동차관 증축공사 감리용역", "발주기관": "부산광역시교육청 부산광역시서부교육지원청", "예산": 354629000, "계약방법": "제한경쟁"}, {"지역": "경기", "공고명": "안양부안초 외 1교(희성초) LED조명 교체 전기, 통신, 소방공사 설계용역", "발주기관": "경기도교육청 경기도안양과천교육지원청", "예산": 19348000, "계약방법": "수의계약"}, {"지역": "전북", "공고명": "2026학년도 전주곤지중학교 3학년 국외 수학여행 위탁 용역 공고 ", "발주기관": "전북특별자치도교육청 전북특별자치도전주교육지원청 전주곤지중학교", "예산": 40742000, "계약방법": "제한경쟁"}, {"지역": "전북", "공고명": "2026학년도 덕과초등학교 국제교류수업  및 해외 현장체험학습 위탁용역", "발주기관": "전북특별자치도교육청 전북특별자치도남원교육지원청 덕과초등학교", "예산": 40686000, "계약방법": "제한경쟁"}, {"지역": "경기", "공고명": "2026 양평미래교육박람회 위탁 운영 용역 계약(협상에 의한 계약)", "발주기관": "경기도교육청 경기도양평교육지원청", "예산": 110000000, "계약방법": "제한경쟁"}, {"지역": "충북", "공고명": "2026학년도 원평중학교 2학년 수학여행 위탁용역", "발주기관": "충청북도교육청 충청북도청주교육지원청 원평중학교", "예산": 77337000, "계약방법": "제한경쟁"}, {"지역": "인천", "공고명": "2026년 제3회 고3 와락콘서트 기획 운영 대행 용역 사업", "발주기관": "인천광역시교육청 인천광역시평생학습관", "예산": 94000000, "계약방법": "제한경쟁"}, {"지역": "대구", "공고명": "2026학년도 현장체험학습(수학여행) 위탁용역 2단계(규격⦁가격동시) 입찰공고 ", "발주기관": "대구광역시교육청 경일여자고등학교", "예산": 76718340, "계약방법": "제한경쟁"}, {"지역": "서울", "공고명": "2026학년도 2학년 수련활동 위탁용역", "발주기관": "서울특별시동부교육청 상봉중학교", "예산": 69930000, "계약방법": "제한경쟁"}, {"지역": "경기", "공고명": "한국조리과학고 2027년 2학년 주제별 체험학습(강원권) 위탁 용역 업체 선정 ", "발주기관": "경기도교육청 한국조리과학고등학교", "예산": 115141000, "계약방법": "제한경쟁"}, {"지역": "전남", "공고명": "2026. 교직원 대상 원격연수 신규 콘텐츠 개발 용역", "발주기관": "전라남도교육청 전라남도교육연수원", "예산": 71500000, "계약방법": "제한경쟁"}, {"지역": "경남", "공고명": "의령여자중학교 미래학교 공간재구조화사업 본관동 개축공사 건설폐기물 처리 용역", "발주기관": "경상남도교육청 경상남도의령교육지원청 의령여자중학교", "예산": 490675000, "계약방법": "제한경쟁"}, {"지역": "경북", "공고명": "울릉교육지원청 관내 노후 관사 해체공사 건설폐기물처리 용역", "발주기관": "경상북도교육청 경상북도울릉교육지원청", "예산": 139893000, "계약방법": "제한경쟁"}, {"지역": "전남", "공고명": "[긴급] 2026년 제16회 전국상업경진대회 위탁용역 ", "발주기관": "전남광주통합특별시교육청 광주청사", "예산": 336000000, "계약방법": "제한경쟁"}, {"지역": "전북", "공고명": "2026학년도 고창북고등학교 숙뱍형 현장체험학습[수학여행] 위탁 용역 입찰 공고", "발주기관": "전북특별자치도교육청 고창북고등학교", "예산": 82500000, "계약방법": "제한경쟁"}, {"지역": "대구", "공고명": "2026학년도 현장체험학습(수학여행) 위탁용역 2단계(규격⦁가격동시) 입찰 공고", "발주기관": "대구광역시교육청 경일여자고등학교", "예산": 76718340, "계약방법": "제한경쟁"}, {"지역": "인천", "공고명": "신명여자고등학교 2026학년도 2학년 경상권(부산) 수학여행 위탁용역", "발주기관": "인천광역시교육청 신명여자고등학교", "예산": 181109400, "계약방법": "제한경쟁"}, {"지역": "경남", "공고명": "김해은혜학교 다목적강당 기초 및 지반보강공사 건설폐기물 처리용역", "발주기관": "경상남도교육청 경상남도김해교육지원청", "예산": 12183600, "계약방법": "수의계약"}];
 const SCHOOL_GOODS = [{"학교명": "대구광역시교육청 대구공업고등학교", "학교급": "고", "상품명": "[텍폴캠] 2026학년도 AI모빌리티과 기자재(유공압, MSP 실습장치) 구입", "예산": 283445600, "공고일": "2026-05-11", "마감일": "2026-06-02", "지역": "대구", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01494389&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "대구광역시교육청 대구공업고등학교", "학교급": "고", "상품명": "[텍폴캠] 2026학년도 AI모빌리티과 기자재(유공압, MSP 실습장치) 구입", "예산": 266370000, "공고일": "2026-06-02", "마감일": "", "지역": "대구", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01494389&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도교육청 김포과학기술고등학교", "학교급": "고", "상품명": "그린스마트 메이커스페이스 공간구성을 위한 물품구입(AI융합 스마트팩토리 실습장치)", "예산": 222930000, "공고일": "2026-07-16", "마감일": "2026-07-28", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01622755&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경기도교육청 백석고등학교", "학교급": "고", "상품명": "백석고 AI Edu Center 영상 및 음향장비 구입 및 설치 ", "예산": 117403000, "공고일": "2026-04-29", "마감일": "2026-05-20", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01495127&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청북도교육청 청주공업고등학교", "학교급": "고", "상품명": "2025학년도 청주공업고등학교 기자재(AI 비전 모듈 외 4종) 구매 2단계(규격·가격동시) 입찰 공고", "예산": 87760000, "공고일": "2026-02-04", "마감일": "2026-02-25", "지역": "충북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01314537&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청남도교육청 당진정보고등학교", "학교급": "고", "상품명": "2025학년도 당진정보고 직업계고 재구조화 AI 실습실 정보화기기(아이맥) 구매 소액수의 전자견적 제출 안내 공고", "예산": 66150000, "공고일": "2026-01-07", "마감일": "2026-01-13", "지역": "충남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01260985&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "강원특별자치도교육청 강원특별자치도춘천교육지원청 남춘천여자중학교", "학교급": "중", "상품명": "남춘천여자중학교 AI정보교실 노트북 구매", "예산": 65212000, "공고일": "2026-07-20", "마감일": "2026-07-31", "지역": "강원", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01638937&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청남도교육청 당진정보고등학교", "학교급": "고", "상품명": "2025학년도 당진정보고 직업계고 재구조화 AI 실습실 정보화기기(아이맥) 구매 소액수의 전자견적 제출 안내 공고", "예산": 62850000, "공고일": "2026-01-13", "마감일": "", "지역": "충남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01260985&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "서울특별시교육청 단국대학교사범대학부속고등학교", "학교급": "고", "상품명": "단대부고 2026년 지능형 CCTV 구축 물품 구매(AI카메라)", "예산": 62500000, "공고일": "2026-06-23", "마감일": "", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01597331&bidPbancOrd=001", "_출처": "낙찰완료"}, {"학교명": "경상북도교육청 경주여자정보고등학교", "학교급": "고", "상품명": "2026학년도 AI디지털 활용 선도학교 물품(소프트웨어)구매 수의계약 안내공고", "예산": 33940000, "공고일": "2026-06-17", "마감일": "2026-06-25", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01586473&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상북도교육청 경주여자정보고등학교", "학교급": "고", "상품명": "2026학년도 AI디지털 활용 선도학교 물품(소프트웨어)구매 수의계약 안내공고", "예산": 33000000, "공고일": "2026-06-25", "마감일": "", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01586473&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도연천교육청 군남초등학교", "학교급": "초", "상품명": "AI활용 아동,청소년 성장진단 및 성장관리 사업", "예산": 30000000, "공고일": "2026-07-21", "마감일": "", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01640243&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도양평교육청 강하초등학교", "학교급": "초", "상품명": "강하초(건강증진거점학교) AI 학생성장예측 프로그램 구입", "예산": 27500000, "공고일": "2026-06-04", "마감일": "", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01560141&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "서울특별시강남교육청 도곡중학교", "학교급": "중", "상품명": "2026년 도곡중학교 영상감시장치 (AI 카메라)구입", "예산": 22500000, "공고일": "2026-05-06", "마감일": "2026-05-07", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01503812&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "서울특별시강남교육청 도곡중학교", "학교급": "중", "상품명": "2026년 도곡중학교 영상감시장치 (AI 카메라)구입", "예산": 21825000, "공고일": "2026-05-07", "마감일": "", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01503812&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI측정과 실습기자재(측정시편 외) 구매 수의견적 제출 안내 공고", "예산": 18415000, "공고일": "2026-06-02", "마감일": "2026-06-08", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01557349&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "전남광주통합특별시교육청 광주서석고등학교", "학교급": "고", "상품명": "2026학년도 광주서석고등학교 융합교육(steam) 교구 AI로봇 구입", "예산": 17250000, "공고일": "2026-07-28", "마감일": "2026-07-29", "지역": "전남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01653148&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI측정과 실습기자재(측정시편 외) 구매 수의견적 제출 안내 공고", "예산": 16526670, "공고일": "2026-06-12", "마감일": "", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01566634&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI로봇과 실습기자재(AI스마트제어실습장치) 구매 수의견적 제출 안내 공고", "예산": 15000000, "공고일": "2026-05-26", "마감일": "2026-06-01", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01543323&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI로봇과 실습기자재(AI스마트제어실습장치) 구매 수의견적 제출 안내 공고", "예산": 14775000, "공고일": "2026-06-01", "마감일": "", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01543323&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상북도교육청 경상북도상주교육지원청 상주중학교", "학교급": "중", "상품명": "2026 상주중학교 수학교육공모사업 AI코스웨어 플랫폼 이용권 구매", "예산": 6006000, "공고일": "2026-04-15", "마감일": "2026-04-17", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01466261&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상북도교육청 경상북도상주교육지원청 상주중학교", "학교급": "중", "상품명": "2026 상주중학교 수학교육공모사업 AI코스웨어 플랫폼 이용권 구매", "예산": 6000000, "공고일": "2026-04-17", "마감일": "", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01466261&bidPbancOrd=000", "_출처": "낙찰완료"}];
+const S2B_PILOT = {"all_count": 100, "ai_rows": [{"학교장터공고번호": "202607281401944", "계약구분": "1인 수의", "공고명": "양지초 AI활용 체험수업 및 교구대여", "거래구분": "용역", "기관명": "용인양지초등학교", "지역": "경기", "공고일": "2026-07-28", "마감일": "2026-07-28 23:30", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607281401944", "키워드": ["AI"]}, {"학교장터공고번호": "202607231396625", "계약구분": "1인 수의", "공고명": "로봇직업교육센터 로봇AI·SW과정 교육 용역", "거래구분": "용역", "기관명": "(재)경기테크노파크", "지역": "경기", "공고일": "2026-07-23", "마감일": "2026-07-28 16:30", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607231396625", "키워드": ["AI"]}, {"학교장터공고번호": "202607281401506", "계약구분": "1인 수의", "공고명": "2026학년도 로봇 피지컬 AI 연구회 운영 물품 구입", "거래구분": "물품", "기관명": "인덕과학기술고등학교", "지역": "서울", "공고일": "2026-07-28", "마감일": "2026-07-28 18:00", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607281401506", "키워드": ["AI"]}], "regions": ["경기", "서울"], "days_back": 21};
 const LEADING_ROWS = __LEADING_ROWS_JSON__;
 const LEADING_BY_REGION = __LEADING_BY_REGION_JSON__;
 const LEADING_ENRICHED = __LEADING_ENRICHED_JSON__;
@@ -1903,6 +2000,26 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   draw();
 })();
 
+(function renderS2BPilot(){
+  const tbody = document.getElementById('s2bTableBody');
+  if (!tbody) return;
+  const rows = (typeof S2B_PILOT !== 'undefined' && S2B_PILOT.ai_rows) || [];
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">최근 21일간 AI 관련 견적요청이 없습니다(경기·서울 기준).</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(r => `
+    <tr tabindex="0" style="cursor:pointer;" onclick="window.open('${r.url}','_blank','noopener')">
+      <td class="title">${r.공고명}</td>
+      <td class="org">${r.기관명}</td>
+      <td>${r.지역}</td>
+      <td>${r.거래구분}</td>
+      <td>${r.계약구분}</td>
+      <td class="num">${r.마감일}</td>
+    </tr>
+  `).join('');
+})();
+
 /* ================= AI 선도학교 탭 ================= */
 (function renderKpisLeading(){
   const total = LEADING_ROWS.length;
@@ -2491,10 +2608,61 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   const countEl = document.getElementById('pipeRowCount');
   const ths = [...document.querySelectorAll('#pipeTable th')];
 
+  /* ---- 상태연동(Apps Script 웹훅) 설정 ---- */
+  const SYNC_KEY = 'neis-dashboard-pipe-sync';
+  const settingsBtn = document.getElementById('pipeSyncSettingsBtn');
+  const settingsBox = document.getElementById('pipeSyncSettings');
+  const urlInput = document.getElementById('pipeSyncUrl');
+  const tokenInput = document.getElementById('pipeSyncToken');
+  const saveBtn = document.getElementById('pipeSyncSaveBtn');
+  const statusMsg = document.getElementById('pipeSyncStatus');
+
+  function loadSync(){
+    try { return JSON.parse(localStorage.getItem(SYNC_KEY) || '{}'); } catch(e){ return {}; }
+  }
+  function syncConfigured(){
+    const s = loadSync();
+    return !!(s.url && s.token);
+  }
+  const savedSync = loadSync();
+  if (savedSync.url) urlInput.value = savedSync.url;
+  if (savedSync.token) tokenInput.value = savedSync.token;
+
+  settingsBtn.addEventListener('click', () => { settingsBox.hidden = !settingsBox.hidden; });
+  saveBtn.addEventListener('click', () => {
+    const url = urlInput.value.trim(), token = tokenInput.value.trim();
+    if (!url || !token) {
+      statusMsg.textContent = 'URL과 토큰을 모두 입력하세요.';
+      statusMsg.className = 'sync-settings-status err';
+      return;
+    }
+    localStorage.setItem(SYNC_KEY, JSON.stringify({url, token}));
+    statusMsg.textContent = '저장되었습니다. 이제 상태 칩에서 바로 변경할 수 있습니다.';
+    statusMsg.className = 'sync-settings-status ok';
+    draw();
+  });
+
+  async function pushStatus(gisu, newStatus){
+    const s = loadSync();
+    // application/json으로 보내면 브라우저가 CORS 프리플라이트(OPTIONS)를 보내는데
+    // Apps Script 웹앱은 OPTIONS를 처리하지 않아 실패한다. text/plain은 "simple
+    // request"라 프리플라이트가 없다 - 내용물은 그대로 JSON 문자열을 담는다.
+    const res = await fetch(s.url, {
+      method: 'POST',
+      headers: {'Content-Type': 'text/plain;charset=utf-8'},
+      body: JSON.stringify({token: s.token, gisu, status: newStatus}),
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || '알 수 없는 오류');
+    return data;
+  }
+
+  const ALL_STATUSES = [...new Set(PIPE.records.map(r=>r.status))];
+
   [...new Set(PIPE.records.map(r=>r.region))].sort().forEach(v => {
     const o = document.createElement('option'); o.value=v; o.textContent=v; regionSel.appendChild(o);
   });
-  [...new Set(PIPE.records.map(r=>r.status))].forEach(v => {
+  ALL_STATUSES.forEach(v => {
     const o = document.createElement('option'); o.value=v; o.textContent=v; statusSel.appendChild(o);
   });
   [...new Set(PIPE.records.map(r=>r.salesRep).filter(Boolean))].sort().forEach(v => {
@@ -2514,10 +2682,15 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       return sortDir*((av||0)-(bv||0));
     });
     countEl.textContent = `${rows.length}건 표시 중`;
+    const editable = syncConfigured();
     tbody.innerHTML = rows.map(r => {
-      const meta = STATUS_META[r.status] || {cls: r.status==='완료'?'won':(r.status==='모집중'?'open':'pre'), label:r.status};
+      const statusCell = editable
+        ? `<select class="status-select" data-gisu="${r.gisu||''}">
+            ${ALL_STATUSES.map(s => `<option value="${s}" ${s===r.status?'selected':''}>${s}</option>`).join('')}
+          </select><span class="status-save-hint"></span>`
+        : `<span class="chip ${r.status==='완료'?'won':(r.status==='모집중'?'open':'pre')}">${r.status}</span>`;
       return `<tr>
-        <td><span class="chip ${meta.cls}">${r.status}</span></td>
+        <td>${statusCell}</td>
         <td>${r.region||'-'}</td>
         <td class="org">${r.org}</td>
         <td class="title">${r.courseName}</td>
@@ -2527,6 +2700,29 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       </tr>`;
     }).join('');
   }
+
+  tbody.addEventListener('change', async (e) => {
+    const sel = e.target.closest('.status-select');
+    if (!sel) return;
+    const gisu = sel.dataset.gisu;
+    const newStatus = sel.value;
+    const hint = sel.nextElementSibling;
+    sel.disabled = true;
+    hint.textContent = '저장 중...';
+    hint.className = 'status-save-hint';
+    try {
+      await pushStatus(gisu, newStatus);
+      const rec = PIPE.records.find(r => r.gisu === gisu);
+      if (rec) rec.status = newStatus;
+      hint.textContent = '✓ 저장됨';
+      hint.className = 'status-save-hint ok';
+    } catch (err) {
+      hint.textContent = `✗ 실패: ${err.message}`;
+      hint.className = 'status-save-hint err';
+    } finally {
+      sel.disabled = false;
+    }
+  });
   ths.forEach(th => {
     th.addEventListener('click', () => {
       const key = th.dataset.key;
@@ -2766,5 +2962,55 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       <td class="num">${fmt(r.모멘텀점수)}</td>
       <td style="color:${STAGE_COLOR[r.단계] || 'var(--ink-2)'};font-weight:700;">${esc(r.단계)}</td>
     </tr>`).join('');
+
+  /* ---- 낙찰가 추정 ---- */
+  const bidRange = BETA.bid_range || {};
+  const bidNoteEl = document.getElementById('betaBidRangeNote');
+  const bidBody = document.getElementById('betaBidRangeTableBody');
+  if (!bidRange.band || !bidRange.band.표본충분) {
+    bidNoteEl.textContent = `${bidRange.note || ''} (현재 표본 ${bidRange.band ? bidRange.band.표본수 : 0}건 - 표본 부족으로 추정하지 않음)`;
+    bidBody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:24px;">표본 부족으로 추정하지 않습니다.</td></tr>';
+  } else {
+    bidNoteEl.textContent = `${bidRange.note} (표본 ${bidRange.band.표본수}건 · p25 ${bidRange.band.p25}% · 중앙값 ${bidRange.band.중앙값}% · p75 ${bidRange.band.p75}%)`;
+    bidBody.innerHTML = (bidRange.estimates || []).map(r => `
+      <tr>
+        <td class="title">${esc(r.공고명)}</td>
+        <td class="org">${esc(r.기관)}</td>
+        <td>${esc(r.지역)}</td>
+        <td class="num">${fmtWon(r.예산)}</td>
+        <td class="num">${fmtWon(r.예상낙찰가_하)}</td>
+        <td class="num" style="font-weight:700;">${fmtWon(r.예상낙찰가_중앙)}</td>
+        <td class="num">${fmtWon(r.예상낙찰가_상)}</td>
+        <td>${esc(r.마감일)}</td>
+      </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:24px;">예산이 확인된 진행중 공고가 없습니다.</td></tr>';
+  }
+
+  /* ---- 지표 추세 예측 ---- */
+  const tf = BETA.trend_forecast || {};
+  const tfNoteEl = document.getElementById('betaTrendForecastNote');
+  const tfBody = document.getElementById('betaTrendForecastBody');
+  const METRIC_LABEL = {
+    ai_rows_count: 'AI·에듀테크 공고 건수', ai_rows_amount_sum: 'AI·에듀테크 총 예산',
+    own_pipeline_total: '자사 파이프라인 건수', own_pipeline_target: '자사 파이프라인 목표금액',
+  };
+  if (tf.status === '축적중') {
+    tfNoteEl.textContent = tf.note;
+    tfBody.innerHTML = `<div style="padding:20px 4px;color:var(--muted);font-size:13.5px;">
+      데이터 누적 ${tf.days_collected}/${tf.min_days}일 - 매일 자동으로 쌓이며, 임계치를 넘으면 이 자리에 추세선이 자동으로 나타납니다.
+    </div>`;
+  } else {
+    tfNoteEl.textContent = tf.note;
+    const rows = Object.entries(tf.series || {});
+    tfBody.innerHTML = `<div class="tbl-wrap"><table class="data">
+      <thead><tr><th>지표</th><th class="num">현재</th><th class="num">${tf.forecast_days}일 후 예상</th><th class="num">일평균 증가</th></tr></thead>
+      <tbody>${rows.map(([k,v]) => `
+        <tr>
+          <td>${METRIC_LABEL[k] || esc(k)}</td>
+          <td class="num">${fmt(v.현재)}</td>
+          <td class="num" style="font-weight:700;">${fmt(v[tf.forecast_days+'일후_예상'])}</td>
+          <td class="num">${v.일평균증가 >= 0 ? '+' : ''}${v.일평균증가}</td>
+        </tr>`).join('')}</tbody>
+    </table></div>`;
+  }
 })();
 </script>

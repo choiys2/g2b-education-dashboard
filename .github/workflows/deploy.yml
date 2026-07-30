@@ -60,6 +60,11 @@ jobs:
         continue-on-error: true
         run: python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html
 
+      - name: 입찰 마감일 .ics 캘린더 피드 생성
+        if: steps.combine.outcome == 'success'
+        continue-on-error: true
+        run: python ics_feed.py live/_ai_rows_count.json live/g2b_deadlines.ics
+
       - name: 일별 히스토리 누적 (history/daily_stats.jsonl)
         if: steps.combine.outcome == 'success'
         continue-on-error: true
@@ -82,6 +87,10 @@ jobs:
           if [ -f live/neis_dashboard_full.html ]; then
             mkdir -p _site/full
             cp live/neis_dashboard_full.html _site/full/index.html
+          fi
+          if [ -f live/g2b_deadlines.ics ]; then
+            mkdir -p _site/full
+            cp live/g2b_deadlines.ics _site/full/calendar.ics
           fi
 
       - uses: actions/upload-pages-artifact@v3

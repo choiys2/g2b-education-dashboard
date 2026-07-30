@@ -1,0 +1,72 @@
+// ============================================================================
+// 영업 파이프라인 구글시트 - 상태 업데이트 웹훅 (Google Apps Script)
+//
+// 통합 대시보드의 "영업 파이프라인" 탭에서 상태(대기중/모집중/연수중/완료 등)를
+// 클릭 한 번으로 바로 이 구글시트에 반영하기 위한 백엔드.
+//
+// GitHub Pages(정적 사이트)는 구글 시트 쓰기 권한 자격증명을 안전하게 보관할 수
+// 없어서(누구나 페이지 소스/네트워크 요청을 볼 수 있음), 대신 이 시트에 바인딩된
+// Apps Script를 웹앱으로 배포해 그 URL만 대시보드가 호출하게 한다. 실제 구글 계정
+// 인증정보는 이 스크립트 안에만 있고 대시보드에는 절대 노출되지 않는다.
+//
+// ---- 설치 방법 (1회만) ----
+// 1. 상태를 업데이트할 그 구글시트를 여세요.
+// 2. 메뉴 확장 프로그램 > Apps Script 클릭.
+// 3. 기본 코드를 지우고 이 파일 내용 전체를 붙여넣으세요.
+// 4. 아래 SECRET_TOKEN 값을 본인만 아는 임의의 긴 문자열로 반드시 바꾸세요
+//    (이 토큰이 없으면 아무나 URL을 알아내 시트를 고칠 수 있게 됨).
+// 5. SHEET_NAME을 실제 탭(시트) 이름으로 확인/수정하세요.
+// 6. 우측 상단 "배포" > "새 배포" > 유형 "웹 앱" 선택.
+//    - 실행 계정: 나
+//    - 액세스 권한이 있는 사용자: 전체
+// 7. 배포 후 나오는 웹 앱 URL을 복사해서, 대시보드 "영업 파이프라인" 탭의
+//    설정(⚙)에 그 URL과 4번에서 정한 토큰을 붙여넣고 저장하세요.
+// ============================================================================
+
+var SECRET_TOKEN = "여기에_본인만_아는_긴_임의_문자열로_반드시_교체하세요";
+var SHEET_NAME = "시트1";        // 실제 탭 이름으로 변경
+var KEY_COLUMN = "기수";         // 행을 찾는 기준 열 헤더(고유값이어야 함)
+var STATUS_COLUMN = "상태";      // 변경할 열 헤더
+
+function doPost(e) {
+  var result;
+  try {
+    // 브라우저 CORS 프리플라이트를 피하려고 대시보드가 text/plain으로 보내지만
+    // 내용물 자체는 JSON 문자열이다.
+    var body = JSON.parse(e.postData.contents);
+    if (body.token !== SECRET_TOKEN) {
+      result = { ok: false, error: "invalid token" };
+    } else {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+      if (!sheet) {
+        result = { ok: false, error: "sheet not found: " + SHEET_NAME };
+      } else {
+        var data = sheet.getDataRange().getValues();
+        var headers = data[0];
+        var keyIdx = headers.indexOf(KEY_COLUMN);
+        var statusIdx = headers.indexOf(STATUS_COLUMN);
+        if (keyIdx === -1 || statusIdx === -1) {
+          result = { ok: false, error: "column not found (KEY_COLUMN/STATUS_COLUMN 확인)" };
+        } else {
+          var updated = 0;
+          for (var i = 1; i < data.length; i++) {
+            if (String(data[i][keyIdx]) === String(body.gisu)) {
+              sheet.getRange(i + 1, statusIdx + 1).setValue(body.status);
+              updated++;
+            }
+          }
+          result = { ok: updated > 0, updated: updated };
+        }
+      }
+    }
+  } catch (err) {
+    result = { ok: false, error: String(err) };
+  }
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet(e) {
+  return ContentService.createTextOutput(JSON.stringify({ ok: true, msg: "pipeline status webhook alive" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}

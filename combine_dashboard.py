@@ -229,9 +229,9 @@ def main():
     leading_rows, leading_by_region, leading_enriched = build_leading(neis_export, data_rows)
     pipe = build_pipe(pipeline_export, g2b_full, data_rows)
 
-    # ---------- 5) BETA (경쟁사 트렌드 + 파이프라인 모멘텀, 둘 다 "베타" 표시) ----------
+    # ---------- 5) BETA (경쟁사 트렌드 + 파이프라인 모멘텀 + 낙찰가 추정 + 추세 예측, 전부 "베타" 표시) ----------
     win_a = an.enrich_win_region(full_live["analytics"]["낙찰정보"], full_live["analytics"]["입찰공고"])
-    beta = bf.build_beta(win_a, pipeline_export.get("records", []))
+    beta = bf.build_beta(win_a, pipeline_export.get("records", []), open_bids=full_live["analytics"]["입찰공고"])
 
     html = open(template_path, encoding="utf-8").read()
     subs = {

@@ -14,7 +14,7 @@
    대체했다 — 어떤 진행중 건에 먼저 집중할지 판단을 돕는 용도이지 수주 여부를
    맞추는 예측 모델이 아니다.
 """
-import re
+import json, os, re
 from datetime import date, datetime, timedelta
 
 BETA_NOTE_TREND = (
@@ -151,10 +151,137 @@ def pipeline_momentum(records, today=None):
     return out
 
 
-def build_beta(win_items, pipeline_records, today=None):
+def _percentile(sorted_vals, pct):
+    if not sorted_vals:
+        return None
+    k = (len(sorted_vals) - 1) * pct
+    f = int(k)
+    c = min(f + 1, len(sorted_vals) - 1)
+    if f == c:
+        return sorted_vals[f]
+    return sorted_vals[f] + (sorted_vals[c] - sorted_vals[f]) * (k - f)
+
+
+BETA_NOTE_BID_RANGE = (
+    "베타 · 공개된 과거 낙찰율(%) 분포(p25~p75)를 현재 진행중 공고의 예산에 곱한 "
+    "참고용 낙찰가 추정치입니다. 사업 성격·참여업체 수·특약조건은 전혀 반영하지 않은 "
+    "단순 통계적 추정이며, 전체 표본이 5건 미만이면 추정하지 않습니다."
+)
+
+
+def bid_amount_estimates(open_bids, win_items, min_sample=5, top_n=20):
+    """과거 낙찰율(%) 분포(p25~중앙값~p75)를 현재 진행중 입찰공고의 예산에 곱해
+    참고용 낙찰가 범위를 추정한다. analytics.py의 경쟁사 랭킹과 달리 여기서는
+    개별 공고 단위로, "이 공고는 대략 얼마에 낙찰될 가능성이 높은가"를 본다."""
+    rates = []
+    for it in win_items:
+        try:
+            r = float(str(it.get("낙찰율(%)", "")).strip())
+        except (TypeError, ValueError):
+            continue
+        if 0 < r <= 100:
+            rates.append(r)
+    rates.sort()
+
+    band = {"표본수": len(rates)}
+    if len(rates) < min_sample:
+        band["표본충분"] = False
+        return {"estimates": [], "band": band, "note": BETA_NOTE_BID_RANGE}
+    band.update({
+        "표본충분": True,
+        "p25": round(_percentile(rates, 0.25), 2),
+        "중앙값": round(_percentile(rates, 0.5), 2),
+        "p75": round(_percentile(rates, 0.75), 2),
+    })
+
+    out = []
+    for b in open_bids:
+        budget = b.get("예산") or 0
+        if budget <= 0:
+            continue
+        out.append({
+            "공고명": b.get("공고명"), "기관": b.get("발주기관"), "지역": b.get("지역"),
+            "예산": budget, "마감일": b.get("마감일"), "url": b.get("url"),
+            "예상낙찰가_하": round(budget * band["p25"] / 100),
+            "예상낙찰가_중앙": round(budget * band["중앙값"] / 100),
+            "예상낙찰가_상": round(budget * band["p75"] / 100),
+        })
+    out.sort(key=lambda x: x.get("마감일") or "9999")
+    return {"estimates": out[:top_n], "band": band, "note": BETA_NOTE_BID_RANGE}
+
+
+def _linear_trend(xs, ys):
+    n = len(xs)
+    if n < 2:
+        return None
+    mean_x, mean_y = sum(xs) / n, sum(ys) / n
+    den = sum((x - mean_x) ** 2 for x in xs)
+    if den == 0:
+        return None
+    slope = sum((x - mean_x) * (y - mean_y) for x, y in zip(xs, ys)) / den
+    intercept = mean_y - slope * mean_x
+    return slope, intercept
+
+
+BETA_NOTE_TREND_FORECAST = (
+    "베타 · history/daily_stats.jsonl 일별 누적치에 대한 단순 선형 추세선(최소자승법)입니다. "
+    "계절성, 정책 변화, 예산 집행 시기 같은 외부 요인은 전혀 반영하지 않은 산술적 추정치이며, "
+    "최소 {min_days}일치 데이터가 쌓이기 전까지는 추세를 계산하지 않습니다."
+)
+
+TREND_METRICS = ["ai_rows_count", "ai_rows_amount_sum", "own_pipeline_total", "own_pipeline_target"]
+
+
+def trend_forecast(history_path="history/daily_stats.jsonl", min_days=14, forecast_days=30):
+    """일별 히스토리가 min_days 미만이면 예측하지 않고 '축적중' 상태만 알린다.
+    파이프라인은 매일 도니 데이터는 계속 쌓이고, 임계치를 넘는 순간 자동으로
+    활성화된다 - 코드 변경 없이 시간이 지나면 스스로 켜지는 구조."""
+    rows = []
+    if os.path.exists(history_path):
+        with open(history_path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rows.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+    rows.sort(key=lambda r: r.get("date", ""))
+    days_collected = len(rows)
+
+    if days_collected < min_days:
+        return {
+            "status": "축적중", "days_collected": days_collected, "min_days": min_days,
+            "note": (f"추세 예측에는 최소 {min_days}일치 일별 데이터가 필요합니다. "
+                     f"현재 {days_collected}일치 누적됨 - 계속 쌓이는 대로 자동 활성화됩니다."),
+        }
+
+    xs = list(range(days_collected))
+    series = {}
+    for m in TREND_METRICS:
+        ys = [r.get(m, 0) or 0 for r in rows]
+        trend = _linear_trend(xs, ys)
+        if trend is None:
+            continue
+        slope, intercept = trend
+        forecast_x = days_collected - 1 + forecast_days
+        projected = max(0, round(slope * forecast_x + intercept))
+        series[m] = {"현재": ys[-1], f"{forecast_days}일후_예상": projected, "일평균증가": round(slope, 2)}
+
+    return {
+        "status": "활성", "days_collected": days_collected, "min_days": min_days,
+        "forecast_days": forecast_days, "series": series,
+        "note": BETA_NOTE_TREND_FORECAST.format(min_days=min_days),
+    }
+
+
+def build_beta(win_items, pipeline_records, open_bids=None, history_path="history/daily_stats.jsonl", today=None):
     return {
         "competitor_trend": competitor_trend(win_items, today=today),
         "trend_note": BETA_NOTE_TREND,
         "pipeline_momentum": pipeline_momentum(pipeline_records, today=today),
         "momentum_note": BETA_NOTE_MOMENTUM,
+        "bid_range": bid_amount_estimates(open_bids or [], win_items),
+        "trend_forecast": trend_forecast(history_path=history_path),
     }
