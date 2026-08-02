@@ -340,6 +340,11 @@
   .status-save-hint{font-size:11px;margin-left:6px;}
   .status-save-hint.ok{color:var(--good);}
   .status-save-hint.err{color:var(--critical);}
+  .elig-badge{
+    display:inline-block;margin-left:8px;font-size:10.5px;font-weight:700;color:var(--warning);
+    background:color-mix(in srgb, var(--warning) 16%, transparent);border-radius:100px;padding:2px 8px;
+    cursor:help;white-space:nowrap;
+  }
 
   footer{margin-top:8px;}
   .foot-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:12.5px;color:var(--muted);line-height:1.7;}
@@ -366,6 +371,7 @@
       <span class="pill"><span class="dot"></span>기준일 <b>2026-07-28</b></span>
       <span class="pill">데이터 출처 ① <b>나이스 개방포털 Open API</b> (학교기본정보, 실시간 조회)</span>
       <span class="pill">데이터 출처 ② <b>나라장터 G2B</b> (자체 수집 파이프라인, 교육청·연수원·연수 키워드)</span>
+      <a class="pill" href="./report.pdf" target="_blank" rel="noopener" style="text-decoration:none;">📄 PDF 리포트 다운로드</a>
     </div>
   </header>
 
@@ -992,6 +998,31 @@
       </div>
     </section>
 
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">지역 기회점수 지도</p>
+          <p class="panel-desc">위 표를 지도로 봅니다. 원 크기·색이 진할수록 기회점수가 높은 지역입니다(시도 단위 중심좌표 기준 — 개별 학교 위치가 아닙니다).</p>
+        </div>
+        <button class="btn-ghost" id="mapSettingsBtn" type="button">⚙ 지도 연동 설정</button>
+      </div>
+      <div class="sync-settings" id="mapSettings" hidden>
+        <p class="sync-settings-desc">
+          카카오맵을 표시하려면 <a href="https://developers.kakao.com/console/app" target="_blank" rel="noopener">카카오 디벨로퍼스</a>에서
+          앱을 만들고 <b>JavaScript 키</b>를 발급받아(무료) 아래에 입력하세요. 앱 생성 후 "플랫폼 설정 → Web"에 이 페이지 주소를
+          등록해야 지도가 뜹니다. 입력값은 이 브라우저에만 저장됩니다(localStorage).
+        </p>
+        <div class="sync-settings-row">
+          <label>카카오 JavaScript 키 <input type="text" id="kakaoKeyInput" placeholder="예: 3f1a9c2b..."></label>
+          <button class="btn-primary" id="kakaoKeySaveBtn" type="button">저장하고 불러오기</button>
+        </div>
+        <p class="sync-settings-status" id="kakaoKeyStatus"></p>
+      </div>
+      <div id="kakaoMapContainer" style="width:100%;height:460px;border-radius:14px;border:1px solid var(--border);background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">
+        지도 연동 설정에서 카카오 JavaScript 키를 입력하면 지도가 표시됩니다.
+      </div>
+    </section>
+
     <div class="grid-2">
       <section class="panel">
         <div class="panel-head">
@@ -1158,6 +1189,21 @@
         <table class="data" id="betaMomentumTable">
           <thead><tr><th>지역</th><th>기관</th><th>연수명</th><th>상태</th><th>담당</th><th>모집마감</th><th class="num">모멘텀</th><th>단계</th></tr></thead>
           <tbody id="betaMomentumTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">경쟁사 재계약(락인) 패턴 (베타)</p>
+          <p class="panel-desc" id="betaLockinNote"></p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="betaLockinTable">
+          <thead><tr><th>낙찰업체</th><th>발주기관</th><th class="num">건수</th><th class="num">총낙찰금액</th><th>최근 개찰일</th></tr></thead>
+          <tbody id="betaLockinTableBody"></tbody>
         </table>
       </div>
     </section>
@@ -1642,6 +1688,18 @@ const STATUS_META = {
       kwSpan.className = 'kw';
       kwSpan.textContent = r.keywords.join(', ');
       tdTitle.appendChild(kwSpan);
+      if (r.자격 && r.자격.제한있음) {
+        const elig = document.createElement('span');
+        elig.className = 'elig-badge';
+        const reasons = [];
+        if (r.자격.지역제한) reasons.push('지역제한: '+r.자격.지역제한);
+        if (r.자격.실적제한) reasons.push('실적 기준 경쟁');
+        if (r.자격.지정경쟁) reasons.push('지정경쟁');
+        if (r.자격.공동계약의무지역) reasons.push('공동계약 의무지역: '+r.자격.공동계약의무지역);
+        elig.title = '참가자격 확인 필요 - ' + reasons.join(' · ') + ' (자동판정 아님, 공고문 직접 확인)';
+        elig.textContent = '⚠ 자격확인';
+        tdTitle.appendChild(elig);
+      }
 
       const tdOrg = document.createElement('td');
       tdOrg.className = 'org';
@@ -2429,6 +2487,18 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       const chip = document.createElement('span'); chip.className='chip '+meta.cls; chip.textContent=r.구분;
       tdCat.appendChild(chip);
       const tdTitle = document.createElement('td'); tdTitle.className='title'; tdTitle.textContent = r.공고명;
+      if (r.자격 && r.자격.제한있음) {
+        const elig = document.createElement('span');
+        elig.className = 'elig-badge';
+        const reasons = [];
+        if (r.자격.지역제한) reasons.push('지역제한: '+r.자격.지역제한);
+        if (r.자격.실적제한) reasons.push('실적 기준 경쟁');
+        if (r.자격.지정경쟁) reasons.push('지정경쟁');
+        if (r.자격.공동계약의무지역) reasons.push('공동계약 의무지역: '+r.자격.공동계약의무지역);
+        elig.title = '참가자격 확인 필요 - ' + reasons.join(' · ') + ' (자동판정 아님, 공고문 직접 확인)';
+        elig.textContent = '⚠ 자격확인';
+        tdTitle.appendChild(elig);
+      }
       const tdOrg = document.createElement('td'); tdOrg.className='org'; tdOrg.textContent = r.기관;
       const tdRegion = document.createElement('td'); tdRegion.textContent = r.지역;
       const tdAmount = document.createElement('td'); tdAmount.className='amount num'; tdAmount.textContent = r.예산표시;
@@ -2520,6 +2590,94 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     });
   });
   draw();
+})();
+
+/* ================= 지역 기회점수 지도 (카카오맵) ================= */
+(function renderKakaoMap(){
+  const KEY_STORAGE = 'neis-dashboard-kakao-key';
+  const settingsBtn = document.getElementById('mapSettingsBtn');
+  const settingsBox = document.getElementById('mapSettings');
+  const keyInput = document.getElementById('kakaoKeyInput');
+  const saveBtn = document.getElementById('kakaoKeySaveBtn');
+  const statusEl = document.getElementById('kakaoKeyStatus');
+  const mapEl = document.getElementById('kakaoMapContainer');
+
+  // 시도 중심좌표(도청/시청 소재지 기준 근사치) - 개별 학교 지오코딩은 범위 밖,
+  // 지역 단위 히트맵이라 이 정도 정밀도면 충분하다.
+  const REGION_COORDS = {
+    '서울': [37.5665, 126.9780], '부산': [35.1796, 129.0756], '대구': [35.8714, 128.6014],
+    '인천': [37.4563, 126.7052], '광주': [35.1595, 126.8526], '대전': [36.3504, 127.3845],
+    '울산': [35.5384, 129.3114], '세종': [36.4800, 127.2890], '경기': [37.4138, 127.5183],
+    '강원': [37.8228, 128.1555], '충북': [36.6357, 127.4917], '충남': [36.5184, 126.8000],
+    '전북': [35.7175, 127.1530], '전남': [34.8161, 126.4630], '경북': [36.4919, 128.8889],
+    '경남': [35.4606, 128.2132], '제주': [33.4996, 126.5312],
+  };
+
+  function loadKey(){
+    try { return localStorage.getItem(KEY_STORAGE) || ''; } catch(e){ return ''; }
+  }
+
+  settingsBtn.addEventListener('click', () => { settingsBox.hidden = !settingsBox.hidden; });
+  keyInput.value = loadKey();
+
+  function initMap(){
+    if (typeof kakao === 'undefined' || !kakao.maps) {
+      statusEl.textContent = '카카오맵 SDK 로드에 실패했습니다 - 키가 맞는지, 플랫폼(Web) 등록 주소가 이 페이지와 일치하는지 확인하세요.';
+      statusEl.className = 'sync-settings-status err';
+      return;
+    }
+    mapEl.textContent = '';
+    const center = new kakao.maps.LatLng(36.4, 127.7);
+    const map = new kakao.maps.Map(mapEl, { center, level: 12 });
+
+    const maxScore = Math.max(...PIPE.byRegion.map(r => r.opportunity_score), 1);
+    PIPE.byRegion.forEach(r => {
+      const coord = REGION_COORDS[r.region];
+      if (!coord) return;
+      const pos = new kakao.maps.LatLng(coord[0], coord[1]);
+      const ratio = r.opportunity_score / maxScore;
+      const radius = 8000 + ratio * 22000;
+      const color = r.opportunity_score >= 60 ? '#e8ac52' : (r.opportunity_score >= 35 ? '#2f6b4f' : '#8c9481');
+      new kakao.maps.Circle({
+        map, center: pos, radius,
+        strokeWeight: 1, strokeColor: color, strokeOpacity: 0.8,
+        fillColor: color, fillOpacity: 0.45,
+      });
+      const overlay = new kakao.maps.CustomOverlay({
+        map, position: pos, yAnchor: 1.6,
+        content: `<div style="font-size:11px;font-weight:700;background:#fff;border:1px solid #ddd;border-radius:6px;padding:2px 6px;white-space:nowrap;">${r.region} ${r.opportunity_score}</div>`,
+      });
+    });
+    statusEl.textContent = '지도를 불러왔습니다.';
+    statusEl.className = 'sync-settings-status ok';
+  }
+
+  saveBtn.addEventListener('click', () => {
+    const key = keyInput.value.trim();
+    if (!key) {
+      statusEl.textContent = 'JavaScript 키를 입력하세요.';
+      statusEl.className = 'sync-settings-status err';
+      return;
+    }
+    try { localStorage.setItem(KEY_STORAGE, key); } catch(e){}
+    statusEl.textContent = '불러오는 중...';
+    statusEl.className = 'sync-settings-status';
+
+    const existing = document.getElementById('kakaoMapSdk');
+    if (existing) existing.remove();
+    const script = document.createElement('script');
+    script.id = 'kakaoMapSdk';
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(key)}&autoload=false`;
+    script.onload = () => kakao.maps.load(initMap);
+    script.onerror = () => {
+      statusEl.textContent = 'SDK 스크립트 로드 실패 - 키를 다시 확인하세요.';
+      statusEl.className = 'sync-settings-status err';
+    };
+    document.head.appendChild(script);
+  });
+
+  // 저장된 키가 있으면 자동으로 불러온다
+  if (loadKey()) saveBtn.click();
 })();
 
 (function renderRepFieldCharts(){
@@ -2962,6 +3120,19 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       <td class="num">${fmt(r.모멘텀점수)}</td>
       <td style="color:${STAGE_COLOR[r.단계] || 'var(--ink-2)'};font-weight:700;">${esc(r.단계)}</td>
     </tr>`).join('');
+
+  /* ---- 경쟁사 재계약(락인) 패턴 ---- */
+  document.getElementById('betaLockinNote').textContent = BETA.lockin_note || '';
+  const lockinBody = document.getElementById('betaLockinTableBody');
+  const lockinRows = BETA.lockin_patterns || [];
+  lockinBody.innerHTML = lockinRows.length ? lockinRows.map(r => `
+    <tr>
+      <td>${esc(r.낙찰업체)}</td>
+      <td class="org">${esc(r.발주기관)}</td>
+      <td class="num" style="font-weight:700;">${fmt(r.건수)}</td>
+      <td class="num">${fmtWon(r.총낙찰금액)}</td>
+      <td>${esc(r.최근개찰일)}</td>
+    </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">2회 이상 반복된 낙찰업체-발주기관 쌍이 없습니다.</td></tr>';
 
   /* ---- 낙찰가 추정 ---- */
   const bidRange = BETA.bid_range || {};

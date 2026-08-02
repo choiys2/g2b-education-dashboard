@@ -36,7 +36,7 @@ def build_g2b_full(full):
     for it in bid_a:
         detail.append({"구분": "입찰공고", "공고명": it.get("공고명", ""), "기관": it.get("발주기관", ""),
                         "지역": it.get("지역", "전국"), "예산": it.get("예산", 0), "날짜": it.get("공고일", ""),
-                        "점수": it.get("점수", 0), "url": it.get("url", "")})
+                        "점수": it.get("점수", 0), "url": it.get("url", ""), "자격": it.get("자격")})
     for it in spec_a:
         detail.append({"구분": "사전규격", "공고명": it.get("공고명", ""), "기관": it.get("발주기관", ""),
                         "지역": it.get("지역", "전국"), "예산": it.get("예산", 0), "날짜": it.get("공고일", ""),

@@ -130,6 +130,7 @@ def build_ai_rows(full_live):
             "status": label, "title": it.get("공고명"), "org": org, "region": region,
             "amount": amount, "date": next((it.get(f) for f in date_fields if it.get(f)), None),
             "url": it.get("url"), "keywords": kws, "biztype": classify_biz(it.get("공고명", "")),
+            "자격": it.get("자격"),
         }
         dkey = (norm(it.get("공고명", "")), org)
         prev = by_key.get(dkey)

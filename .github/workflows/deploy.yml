@@ -27,7 +27,9 @@ jobs:
           python-version: "3.12"
 
       - name: install dependencies
-        run: pip install openpyxl
+        run: |
+          pip install openpyxl reportlab
+          sudo apt-get update -y && sudo apt-get install -y fonts-nanum
 
       - name: prepare local config (service key comes from secret at runtime)
         run: cp g2b_config.example.json g2b_config.json
@@ -65,6 +67,10 @@ jobs:
         continue-on-error: true
         run: python ics_feed.py live/_ai_rows_count.json live/g2b_deadlines.ics
 
+      - name: PDF 리포트 생성
+        continue-on-error: true
+        run: python pdf_report.py live/weekly_report.pdf
+
       - name: 일별 히스토리 누적 (history/daily_stats.jsonl)
         if: steps.combine.outcome == 'success'
         continue-on-error: true
@@ -91,6 +97,10 @@ jobs:
           if [ -f live/g2b_deadlines.ics ]; then
             mkdir -p _site/full
             cp live/g2b_deadlines.ics _site/full/calendar.ics
+          fi
+          if [ -f live/weekly_report.pdf ]; then
+            mkdir -p _site/full
+            cp live/weekly_report.pdf _site/full/report.pdf
           fi
 
       - uses: actions/upload-pages-artifact@v3

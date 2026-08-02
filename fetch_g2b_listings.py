@@ -153,6 +153,26 @@ def dedupe(rows, key_fn):
     return list(seen.values())
 
 
+def extract_eligibility(it):
+    """입찰공고정보서비스 원시 필드에서 참가자격 관련 플래그만 뽑는다. API는 Y/N
+    플래그와 제한기준 '명칭'만 줄 뿐 구체적 제한 내용(예: 어떤 업종코드인지)은
+    공고 첨부문서에만 있어, 여기서는 '이 공고는 자격조건을 직접 확인해야 한다'는
+    주의 신호만 표시한다 - 자사가 자격을 충족하는지 자동 판정하지 않는다.
+    실측(2026-07-30, 59건 샘플): indstrytyLmtYn(업종제한)은 93%에서 'Y'라 사실상
+    모든 용역 공고에 붙는 구조적 필드일 뿐 변별력이 없어 플래그 계산에서 제외했다.
+    반면 지역제한(rgnLmtBidLocplcJdgmBssNm)은 17%만 값이 있어 실제 신호가 된다."""
+    region_limit = (it.get("rgnLmtBidLocplcJdgmBssNm") or "").strip()
+    joint_region = (it.get("jntcontrctDutyRgnNm1") or "").strip()
+    flags = {
+        "지역제한": region_limit,
+        "실적제한": it.get("arsltCmptYn") == "Y",
+        "지정경쟁": it.get("dsgntCmptYn") == "Y",
+        "공동계약의무지역": joint_region,
+    }
+    flags["제한있음"] = bool(region_limit or flags["실적제한"] or flags["지정경쟁"] or joint_region)
+    return flags
+
+
 def fetch_bid_announcements(cfg, keywords=SEARCH_KEYWORDS, days_back=21):
     svc = cfg["services"]["bid_public"]
     chunk_days = cfg.get("date_range_chunk_days", 28)
@@ -195,6 +215,7 @@ def fetch_bid_announcements(cfg, keywords=SEARCH_KEYWORDS, days_back=21):
                     "_출처": "입찰공고",
                     "_key": bid_key,
                     "_bid_key": bid_key,
+                    "자격": extract_eligibility(it),
                 })
             time.sleep(interval)
     result = dedupe(rows, lambda r: r["_key"])

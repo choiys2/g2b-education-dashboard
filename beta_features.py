@@ -276,6 +276,38 @@ def trend_forecast(history_path="history/daily_stats.jsonl", min_days=14, foreca
     }
 
 
+BETA_NOTE_LOCKIN = (
+    "베타 · 공개 나라장터 낙찰 데이터에서 같은 경쟁사가 같은 발주기관과 2회 이상 계약을 "
+    "맺은 쌍만 모았습니다. 수의/경쟁 등 계약 방식이나 실제 재계약 사유는 반영하지 않은 "
+    "단순 빈도 집계이며, 조회 기간이 짧아 우연히 겹쳤을 가능성도 있습니다."
+)
+
+
+def competitor_lockin_patterns(win_items, min_repeat=2, top_n=20):
+    """같은 (낙찰업체, 발주기관) 쌍이 반복되면 '이 기관은 이미 특정 업체와 관계가
+    굳어졌다(락인)'는 신호로 본다. 반대로 자사가 아직 안 들어간 기관이면서 이 목록에
+    없는 곳은 상대적으로 열려 있다는 뜻이라 영업 우선순위 판단에 참고할 수 있다."""
+    pairs = {}
+    for it in win_items:
+        co = (it.get("낙찰업체") or "").strip()
+        org = (it.get("발주기관") or "").strip()
+        if not co or not org or co == "-" or org == "-":
+            continue
+        key = (co, org)
+        p = pairs.setdefault(key, {
+            "낙찰업체": co, "발주기관": org, "건수": 0, "총낙찰금액": 0, "최근개찰일": "",
+        })
+        p["건수"] += 1
+        p["총낙찰금액"] += it.get("낙찰금액", 0) or 0
+        d = it.get("개찰일", "") or ""
+        if d > p["최근개찰일"]:
+            p["최근개찰일"] = d
+
+    result = [p for p in pairs.values() if p["건수"] >= min_repeat]
+    result.sort(key=lambda p: (-p["건수"], -p["총낙찰금액"]))
+    return result[:top_n]
+
+
 def build_beta(win_items, pipeline_records, open_bids=None, history_path="history/daily_stats.jsonl", today=None):
     return {
         "competitor_trend": competitor_trend(win_items, today=today),
@@ -284,4 +316,6 @@ def build_beta(win_items, pipeline_records, open_bids=None, history_path="histor
         "momentum_note": BETA_NOTE_MOMENTUM,
         "bid_range": bid_amount_estimates(open_bids or [], win_items),
         "trend_forecast": trend_forecast(history_path=history_path),
+        "lockin_patterns": competitor_lockin_patterns(win_items),
+        "lockin_note": BETA_NOTE_LOCKIN,
     }
