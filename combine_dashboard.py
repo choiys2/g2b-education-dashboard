@@ -224,6 +224,10 @@ def main():
     neis_export = load("live/neis_full_export.json")
     g2b_full = load("live/g2b_full_export.json")
     pipeline_export = load("live/own_pipeline_export.json")
+    try:
+        kosis_finance = load("live/kosis_edu_finance.json")
+    except FileNotFoundError:
+        kosis_finance = {"regions": [], "note": ""}
 
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
@@ -239,7 +243,7 @@ def main():
         "__DATA_JSON__": data_rows, "__TOTALS_JSON__": totals, "__AI_ROWS_JSON__": ai_rows,
         "__LEADING_ROWS_JSON__": leading_rows, "__LEADING_BY_REGION_JSON__": leading_by_region,
         "__LEADING_ENRICHED_JSON__": leading_enriched, "__G2B_FULL_JSON__": g2b_full, "__PIPE_JSON__": pipe,
-        "__BETA_JSON__": beta,
+        "__BETA_JSON__": beta, "__KOSIS_FINANCE_JSON__": kosis_finance,
     }
     for token, value in subs.items():
         if token not in html:

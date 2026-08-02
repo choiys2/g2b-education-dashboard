@@ -5,7 +5,7 @@
 생성·배포하도록 확장했습니다. 1번(시크릿)과 4번(커밋·푸시)만 해주시면 다음 날 새벽부터 바로 돌아갑니다.
 2번·3번은 선택 사항입니다.
 
-## 1. GitHub 저장소에 시크릿(secrets) 2개 추가
+## 1. GitHub 저장소에 시크릿(secrets) 3개 추가
 
 `github.com/choiys2/g2b-education-dashboard` → **Settings → Secrets and variables → Actions** →
 **New repository secret**
@@ -14,6 +14,7 @@
 |---|---|---|
 | `NEIS_KEY` | `35217cc2959b490990e25e95a1085b19` | 나이스 개방포털 마이페이지에서 발급받은 인증키(이미 갖고 계신 것) |
 | `ODCLOUD_KEY` | `d8ac83ebf8376f59ad04d82aae37e8a69a2661b0d1b6a624d9bc8415a65ff464` | 공공데이터포털(data.go.kr) 일반 인증키. 지금 쓰시는 `G2B_SERVICE_KEY`와 같은 값입니다 — 나라장터·AI선도학교 둘 다 같은 계정 키를 씁니다 |
+| `KOSIS_KEY` | `OTg3OTkzNWRlOTIxZjNmZGUzMzA0OGIxZTgyYTUxOWU=` | KOSIS(국가통계포털) Open API 인증키. "영업 파이프라인" 탭의 시도교육청 교육재정 규모 표에 씁니다 |
 
 기존에 이미 등록돼 있는 `G2B_SERVICE_KEY`는 그대로 두시면 됩니다.
 
@@ -49,6 +50,8 @@ beta_features.py          "베타" 탭 4종 계산 — 경쟁사 수주 추세, 
 combine_dashboard.py      위 4개 + 기존 full_live.json을 합쳐 통합 대시보드 HTML 생성
 history_tracker.py        매일 핵심 지표를 history/daily_stats.jsonl에 한 줄씩 누적
 ics_feed.py                AI 관련 진행중 공고의 마감일을 .ics 캘린더 피드로 내보냄
+pdf_report.py              핵심 지표 1페이지 PDF 리포트 생성(한글 TTF 임베드, 대시보드 상단 다운로드 링크)
+kosis_edu_finance.py       KOSIS 시도교육청 "교육비특별회계 세출결산" 17개 지역 조회(아래 알아두실 점 참고)
 s2b_fetch.py               S2B(학교장터) 조회 기술검증 스크립트 — robots.txt 문제로 자동 실행에는 연결 안 함(아래 참고)
 pipeline_status_webhook.gs.txt   구글 Apps Script(위 2번 참고) — 파이프라인 시트에 붙여넣는 코드
 dashboard_template.html   통합 대시보드의 HTML 틀(데이터 자리에 __XXX_JSON__ 플레이스홀더)
@@ -57,9 +60,9 @@ dashboard_template.html   통합 대시보드의 HTML 틀(데이터 자리에 __
 
 ```bash
 git add g2b_full_export.py neis_full_export.py own_pipeline_export.py beta_features.py combine_dashboard.py \
-        history_tracker.py ics_feed.py s2b_fetch.py pipeline_status_webhook.gs.txt \
+        history_tracker.py ics_feed.py pdf_report.py kosis_edu_finance.py s2b_fetch.py pipeline_status_webhook.gs.txt \
         dashboard_template.html .github/workflows/deploy.yml fetch_g2b_listings.py g2b_config.example.json
-git commit -m "통합 대시보드 확장: 베타 낙찰가추정/추세예측, 파이프라인 상태연동, 캘린더 피드"
+git commit -m "통합 대시보드 확장: PDF 리포트, 참가자격 표시, 경쟁사 재계약 패턴, 카카오맵, KOSIS 교육재정"
 git push
 ```
 
@@ -95,3 +98,19 @@ git push
   **자동/정기 실행 파이프라인에는 연결하지 않았습니다**(`deploy.yml`에 없음, 로컬 1회성 실행만
   가능). 이 시장을 계속 보고 싶으시면 The-K 측에 공식 데이터 제공을 요청하거나, 각 시도교육청이
   자체 공개하는 S2B 낙찰 내역 게시판을 스크레이핑하는 방법을 검토해야 합니다.
+- **참가자격 배지("⚠ 자격확인")는 자동 판정이 아닙니다.** 나라장터 API의 지역제한·실적제한·
+  지정경쟁·공동계약의무지역 플래그가 하나라도 켜져 있으면 표시만 할 뿐, 비바샘이 그 조건을
+  충족하는지는 판단하지 않습니다 — 반드시 공고문을 직접 확인하세요. (업종제한 플래그는 실측
+  결과 93%가 "예"라 변별력이 없어 배지 계산에서 제외했습니다.)
+- **경쟁사 재계약(락인) 패턴은 표본이 매우 적습니다.** 지금까지 쌓인 공개 낙찰 데이터에서
+  같은 업체·같은 기관 조합이 2회 이상 나온 경우만 잡아내는데, 현재는 2건뿐입니다. 데이터가
+  쌓일수록 이 표가 의미를 갖게 됩니다.
+- **카카오맵의 JavaScript 키는 코드에 기본값으로 박아뒀습니다** — 이 키는 구글맵 API 키처럼
+  브라우저에 그대로 노출되도록 설계된 키라(보안은 카카오 디벨로퍼스의 "플랫폼 Web 등록" 도메인
+  화이트리스트로 처리) 안전합니다. 지도에 표시되는 지역은 학교 개별 위치가 아니라 시도 단위
+  근사 좌표이며, 원 크기·색은 "지역 통합 기회점수"를 그대로 시각화한 것입니다.
+- **KOSIS 교육재정 표는 지역마다 기준연도가 다릅니다(2009~2024).** 서울·경기처럼 최근
+  갱신되는 지역이 있는 반면, 충남은 2009년 자료가 KOSIS에서 구할 수 있는 최신치입니다(그
+  이후로 이 경로의 갱신이 끊긴 것으로 보임). 그래서 이 표는 **기회점수 계산에는 반영하지
+  않고** 별도 참고 표로만 뒀습니다 — 절대금액을 지역 간 비교할 때 기준연도를 꼭 같이 보세요.
+  강원은 "지출액"(결산) 데이터 자체가 없어 "예산액"(당초 예산)으로 대체했습니다.

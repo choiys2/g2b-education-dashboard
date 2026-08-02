@@ -28,7 +28,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip install openpyxl reportlab
+          pip install openpyxl reportlab PublicDataReader
           sudo apt-get update -y && sudo apt-get install -y fonts-nanum
 
       - name: prepare local config (service key comes from secret at runtime)
@@ -56,6 +56,10 @@ jobs:
       - name: 자사 영업 파이프라인 export (안전 필드만, 담당자 익명화)
         continue-on-error: true
         run: python own_pipeline_export.py live/own_pipeline_export.json
+
+      - name: KOSIS 시도교육청 교육재정 규모 export
+        continue-on-error: true
+        run: python kosis_edu_finance.py "${{ secrets.KOSIS_KEY }}" live/kosis_edu_finance.json
 
       - name: 통합 대시보드 조합
         id: combine
