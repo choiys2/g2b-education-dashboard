@@ -2595,6 +2595,11 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 /* ================= 지역 기회점수 지도 (카카오맵) ================= */
 (function renderKakaoMap(){
   const KEY_STORAGE = 'neis-dashboard-kakao-key';
+  // Kakao Maps JavaScript 키는 구글맵 API 키처럼 클라이언트(브라우저)에 그대로
+  // 노출되도록 설계되어 있다 - 보안은 키를 숨기는 게 아니라 카카오 디벨로퍼스의
+  // "플랫폼 Web 등록" 도메인 화이트리스트로 처리한다. 그래서 기본값으로 바로 박아도
+  // 안전하다(REST API 키·네이티브 앱 키는 성격이 달라 여기 쓰지 않는다).
+  const DEFAULT_KEY = '94514b79b112b7f37bfe6fadefae7018';
   const settingsBtn = document.getElementById('mapSettingsBtn');
   const settingsBox = document.getElementById('mapSettings');
   const keyInput = document.getElementById('kakaoKeyInput');
@@ -2614,7 +2619,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   };
 
   function loadKey(){
-    try { return localStorage.getItem(KEY_STORAGE) || ''; } catch(e){ return ''; }
+    try { return localStorage.getItem(KEY_STORAGE) || DEFAULT_KEY; } catch(e){ return DEFAULT_KEY; }
   }
 
   settingsBtn.addEventListener('click', () => { settingsBox.hidden = !settingsBox.hidden; });
