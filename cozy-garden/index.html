@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌷 코지 가든 - Cozy Garden</title>
+<style>
+  :root{
+    --cream:#fff8ef;
+    --panel:#fffdf9;
+    --ink:#5b4a3f;
+    --ink-soft:#8a7a6d;
+    --accent:#8fbf7f;
+    --accent-dark:#6ea25d;
+    --gold:#e8a93b;
+    --pink:#f0a6b8;
+    --shadow: 0 8px 24px rgba(120,90,60,0.15);
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{
+    margin:0; padding:0; height:100%;
+    background: radial-gradient(ellipse at top, #fdf3e0 0%, #f6e6cf 45%, #ecd8bd 100%);
+    font-family: "Trebuchet MS","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+    color: var(--ink);
+    display:flex; align-items:flex-start; justify-content:center;
+    padding-top: max(16px, 4vh);
+    touch-action: manipulation;
+  }
+  #app{
+    width: 100%;
+    max-width: 640px;
+    margin: 12px;
+    background: var(--panel);
+    border-radius: 26px;
+    box-shadow: var(--shadow);
+    padding: 14px 16px 18px;
+    border: 1px solid #f1e3cd;
+  }
+  .title{
+    text-align:center;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 2px 0 10px;
+    color: var(--accent-dark);
+    text-shadow: 0 1px 0 #fff;
+  }
+  .hud{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom: 10px;
+  }
+  .pill{
+    display:flex; align-items:center; gap:6px;
+    background: #fbf1de;
+    border: 1px solid #eeddbd;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight:700;
+    font-size: 14px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  .pill .ico{ font-size:16px; }
+  #dayLabel{ font-size:12px; color:var(--ink-soft); font-weight:600; }
+  #shopBtn{
+    display:flex; align-items:center; gap:6px;
+    background: linear-gradient(180deg,#fff,#f7ead0);
+    border: 1px solid #eeddbd;
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-weight:700;
+    font-size: 14px;
+    cursor:pointer;
+    box-shadow: var(--shadow);
+    color: var(--ink);
+  }
+  #shopBtn:active{ transform: translateY(1px); }
+  .canvas-wrap{
+    position:relative;
+    border-radius: 20px;
+    overflow:hidden;
+    box-shadow: inset 0 0 0 6px #fff, inset 0 0 0 8px #eeddbd, var(--shadow);
+  }
+  canvas{
+    display:block;
+    width:100%;
+    height:auto;
+    cursor: pointer;
+    background:#bfe6ff;
+  }
+  .toast{
+    position:absolute;
+    left:50%; top:14px;
+    transform: translate(-50%,-10px);
+    background: rgba(60,45,35,0.85);
+    color:#fff;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight:600;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease;
+    white-space:nowrap;
+    z-index: 20;
+  }
+  .toast.show{ opacity:1; transform: translate(-50%,0); }
+
+  .toolbar{
+    margin-top: 12px;
+    display:flex;
+    justify-content:center;
+    gap: 8px;
+    flex-wrap: wrap;
+    position:relative;
+  }
+  .tool-btn{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:2px;
+    width: 60px; height:56px;
+    background:#fbf1de;
+    border: 2px solid #eeddbd;
+    border-radius: 16px;
+    cursor:pointer;
+    font-size: 20px;
+    color: var(--ink);
+    transition: all .12s ease;
+  }
+  .tool-btn small{ font-size:10px; font-weight:700; color:var(--ink-soft); }
+  .tool-btn:active{ transform: scale(0.94); }
+  .tool-btn.active{
+    background: linear-gradient(180deg,#eaf6df,#d9edc6);
+    border-color: var(--accent-dark);
+    box-shadow: 0 0 0 3px rgba(110,162,93,0.25);
+  }
+
+  .submenu{
+    display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+    margin-top:8px;
+    padding: 8px;
+    background: #f8efdc;
+    border-radius: 14px;
+    border:1px solid #eeddbd;
+  }
+  .sub-item{
+    position:relative;
+    width:52px; height:52px;
+    display:flex; align-items:center; justify-content:center;
+    background:#fff;
+    border:2px solid #eeddbd;
+    border-radius: 12px;
+    font-size: 22px;
+    cursor:pointer;
+  }
+  .sub-item.selected{ border-color: var(--gold); box-shadow:0 0 0 3px rgba(232,169,59,0.25); }
+  .sub-item.disabled{ opacity:.35; cursor:not-allowed; }
+  .sub-item .badge{
+    position:absolute; right:-4px; bottom:-4px;
+    background: var(--accent-dark);
+    color:#fff;
+    font-size:10px; font-weight:800;
+    border-radius: 999px;
+    min-width:16px; height:16px;
+    display:flex; align-items:center; justify-content:center;
+    padding: 0 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .hint{
+    text-align:center;
+    font-size:11px;
+    color: var(--ink-soft);
+    margin-top:8px;
+  }
+
+  /* Shop modal */
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background: rgba(50,38,28,0.45);
+    display:flex; align-items:center; justify-content:center;
+    z-index: 50;
+    opacity:0; pointer-events:none;
+    transition: opacity .18s ease;
+  }
+  .modal-backdrop.show{ opacity:1; pointer-events:auto; }
+  .modal{
+    width: 90%;
+    max-width: 380px;
+    max-height: 82vh;
+    overflow-y:auto;
+    background: var(--panel);
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    transform: translateY(10px) scale(0.97);
+    transition: transform .18s ease;
+  }
+  .modal-backdrop.show .modal{ transform:none; }
+  .modal h2{
+    margin:0 0 10px;
+    font-size:17px;
+    color: var(--accent-dark);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .modal h2 span.close{
+    cursor:pointer; font-size:20px; color:var(--ink-soft); line-height:1;
+  }
+  .modal h3{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    color: var(--ink-soft);
+    margin: 14px 0 6px;
+  }
+  .shop-row{
+    display:flex; align-items:center; gap:10px;
+    padding: 8px;
+    border-radius: 12px;
+    background: #fbf6ea;
+    margin-bottom:6px;
+  }
+  .shop-row .ico{ font-size:26px; width:34px; text-align:center; }
+  .shop-row .info{ flex:1; }
+  .shop-row .name{ font-weight:700; font-size:13px; }
+  .shop-row .cost{ font-size:12px; color: var(--ink-soft); }
+  .shop-row .owned{ font-size:11px; color:var(--accent-dark); font-weight:700; }
+  .buy-btn{
+    background: linear-gradient(180deg,#8fbf7f,#6ea25d);
+    color:#fff; border:none; border-radius: 999px;
+    padding: 7px 12px; font-weight:700; font-size:12px; cursor:pointer;
+  }
+  .buy-btn:active{ transform: scale(0.95); }
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="title">🌷 코지 가든 · Cozy Garden</div>
+  <div class="hud">
+    <div class="pill"><span class="ico">🪙</span><span id="goldLabel">0</span></div>
+    <div id="dayLabel">Day 1 · ☀️</div>
+    <div id="shopBtn">🛒 상점</div>
+  </div>
+
+  <div class="canvas-wrap">
+    <canvas id="game" width="600" height="600"></canvas>
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <div class="toolbar" id="toolbar">
+    <div class="tool-btn" data-tool="hoe">⛏️<small>갈기</small></div>
+    <div class="tool-btn" data-tool="seed">🌱<small>심기</small></div>
+    <div class="tool-btn" data-tool="water">💧<small>물주기</small></div>
+    <div class="tool-btn" data-tool="harvest">🧺<small>수확</small></div>
+    <div class="tool-btn" data-tool="decor">🏡<small>꾸미기</small></div>
+  </div>
+  <div class="submenu hidden" id="seedSubmenu"></div>
+  <div class="submenu hidden" id="decorSubmenu"></div>
+  <div class="hint">클릭: 도구 사용 · 화살표 키: 캐릭터 이동</div>
+</div>
+
+<div class="modal-backdrop" id="shopBackdrop">
+  <div class="modal">
+    <h2>🛒 상점 <span class="close" id="shopClose">&times;</span></h2>
+    <h3>씨앗</h3>
+    <div id="shopSeeds"></div>
+    <h3>꾸미기 아이템</h3>
+    <div id="shopDecor"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===================== 설정값 ===================== */
+const COLS = 8, ROWS = 6, TILE = 64;
+const GRID_W = COLS*TILE, GRID_H = ROWS*TILE;
+const CANVAS_W = 600, CANVAS_H = 600;
+const SKY_H = 180;
+const GRID_LEFT = (CANVAS_W - GRID_W)/2;
+const GRID_TOP = SKY_H;
+const DAY_LENGTH = 90; // seconds for a full day+night cycle
+
+const PLANTS = {
+  sunflower: { name:"해바라기", emoji:"🌻", growTime:18, seedCost:5, rewardMin:8, rewardMax:14, colors:["#f6c445"] },
+  tulip:     { name:"튤립",     emoji:"🌷", growTime:32, seedCost:12, rewardMin:20, rewardMax:30, colors:["#e8577a","#f28fb0","#b06fd6","#f2c94c"] },
+  rose:      { name:"장미",     emoji:"🌹", growTime:50, seedCost:25, rewardMin:40, rewardMax:55, colors:["#d43d5c","#e88a9a"] }
+};
+const DECOR = {
+  fence: { name:"울타리", emoji:"🚧", cost:15 },
+  bench: { name:"벤치",   emoji:"💺", cost:30 },
+  lamp:  { name:"조명",   emoji:"🏮", cost:40 }
+};
+
+/* ===================== 상태 ===================== */
+let gold = 60;
+let dayTime = 0.22; // 0=일출, 0.5=일몰, 1=다음 일출
+let dayCount = 1;
+let selectedTool = null;
+let selectedSeed = "sunflower";
+let selectedDecor = "fence";
+
+const inventory = {
+  seeds: { sunflower:2, tulip:0, rose:0 },
+  decor: { fence:0, bench:0, lamp:0 }
+};
+
+const tiles = [];
+for(let r=0;r<ROWS;r++){
+  const row=[];
+  for(let c=0;c<COLS;c++){
+    row.push({ state:"grass", plant:null, growth:0, mature:false, bloomed:false, boostUntil:0, decor:null, colorVariant:null });
+  }
+  tiles.push(row);
+}
+
+const character = {
+  x: 4, y: 3, // grid coords (float)
+  tx: 4, ty: 3,
+  dir: "down",
+  moving:false,
+  bob:0
+};
+
+let particles = [];
+let fireflies = [];
+for(let i=0;i<10;i++){
+  fireflies.push({
+    x: GRID_LEFT + Math.random()*GRID_W,
+    y: GRID_TOP + Math.random()*GRID_H,
+    baseY:0, phase: Math.random()*Math.PI*2, speed: 0.4+Math.random()*0.4
+  });
+}
+fireflies.forEach(f=> f.baseY = f.y);
+
+const stars = [];
+for(let i=0;i<50;i++){
+  stars.push({ x: Math.random()*CANVAS_W, y: Math.random()*SKY_H*0.85, r: 0.6+Math.random()*1.4, phase: Math.random()*Math.PI*2 });
+}
+
+/* ===================== 캔버스 ===================== */
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+/* ===================== 오디오 ===================== */
+let audioCtx = null;
+function ensureAudio(){
+  if(!audioCtx){
+    try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ audioCtx=null; }
+  }else if(audioCtx.state === "suspended"){
+    audioCtx.resume();
+  }
+}
+function tone(freq, dur, type, gainPeak, delay, freqEnd){
+  if(!audioCtx) return;
+  const t0 = audioCtx.currentTime + (delay||0);
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type||"sine";
+  osc.frequency.setValueAtTime(freq, t0);
+  if(freqEnd) osc.frequency.exponentialRampToValueAtTime(Math.max(freqEnd,20), t0+dur);
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.exponentialRampToValueAtTime(gainPeak||0.15, t0+0.015);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  osc.connect(gain).connect(audioCtx.destination);
+  osc.start(t0); osc.stop(t0+dur+0.02);
+}
+function noiseBurst(dur, filterFreq, gainPeak){
+  if(!audioCtx) return;
+  const t0 = audioCtx.currentTime;
+  const bufferSize = Math.floor(audioCtx.sampleRate*dur);
+  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for(let i=0;i<bufferSize;i++){ data[i] = (Math.random()*2-1) * (1 - i/bufferSize); }
+  const src = audioCtx.createBufferSource();
+  src.buffer = buffer;
+  const filt = audioCtx.createBiquadFilter();
+  filt.type = "bandpass";
+  filt.frequency.value = filterFreq||1200;
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(gainPeak||0.2, t0);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  src.connect(filt).connect(gain).connect(audioCtx.destination);
+  src.start(t0);
+}
+const sfx = {
+  till(){ tone(90,0.18,"square",0.18,0,55); noiseBurst(0.08, 800, 0.08); },
+  pop(){ tone(520,0.12,"sine",0.16,0,300); },
+  water(){ noiseBurst(0.25, 2200, 0.14); tone(700,0.1,"sine",0.05,0.05,900); },
+  bloom(){ tone(660,0.14,"sine",0.14,0); tone(880,0.14,"sine",0.13,0.08); tone(1100,0.18,"sine",0.12,0.16); },
+  coin(){ tone(880,0.1,"square",0.14,0); tone(1320,0.14,"square",0.13,0.07); },
+  buy(){ tone(500,0.08,"triangle",0.15,0); tone(750,0.12,"triangle",0.14,0.06); },
+  error(){ tone(160,0.18,"sawtooth",0.12,0,110); }
+};
+
+/* ===================== 유틸 ===================== */
+function lerp(a,b,t){ return a+(b-a)*t; }
+function lerpColor(c1,c2,t){ return [ lerp(c1[0],c2[0],t), lerp(c1[1],c2[1],t), lerp(c1[2],c2[2],t) ]; }
+function rgb(c){ return `rgb(${c[0]|0},${c[1]|0},${c[2]|0})`; }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function randRange(a,b){ return a+Math.random()*(b-a); }
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function showToast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=> el.classList.remove("show"), 1500);
+}
+
+function addParticle(p){ particles.push(p); }
+function spawnSparkles(px,py,count){
+  for(let i=0;i<count;i++){
+    addParticle({ type:"sparkle", x:px+randRange(-14,14), y:py+randRange(-6,6),
+      vx: randRange(-8,8), vy: randRange(-45,-20), life: randRange(0.5,0.9), maxLife: 0.9,
+      size: randRange(2,4), color:"180,220,255" });
+  }
+}
+function spawnPetals(px,py,colors,count){
+  for(let i=0;i<count;i++){
+    const ang = Math.random()*Math.PI*2;
+    addParticle({ type:"petal", x:px, y:py, vx: Math.cos(ang)*randRange(30,90), vy: Math.sin(ang)*randRange(30,90)-40,
+      life: randRange(0.6,1.1), maxLife:1.1, size: randRange(3,6), color: pick(colors), rot: Math.random()*Math.PI*2, rotSpeed: randRange(-6,6) });
+  }
+}
+function spawnGoldText(px,py,amount){
+  addParticle({ type:"text", x:px, y:py, vx:0, vy:-30, life:1.0, maxLife:1.0, text:`+${amount} 🪙` });
+}
+
+/* ===================== 인벤토리/UI 렌더 ===================== */
+function refreshHUD(){
+  document.getElementById("goldLabel").textContent = gold;
+  const isDay = dayTime < 0.5;
+  document.getElementById("dayLabel").textContent = `Day ${dayCount} · ${isDay ? "☀️" : "🌙"}`;
+}
+
+function renderSeedSubmenu(){
+  const el = document.getElementById("seedSubmenu");
+  el.innerHTML = "";
+  Object.keys(PLANTS).forEach(key=>{
+    const p = PLANTS[key];
+    const owned = inventory.seeds[key];
+    const div = document.createElement("div");
+    div.className = "sub-item" + (selectedSeed===key?" selected":"") + (owned<=0?" disabled":"");
+    div.innerHTML = `${p.emoji}<span class="badge">${owned}</span>`;
+    div.onclick = ()=>{
+      ensureAudio();
+      if(owned<=0){ sfx.error(); showToast(`${p.name} 씨앗이 없어요! 상점에서 구매하세요`); return; }
+      selectedSeed = key;
+      renderSeedSubmenu();
+    };
+    el.appendChild(div);
+  });
+}
+function renderDecorSubmenu(){
+  const el = document.getElementById("decorSubmenu");
+  el.innerHTML = "";
+  Object.keys(DECOR).forEach(key=>{
+    const d = DECOR[key];
+    const owned = inventory.decor[key];
+    const div = document.createElement("div");
+    div.className = "sub-item" + (selectedDecor===key?" selected":"") + (owned<=0?" disabled":"");
+    div.innerHTML = `${d.emoji}<span class="badge">${owned}</span>`;
+    div.onclick = ()=>{
+      ensureAudio();
+      if(owned<=0){ sfx.error(); showToast(`${d.name}이(가) 없어요! 상점에서 구매하세요`); return; }
+      selectedDecor = key;
+      renderDecorSubmenu();
+    };
+    el.appendChild(div);
+  });
+}
+
+function setTool(tool){
+  selectedTool = (selectedTool===tool) ? null : tool;
+  document.querySelectorAll(".tool-btn").forEach(b=>{
+    b.classList.toggle("active", b.dataset.tool===selectedTool);
+  });
+  document.getElementById("seedSubmenu").classList.toggle("hidden", selectedTool!=="seed");
+  document.getElementById("decorSubmenu").classList.toggle("hidden", selectedTool!=="decor");
+  if(selectedTool==="seed") renderSeedSubmenu();
+  if(selectedTool==="decor") renderDecorSubmenu();
+}
+
+document.querySelectorAll(".tool-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{ ensureAudio(); setTool(btn.dataset.tool); });
+});
+
+/* ===================== 상점 ===================== */
+function renderShop(){
+  const seedsEl = document.getElementById("shopSeeds");
+  seedsEl.innerHTML = "";
+  Object.keys(PLANTS).forEach(key=>{
+    const p = PLANTS[key];
+    const row = document.createElement("div");
+    row.className = "shop-row";
+    row.innerHTML = `
+      <div class="ico">${p.emoji}</div>
+      <div class="info">
+        <div class="name">${p.name} 씨앗</div>
+        <div class="cost">🪙 ${p.seedCost} · 성장 ${p.growTime}초 · 수확 🪙${p.rewardMin}-${p.rewardMax}</div>
+        <div class="owned">보유: ${inventory.seeds[key]}개</div>
+      </div>
+      <button class="buy-btn">구매</button>`;
+    row.querySelector(".buy-btn").onclick = ()=> buySeed(key);
+    seedsEl.appendChild(row);
+  });
+
+  const decorEl = document.getElementById("shopDecor");
+  decorEl.innerHTML = "";
+  Object.keys(DECOR).forEach(key=>{
+    const d = DECOR[key];
+    const row = document.createElement("div");
+    row.className = "shop-row";
+    row.innerHTML = `
+      <div class="ico">${d.emoji}</div>
+      <div class="info">
+        <div class="name">${d.name}</div>
+        <div class="cost">🪙 ${d.cost}</div>
+        <div class="owned">보유: ${inventory.decor[key]}개</div>
+      </div>
+      <button class="buy-btn">구매</button>`;
+    row.querySelector(".buy-btn").onclick = ()=> buyDecor(key);
+    decorEl.appendChild(row);
+  });
+}
+function buySeed(key){
+  ensureAudio();
+  const cost = PLANTS[key].seedCost;
+  if(gold < cost){ sfx.error(); showToast("골드가 부족해요!"); return; }
+  gold -= cost;
+  inventory.seeds[key]++;
+  sfx.buy();
+  refreshHUD(); renderShop(); renderSeedSubmenu();
+}
+function buyDecor(key){
+  ensureAudio();
+  const cost = DECOR[key].cost;
+  if(gold < cost){ sfx.error(); showToast("골드가 부족해요!"); return; }
+  gold -= cost;
+  inventory.decor[key]++;
+  sfx.buy();
+  refreshHUD(); renderShop(); renderDecorSubmenu();
+}
+
+const shopBackdrop = document.getElementById("shopBackdrop");
+document.getElementById("shopBtn").onclick = ()=>{ ensureAudio(); renderShop(); shopBackdrop.classList.add("show"); };
+document.getElementById("shopClose").onclick = ()=> shopBackdrop.classList.remove("show");
+shopBackdrop.addEventListener("click", (e)=>{ if(e.target===shopBackdrop) shopBackdrop.classList.remove("show"); });
+
+/* ===================== 타일 상호작용 ===================== */
+function tileCenter(c,r){ return { x: GRID_LEFT + c*TILE + TILE/2, y: GRID_TOP + r*TILE + TILE/2 }; }
+
+function getTileFromEvent(evt){
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width/rect.width, scaleY = canvas.height/rect.height;
+  const cx = (evt.clientX - rect.left)*scaleX;
+  const cy = (evt.clientY - rect.top)*scaleY;
+  const c = Math.floor((cx - GRID_LEFT)/TILE);
+  const r = Math.floor((cy - GRID_TOP)/TILE);
+  if(c<0||c>=COLS||r<0||r>=ROWS) return null;
+  return {c,r};
+}
+
+canvas.addEventListener("click", (evt)=>{
+  ensureAudio();
+  const t = getTileFromEvent(evt);
+  if(!t) return;
+  const tile = tiles[t.r][t.c];
+  const {x:px,y:py} = tileCenter(t.c,t.r);
+
+  if(!selectedTool){
+    character.tx = t.c; character.ty = t.r;
+    return;
+  }
+
+  if(selectedTool==="hoe"){
+    if(tile.state==="grass" && !tile.decor){
+      tile.state = "soil";
+      sfx.till();
+      spawnSparkles(px,py,4);
+    } else {
+      sfx.error();
+    }
+  }
+  else if(selectedTool==="seed"){
+    if(tile.state!=="soil" || tile.plant){ sfx.error(); showToast("먼저 흙을 갈아주세요!"); return; }
+    if(inventory.seeds[selectedSeed]<=0){ sfx.error(); showToast("씨앗이 없어요!"); return; }
+    inventory.seeds[selectedSeed]--;
+    tile.plant = selectedSeed;
+    tile.growth = 0; tile.mature = false; tile.bloomed = false; tile.boostUntil = 0;
+    tile.colorVariant = pick(PLANTS[selectedSeed].colors);
+    sfx.pop();
+    renderSeedSubmenu();
+  }
+  else if(selectedTool==="water"){
+    if(!tile.plant || tile.mature){ sfx.error(); return; }
+    tile.boostUntil = performance.now()/1000 + 8;
+    sfx.water();
+    spawnSparkles(px,py,10);
+  }
+  else if(selectedTool==="harvest"){
+    if(!tile.mature){ sfx.error(); return; }
+    const info = PLANTS[tile.plant];
+    const amount = Math.round(randRange(info.rewardMin, info.rewardMax));
+    gold += amount;
+    sfx.coin();
+    spawnPetals(px,py,info.colors,14);
+    spawnGoldText(px, py-10, amount);
+    tile.plant = null; tile.growth=0; tile.mature=false; tile.bloomed=false;
+    refreshHUD();
+  }
+  else if(selectedTool==="decor"){
+    if(tile.decor){
+      inventory.decor[tile.decor]++;
+      tile.decor = null;
+      sfx.pop();
+      renderDecorSubmenu();
+    } else if(tile.state==="grass"){
+      if(inventory.decor[selectedDecor]<=0){ sfx.error(); showToast("꾸미기 아이템이 없어요!"); return; }
+      inventory.decor[selectedDecor]--;
+      tile.decor = selectedDecor;
+      sfx.pop();
+      spawnSparkles(px,py,6);
+      renderDecorSubmenu();
+    } else {
+      sfx.error(); showToast("빈 잔디 위에만 놓을 수 있어요!");
+    }
+  }
+});
+
+/* ===================== 캐릭터 이동 (화살표 키) ===================== */
+window.addEventListener("keydown",(e)=>{
+  let dx=0, dy=0;
+  if(e.key==="ArrowUp"||e.key==="w"){ dy=-1; character.dir="up"; }
+  else if(e.key==="ArrowDown"||e.key==="s"){ dy=1; character.dir="down"; }
+  else if(e.key==="ArrowLeft"||e.key==="a"){ dx=-1; character.dir="left"; }
+  else if(e.key==="ArrowRight"||e.key==="d"){ dx=1; character.dir="right"; }
+  else return;
+  e.preventDefault();
+  character.tx = clamp(character.tx+dx, 0, COLS-1);
+  character.ty = clamp(character.ty+dy, 0, ROWS-1);
+});
+
+/* ===================== 하늘/시간 ===================== */
+const SKY_NIGHT = { top:[10,14,46], bottom:[30,32,74] };
+const SKY_TWILIGHT = { top:[255,183,140], bottom:[150,120,175] };
+const SKY_DAY = { top:[145,213,250], bottom:[226,247,255] };
+
+function getDayProgress(){
+  const isDay = dayTime < 0.5;
+  const p = isDay ? dayTime/0.5 : (dayTime-0.5)/0.5;
+  const brightness = isDay ? Math.sin(p*Math.PI) : 0.05;
+  return { isDay, p, brightness };
+}
+
+function drawSky(){
+  const { brightness } = getDayProgress();
+  let top, bottom;
+  if(brightness < 0.5){
+    const t = brightness/0.5;
+    top = lerpColor(SKY_NIGHT.top, SKY_TWILIGHT.top, t);
+    bottom = lerpColor(SKY_NIGHT.bottom, SKY_TWILIGHT.bottom, t);
+  } else {
+    const t = (brightness-0.5)/0.5;
+    top = lerpColor(SKY_TWILIGHT.top, SKY_DAY.top, t);
+    bottom = lerpColor(SKY_TWILIGHT.bottom, SKY_DAY.bottom, t);
+  }
+  const grad = ctx.createLinearGradient(0,0,0,SKY_H+30);
+  grad.addColorStop(0, rgb(top));
+  grad.addColorStop(1, rgb(bottom));
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,CANVAS_W,SKY_H+30);
+  return brightness;
+}
+
+function drawStars(brightness, time){
+  if(brightness > 0.35) return;
+  const alpha = clamp(1 - brightness/0.35, 0, 1);
+  stars.forEach(s=>{
+    const tw = 0.5 + 0.5*Math.abs(Math.sin(time*2 + s.phase));
+    ctx.globalAlpha = alpha*tw;
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawCelestialBody(){
+  const { isDay, p } = getDayProgress();
+  const margin = 40;
+  const x = margin + p*(CANVAS_W - margin*2);
+  const groundLine = SKY_H;
+  const arcHeight = SKY_H*0.72;
+  const y = groundLine - Math.sin(p*Math.PI)*arcHeight - 8;
+
+  if(isDay){
+    const glow = ctx.createRadialGradient(x,y,0,x,y,34);
+    glow.addColorStop(0,"rgba(255,235,170,0.55)");
+    glow.addColorStop(1,"rgba(255,235,170,0)");
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(x,y,34,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#ffd45e";
+    ctx.beginPath(); ctx.arc(x,y,16,0,Math.PI*2); ctx.fill();
+  } else {
+    const glow = ctx.createRadialGradient(x,y,0,x,y,26);
+    glow.addColorStop(0,"rgba(220,230,255,0.4)");
+    glow.addColorStop(1,"rgba(220,230,255,0)");
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(x,y,26,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#eef2ff";
+    ctx.beginPath(); ctx.arc(x,y,13,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = rgb(lerpColor([30,32,74],[10,14,46],0.4));
+    ctx.beginPath(); ctx.arc(x+5,y-3,11,0,Math.PI*2); ctx.fill();
+  }
+}
+
+function drawGround(brightness){
+  const g1 = lerpColor([60,45,35],[120,90,68], brightness);
+  ctx.fillStyle = rgb(lerpColor([40,30,24],g1,0.4));
+  ctx.fillRect(0, SKY_H, CANVAS_W, CANVAS_H-SKY_H);
+
+  const grassBase = lerpColor([70,60,40],[151,199,113], brightness);
+  ctx.fillStyle = rgb(grassBase);
+  roundRect(GRID_LEFT-10, GRID_TOP-10, GRID_W+20, GRID_H+20, 14);
+  ctx.fill();
+}
+
+function roundRect(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+/* ===================== 타일 렌더 ===================== */
+function drawTileBase(tile, x, y, brightness){
+  const grassColor = rgb(lerpColor([80,68,46],[168,214,130], brightness));
+  const grassColor2 = rgb(lerpColor([70,60,40],[152,199,113], brightness));
+  const soilColor = rgb(lerpColor([40,28,18],[121,84,52], brightness));
+  const soilWet = rgb(lerpColor([30,20,14],[90,60,38], brightness));
+
+  ctx.fillStyle = (x/TILE + y/TILE) % 2 === 0 ? grassColor : grassColor2;
+  ctx.fillRect(x, y, TILE, TILE);
+
+  if(tile.state==="soil"){
+    ctx.fillStyle = tile.boostUntil > performance.now()/1000 ? soilWet : soilColor;
+    roundRect(x+4,y+4,TILE-8,TILE-8,8);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0,0,0,0.08)";
+    for(let i=0;i<3;i++){
+      ctx.beginPath();
+      ctx.moveTo(x+8, y+14+i*14);
+      ctx.lineTo(x+TILE-8, y+14+i*14);
+      ctx.stroke();
+    }
+  }
+}
+
+function drawPlant(tile, cx, cy, time){
+  const info = PLANTS[tile.plant];
+  const g = tile.growth;
+  const sway = tile.mature ? Math.sin(time*1.6 + cx*0.05)*0.06 : 0;
+  ctx.save();
+  ctx.translate(cx, cy+14);
+  ctx.rotate(sway);
+
+  if(g < 0.15){
+    ctx.fillStyle = "#6b4a2f";
+    ctx.beginPath(); ctx.arc(0,0,3,0,Math.PI*2); ctx.fill();
+  } else if(g < 0.45){
+    const h = lerp(6,16,(g-0.15)/0.3);
+    ctx.strokeStyle = "#5f9a4d"; ctx.lineWidth=3; ctx.lineCap="round";
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-h); ctx.stroke();
+    ctx.fillStyle = "#6fb35a";
+    ctx.beginPath(); ctx.ellipse(-5,-h*0.6,5,3,0.6,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(5,-h*0.75,5,3,-0.6,0,Math.PI*2); ctx.fill();
+  } else if(g < 0.8){
+    const h = lerp(16,26,(g-0.45)/0.35);
+    ctx.strokeStyle = "#4d8a3d"; ctx.lineWidth=4; ctx.lineCap="round";
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-h); ctx.stroke();
+    ctx.fillStyle = "#5fa84c";
+    ctx.beginPath(); ctx.ellipse(-7,-h*0.5,6,3.5,0.6,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(7,-h*0.65,6,3.5,-0.6,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#8fbf7f";
+    ctx.beginPath(); ctx.arc(0,-h,5,0,Math.PI*2); ctx.fill();
+  } else {
+    const h = lerp(26,30,Math.min(1,(g-0.8)/0.2));
+    ctx.strokeStyle = "#3f7a30"; ctx.lineWidth=4; ctx.lineCap="round";
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-h); ctx.stroke();
+    ctx.fillStyle = "#5fa84c";
+    ctx.beginPath(); ctx.ellipse(-8,-h*0.45,7,4,0.6,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(8,-h*0.6,7,4,-0.6,0,Math.PI*2); ctx.fill();
+
+    const bloomScale = g>=1 ? 1 : lerp(0.5,1,(g-0.8)/0.2);
+    ctx.save();
+    ctx.translate(0,-h);
+    ctx.scale(bloomScale, bloomScale);
+    drawBloom(tile.plant, tile.colorVariant);
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+function drawBloom(type, color){
+  if(type==="sunflower"){
+    for(let i=0;i<10;i++){
+      const a = (i/10)*Math.PI*2;
+      ctx.save();
+      ctx.rotate(a);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.ellipse(0,-9,4,7,0,0,Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.fillStyle = "#7a4a26";
+    ctx.beginPath(); ctx.arc(0,0,6,0,Math.PI*2); ctx.fill();
+  } else if(type==="tulip"){
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(-7,2);
+    ctx.quadraticCurveTo(-9,-10,0,-13);
+    ctx.quadraticCurveTo(9,-10,7,2);
+    ctx.quadraticCurveTo(0,-4,-7,2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = "rgba(0,0,0,0.08)";
+    ctx.beginPath(); ctx.moveTo(0,-13); ctx.lineTo(0,1); ctx.lineWidth=1.5; ctx.stroke();
+  } else if(type==="rose"){
+    for(let i=0;i<5;i++){
+      const a = (i/5)*Math.PI*2;
+      ctx.fillStyle = i%2===0 ? color : "rgba(255,255,255,0.25)";
+      ctx.beginPath();
+      ctx.arc(Math.cos(a)*4, -8+Math.sin(a)*4, 5, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.fillStyle = color;
+    ctx.beginPath(); ctx.arc(0,-8,4,0,Math.PI*2); ctx.fill();
+  }
+}
+
+function drawDecor(type, cx, cy, brightness, time){
+  if(type==="fence"){
+    ctx.fillStyle = "#c9a06a";
+    for(let i=-1;i<=1;i++){
+      ctx.fillRect(cx+i*10-2, cy-16, 4, 20);
+    }
+    ctx.strokeStyle = "#a67b45"; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(cx-14,cy-10); ctx.lineTo(cx+14,cy-10); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-14,cy-3); ctx.lineTo(cx+14,cy-3); ctx.stroke();
+  } else if(type==="bench"){
+    ctx.fillStyle = "#a9744a";
+    ctx.fillRect(cx-16, cy-4, 32, 6);
+    ctx.fillRect(cx-16, cy-16, 32, 5);
+    ctx.fillRect(cx-14, cy-16, 3, 18);
+    ctx.fillRect(cx+11, cy-16, 3, 18);
+    ctx.fillRect(cx-14, cy+2, 3, 6);
+    ctx.fillRect(cx+11, cy+2, 3, 6);
+  } else if(type==="lamp"){
+    ctx.fillStyle = "#7a5a3a";
+    ctx.fillRect(cx-2, cy-24, 4, 26);
+    const isDay = getDayProgress().isDay;
+    if(!isDay){
+      const flicker = 0.85+0.15*Math.sin(time*7+cx);
+      const glow = ctx.createRadialGradient(cx,cy-26,0,cx,cy-26,40);
+      glow.addColorStop(0, `rgba(255,210,120,${0.55*flicker})`);
+      glow.addColorStop(1, "rgba(255,210,120,0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(cx,cy-26,40,0,Math.PI*2); ctx.fill();
+    }
+    ctx.fillStyle = isDay ? "#e0c48a" : "#ffdf8a";
+    ctx.beginPath(); ctx.arc(cx,cy-26,6,0,Math.PI*2); ctx.fill();
+  }
+}
+
+/* ===================== 캐릭터 렌더 ===================== */
+function drawCharacter(cx, cy, time){
+  const bob = character.moving ? Math.sin(time*10)*2 : 0;
+  ctx.save();
+  ctx.translate(cx, cy+bob);
+
+  ctx.fillStyle = "rgba(0,0,0,0.15)";
+  ctx.beginPath(); ctx.ellipse(0,10,12,4,0,0,Math.PI*2); ctx.fill();
+
+  const flip = character.dir==="left" ? -1 : 1;
+  ctx.scale(flip,1);
+
+  ctx.fillStyle = "#7fb8e0";
+  ctx.beginPath();
+  ctx.moveTo(-10,10);
+  ctx.quadraticCurveTo(-12,-6,0,-8);
+  ctx.quadraticCurveTo(12,-6,10,10);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = "#ffd9b3";
+  ctx.beginPath(); ctx.arc(0,-16,9,0,Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = "#f2c66d";
+  ctx.beginPath();
+  ctx.ellipse(0,-20,11,5,0,Math.PI,0,true);
+  ctx.fill();
+  ctx.beginPath(); ctx.ellipse(0,-22,6,4,0,0,Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = "#3a2c22";
+  ctx.beginPath(); ctx.arc(4,-15,1.4,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(-3,-15,1.4,0,Math.PI*2); ctx.fill();
+
+  ctx.restore();
+}
+
+/* ===================== 파티클 렌더/업데이트 ===================== */
+function updateParticles(dt){
+  particles.forEach(p=>{
+    p.x += (p.vx||0)*dt;
+    p.y += (p.vy||0)*dt;
+    if(p.type==="petal"){ p.vy += 90*dt; p.rot += (p.rotSpeed||0)*dt; }
+    p.life -= dt;
+  });
+  particles = particles.filter(p=>p.life>0);
+}
+function drawParticles(){
+  particles.forEach(p=>{
+    const alpha = clamp(p.life/p.maxLife,0,1);
+    if(p.type==="sparkle"){
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = `rgba(${p.color},${alpha})`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+    } else if(p.type==="petal"){
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.ellipse(0,0,p.size,p.size*0.6,0,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    } else if(p.type==="text"){
+      ctx.globalAlpha = alpha;
+      ctx.font = "bold 14px Trebuchet MS, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#5b4a3f";
+      ctx.fillText(p.text, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+  });
+}
+function drawFireflies(brightness, time){
+  if(brightness>0.3) return;
+  const alpha = clamp(1-brightness/0.3,0,1);
+  fireflies.forEach(f=>{
+    const fx = f.x + Math.sin(time*f.speed + f.phase)*20;
+    const fy = f.baseY + Math.cos(time*f.speed*0.8 + f.phase)*14;
+    const tw = 0.4+0.6*Math.abs(Math.sin(time*3+f.phase));
+    ctx.globalAlpha = alpha*tw;
+    ctx.fillStyle = "#d9f28f";
+    ctx.beginPath(); ctx.arc(fx,fy,2.2,0,Math.PI*2); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+}
+
+/* ===================== 메인 루프 ===================== */
+let lastTime = performance.now();
+function update(dt, timeSec){
+  dayTime += dt/DAY_LENGTH;
+  if(dayTime >= 1){ dayTime -= 1; dayCount++; showToast(`Day ${dayCount}가 시작됐어요!`); }
+
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const tile = tiles[r][c];
+      if(tile.plant && !tile.mature){
+        const info = PLANTS[tile.plant];
+        const boosted = tile.boostUntil > timeSec;
+        const rate = boosted ? 2.5 : 1;
+        tile.growth += (dt/info.growTime)*rate;
+        if(tile.growth >= 1){
+          tile.growth = 1; tile.mature = true;
+          if(!tile.bloomed){
+            tile.bloomed = true;
+            const {x,y} = tileCenter(c,r);
+            sfx.bloom();
+            spawnPetals(x,y-18, info.colors, tile.plant==="tulip"?18:10);
+          }
+        }
+      }
+    }
+  }
+
+  character.x = lerp(character.x, character.tx, Math.min(1, dt*8));
+  character.y = lerp(character.y, character.ty, Math.min(1, dt*8));
+  character.moving = Math.abs(character.x-character.tx)>0.02 || Math.abs(character.y-character.ty)>0.02;
+
+  updateParticles(dt);
+  refreshHUD();
+}
+
+function render(timeSec){
+  const brightness = drawSky();
+  drawStars(brightness, timeSec);
+  drawCelestialBody();
+  drawGround(brightness);
+
+  const drawables = [];
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const tile = tiles[r][c];
+      const x = GRID_LEFT + c*TILE, y = GRID_TOP + r*TILE;
+      drawTileBase(tile, x, y, brightness);
+      const cx = x+TILE/2, cy = y+TILE/2;
+      if(tile.decor) drawables.push({ r, draw:()=>drawDecor(tile.decor, cx, cy+18, brightness, timeSec) });
+      if(tile.plant) drawables.push({ r, draw:()=>drawPlant(tile, cx, cy+18, timeSec) });
+    }
+  }
+  const charCx = GRID_LEFT + character.x*TILE + TILE/2;
+  const charCy = GRID_TOP + character.y*TILE + TILE/2;
+  drawables.push({ r: character.y+0.4, draw:()=>drawCharacter(charCx, charCy+18, timeSec) });
+
+  drawables.sort((a,b)=>a.r-b.r);
+  drawables.forEach(d=>d.draw());
+
+  drawFireflies(brightness, timeSec);
+  drawParticles();
+}
+
+function loop(now){
+  const dt = Math.min(0.05, (now-lastTime)/1000);
+  lastTime = now;
+  const timeSec = now/1000;
+  update(dt, timeSec);
+  render(timeSec);
+  requestAnimationFrame(loop);
+}
+
+/* ===================== 시작 ===================== */
+refreshHUD();
+showToast("⛏️ 흙을 갈고 🌱 씨앗을 심어보세요!");
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
