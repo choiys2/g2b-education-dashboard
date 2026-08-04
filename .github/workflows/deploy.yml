@@ -19,6 +19,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      data_healthy: ${{ steps.healthcheck.outputs.healthy }}
     steps:
       - uses: actions/checkout@v4
 
@@ -38,6 +40,16 @@ jobs:
         env:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
         run: python run_pipeline.py
+
+      # 2026-08-03 실측: data.go.kr(나라장터 API)가 4시간 넘게 응답 없이 타임아웃돼
+      # 입찰공고/사전규격/낙찰정보가 전부 0건으로 수집됐는데, continue-on-error 때문에
+      # 그 빈 데이터가 그대로 배포돼 전날까지 멀쩡하던 사이트가 통째로 비어버렸다.
+      # 재발 방지: 오늘 수집량이 비정상적으로 적으면(임계치 미만) 배포 자체를 건너뛰고
+      # 어제까지 이미 떠 있는 GitHub Pages 콘텐츠를 그대로 둔다(live/는 gitignore라
+      # "어제 버전으로 롤백"할 파일이 없으므로, 배포를 안 하는 것 자체가 롤백이 된다).
+      - name: G2B 데이터 건전성 체크
+        id: healthcheck
+        run: python check_g2b_health.py
 
       # ---- 통합 대시보드(나이스+G2B+선도학교+자사파이프라인) 확장 파이프라인 ----
       # NEIS_KEY / ODCLOUD_KEY 시크릿이 없으면 이 스텝들은 개별적으로 실패해도
@@ -76,12 +88,12 @@ jobs:
         run: python pdf_report.py live/weekly_report.pdf
 
       - name: 일별 히스토리 누적 (history/daily_stats.jsonl)
-        if: steps.combine.outcome == 'success'
+        if: steps.combine.outcome == 'success' && steps.healthcheck.outputs.healthy == 'true'
         continue-on-error: true
         run: python history_tracker.py
 
       - name: 히스토리 커밋 (있으면)
-        if: steps.combine.outcome == 'success'
+        if: steps.combine.outcome == 'success' && steps.healthcheck.outputs.healthy == 'true'
         continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
@@ -113,6 +125,7 @@ jobs:
 
   deploy:
     needs: build
+    if: needs.build.outputs.data_healthy == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
