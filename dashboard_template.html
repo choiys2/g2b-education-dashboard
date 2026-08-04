@@ -382,6 +382,7 @@
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="school">학교단위 발주</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 선도학교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">영업 파이프라인</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="search">통합검색</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">관계망</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="beta">베타 기능</button>
@@ -1125,6 +1126,90 @@
 
   </div><!-- /panel-pipeline -->
 
+  <div class="tabpanel" id="panel-competitor">
+
+    <div class="callout">
+      <div class="icon">i</div>
+      <div>
+        <h3>경쟁사(티처빌·아이스크림·비바샘·한교원) 연수 시장 분석</h3>
+        <p><b>낙찰 매트릭스</b>는 나라장터 낙찰정보 API를 매일 조회해 누적한 실데이터입니다. 낙찰업체명은 소비자 브랜드명이 아니라 사업자등록 법인명으로 등록돼 있어(예: 티처빌 → 테크빌교육(주)) 별칭 매핑으로 식별했습니다. 나라장터 밖(S2B·직접계약 등)의 거래는 이 표에 잡히지 않습니다.</p>
+        <p><b>홈페이지 콘텐츠</b>(이벤트·공지)는 각사 비로그인 공개 화면을 매일 자동으로 열람해 캡처합니다(로그인 필요 정보 제외). 회사마다 캡처 범위가 다를 수 있어 회사 간 단순 건수 비교에는 주의가 필요합니다.</p>
+      </div>
+    </div>
+
+    <section class="kpis" id="kpisCompetitor"></section>
+
+    <div class="grid-2">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-title">지역 × 경쟁사 매트릭스</p>
+            <p class="panel-desc">지역별 낙찰 건수, 총계 큰 순 정렬.</p>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table class="data" id="compRegionMatrixTable">
+            <thead><tr id="compRegionMatrixHead"></tr></thead>
+            <tbody id="compRegionMatrixBody"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-title">테마 × 경쟁사 매트릭스</p>
+            <p class="panel-desc">과정 주제별 낙찰 건수, 총계 큰 순 정렬.</p>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table class="data" id="compThemeMatrixTable">
+            <thead><tr id="compThemeMatrixHead"></tr></thead>
+            <tbody id="compThemeMatrixBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">낙찰 레코드</p>
+          <p class="panel-desc" id="compRecordsDesc"></p>
+        </div>
+      </div>
+      <div class="filter-row">
+        <select id="compCompetitorFilter"><option value="">전체 경쟁사</option></select>
+        <select id="compRegionFilter"><option value="">전체 지역</option></select>
+        <span class="count" id="compRecordCount"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="compRecordsTable">
+          <thead>
+            <tr>
+              <th data-key="competitor">경쟁사<span class="arrow">▾</span></th>
+              <th data-key="region">지역<span class="arrow">▾</span></th>
+              <th data-key="org">기관<span class="arrow">▾</span></th>
+              <th data-key="course">과정명<span class="arrow">▾</span></th>
+              <th data-key="metric" class="num sorted">참여업체수<span class="arrow">▾</span></th>
+            </tr>
+          </thead>
+          <tbody id="compRecordsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">홈페이지 이벤트 스냅샷</p>
+          <p class="panel-desc" id="compContentDesc"></p>
+        </div>
+      </div>
+      <div id="compContentCards" class="school-card-grid"></div>
+    </section>
+
+  </div><!-- /panel-competitor -->
+
   <div class="tabpanel" id="panel-search">
 
     <div class="callout">
@@ -1304,6 +1389,7 @@ const ORDER_PLAN = [{"지역": "경기", "공고명": "2026년 의정부교육�
 const SCHOOL_GOODS = [{"학교명": "대구광역시교육청 대구공업고등학교", "학교급": "고", "상품명": "[텍폴캠] 2026학년도 AI모빌리티과 기자재(유공압, MSP 실습장치) 구입", "예산": 283445600, "공고일": "2026-05-11", "마감일": "2026-06-02", "지역": "대구", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01494389&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "대구광역시교육청 대구공업고등학교", "학교급": "고", "상품명": "[텍폴캠] 2026학년도 AI모빌리티과 기자재(유공압, MSP 실습장치) 구입", "예산": 266370000, "공고일": "2026-06-02", "마감일": "", "지역": "대구", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01494389&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도교육청 김포과학기술고등학교", "학교급": "고", "상품명": "그린스마트 메이커스페이스 공간구성을 위한 물품구입(AI융합 스마트팩토리 실습장치)", "예산": 222930000, "공고일": "2026-07-16", "마감일": "2026-07-28", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01622755&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경기도교육청 백석고등학교", "학교급": "고", "상품명": "백석고 AI Edu Center 영상 및 음향장비 구입 및 설치 ", "예산": 117403000, "공고일": "2026-04-29", "마감일": "2026-05-20", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01495127&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청북도교육청 청주공업고등학교", "학교급": "고", "상품명": "2025학년도 청주공업고등학교 기자재(AI 비전 모듈 외 4종) 구매 2단계(규격·가격동시) 입찰 공고", "예산": 87760000, "공고일": "2026-02-04", "마감일": "2026-02-25", "지역": "충북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01314537&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청남도교육청 당진정보고등학교", "학교급": "고", "상품명": "2025학년도 당진정보고 직업계고 재구조화 AI 실습실 정보화기기(아이맥) 구매 소액수의 전자견적 제출 안내 공고", "예산": 66150000, "공고일": "2026-01-07", "마감일": "2026-01-13", "지역": "충남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01260985&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "강원특별자치도교육청 강원특별자치도춘천교육지원청 남춘천여자중학교", "학교급": "중", "상품명": "남춘천여자중학교 AI정보교실 노트북 구매", "예산": 65212000, "공고일": "2026-07-20", "마감일": "2026-07-31", "지역": "강원", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01638937&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청남도교육청 당진정보고등학교", "학교급": "고", "상품명": "2025학년도 당진정보고 직업계고 재구조화 AI 실습실 정보화기기(아이맥) 구매 소액수의 전자견적 제출 안내 공고", "예산": 62850000, "공고일": "2026-01-13", "마감일": "", "지역": "충남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01260985&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "서울특별시교육청 단국대학교사범대학부속고등학교", "학교급": "고", "상품명": "단대부고 2026년 지능형 CCTV 구축 물품 구매(AI카메라)", "예산": 62500000, "공고일": "2026-06-23", "마감일": "", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01597331&bidPbancOrd=001", "_출처": "낙찰완료"}, {"학교명": "경상북도교육청 경주여자정보고등학교", "학교급": "고", "상품명": "2026학년도 AI디지털 활용 선도학교 물품(소프트웨어)구매 수의계약 안내공고", "예산": 33940000, "공고일": "2026-06-17", "마감일": "2026-06-25", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01586473&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상북도교육청 경주여자정보고등학교", "학교급": "고", "상품명": "2026학년도 AI디지털 활용 선도학교 물품(소프트웨어)구매 수의계약 안내공고", "예산": 33000000, "공고일": "2026-06-25", "마감일": "", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01586473&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도연천교육청 군남초등학교", "학교급": "초", "상품명": "AI활용 아동,청소년 성장진단 및 성장관리 사업", "예산": 30000000, "공고일": "2026-07-21", "마감일": "", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01640243&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도양평교육청 강하초등학교", "학교급": "초", "상품명": "강하초(건강증진거점학교) AI 학생성장예측 프로그램 구입", "예산": 27500000, "공고일": "2026-06-04", "마감일": "", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01560141&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "서울특별시강남교육청 도곡중학교", "학교급": "중", "상품명": "2026년 도곡중학교 영상감시장치 (AI 카메라)구입", "예산": 22500000, "공고일": "2026-05-06", "마감일": "2026-05-07", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01503812&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "서울특별시강남교육청 도곡중학교", "학교급": "중", "상품명": "2026년 도곡중학교 영상감시장치 (AI 카메라)구입", "예산": 21825000, "공고일": "2026-05-07", "마감일": "", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01503812&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI측정과 실습기자재(측정시편 외) 구매 수의견적 제출 안내 공고", "예산": 18415000, "공고일": "2026-06-02", "마감일": "2026-06-08", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01557349&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "전남광주통합특별시교육청 광주서석고등학교", "학교급": "고", "상품명": "2026학년도 광주서석고등학교 융합교육(steam) 교구 AI로봇 구입", "예산": 17250000, "공고일": "2026-07-28", "마감일": "2026-07-29", "지역": "전남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01653148&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI측정과 실습기자재(측정시편 외) 구매 수의견적 제출 안내 공고", "예산": 16526670, "공고일": "2026-06-12", "마감일": "", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01566634&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI로봇과 실습기자재(AI스마트제어실습장치) 구매 수의견적 제출 안내 공고", "예산": 15000000, "공고일": "2026-05-26", "마감일": "2026-06-01", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01543323&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI로봇과 실습기자재(AI스마트제어실습장치) 구매 수의견적 제출 안내 공고", "예산": 14775000, "공고일": "2026-06-01", "마감일": "", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01543323&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상북도교육청 경상북도상주교육지원청 상주중학교", "학교급": "중", "상품명": "2026 상주중학교 수학교육공모사업 AI코스웨어 플랫폼 이용권 구매", "예산": 6006000, "공고일": "2026-04-15", "마감일": "2026-04-17", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01466261&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상북도교육청 경상북도상주교육지원청 상주중학교", "학교급": "중", "상품명": "2026 상주중학교 수학교육공모사업 AI코스웨어 플랫폼 이용권 구매", "예산": 6000000, "공고일": "2026-04-17", "마감일": "", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01466261&bidPbancOrd=000", "_출처": "낙찰완료"}];
 const S2B_PILOT = {"all_count": 100, "ai_rows": [{"학교장터공고번호": "202607281401944", "계약구분": "1인 수의", "공고명": "양지초 AI활용 체험수업 및 교구대여", "거래구분": "용역", "기관명": "용인양지초등학교", "지역": "경기", "공고일": "2026-07-28", "마감일": "2026-07-28 23:30", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607281401944", "키워드": ["AI"]}, {"학교장터공고번호": "202607231396625", "계약구분": "1인 수의", "공고명": "로봇직업교육센터 로봇AI·SW과정 교육 용역", "거래구분": "용역", "기관명": "(재)경기테크노파크", "지역": "경기", "공고일": "2026-07-23", "마감일": "2026-07-28 16:30", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607231396625", "키워드": ["AI"]}, {"학교장터공고번호": "202607281401506", "계약구분": "1인 수의", "공고명": "2026학년도 로봇 피지컬 AI 연구회 운영 물품 구입", "거래구분": "물품", "기관명": "인덕과학기술고등학교", "지역": "서울", "공고일": "2026-07-28", "마감일": "2026-07-28 18:00", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607281401506", "키워드": ["AI"]}], "regions": ["경기", "서울"], "days_back": 21};
 const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
+const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
 const LEADING_ROWS = __LEADING_ROWS_JSON__;
 const LEADING_BY_REGION = __LEADING_BY_REGION_JSON__;
 const LEADING_ENRICHED = __LEADING_ENRICHED_JSON__;
@@ -2719,6 +2805,106 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       <td class="num">${r.reference_year}</td>
       <td style="font-size:12px;color:var(--muted);">${r.measure !== '지출액' ? '측정치: '+r.measure : ''}</td>
     </tr>`).join('');
+})();
+
+/* ================= 경쟁사 연수 분석 ================= */
+(function renderCompetitor(){
+  const root = document.getElementById('panel-competitor');
+  if (!root || typeof COMPETITOR_TRAINING === 'undefined') return;
+  const g2b = COMPETITOR_TRAINING.g2b || {};
+  const content = COMPETITOR_TRAINING.content || {};
+  const comps = g2b.all_competitors || [];
+  const COLORS = ['var(--accent)','var(--accent-2)','var(--good)','var(--warning)','var(--muted)'];
+  const compColor = c => COLORS[comps.indexOf(c) % COLORS.length] || 'var(--muted)';
+
+  const emptyNote = '낙찰 매트릭스 수집 대기 중 — 오늘부터 매일 자동 조회가 시작되며, 누적되는 데 며칠 걸립니다.';
+  document.getElementById('kpisCompetitor').innerHTML = comps.map(c => {
+    const t = g2b.competitor_totals[c] || {};
+    return `<div class="kpi">
+      <div class="lbl">${c}${g2b.core_competitors && g2b.core_competitors.includes(c) ? '' : ' (기타)'}</div>
+      <div class="val" style="color:${compColor(c)};">${fmt(t.deal_count||0)}건</div>
+      <div class="sup">참여업체수 합계 ${fmt(t.metric_sum||0)}</div>
+    </div>`;
+  }).join('') || `<div class="kpi" style="grid-column:1/-1;"><div class="lbl">${emptyNote}</div><div class="val" style="font-size:14px;color:var(--muted);">−</div></div>`;
+
+  function drawMatrix(headId, bodyId, matrix, labelKey) {
+    const head = document.getElementById(headId), body = document.getElementById(bodyId);
+    if (!matrix || !matrix.length) {
+      head.innerHTML = `<th>${labelKey}</th><th class="num">합계</th>`;
+      body.innerHTML = `<tr><td colspan="2" style="text-align:center;color:var(--muted);padding:24px;">${emptyNote}</td></tr>`;
+      return;
+    }
+    head.innerHTML = `<th>${labelKey}</th>` + comps.map(c => `<th class="num">${c}</th>`).join('') + `<th class="num sorted">합계</th>`;
+    body.innerHTML = matrix.map(row => `
+      <tr>
+        <td style="font-weight:600;">${row[labelKey]}</td>
+        ${comps.map(c => `<td class="num">${row.counts[c] || '-'}</td>`).join('')}
+        <td class="num" style="font-weight:800;">${row.total}</td>
+      </tr>`).join('');
+  }
+  drawMatrix('compRegionMatrixHead', 'compRegionMatrixBody', g2b.region_matrix, 'region');
+  drawMatrix('compThemeMatrixHead', 'compThemeMatrixBody', g2b.theme_matrix, 'theme');
+
+  document.getElementById('compRecordsDesc').textContent =
+    `${g2b.data_source || ''} · 총 ${fmt((g2b.records||[]).length)}건 (기준일 ${g2b.snapshot_date || '-'})`;
+
+  const compSel = document.getElementById('compCompetitorFilter');
+  const regionSel = document.getElementById('compRegionFilter');
+  comps.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; compSel.appendChild(o); });
+  const regions = [...new Set((g2b.records||[]).map(r => r.region))].sort();
+  regions.forEach(r => { const o = document.createElement('option'); o.value = r; o.textContent = r; regionSel.appendChild(o); });
+
+  const recTbody = document.getElementById('compRecordsTableBody');
+  const recCountEl = document.getElementById('compRecordCount');
+  const recThs = [...document.querySelectorAll('#compRecordsTable th')];
+  let sortKey = 'metric', sortDir = -1;
+
+  function drawRecords(){
+    const cf = compSel.value, rf = regionSel.value;
+    let rows = (g2b.records || []).filter(r => (!cf || r.competitor===cf) && (!rf || r.region===rf));
+    rows = rows.slice().sort((a,b) => {
+      let av=a[sortKey], bv=b[sortKey];
+      if (typeof av === 'string') { av=av||''; bv=bv||''; return sortDir*av.localeCompare(bv,'ko'); }
+      return sortDir*((av||0)-(bv||0));
+    });
+    recCountEl.textContent = `${rows.length}건 표시 중`;
+    recTbody.innerHTML = rows.slice(0, 300).map(r => `
+      <tr>
+        <td><span class="chip" style="background:color-mix(in srgb, ${compColor(r.competitor)} 16%, transparent);color:${compColor(r.competitor)};">${r.competitor}</span></td>
+        <td>${r.region||'-'}</td>
+        <td class="org">${r.org||'-'}</td>
+        <td class="title">${r.course||'-'}</td>
+        <td class="num">${r.metric ?? '-'}</td>
+      </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">일치하는 레코드가 없습니다.</td></tr>';
+  }
+  recThs.forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      if (sortKey === key) sortDir *= -1; else { sortKey = key; sortDir = key==='metric' ? -1 : 1; }
+      recThs.forEach(t => { t.classList.remove('sorted'); const a=t.querySelector('.arrow'); if(a)a.textContent='▾'; });
+      th.classList.add('sorted');
+      const a = th.querySelector('.arrow'); if(a) a.textContent = sortDir===1?'▴':'▾';
+      drawRecords();
+    });
+  });
+  compSel.addEventListener('change', drawRecords);
+  regionSel.addEventListener('change', drawRecords);
+  drawRecords();
+
+  const contentCompanies = content.companies || {};
+  document.getElementById('compContentDesc').textContent =
+    Object.keys(contentCompanies).length
+      ? `캡처일 ${content.captured_date || '-'} · 비로그인 공개 화면 기준`
+      : '데이터 없음';
+  document.getElementById('compContentCards').innerHTML = Object.entries(contentCompanies).map(([name, c]) => `
+    <div class="school-card">
+      <div class="region-tag">${name} · 진행중 ${c.event_count||0}건</div>
+      <div class="name">${name}</div>
+      <div class="meta"><a href="${c.url}" target="_blank" rel="noopener" style="color:var(--accent);">${c.url}</a></div>
+      <ul class="insight-list" style="margin-top:8px;">
+        ${(c.events||[]).slice(0,6).map(e => `<li><b>${e.title}</b><br><span style="color:var(--muted);font-size:12px;">${e.period||''}</span></li>`).join('') || '<li style="color:var(--muted);">이벤트 없음</li>'}
+      </ul>
+    </div>`).join('') || '<div style="color:var(--muted);padding:20px;">데이터 없음</div>';
 })();
 
 (function renderRepFieldCharts(){

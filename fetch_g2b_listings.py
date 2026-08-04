@@ -65,7 +65,8 @@ def call_api(base_url, operation, params, timeout=15, retries=2):
             break
         except (URLError, HTTPError) as e:
             last_err = e
-            time.sleep(1)
+            # 429(요청 과다)는 짧은 재시도로 회복되지 않는 경우가 많아 더 오래 쉰다.
+            time.sleep(5 if getattr(e, "code", None) == 429 else 1)
     else:
         raise RuntimeError(f"네트워크 오류: {last_err} url={url}")
 

@@ -228,6 +228,15 @@ def main():
         kosis_finance = load("live/kosis_edu_finance.json")
     except FileNotFoundError:
         kosis_finance = {"regions": [], "note": ""}
+    try:
+        competitor_g2b = load("live/competitor_g2b_export.json")
+    except FileNotFoundError:
+        competitor_g2b = {"competitor_totals": {}, "all_competitors": [], "region_matrix": [], "theme_matrix": [], "records": []}
+    try:
+        competitor_content = load("live/competitor_content_export.json")
+    except FileNotFoundError:
+        competitor_content = {"captured_date": "", "companies": {}}
+    competitor_training = {"g2b": competitor_g2b, "content": competitor_content}
 
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
@@ -244,6 +253,7 @@ def main():
         "__LEADING_ROWS_JSON__": leading_rows, "__LEADING_BY_REGION_JSON__": leading_by_region,
         "__LEADING_ENRICHED_JSON__": leading_enriched, "__G2B_FULL_JSON__": g2b_full, "__PIPE_JSON__": pipe,
         "__BETA_JSON__": beta, "__KOSIS_FINANCE_JSON__": kosis_finance,
+        "__COMPETITOR_TRAINING_JSON__": competitor_training,
     }
     for token, value in subs.items():
         if token not in html:
@@ -260,7 +270,9 @@ def main():
 
     print(f"saved {out_path}: 학교데이터 {len(data_rows)}지역, AI건 {len(ai_rows)}, 선도학교 {len(leading_rows)}, "
           f"G2B상세 {len(g2b_full.get('detail', []))}, 자사파이프라인 {len(pipe['records'])}, "
-          f"베타-경쟁사트렌드 {len(beta['competitor_trend'])}, 베타-모멘텀 {len(beta['pipeline_momentum'])}")
+          f"베타-경쟁사트렌드 {len(beta['competitor_trend'])}, 베타-모멘텀 {len(beta['pipeline_momentum'])}, "
+          f"경쟁사연수-낙찰 {len(competitor_g2b.get('records', []))}, "
+          f"경쟁사연수-콘텐츠 {len(competitor_content.get('companies', {}))}개사")
 
 
 if __name__ == "__main__":

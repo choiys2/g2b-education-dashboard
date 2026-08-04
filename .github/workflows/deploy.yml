@@ -30,8 +30,9 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip install openpyxl reportlab PublicDataReader
+          pip install openpyxl reportlab PublicDataReader playwright
           sudo apt-get update -y && sudo apt-get install -y fonts-nanum
+          python -m playwright install --with-deps chromium
 
       - name: prepare local config (service key comes from secret at runtime)
         run: cp g2b_config.example.json g2b_config.json
@@ -73,6 +74,21 @@ jobs:
         continue-on-error: true
         run: python kosis_edu_finance.py "${{ secrets.KOSIS_KEY }}" live/kosis_edu_finance.json
 
+      # 경쟁사(티처빌/아이스크림/비바샘/한교원) 나라장터 낙찰 - history/competitor_wins.jsonl에
+      # 누적(git 추적, live/처럼 매일 지워지지 않음). 매일은 최근 60일치만 조회(낙찰 데이터가
+      # 뒤늦게 등록되는 경우를 감안해 겹치게), 대시보드에는 누적 전체를 집계해 보여준다.
+      - name: 경쟁사 나라장터 낙찰 매트릭스 export (누적)
+        continue-on-error: true
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python competitor_g2b_export.py --days 60 --out live/competitor_g2b_export.json
+
+      # 경쟁사 홈페이지 비로그인 공개 화면의 진행중 이벤트 목록만 읽는다(robots.txt 확인:
+      # teacherville.co.kr, teacher.i-scream.co.kr, t.vivasam.com 모두 Allow: / - 자동화 허용).
+      - name: 경쟁사 홈페이지 콘텐츠 스크레이핑
+        continue-on-error: true
+        run: python competitor_content_scrape.py
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
@@ -98,7 +114,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add history/daily_stats.jsonl
+          git add history/daily_stats.jsonl history/competitor_wins.jsonl
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(date -u +%F)"
           git push || true
 
