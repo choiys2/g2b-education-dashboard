@@ -1,45 +1,57 @@
 <meta charset="utf-8">
 <title>17개 시도교육청 초·중등 교육시장 입체 분석</title>
 <meta name="description" content="NEIS 개방포털 실측 데이터와 나라장터 발주 실적을 교차분석한 비바샘원격교육연수원 B2G 전략 대시보드">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
   :root{
     color-scheme: light;
-    --page:#f5f6ef; --surface:#ffffff; --surface-2:#ecefe1;
-    --ink:#1c2417; --ink-2:#4d5a44; --muted:#8c9481;
-    --grid:#e3e6d7; --border:rgba(28,36,23,0.09);
-    --accent:#2f6b4f; --accent-2:#d99a3b;
-    --accent-light:#7fae93; --accent-dark:#1d4735;
-    --neutral-top:#e6e8da; --neutral-front:#c9cdb6; --neutral-side:#97a086;
-    --good:#0ca30c; --warning:#fab219; --critical:#d03b3b;
-    --shadow: 0 1px 2px rgba(28,36,23,.05), 0 12px 28px -14px rgba(47,107,79,.20);
+    /* ---- Notion 디자인 시스템 매핑(라이트) ---- */
+    --page:#f6f5f4; --surface:#ffffff; --surface-2:#efeeec;
+    --ink:#1a1a1a; --ink-2:#31302e; --muted:#615d59;
+    --grid:#ebebe9; --border:#e6e6e6;
+    --accent:#0075de; --accent-2:#2a9d99;
+    --accent-light:#62aef0; --accent-dark:#005bab;
+    --accent-purple:#7c5cbf; --accent-pink:#c93f96;
+    --neutral-top:#eceae7; --neutral-front:#d8d5cf; --neutral-side:#b8b4ac;
+    --good:#1aae39; --warning:#dd5b00; --critical:#d6362a;
+    --shadow: 0 0.175px 1.041px rgba(0,0,0,.02), 0 0.8px 2.925px rgba(0,0,0,.03),
+              0 2.025px 7.847px rgba(0,0,0,.035), 0 4px 18px rgba(0,0,0,.05);
   }
   @media (prefers-color-scheme: dark){
     :root:where(:not([data-theme="light"])){
       color-scheme: dark;
-      --page:#12160f; --surface:#1a2016; --surface-2:#212a1b;
-      --ink:#eef1e6; --ink-2:#c2cab5; --muted:#7f8b71;
-      --grid:#2c3624; --border:rgba(255,255,255,0.1);
-      --accent:#5ea87f; --accent-2:#e8ac52;
-      --accent-light:#3f7d5c; --accent-dark:#1a3d2a;
-      --neutral-top:#3a4530; --neutral-front:#2a331f; --neutral-side:#1b2214;
-      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 20px 40px -20px rgba(0,0,0,.6);
+      /* ---- Notion 매핑(다크, 원 시스템은 라이트 전용이라 동일한 원칙으로 새로 도출) ---- */
+      --page:#1c1b1a; --surface:#262422; --surface-2:#302e2b;
+      --ink:#f2f1ee; --ink-2:#c9c6c0; --muted:#8f8b84;
+      --grid:#3a3835; --border:rgba(255,255,255,0.09);
+      --accent:#4da3ff; --accent-2:#57c2bd;
+      --accent-light:#7cc0ff; --accent-dark:#0075de;
+      --accent-purple:#b393e6; --accent-pink:#ff7cc4;
+      --neutral-top:#3a3835; --neutral-front:#2b2a27; --neutral-side:#211f1c;
+      --good:#3ecf5e; --warning:#ff8a3d; --critical:#ff5c4d;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 4px 10px rgba(0,0,0,.3), 0 20px 44px -18px rgba(0,0,0,.7);
     }
   }
   :root[data-theme="dark"]{
     color-scheme: dark;
-    --page:#12160f; --surface:#1a2016; --surface-2:#212a1b;
-    --ink:#eef1e6; --ink-2:#c2cab5; --muted:#7f8b71;
-    --grid:#2c3624; --border:rgba(255,255,255,0.1);
-    --accent:#5ea87f; --accent-2:#e8ac52;
-    --accent-light:#3f7d5c; --accent-dark:#1a3d2a;
-    --neutral-top:#3a4530; --neutral-front:#2a331f; --neutral-side:#1b2214;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 20px 40px -20px rgba(0,0,0,.6);
+    --page:#1c1b1a; --surface:#262422; --surface-2:#302e2b;
+    --ink:#f2f1ee; --ink-2:#c9c6c0; --muted:#8f8b84;
+    --grid:#3a3835; --border:rgba(255,255,255,0.09);
+    --accent:#4da3ff; --accent-2:#57c2bd;
+    --accent-light:#7cc0ff; --accent-dark:#0075de;
+    --accent-purple:#b393e6; --accent-pink:#ff7cc4;
+    --neutral-top:#3a3835; --neutral-front:#2b2a27; --neutral-side:#211f1c;
+    --good:#3ecf5e; --warning:#ff8a3d; --critical:#ff5c4d;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 4px 10px rgba(0,0,0,.3), 0 20px 44px -18px rgba(0,0,0,.7);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
     background:var(--page); color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",Roboto,sans-serif;
+    font-family:"Inter","Pretendard Variable","Pretendard",-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",Roboto,sans-serif;
     font-feature-settings:"tnum" 1;
     -webkit-font-smoothing:antialiased;
   }
@@ -64,7 +76,7 @@
   }
   .theme-btn:hover{opacity:.85;}
   .theme-btn.active{background:var(--surface);opacity:1;box-shadow:0 1px 2px rgba(0,0,0,.08);}
-  h1{font-size:clamp(26px,3.6vw,36px);line-height:1.2;margin:0;font-weight:800;text-wrap:balance;letter-spacing:-0.01em;}
+  h1{font-size:clamp(26px,3.6vw,36px);line-height:1.2;margin:0;font-weight:800;text-wrap:balance;letter-spacing:-0.015em;}
   .sub{color:var(--ink-2);font-size:15.5px;line-height:1.65;max-width:760px;margin:2px 0 0;}
   .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
   .pill{
@@ -78,16 +90,16 @@
   .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px;}
   @media (max-width:980px){.kpis{grid-template-columns:repeat(2,1fr);}}
   .kpi{
-    background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;
     padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;
   }
   .kpi .lbl{font-size:12.5px;color:var(--muted);font-weight:600;}
-  .kpi .val{font-size:26px;font-weight:800;letter-spacing:-0.01em;}
+  .kpi .val{font-size:26px;font-weight:800;letter-spacing:-0.02em;}
   .kpi .sup{font-size:12px;color:var(--ink-2);}
 
   /* ---------- panels ---------- */
   .panel{
-    background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;
     padding:22px 24px 24px;box-shadow:var(--shadow);margin-bottom:20px;
   }
   .panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
@@ -137,7 +149,7 @@
   /* shared floating tooltip */
   #tooltip{
     position:fixed;z-index:50;pointer-events:none;opacity:0;transition:opacity .1s;
-    background:var(--ink);color:var(--page);border-radius:10px;padding:10px 13px;
+    background:var(--ink);color:var(--page);border-radius:8px;padding:10px 13px;
     font-size:12.5px;line-height:1.6;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);
     max-width:230px;
   }
@@ -175,7 +187,7 @@
   .callout{
     display:flex;gap:14px;background:color-mix(in srgb, var(--warning) 10%, var(--surface));
     border:1px solid color-mix(in srgb, var(--warning) 35%, var(--border));
-    border-radius:14px;padding:16px 18px;margin-bottom:20px;
+    border-radius:12px;padding:16px 18px;margin-bottom:20px;
   }
   .callout .icon{
     flex:none;width:28px;height:28px;border-radius:50%;background:var(--warning);color:#231a00;
@@ -230,7 +242,7 @@
   td.title{max-width:340px;line-height:1.45;color:var(--ink);}
   td.title .kw{color:var(--muted);font-size:11.5px;display:block;margin-top:2px;}
   td.org{color:var(--ink-2);max-width:180px;}
-  .grade-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:7px;font-size:11.5px;font-weight:800;margin-right:8px;flex:none;}
+  .grade-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:8px;font-size:11.5px;font-weight:800;margin-right:8px;flex:none;}
   .grade-badge.초{background:color-mix(in srgb, var(--accent) 18%, transparent);color:var(--accent);}
   .grade-badge.중{background:color-mix(in srgb, var(--accent-2) 18%, transparent);color:var(--accent-2);}
   .grade-badge.고{background:color-mix(in srgb, var(--good) 18%, transparent);color:var(--good);}
@@ -241,7 +253,7 @@
   /* ---------- school contact cards ---------- */
   .school-card-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:14px;}
   .school-card{
-    background:var(--surface-2);border:1px solid var(--border);border-radius:14px;
+    background:var(--surface-2);border:1px solid var(--border);border-radius:12px;
     padding:16px;display:flex;flex-direction:column;gap:8px;
   }
   .school-card .region-tag{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;}
@@ -327,7 +339,7 @@
   .sync-settings-row label{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--muted);font-weight:600;flex:1;min-width:200px;}
   .sync-settings-row input{
     font-family:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--border);
-    border-radius:8px;padding:8px 10px;
+    border-radius:4px;padding:8px 10px;
   }
   .sync-settings-status{font-size:12px;margin:10px 0 0;min-height:16px;}
   .sync-settings-status.ok{color:var(--good);}
@@ -2813,7 +2825,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   const g2b = COMPETITOR_TRAINING.g2b || {};
   const content = COMPETITOR_TRAINING.content || {};
   const comps = g2b.all_competitors || [];
-  const COLORS = ['var(--accent)','var(--accent-2)','var(--good)','var(--warning)','var(--muted)'];
+  const COLORS = ['var(--accent)','var(--accent-2)','var(--accent-purple)','var(--warning)','var(--accent-pink)'];
   const compColor = c => COLORS[comps.indexOf(c) % COLORS.length] || 'var(--muted)';
 
   const emptyNote = '낙찰 매트릭스 수집 대기 중 — 오늘부터 매일 자동 조회가 시작되며, 누적되는 데 며칠 걸립니다.';
