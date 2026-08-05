@@ -8,44 +8,44 @@
 <style>
   :root{
     color-scheme: light;
-    /* ---- Notion 디자인 시스템 매핑(라이트) ---- */
-    --page:#f6f5f4; --surface:#ffffff; --surface-2:#efeeec;
-    --ink:#1a1a1a; --ink-2:#31302e; --muted:#615d59;
-    --grid:#ebebe9; --border:#e6e6e6;
+    /* ---- Notion 디자인 시스템 매핑(라이트 · 블루 톤) ---- */
+    --page:#eef3fb; --surface:#ffffff; --surface-2:#e3ebf8;
+    --ink:#10192b; --ink-2:#33425c; --muted:#64748b;
+    --grid:#dbe4f0; --border:#d3dfef;
     --accent:#0075de; --accent-2:#2a9d99;
     --accent-light:#62aef0; --accent-dark:#005bab;
     --accent-purple:#7c5cbf; --accent-pink:#c93f96;
-    --neutral-top:#eceae7; --neutral-front:#d8d5cf; --neutral-side:#b8b4ac;
+    --neutral-top:#e4ecf7; --neutral-front:#c9d6ea; --neutral-side:#a7b7d1;
     --good:#1aae39; --warning:#dd5b00; --critical:#d6362a;
-    --shadow: 0 0.175px 1.041px rgba(0,0,0,.02), 0 0.8px 2.925px rgba(0,0,0,.03),
-              0 2.025px 7.847px rgba(0,0,0,.035), 0 4px 18px rgba(0,0,0,.05);
+    --shadow: 0 0.175px 1.041px rgba(16,25,60,.03), 0 0.8px 2.925px rgba(16,25,60,.04),
+              0 2.025px 7.847px rgba(16,25,60,.045), 0 4px 18px rgba(16,25,60,.06);
   }
   @media (prefers-color-scheme: dark){
     :root:where(:not([data-theme="light"])){
       color-scheme: dark;
-      /* ---- Notion 매핑(다크, 원 시스템은 라이트 전용이라 동일한 원칙으로 새로 도출) ---- */
-      --page:#1c1b1a; --surface:#262422; --surface-2:#302e2b;
-      --ink:#f2f1ee; --ink-2:#c9c6c0; --muted:#8f8b84;
-      --grid:#3a3835; --border:rgba(255,255,255,0.09);
+      /* ---- Notion 매핑(다크 · 네이비 블루 톤) ---- */
+      --page:#0f1420; --surface:#182234; --surface-2:#1f2b40;
+      --ink:#eef2fa; --ink-2:#b7c2d6; --muted:#7c8aa3;
+      --grid:#2a3448; --border:rgba(150,180,255,0.12);
       --accent:#4da3ff; --accent-2:#57c2bd;
       --accent-light:#7cc0ff; --accent-dark:#0075de;
       --accent-purple:#b393e6; --accent-pink:#ff7cc4;
-      --neutral-top:#3a3835; --neutral-front:#2b2a27; --neutral-side:#211f1c;
+      --neutral-top:#2a3448; --neutral-front:#1c2536; --neutral-side:#141b29;
       --good:#3ecf5e; --warning:#ff8a3d; --critical:#ff5c4d;
-      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 4px 10px rgba(0,0,0,.3), 0 20px 44px -18px rgba(0,0,0,.7);
+      --shadow: 0 1px 2px rgba(0,0,10,.4), 0 4px 10px rgba(0,0,10,.35), 0 20px 44px -18px rgba(0,0,15,.75);
     }
   }
   :root[data-theme="dark"]{
     color-scheme: dark;
-    --page:#1c1b1a; --surface:#262422; --surface-2:#302e2b;
-    --ink:#f2f1ee; --ink-2:#c9c6c0; --muted:#8f8b84;
-    --grid:#3a3835; --border:rgba(255,255,255,0.09);
+    --page:#0f1420; --surface:#182234; --surface-2:#1f2b40;
+    --ink:#eef2fa; --ink-2:#b7c2d6; --muted:#7c8aa3;
+    --grid:#2a3448; --border:rgba(150,180,255,0.12);
     --accent:#4da3ff; --accent-2:#57c2bd;
     --accent-light:#7cc0ff; --accent-dark:#0075de;
     --accent-purple:#b393e6; --accent-pink:#ff7cc4;
-    --neutral-top:#3a3835; --neutral-front:#2b2a27; --neutral-side:#211f1c;
+    --neutral-top:#2a3448; --neutral-front:#1c2536; --neutral-side:#141b29;
     --good:#3ecf5e; --warning:#ff8a3d; --critical:#ff5c4d;
-    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 4px 10px rgba(0,0,0,.3), 0 20px 44px -18px rgba(0,0,0,.7);
+    --shadow: 0 1px 2px rgba(0,0,10,.4), 0 4px 10px rgba(0,0,10,.35), 0 20px 44px -18px rgba(0,0,15,.75);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
