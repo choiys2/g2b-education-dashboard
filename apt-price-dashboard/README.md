@@ -8,7 +8,7 @@
 | 단계 | 내용 | 상태 |
 | --- | --- | --- |
 | 1 | 수집기 (API 호출·XML 파싱·정규화·캐시) + 파서 테스트 | 코드 완료, **API 실측 확인 대기** |
-| 2 | 집계 (`apt_analytics.py`) — KPI, 월별 추이, 지역 랭킹 | 예정 |
+| 2 | 집계 (`apt_analytics.py`) — KPI, 월별 추이, 지역 랭킹 | 코드 완료 (테스트 34개 통과) |
 | 3 | 대시보드 HTML 생성 (`build_apt_dashboard.py`) | 예정 |
 | 4 | 매일 자동 갱신 + GitHub Pages 배포 | 예정 |
 
@@ -18,7 +18,8 @@
 | --- | --- |
 | `lawd_codes.py` | 수도권 77개 시군구 법정동코드 테이블 (서울 25 · 인천 10 · 경기 42) |
 | `fetch_apt_trades.py` | API 호출, XML 파싱, 정규화, gzip 캐시 |
-| `test_parse.py` | 파싱·정규화·캐시 단위 테스트 (네트워크 불필요) |
+| `apt_analytics.py` | KPI · 월별 추이 · 시군구/법정동 랭킹 · 면적 구간 분포 집계 |
+| `test_parse.py` / `test_analytics.py` | 단위 테스트 34개 (네트워크 불필요) |
 | `apt_config.example.json` | 설정 템플릿 (인증키 자리는 플레이스홀더) |
 | `.github/workflows/probe.yml` | API 실측 확인용 수동 워크플로 |
 
@@ -37,11 +38,23 @@ cp apt_config.example.json apt_config.json
 # apt_config.json 의 service_key 를 data.go.kr 발급값으로 교체
 # (또는 export MOLIT_SERVICE_KEY=...)
 
-python test_parse.py                                    # 파서 테스트
+python test_parse.py && python test_analytics.py        # 단위 테스트
 python fetch_apt_trades.py probe --lawd 11680 --ymd 202606   # 단일 호출 실측
 python fetch_apt_trades.py fetch --months 12            # 수도권 전체 수집
 python fetch_apt_trades.py fetch --months 12 --sido 서울특별시  # 서울만
+python apt_analytics.py live/trades.json live/analytics.json  # 집계
 ```
+
+## 집계 규칙
+
+- **해제(취소) 거래는 제외한다.** 성사되지 않은 계약이라 가격 통계를 왜곡한다. 원본에는
+  `canceled` 플래그로 보존한다.
+- **대표 단가는 중위 평당가**를 쓴다. 평균은 초고가 몇 건에 끌려가는데, 지역별로 월 거래량이
+  적은 경우가 많아 그 영향이 특히 크다.
+- 전용면적이 없는 건은 **거래량에는 포함, 단가 계산에서는 제외**한다.
+- 법정동 랭킹은 표본 10건 미만이면 중위값이 튀므로 제외한다.
+- 최근 2개월은 신고 지연(계약 후 30일 내 신고)으로 거래량이 과소 집계되며, `provisional`
+  플래그로 표시해 대시보드에서 잠정치로 구분한다.
 
 ## 인증키 관리
 
