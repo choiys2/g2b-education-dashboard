@@ -42,7 +42,7 @@ jobs:
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
         run: |
-          if python run_apt_pipeline.py --months 12; then
+          if python run_apt_pipeline.py --months 15; then
             echo "healthy=true" >> "$GITHUB_OUTPUT"
           else
             echo "healthy=false" >> "$GITHUB_OUTPUT"

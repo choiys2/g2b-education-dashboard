@@ -178,6 +178,9 @@ footer ul{padding-left:18px;margin:8px 0 0}
     <li>해제(취소) 거래는 집계에서 제외했다 — <span id="cancel-note"></span></li>
     <li>대표 단가는 <b>중위 평당가</b>다. 평균은 초고가 몇 건에 끌려가 지역 비교를 왜곡한다.</li>
     <li>실거래가는 계약일 기준 신고분이라, 최근 2개월은 신고 지연으로 거래량이 과소 집계된다(잠정치).</li>
+    <li><b>증감률의 기준월은 최신월이 아니라 마지막 확정월</b>(<span id="ref-note"></span>)이다.
+        잠정치인 최신월을 확정된 전월·전년동월과 맞대면, 실제로 줄지 않았는데도 거래량이
+        급감한 것처럼 보이기 때문이다.</li>
     <li>전용면적이 없는 건은 거래량에는 포함하되 단가 계산에서는 제외했다.</li>
     <li id="yoy-note"></li>
   </ul>
@@ -243,17 +246,25 @@ function renderFilters(){
 /* ---------- KPI ---------- */
 function renderKpi(){
   const ov = overallFor(sido), ms = monthlyFor(sido);
-  const cur = ms[ms.length-1] || {}, prev = ms[ms.length-2] || {};
-  // 전년 동월 = 13개월 이상 수집했을 때만 존재한다
-  const yoy = ms.length >= 13 ? ms[ms.length-13] : null;
+  const latest = ms[ms.length-1] || {};
+  // 비교 기준은 최신월이 아니라 마지막 "확정월"이다. 최신월은 신고 지연으로 거래량이
+  // 덜 잡힌 잠정치라, 확정된 전월/전년동월과 맞대면 실제로 줄지 않았는데도 급감으로 보인다.
+  const ri = (() => { for (let i = ms.length-1; i >= 0; i--) if (!ms[i].provisional) return i;
+                      return ms.length-1; })();
+  const ref = ms[ri] || {}, prev = ms[ri-1] || {};
+  // 전년 동월 = 기준월보다 12개월 앞. 13개월 이상 수집했을 때만 존재한다.
+  // 기준월의 12개월 전까지 있어야 하므로 최소 15개월(=12+잠정 2+1) 수집이 필요하다
+  const yoy = ri >= 12 ? ms[ri-12] : null;
 
   const cards = [
     {label:`거래건수 (${D.kpi.period_from} ~ ${D.kpi.period_to})`,
      value:nf(ov.count), unit:'건',
-     foot:`최신월 ${cur.ym||'–'} ${nf(cur.count)}건 · 전월비 ${pct(change(cur.count, prev.count))}`},
+     foot:`기준월 ${ref.ym||'–'} ${nf(ref.count)}건 · 전월비 ${pct(change(ref.count, prev.count))}`
+        + `<br><span class="muted">최신월 ${latest.ym||'–'} ${nf(latest.count)}건(잠정)</span>`},
     {label:'중위 평당가',
      value:nf(ov.median_ppp), unit:'만원/평',
-     foot:`최신월 ${nf(cur.median_ppp)}만원 · 전월비 ${pct(change(cur.median_ppp, prev.median_ppp))}`},
+     foot:`기준월 ${nf(ref.median_ppp)}만원 · 전월비 ${pct(change(ref.median_ppp, prev.median_ppp))}`
+        + `<br><span class="muted">최신월 ${nf(latest.median_ppp)}만원(잠정)</span>`},
     {label:'중위 거래가',
      value:fmtAmount(ov.median_amount), unit:'',
      foot:`평균 전용 ${ov.avg_area ?? '–'}㎡`},
@@ -262,9 +273,9 @@ function renderKpi(){
   // 전년 동월 비교는 13개월 이상 모아야 가능하다. 그전까지는 빈 카드를 두는 대신
   // 같은 자리에 "전월비 평당가가 오른/내린 시군구 수"를 보여준다.
   if (yoy){
-    cards.push({label:'최신월 전년 동월 대비',
-      value: pct(change(cur.median_ppp, yoy.median_ppp)), unit:'평당가',
-      foot: `거래량 ${pct(change(cur.count, yoy.count))}`});
+    cards.push({label:`전년 동월 대비 (${ref.ym} vs ${yoy.ym})`,
+      value: pct(change(ref.median_ppp, yoy.median_ppp)), unit:'평당가',
+      foot: `거래량 ${pct(change(ref.count, yoy.count))}`});
   } else {
     const rows = regionsFor(sido);
     const up = rows.filter(r => r.mom_ppp_pct > 0).length;
@@ -351,7 +362,7 @@ const COLS = [
   {k:'count',         t:'거래건수',     f:r => nf(r.count)},
   {k:'share_pct',     t:'비중',        f:r => r.share_pct.toFixed(1) + '%'},
   {k:'avg_area',      t:'평균 전용',    f:r => (r.avg_area ?? '–') + '㎡'},
-  {k:'latest_count',  t:'최신월 건수',   f:r => nf(r.latest_count)},
+  {k:'ref_count',     t:'기준월 건수',   f:r => nf(r.ref_count)},
   {k:'mom_count_pct', t:'전월비 건수',   f:r => pct(r.mom_count_pct)},
   {k:'mom_ppp_pct',   t:'전월비 평당가', f:r => pct(r.mom_ppp_pct)},
 ];
@@ -385,15 +396,16 @@ function renderTable(){
     || `<tr><td colspan="${COLS.length}" class="muted" style="text-align:center;padding:24px">
         조건에 맞는 지역이 없다</td></tr>`;
   $('#tblfoot').textContent =
-    `${rows.length}개 시군구 · 중위 평당가 기준 순위(#)는 수도권 전체 대상으로 매긴 값이다.`;
+    `${rows.length}개 시군구 · 순위(#)는 중위 평당가 기준이며 항상 수도권 전체 대상으로 매긴다 · `
+    + `증감률은 기준월 ${D.kpi.ref_month}(확정) 대비다.`;
 }
 
 function downloadCsv(){
   const rows = sorted(regionsFor(sido));
   const head = ['순위','지역','중위평당가(만원)','중위거래가(만원)','거래건수','비중(%)',
-                '평균전용(㎡)','최신월건수','전월비건수(%)','전월비평당가(%)'];
+                '평균전용(㎡)','기준월건수','전월비건수(%)','전월비평당가(%)'];
   const body = rows.map(r => [r.rank, r.region, r.median_ppp, r.median_amount, r.count,
-    r.share_pct, r.avg_area, r.latest_count, r.mom_count_pct, r.mom_ppp_pct]
+    r.share_pct, r.avg_area, r.ref_count, r.mom_count_pct, r.mom_ppp_pct]
     .map(v => v == null ? '' : `"${String(v).replace(/"/g,'""')}"`).join(','));
   // 엑셀이 UTF-8을 인식하도록 BOM을 붙인다
   const blob = new Blob(['﻿' + [head.join(','), ...body].join('\r\n')],
@@ -432,10 +444,11 @@ function renderMeta(){
   $('#gen').textContent = `집계 기준일 ${m.analyzed_at}`
     + (m.api_calls ? ` · API 호출 ${nf(m.api_calls)}회` : '');
   $('#cancel-note').textContent = `이번 집계에서 ${nf(m.excluded_canceled)}건 제외`;
-  $('#yoy-note').innerHTML = D.monthly.length >= 13
-    ? '전년 동월 대비는 같은 달끼리 비교한 값이다.'
-    : `현재 ${D.monthly.length}개월치만 수집해 전년 동월 대비는 산출할 수 없다 `
-      + '(<code>--months 13</code> 이상이면 표시된다).';
+  $('#ref-note').textContent = `${D.kpi.ref_month} · 최신월 ${D.kpi.latest_month}은 잠정`;
+  $('#yoy-note').innerHTML = D.monthly.length >= 15
+    ? '전년 동월 대비는 기준월과 그 12개월 전을 비교한 값이다.'
+    : `현재 ${D.monthly.length}개월치만 수집해 전년 동월 대비는 산출할 수 없다. `
+      + '기준월(최신월-2)의 12개월 전까지 있어야 하므로 <code>--months 15</code> 이상이 필요하다.';
   if (m.synthetic){
     $('#banner').innerHTML = `<div class="banner"><b>합성 샘플 데이터다.</b> `
       + `실제 실거래가가 아니라 화면 검증용으로 생성한 가짜 값이므로, `

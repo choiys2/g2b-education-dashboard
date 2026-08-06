@@ -17,9 +17,9 @@
 사용법
   python fetch_apt_trades.py probe --lawd 11680 --ymd 202606
       -> 원본 XML과 파싱된 필드명을 그대로 출력 (API 스펙 실측 확인용)
-  python fetch_apt_trades.py fetch --months 12 --out live/trades.json
-      -> 수도권 전체 시군구 × 최근 12개월 수집 후 정규화 결과 저장
-  python fetch_apt_trades.py fetch --months 12 --sido 서울특별시
+  python fetch_apt_trades.py fetch --months 15 --out live/trades.json
+      -> 수도권 전체 시군구 × 최근 15개월 수집 후 정규화 결과 저장
+  python fetch_apt_trades.py fetch --months 15 --sido 서울특별시
 """
 import argparse
 import gzip
@@ -160,7 +160,7 @@ def fetch_month_raw(cfg, lawd_cd, deal_ymd):
 # --------------------------------------------------------------------------
 # 캐시
 # --------------------------------------------------------------------------
-# 캐시는 gzip 으로 저장한다. 수도권 12개월치 원본은 비압축이면 100MB를 넘어 git 에
+# 캐시는 gzip 으로 저장한다. 수도권 15개월치 원본은 비압축이면 100MB를 넘어 git 에
 # 올리기 어렵지만, 반복이 많은 JSON이라 gzip 하면 1/8 수준으로 줄어 저장소에 누적 가능하다.
 def cache_path(cache_dir, lawd_cd, deal_ymd):
     return os.path.join(cache_dir, lawd_cd, f"{deal_ymd}.json.gz")
@@ -275,7 +275,7 @@ def month_range(months, end=None):
     return sorted(out)
 
 
-def collect(cfg, months=12, sido=None, cache_dir=CACHE_DIR, refresh_months=3, verbose=True):
+def collect(cfg, months=15, sido=None, cache_dir=CACHE_DIR, refresh_months=3, verbose=True):
     targets = regions(sido)
     ymds = month_range(months)
     refresh_set = set(ymds[-refresh_months:]) if refresh_months > 0 else set()
@@ -382,7 +382,8 @@ def main():
     p.set_defaults(func=cmd_probe)
 
     p = sub.add_parser("fetch", help="범위 전체 수집")
-    p.add_argument("--months", type=int, default=12, help="최근 N개월 (기본 12)")
+    p.add_argument("--months", type=int, default=15,
+                   help="최근 N개월 (기본 15)")
     p.add_argument("--sido", default=None, help="시도명으로 한정 (예: 서울특별시)")
     p.add_argument("--out", default="live/trades.json",
                    help="정규화 결과(파생물). 캐시에서 언제든 재생성되므로 커밋하지 않는다")

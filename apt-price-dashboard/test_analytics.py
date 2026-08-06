@@ -3,8 +3,9 @@
 import unittest
 
 from apt_analytics import (
-    _pct_change, _prev_ym, _same_month_last_year, analyze, area_distribution,
-    build_kpi, monthly_series, region_ranking, summarize, umd_ranking,
+    PROVISIONAL_MONTHS, _pct_change, _prev_ym, _same_month_last_year, analyze,
+    area_distribution, build_kpi, monthly_series, reference_month, region_ranking,
+    summarize, umd_ranking,
 )
 
 
@@ -69,8 +70,22 @@ class MonthlyTest(unittest.TestCase):
         self.assertEqual([s["provisional"] for s in series], [False, False, True, True])
 
 
+class ReferenceMonthTest(unittest.TestCase):
+    def test_skips_provisional_tail(self):
+        months = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05"]
+        # 최근 2개월(04,05)은 잠정 -> 기준월은 03
+        self.assertEqual(reference_month(months), months[-(PROVISIONAL_MONTHS + 1)])
+        self.assertEqual(reference_month(months), "2026-03")
+
+    def test_falls_back_when_too_few_months(self):
+        # 수집 개월이 잠정 구간보다 짧으면 기준월을 뺄 수 없으니 최신월을 그대로 쓴다
+        self.assertEqual(reference_month(["2026-05", "2026-06"]), "2026-06")
+        self.assertEqual(reference_month(["2026-06"]), "2026-06")
+
+
 class RankingTest(unittest.TestCase):
     def setUp(self):
+        # 2개월뿐이라 기준월 = 최신월(2026-06)로 폴백된다
         self.months = ["2026-05", "2026-06"]
         self.records = (
             [rec("2026-05", 5000, code="11680") for _ in range(4)]
@@ -96,7 +111,7 @@ class RankingTest(unittest.TestCase):
     def test_region_with_no_latest_month_does_not_crash(self):
         records = [rec("2026-05", 5000, code="11680")]      # 최신월 거래 없음
         rows = region_ranking(records, self.months)
-        self.assertEqual(rows[0]["latest_count"], 0)
+        self.assertEqual(rows[0]["ref_count"], 0)
         self.assertEqual(rows[0]["mom_count_pct"], -100.0)  # 1건 -> 0건
         self.assertIsNone(rows[0]["mom_ppp_pct"])           # 단가는 산출 불가
 
@@ -149,6 +164,43 @@ class AnalyzeTest(unittest.TestCase):
         for key in ("meta", "kpi", "monthly", "sido", "regions", "umd_top", "area_distribution"):
             self.assertIn(key, result)
         self.assertEqual(result["meta"]["api_calls"], 3)   # 수집 메타가 보존된다
+
+
+class ReferenceMonthKpiTest(unittest.TestCase):
+    """증감률이 잠정치인 최신월이 아니라 마지막 확정월을 기준으로 나오는지 고정한다."""
+
+    def _payload(self):
+        months = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05"]
+        recs = []
+        # 01~03 은 월 10건, 04~05(잠정)는 신고 지연으로 2건씩만 들어온 상황
+        for ym, n, ppp in [("2026-01", 10, 1000), ("2026-02", 10, 1100),
+                           ("2026-03", 10, 1200), ("2026-04", 2, 1210),
+                           ("2026-05", 2, 1220)]:
+            recs += [rec(ym, ppp) for _ in range(n)]
+        return {"meta": {}, "records": recs}, months
+
+    def test_kpi_uses_last_confirmed_month(self):
+        payload, _ = self._payload()
+        k = analyze(payload)["kpi"]
+        self.assertEqual(k["ref_month"], "2026-03")
+        self.assertEqual(k["latest_month"], "2026-05")
+        self.assertEqual(k["ref"]["count"], 10)
+        self.assertEqual(k["latest"]["count"], 2)
+        # 03(10건) vs 02(10건) = 0%. 최신월 기준이었다면 2 vs 2 였을 것이다.
+        self.assertEqual(k["mom_count_pct"], 0.0)
+        self.assertAlmostEqual(k["mom_ppp_pct"], 9.1, places=1)
+
+    def test_ranking_uses_last_confirmed_month(self):
+        payload, months = self._payload()
+        rows = region_ranking(payload["records"], months)
+        self.assertEqual(rows[0]["ref_count"], 10)     # 잠정월의 2건이 아니다
+        self.assertEqual(rows[0]["mom_count_pct"], 0.0)
+
+    def test_meta_exposes_ref_month(self):
+        payload, _ = self._payload()
+        result = analyze(payload)
+        self.assertEqual(result["meta"]["ref_month"], "2026-03")
+        self.assertEqual(result["meta"]["provisional_months"], ["2026-04", "2026-05"])
 
 
 if __name__ == "__main__":

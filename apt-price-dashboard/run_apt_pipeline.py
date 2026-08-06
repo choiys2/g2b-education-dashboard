@@ -8,8 +8,7 @@
 이미 떠 있는 이전 버전을 그대로 두게 한다(= 배포를 안 하는 것이 곧 롤백이다).
 
 사용법:
-  python run_apt_pipeline.py                       # 수도권 12개월
-  python run_apt_pipeline.py --months 13           # 전년 동월 비교까지 가능
+  python run_apt_pipeline.py                       # 수도권 15개월
   python run_apt_pipeline.py --sido 서울특별시 --out-dir live
   python run_apt_pipeline.py --sample              # API 없이 합성 데이터로 화면만 확인
 """
@@ -26,7 +25,9 @@ from lawd_codes import regions
 
 def main():
     ap = argparse.ArgumentParser(description="아파트 실거래가 대시보드 파이프라인")
-    ap.add_argument("--months", type=int, default=12, help="최근 N개월 (기본 12)")
+    ap.add_argument("--months", type=int, default=15,
+                    help="최근 N개월. 기본 15 — 전년 동월 대비를 내려면 "
+                         "기준월(최신월-2)의 12개월 전까지 있어야 해서 15개월이 필요하다")
     ap.add_argument("--sido", default=None, help="시도명으로 한정 (예: 서울특별시)")
     ap.add_argument("--out-dir", default="live")
     ap.add_argument("--cache-dir", default=CACHE_DIR)

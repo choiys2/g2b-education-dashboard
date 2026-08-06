@@ -35,6 +35,17 @@ AREA_BUCKETS = [
 ]
 
 
+def reference_month(months):
+    """비교의 기준이 되는 마지막 '확정월'.
+
+    최신월은 신고 지연으로 거래량이 덜 잡힌 잠정치라, 확정된 전월/전년동월과 맞대면
+    실제로 줄지 않았는데도 급감한 것처럼 보인다. 증감률은 전부 이 달을 기준으로 낸다.
+    """
+    if len(months) > PROVISIONAL_MONTHS:
+        return months[-(PROVISIONAL_MONTHS + 1)]
+    return months[-1]
+
+
 def _pct_change(cur, prev):
     """전기 대비 증감률(%). 기준값이 0이거나 없으면 None."""
     if not prev or cur is None:
@@ -88,16 +99,16 @@ def monthly_series(records, months):
 
 
 def region_ranking(records, months):
-    """시군구별 랭킹. 최신월/직전월 비교는 확정 여부와 무관하게 같은 기준으로 계산한다."""
-    latest = months[-1]
-    prev = _prev_ym(latest)
+    """시군구별 랭킹. 증감률은 마지막 확정월(reference_month) 기준으로 낸다."""
+    ref = reference_month(months)
+    prev = _prev_ym(ref)
     total = len(records)
 
     rows = []
     for code, group in _group(records, lambda r: r["lawd_cd"]).items():
         overall = summarize(group)
         by_month = _group(group, lambda r: r["deal_ym"])
-        cur_s = summarize(by_month.get(latest, []))
+        cur_s = summarize(by_month.get(ref, []))
         prev_s = summarize(by_month.get(prev, []))
         sample = group[0]
         rows.append({
@@ -109,8 +120,8 @@ def region_ranking(records, months):
             "median_ppp": overall["median_ppp"],
             "median_amount": overall["median_amount"],
             "avg_area": overall["avg_area"],
-            "latest_count": cur_s["count"],
-            "latest_ppp": cur_s["median_ppp"],
+            "ref_count": cur_s["count"],
+            "ref_ppp": cur_s["median_ppp"],
             "mom_count_pct": _pct_change(cur_s["count"], prev_s["count"]),
             "mom_ppp_pct": _pct_change(cur_s["median_ppp"], prev_s["median_ppp"]),
         })
@@ -152,12 +163,12 @@ def area_distribution(records):
 
 
 def build_kpi(records, months):
-    latest = months[-1]
-    prev = _prev_ym(latest)
-    last_year = _same_month_last_year(latest)
+    ref = reference_month(months)
+    prev = _prev_ym(ref)
+    last_year = _same_month_last_year(ref)
     by_month = _group(records, lambda r: r["deal_ym"])
 
-    cur = summarize(by_month.get(latest, []))
+    cur = summarize(by_month.get(ref, []))
     prv = summarize(by_month.get(prev, []))
     yoy = summarize(by_month.get(last_year, []))
     overall = summarize(records)
@@ -170,9 +181,10 @@ def build_kpi(records, months):
         "avg_ppp": overall["avg_ppp"],
         "median_amount": overall["median_amount"],
         "avg_area": overall["avg_area"],
-        "latest_month": latest,
-        "latest_provisional": True,   # 최신월은 신고 지연으로 항상 잠정치
-        "latest": cur,
+        "latest_month": months[-1],           # 화면에 잠정치로 함께 보여주는 달
+        "ref_month": ref,                     # 모든 증감률의 기준이 되는 확정월
+        "latest": summarize(by_month.get(months[-1], [])),
+        "ref": cur,
         "prev": prv,
         "mom_count_pct": _pct_change(cur["count"], prv["count"]),
         "mom_ppp_pct": _pct_change(cur["median_ppp"], prv["median_ppp"]),
@@ -196,6 +208,7 @@ def analyze(payload, include_canceled=False):
             "excluded_canceled": len(raw) - len(records),
             "months": months,
             "provisional_months": months[-PROVISIONAL_MONTHS:] if PROVISIONAL_MONTHS else [],
+            "ref_month": reference_month(months),
         },
         "kpi": build_kpi(records, months),
         "monthly": monthly_series(records, months),
@@ -225,8 +238,9 @@ def main():
     print(f"  기간 {k['period_from']} ~ {k['period_to']} / 거래 {k['total_deals']:,}건 "
           f"(해제거래 {result['meta']['excluded_canceled']:,}건 제외)")
     print(f"  중위 평당가 {k['median_ppp']:,}만원 / 중위 거래가 {k['median_amount']:,}만원")
-    print(f"  최신월 {k['latest_month']}(잠정): {k['latest']['count']:,}건, "
+    print(f"  기준월(확정) {k['ref_month']}: {k['ref']['count']:,}건, "
           f"전월비 거래량 {k['mom_count_pct']}% / 평당가 {k['mom_ppp_pct']}%")
+    print(f"  최신월(잠정) {k['latest_month']}: {k['latest']['count']:,}건 — 신고 지연으로 과소 집계")
     print(f"  시군구 {len(result['regions'])}개, 상위: "
           + ", ".join(f"{r['region']}({r['median_ppp']:,})" for r in result["regions"][:3]))
 
