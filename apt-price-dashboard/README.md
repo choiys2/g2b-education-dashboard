@@ -7,10 +7,18 @@
 
 | 단계 | 내용 | 상태 |
 | --- | --- | --- |
-| 1 | 수집기 (API 호출·XML 파싱·정규화·캐시) + 파서 테스트 | 코드 완료, **API 실측 확인 대기** |
-| 2 | 집계 (`apt_analytics.py`) — KPI, 월별 추이, 지역 랭킹 | 코드 완료 (테스트 34개 통과) |
-| 3 | 대시보드 HTML 생성 (`build_apt_dashboard.py`) | 예정 |
-| 4 | 매일 자동 갱신 + GitHub Pages 배포 | 예정 |
+| 1 | 수집기 (API 호출·XML 파싱·정규화·캐시) | 완료 — **API 실측 확인 대기** |
+| 2 | 집계 (KPI · 월별 추이 · 지역 랭킹 · 면적 분포) | 완료 |
+| 3 | 단일 HTML 대시보드 | 완료 (합성 데이터로 검증) |
+| 4 | 매일 자동 갱신 + GitHub Pages 배포 | 완료 — **Secret 등록 대기** |
+
+## 처음 설정할 것
+
+1. 저장소 Settings → Secrets and variables → Actions 에 `MOLIT_SERVICE_KEY` 등록
+   (data.go.kr 에서 발급받은 아파트 매매 실거래가 일반 인증키)
+2. 저장소 Settings → Pages → Source 를 **GitHub Actions** 로 지정
+3. Actions 탭 → `API 실측 확인 (probe)` 워크플로를 수동 실행해 응답 필드명 확인
+4. Actions 탭 → `아파트 실거래가 대시보드 자동 갱신·배포` 수동 실행
 
 ## 구성
 
@@ -18,18 +26,13 @@
 | --- | --- |
 | `lawd_codes.py` | 수도권 77개 시군구 법정동코드 테이블 (서울 25 · 인천 10 · 경기 42) |
 | `fetch_apt_trades.py` | API 호출, XML 파싱, 정규화, gzip 캐시 |
-| `apt_analytics.py` | KPI · 월별 추이 · 시군구/법정동 랭킹 · 면적 구간 분포 집계 |
+| `apt_analytics.py` | KPI · 월별 추이 · 시군구/법정동 랭킹 · 면적 구간 분포 |
+| `build_apt_dashboard.py` | 집계 결과 → 단일 HTML (외부 CDN 없음, 오프라인 동작) |
+| `run_apt_pipeline.py` | 수집→집계→대시보드 한 번에 + 건전성 체크 |
+| `make_sample_data.py` | API 없이 화면을 검증하기 위한 합성 데이터 생성기 |
 | `test_parse.py` / `test_analytics.py` | 단위 테스트 34개 (네트워크 불필요) |
-| `apt_config.example.json` | 설정 템플릿 (인증키 자리는 플레이스홀더) |
 | `.github/workflows/probe.yml` | API 실측 확인용 수동 워크플로 |
-
-## 데이터 소스 특성
-
-- **호출 단위**: `LAWD_CD`(시군구 5자리) × `DEAL_YMD`(계약연월 YYYYMM) 1회 = 그 지역 그 달 전체 거래
-- **수집 비용**: 77개 시군구 × 12개월 = **924회 호출** (개발계정 일일 트래픽 1만건 한도 내)
-- **캐시 전략**: 과거 월은 확정값이라 재호출하지 않고 `data/raw/{시군구}/{연월}.json.gz` 에서 읽는다.
-  신고 지연·해제(취소) 반영을 위해 최근 3개월만 매번 재수집한다 (`--refresh-months`).
-- **용량**: 수도권 12개월이면 원본 25만 건 안팎. 비압축 JSON은 100MB를 넘어 gzip으로 저장한다(약 1/8).
+| `.github/workflows/deploy.yml` | 매일 06:00 KST 자동 수집·재생성·배포 |
 
 ## 실행
 
@@ -38,29 +41,50 @@ cp apt_config.example.json apt_config.json
 # apt_config.json 의 service_key 를 data.go.kr 발급값으로 교체
 # (또는 export MOLIT_SERVICE_KEY=...)
 
-python test_parse.py && python test_analytics.py        # 단위 테스트
+python test_parse.py && python test_analytics.py     # 단위 테스트
+python run_apt_pipeline.py --sample                  # API 없이 화면만 확인
 python fetch_apt_trades.py probe --lawd 11680 --ymd 202606   # 단일 호출 실측
-python fetch_apt_trades.py fetch --months 12            # 수도권 전체 수집
-python fetch_apt_trades.py fetch --months 12 --sido 서울특별시  # 서울만
-python apt_analytics.py live/trades.json live/analytics.json  # 집계
+python run_apt_pipeline.py                           # 수도권 12개월 전체
+python run_apt_pipeline.py --months 13               # 전년 동월 비교까지
+python run_apt_pipeline.py --sido 서울특별시            # 서울만
 ```
+
+## 데이터 소스 특성
+
+- **호출 단위**: `LAWD_CD`(시군구 5자리) × `DEAL_YMD`(계약연월 YYYYMM) 1회 = 그 지역 그 달 전체 거래
+- **수집 비용**: 최초 백필 77 × 12 = **924회** (개발계정 일일 트래픽 1만건 한도 내).
+  이후 매일은 최근 3개월분 **231회**만 돈다.
+- **캐시 전략**: 과거 월은 확정값이라 재호출하지 않고 `data/raw/{시군구}/{연월}.json.gz`
+  에서 읽는다. 신고 지연·해제(취소) 반영을 위해 최근 3개월만 매번 재수집한다.
+- **용량**: 수도권 12개월이면 원본 25만 건 안팎. 비압축 JSON은 100MB를 넘어 gzip으로
+  저장한다(약 1/8). 같은 내용이면 바이트도 같도록 `mtime=0` 으로 고정해 불필요한 diff 를 막는다.
 
 ## 집계 규칙
 
 - **해제(취소) 거래는 제외한다.** 성사되지 않은 계약이라 가격 통계를 왜곡한다. 원본에는
   `canceled` 플래그로 보존한다.
-- **대표 단가는 중위 평당가**를 쓴다. 평균은 초고가 몇 건에 끌려가는데, 지역별로 월 거래량이
+- **대표 단가는 중위 평당가**다. 평균은 초고가 몇 건에 끌려가는데, 지역별로 월 거래량이
   적은 경우가 많아 그 영향이 특히 크다.
 - 전용면적이 없는 건은 **거래량에는 포함, 단가 계산에서는 제외**한다.
 - 법정동 랭킹은 표본 10건 미만이면 중위값이 튀므로 제외한다.
-- 최근 2개월은 신고 지연(계약 후 30일 내 신고)으로 거래량이 과소 집계되며, `provisional`
-  플래그로 표시해 대시보드에서 잠정치로 구분한다.
+- 최근 2개월은 신고 지연(계약 후 30일 내 신고)으로 거래량이 과소 집계되며, 대시보드에서
+  옅은 막대·점선으로 잠정치임을 표시한다.
+
+## 빈 데이터 배포 방지
+
+data.go.kr 이 응답하지 않거나 인증키가 만료되면 수집 결과가 0건에 가까워진다. 그대로
+배포하면 어제까지 멀쩡하던 사이트가 통째로 비어버리므로 두 겹으로 막았다.
+
+1. `fetch_apt_trades.parse_response()` — 응답 루트가 예상과 다르면(HTML 오류 페이지 등)
+   예외를 던진다. HTML도 XML로는 멀쩡히 파싱돼 "거래 0건"으로 조용히 넘어가기 때문이다.
+2. `run_apt_pipeline.py` — 수집량이 임계치(시군구 × 개월 × 5건) 미만이면 exit 2.
+   워크플로가 배포 잡을 건너뛰어 이미 떠 있는 이전 버전을 그대로 둔다.
 
 ## 인증키 관리
 
 `apt_config.json` 은 `.gitignore` 에 있어 실제 인증키가 저장소에 커밋되지 않는다.
-GitHub Actions 에서는 Settings → Secrets and variables → Actions 에 등록한
-`MOLIT_SERVICE_KEY` 를 `load_config()` 가 환경변수로 읽어 덮어쓴다.
+GitHub Actions 에서는 Secrets 에 등록한 `MOLIT_SERVICE_KEY` 를 `load_config()` 가
+환경변수로 읽어 덮어쓴다.
 
 ## 알려진 제한 / 확인 필요 사항
 
@@ -69,5 +93,6 @@ GitHub Actions 에서는 Settings → Secrets and variables → Actions 에 등�
   `probe` 워크플로로 실제 필드명을 먼저 확인할 것.
 - **부천시**는 2016년 일반구 폐지로 `41190` 단일 코드를 쓴다. 과거 거래분이 구 코드
   (`41192`/`41194`/`41196`)로 남아 있으면 `lawd_codes.OLD_CODES` 를 `REGIONS` 에 합쳐야 한다.
-- 해제(취소) 거래는 `canceled` 플래그로 보존하되, 집계에서는 기본 제외할 예정이다.
-- 실거래가는 **계약일 기준 신고분**이라 최근 1~2개월치는 신고 지연으로 과소 집계된다.
+- **전년 동월 대비는 13개월 이상 수집해야 나온다.** 현재 기본값은 12개월이라 해당 KPI 자리에는
+  "전월비 평당가가 오른 시군구 수"가 대신 표시된다. `--months 13` 이면 전년 동월 비교가 켜진다.
+- 시군구 랭킹의 순위(#)는 항상 수도권 전체 기준이다. 시도 필터를 걸어도 다시 매기지 않는다.

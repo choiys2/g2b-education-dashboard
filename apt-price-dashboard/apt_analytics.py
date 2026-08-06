@@ -22,6 +22,8 @@ from collections import defaultdict
 from datetime import date
 from statistics import median
 
+from lawd_codes import SIDO_ORDER
+
 # 신고 지연으로 확정되지 않은 것으로 간주할 최근 개월 수
 PROVISIONAL_MONTHS = 2
 
@@ -124,7 +126,8 @@ def sido_rollup(records, months):
     for sido, group in _group(records, lambda r: r["region"].split(" ")[0]).items():
         rows.append({"sido": sido, **summarize(group),
                      "monthly": monthly_series(group, months)})
-    rows.sort(key=lambda r: r["count"], reverse=True)
+    # 거래량순이 아니라 행정구역 통념 순서(서울-인천-경기)로 둔다. 필터 버튼 순서가 된다.
+    rows.sort(key=lambda r: SIDO_ORDER.index(r["sido"]) if r["sido"] in SIDO_ORDER else 99)
     return rows
 
 
