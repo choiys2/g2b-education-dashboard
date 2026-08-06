@@ -89,6 +89,14 @@ jobs:
         continue-on-error: true
         run: python competitor_content_scrape.py
 
+      # 금융위원회 공시 재무정보(GetFinaStatInfoService_V2) - 상장/외감대상 법인만 조회됨.
+      # 법인등록번호(crno)는 스크립트에 고정값으로 미리 조회해뒀음(회사명 매칭에 매일 의존하지 않음).
+      - name: 경쟁사 재무정보 export (금융위원회 공시)
+        continue-on-error: true
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python competitor_finance_export.py --out live/competitor_finance_export.json
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true

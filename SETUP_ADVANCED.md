@@ -55,6 +55,7 @@ kosis_edu_finance.py       KOSIS 시도교육청 "교육비특별회계 세출�
 s2b_fetch.py               S2B(학교장터) 조회 기술검증 스크립트 — robots.txt 문제로 자동 실행에는 연결 안 함(아래 참고)
 competitor_g2b_export.py   경쟁사(티처빌/아이스크림/비바샘/한교원) 나라장터 낙찰 매트릭스 — history/competitor_wins.jsonl에 누적
 competitor_content_scrape.py   경쟁사 3사 홈페이지 진행중 이벤트 목록 스크레이핑(Playwright, robots.txt 확인됨)
+competitor_finance_export.py   경쟁사 4사 공시 재무정보(금융위원회 오픈API, 매출/영업이익/순이익/부채비율)
 pipeline_status_webhook.gs.txt   구글 Apps Script(위 2번 참고) — 파이프라인 시트에 붙여넣는 코드
 dashboard_template.html   통합 대시보드의 HTML 틀(데이터 자리에 __XXX_JSON__ 플레이스홀더)
 .github/workflows/deploy.yml   기존 워크플로에 위 단계들을 추가(수정됨)
@@ -118,6 +119,7 @@ git push
   매칭한 결과만 집계합니다. 나라장터 API가 브랜드명이 아닌 법인명으로만 낙찰업체를 기록하기
   때문입니다. `history/competitor_wins.jsonl`에 계속 누적되며, 매일은 최근 60일치만 새로
   조회해 이 누적 파일에 더합니다(과거분은 처음 도입 시 --days 730으로 한 번 채웠습니다).
+- **재무 프로파일은 금융위원회 공시 재무정보(상장/외부감사대상 법인)만 조회됩니다.** 티처빌·아이스크림·비바샘은 나옵니다(비바샘은 코스닥 상장). 한교원(한국교원연수원)은 조회 시점 기준 데이터가 없었습니다 — 오류가 아니라 공시 의무 대상이 아닐 가능성이 큽니다. 연 1회 결산 공시라 최신 분기 실적은 반영되지 않고, 법인등록번호(crno)는 2026-08-06 회사명 조회로 확인한 값을 스크립트에 고정해뒀습니다(회사명이 바뀌면 다시 확인 필요).
 - **콘텐츠(이벤트/프로모션) 카드는 각 사 홈페이지의 비로그인 공개 화면만 읽습니다.** 로그인
   후에만 보이는 개인화 정보나 가격은 포함하지 않으며, 3개 사이트 모두 robots.txt에서 자동화를
   허용하는 것을 확인한 뒤 연결했습니다(S2B와 달리 이 3곳은 `Allow: /`).

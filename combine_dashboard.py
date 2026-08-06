@@ -236,7 +236,11 @@ def main():
         competitor_content = load("live/competitor_content_export.json")
     except FileNotFoundError:
         competitor_content = {"captured_date": "", "companies": {}}
-    competitor_training = {"g2b": competitor_g2b, "content": competitor_content}
+    try:
+        competitor_finance = load("live/competitor_finance_export.json")
+    except FileNotFoundError:
+        competitor_finance = {"data_source": "", "note": "", "companies": {}}
+    competitor_training = {"g2b": competitor_g2b, "content": competitor_content, "finance": competitor_finance}
 
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
@@ -272,7 +276,8 @@ def main():
           f"G2B상세 {len(g2b_full.get('detail', []))}, 자사파이프라인 {len(pipe['records'])}, "
           f"베타-경쟁사트렌드 {len(beta['competitor_trend'])}, 베타-모멘텀 {len(beta['pipeline_momentum'])}, "
           f"경쟁사연수-낙찰 {len(competitor_g2b.get('records', []))}, "
-          f"경쟁사연수-콘텐츠 {len(competitor_content.get('companies', {}))}개사")
+          f"경쟁사연수-콘텐츠 {len(competitor_content.get('companies', {}))}개사, "
+          f"경쟁사연수-재무 {sum(1 for c in competitor_finance.get('companies', {}).values() if c.get('available'))}개사")
 
 
 if __name__ == "__main__":
