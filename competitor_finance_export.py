@@ -69,6 +69,31 @@ def fetch_company(service_key, crno, years):
     return None
 
 
+def fetch_company_history(service_key, crno, years):
+    """연도별로 개별 조회해(중간에 데이터 없는 해가 있어도 건너뛰지 않고) 시계열을 모은다."""
+    history = []
+    for year in years:
+        params = {
+            "serviceKey": service_key, "crno": crno, "bizYear": str(year),
+            "numOfRows": 10, "pageNo": 1, "resultType": "json",
+        }
+        try:
+            rows = call(params)
+        except Exception as e:
+            print(f"  [경고] crno={crno} bizYear={year} 조회 실패: {e}", file=sys.stderr)
+            continue
+        if not rows:
+            continue
+        standalone = [r for r in rows if r.get("fnclDcdNm") == "별도요약재무제표"]
+        consolidated = [r for r in rows if r.get("fnclDcdNm") == "연결요약재무제표"]
+        raw = standalone[0] if standalone else (consolidated[0] if consolidated else None)
+        if raw is None:
+            continue
+        history.append({"biz_year": year, "consolidated": not standalone, **simplify(raw)})
+    history.sort(key=lambda h: h["biz_year"])
+    return history
+
+
 def to_number(v):
     try:
         return int(v)
@@ -101,12 +126,14 @@ def main():
     from datetime import date
     this_year = date.today().year
     years = [this_year - 1, this_year - 2, this_year - 3]  # 최근 결산 반영 지연 감안, 3개년 중 최신 탐색
+    history_years = list(range(this_year - 1, this_year - 6, -1))  # 최근 5개년 시계열
 
     companies = {}
     for brand, crno in COMPETITOR_CRNO.items():
         result = fetch_company(service_key, crno, years)
+        history = fetch_company_history(service_key, crno, history_years)
         if result is None:
-            companies[brand] = {"crno": crno, "available": False}
+            companies[brand] = {"crno": crno, "available": False, "history": history}
             print(f"  {brand}: 데이터 없음(비상장/외감 비대상 추정)")
             continue
         companies[brand] = {
@@ -115,10 +142,11 @@ def main():
             "biz_year": result["bizYear"],
             "standalone": simplify(result["standalone"]),
             "consolidated": simplify(result["consolidated"]),
+            "history": history,
         }
         s = companies[brand]["standalone"]
         if s:
-            print(f"  {brand}: {result['bizYear']}년 매출 {s['sales']:,} 영업이익 {s['operating_profit']:,} 순이익 {s['net_profit']:,}")
+            print(f"  {brand}: {result['bizYear']}년 매출 {s['sales']:,} 영업이익 {s['operating_profit']:,} 순이익 {s['net_profit']:,} (히스토리 {len(history)}개년)")
 
     out = {
         "data_source": "금융위원회 공시 재무정보 오픈API(GetFinaStatInfoService_V2)",

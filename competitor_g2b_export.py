@@ -119,6 +119,8 @@ def fetch_competitor_wins(cfg, days_back, keywords=COMPETITOR_KEYWORDS):
                     "course": it.get("bidNtceNm", ""),
                     "theme": classify_theme(it.get("bidNtceNm", "")),
                     "metric": it.get("prtcptCnum"),
+                    "amount": it.get("sucsfbidAmt"),
+                    "rate": it.get("sucsfbidRate"),
                     "date": to_date(it.get("rlOpengDt")),
                 })
             time.sleep(interval)
@@ -150,7 +152,7 @@ def save_history(records_by_key):
 def build_aggregates(all_records, snapshot_date):
     from collections import defaultdict
 
-    competitor_totals = defaultdict(lambda: {"deal_count": 0, "metric_sum": 0})
+    competitor_totals = defaultdict(lambda: {"deal_count": 0, "metric_sum": 0, "_rates": []})
     for r in all_records:
         c = competitor_totals[r["competitor"]]
         c["deal_count"] += 1
@@ -159,6 +161,14 @@ def build_aggregates(all_records, snapshot_date):
                 c["metric_sum"] += int(r["metric"])
             except (TypeError, ValueError):
                 pass
+        if r.get("rate"):
+            try:
+                c["_rates"].append(float(r["rate"]))
+            except (TypeError, ValueError):
+                pass
+    for c in competitor_totals.values():
+        c["avg_rate"] = round(sum(c["_rates"]) / len(c["_rates"]), 2) if c["_rates"] else None
+        del c["_rates"]
     all_competitors = sorted(competitor_totals.keys(), key=lambda c: -competitor_totals[c]["deal_count"])
 
     region_matrix = defaultdict(lambda: defaultdict(int))
@@ -181,7 +191,8 @@ def build_aggregates(all_records, snapshot_date):
 
     records_out = [
         {"region": r["region"], "org": r["org"], "org_type": r["org_type"],
-         "competitor": r["competitor"], "course": r["course"], "metric": r.get("metric")}
+         "competitor": r["competitor"], "course": r["course"], "metric": r.get("metric"),
+         "amount": r.get("amount"), "rate": r.get("rate")}
         for r in sorted(all_records, key=lambda r: r.get("date") or "", reverse=True)
     ]
 

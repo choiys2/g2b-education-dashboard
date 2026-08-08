@@ -1014,7 +1014,7 @@
       <div class="panel-head">
         <div>
           <p class="panel-title">지역 기회점수 지도</p>
-          <p class="panel-desc">위 표를 지도로 봅니다. 원 크기·색이 진할수록 기회점수가 높은 지역입니다(시도 단위 중심좌표 기준 — 개별 학교 위치가 아닙니다).</p>
+          <p class="panel-desc">위 표를 지도로 봅니다. 원 크기·색이 진할수록 기회점수가 높은 지역입니다(시도 단위 중심좌표 기준 — 개별 학교 위치가 아닙니다). <span style="color:#d6362a;font-weight:700;">빨간 점선 링</span>은 경쟁사(티처빌·아이스크림·비바샘·한교원)가 이미 낙찰 이력이 있는 지역입니다 — 링이 크면서 기회점수도 높은 지역은 "기회는 있지만 경쟁도 이미 진입한" 곳입니다.</p>
         </div>
         <button class="btn-ghost" id="mapSettingsBtn" type="button">⚙ 지도 연동 설정</button>
       </div>
@@ -1229,6 +1229,30 @@
           <tbody id="compFinanceTableBody"></tbody>
         </table>
       </div>
+      <div class="panel-head" style="margin-top:20px;">
+        <div>
+          <p class="panel-title" style="font-size:14.5px;">매출 추이 (최근 5개년)</p>
+          <p class="panel-desc" id="compFinanceTrendDesc" style="font-size:12.5px;"></p>
+        </div>
+      </div>
+      <svg id="compFinanceTrendChart" viewBox="0 0 620 260"></svg>
+      <div class="callout" id="compFinanceInsightBox" style="margin-top:16px;display:none;">
+        <div class="icon">i</div>
+        <div>
+          <h3>재무 건전성 × 낙찰 동향</h3>
+          <p id="compFinanceInsightText"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">경쟁사 브랜드 검색 관심도 (네이버 데이터랩)</p>
+          <p class="panel-desc" id="compNaverDesc"></p>
+        </div>
+      </div>
+      <svg id="compNaverTrendChart" viewBox="0 0 620 260"></svg>
     </section>
 
     <section class="panel">
@@ -1421,6 +1445,7 @@ const TREND = {"monthly": {"2026-07": 11, "2026-05": 34, "2026-06": 22, "2026-04
 const ORDER_PLAN = [{"지역": "경기", "공고명": "2026년 의정부교육지원청 행정과 시설공사 하자검사용역", "발주기관": "경기도교육청 경기도의정부교육지원청", "예산": 54015000, "계약방법": "수의계약"}, {"지역": "울산", "공고명": "울산중 등 4교(울산제일중, 상안중, 화봉초)조리장 환기설비 개선공사 설계용역", "발주기관": "울산광역시교육청 울산광역시강북교육지원청", "예산": 35310000, "계약방법": "수의계약"}, {"지역": "경남", "공고명": "김해삼문고등학교 내진보강 및 내덕중학교 치장벽돌 내진보강 건축설계용역", "발주기관": "경상남도교육청 경상남도김해교육지원청", "예산": 16768000, "계약방법": "수의계약"}, {"지역": "경기", "공고명": "소일초 본관동 화장실 개선공사 설계용역", "발주기관": "경기도교육청 경기도부천교육지원청", "예산": 33705000, "계약방법": "수의계약"}, {"지역": "울산", "공고명": "월평중 본관동 정밀안전점검용역", "발주기관": "울산광역시교육청 울산광역시강남교육지원청", "예산": 17848000, "계약방법": "수의계약"}, {"지역": "경남", "공고명": "삽량초 외 1교(신양초) 내진보강 전기(통신, 소방)공사 설계용역", "발주기관": "경상남도교육청 경상남도양산교육지원청", "예산": 4059000, "계약방법": "수의계약"}, {"지역": "경기", "공고명": "샘모루초 외 3교(부흥고, 평촌경영고, 호계초) LED 조명교체 전기, 통신, 소방공사 설계용역", "발주기관": "경기도교육청 경기도안양과천교육지원청", "예산": 17668000, "계약방법": "수의계약"}, {"지역": "서울", "공고명": "공릉초 외 3교(공연초, 신화초, 태릉초) 정밀안전점검용역", "발주기관": "서울특별시교육청 서울특별시북부교육지원청", "예산": 90770000, "계약방법": "제한경쟁"}, {"지역": "경북", "공고명": "송림초등학교 본관동 냉난방시설개선 기계설비공사 설계용역", "발주기관": "경상북도교육청 경상북도포항교육지원청", "예산": 26181000, "계약방법": "수의계약"}, {"지역": "경기", "공고명": "안양호암초 화장실 개선 전기, 통신, 소방공사 설계용역", "발주기관": "경기도교육청 경기도안양과천교육지원청", "예산": 19409000, "계약방법": "수의계약"}, {"지역": "전북", "공고명": "전주동북초 그린스마트스쿨 개축 소방공사 감리용역", "발주기관": "전북특별자치도교육청 전북특별자치도전주교육지원청", "예산": 36748000, "계약방법": "제한경쟁"}, {"지역": "경북", "공고명": "동부 교직원연립관사 리모델링공사 설계용역", "발주기관": "경상북도교육청 경상북도예천교육지원청", "예산": 51683000, "계약방법": "수의계약"}, {"지역": "부산", "공고명": "부산자동차고등학교 미래자동차관 증축공사 감리용역", "발주기관": "부산광역시교육청 부산광역시서부교육지원청", "예산": 354629000, "계약방법": "제한경쟁"}, {"지역": "경기", "공고명": "안양부안초 외 1교(희성초) LED조명 교체 전기, 통신, 소방공사 설계용역", "발주기관": "경기도교육청 경기도안양과천교육지원청", "예산": 19348000, "계약방법": "수의계약"}, {"지역": "전북", "공고명": "2026학년도 전주곤지중학교 3학년 국외 수학여행 위탁 용역 공고 ", "발주기관": "전북특별자치도교육청 전북특별자치도전주교육지원청 전주곤지중학교", "예산": 40742000, "계약방법": "제한경쟁"}, {"지역": "전북", "공고명": "2026학년도 덕과초등학교 국제교류수업  및 해외 현장체험학습 위탁용역", "발주기관": "전북특별자치도교육청 전북특별자치도남원교육지원청 덕과초등학교", "예산": 40686000, "계약방법": "제한경쟁"}, {"지역": "경기", "공고명": "2026 양평미래교육박람회 위탁 운영 용역 계약(협상에 의한 계약)", "발주기관": "경기도교육청 경기도양평교육지원청", "예산": 110000000, "계약방법": "제한경쟁"}, {"지역": "충북", "공고명": "2026학년도 원평중학교 2학년 수학여행 위탁용역", "발주기관": "충청북도교육청 충청북도청주교육지원청 원평중학교", "예산": 77337000, "계약방법": "제한경쟁"}, {"지역": "인천", "공고명": "2026년 제3회 고3 와락콘서트 기획 운영 대행 용역 사업", "발주기관": "인천광역시교육청 인천광역시평생학습관", "예산": 94000000, "계약방법": "제한경쟁"}, {"지역": "대구", "공고명": "2026학년도 현장체험학습(수학여행) 위탁용역 2단계(규격⦁가격동시) 입찰공고 ", "발주기관": "대구광역시교육청 경일여자고등학교", "예산": 76718340, "계약방법": "제한경쟁"}, {"지역": "서울", "공고명": "2026학년도 2학년 수련활동 위탁용역", "발주기관": "서울특별시동부교육청 상봉중학교", "예산": 69930000, "계약방법": "제한경쟁"}, {"지역": "경기", "공고명": "한국조리과학고 2027년 2학년 주제별 체험학습(강원권) 위탁 용역 업체 선정 ", "발주기관": "경기도교육청 한국조리과학고등학교", "예산": 115141000, "계약방법": "제한경쟁"}, {"지역": "전남", "공고명": "2026. 교직원 대상 원격연수 신규 콘텐츠 개발 용역", "발주기관": "전라남도교육청 전라남도교육연수원", "예산": 71500000, "계약방법": "제한경쟁"}, {"지역": "경남", "공고명": "의령여자중학교 미래학교 공간재구조화사업 본관동 개축공사 건설폐기물 처리 용역", "발주기관": "경상남도교육청 경상남도의령교육지원청 의령여자중학교", "예산": 490675000, "계약방법": "제한경쟁"}, {"지역": "경북", "공고명": "울릉교육지원청 관내 노후 관사 해체공사 건설폐기물처리 용역", "발주기관": "경상북도교육청 경상북도울릉교육지원청", "예산": 139893000, "계약방법": "제한경쟁"}, {"지역": "전남", "공고명": "[긴급] 2026년 제16회 전국상업경진대회 위탁용역 ", "발주기관": "전남광주통합특별시교육청 광주청사", "예산": 336000000, "계약방법": "제한경쟁"}, {"지역": "전북", "공고명": "2026학년도 고창북고등학교 숙뱍형 현장체험학습[수학여행] 위탁 용역 입찰 공고", "발주기관": "전북특별자치도교육청 고창북고등학교", "예산": 82500000, "계약방법": "제한경쟁"}, {"지역": "대구", "공고명": "2026학년도 현장체험학습(수학여행) 위탁용역 2단계(규격⦁가격동시) 입찰 공고", "발주기관": "대구광역시교육청 경일여자고등학교", "예산": 76718340, "계약방법": "제한경쟁"}, {"지역": "인천", "공고명": "신명여자고등학교 2026학년도 2학년 경상권(부산) 수학여행 위탁용역", "발주기관": "인천광역시교육청 신명여자고등학교", "예산": 181109400, "계약방법": "제한경쟁"}, {"지역": "경남", "공고명": "김해은혜학교 다목적강당 기초 및 지반보강공사 건설폐기물 처리용역", "발주기관": "경상남도교육청 경상남도김해교육지원청", "예산": 12183600, "계약방법": "수의계약"}];
 const SCHOOL_GOODS = [{"학교명": "대구광역시교육청 대구공업고등학교", "학교급": "고", "상품명": "[텍폴캠] 2026학년도 AI모빌리티과 기자재(유공압, MSP 실습장치) 구입", "예산": 283445600, "공고일": "2026-05-11", "마감일": "2026-06-02", "지역": "대구", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01494389&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "대구광역시교육청 대구공업고등학교", "학교급": "고", "상품명": "[텍폴캠] 2026학년도 AI모빌리티과 기자재(유공압, MSP 실습장치) 구입", "예산": 266370000, "공고일": "2026-06-02", "마감일": "", "지역": "대구", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01494389&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도교육청 김포과학기술고등학교", "학교급": "고", "상품명": "그린스마트 메이커스페이스 공간구성을 위한 물품구입(AI융합 스마트팩토리 실습장치)", "예산": 222930000, "공고일": "2026-07-16", "마감일": "2026-07-28", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01622755&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경기도교육청 백석고등학교", "학교급": "고", "상품명": "백석고 AI Edu Center 영상 및 음향장비 구입 및 설치 ", "예산": 117403000, "공고일": "2026-04-29", "마감일": "2026-05-20", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01495127&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청북도교육청 청주공업고등학교", "학교급": "고", "상품명": "2025학년도 청주공업고등학교 기자재(AI 비전 모듈 외 4종) 구매 2단계(규격·가격동시) 입찰 공고", "예산": 87760000, "공고일": "2026-02-04", "마감일": "2026-02-25", "지역": "충북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01314537&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청남도교육청 당진정보고등학교", "학교급": "고", "상품명": "2025학년도 당진정보고 직업계고 재구조화 AI 실습실 정보화기기(아이맥) 구매 소액수의 전자견적 제출 안내 공고", "예산": 66150000, "공고일": "2026-01-07", "마감일": "2026-01-13", "지역": "충남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01260985&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "강원특별자치도교육청 강원특별자치도춘천교육지원청 남춘천여자중학교", "학교급": "중", "상품명": "남춘천여자중학교 AI정보교실 노트북 구매", "예산": 65212000, "공고일": "2026-07-20", "마감일": "2026-07-31", "지역": "강원", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01638937&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "충청남도교육청 당진정보고등학교", "학교급": "고", "상품명": "2025학년도 당진정보고 직업계고 재구조화 AI 실습실 정보화기기(아이맥) 구매 소액수의 전자견적 제출 안내 공고", "예산": 62850000, "공고일": "2026-01-13", "마감일": "", "지역": "충남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01260985&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "서울특별시교육청 단국대학교사범대학부속고등학교", "학교급": "고", "상품명": "단대부고 2026년 지능형 CCTV 구축 물품 구매(AI카메라)", "예산": 62500000, "공고일": "2026-06-23", "마감일": "", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01597331&bidPbancOrd=001", "_출처": "낙찰완료"}, {"학교명": "경상북도교육청 경주여자정보고등학교", "학교급": "고", "상품명": "2026학년도 AI디지털 활용 선도학교 물품(소프트웨어)구매 수의계약 안내공고", "예산": 33940000, "공고일": "2026-06-17", "마감일": "2026-06-25", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01586473&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상북도교육청 경주여자정보고등학교", "학교급": "고", "상품명": "2026학년도 AI디지털 활용 선도학교 물품(소프트웨어)구매 수의계약 안내공고", "예산": 33000000, "공고일": "2026-06-25", "마감일": "", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01586473&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도연천교육청 군남초등학교", "학교급": "초", "상품명": "AI활용 아동,청소년 성장진단 및 성장관리 사업", "예산": 30000000, "공고일": "2026-07-21", "마감일": "", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01640243&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경기도양평교육청 강하초등학교", "학교급": "초", "상품명": "강하초(건강증진거점학교) AI 학생성장예측 프로그램 구입", "예산": 27500000, "공고일": "2026-06-04", "마감일": "", "지역": "경기", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01560141&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "서울특별시강남교육청 도곡중학교", "학교급": "중", "상품명": "2026년 도곡중학교 영상감시장치 (AI 카메라)구입", "예산": 22500000, "공고일": "2026-05-06", "마감일": "2026-05-07", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01503812&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "서울특별시강남교육청 도곡중학교", "학교급": "중", "상품명": "2026년 도곡중학교 영상감시장치 (AI 카메라)구입", "예산": 21825000, "공고일": "2026-05-07", "마감일": "", "지역": "서울", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01503812&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI측정과 실습기자재(측정시편 외) 구매 수의견적 제출 안내 공고", "예산": 18415000, "공고일": "2026-06-02", "마감일": "2026-06-08", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01557349&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "전남광주통합특별시교육청 광주서석고등학교", "학교급": "고", "상품명": "2026학년도 광주서석고등학교 융합교육(steam) 교구 AI로봇 구입", "예산": 17250000, "공고일": "2026-07-28", "마감일": "2026-07-29", "지역": "전남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01653148&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI측정과 실습기자재(측정시편 외) 구매 수의견적 제출 안내 공고", "예산": 16526670, "공고일": "2026-06-12", "마감일": "", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01566634&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI로봇과 실습기자재(AI스마트제어실습장치) 구매 수의견적 제출 안내 공고", "예산": 15000000, "공고일": "2026-05-26", "마감일": "2026-06-01", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01543323&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상남도교육청 경남자동차고등학교", "학교급": "고", "상품명": "2026. AI로봇과 실습기자재(AI스마트제어실습장치) 구매 수의견적 제출 안내 공고", "예산": 14775000, "공고일": "2026-06-01", "마감일": "", "지역": "경남", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01543323&bidPbancOrd=000", "_출처": "낙찰완료"}, {"학교명": "경상북도교육청 경상북도상주교육지원청 상주중학교", "학교급": "중", "상품명": "2026 상주중학교 수학교육공모사업 AI코스웨어 플랫폼 이용권 구매", "예산": 6006000, "공고일": "2026-04-15", "마감일": "2026-04-17", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01466261&bidPbancOrd=000", "_출처": "입찰공고(진행중/예정)"}, {"학교명": "경상북도교육청 경상북도상주교육지원청 상주중학교", "학교급": "중", "상품명": "2026 상주중학교 수학교육공모사업 AI코스웨어 플랫폼 이용권 구매", "예산": 6000000, "공고일": "2026-04-17", "마감일": "", "지역": "경북", "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01466261&bidPbancOrd=000", "_출처": "낙찰완료"}];
 const S2B_PILOT = {"all_count": 100, "ai_rows": [{"학교장터공고번호": "202607281401944", "계약구분": "1인 수의", "공고명": "양지초 AI활용 체험수업 및 교구대여", "거래구분": "용역", "기관명": "용인양지초등학교", "지역": "경기", "공고일": "2026-07-28", "마감일": "2026-07-28 23:30", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607281401944", "키워드": ["AI"]}, {"학교장터공고번호": "202607231396625", "계약구분": "1인 수의", "공고명": "로봇직업교육센터 로봇AI·SW과정 교육 용역", "거래구분": "용역", "기관명": "(재)경기테크노파크", "지역": "경기", "공고일": "2026-07-23", "마감일": "2026-07-28 16:30", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607231396625", "키워드": ["AI"]}, {"학교장터공고번호": "202607281401506", "계약구분": "1인 수의", "공고명": "2026학년도 로봇 피지컬 AI 연구회 운영 물품 구입", "거래구분": "물품", "기관명": "인덕과학기술고등학교", "지역": "서울", "공고일": "2026-07-28", "마감일": "2026-07-28 18:00", "url": "https://s2b.kr/S2BNCustomer/tcmo001.do?forwardName=view01_1&estimateCode=202607281401506", "키워드": ["AI"]}], "regions": ["경기", "서울"], "days_back": 21};
+const NAVER_TREND = {"captured_date": "2026-08-08", "note": "네이버 데이터랩 상대 검색량(0~100, 4개사 통합 스케일). 아이스크림은 브랜드명이 일반명사와 겹쳐 복합 검색어(아이스크림원격교육연수원 등)로 측정해 다른 사 대비 낮게 나올 수 있습니다 — 회사 간 절대값 비교보다 각 사 시계열 추이로 해석하세요. 1회성 수동 조회입니다(자동 갱신 아님).", "companies": {"티처빌": [{"period": "2025-08-01", "ratio": 43.22974}, {"period": "2025-09-01", "ratio": 46.37113}, {"period": "2025-10-01", "ratio": 48.14583}, {"period": "2025-11-01", "ratio": 63.22824}, {"period": "2025-12-01", "ratio": 71.89146}, {"period": "2026-01-01", "ratio": 34.64662}, {"period": "2026-02-01", "ratio": 32.88068}, {"period": "2026-03-01", "ratio": 31.13352}, {"period": "2026-04-01", "ratio": 41.26606}, {"period": "2026-05-01", "ratio": 35.2336}, {"period": "2026-06-01", "ratio": 41.31738}, {"period": "2026-07-01", "ratio": 46.41118}, {"period": "2026-08-01", "ratio": 8.70076}], "아이스크림": [{"period": "2025-08-01", "ratio": 1.19272}, {"period": "2025-09-01", "ratio": 1.73089}, {"period": "2025-10-01", "ratio": 2.61323}, {"period": "2025-11-01", "ratio": 2.90734}, {"period": "2025-12-01", "ratio": 2.12137}, {"period": "2026-01-01", "ratio": 0.82226}, {"period": "2026-02-01", "ratio": 0.1652}, {"period": "2026-03-01", "ratio": 0.21651}, {"period": "2026-04-01", "ratio": 0.31038}, {"period": "2026-05-01", "ratio": 0.19524}, {"period": "2026-06-01", "ratio": 0.19023}, {"period": "2026-07-01", "ratio": 0.29286}, {"period": "2026-08-01", "ratio": 0.05381}], "비바샘": [{"period": "2025-08-01", "ratio": 55.77777}, {"period": "2025-09-01", "ratio": 88.98011}, {"period": "2025-10-01", "ratio": 53.20959}, {"period": "2025-11-01", "ratio": 68.85896}, {"period": "2025-12-01", "ratio": 43.32736}, {"period": "2026-01-01", "ratio": 20.37646}, {"period": "2026-02-01", "ratio": 26.64797}, {"period": "2026-03-01", "ratio": 100}, {"period": "2026-04-01", "ratio": 93.17905}, {"period": "2026-05-01", "ratio": 54.3435}, {"period": "2026-06-01", "ratio": 78.33694}, {"period": "2026-07-01", "ratio": 33.38631}, {"period": "2026-08-01", "ratio": 5.13135}], "한교원": [{"period": "2025-08-01", "ratio": 19.74193}, {"period": "2025-09-01", "ratio": 19.12616}, {"period": "2025-10-01", "ratio": 16.56049}, {"period": "2025-11-01", "ratio": 18.79325}, {"period": "2025-12-01", "ratio": 19.47284}, {"period": "2026-01-01", "ratio": 13.5818}, {"period": "2026-02-01", "ratio": 6.95235}, {"period": "2026-03-01", "ratio": 10.30149}, {"period": "2026-04-01", "ratio": 13.84087}, {"period": "2026-05-01", "ratio": 13.59181}, {"period": "2026-06-01", "ratio": 16.82832}, {"period": "2026-07-01", "ratio": 18.68687}, {"period": "2026-08-01", "ratio": 4.14137}]}};
 const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
 const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
 const LEADING_ROWS = __LEADING_ROWS_JSON__;
@@ -2770,6 +2795,10 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     const map = new kakao.maps.Map(mapEl, { center, level: 12 });
 
     const maxScore = Math.max(...PIPE.byRegion.map(r => r.opportunity_score), 1);
+    const compRegionMap = {};
+    ((typeof COMPETITOR_TRAINING !== 'undefined' && COMPETITOR_TRAINING.g2b && COMPETITOR_TRAINING.g2b.region_matrix) || [])
+      .forEach(r => { compRegionMap[r.region] = r.total; });
+    const maxComp = Math.max(...Object.values(compRegionMap), 1);
     PIPE.byRegion.forEach(r => {
       const coord = REGION_COORDS[r.region];
       if (!coord) return;
@@ -2782,9 +2811,20 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         strokeWeight: 1, strokeColor: color, strokeOpacity: 0.8,
         fillColor: color, fillOpacity: 0.45,
       });
+      const compCount = compRegionMap[r.region] || 0;
+      if (compCount > 0) {
+        // 경쟁사 강세지역 오버레이 - 우리 기회점수 원 테두리에 얇은 빨간 점선 링을 겹쳐,
+        // "기회는 있는데 경쟁사도 이미 들어와 있는" 지역을 한눈에 구분한다.
+        const compRadius = 6000 + (compCount / maxComp) * 16000;
+        new kakao.maps.Circle({
+          map, center: pos, radius: compRadius,
+          strokeWeight: 2, strokeColor: '#d6362a', strokeOpacity: 0.85, strokeStyle: 'shortdash',
+          fillColor: '#d6362a', fillOpacity: 0.08,
+        });
+      }
       const overlay = new kakao.maps.CustomOverlay({
         map, position: pos, yAnchor: 1.6,
-        content: `<div style="font-size:11px;font-weight:700;background:#fff;border:1px solid #ddd;border-radius:6px;padding:2px 6px;white-space:nowrap;">${r.region} ${r.opportunity_score}</div>`,
+        content: `<div style="font-size:11px;font-weight:700;background:#fff;border:1px solid #ddd;border-radius:6px;padding:2px 6px;white-space:nowrap;">${r.region} ${r.opportunity_score}${compCount ? ` <span style="color:#d6362a;font-weight:800;">· 경쟁 ${compCount}건</span>` : ''}</div>`,
       });
     });
     statusEl.textContent = '지도를 불러왔습니다.';
@@ -2948,6 +2988,107 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       <td class="num">${s.debt_ratio!=null ? Number(s.debt_ratio).toFixed(1)+'%' : '-'}</td>
     </tr>`;
   }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px;">데이터 없음</td></tr>';
+
+  // ---- 매출 추이(5개년) 라인차트 ----
+  (function drawFinanceTrend(){
+    const svg = document.getElementById('compFinanceTrendChart');
+    const withHistory = Object.entries(financeCompanies).filter(([,c]) => (c.history||[]).length >= 2);
+    if (!withHistory.length) {
+      document.getElementById('compFinanceTrendDesc').textContent = '2개년 이상 시계열이 확인된 회사가 없습니다.';
+      svg.innerHTML = '';
+      return;
+    }
+    document.getElementById('compFinanceTrendDesc').textContent = '별도재무제표 매출액 기준. 연도별로 공시가 없는 해는 선이 끊깁니다.';
+    const years = [...new Set(withHistory.flatMap(([,c]) => c.history.map(h => h.biz_year)))].sort();
+    const W=620, H=260, m={l:52, r:14, t:16, b:30};
+    const plotW=W-m.l-m.r, plotH=H-m.t-m.b;
+    const maxV = Math.max(...withHistory.flatMap(([,c]) => c.history.map(h => h.sales||0)), 1);
+    const xs = y => m.l + (years.indexOf(y)/(Math.max(years.length-1,1)))*plotW;
+    const ys = v => m.t + plotH - (v/maxV)*plotH;
+
+    let axes = '';
+    [0, maxV/2, maxV].forEach(t => {
+      const y = ys(t);
+      axes += `<line class="gridline" x1="${m.l}" y1="${y}" x2="${W-m.r}" y2="${y}"/>`;
+      axes += `<text class="axis-label" x="${m.l-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(t/1e8))}억</text>`;
+    });
+    years.forEach(y => { axes += `<text class="axis-label" x="${xs(y)}" y="${H-m.b+16}" text-anchor="middle">${y}</text>`; });
+
+    let lines = '', legend = '';
+    withHistory.forEach(([name, c], i) => {
+      const color = compColor(name);
+      const pts = c.history.filter(h => h.sales != null).map(h => `${xs(h.biz_year)},${ys(h.sales)}`).join(' ');
+      lines += `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
+      c.history.forEach(h => {
+        if (h.sales == null) return;
+        lines += `<circle cx="${xs(h.biz_year)}" cy="${ys(h.sales)}" r="3.5" fill="${color}"/>`;
+      });
+      legend += `<rect x="${m.l+i*90}" y="4" width="10" height="10" rx="2" fill="${color}"/>`;
+      legend += `<text class="axis-label" x="${m.l+i*90+15}" y="13">${name}</text>`;
+    });
+    svg.innerHTML = axes + lines + legend;
+  })();
+
+  // ---- 재무 건전성 × 낙찰 동향 인사이트 ----
+  (function drawFinanceInsight(){
+    const box = document.getElementById('compFinanceInsightBox');
+    const lines = [];
+    Object.entries(financeCompanies).forEach(([name, c]) => {
+      if (!c.available) return;
+      const s = c.standalone || c.consolidated;
+      const debtRatio = s && s.debt_ratio != null ? Number(s.debt_ratio) : null;
+      const avgRate = (g2b.competitor_totals[name] || {}).avg_rate;
+      if (debtRatio == null) return;
+      if (debtRatio >= 200 && avgRate != null) {
+        lines.push(`<b>${name}</b>은 부채비율 ${debtRatio.toFixed(0)}%로 재무 레버리지가 높은 편이고, 나라장터 평균 낙찰률은 ${avgRate}%입니다 — 낙찰률이 낮게 유지된다면 저가 수주로 매출을 방어하고 있을 가능성을 살펴볼 만합니다.`);
+      } else if (debtRatio >= 200) {
+        lines.push(`<b>${name}</b>은 부채비율 ${debtRatio.toFixed(0)}%로 재무 레버리지가 높은 편입니다(낙찰률 데이터는 표본 부족).`);
+      }
+    });
+    if (lines.length) {
+      box.style.display = '';
+      document.getElementById('compFinanceInsightText').innerHTML = lines.join(' ');
+    }
+  })();
+
+  // ---- 네이버 데이터랩 검색 관심도(1회성 스냅샷) ----
+  (function drawNaverTrend(){
+    const svg = document.getElementById('compNaverTrendChart');
+    const descEl = document.getElementById('compNaverDesc');
+    if (typeof NAVER_TREND === 'undefined' || !NAVER_TREND.companies) {
+      descEl.textContent = '데이터 없음';
+      return;
+    }
+    descEl.innerHTML = `캡처일 ${NAVER_TREND.captured_date} · 1회성 스냅샷(자동 갱신 아님) · ${NAVER_TREND.note}`;
+    const entries = Object.entries(NAVER_TREND.companies);
+    const months = entries[0][1].map(d => d.period);
+    const W=620, H=260, m={l:36, r:14, t:16, b:30};
+    const plotW=W-m.l-m.r, plotH=H-m.t-m.b;
+    const maxV = 100;
+    const xs = i => m.l + (i/(months.length-1))*plotW;
+    const ys = v => m.t + plotH - (v/maxV)*plotH;
+
+    let axes = '';
+    [0, 50, 100].forEach(t => {
+      const y = ys(t);
+      axes += `<line class="gridline" x1="${m.l}" y1="${y}" x2="${W-m.r}" y2="${y}"/>`;
+      axes += `<text class="axis-label" x="${m.l-8}" y="${y+3}" text-anchor="end">${t}</text>`;
+    });
+    months.forEach((mo,i) => {
+      if (i % 2 !== 0) return;
+      axes += `<text class="axis-label" x="${xs(i)}" y="${H-m.b+16}" text-anchor="middle">${mo.slice(2,7)}</text>`;
+    });
+
+    let lines = '', legend = '';
+    entries.forEach(([name, data], i) => {
+      const color = compColor(name);
+      const pts = data.map((d,idx) => `${xs(idx)},${ys(d.ratio)}`).join(' ');
+      lines += `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
+      legend += `<rect x="${m.l+i*90}" y="4" width="10" height="10" rx="2" fill="${color}"/>`;
+      legend += `<text class="axis-label" x="${m.l+i*90+15}" y="13">${name}</text>`;
+    });
+    svg.innerHTML = axes + lines + legend;
+  })();
 
   const contentCompanies = content.companies || {};
   document.getElementById('compContentDesc').textContent =
