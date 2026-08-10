@@ -1136,6 +1136,23 @@
       </div>
     </section>
 
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">놓친 기회 후보</p>
+          <p class="panel-desc">AI·에듀테크 관련 낙찰 건 중, 발주기관이 자사 파이프라인 기록에 전혀 없는 건입니다. 기관명 매칭만 사용한 참고용 목록이라 실제로 대응했지만 시트에 안 남긴 건도 섞여있을 수 있습니다 — 반드시 직접 확인하세요.</p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="missedOppTable">
+          <thead>
+            <tr><th>낙찰일</th><th>지역</th><th>발주기관</th><th>공고명</th><th class="num">금액</th></tr>
+          </thead>
+          <tbody id="missedOppTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
   </div><!-- /panel-pipeline -->
 
   <div class="tabpanel" id="panel-competitor">
@@ -3182,6 +3199,20 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         </div>
       </div>`;
   }).join('');
+})();
+
+(function renderMissedOpportunities(){
+  const tbody = document.getElementById('missedOppTableBody');
+  if (!tbody) return;
+  const rows = (PIPE.missed_opportunities || []);
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td>${r.date || '-'}</td>
+      <td>${r.region || '-'}</td>
+      <td class="org">${r.org || '-'}</td>
+      <td class="title">${r.url ? `<a href="${r.url}" target="_blank" rel="noopener" style="color:inherit;">${r.title}</a>` : (r.title||'-')}</td>
+      <td class="num">${r.amount ? fmt(r.amount)+'원' : '-'}</td>
+    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">해당 없음(모두 파이프라인에 기록돼 있거나 데이터가 없습니다).</td></tr>';
 })();
 
 (function renderPipeTable(){

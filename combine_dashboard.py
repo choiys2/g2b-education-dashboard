@@ -216,6 +216,23 @@ def build_pipe(pipeline_export, g2b_full, data_rows):
     }
 
 
+def build_missed_opportunities(ai_rows, pipeline_records, top_n=30):
+    """AI·에듀테크 관련 낙찰 건 중 발주기관이 자사 파이프라인에 전혀 없는 건.
+    기관명 문자열 매칭만 쓴다(공고명은 우리 내부 파이프라인 명명과 달라 매칭 불가) -
+    "그 기관과의 접점이 시트에 전혀 없다"는 약한 신호일 뿐, 확정적 판단이 아니다."""
+    known_orgs = {r.get("org", "").strip() for r in pipeline_records if r.get("org")}
+    missed = [
+        r for r in ai_rows
+        if r.get("status") == "낙찰정보" and r.get("org", "").strip() and r["org"].strip() not in known_orgs
+    ]
+    missed.sort(key=lambda r: r.get("date") or "", reverse=True)
+    return [
+        {"title": r.get("title"), "org": r.get("org"), "region": r.get("region"),
+         "amount": r.get("amount"), "date": r.get("date"), "url": r.get("url")}
+        for r in missed[:top_n]
+    ]
+
+
 def main():
     template_path = sys.argv[1] if len(sys.argv) > 1 else "dashboard_template.html"
     out_path = sys.argv[2] if len(sys.argv) > 2 else "live/neis_dashboard_full.html"
@@ -246,6 +263,7 @@ def main():
     ai_rows = build_ai_rows(full_live)
     leading_rows, leading_by_region, leading_enriched = build_leading(neis_export, data_rows)
     pipe = build_pipe(pipeline_export, g2b_full, data_rows)
+    pipe["missed_opportunities"] = build_missed_opportunities(ai_rows, pipeline_export.get("records", []))
 
     # ---------- 5) BETA (경쟁사 트렌드 + 파이프라인 모멘텀 + 낙찰가 추정 + 추세 예측, 전부 "베타" 표시) ----------
     win_a = an.enrich_win_region(full_live["analytics"]["낙찰정보"], full_live["analytics"]["입찰공고"])
