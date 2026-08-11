@@ -101,6 +101,20 @@ def to_number(v):
         return None
 
 
+def next_disclosure_estimate(biz_year, today=None):
+    """사업보고서 법정 제출기한(결산일로부터 90일 이내, 12월 결산 가정)을 근거로
+    '다음 결산연도(biz_year+1) 공시가 언제쯤 올라올지' 대략적인 시점만 안내한다.
+    biz_year는 이미 확보한 가장 최근 결산연도이므로, 그 다음 연도(biz_year+1)분
+    사업보고서의 법정기한은 (biz_year+2)년 3월 31일이다 - 회사별 실제 공시일이
+    아니라 법정기한 기반 추정이라 오차가 있을 수 있다."""
+    from datetime import date
+    today = today or date.today()
+    next_year = biz_year + 1
+    expected = date(next_year + 1, 3, 31)
+    status = "대기중" if today <= expected else "법정기한 경과(공시 지연 또는 곧 반영 예정)"
+    return {"expected_year": next_year, "expected_by": expected.isoformat(), "status": status}
+
+
 def simplify(raw):
     if raw is None:
         return None
@@ -143,6 +157,7 @@ def main():
             "standalone": simplify(result["standalone"]),
             "consolidated": simplify(result["consolidated"]),
             "history": history,
+            "next_disclosure": next_disclosure_estimate(result["bizYear"]),
         }
         s = companies[brand]["standalone"]
         if s:
