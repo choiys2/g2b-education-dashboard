@@ -192,6 +192,7 @@ def bid_amount_estimates(open_bids, win_items, min_sample=5, top_n=20):
         "p25": round(_percentile(rates, 0.25), 2),
         "중앙값": round(_percentile(rates, 0.5), 2),
         "p75": round(_percentile(rates, 0.75), 2),
+        "분포": [round(r, 2) for r in rates],  # 입찰가 시뮬레이터가 백분위 위치를 계산하는 데 씀
     })
 
     out = []

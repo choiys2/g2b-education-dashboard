@@ -1410,6 +1410,20 @@
           <tbody id="betaBidRangeTableBody"></tbody>
         </table>
       </div>
+
+      <div class="panel-head" style="margin-top:22px;">
+        <div>
+          <p class="panel-title" style="font-size:14.5px;">입찰가 시뮬레이터 (베타)</p>
+          <p class="panel-desc" id="simDesc" style="font-size:12.5px;"></p>
+        </div>
+      </div>
+      <div class="sync-settings-row" style="margin:8px 0 14px;">
+        <label>예산(원) <input type="text" inputmode="numeric" id="simBudget" placeholder="예: 50000000"></label>
+        <label>검토 중인 입찰율(%) <input type="text" inputmode="decimal" id="simRate" placeholder="예: 90"></label>
+      </div>
+      <svg id="simHistogram" viewBox="0 0 620 200"></svg>
+      <p id="simResult" style="font-size:13.5px;margin:12px 0 0;min-height:20px;"></p>
+      <p style="font-size:11.5px;color:var(--muted);margin:8px 0 0;">⚠ 참여업체 수·경쟁 강도·사업 성격은 전혀 반영하지 않습니다. "낙찰 확률"이 아니라 "과거 낙찰 사례 분포에서 입력값이 어느 위치인지"만 보여주는 통계적 참고치입니다 — 실제 참여업체들의 미낙찰 입찰가는 공개되지 않아 진짜 확률 계산은 불가능합니다.</p>
     </section>
 
     <section class="panel">
@@ -3722,6 +3736,73 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         <td>${esc(r.마감일)}</td>
       </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:24px;">예산이 확인된 진행중 공고가 없습니다.</td></tr>';
   }
+
+  /* ---- 입찰가 시뮬레이터 ---- */
+  (function initBidSimulator(){
+    const dist = (bidRange.band || {}).분포 || [];
+    const descEl = document.getElementById('simDesc');
+    const budgetInput = document.getElementById('simBudget');
+    const rateInput = document.getElementById('simRate');
+    const svg = document.getElementById('simHistogram');
+    const resultEl = document.getElementById('simResult');
+    if (!bidRange.band || !bidRange.band.표본충분 || dist.length < 5) {
+      descEl.textContent = '표본 부족으로 시뮬레이터를 사용할 수 없습니다.';
+      return;
+    }
+    descEl.textContent = `과거 낙찰율 ${dist.length}건의 분포 위에, 입력한 예산·입찰율을 겹쳐 봅니다. 회색 막대는 과거 분포, 세로선은 입력값입니다.`;
+
+    function drawHistogram(userRate){
+      const min = Math.floor(Math.min(...dist) / 5) * 5;
+      const max = Math.ceil(Math.max(...dist) / 5) * 5;
+      const binSize = Math.max(1, (max - min) / 20);
+      const bins = new Array(20).fill(0);
+      dist.forEach(r => {
+        const idx = Math.min(19, Math.max(0, Math.floor((r - min) / binSize)));
+        bins[idx]++;
+      });
+      const W=620, H=200, m={l:36, r:14, t:10, b:26};
+      const plotW=W-m.l-m.r, plotH=H-m.t-m.b;
+      const maxBin = Math.max(...bins, 1);
+      const bw = plotW / bins.length;
+      let bars = '';
+      bins.forEach((count, i) => {
+        const h = count / maxBin * plotH;
+        bars += `<rect x="${m.l + i*bw + 1}" y="${m.t + plotH - h}" width="${bw-2}" height="${h}" fill="var(--muted)" fill-opacity="0.45"/>`;
+      });
+      let axes = `<text class="axis-label" x="${m.l}" y="${H-6}">${min}%</text><text class="axis-label" x="${W-m.r}" y="${H-6}" text-anchor="end">${max}%</text>`;
+      let marker = '';
+      if (userRate != null && userRate >= min && userRate <= max) {
+        const x = m.l + (userRate - min) / (max - min) * plotW;
+        marker = `<line x1="${x}" y1="${m.t}" x2="${x}" y2="${m.t+plotH}" stroke="var(--accent)" stroke-width="2.5"/>
+          <text x="${x}" y="${m.t-2}" text-anchor="middle" style="font-size:11px;font-weight:700;fill:var(--accent);">${userRate.toFixed(1)}%</text>`;
+      } else if (userRate != null) {
+        marker = `<text x="${userRate < min ? m.l : W-m.r}" y="${m.t+12}" text-anchor="${userRate < min ? 'start':'end'}" style="font-size:11px;font-weight:700;fill:var(--critical);">범위 밖(${userRate.toFixed(1)}%)</text>`;
+      }
+      svg.innerHTML = bars + axes + marker;
+    }
+
+    function update(){
+      const budget = parseFloat((budgetInput.value||'').replace(/[^0-9.]/g,''));
+      const rate = parseFloat((rateInput.value||'').replace(/[^0-9.]/g,''));
+      drawHistogram(isNaN(rate) ? null : rate);
+      if (isNaN(rate)) { resultEl.textContent = ''; return; }
+      const below = dist.filter(r => r <= rate).length;
+      const percentile = Math.round(below / dist.length * 100);
+      let msg = `입력한 <b>${rate}%</b>는 과거 낙찰 사례 ${dist.length}건 중 하위 <b>${percentile}%</b> 지점입니다`;
+      msg += percentile <= 25 ? ' (과거 사례 대비 낮은 편 — 공격적인 가격).' :
+             percentile >= 75 ? ' (과거 사례 대비 높은 편 — 보수적인 가격).' : ' (과거 사례의 중간 구간).';
+      if (!isNaN(budget) && budget > 0) {
+        msg += `<br>예산 ${fmtWon(budget)} 기준 입찰금액은 약 <b>${fmtWon(Math.round(budget * rate / 100))}</b>입니다.`;
+      }
+      resultEl.innerHTML = msg;
+    }
+
+    drawHistogram(null);
+    budgetInput.addEventListener('input', update);
+    rateInput.addEventListener('input', update);
+    rateInput.value = bidRange.band.중앙값;
+    update();
+  })();
 
   /* ---- 지표 추세 예측 ---- */
   const tf = BETA.trend_forecast || {};
