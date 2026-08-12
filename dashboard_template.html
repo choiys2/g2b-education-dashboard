@@ -1177,6 +1177,17 @@
     <section class="panel">
       <div class="panel-head">
         <div>
+          <p class="panel-title">자사 vs 경쟁사 종합 스코어카드</p>
+          <p class="panel-desc" id="scorecardDesc">재무 규모·건전성, 나라장터/파이프라인 활동, 브랜드 검색 관심도, 마케팅 이벤트 활동 5개 축을 각 항목의 최댓값 기준 0~100으로 정규화해 겹쳐 그립니다. 값 자체보다 "어느 축이 상대적으로 강하고 약한지" 모양을 보는 용도입니다.</p>
+        </div>
+      </div>
+      <svg id="scorecardChart" viewBox="0 0 500 460"></svg>
+      <p style="font-size:11.5px;color:var(--muted);margin:8px 0 0;">⚠ "나라장터/파이프라인 활동" 축은 자사는 자사 영업 파이프라인 건수, 경쟁사는 나라장터 낙찰 확정 건수를 씁니다 — 성격이 달라 완전히 같은 잣대는 아닙니다. 데이터가 없는 축은 0으로 처리됩니다(실제로 0이라는 뜻이 아니라 "미확인"일 수 있습니다).</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
           <p class="panel-title">지역 × 경쟁사 매트릭스</p>
           <p class="panel-desc">지역별 낙찰 건수, 총계 큰 순 정렬.</p>
         </div>
@@ -3075,6 +3086,31 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         lines.push(`<b>${name}</b>은 부채비율 ${debtRatio.toFixed(0)}%로 재무 레버리지가 높은 편입니다(낙찰률 데이터는 표본 부족).`);
       }
     });
+
+    // ---- 전년 대비 급변동(±30%↑) 자동 플래그 ----
+    const ANOMALY_THRESHOLD = 0.30;
+    const anomalyLines = [];
+    Object.entries(financeCompanies).forEach(([name, c]) => {
+      const hist = (c.history || []).filter(h => h.sales != null || h.operating_profit != null);
+      const startAt = Math.max(1, hist.length - 2); // 최근 2개년 비교만 표시(오래된 변동으로 목록이 길어지지 않게)
+      for (let i = startAt; i < hist.length; i++) {
+        const prev = hist[i - 1], cur = hist[i];
+        ['sales', 'operating_profit', 'net_profit'].forEach(metric => {
+          const p = prev[metric], v = cur[metric];
+          if (p == null || v == null || p === 0) return;
+          const change = (v - p) / Math.abs(p);
+          if (Math.abs(change) >= ANOMALY_THRESHOLD) {
+            const label = {sales:'매출', operating_profit:'영업이익', net_profit:'순이익'}[metric];
+            const dir = change > 0 ? '급증' : '급감';
+            anomalyLines.push(`<b>${name}</b> ${cur.biz_year}년 ${label} 전년 대비 ${dir} (${(change*100).toFixed(0)}%)`);
+          }
+        });
+      }
+    });
+    if (anomalyLines.length) {
+      lines.push(`<br><b style="color:var(--warning);">전년 대비 급변동 감지</b>: ${anomalyLines.join(' · ')}`);
+    }
+
     if (lines.length) {
       box.style.display = '';
       document.getElementById('compFinanceInsightText').innerHTML = lines.join(' ');
@@ -3118,6 +3154,67 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       legend += `<text class="axis-label" x="${m.l+i*90+15}" y="13">${name}</text>`;
     });
     svg.innerHTML = axes + lines + legend;
+  })();
+
+  // ---- 자사 vs 경쟁사 종합 스코어카드(레이더) ----
+  (function drawScorecard(){
+    const svg = document.getElementById('scorecardChart');
+    if (!svg) return;
+    const AXES = ['매출 규모', '재무 건전성', '나라장터/파이프라인 활동', '브랜드 검색 관심도', '마케팅 이벤트 활동'];
+    const ENTITY_NAMES = ['비바샘', '티처빌', '아이스크림', '한교원'];
+    const financeC = (finance.companies || {});
+    const naverC = (typeof NAVER_TREND !== 'undefined' && NAVER_TREND.companies) || {};
+    const contentC = (content.companies || {});
+
+    function rawValues(name){
+      const f = financeC[name];
+      const fs = f && f.available ? (f.standalone || f.consolidated) : null;
+      const sales = fs && fs.sales != null ? fs.sales : 0;
+      const debtRatio = fs && fs.debt_ratio != null ? Number(fs.debt_ratio) : null;
+      const health = debtRatio == null ? 0 : Math.max(0, 100 - Math.min(debtRatio, 200) / 2);
+      const activity = name === '비바샘'
+        ? (PIPE.records || []).length
+        : (g2b.competitor_totals[name] || {}).deal_count || 0;
+      const naverRows = naverC[name] || [];
+      const searchInterest = naverRows.length
+        ? naverRows.slice(-3).reduce((s, d) => s + d.ratio, 0) / Math.min(3, naverRows.length)
+        : 0;
+      const marketing = (contentC[name] || {}).event_count || 0;
+      return [sales, health, activity, searchInterest, marketing];
+    }
+
+    const raw = {};
+    ENTITY_NAMES.forEach(n => { raw[n] = rawValues(n); });
+    const maxByAxis = AXES.map((_, i) => Math.max(...ENTITY_NAMES.map(n => raw[n][i]), 1));
+    const norm = {};
+    ENTITY_NAMES.forEach(n => { norm[n] = raw[n].map((v, i) => v / maxByAxis[i] * 100); });
+
+    const W = 500, H = 460, cx = 250, cy = 210, R = 150;
+    const angle = i => -Math.PI/2 + i * (2*Math.PI/AXES.length);
+    const pt = (i, r) => [cx + Math.cos(angle(i)) * r, cy + Math.sin(angle(i)) * r];
+
+    let grid = '';
+    [0.25, 0.5, 0.75, 1].forEach(f => {
+      const pts = AXES.map((_, i) => pt(i, R*f).join(',')).join(' ');
+      grid += `<polygon points="${pts}" fill="none" stroke="var(--grid)" stroke-width="1"/>`;
+    });
+    AXES.forEach((label, i) => {
+      const [ex, ey] = pt(i, R);
+      grid += `<line x1="${cx}" y1="${cy}" x2="${ex}" y2="${ey}" stroke="var(--grid)" stroke-width="1"/>`;
+      const [lx, ly] = pt(i, R + 26);
+      grid += `<text class="axis-label" x="${lx}" y="${ly}" text-anchor="middle" style="font-size:11px;">${label}</text>`;
+    });
+
+    let shapes = '', legend = '';
+    ENTITY_NAMES.forEach((name, i) => {
+      const c = name === '비바샘' ? 'var(--accent)' : compColor(name);
+      const pts = norm[name].map((v, ai) => pt(ai, R * Math.min(v,100) / 100).join(',')).join(' ');
+      shapes += `<polygon points="${pts}" fill="${c}" fill-opacity="0.12" stroke="${c}" stroke-width="${name==='비바샘'?3:2}"/>`;
+      legend += `<rect x="14" y="${14+i*18}" width="10" height="10" rx="2" fill="${c}"/>`;
+      legend += `<text class="axis-label" x="29" y="${23+i*18}" style="font-size:11.5px;">${name}${name==='비바샘'?' (자사)':''}</text>`;
+    });
+
+    svg.innerHTML = grid + shapes + legend;
   })();
 
   const contentCompanies = content.companies || {};
