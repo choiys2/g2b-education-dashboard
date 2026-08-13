@@ -30,6 +30,10 @@ python build_news_briefing.py          # briefings/ -> live/news/
 # live/news/index.html 을 브라우저로 열기 (최신호)
 ```
 
+최신호는 `live/news_artifact.html`로도 한 벌 더 나온다. Claude Artifact로 재발행할 때 쓰는
+본문 전용 사본(`<!doctype>`/`<head>`/`<body>` 껍데기를 벗기고 title+style+본문만 남긴 것)이며,
+`live/news/` 바깥에 있어 Pages로는 배포되지 않는다.
+
 발행 호수는 `briefings/` 안의 날짜 순서로 자동 부여되고, 각 호 하단 셀렉트로 지난 호를 오간다.
 새 호를 추가하려면 `briefings/YYYY-MM-DD.json`을 같은 스키마로 하나 더 넣으면 된다
 (`briefings/2026-08-13.json`이 레퍼런스). 필드 구성:

@@ -11,6 +11,7 @@ briefings/YYYY-MM-DD.json  ->  live/news/YYYY-MM-DD.html + live/news/index.html 
 """
 import html
 import json
+import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -410,8 +411,22 @@ def main():
         (out / href).write_text(render_page(data, no, archive, href), encoding="utf-8")
 
     latest, no, href = issues[-1]
-    (out / "index.html").write_text(render_page(latest, no, archive, href), encoding="utf-8")
+    page = render_page(latest, no, archive, href)
+    (out / "index.html").write_text(page, encoding="utf-8")
+
+    # Artifact로 재발행할 때 쓰는 본문 전용 사본. Artifact는 <!doctype>/<head>/<body>를
+    # 자기가 씌우므로 그 껍데기를 벗겨서 title+style+본문만 남긴다.
+    # out 바깥에 두어 _site/news/ 로 복사되지 않게 한다.
+    body_only = "<title>%s</title>\n<style>%s</style>\n%s\n" % (
+        re.search(r"<title>(.*?)</title>", page, re.S).group(1),
+        re.search(r"<style>(.*?)</style>", page, re.S).group(1),
+        re.search(r"<body>(.*?)</body>", page, re.S).group(1),
+    )
+    art = out.parent / "news_artifact.html"
+    art.write_text(body_only, encoding="utf-8")
+
     print("%d개 호 생성 -> %s (최신: 제%d호 %s)" % (len(issues), out, no, latest["date"]))
+    print("Artifact 본문 -> %s" % art)
     return 0
 
 
