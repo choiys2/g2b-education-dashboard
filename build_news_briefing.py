@@ -37,7 +37,7 @@ CSS = """
   --paper:#F2F1EC; --sheet:#FBFAF7;
   --ink:#15171A; --ink-mid:#55595E; --ink-soft:#83878C;
   --rule:#C4C2BB; --rule-bold:#15171A;
-  --carmine:#93221F; --slate:#2C4B63; --forest:#1F4A34;
+  --carmine:#93221F; --slate:#2C4B63; --forest:#1F4A34; --ochre:#7E5116;
   --up:#B03A2E; --down:#1F5FA8;
   --serif:AppleMyungjo,"Apple Myungjo","Nanum Myeongjo","Noto Serif KR","Source Han Serif K",Batang,"바탕","Times New Roman",serif;
   --sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕","Noto Sans KR","Nanum Gothic",sans-serif;
@@ -47,7 +47,7 @@ CSS = """
     --paper:#131418; --sheet:#1A1C21;
     --ink:#E9E7E1; --ink-mid:#A4A7AD; --ink-soft:#787C82;
     --rule:#32353C; --rule-bold:#E9E7E1;
-    --carmine:#E07B73; --slate:#84ADCD; --forest:#72C295;
+    --carmine:#E07B73; --slate:#84ADCD; --forest:#72C295; --ochre:#D9A75E;
     --up:#E8776C; --down:#6BA6E8;
   }
 }
@@ -55,7 +55,7 @@ CSS = """
   --paper:#131418; --sheet:#1A1C21;
   --ink:#E9E7E1; --ink-mid:#A4A7AD; --ink-soft:#787C82;
   --rule:#32353C; --rule-bold:#E9E7E1;
-  --carmine:#E07B73; --slate:#84ADCD; --forest:#72C295;
+  --carmine:#E07B73; --slate:#84ADCD; --forest:#72C295; --ochre:#D9A75E;
   --up:#E8776C; --down:#6BA6E8;
 }
 
@@ -242,7 +242,12 @@ JS = """
 })();
 """
 
-TONES = {"carmine": "var(--carmine)", "slate": "var(--slate)", "forest": "var(--forest)"}
+TONES = {
+    "carmine": "var(--carmine)",
+    "slate": "var(--slate)",
+    "forest": "var(--forest)",
+    "ochre": "var(--ochre)",
+}
 WEEKDAYS = ["월", "화", "수", "목", "금", "토", "일"]
 ARROWS = {"up": "▲", "down": "▼", "flat": "－"}
 
