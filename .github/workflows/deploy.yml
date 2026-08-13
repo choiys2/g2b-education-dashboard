@@ -97,6 +97,12 @@ jobs:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
         run: python competitor_finance_export.py --out live/competitor_finance_export.json
 
+      # briefings/*.json(수동/자동으로 추가되는 일일 브리핑 데이터)을 신문 지면으로 렌더링.
+      # 데이터가 없으면 아무것도 만들지 않고 넘어가므로 하위 호환된다.
+      - name: 조간 브리핑 신문 지면 생성
+        continue-on-error: true
+        run: python build_news_briefing.py briefings live/news
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
@@ -141,6 +147,9 @@ jobs:
           if [ -f live/weekly_report.pdf ]; then
             mkdir -p _site/full
             cp live/weekly_report.pdf _site/full/report.pdf
+          fi
+          if [ -d live/news ]; then
+            cp -r live/news _site/news
           fi
 
       - uses: actions/upload-pages-artifact@v3
