@@ -16,7 +16,34 @@ URL 확인 (`https://<사용자명>.github.io/<저장소명>/`)
 | `build_dashboard.py` | 스코어링·집계 결과 → 단일 HTML 대시보드(`render_v2`) |
 | `run_pipeline.py` | 위 과정을 한 번에 실행 (올해 1/1~오늘 범위) |
 | `g2b_config.example.json` | 설정 템플릿(서비스키 자리는 플레이스홀더) |
+| `build_news_briefing.py` | `briefings/*.json` → 조간 신문 지면(`/news/`) 렌더링 |
 | `.github/workflows/deploy.yml` | 매일 자동 수집·재생성 후 GitHub Pages 배포 |
+
+## 조간 브리핑 (`/news/`)
+
+매일 아침 경제·사회·교육 뉴스를 신문 지면 한 장으로 보여주는 별도 페이지다.
+대시보드와 데이터 소스를 공유하지 않고, `briefings/` 안의 날짜별 JSON 하나만 읽는다.
+
+```bash
+python build_news_briefing.py          # briefings/ -> live/news/
+# live/news/index.html 을 브라우저로 열기 (최신호)
+```
+
+발행 호수는 `briefings/` 안의 날짜 순서로 자동 부여되고, 각 호 하단 셀렉트로 지난 호를 오간다.
+새 호를 추가하려면 `briefings/YYYY-MM-DD.json`을 같은 스키마로 하나 더 넣으면 된다
+(`briefings/2026-08-13.json`이 레퍼런스). 필드 구성:
+
+| 키 | 내용 |
+| --- | --- |
+| `date` / `weekday` | 발행일. `weekday`는 생략 가능(날짜에서 계산) |
+| `indices[]` | 상단 지수 스트립. `label` / `value` / `delta` / `dir`(`up`·`down`·`flat`) |
+| `lead` | 1면 톱. `kicker` / `headline` / `sub` / `lede` / `facts[]`(`label`+`text`) |
+| `sections[]` | `id` / `name` / `tone`(`carmine`·`slate`·`forest`) / `items[]` |
+| `sections[].items[]` | `title` / `body` / `tags[]` / `priority`(true면 전폭 기사로 강조) |
+| `implications[]` | 하단 시사점 박스. `news` + `impact` |
+| `sources` | 판권에 표기할 출처 |
+
+본문 문자열에는 `<strong>` `<em>` `<br>`만 살아남고 나머지 마크업은 이스케이프된다.
 
 ## 로컬 실행
 
