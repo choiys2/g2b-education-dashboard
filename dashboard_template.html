@@ -896,6 +896,21 @@
     <section class="panel">
       <div class="panel-head">
         <div>
+          <p class="panel-title">기관별 벤더 이력 조회</p>
+          <p class="panel-desc">"우리가 무엇을 낙찰받을 수 있나" 대신, 반대로 "이 기관은 누구와 주로 거래했나"를 봅니다. 사전 영업 조사용 — 특정 기관에 제안하기 전에 그 기관의 기존 거래처 패턴을 먼저 확인하세요.</p>
+        </div>
+      </div>
+      <div class="filter-row">
+        <input type="text" id="orgVendorSearch" list="orgVendorList" placeholder="발주기관명 검색 또는 선택…" style="font-family:inherit;font-size:13px;color:var(--ink);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;min-width:280px;">
+        <datalist id="orgVendorList"></datalist>
+        <span class="count" id="orgVendorCount"></span>
+      </div>
+      <div id="orgVendorResult" style="margin-top:14px;"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
           <p class="panel-title">경쟁사(낙찰기업) 분석</p>
           <p class="panel-desc">Top 30 &middot; 총낙찰금액순.</p>
         </div>
@@ -2598,6 +2613,56 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   document.getElementById('g2bOrgTableBody').innerHTML = G2B_FULL.org.map(r => `
     <tr><td style="font-weight:600;">${r.기관}</td><td class="num">${r.건수}건</td><td class="num amount">${r.총예산}</td><td class="num">${r.평균사업비}</td></tr>
   `).join('');
+})();
+
+(function renderOrgVendorLookup(){
+  const wins = (G2B_FULL.detail || []).filter(d => d.구분 === '낙찰정보' && d.기관);
+  const orgs = [...new Set(wins.map(d => d.기관))].sort((a,b) => a.localeCompare(b,'ko'));
+  const listEl = document.getElementById('orgVendorList');
+  listEl.innerHTML = orgs.map(o => `<option value="${o}"></option>`).join('');
+  document.getElementById('orgVendorCount').textContent = `낙찰 이력이 있는 기관 ${orgs.length}곳`;
+
+  const KNOWN_COMPETITOR_KEYWORDS = ['비상교육', '테크빌교육', '아이스크림', '한국교원연수원'];
+  const searchInput = document.getElementById('orgVendorSearch');
+  const resultEl = document.getElementById('orgVendorResult');
+
+  function render(orgName){
+    if (!orgName) { resultEl.innerHTML = ''; return; }
+    const rows = wins.filter(d => d.기관 === orgName);
+    if (!rows.length) {
+      resultEl.innerHTML = '<p style="color:var(--muted);font-size:13px;">일치하는 기관의 낙찰 이력이 없습니다(목록에서 선택해주세요).</p>';
+      return;
+    }
+    const byVendor = {};
+    rows.forEach(r => {
+      const v = r.낙찰업체 || '(미확인)';
+      if (!byVendor[v]) byVendor[v] = {count:0, amount:0, latest:'', deals:[]};
+      byVendor[v].count++;
+      byVendor[v].amount += r.예산 || 0;
+      if (!byVendor[v].latest || r.날짜 > byVendor[v].latest) byVendor[v].latest = r.날짜;
+      byVendor[v].deals.push(r);
+    });
+    const vendors = Object.entries(byVendor).sort((a,b) => b[1].count - a[1].count);
+    resultEl.innerHTML = `
+      <p style="font-size:13px;color:var(--ink-2);margin:0 0 10px;"><b>${orgName}</b> · 확인된 낙찰 ${rows.length}건 · 거래 업체 ${vendors.length}곳</p>
+      <div class="tbl-wrap">
+        <table class="data">
+          <thead><tr><th>낙찰업체</th><th class="num">건수</th><th class="num">누적금액</th><th>최근 낙찰일</th></tr></thead>
+          <tbody>${vendors.map(([name, v]) => {
+            const isKnown = KNOWN_COMPETITOR_KEYWORDS.some(k => name.includes(k));
+            return `<tr>
+              <td>${isKnown ? `<span class="chip" style="background:color-mix(in srgb, var(--warning) 16%, transparent);color:var(--warning);">${name}</span>` : name}</td>
+              <td class="num">${v.count}건</td>
+              <td class="num amount">${fmtWon(v.amount)}</td>
+              <td>${v.latest || '-'}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>`;
+  }
+
+  searchInput.addEventListener('change', () => render(searchInput.value));
+  searchInput.addEventListener('input', () => { if (orgs.includes(searchInput.value)) render(searchInput.value); });
 })();
 
 (function renderG2BCompTable(){

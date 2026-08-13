@@ -44,7 +44,7 @@ def build_g2b_full(full):
     for it in win_a:
         detail.append({"구분": "낙찰정보", "공고명": it.get("공고명", ""), "기관": it.get("발주기관", ""),
                         "지역": it.get("지역", "전국"), "예산": it.get("낙찰금액", 0), "날짜": it.get("개찰일", ""),
-                        "점수": None, "url": it.get("url", "")})
+                        "점수": None, "url": it.get("url", ""), "낙찰업체": it.get("낙찰업체", "")})
 
     def fmt_won(n):
         n = n or 0
