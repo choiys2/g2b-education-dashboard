@@ -2361,7 +2361,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   const W=560, H=460, m={l:150,r:70,t:20,b:20};
   const rowH = (H-m.t-m.b)/types.length;
   const totals = types.map(t => grades.reduce((s,g)=>s+(byType[t+'·'+g]||0),0));
-  const maxV = Math.max(...totals);
+  const maxV = Math.max(...totals, 1);
   let out = '';
   types.forEach((t,i)=>{
     let x = m.l;
