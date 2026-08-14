@@ -371,8 +371,7 @@ def render_page(data, issue_no, archive, self_href):
         '<nav class="nav"><div class="nav-inner">%s</div></nav>'
         '<div class="sheet"><main>%s%s%s%s</main>'
         '<footer class="colophon">'
-        "<div>%s<br>자동 생성된 내부 브리핑입니다. 원문 확인 후 인용하세요.<br>"
-        '<a href="../full/">← 통합 대시보드로 돌아가기</a></div>'
+        "<div>%s<br>자동 생성된 내부 브리핑입니다. 원문 확인 후 인용하세요.</div>"
         '<div class="archive"><label for="archive">지난 호</label>'
         '<select id="archive">%s</select></div>'
         "</footer></div><script>%s</script></body></html>"
