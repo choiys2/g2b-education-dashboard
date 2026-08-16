@@ -6,6 +6,12 @@ on:
   workflow_dispatch: {}
   push:
     branches: [main]
+    # 브리핑 데이터만 바뀐 푸시는 news.yml 이 전담한다. 두 워크플로가 같은 push 로
+    # 동시에 뜨면 concurrency 그룹(pages)에서 뒤에 대기하던 쪽이 취소되는데,
+    # 실측 결과 매번 news.yml 이 취소되고 무거운 이 파이프라인이 대신 배포했다.
+    # (2026-08-16: news.yml #4~#7 전부 cancelled)
+    paths-ignore:
+      - "briefings/**"
 
 permissions:
   contents: write
