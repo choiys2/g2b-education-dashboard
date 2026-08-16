@@ -397,6 +397,18 @@ def main():
     src = Path(sys.argv[1] if len(sys.argv) > 1 else "briefings")
     out = Path(sys.argv[2] if len(sys.argv) > 2 else "live/news")
     files = sorted(src.glob("*.json"))
+
+    # 2026-08-14 사고: 예약 작업이 briefings/briefings/2026-08-14.json 처럼 한 단계 깊은
+    # 경로에 파일을 만들어, 렌더러가 조용히 무시한 채 옛날 호만 계속 배포했다.
+    # 잘못된 위치의 호는 눈에 띄게 실패시킨다 — 조용히 지나가는 쪽이 훨씬 위험하다.
+    nested = sorted(p for p in src.rglob("*.json") if p.parent != src)
+    if nested:
+        print("잘못된 위치의 브리핑 파일 %d개 — %s 바로 아래로 옮기세요:" % (len(nested), src),
+              file=sys.stderr)
+        for p in nested:
+            print("  %s" % p, file=sys.stderr)
+        return 1
+
     if not files:
         print("브리핑 데이터 없음: %s" % src)
         return 0
