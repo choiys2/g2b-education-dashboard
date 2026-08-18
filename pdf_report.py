@@ -100,6 +100,9 @@ def build_pdf(out_path="live/weekly_report.pdf"):
     ai_rows = load("live/_ai_rows_count.json", [])
     g2b_full = load("live/g2b_full_export.json", {})
     pipeline = load("live/own_pipeline_export.json", {})
+    # EDSS 학교회계 계약현황(2025)은 매일 자동 수집되는 live/ 데이터가 아니라
+    # 사용자가 수동으로 내려받아 넣어준 스냅샷이라 static_data/에 고정 보관한다.
+    school_contract = load("static_data/school_contract_national_2025.json", {})
 
     title_style = ParagraphStyle("KoTitle", fontName=FONT, fontSize=18, leading=22)
     h2_style = ParagraphStyle("KoH2", fontName=FONT, fontSize=12.5, leading=16,
@@ -153,6 +156,24 @@ def build_pdf(out_path="live/weekly_report.pdf"):
         ])
     if len(comp_data) > 1:
         story.append(_styled_table(comp_data, [12 * mm, 60 * mm, 15 * mm, 30 * mm, 25 * mm], ACCENT2))
+    else:
+        story.append(Paragraph("해당 데이터 없음", small_style))
+
+    story.append(Paragraph("학교회계 계약현황 시도 랭킹 (물품+용역, 2025 · 상위 10개)", h2_style))
+    top_sido = (school_contract.get("by_sido") or [])[:10]
+    sido_data = [["순위", "시도", "계약금액", "학교 수", "학교당 평균"]]
+    for i, s in enumerate(top_sido, 1):
+        n = s.get("n") or 1
+        sido_data.append([
+            str(i), s.get("sido", ""), fmt_won(s.get("amt", 0)),
+            f"{s.get('n', 0)}교", fmt_won(round(s.get("amt", 0) / n)),
+        ])
+    if len(sido_data) > 1:
+        story.append(_styled_table(sido_data, [12 * mm, 30 * mm, 30 * mm, 20 * mm, 30 * mm], ACCENT))
+        story.append(Paragraph(
+            "※ 학교명은 EDSS(에듀데이터서비스) 공개데이터 특성상 익명 식별자로만 제공되어 표시하지 않습니다. "
+            "상세 학교 랭킹(시도·시군구 필터)은 대시보드 ‘학교단위 발주’ 탭에서 확인하세요.",
+            small_style))
     else:
         story.append(Paragraph("해당 데이터 없음", small_style))
 
