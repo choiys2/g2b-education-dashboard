@@ -399,6 +399,7 @@
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 선도학교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">영업 파이프라인</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="pubtrain">공공기관 연수</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="search">통합검색</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">관계망</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="beta">베타 기능</button>
@@ -1408,6 +1409,83 @@
 
   </div><!-- /panel-competitor -->
 
+  <div class="tabpanel" id="panel-pubtrain">
+
+    <div class="callout">
+      <div class="icon">i</div>
+      <div>
+        <h3>공공기관 연수 &mdash; 시도별 운영 목록</h3>
+        <p>역량향상 사전진단(종합) 화면의 시도별 연수 목록을 옮겨 담은 <b>수동 스냅샷</b>입니다. 해당 사이트는 ACCESS_KEY로 여는 응답용 폼이라 조회 API가 없어 <b>자동 갱신되지 않습니다</b>. 목록 화면을 저장(HTML)하거나 표를 복사(TSV)한 뒤 <code>python parse_training_list.py &lt;파일&gt;</code>을 돌리면 시도별로 누적됩니다. 나라장터 탭과 달리 발주 정보가 아니라 <b>이미 편성된 연수 계획</b>이라, 다음 회차 발주 시점을 앞서 읽는 용도입니다.</p>
+      </div>
+    </div>
+
+    <section class="kpis" id="ptKpis"></section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">시도별 연수 규모</p>
+          <p class="panel-desc">막대를 클릭하면 아래 목록이 그 시도로 좁혀집니다. 여기에 없는 시도는 아직 수집 전이며, 데이터가 없는 것과 연수가 없는 것은 다릅니다.</p>
+        </div>
+      </div>
+      <div class="filter-row">
+        <select id="ptMetric">
+          <option value="count">연수 건수</option>
+          <option value="chasi">총 운영차시</option>
+        </select>
+      </div>
+      <svg id="ptSidoChart" viewBox="0 0 1160 80"></svg>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">주제 분류</p>
+          <p class="panel-desc">연수명 키워드 규칙으로 나눈 값입니다(LLM 호출 없음). 칩을 누르면 목록이 그 주제만 남습니다.</p>
+        </div>
+      </div>
+      <div class="filter-row" id="ptThemeChips"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">연수 목록</p>
+          <p class="panel-desc" id="ptSourceNote"></p>
+        </div>
+      </div>
+      <div class="filter-row">
+        <select id="ptSido"><option value="">전체 시도</option></select>
+        <select id="ptPeriod">
+          <option value="">전체 기간</option>
+          <option value="ongoing">진행 중</option>
+          <option value="upcoming">시작 예정</option>
+          <option value="done">종료</option>
+        </select>
+        <input id="ptSearch" type="text" placeholder="연수명 · 운영기관 검색" style="font-family:inherit;font-size:13px;color:var(--ink);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;min-width:220px;">
+        <span class="count" id="ptRowCount"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="ptTable">
+          <thead>
+            <tr>
+              <th data-key="지역">지역<span class="arrow">&#9662;</span></th>
+              <th data-key="연수명">연수명<span class="arrow">&#9662;</span></th>
+              <th data-key="_theme">주제<span class="arrow">&#9662;</span></th>
+              <th data-key="기수">기수/회차<span class="arrow">&#9662;</span></th>
+              <th data-key="시작일자" class="num sorted">시작일자<span class="arrow">&#9662;</span></th>
+              <th data-key="종료일자" class="num">종료일자<span class="arrow">&#9662;</span></th>
+              <th data-key="차시" class="num">운영 차시<span class="arrow">&#9662;</span></th>
+              <th data-key="운영기관">운영 기관<span class="arrow">&#9662;</span></th>
+            </tr>
+          </thead>
+          <tbody id="ptTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div><!-- /panel-pubtrain -->
+
   <div class="tabpanel" id="panel-search">
 
     <div class="callout">
@@ -1613,6 +1691,7 @@ const LEADING_ENRICHED = __LEADING_ENRICHED_JSON__;
 const G2B_FULL = __G2B_FULL_JSON__;
 const PIPE = __PIPE_JSON__;
 const BETA = __BETA_JSON__;
+const PUBLIC_TRAINING = __PUBLIC_TRAINING_JSON__;
 
 const fmt = n => n.toLocaleString('ko-KR');
 const fmtWon = n => {
@@ -4324,5 +4403,235 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         </tr>`).join('')}</tbody>
     </table></div>`;
   }
+})();
+
+/* ---------------- 공공기관 연수 (시도별 수동 스냅샷) ---------------- */
+(function renderPublicTraining(){
+  const tbody = document.getElementById('ptTableBody');
+  if (!tbody || typeof PUBLIC_TRAINING === 'undefined') return;
+
+  const ROWS = (PUBLIC_TRAINING.rows || []).slice();
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  // 연수명 키워드 규칙. 위에서부터 먼저 걸리는 주제로 확정한다(첫 매칭 우선).
+  const THEME_RULES = [
+    ['AI·디지털',   ['AI', '인공지능', 'AIDT', '디지털', '에듀테크', 'SW', '소프트웨어', '코딩', '데이터']],
+    ['평가·서논술형', ['서논술', '논술', '수행평가', '평가', 'IB']],
+    ['기초학력',     ['기초학력', '학습부진', '느린학습', '경계선지능', '학습코칭']],
+    ['SEL·생활지도', ['SEL', '사회정서', '생활지도', '상담', '학교폭력', '정서']],
+    ['생태·환경',    ['생태전환', '환경교육', '기후']],
+    ['늘봄·돌봄',    ['늘봄', '돌봄', '방과후']],
+    ['진로·학점제',  ['고교학점제', '학점제', '진로', '진학']],
+    ['리더십·직무',  ['교장', '교감', '전문직', '리더십', '관리자', '신규교사', '직무']],
+  ];
+  function themeOf(title){
+    const t = (title || '').toUpperCase();
+    for (const [label, kws] of THEME_RULES) if (kws.some(k => t.includes(k.toUpperCase()))) return label;
+    return '기타';
+  }
+
+  // 17개 시도 기준표는 대시보드 상단에서 이미 정의된 것을 그대로 쓴다(중복 정의 방지).
+  const ALL_SIDO = (typeof REGION_SHORT2FULL !== 'undefined') ? Object.keys(REGION_SHORT2FULL) : [];
+  const TODAY = new Date().toISOString().slice(0, 10);
+  function periodOf(r){
+    const s = r.시작일자 || '', e = r.종료일자 || s;
+    if (!s) return '';
+    if (s > TODAY) return 'upcoming';
+    if (e && e < TODAY) return 'done';
+    return 'ongoing';
+  }
+  const PERIOD_LABEL = {upcoming: ['시작 예정', 'open'], ongoing: ['진행 중', 'won'], done: ['종료', 'pre']};
+
+  ROWS.forEach(r => { r._theme = themeOf(r.연수명); r._period = periodOf(r); });
+
+  const sidoSel   = document.getElementById('ptSido');
+  const periodSel = document.getElementById('ptPeriod');
+  const metricSel = document.getElementById('ptMetric');
+  const searchEl  = document.getElementById('ptSearch');
+  const countEl   = document.getElementById('ptRowCount');
+  const chipsEl   = document.getElementById('ptThemeChips');
+  const ths = [...document.querySelectorAll('#ptTable th')];
+
+  let themeFilter = '';
+  let sortKey = '시작일자', sortDir = 1;
+
+  // 시도 옵션 — 데이터에 실제로 있는 시도만 (없는 시도를 0건으로 보여주면 "수집 전"과 "연수 없음"이 섞인다)
+  [...new Set(ROWS.map(r => r.지역))].sort((a,b) => a.localeCompare(b,'ko')).forEach(reg => {
+    const o = document.createElement('option'); o.value = reg; o.textContent = reg; sidoSel.appendChild(o);
+  });
+
+  const noteEl = document.getElementById('ptSourceNote');
+  if (noteEl) {
+    const cap = PUBLIC_TRAINING.captured_date ? `수집 기준일 ${PUBLIC_TRAINING.captured_date}. ` : '';
+    noteEl.textContent = `${cap}헤더를 클릭하면 정렬됩니다. 출처: ${PUBLIC_TRAINING.source || '역량향상 사전진단(종합)'}`;
+  }
+
+  /* KPI */
+  (function drawKpis(){
+    const el = document.getElementById('ptKpis');
+    if (!el) return;
+    const regions = new Set(ROWS.map(r => r.지역));
+    // 어느 시도가 아직 안 들어왔는지가 이 탭에서 가장 실행에 옮기기 쉬운 정보라, 커버 목록 대신 미수집 목록을 보여준다.
+    const missing = ALL_SIDO.filter(s => !regions.has(s));
+    const chasi = ROWS.reduce((a, r) => a + (r.차시 || 0), 0);
+    const live = ROWS.filter(r => r._period === 'ongoing' || r._period === 'upcoming').length;
+    const ai = ROWS.filter(r => r._theme === 'AI·디지털').length;
+    const tiles = [
+      {lbl:'수집된 연수',   val: fmt(ROWS.length)+'건',  sup:'시도별 수동 스냅샷 누적'},
+      {lbl:'커버 시도',     val: `${regions.size}/${ALL_SIDO.length || 17}`,
+       sup: !regions.size ? '아직 없음' : (missing.length ? `미수집: ${missing.join(' · ')}` : '17개 시도 전부 수집됨')},
+      {lbl:'총 운영차시',   val: fmt(chasi)+'차시',      sup: ROWS.length ? `평균 ${Math.round(chasi/ROWS.length)}차시/건` : '-'},
+      {lbl:'진행중·예정',   val: fmt(live)+'건',         sup:`오늘(${TODAY}) 기준`},
+      {lbl:'AI·디지털 비중', val: (ROWS.length ? Math.round(ai/ROWS.length*100) : 0)+'%', sup:`${fmt(ai)}건 / 자사 주력 테마`},
+    ];
+    el.innerHTML = tiles.map(t => `
+      <div class="kpi">
+        <div class="lbl">${esc(t.lbl)}</div>
+        <div class="val num">${esc(t.val)}</div>
+        <div class="sup">${esc(t.sup)}</div>
+      </div>`).join('');
+  })();
+
+  /* 시도별 막대 */
+  function drawChart(){
+    const svg = document.getElementById('ptSidoChart');
+    if (!svg) return;
+    const metric = metricSel.value;
+    const agg = {};
+    ROWS.forEach(r => {
+      const a = agg[r.지역] || (agg[r.지역] = {sido: r.지역, count: 0, chasi: 0});
+      a.count += 1; a.chasi += (r.차시 || 0);
+    });
+    const rows = Object.values(agg).sort((a,b) => b[metric] - a[metric]);
+    if (!rows.length) {
+      svg.setAttribute('viewBox', '0 0 1160 80');
+      svg.innerHTML = '<text x="580" y="45" text-anchor="middle" class="row-label">아직 수집된 연수가 없습니다 — parse_training_list.py 로 목록을 넣어주세요.</text>';
+      return;
+    }
+    // 수집된 시도만 그리므로 행 수가 1개일 수도 17개일 수도 있다. 높이를 행 수에 맞춰
+    // viewBox 자체를 다시 잡아야 시도가 적을 때 아래로 빈 여백이 남지 않는다.
+    const W = 1160, m = {l: 70, r: 90, t: 10, b: 16}, rowH = 34;
+    const H = m.t + rows.length * rowH + m.b;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const maxV = Math.max(...rows.map(r => r[metric]), 1);
+    const unit = metric === 'count' ? '건' : '차시';
+    let out = '';
+    rows.forEach((r, i) => {
+      const y = m.t + i * rowH + rowH * 0.18;
+      const bh = rowH * 0.64;
+      const w = (r[metric] / maxV) * (W - m.l - m.r);
+      out += `<rect x="${m.l}" y="${y}" width="${w}" height="${bh}" rx="3" fill="var(--accent)" class="ptbar" data-sido="${esc(r.sido)}" style="cursor:pointer;"/>`;
+      out += `<text class="row-label" x="${m.l-8}" y="${y+bh/2+4}" text-anchor="end">${esc(r.sido)}</text>`;
+      out += `<text class="row-value num" x="${m.l+w+8}" y="${y+bh/2+4}">${fmt(r[metric])}${unit}</text>`;
+    });
+    svg.innerHTML = out;
+    svg.querySelectorAll('.ptbar').forEach(el => {
+      const row = agg[el.dataset.sido];
+      el.addEventListener('mouseenter', e => showTip(e, `<div class="tt-title">${esc(row.sido)}</div><div class="tt-row"><span>연수</span><b>${fmt(row.count)}건</b></div><div class="tt-row"><span>총 차시</span><b>${fmt(row.chasi)}차시</b></div>`));
+      el.addEventListener('mousemove', moveTip);
+      el.addEventListener('mouseleave', hideTip);
+      el.addEventListener('click', () => { sidoSel.value = row.sido; drawTable(); });
+    });
+  }
+
+  /* 주제 칩 */
+  function drawChips(){
+    if (!chipsEl) return;
+    const agg = {};
+    ROWS.forEach(r => { agg[r._theme] = (agg[r._theme] || 0) + 1; });
+    const items = Object.entries(agg).sort((a,b) => b[1] - a[1]);
+    chipsEl.innerHTML = [['', ROWS.length, '전체']].concat(items.map(([k,v]) => [k, v, k]))
+      .map(([key, n, label]) =>
+        `<span class="chip ${key === themeFilter ? 'open' : 'pre'}" data-theme="${esc(key)}" style="cursor:pointer;">${esc(label)} ${fmt(n)}</span>`
+      ).join('');
+    chipsEl.querySelectorAll('.chip').forEach(el => {
+      el.addEventListener('click', () => { themeFilter = el.dataset.theme; drawChips(); drawTable(); });
+    });
+  }
+
+  /* 목록 */
+  function drawTable(){
+    const sf = sidoSel.value, pf = periodSel.value;
+    const q = (searchEl.value || '').trim().toLowerCase();
+    let rows = ROWS.filter(r =>
+      (!sf || r.지역 === sf) &&
+      (!pf || r._period === pf) &&
+      (!themeFilter || r._theme === themeFilter) &&
+      (!q || (r.연수명 + ' ' + (r.운영기관 || '')).toLowerCase().includes(q))
+    );
+    rows = rows.slice().sort((a, b) => {
+      let av = a[sortKey], bv = b[sortKey];
+      if (typeof av === 'string' || typeof bv === 'string') {
+        return sortDir * String(av || '').localeCompare(String(bv || ''), 'ko');
+      }
+      return sortDir * ((av || 0) - (bv || 0));
+    });
+    countEl.textContent = `${fmt(rows.length)}건 표시 중 (전체 ${fmt(ROWS.length)}건)`;
+
+    tbody.innerHTML = '';
+    if (!rows.length) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 8;
+      td.style.cssText = 'padding:22px 14px;color:var(--muted);';
+      td.textContent = ROWS.length
+        ? '조건에 맞는 연수가 없습니다.'
+        : '아직 수집된 연수가 없습니다. 목록 화면을 저장하거나 표를 복사한 뒤 python parse_training_list.py <파일> 을 실행하세요.';
+      tr.appendChild(td); tbody.appendChild(tr);
+      return;
+    }
+    rows.forEach(r => {
+      const tr = document.createElement('tr');
+      const td = (text, cls) => { const e = document.createElement('td'); if (cls) e.className = cls; e.textContent = text; return e; };
+
+      const tdTheme = document.createElement('td');
+      const themeChip = document.createElement('span');
+      themeChip.className = 'chip ' + (r._theme === 'AI·디지털' ? 'open' : 'pre');
+      themeChip.textContent = r._theme;
+      tdTheme.appendChild(themeChip);
+
+      const tdStart = document.createElement('td');
+      tdStart.className = 'num';
+      const [plabel, pcls] = PERIOD_LABEL[r._period] || ['', ''];
+      tdStart.textContent = r.시작일자 || '-';
+      if (plabel) {
+        const badge = document.createElement('span');
+        badge.className = 'chip ' + pcls;
+        badge.style.marginLeft = '6px';
+        badge.textContent = plabel;
+        tdStart.appendChild(badge);
+      }
+
+      tr.append(
+        td(r.지역, 'region-cell'),
+        td(r.연수명, 'title'),
+        tdTheme,
+        td(r.기수 || '-'),
+        tdStart,
+        td(r.종료일자 || '-', 'num'),
+        td(r.차시 ? fmt(r.차시) : '-', 'num'),
+        td(r.운영기관 || '-', 'org'),
+      );
+      tbody.appendChild(tr);
+    });
+  }
+
+  ths.forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      if (!key) return;
+      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = (key === '차시') ? -1 : 1; }
+      ths.forEach(t => { t.classList.remove('sorted'); const a = t.querySelector('.arrow'); if (a) a.textContent = '\u25BE'; });
+      th.classList.add('sorted');
+      const a = th.querySelector('.arrow'); if (a) a.textContent = sortDir === 1 ? '\u25B4' : '\u25BE';
+      drawTable();
+    });
+  });
+  metricSel.addEventListener('change', drawChart);
+  sidoSel.addEventListener('change', drawTable);
+  periodSel.addEventListener('change', drawTable);
+  searchEl.addEventListener('input', drawTable);
+
+  drawChart(); drawChips(); drawTable();
 })();
 </script>

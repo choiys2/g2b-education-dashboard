@@ -17,8 +17,32 @@ URL 확인 (`https://<사용자명>.github.io/<저장소명>/`)
 | `run_pipeline.py` | 위 과정을 한 번에 실행 (올해 1/1~오늘 범위) |
 | `g2b_config.example.json` | 설정 템플릿(서비스키 자리는 플레이스홀더) |
 | `build_news_briefing.py` | `briefings/*.json` → 조간 신문 지면(`/news/`) 렌더링 |
+| `parse_training_list.py` | 역량향상 사전진단(종합)의 시도별 연수 목록(HTML/TSV) → `static_data/public_training_list.json` |
 | `.github/workflows/deploy.yml` | 매일 06:00 KST 자동 수집·재생성 후 GitHub Pages 배포 |
 | `.github/workflows/news.yml` | `briefings/` 변경 시 신문 지면만 재생성·배포 (나라장터 API 미호출) |
+
+## 공공기관 연수 탭 (시도별)
+
+교육청·공공기관이 **이미 편성해 둔 연수 계획**을 시도별로 모아 보는 탭이다. 나라장터 탭이
+"무엇이 발주됐나"를 보여준다면 이 탭은 "무엇이 이미 잡혀 있나"를 보여주므로, 다음 회차
+발주 시점을 앞서 읽는 용도로 쓴다.
+
+출처인 역량향상 사전진단(종합) 화면은 `ACCESS_KEY`로 여는 응답용 폼이라 조회 API가 없다.
+그래서 이 데이터만 **자동 갱신되지 않는 수동 스냅샷**이며, 목록 화면을 사람이 한 번 가져와야 한다.
+
+```bash
+# 1) 목록 화면을 브라우저에서 저장(HTML)하거나, 표를 드래그 복사해 파일로 붙여넣기(TSV/CSV)
+python parse_training_list.py seoul.html      # 기존 목록에 누적 (중복 자동 제거)
+python parse_training_list.py gyeonggi.tsv    # 시도별로 한 번씩 돌리면 합쳐진다
+python parse_training_list.py all.html --replace   # 기존 목록을 버리고 새로 쓴다
+```
+
+`static_data/public_training_list.json`에 쌓이고, `combine_dashboard.py`가 이를 읽어
+`__PUBLIC_TRAINING_JSON__` 자리에 넣는다. 파일이 없어도 파이프라인은 그대로 돌고 탭은
+빈 상태로 뜬다. 컬럼은 헤더 이름으로 찾으므로 화면 컬럼 순서가 바뀌어도 동작하며,
+`26.10.01` / `2026.10.01` / `2026-10-01` 형식 날짜를 모두 `2026-10-01`로 맞춘다.
+
+탭 상단 "커버 시도" KPI가 아직 안 넣은 시도를 그대로 알려준다.
 
 ## 조간 브리핑 (`/news/`)
 
@@ -91,3 +115,5 @@ GitHub Actions에서는 저장소 Settings → Secrets and variables → Actions
 - 발주계획현황서비스(OrderPlanSttusService)는 시도한 오퍼레이션명이 모두 게이트웨이 단계에서
   실패해 아직 미연동 상태다.
 - 대시보드의 "AI 인사이트"는 LLM 호출 없이 규칙(전주/전월 대비 증감 등)으로 계산한 값이다.
+- 공공기관 연수 탭은 조회 API가 없는 수동 스냅샷이라 자동 갱신되지 않는다. 주제 분류도
+  연수명 키워드 규칙이며 LLM을 쓰지 않는다.

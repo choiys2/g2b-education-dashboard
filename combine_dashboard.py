@@ -258,6 +258,12 @@ def main():
     except FileNotFoundError:
         competitor_finance = {"data_source": "", "note": "", "companies": {}}
     competitor_training = {"g2b": competitor_g2b, "content": competitor_content, "finance": competitor_finance}
+    # 공공기관 연수 목록: 조회 API가 없는 수동 스냅샷이라 live/가 아니라 static_data/에 두고,
+    # parse_training_list.py 가 시도별로 누적해서 갱신한다(파일이 없어도 파이프라인은 그대로 돈다).
+    try:
+        public_training = load("static_data/public_training_list.json")
+    except FileNotFoundError:
+        public_training = {"source": "", "captured_date": "", "rows": []}
 
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
@@ -276,6 +282,7 @@ def main():
         "__LEADING_ENRICHED_JSON__": leading_enriched, "__G2B_FULL_JSON__": g2b_full, "__PIPE_JSON__": pipe,
         "__BETA_JSON__": beta, "__KOSIS_FINANCE_JSON__": kosis_finance,
         "__COMPETITOR_TRAINING_JSON__": competitor_training,
+        "__PUBLIC_TRAINING_JSON__": public_training,
     }
     for token, value in subs.items():
         if token not in html:
@@ -295,7 +302,8 @@ def main():
           f"베타-경쟁사트렌드 {len(beta['competitor_trend'])}, 베타-모멘텀 {len(beta['pipeline_momentum'])}, "
           f"경쟁사연수-낙찰 {len(competitor_g2b.get('records', []))}, "
           f"경쟁사연수-콘텐츠 {len(competitor_content.get('companies', {}))}개사, "
-          f"경쟁사연수-재무 {sum(1 for c in competitor_finance.get('companies', {}).values() if c.get('available'))}개사")
+          f"경쟁사연수-재무 {sum(1 for c in competitor_finance.get('companies', {}).values() if c.get('available'))}개사, "
+          f"공공기관연수 {len(public_training.get('rows', []))}건/{len({r.get('지역') for r in public_training.get('rows', [])})}개 시도")
 
 
 if __name__ == "__main__":
