@@ -10,12 +10,26 @@
 
 담당 영업자 실명도 하드코딩하지 않고, 매 실행마다 등장 빈도순으로 "영업자 A/B/C..."를
 동적으로 부여한다(고정된 이름 매핑을 코드에 남기지 않기 위함).
+
+*** 시트 접근 방식 (2026-08-19 변경) ***
+원본 시트가 비공개로 전환되면서, 로그인 없이 누구나 열 수 있던 gviz 공개 조회
+엔드포인트가 더는 안 먹힌다. 그렇다고 시트를 다시 "링크가 있는 모든 사용자" 로
+풀어버리면 원본 시트 전체(화이트리스트 밖 컬럼 포함)가 링크 유출 시 그대로
+노출된다 - 그건 이 파이프라인이 막으려는 것과 정반대다. 그래서 구글 서비스계정
+전용 인증(Sheets API v4)으로 바꾼다: 서비스계정 이메일에만 "뷰어"로 시트를
+공유하면, 그 계정 자격증명(GitHub Secret으로 보관)을 가진 이 파이프라인만
+원본 시트를 읽을 수 있다. 공개 배포되는 대시보드에는 여전히 SAFE_FIELDS로
+거른 값만 나간다는 점은 이전과 동일 - 이 변경은 "원본 시트"의 접근 통제만
+강화하는 것이다.
+GOOGLE_SHEETS_SA_JSON 환경변수(서비스계정 JSON 키 전체 내용)가 있으면 이
+방식을 쓰고, 없으면 기존 공개 gviz 방식으로 자동 폴백한다(하위 호환).
 """
-import json, os, re, sys, urllib.request, urllib.parse
+import json, os, re, sys, urllib.request, urllib.parse, urllib.error
 from collections import defaultdict, Counter
 
 SHEET_ID = os.environ.get("PIPELINE_SHEET_ID", "1qF-wdKmD5buPLZKPwqIn9jA5fv69NDg1K6bUF4vo3Hw")
 SHEET_GID = os.environ.get("PIPELINE_SHEET_GID", "274729463")
+SA_JSON = os.environ.get("GOOGLE_SHEETS_SA_JSON", "")
 
 # 시트 헤더 -> 안전한 내부 필드명. 이 목록에 없는 컬럼(연락처/메일/주무관 등)은 아예 안 읽는다.
 SAFE_FIELDS = {
@@ -55,6 +69,66 @@ def rows_from_gviz(payload):
                 continue  # 화이트리스트 밖 컬럼(연락처/메일/주무관 등)은 절대 안 읽음
             v = cell.get("f") if cell and cell.get("f") is not None else (cell.get("v") if cell else None)
             rec[field] = v if v is not None else ""
+        if any(str(v).strip() for v in rec.values()):
+            records.append(rec)
+    return records
+
+
+def _sheets_api_get(url, access_token):
+    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {access_token}"})
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+def fetch_via_service_account():
+    """서비스계정 자격증명으로 Sheets API v4를 호출해 values.get 결과를 gviz와
+    동일한 {행렬} 형태로 반환한다. google-auth가 JWT 서명·토큰 교환을 처리한다."""
+    from google.oauth2 import service_account
+    import google.auth.transport.requests as ga_requests
+
+    info = json.loads(SA_JSON)
+    creds = service_account.Credentials.from_service_account_info(
+        info, scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"])
+    creds.refresh(ga_requests.Request())
+    token = creds.token
+
+    # gid는 웹 UI/gviz 전용 식별자라 API v4는 못 알아듣는다 - 먼저 시트 메타데이터에서
+    # gid에 대응하는 탭 "제목"을 찾는다(예: "26운영dt").
+    meta = _sheets_api_get(
+        f"https://sheets.googleapis.com/v4/spreadsheets/{SHEET_ID}?fields=sheets.properties",
+        token)
+    title = None
+    for s in meta.get("sheets", []):
+        props = s.get("properties", {})
+        if str(props.get("sheetId")) == str(SHEET_GID):
+            title = props.get("title")
+            break
+    if not title:
+        raise RuntimeError(f"gid={SHEET_GID}에 해당하는 시트 탭을 찾지 못함")
+
+    range_q = urllib.parse.quote(f"'{title}'", safe="")
+    values_url = (f"https://sheets.googleapis.com/v4/spreadsheets/{SHEET_ID}/values/{range_q}"
+                  f"?valueRenderOption=FORMATTED_VALUE")
+    data = _sheets_api_get(values_url, token)
+    return data.get("values", [])
+
+
+def rows_from_matrix(matrix):
+    """Sheets API v4 values.get 결과([[헤더...], [행...], ...])를 gviz 방식과
+    동일하게 SAFE_FIELDS 화이트리스트만 걸러 records로 변환한다."""
+    if not matrix:
+        return []
+    header = matrix[0]
+    col_field = [SAFE_FIELDS.get((h or "").strip()) for h in header]
+
+    records = []
+    for row in matrix[1:]:
+        rec = {}
+        for i, field in enumerate(col_field):
+            if not field:
+                continue  # 화이트리스트 밖 컬럼은 절대 안 읽음
+            v = row[i] if i < len(row) else ""
+            rec[field] = v
         if any(str(v).strip() for v in rec.values()):
             records.append(rec)
     return records
@@ -118,16 +192,21 @@ def analyze(records):
     }
 
 
+def fetch_records():
+    if SA_JSON:
+        return rows_from_matrix(fetch_via_service_account())
+    return rows_from_gviz(fetch_gviz())
+
+
 def main():
     out_path = sys.argv[1] if len(sys.argv) > 1 else "live/own_pipeline_export.json"
     try:
-        payload = fetch_gviz()
+        records = fetch_records()
     except Exception as e:
-        print(f"[경고] 시트 조회 실패(비공개로 전환됐을 수 있음): {e}", file=sys.stderr)
+        print(f"[경고] 시트 조회 실패(비공개로 전환됐거나 서비스계정 미공유일 수 있음): {e}", file=sys.stderr)
         json.dump({"records": [], "kpi": {"total": 0}, "byRegion": {}, "byRep": {}, "byField": {}, "byMonth": {}},
                    open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         return
-    records = rows_from_gviz(payload)
     records = anonymize_reps(records)
     analysis = analyze(records)
     analysis["records"] = records
