@@ -12,11 +12,31 @@
 
 | 이름 | 값 | 비고 |
 |---|---|---|
-| `NEIS_KEY` | `35217cc2959b490990e25e95a1085b19` | 나이스 개방포털 마이페이지에서 발급받은 인증키(이미 갖고 계신 것) |
-| `ODCLOUD_KEY` | `d8ac83ebf8376f59ad04d82aae37e8a69a2661b0d1b6a624d9bc8415a65ff464` | 공공데이터포털(data.go.kr) 일반 인증키. 지금 쓰시는 `G2B_SERVICE_KEY`와 같은 값입니다 — 나라장터·AI선도학교 둘 다 같은 계정 키를 씁니다 |
-| `KOSIS_KEY` | `OTg3OTkzNWRlOTIxZjNmZGUzMzA0OGIxZTgyYTUxOWU=` | KOSIS(국가통계포털) Open API 인증키. "영업 파이프라인" 탭의 시도교육청 교육재정 규모 표에 씁니다 |
+| `NEIS_KEY` | *(마이페이지에서 재발급받은 값 입력)* | 나이스 개방포털 마이페이지에서 발급받은 인증키. ⚠ 이 저장소는 퍼블릭이라 여기 실제 값을 적으면 안 됩니다 — 반드시 GitHub Secret 입력창에만 붙여넣으세요 |
+| `ODCLOUD_KEY` | *(재발급받은 값 입력)* | 공공데이터포털(data.go.kr) 일반 인증키. 지금 쓰시는 `G2B_SERVICE_KEY`와 같은 값입니다 — 나라장터·AI선도학교 둘 다 같은 계정 키를 씁니다 |
+| `KOSIS_KEY` | *(재발급받은 값 입력)* | KOSIS(국가통계포털) Open API 인증키. "영업 파이프라인" 탭의 시도교육청 교육재정 규모 표에 씁니다 |
+| `GOOGLE_SHEETS_SA_JSON` | *(서비스계정 JSON 키 전체 내용)* | 자사 영업 파이프라인 구글시트 연동용. 아래 "1-1" 참고 |
 
 기존에 이미 등록돼 있는 `G2B_SERVICE_KEY`는 그대로 두시면 됩니다.
+
+### 1-1. `GOOGLE_SHEETS_SA_JSON` 발급 방법 (영업 파이프라인 시트 연동)
+
+파이프라인 시트를 비공개로 유지한 채(링크 유출 걱정 없이) 자동화만 읽을 수 있게 하는 방법입니다.
+구글 서비스계정에게 시트를 "뷰어"로만 공유하고, 그 계정 자격증명을 GitHub Secret으로 저장합니다 —
+공개 배포되는 대시보드에는 여전히 `own_pipeline_export.py`가 거른 안전한 필드만 나갑니다(원본
+시트 전체가 아님).
+
+1. [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트를 하나 만듭니다(기존 프로젝트가 있으면 재사용해도 됩니다).
+2. 좌측 메뉴 **API 및 서비스 → 라이브러리**에서 "Google Sheets API"를 검색해 **사용 설정**.
+3. **API 및 서비스 → 사용자 인증 정보 → 사용자 인증 정보 만들기 → 서비스 계정** 선택, 이름은 아무거나(예: `pipeline-reader`), 역할은 지정하지 않고 완료.
+4. 만들어진 서비스 계정 클릭 → **키** 탭 → **키 추가 → 새 키 만들기 → JSON** → 다운로드됩니다.
+5. 서비스 계정 상세 화면에 나오는 이메일 주소(`pipeline-reader@프로젝트ID.iam.gserviceaccount.com` 형태)를 복사합니다.
+6. [파이프라인 구글시트](https://docs.google.com/spreadsheets/d/1qF-wdKmD5buPLZKPwqIn9jA5fv69NDg1K6bUF4vo3Hw/edit?gid=274729463)를 열고 **공유** → 5번 이메일을 추가 → 권한은 **뷰어**로 지정 → 저장. (시트 자체는 계속 비공개로 두셔도 됩니다 — 이 계정에만 열어주는 것입니다.)
+7. 4번에서 받은 JSON 파일을 텍스트 에디터로 열어 **전체 내용을 그대로 복사**합니다.
+8. `github.com/choiys2/g2b-education-dashboard` → Settings → Secrets and variables → Actions → New repository secret → 이름 `GOOGLE_SHEETS_SA_JSON`, 값에 7번 붙여넣기 → 저장.
+
+다음 자동 실행부터 "담당 영업자별 실적"·"분야별 실적"·"예상매출 파이프라인"이 실제 시트 데이터로 채워집니다.
+로컬에 받은 JSON 키 파일은 저장소에 커밋하지 말고 삭제하거나 안전한 곳에만 보관하세요.
 
 ## 2. (선택) 파이프라인 상태 인라인 변경을 쓰려면 Apps Script 배포
 
