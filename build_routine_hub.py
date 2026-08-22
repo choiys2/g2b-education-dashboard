@@ -11,6 +11,7 @@ routines/team.json  ->  live/routines/index.html
 """
 import html
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -658,7 +659,7 @@ def render_page(data):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>루틴 허브 — 나의 비서 7인</title>
+<title>비서 7인 루틴 허브</title>
 <style>{CSS}</style>
 </head><body>
 <div class="app" id="app" data-open="0">
@@ -736,9 +737,23 @@ def main():
 
     out_dir.mkdir(parents=True, exist_ok=True)
     target = out_dir / "index.html"
-    target.write_text(render_page(data), encoding="utf-8")
+    page = render_page(data)
+    target.write_text(page, encoding="utf-8")
+
+    # Artifact로 재발행할 때 쓰는 본문 전용 사본. Artifact는 <!doctype>/<head>/<body>를
+    # 자기가 씌우므로 그 껍데기를 벗겨 title+style+본문만 남긴다.
+    # out_dir 바깥에 두어 _site/routines/ 로 복사되지 않게 한다.
+    body_only = "<title>%s</title>\n<style>%s</style>\n%s\n" % (
+        re.search(r"<title>(.*?)</title>", page, re.S).group(1),
+        re.search(r"<style>(.*?)</style>", page, re.S).group(1),
+        re.search(r"<body>(.*?)</body>", page, re.S).group(1),
+    )
+    art = out_dir.parent / "routines_artifact.html"
+    art.write_text(body_only, encoding="utf-8")
+
     print(f"[routine-hub] {target} ({len(data['assistants'])}명, "
           f"{target.stat().st_size // 1024}KB)")
+    print(f"[routine-hub] Artifact 본문 -> {art}")
 
 
 if __name__ == "__main__":
