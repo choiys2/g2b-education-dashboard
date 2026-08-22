@@ -727,6 +727,11 @@ LIVE_JS = r"""
     blocked_by_policy:['조직 정책이 이 조회를 막고 있습니다','관리자에게 %s 허용을 요청해 주세요'],
     approval_required:['건별 승인이 필요한 도구입니다','아티팩트에서는 아직 승인 절차를 띄울 수 없습니다'],
     tool_error:       ['%s 가 오류를 돌려줬습니다',''],
+    /* 아래 둘은 커넥터가 준 코드가 아니라 이 페이지가 붙인 표식이다 */
+    no_response:      ['%s 조회가 20초 동안 아무 응답도 주지 않았습니다',
+                       '아래 연결 진단을 눌러 실제 상태를 확인해 주세요'],
+    watch_failed:     ['%s 조회를 등록하지 못했습니다',
+                       '아래 연결 진단을 눌러 실제 상태를 확인해 주세요'],
     rate_limited:     ['요청이 너무 잦습니다','잠시 뒤 다시 시도합니다'],
     bad_request:      ['요청 형식이 잘못됐습니다','페이지 쪽 문제입니다'],
     cancelled:        ['조회가 취소됐습니다','다시 눌러 주세요'],
@@ -885,9 +890,10 @@ LIVE_JS = r"""
     var wait=typing(pane);
     var slot=null, retried=false;
 
-    /* 아무것도 도착하지 않은 채 매달려 있지 않도록 한계를 둔다 */
+    /* 아무것도 도착하지 않은 채 매달려 있지 않도록 한계를 둔다.
+       이건 커넥터가 준 오류가 아니므로 server_unavailable 로 위장하지 않는다 */
     var guard=setTimeout(function(){
-      if(!slot) settle(errBubble({code:'server_unavailable',server:call.server},call));
+      if(!slot) settle(errBubble({code:'no_response',server:call.server},call));
     },20000);
 
     function settle(node){
@@ -914,7 +920,8 @@ LIVE_JS = r"""
       if(watches[key]){ watches[key](); delete watches[key]; }
 
       var lead=false;
-      var un=mcp.watchTool(call.server, call.tool, inputFor(call), function(ev){
+      var un;
+      try{ un=mcp.watchTool(call.server, call.tool, inputFor(call), function(ev){
         if(ev.type==='error'){
           var code=ev.error&&ev.error.code;
           if(code==='server_unavailable' && !retried){
@@ -938,16 +945,92 @@ LIVE_JS = r"""
         settle(out.node);
         if(!lead && call.lead){ lead=true; }
       }, {cache:{staleTime:120000, gcTime:600000}, refetchInterval:300000});
-
+      }catch(e){
+        settle(errBubble({code:'watch_failed',server:call.server,
+                          message:String(e&&e.message||e)},call));
+        return;
+      }
       watches[key]=un;
     });
   }
 
+  /* ---------- 연결 진단 ----------
+     칩이 전부 같은 오류를 낼 때, 어느 단계에서 막혔는지 그대로 보여준다.
+     추측 대신 런타임이 실제로 돌려준 값만 적는다. */
+  function diagnose(idx){
+    var pane=paneFor(idx); if(!pane)return;
+    var mine=el('div','bubble'); mine.textContent='연결 상태 진단해 주세요.';
+    appendMsg(pane,mine,'me');
+    var wait=typing(pane);
+
+    var lines=[];
+    function put(k,v){ lines.push([k,v]); }
+    function show(){
+      if(wait&&wait.parentNode) wait.remove();
+      var b=el('div','bubble rich live');
+      b.appendChild(head('연결 진단',false));
+      var box=el('div','rows');
+      lines.forEach(function(p){
+        var row=el('div','kv');
+        row.appendChild(el('span','k',p[0]));
+        row.appendChild(el('span','v',p[1]));
+        box.appendChild(row);
+      });
+      b.appendChild(box);
+      b.appendChild(el('div','rich-foot','이 내용을 그대로 알려 주시면 원인을 잡습니다'));
+      appendMsg(pane,b,'them');
+    }
+
+    put('window.claude', window.claude?'있음':'없음');
+    put('claude.use', (window.claude&&window.claude.use)?'있음':'없음');
+
+    mcpP.then(function(mcp){
+      put('use("mcp")', mcp?'네임스페이스 받음':'null (커넥터 불가)');
+      if(!mcp){ show(); return; }
+      put('watchTool', typeof mcp.watchTool==='function'?'있음':'없음');
+      put('listTools', typeof mcp.listTools==='function'?'있음':'없음');
+      if(typeof mcp.listTools!=='function'){ show(); return; }
+
+      return mcp.listTools().then(function(r){
+        var ss=r.servers||[];
+        put('연결된 커넥터', ss.length?String(ss.length)+'개':'0개');
+        ss.forEach(function(s){
+          put('· '+s.server, s.authStatus+' · 도구 '+((s.tools||[]).length)+'개');
+        });
+        if(!ss.length) put('해석','이 페이지가 요청한 커넥터가 뷰어 계정에 없습니다');
+        /* 실제로 한 번 불러본다 — 목록과 호출 결과가 다를 수 있다 */
+        return mcp.callTool('Gmail','search_threads',{query:'is:unread',pageSize:1},
+                            {cache:false})
+          .then(function(res){
+            var p=res&&res.payload;
+            put('Gmail 직접 호출','성공 · '+(p&&p.threads?p.threads.length:0)+'건');
+          })
+          .catch(function(e){
+            put('Gmail 직접 호출','거부 · '+(e&&e.code||'?')
+                +(e&&e.message?' · '+String(e.message).slice(0,60):''));
+          });
+      }).catch(function(e){
+        put('listTools','거부 · '+(e&&e.code||'?')
+            +(e&&e.message?' · '+String(e.message).slice(0,60):''));
+      });
+    }).catch(function(e){
+      put('use("mcp")','거부 · '+(e&&e.code||String(e)));
+    }).then(show);
+  }
+
   /* ---------- 퀵리플라이 칩 ---------- */
+  function diagChip(idx){
+    var d=el('button','qc'); d.type='button';
+    d.appendChild(document.createTextNode('연결 진단'));
+    d.addEventListener('click',function(){ diagnose(idx); });
+    quick.appendChild(d);
+  }
+
   function chipsFor(idx){
     quick.textContent='';
     var s=SPEC[idx]; if(!s||!s.calls.length){
       if(hint) hint.innerHTML='이 비서는 저장소 데이터만 씁니다 · 상단 <b>실행</b>으로 루틴 결과를 봅니다';
+      diagChip(idx);
       return;
     }
     var SRC={'PlayMCP':'네이버','Google Calendar':'캘린더','Gmail':'Gmail'};
@@ -964,6 +1047,7 @@ LIVE_JS = r"""
       b.addEventListener('click',function(){ ask(idx,call); });
       quick.appendChild(b);
     });
+    diagChip(idx);
     if(!hint) return;
     if(mcpOk===false)
       hint.innerHTML='이 화면에서는 커넥터를 쓸 수 없어 실시간 조회가 꺼져 있습니다 · '
