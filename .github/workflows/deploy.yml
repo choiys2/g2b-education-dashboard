@@ -10,8 +10,11 @@ on:
     # 동시에 뜨면 concurrency 그룹(pages)에서 뒤에 대기하던 쪽이 취소되는데,
     # 실측 결과 매번 news.yml 이 취소되고 무거운 이 파이프라인이 대신 배포했다.
     # (2026-08-16: news.yml #4~#7 전부 cancelled)
+    # 브리핑·루틴 데이터만 바뀐 푸시는 news.yml(경량 경로)이 전담한다. 두 워크플로가
+    # 같은 push 로 동시에 뜨면 concurrency 그룹(pages)에서 뒤에 대기하던 쪽이 취소된다.
     paths-ignore:
       - "briefings/**"
+      - "routines/**"
 
 permissions:
   contents: write
@@ -111,6 +114,12 @@ jobs:
         continue-on-error: true
         run: python build_news_briefing.py briefings live/news
 
+      # 루틴 7종을 비서 7인과의 대화(아이메시지 UI)로 보여주는 허브. 외부 API를
+      # 호출하지 않고 routines/team.json 만 읽으므로 데이터 장애와 무관하다.
+      - name: 루틴 허브 생성
+        continue-on-error: true
+        run: python build_routine_hub.py routines/team.json live/routines
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
@@ -158,6 +167,9 @@ jobs:
           fi
           if [ -d live/news ]; then
             cp -r live/news _site/news
+          fi
+          if [ -d live/routines ]; then
+            cp -r live/routines _site/routines
           fi
 
       - uses: actions/upload-pages-artifact@v3

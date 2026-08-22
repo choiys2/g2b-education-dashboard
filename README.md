@@ -17,8 +17,54 @@ URL 확인 (`https://<사용자명>.github.io/<저장소명>/`)
 | `run_pipeline.py` | 위 과정을 한 번에 실행 (올해 1/1~오늘 범위) |
 | `g2b_config.example.json` | 설정 템플릿(서비스키 자리는 플레이스홀더) |
 | `build_news_briefing.py` | `briefings/*.json` → 조간 신문 지면(`/news/`) 렌더링 |
+| `build_routine_hub.py` | `routines/team.json` → 루틴 허브(`/routines/`) 렌더링 |
+| `routine_avatars.py` | 비서 7인의 얼굴을 SVG로 그리는 아바타 생성기 |
 | `.github/workflows/deploy.yml` | 매일 06:00 KST 자동 수집·재생성 후 GitHub Pages 배포 |
-| `.github/workflows/news.yml` | `briefings/` 변경 시 신문 지면만 재생성·배포 (나라장터 API 미호출) |
+| `.github/workflows/news.yml` | `briefings/`·`routines/` 변경 시 지면·루틴 허브만 재생성·배포 (나라장터 API 미호출) |
+
+## 루틴 허브 (`/routines/`)
+
+7개 정기 루틴을 **비서 7인과 나누는 대화**로 보여주는 페이지다. 아이메시지(iMessage)
+레이아웃을 그대로 따라, 왼쪽은 대화 목록·오른쪽은 스레드다. 외부 API를 호출하지 않고
+`routines/team.json` 하나만 읽는다.
+
+```bash
+python build_routine_hub.py          # routines/team.json -> live/routines/
+# live/routines/index.html 을 브라우저로 열기
+```
+
+| 루틴 | 담당 비서 | 주기 |
+| --- | --- | --- |
+| ① 모닝 브리핑 | 한도윤 · 조간 데스크 | 평일 07:00 |
+| ② 주간 시장·경쟁 인텔리전스 | 서지안 · 시장·경쟁 인텔리전스 | 월 09:00 |
+| ③ B2G 공고·입찰 모니터링 | 노태경 · B2G 입찰 헌터 | 상시 |
+| ④ PMO 3 Core 리스크 점검 | 정하람 · PMO 리스크 오피서 | 목 16:00 |
+| ⑤ 주간 회고·다음주 세팅 | 윤소민 · 위클리 클로저 | 금 17:00 |
+| ⑥ 월간 KPI·포트폴리오 전략 | 강이나 · KPI·포트폴리오 전략가 | 매월 1영업일 |
+| ⑦ 월말 D-30 선제 점검 | 문재원 · D-30 선제 점검 | 매월 말 |
+
+비서를 추가·수정하려면 `routines/team.json`의 `assistants[]`에 항목을 넣는다. 필드 구성:
+
+| 키 | 내용 |
+| --- | --- |
+| `id` / `no` / `name` / `title` | 식별자, 루틴 번호, 이름, 직함 |
+| `routine` / `tagline` / `accent` | 담당 루틴명, 한 줄 소개, 강조색 |
+| `schedule` | `label`(표시용) / `cadence`(`평일`·`주간`·`월간`, 필터 탭 기준) / `next` |
+| `scope[]` | 프로필에 칩으로 붙는 담당 범위 |
+| `avatar` | `skin`·`hair`·`top`·`bg` 색, `style`(헤어), `glasses`, `beard` |
+| `thread[]` | 대화 내역. 목록의 미리보기·시각은 여기서 자동 계산 |
+| `run[]` | 상단 **실행** 버튼을 눌렀을 때 재생되는 메시지 |
+
+`thread[]` / `run[]` 항목의 `t`(종류)는 `text` · `card`(표) · `list`(목록) · `file`(첨부)
+· `poll`(투표) · `day`(날짜 구분선)이고, `from`은 `them`(비서) 또는 `me`(본인)다.
+`text` 본문에는 `**강조**`와 `<strong>` `<em>` `<br>`만 살아남고 나머지는 이스케이프된다.
+
+얼굴은 사진이 아니라 `routine_avatars.py`가 그리는 벡터 초상이다. 외부 이미지 요청이
+없고, 초상권 문제도 없다. 헤어스타일은 `sidepart`·`bob`·`crop`·`ponytail`·`long`·
+`curly`·`wavy` 7종.
+
+화면은 라이트/다크 자동 대응이고, 820px 아래에서는 아이폰 메시지 앱처럼 목록 →
+스레드 단일 화면으로 전환된다. 말풍선을 길게 누르면 탭백(이모지 반응)이 붙는다.
 
 ## 조간 브리핑 (`/news/`)
 

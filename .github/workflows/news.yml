@@ -8,6 +8,9 @@ on:
     paths:
       - "briefings/**"
       - "build_news_briefing.py"
+      - "routines/**"
+      - "build_routine_hub.py"
+      - "routine_avatars.py"
       - ".github/workflows/news.yml"
   workflow_dispatch: {}
 
@@ -36,6 +39,11 @@ jobs:
       - name: 신문 지면 생성 (표준 라이브러리만 사용)
         run: python build_news_briefing.py briefings live/news
 
+      # 루틴 허브도 표준 라이브러리만 쓰므로 여기서 다시 만든다. 아래 회수 단계가
+      # routines/ 는 내려받지 않기 때문에, 새로 만들어 넣지 않으면 이 배포에서 사라진다.
+      - name: 루틴 허브 생성
+        run: python build_routine_hub.py routines/team.json live/routines
+
       - uses: actions/configure-pages@v5
         id: pages
 
@@ -63,6 +71,7 @@ jobs:
           fi
 
           cp -r live/news _site/news
+          cp -r live/routines _site/routines
           echo "deployable=true" >> "$GITHUB_OUTPUT"
           echo "회수한 파일:"; find _site -type f | sort
 
