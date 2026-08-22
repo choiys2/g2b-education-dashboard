@@ -292,6 +292,39 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .hint{max-width:760px;margin:6px auto 0;font-size:11px;color:var(--ink-3);text-align:center}
 @media (max-width:520px){.hint{display:none}}
 
+/* 퀵리플라이 — 비서가 실제로 조회할 수 있는 것만 칩으로 노출한다 */
+.quick{max-width:760px;margin:0 auto 8px;display:flex;gap:6px;overflow-x:auto;
+  scrollbar-width:none;padding:1px}
+.quick::-webkit-scrollbar{display:none}
+.quick:empty{display:none}
+.qc{flex:none;border:0;font:inherit;font-size:13px;line-height:1;cursor:pointer;
+  padding:8px 13px;border-radius:16px;background:var(--field);color:var(--blue);
+  box-shadow:inset 0 0 0 1px var(--hair);white-space:nowrap;
+  transition:transform .12s,background .12s}
+.qc:hover{background:var(--bub-in)}
+.qc:active{transform:scale(.96)}
+.qc:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.qc[disabled]{color:var(--ink-3);cursor:not-allowed;opacity:.55}
+.qc .src{font-size:10px;color:var(--ink-3);margin-left:6px}
+
+/* 라이브 응답 말풍선 */
+.bubble.live .rich-head .t{display:flex;align-items:center;gap:6px}
+.livedot{width:6px;height:6px;border-radius:50%;background:#30D158;flex:none}
+.bubble.live .stale{font-size:11px;color:var(--ink-3);margin-top:7px}
+.ev{display:flex;gap:9px;padding:7px 0;border-top:.5px solid var(--hair)}
+.ev:first-child{border-top:0}
+.ev .when{flex:none;width:52px;font-size:12px;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;padding-top:1px}
+.ev .what{flex:1;min-width:0;font-size:14px;line-height:1.35;word-break:break-word}
+.ev .sub{font-size:12px;color:var(--ink-2);margin-top:2px;word-break:break-word}
+.ev .sub a{color:var(--blue);text-decoration:none}
+.ev .sub a:hover{text-decoration:underline}
+.ev .dotmark{flex:none;width:7px;height:7px;border-radius:50%;margin-top:6px}
+.err{font-size:13px;line-height:1.45}
+.err .fix{display:block;margin-top:5px;font-size:12px;color:var(--ink-2)}
+.err .code{font-size:10px;color:var(--ink-3);letter-spacing:.04em;
+  text-transform:uppercase;margin-top:6px;display:block}
+
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0 0 0 0);white-space:nowrap;border:0}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;
@@ -628,6 +661,351 @@ JS = """
 """
 
 
+LIVE_JS = r"""
+(function(){
+  var specNode=document.getElementById('live-spec');
+  if(!specNode) return;
+  var SPEC; try{ SPEC=JSON.parse(specNode.textContent); }catch(e){ return; }
+
+  var panes=document.getElementById('panes'), scroll=document.getElementById('scroll'),
+      quick=document.getElementById('quick'), hint=document.getElementById('hint');
+
+  /* ---------- 유틸 ---------- */
+  function el(tag,cls,txt){var n=document.createElement(tag);
+    if(cls)n.className=cls; if(txt!=null)n.textContent=txt; return n;}
+  function stamp(d){d=d||new Date();var h=d.getHours(),ap=h<12?'오전':'오후';
+    return ap+' '+(h%12||12)+':'+String(d.getMinutes()).padStart(2,'0');}
+  function iso(d){return d.toISOString().slice(0,19)+'+00:00';}
+  /* 네이버의 <b> 강조와 Gmail 스니펫의 엔티티를 모두 평문으로 되돌린다.
+     엔티티를 먼저 풀어야 &lt;b&gt; 로 실려온 태그도 같이 걷힌다.
+     삽입은 전부 textContent 로 하므로 두 번 푸는 데 따르는 주입 위험은 없다. */
+  function detag(s){
+    if(typeof s!=='string') return '';
+    var t=document.createElement('textarea');
+    t.innerHTML=s;
+    return t.value.replace(/<\/?[a-z][^>]*>/gi,'').replace(/\s+/g,' ').trim();
+  }
+  function kstParts(d){
+    var f=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',
+      minute:'2-digit',hour12:false,month:'numeric',day:'numeric'});
+    var o={}; f.formatToParts(d).forEach(function(p){o[p.type]=p.value;});
+    return o;
+  }
+
+  /* 로컬 자정 경계를 KST 기준으로 만든다 */
+  function dayStartKST(offsetDays){
+    var now=new Date();
+    var s=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',
+      month:'2-digit',day:'2-digit'}).format(now);
+    var base=new Date(s+'T00:00:00+09:00');
+    base.setDate(base.getDate()+(offsetDays||0));
+    return base;
+  }
+  function range(kind){
+    if(kind==='today')   return {startTime:iso(dayStartKST(0)), endTime:iso(dayStartKST(1))};
+    if(kind==='next7')   return {startTime:iso(new Date()),     endTime:iso(dayStartKST(8))};
+    if(kind==='monthRest'){
+      var end=dayStartKST(0); end.setMonth(end.getMonth()+1); end.setDate(1);
+      return {startTime:iso(new Date()), endTime:iso(end)};
+    }
+    return {};
+  }
+  function inputFor(call){
+    var i={}; for(var k in call.input) i[k]=call.input[k];
+    if(call.range){ var r=range(call.range); for(var j in r) i[j]=r[j]; }
+    return i;
+  }
+
+  /* ---------- 커넥터 오류: 코드별로 각각 다른 안내 ---------- */
+  var FIX={
+    needs_reauth:     ['연결이 만료됐습니다','claude.ai 설정 → 커넥터에서 %s 다시 연결'],
+    server_not_connected:['커넥터가 없습니다','claude.ai 설정 → 커넥터에서 %s 추가'],
+    selection_required:['%s 커넥터가 여러 개입니다','어느 것을 쓸지 골라 주시면 바로 가져옵니다'],
+    server_not_found: ['%s 커넥터를 찾을 수 없습니다','연결이 해제됐는지 확인해 주세요'],
+    server_unavailable:['%s 쪽이 잠시 응답하지 않습니다','잠시 뒤 다시 시도합니다'],
+    not_in_manifest:  ['이 페이지에 허용되지 않은 조회입니다','페이지를 다시 발행해야 합니다'],
+    blocked_by_policy:['조직 정책이 이 조회를 막고 있습니다','관리자에게 %s 허용을 요청해 주세요'],
+    approval_required:['건별 승인이 필요한 도구입니다','아티팩트에서는 아직 승인 절차를 띄울 수 없습니다'],
+    tool_error:       ['%s 가 오류를 돌려줬습니다',''],
+    rate_limited:     ['요청이 너무 잦습니다','잠시 뒤 다시 시도합니다'],
+    bad_request:      ['요청 형식이 잘못됐습니다','페이지 쪽 문제입니다'],
+    cancelled:        ['조회가 취소됐습니다','다시 눌러 주세요'],
+    not_granted:      ['이 화면에는 커넥터 권한이 없습니다','정적 내용만 표시합니다'],
+    capability_disabled:['이 뷰어에서는 커넥터를 쓸 수 없습니다','정적 내용만 표시합니다'],
+    capability_removed:['이 뷰어에서는 커넥터를 쓸 수 없습니다','정적 내용만 표시합니다'],
+    transform_error:  ['요청을 준비하지 못했습니다','페이지 쪽 문제입니다']
+  };
+  /* 인증·정책 거부는 이미 그린 데이터를 걷어낸다. 일시 오류는 유지한다. */
+  var RETRACT={needs_reauth:1,server_not_connected:1,selection_required:1,
+               blocked_by_policy:1,approval_required:1,server_not_found:1,
+               not_in_manifest:1,not_granted:1,capability_disabled:1,capability_removed:1};
+
+  function errBubble(err,call){
+    var code=err&&err.code||'upstream_error';
+    var pair=FIX[code]||['가져오지 못했습니다',''];
+    var srv=err&&err.server||call.server;
+    var b=el('div','bubble live');
+    var wrap=el('div','err');
+    wrap.appendChild(el('div',null,pair[0].replace('%s',srv)));
+    var fix=pair[1]?pair[1].replace('%s',srv):(code==='tool_error'&&err.message?err.message:'');
+    if(fix) wrap.appendChild(el('span','fix',fix));
+    wrap.appendChild(el('span','code',code));
+    b.appendChild(wrap);
+    return b;
+  }
+
+  /* ---------- 응답 → 말풍선 ---------- */
+  function head(title,live){
+    var h=el('div','rich-head'), t=el('div','t');
+    if(live) t.appendChild(el('span','livedot'));
+    t.appendChild(el('span',null,title));
+    h.appendChild(t);
+    return h;
+  }
+
+  function renderCalendar(payload,call,accent){
+    var evs=(payload&&payload.events)||[];
+    if(!evs.length) return {text:call.empty};
+    var b=el('div','bubble rich live');
+    b.appendChild(head(call.title,true));
+    var box=el('div','rows');
+    evs.forEach(function(e){
+      var row=el('div','ev');
+      var st=e.start||{};
+      var when, allDay=!st.dateTime;
+      if(allDay){ when='종일'; }
+      else { var p=kstParts(new Date(st.dateTime)); when=p.hour+':'+p.minute; }
+      var day=st.dateTime?kstParts(new Date(st.dateTime)):null;
+      row.appendChild(el('div','when',when));
+      var what=el('div','what');
+      what.appendChild(el('div',null,e.summary||'(제목 없음)'));
+      var bits=[];
+      if(call.range!=='today'&&day) bits.push(day.month+'/'+day.day);
+      if(e.location) bits.push(e.location);
+      if(e.eventType==='OUT_OF_OFFICE') bits.push('부재중');
+      if(bits.length) what.appendChild(el('div','sub',bits.join(' · ')));
+      row.appendChild(what);
+      box.appendChild(row);
+    });
+    b.appendChild(box);
+    return {node:b, count:evs.length};
+  }
+
+  function renderGmail(payload,call){
+    var th=(payload&&payload.threads)||[];
+    if(!th.length) return {text:call.empty};
+    var b=el('div','bubble rich live');
+    b.appendChild(head(call.title,true));
+    var box=el('div','rows');
+    th.forEach(function(t){
+      var m=(t.messages&&t.messages[0])||{};
+      var row=el('div','ev');
+      var d=m.date?kstParts(new Date(m.date)):null;
+      row.appendChild(el('div','when',d?(d.month+'/'+d.day):''));
+      var what=el('div','what');
+      what.appendChild(el('div',null,m.subject||'(제목 없음)'));
+      var who=(m.sender||'').replace(/^.*<|>.*$/g,'');
+      var snip=detag(m.snippet||'').slice(0,64);
+      var sub=[who,snip].filter(Boolean).join(' · ');
+      if(sub) what.appendChild(el('div','sub',sub));
+      row.appendChild(what);
+      box.appendChild(row);
+    });
+    b.appendChild(box);
+    var est=payload&&payload.resultCountEstimate;
+    if(est&&Number(est)>th.length)
+      b.appendChild(el('div','rich-foot','표시 '+th.length+'건 · 전체 약 '+est+'건'));
+    return {node:b, count:th.length};
+  }
+
+  function renderNews(payload,call){
+    var items=(payload&&payload.items)||[];
+    if(!items.length) return {text:call.empty};
+    var b=el('div','bubble rich live');
+    b.appendChild(head(call.title,true));
+    var box=el('div','rows');
+    items.forEach(function(n){
+      var row=el('div','ev');
+      var d=n.pubDate?kstParts(new Date(n.pubDate)):null;
+      row.appendChild(el('div','when',d?(d.month+'/'+d.day):''));
+      var what=el('div','what');
+      what.appendChild(el('div',null,detag(n.title)));
+      var sub=el('div','sub');
+      sub.appendChild(document.createTextNode(detag(n.description).slice(0,80)));
+      if(n.link){
+        sub.appendChild(document.createTextNode(' '));
+        var a=el('a',null,'기사');
+        a.href=n.link; a.target='_blank'; a.rel='noopener noreferrer';
+        sub.appendChild(a);
+      }
+      what.appendChild(sub);
+      row.appendChild(what);
+      box.appendChild(row);
+    });
+    b.appendChild(box);
+    return {node:b, count:items.length};
+  }
+
+  var RENDER={calendar:renderCalendar, gmail:renderGmail, news:renderNews};
+
+  /* ---------- 스레드에 붙이기 ---------- */
+  function paneFor(idx){
+    return [].filter.call(panes.children,function(p){return p.dataset.idx==String(idx);})[0];
+  }
+  function appendMsg(pane,node,who){
+    var m=el('div','msg '+who+' tail');
+    m.appendChild(node);
+    m.appendChild(el('span','stamp',stamp()));
+    pane.appendChild(m);
+    scroll.scrollTop=scroll.scrollHeight;
+    return m;
+  }
+  function typing(pane){
+    var m=el('div','msg them tail');
+    var b=el('div','bubble dots'); b.setAttribute('aria-label','입력 중');
+    b.innerHTML='<i></i><i></i><i></i>';
+    m.appendChild(b); pane.appendChild(m);
+    scroll.scrollTop=scroll.scrollHeight;
+    return m;
+  }
+
+  /* ---------- 커넥터 ---------- */
+  var mcpP=(window.claude&&window.claude.use)?window.claude.use('mcp'):Promise.resolve(null);
+  var available=null;   // 연결된 커넥터 이름 Set. null = 아직 모름(막지 않는다)
+  var mcpOk=null;       // 이 화면이 커넥터를 쓸 수 있는가. null = 확인 전
+  var watches={};       // key -> unsubscribe
+
+  function ask(idx,call){
+    var pane=paneFor(idx); if(!pane)return;
+    var prev=pane.querySelector('.read'); if(prev) prev.remove();
+
+    var mine=el('div','bubble'); mine.textContent=call.ask;
+    appendMsg(pane,mine,'me');
+
+    var wait=typing(pane);
+    var slot=null, retried=false;
+
+    /* 아무것도 도착하지 않은 채 매달려 있지 않도록 한계를 둔다 */
+    var guard=setTimeout(function(){
+      if(!slot) settle(errBubble({code:'server_unavailable',server:call.server},call));
+    },20000);
+
+    function settle(node){
+      clearTimeout(guard);
+      if(wait&&wait.parentNode){ wait.remove(); wait=null; }
+      if(slot&&slot.parentNode){ slot.remove(); }
+      slot=appendMsg(pane,node,'them');
+    }
+    function plainReply(text){
+      var b=el('div','bubble'); b.textContent=text; settle(b);
+    }
+
+    mcpP.then(function(mcp){
+      if(!mcp){
+        plainReply('이 화면에서는 커넥터를 쓸 수 없어 실시간 조회는 건너뜁니다. 위쪽 내용은 그대로 보실 수 있습니다.');
+        return;
+      }
+      if(available && !available.has(call.server)){
+        settle(errBubble({code:'server_not_connected',server:call.server},call));
+        return;
+      }
+
+      var key=idx+'|'+call.key;
+      if(watches[key]){ watches[key](); delete watches[key]; }
+
+      var lead=false;
+      var un=mcp.watchTool(call.server, call.tool, inputFor(call), function(ev){
+        if(ev.type==='error'){
+          var code=ev.error&&ev.error.code;
+          if(code==='server_unavailable' && !retried){
+            retried=true;               // 일시 오류는 한 번만, 짧은 지연 뒤 재시도
+            setTimeout(function(){ mcp.invalidate(call.server,call.tool).catch(function(){}); },
+              Math.min(ev.error.retryAfterMs||1500,60000)+Math.random()*400);
+            return;                     // 마지막 성공 데이터는 그대로 둔다
+          }
+          if(RETRACT[code] || !slot) settle(errBubble(ev.error,call));
+          return;
+        }
+        var res=ev.result||{};
+        var out=(RENDER[call.render]||function(){return{text:'표시할 수 없는 형식입니다.'};})
+                (res.payload,call,null);
+        if(out.text){ plainReply(out.text); return; }
+        if(res.cache && res.cache.storedAt){
+          var age=Math.round((Date.now()-res.cache.storedAt)/60000);
+          if(age>=1) out.node.appendChild(
+            el('div','stale', age+'분 전 기준'+(res.cache.revalidating?' · 갱신 중':'')));
+        }
+        settle(out.node);
+        if(!lead && call.lead){ lead=true; }
+      }, {cache:{staleTime:120000, gcTime:600000}, refetchInterval:300000});
+
+      watches[key]=un;
+    });
+  }
+
+  /* ---------- 퀵리플라이 칩 ---------- */
+  function chipsFor(idx){
+    quick.textContent='';
+    var s=SPEC[idx]; if(!s||!s.calls.length){
+      if(hint) hint.innerHTML='이 비서는 저장소 데이터만 씁니다 · 상단 <b>실행</b>으로 루틴 결과를 봅니다';
+      return;
+    }
+    var SRC={'PlayMCP':'네이버','Google Calendar':'캘린더','Gmail':'Gmail'};
+    var off=0;
+    s.calls.forEach(function(call){
+      var b=el('button','qc'); b.type='button';
+      b.appendChild(document.createTextNode(call.chip));
+      b.appendChild(el('span','src',SRC[call.server]||call.server));
+      if(mcpOk===false){
+        b.disabled=true; b.title='이 화면에서는 커넥터를 쓸 수 없습니다'; off++;
+      } else if(available && !available.has(call.server)){
+        b.disabled=true; b.title=call.server+' 커넥터가 연결돼 있지 않습니다'; off++;
+      }
+      b.addEventListener('click',function(){ ask(idx,call); });
+      quick.appendChild(b);
+    });
+    if(!hint) return;
+    if(mcpOk===false)
+      hint.innerHTML='이 화면에서는 커넥터를 쓸 수 없어 실시간 조회가 꺼져 있습니다 · '
+        +'위 내용은 저장된 결과입니다';
+    else if(off===s.calls.length)
+      hint.innerHTML='연결된 커넥터가 없어 조회가 꺼져 있습니다 · '
+        +'claude.ai 설정 → 커넥터에서 추가하면 바로 살아납니다';
+    else
+      hint.innerHTML='칩을 누르면 해당 비서가 <b>실제 데이터</b>를 조회해 답합니다 · '
+        +'자유 문장 입력은 아직 기록만 남습니다';
+  }
+
+  /* 스레드가 바뀔 때마다 칩 교체 */
+  var mo=new MutationObserver(function(){
+    var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
+    if(open) chipsFor(Number(open.dataset.idx));
+  });
+  [].forEach.call(panes.children,function(p){
+    mo.observe(p,{attributes:true,attributeFilter:['hidden']});
+  });
+
+  /* 가용 커넥터를 먼저 확인해 칩 상태를 맞춘다 */
+  mcpP.then(function(mcp){
+    if(!mcp){ mcpOk=false; available=new Set(); return null; }
+    mcpOk=true;
+    return mcp.listTools().then(function(r){
+      /* 도구 목록이 빈 커넥터는 미연결이거나 아직 선택 대기 상태다 */
+      available=new Set((r.servers||[])
+        .filter(function(s){return (s.tools||[]).length;})
+        .map(function(s){return s.server;}));
+    }).catch(function(){ available=null; });   // 확인 실패 시엔 막지 않고 호출에 맡긴다
+  }).catch(function(){ mcpOk=false; available=new Set(); }).then(function(){
+    var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
+    if(open) chipsFor(Number(open.dataset.idx));
+  });
+
+  var first=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
+  if(first) chipsFor(Number(first.dataset.idx));
+})();
+"""
+
+
 def render_page(data):
     ppl = data["assistants"]
     owner = data.get("owner", {})
@@ -653,6 +1031,14 @@ def render_page(data):
             f'· {plain(a["title"])}</span></div>'
             "</template>"
         )
+
+    # 커넥터 호출 명세. 페이지 스크립트가 읽어 watchTool 을 건다.
+    # </script> 가 JSON 문자열 안에 들어가도 블록이 닫히지 않도록 이스케이프한다.
+    live_spec = json.dumps(
+        [{"idx": i, "name": a["name"], "accent": a["accent"], "calls": a.get("live", [])}
+         for i, a in enumerate(ppl)],
+        ensure_ascii=False, separators=(",", ":"),
+    ).replace("</", "<\\/")
 
     return f"""<!doctype html>
 <html lang="ko"><head>
@@ -702,6 +1088,7 @@ def render_page(data):
     </div>
 
     <div class="composer">
+      <div class="quick" id="quick" role="group" aria-label="이 비서에게 요청할 수 있는 것"></div>
       <form id="composer" autocomplete="off">
         <button class="plus" type="button" aria-label="첨부">+</button>
         <label class="field" id="field" data-ready="0">
@@ -710,14 +1097,16 @@ def render_page(data):
           <button class="send" type="submit" aria-label="보내기">{ARROW_UP}</button>
         </label>
       </form>
-      <div class="hint">
+      <div class="hint" id="hint">
         말풍선을 길게 누르면 탭백 · 상단 <b>실행</b>은 해당 루틴을 지금 돌린 결과를 보여줍니다
       </div>
     </div>
   </main>
 </div>
 {"".join(bars)}
+<script id="live-spec" type="application/json">{live_spec}</script>
 <script>{JS}</script>
+<script>{LIVE_JS}</script>
 </body></html>
 """
 
