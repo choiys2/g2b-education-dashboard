@@ -728,8 +728,8 @@ LIVE_JS = r"""
     approval_required:['건별 승인이 필요한 도구입니다','아티팩트에서는 아직 승인 절차를 띄울 수 없습니다'],
     tool_error:       ['%s 가 오류를 돌려줬습니다',''],
     /* 아래 둘은 커넥터가 준 코드가 아니라 이 페이지가 붙인 표식이다 */
-    no_response:      ['%s 조회가 20초 동안 아무 응답도 주지 않았습니다',
-                       '아래 연결 진단을 눌러 실제 상태를 확인해 주세요'],
+    no_response:      ['%s 조회가 아직 응답하지 않았습니다',
+                       '승인 창이 떠 있으면 승인해 주세요. 계속 이러면 아래 연결 진단을 눌러 주세요'],
     watch_failed:     ['%s 조회를 등록하지 못했습니다',
                        '아래 연결 진단을 눌러 실제 상태를 확인해 주세요'],
     rate_limited:     ['요청이 너무 잦습니다','잠시 뒤 다시 시도합니다'],
@@ -879,6 +879,12 @@ LIVE_JS = r"""
   var available=null;   // 연결된 커넥터 이름 Set. null = 아직 모름(막지 않는다)
   var mcpOk=null;       // 이 화면이 커넥터를 쓸 수 있는가. null = 확인 전
   var watches={};       // key -> unsubscribe
+  var toolMap={};       // 'server::내가 쓴 이름' -> 커넥터가 실제로 쓰는 이름
+
+  /* 업스트림 도구 이름에 점이나 공백이 있으면 도구 목록에 다른 표기로 잡힌다.
+     구분자를 지우고 맞춰 실제 이름을 찾는다. */
+  function norm(s){ return String(s).toLowerCase().replace(/[.\-_\s]/g,''); }
+  function realTool(server,tool){ return toolMap[server+'::'+tool]||tool; }
 
   function ask(idx,call){
     var pane=paneFor(idx); if(!pane)return;
@@ -890,11 +896,18 @@ LIVE_JS = r"""
     var wait=typing(pane);
     var slot=null, retried=false;
 
-    /* 아무것도 도착하지 않은 채 매달려 있지 않도록 한계를 둔다.
-       이건 커넥터가 준 오류가 아니므로 server_unavailable 로 위장하지 않는다 */
+    /* 아무것도 도착하지 않은 채 매달려 있지 않도록 한계를 둔다. 첫 호출에는
+       커넥터 승인 창이 끼어들 수 있어 넉넉히 잡는다. 커넥터가 준 오류가
+       아니므로 server_unavailable 로 위장하지 않고, 다시 시도할 길을 준다 */
     var guard=setTimeout(function(){
-      if(!slot) settle(errBubble({code:'no_response',server:call.server},call));
-    },20000);
+      if(slot) return;
+      var b=errBubble({code:'no_response',server:call.server},call);
+      var again=el('button','qc','다시 시도');
+      again.type='button'; again.style.marginTop='9px';
+      again.addEventListener('click',function(){ ask(idx,call); });
+      b.appendChild(again);
+      settle(b);
+    },60000);
 
     function settle(node){
       clearTimeout(guard);
@@ -921,7 +934,8 @@ LIVE_JS = r"""
 
       var lead=false;
       var un;
-      try{ un=mcp.watchTool(call.server, call.tool, inputFor(call), function(ev){
+      try{ un=mcp.watchTool(call.server, realTool(call.server,call.tool),
+                            inputFor(call), function(ev){
         if(ev.type==='error'){
           var code=ev.error&&ev.error.code;
           if(code==='server_unavailable' && !retried){
@@ -996,19 +1010,24 @@ LIVE_JS = r"""
         put('연결된 커넥터', ss.length?String(ss.length)+'개':'0개');
         ss.forEach(function(s){
           put('· '+s.server, s.authStatus+' · 도구 '+((s.tools||[]).length)+'개');
+          /* 실제 도구 이름을 그대로 적는다 — 표기가 달라 못 부르는 경우가 있다 */
+          var names=(s.tools||[]).map(function(x){return x.name;});
+          if(names.length) put('   도구명', names.join(', ').slice(0,120));
         });
         if(!ss.length) put('해석','이 페이지가 요청한 커넥터가 뷰어 계정에 없습니다');
-        /* 실제로 한 번 불러본다 — 목록과 호출 결과가 다를 수 있다 */
-        return mcp.callTool('Gmail','search_threads',{query:'is:unread',pageSize:1},
-                            {cache:false})
-          .then(function(res){
-            var p=res&&res.payload;
-            put('Gmail 직접 호출','성공 · '+(p&&p.threads?p.threads.length:0)+'건');
-          })
-          .catch(function(e){
-            put('Gmail 직접 호출','거부 · '+(e&&e.code||'?')
-                +(e&&e.message?' · '+String(e.message).slice(0,60):''));
-          });
+
+        /* 목록에 있어도 실제로 불리는지는 별개다 — 세 개를 다 불러 본다 */
+        var probes=[['Gmail','search_threads',{query:'is:unread',pageSize:1}],
+                    ['Google Calendar','list_events',{pageSize:1}],
+                    ['PlayMCP','NaverSearch-search_news',{query:'교육',display:1}]];
+        return Promise.all(probes.map(function(pr){
+          return mcp.callTool(pr[0], realTool(pr[0],pr[1]), pr[2], {cache:false})
+            .then(function(){ put(pr[0]+' 호출','성공'); })
+            .catch(function(e){
+              put(pr[0]+' 호출','거부 · '+(e&&e.code||'?')
+                  +(e&&e.message?' · '+String(e.message).slice(0,50):''));
+            });
+        }));
       }).catch(function(e){
         put('listTools','거부 · '+(e&&e.code||'?')
             +(e&&e.message?' · '+String(e.message).slice(0,60):''));
@@ -1075,9 +1094,18 @@ LIVE_JS = r"""
     mcpOk=true;
     return mcp.listTools().then(function(r){
       /* 도구 목록이 빈 커넥터는 미연결이거나 아직 선택 대기 상태다 */
-      available=new Set((r.servers||[])
-        .filter(function(s){return (s.tools||[]).length;})
-        .map(function(s){return s.server;}));
+      var ss=r.servers||[];
+      available=new Set(ss.filter(function(s){return (s.tools||[]).length;})
+                          .map(function(s){return s.server;}));
+      /* 선언한 이름과 실제 이름이 표기만 다를 때를 대비해 맞춰 둔다 */
+      var want={}; SPEC.forEach(function(p){ p.calls.forEach(function(c){
+        (want[c.server]=want[c.server]||[]).push(c.tool); }); });
+      ss.forEach(function(s){
+        (want[s.server]||[]).forEach(function(t){
+          var hit=(s.tools||[]).filter(function(x){return norm(x.name)===norm(t);})[0];
+          if(hit && hit.name!==t) toolMap[s.server+'::'+t]=hit.name;
+        });
+      });
     }).catch(function(){ available=null; });   // 확인 실패 시엔 막지 않고 호출에 맡긴다
   }).catch(function(){ mcpOk=false; available=new Set(); }).then(function(){
     var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
