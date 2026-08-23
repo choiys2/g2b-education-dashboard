@@ -18,30 +18,55 @@ URL 확인 (`https://<사용자명>.github.io/<저장소명>/`)
 | `g2b_config.example.json` | 설정 템플릿(서비스키 자리는 플레이스홀더) |
 | `build_news_briefing.py` | `briefings/*.json` → 조간 신문 지면(`/news/`) 렌더링 |
 | `build_routine_hub.py` | `routines/team.json` → 루틴 허브(`/routines/`) 렌더링 |
-| `routine_avatars.py` | 비서 7인의 얼굴을 SVG로 그리는 아바타 생성기 |
+| `routine_avatars.py` | 비서 4인의 얼굴을 SVG로 그리는 아바타 생성기 |
 | `.github/workflows/deploy.yml` | 매일 06:00 KST 자동 수집·재생성 후 GitHub Pages 배포 |
 | `.github/workflows/news.yml` | `briefings/`·`routines/` 변경 시 지면·루틴 허브만 재생성·배포 (나라장터 API 미호출) |
 
 ## 루틴 허브 (`/routines/`)
 
-7개 정기 루틴을 **비서 7인과 나누는 대화**로 보여주는 페이지다. 아이메시지(iMessage)
-레이아웃을 그대로 따라, 왼쪽은 대화 목록·오른쪽은 스레드다. 외부 API를 호출하지 않고
-`routines/team.json` 하나만 읽는다.
+7개 정기 루틴을 **비서 4인과 나누는 대화**로 보여주는 페이지다. 아이메시지(iMessage)
+레이아웃을 그대로 따라, 왼쪽은 대화 목록·오른쪽은 스레드다.
+
+정적 화면은 `routines/team.json` 하나만 읽는다. 여기에 더해 **Artifact로 발행했을 때만**
+`mcp` 런타임 권한으로 뷰어의 claude.ai 커넥터를 호출해 실제 데이터를 가져온다
+(GitHub Pages 정적 배포본에서는 이 부분이 꺼지고 정적 화면만 남는다).
 
 ```bash
 python build_routine_hub.py          # routines/team.json -> live/routines/
 # live/routines/index.html 을 브라우저로 열기
 ```
 
-| 루틴 | 담당 비서 | 주기 |
+| 비서 | 담당 루틴 | 조회하는 것 |
 | --- | --- | --- |
-| ① 모닝 브리핑 | 한도윤 · 조간 데스크 | 평일 07:00 |
-| ② 주간 시장·경쟁 인텔리전스 | 서지안 · 시장·경쟁 인텔리전스 | 월 09:00 |
-| ③ B2G 공고·입찰 모니터링 | 노태경 · B2G 입찰 헌터 | 상시 |
-| ④ PMO 3 Core 리스크 점검 | 정하람 · PMO 리스크 오피서 | 목 16:00 |
-| ⑤ 주간 회고·다음주 세팅 | 윤소민 · 위클리 클로저 | 금 17:00 |
-| ⑥ 월간 KPI·포트폴리오 전략 | 강이나 · KPI·포트폴리오 전략가 | 매월 1영업일 |
-| ⑦ 월말 D-30 선제 점검 | 문재원 · D-30 선제 점검 | 매월 말 |
+| 한도윤 · 조간 데스크 | ① 모닝 브리핑 | 오늘 일정 · 안 읽은 메일 · 교육 뉴스 |
+| 서지안 · 시장 애널리스트 | ② 시장·경쟁 / ⑥ 월간 KPI | 검색 트렌드 · 브랜드 비교 · 카페 여론 · 블로그 후기 · 시장 뉴스 |
+| 노태경 · B2G 헌터 | ③ 공고·입찰 / ⑦ 월말 D-30 | 입찰 보도 · 발주 정황 · 입찰 메일 · 마감 메일 · 30일 일정 |
+| 정하람 · 실행 PMO | ④ 3 Core 리스크 / ⑤ 주간 회고 | 주간보고 메일·문서 · 리스크 신호 · 이번 주 회의 · 지난 7일 |
+
+주기가 아니라 역할로 묶었다. 주기로 나누면 어느 방이든 "내 일정·내 메일·업계 뉴스"가
+필요해져 같은 질문이 방마다 반복된다(7인 시절 칩 21개가 실제로는 도구 3종이었다).
+
+### 커넥터 연결
+
+`live[]`에 선언한 조합을 `watchTool`로 건다. 계정마다 붙어 있는 커넥터가 달라
+후보(`alts`)를 순서대로 두고 `listTools()` 결과와 대조해 실제 있는 것을 고른다.
+
+| 소스 | 도구 | 쓰는 비서 |
+| --- | --- | --- |
+| Google Calendar | `list_events` | 조간 · B2G · PMO |
+| Gmail | `search_threads` | 조간 · B2G · PMO |
+| 네이버 검색 mcp | `search_news` `search_cafearticle` `search_blog` `datalab_search` | 조간 · 시장 · B2G |
+| PlayMCP | `KakaoPNB-summarize_news` | 조간 · 시장 · B2G (없으면 `search_news`로 폴백) |
+| Google Drive | `search_files` | PMO |
+
+`KakaoPNB-summarize_news`는 요약문이 아니라 **요약 지시문 + 중복 제거된 기사 목록**을
+돌려준다. 페이지에는 요약할 모델이 없으므로 `=== 뉴스 목록 ===` 이후의 항목만 파싱해
+쓴다. 이 도구는 PlayMCP 전용이라, 없는 계정에서는 `fallbackInput`/`fallbackRender`로
+일반 뉴스 검색으로 내려앉는다.
+
+데이터랩은 기간이 필수라 최근 7개월 범위를 런타임에 계산한다. 캘린더 범위
+(`today`·`thisWeek`·`last7`·`next7`·`next30`·`monthRest`)도 마찬가지로 한국시간 자정
+기준으로 매번 계산한다 — 빌드 시점 날짜를 굽지 않는다.
 
 비서를 추가·수정하려면 `routines/team.json`의 `assistants[]`에 항목을 넣는다. 필드 구성:
 
