@@ -320,6 +320,13 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .ev .sub a{color:var(--blue);text-decoration:none}
 .ev .sub a:hover{text-decoration:underline}
 .ev .dotmark{flex:none;width:7px;height:7px;border-radius:50%;margin-top:6px}
+.cardact{display:block;width:100%;margin-top:9px;border:0;font:inherit;font-size:14px;
+  font-weight:590;cursor:pointer;padding:9px 12px;border-radius:11px;
+  background:var(--blue);color:#fff;transition:opacity .12s,transform .12s}
+.cardact:hover{opacity:.9}
+.cardact:active{transform:scale(.985)}
+.cardact:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.cardact[disabled]{background:var(--field);color:var(--ink-3);cursor:default}
 .err{font-size:13px;line-height:1.45}
 .err .fix{display:block;margin-top:5px;font-size:12px;color:var(--ink-2)}
 .err .code{font-size:10px;color:var(--ink-3);letter-spacing:.04em;
@@ -374,6 +381,14 @@ def render_msg(m, accent, tail):
         )
         foot = (f'<div class="rich-foot">{plain(m["footer"])}</div>'
                 if m.get("footer") else "")
+        # 카드가 행동을 권하면 실제로 누를 것을 준다. 문구만 있으면 막다른 길이 된다.
+        act = m.get("action")
+        if act:
+            foot += (
+                f'<button type="button" class="cardact" data-act="{plain(act["call"])}" '
+                f'data-said="{plain(act.get("said", act["label"]))}">'
+                f'{plain(act["label"])}</button>'
+            )
         inner = (
             '<div class="bubble rich"><div class="rich-head">'
             f'<div class="t">{plain(m.get("title"))}</div>'
@@ -704,6 +719,18 @@ LIVE_JS = r"""
   function range(kind){
     if(kind==='today')   return {startTime:iso(dayStartKST(0)), endTime:iso(dayStartKST(1))};
     if(kind==='next7')   return {startTime:iso(new Date()),     endTime:iso(dayStartKST(8))};
+    if(kind==='next30')  return {startTime:iso(new Date()),     endTime:iso(dayStartKST(31))};
+    if(kind==='last7')   return {startTime:iso(dayStartKST(-7)), endTime:iso(new Date())};
+    if(kind==='thisWeek'){
+      /* 한국 기준 이번 주 월요일 00:00 부터 다음 월요일까지 */
+      var t=dayStartKST(0);
+      var dow=Number(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',
+        weekday:'short'}).format(t)
+        .replace(/Sun/,0).replace(/Mon/,1).replace(/Tue/,2).replace(/Wed/,3)
+        .replace(/Thu/,4).replace(/Fri/,5).replace(/Sat/,6));
+      var back=(dow+6)%7;
+      return {startTime:iso(dayStartKST(-back)), endTime:iso(dayStartKST(7-back))};
+    }
     if(kind==='monthRest'){
       var end=dayStartKST(0); end.setMonth(end.getMonth()+1); end.setDate(1);
       return {startTime:iso(new Date()), endTime:iso(end)};
@@ -900,12 +927,21 @@ LIVE_JS = r"""
     return alts[0];
   }
 
-  function ask(idx,call){
-    var pane=paneFor(idx); if(!pane)return;
+  /* opts.quiet 면 내 말풍선을 띄우지 않는다(실행 버튼이 연속으로 돌릴 때).
+     결과가 확정되면 resolve 하므로 순차 실행에 쓸 수 있다. */
+  function ask(idx,call,opts){
+    opts=opts||{};
+    var done, finished=false;
+    var p=new Promise(function(r){
+      done=function(n){ if(!finished){finished=true;r({title:call.title,count:n});} };
+    });
+    var pane=paneFor(idx); if(!pane){ done(null); return p; }
     var prev=pane.querySelector('.read'); if(prev) prev.remove();
 
-    var mine=el('div','bubble'); mine.textContent=call.ask;
-    appendMsg(pane,mine,'me');
+    if(!opts.quiet){
+      var mine=el('div','bubble'); mine.textContent=call.ask;
+      appendMsg(pane,mine,'me');
+    }
 
     var wait=typing(pane);
     var slot=null, retried=false;
@@ -923,14 +959,15 @@ LIVE_JS = r"""
       settle(b);
     },60000);
 
-    function settle(node){
+    function settle(node,n){
       clearTimeout(guard);
       if(wait&&wait.parentNode){ wait.remove(); wait=null; }
       if(slot&&slot.parentNode){ slot.remove(); }
       slot=appendMsg(pane,node,'them');
+      done(typeof n==='number'?n:null);
     }
-    function plainReply(text){
-      var b=el('div','bubble'); b.textContent=text; settle(b);
+    function plainReply(text,n){
+      var b=el('div','bubble'); b.textContent=text; settle(b,n);
     }
 
     mcpP.then(function(mcp){
@@ -965,13 +1002,13 @@ LIVE_JS = r"""
         var res=ev.result||{};
         var out=(RENDER[call.render]||function(){return{text:'표시할 수 없는 형식입니다.'};})
                 (res.payload,call,null);
-        if(out.text){ plainReply(out.text); return; }
+        if(out.text){ plainReply(out.text,0); return; }
         if(res.cache && res.cache.storedAt){
           var age=Math.round((Date.now()-res.cache.storedAt)/60000);
           if(age>=1) out.node.appendChild(
             el('div','stale', age+'분 전 기준'+(res.cache.revalidating?' · 갱신 중':'')));
         }
-        settle(out.node);
+        settle(out.node,out.count);
         if(!lead && call.lead){ lead=true; }
       }, {cache:{staleTime:120000, gcTime:600000}, refetchInterval:300000});
       }catch(e){
@@ -980,6 +1017,84 @@ LIVE_JS = r"""
         return;
       }
       watches[key]=un;
+    });
+    return p;
+  }
+
+  /* ---------- 실행: 이 방의 조회를 실제로 다 돌린다 ----------
+     미리 써둔 대본을 재생하면 몇 번을 눌러도 같은 화면이 나온다.
+     커넥터를 쓸 수 있으면 실제 조회로 대체하고, 못 쓸 때만 대본으로 돌아간다. */
+  var running=false;
+  function playScript(pane,btn){
+    var src=pane.querySelector('[data-run]');
+    var steps=src?[].slice.call(src.children):[];
+    if(!steps.length){ running=false; btn.disabled=false; return; }
+    var i=0;
+    (function step(){
+      if(i>=steps.length){ running=false; btn.disabled=false; return; }
+      var t=typing(pane);
+      setTimeout(function(){
+        t.remove();
+        pane.appendChild(steps[i].cloneNode(true));
+        scroll.scrollTop=scroll.scrollHeight;
+        i++; setTimeout(step,420);
+      },700+Math.random()*500);
+    })();
+  }
+
+  function runLive(idx){
+    if(running) return;
+    var pane=paneFor(idx), btn=document.getElementById('run');
+    if(!pane) return;
+    running=true; btn.disabled=true;
+    var prev=pane.querySelector('.read'); if(prev) prev.remove();
+    var day=el('div','day'); day.innerHTML='<b>지금 실행됨</b>';
+    pane.appendChild(day); scroll.scrollTop=scroll.scrollHeight;
+
+    var calls=(SPEC[idx]&&SPEC[idx].calls)||[];
+    mcpP.then(function(mcp){
+      if(!mcp||!calls.length){ playScript(pane,btn); return; }
+      var open=el('div','bubble');
+      open.textContent='루틴 돌립니다. '+calls.length+'건 순서대로 가져오겠습니다.';
+      appendMsg(pane,open,'them');
+      var i=0, tally=[];
+      (function next(){
+        if(i>=calls.length){
+          /* 실제로 가져온 건수만 적는다. 지어낸 수치를 실행 결과로 내보내지 않는다 */
+          var card=el('div','bubble rich live');
+          card.appendChild(head('실행 결과',true));
+          var box=el('div','rows'), total=0, miss=0;
+          tally.forEach(function(t){
+            var row=el('div','kv');
+            row.appendChild(el('span','k',t.title||'조회'));
+            var v=el('span','v', t.count==null?'실패':(t.count+'건'));
+            if(t.count==null){ v.className='v hot'; miss++; }
+            else total+=t.count;
+            row.appendChild(v); box.appendChild(row);
+          });
+          var sum=el('div','kv');
+          sum.appendChild(el('span','k','합계'));
+          sum.appendChild(el('span','v', total+'건'+(miss?' · 실패 '+miss:'')));
+          box.appendChild(sum);
+          card.appendChild(box);
+          card.appendChild(el('div','rich-foot',
+            new Date().toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})+' 기준'));
+          var again=el('button','cardact','다시 조회');
+          again.type='button';
+          again.addEventListener('click',function(){
+            again.disabled=true;
+            mcpP.then(function(m){ return m&&m.invalidate(); })
+                .catch(function(){})
+                .then(function(){ runLive(idx); });
+          });
+          card.appendChild(again);
+          appendMsg(pane,card,'them');
+          running=false; btn.disabled=false; return;
+        }
+        ask(idx,calls[i++],{quiet:true}).then(function(r){
+          tally.push(r); setTimeout(next,380);
+        });
+      })();
     });
   }
 
@@ -1148,6 +1263,32 @@ LIVE_JS = r"""
   }).catch(function(){ mcpOk=false; available=new Set(); }).then(function(){
     var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
     if(open) chipsFor(Number(open.dataset.idx));
+  });
+
+  /* 실행 버튼을 넘겨받는다. 복제하면 앞 스크립트가 걸어둔 대본 재생이 떨어진다 */
+  var oldRun=document.getElementById('run');
+  if(oldRun){
+    var newRun=oldRun.cloneNode(true);
+    oldRun.parentNode.replaceChild(newRun,oldRun);
+    newRun.addEventListener('click',function(){
+      var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
+      if(open) runLive(Number(open.dataset.idx));
+    });
+  }
+
+  /* 카드 안의 행동 버튼 — 눌렀을 때 아무 일도 없으면 막다른 길이 된다 */
+  panes.addEventListener('click',function(e){
+    var b=e.target.closest('[data-act]'); if(!b) return;
+    var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
+    if(!open) return;
+    var idx=Number(open.dataset.idx);
+    var calls=(SPEC[idx]&&SPEC[idx].calls)||[];
+    var want=b.dataset.act;
+    var call=calls.filter(function(c){return c.key===want;})[0]||calls[0];
+    b.disabled=true;
+    var ok=el('div','bubble'); ok.textContent=b.dataset.said||'승인했습니다.';
+    appendMsg(open,ok,'me');
+    if(call) ask(idx,call,{quiet:true});
   });
 
   var first=[].filter.call(panes.children,function(p){return !p.hidden;})[0];

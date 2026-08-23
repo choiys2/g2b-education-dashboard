@@ -134,14 +134,24 @@
               "tone": "hot"
             }
           ],
-          "footer": "승인하시면 바로 지면으로 넘깁니다."
+          "action": {
+            "call": "news-overnight",
+            "label": "승인하고 오늘 뉴스 보기",
+            "said": "승인합니다. 지면으로 넘겨 주세요."
+          }
         }
       ],
       "live": [
         {
           "key": "cal-today",
           "chip": "오늘 일정",
-          "ask": "오늘 일정 정리해 주세요.",
+          "ask": "오늘 일정부터 정리해 주세요.",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ],
           "server": "Google Calendar",
           "tool": "list_events",
           "render": "calendar",
@@ -151,20 +161,20 @@
             "pageSize": 10,
             "timeZone": "Asia/Seoul"
           },
-          "lead": "오늘 일정 훑었습니다.",
-          "empty": "오늘 캘린더는 비어 있습니다. 통으로 쓸 수 있는 날이네요.",
           "title": "오늘의 일정",
-          "alts": [
-            [
-              "Google Calendar",
-              "list_events"
-            ]
-          ]
+          "lead": "오늘 캘린더 훑었습니다.",
+          "empty": "오늘은 잡힌 일정이 없습니다. 통으로 쓸 수 있는 날입니다."
         },
         {
           "key": "mail-unread",
           "chip": "안 읽은 메일",
-          "ask": "안 읽은 메일 중 볼 것만 골라 주세요.",
+          "ask": "안 읽은 것 중 볼 것만 골라 주세요.",
+          "alts": [
+            [
+              "Gmail",
+              "search_threads"
+            ]
+          ],
           "server": "Gmail",
           "tool": "search_threads",
           "render": "gmail",
@@ -173,15 +183,35 @@
             "pageSize": 8,
             "view": "THREAD_VIEW_MINIMAL"
           },
-          "lead": "받은편지함에서 안 읽은 것만 뽑았습니다.",
-          "empty": "안 읽은 메일이 없습니다.",
           "title": "안 읽은 메일",
+          "lead": "받은편지함에서 안 읽은 것만 뽑았습니다.",
+          "empty": "안 읽은 메일이 없습니다."
+        },
+        {
+          "key": "news-overnight",
+          "chip": "밤사이 뉴스",
+          "ask": "밤사이 교육 쪽 뉴스 있었습니까?",
           "alts": [
             [
-              "Gmail",
-              "search_threads"
+              "네이버 검색 mcp",
+              "search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch-search_news"
             ]
-          ]
+          ],
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
+          "render": "news",
+          "input": {
+            "query": "교육부 교육청",
+            "display": 6,
+            "sort": "date"
+          },
+          "title": "밤사이 교육 뉴스",
+          "lead": "교육 쪽 최신 보도부터 봅니다.",
+          "empty": "밤사이 새로 잡힌 보도가 없습니다."
         }
       ]
     },
@@ -325,19 +355,8 @@
       "live": [
         {
           "key": "news-policy",
-          "chip": "교육 정책 동향",
-          "ask": "이번 주 교육 정책 동향 좀 봅시다.",
-          "server": "네이버 검색 mcp",
-          "tool": "search_news",
-          "render": "news",
-          "input": {
-            "query": "교육부 시도교육청 정책",
-            "display": 6,
-            "sort": "date"
-          },
-          "lead": "정책 쪽 최신 보도부터 봅니다.",
-          "empty": "새로 잡히는 보도가 없습니다.",
-          "title": "교육 정책 동향",
+          "chip": "교육 정책",
+          "ask": "이번 주 정책 흐름 좀 봅시다.",
           "alts": [
             [
               "네이버 검색 mcp",
@@ -346,28 +365,24 @@
             [
               "PlayMCP",
               "NaverSearch-search_news"
-            ],
-            [
-              "PlayMCP",
-              "NaverSearch.search_news"
             ]
-          ]
+          ],
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
+          "render": "news",
+          "input": {
+            "query": "교육부 시도교육청 정책 개편",
+            "display": 6,
+            "sort": "date"
+          },
+          "title": "교육 정책 동향",
+          "lead": "정책 쪽 최신 보도입니다.",
+          "empty": "새로 잡히는 정책 보도가 없습니다."
         },
         {
           "key": "news-comp",
-          "chip": "경쟁사 동향",
+          "chip": "경쟁사",
           "ask": "경쟁사 쪽은 어떻습니까?",
-          "server": "네이버 검색 mcp",
-          "tool": "search_news",
-          "render": "news",
-          "input": {
-            "query": "에듀테크 교원연수 기업",
-            "display": 6,
-            "sort": "date"
-          },
-          "lead": "경쟁·시장 쪽 보도입니다.",
-          "empty": "이번 주는 조용합니다.",
-          "title": "경쟁사·시장 동향",
           "alts": [
             [
               "네이버 검색 mcp",
@@ -376,12 +391,45 @@
             [
               "PlayMCP",
               "NaverSearch-search_news"
+            ]
+          ],
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
+          "render": "news",
+          "input": {
+            "query": "아이스크림에듀 티처빌 한국교원연수원",
+            "display": 6,
+            "sort": "date"
+          },
+          "title": "경쟁사 동향",
+          "lead": "경쟁 3사 관련 보도입니다.",
+          "empty": "이번 주 경쟁사 쪽은 조용합니다."
+        },
+        {
+          "key": "news-edtech",
+          "chip": "에듀테크 시장",
+          "ask": "에듀테크 시장 흐름도 같이 봅시다.",
+          "alts": [
+            [
+              "네이버 검색 mcp",
+              "search_news"
             ],
             [
               "PlayMCP",
-              "NaverSearch.search_news"
+              "NaverSearch-search_news"
             ]
-          ]
+          ],
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
+          "render": "news",
+          "input": {
+            "query": "에듀테크 AI 교육 시장",
+            "display": 6,
+            "sort": "date"
+          },
+          "title": "에듀테크 시장",
+          "lead": "시장 쪽 보도입니다.",
+          "empty": "시장 보도가 잡히지 않습니다."
         }
       ]
     },
@@ -511,7 +559,12 @@
               "v": "2건",
               "tone": "hot"
             }
-          ]
+          ],
+          "action": {
+            "call": "news-bid",
+            "label": "최신 입찰 보도 확인",
+            "said": "최신 보도까지 확인해 주세요."
+          }
         },
         {
           "t": "text",
@@ -522,19 +575,8 @@
       "live": [
         {
           "key": "news-bid",
-          "chip": "입찰·조달 보도",
-          "ask": "입찰·조달 쪽 새로 뜬 것 있습니까?",
-          "server": "네이버 검색 mcp",
-          "tool": "search_news",
-          "render": "news",
-          "input": {
-            "query": "교육청 입찰 조달 나라장터",
-            "display": 6,
-            "sort": "date"
-          },
-          "lead": "조달·입찰 관련 보도를 걸러 왔습니다.",
-          "empty": "새로 잡힌 보도가 없습니다.",
-          "title": "입찰·조달 보도",
+          "chip": "입찰 공고",
+          "ask": "입찰 쪽 새로 뜬 것 있습니까?",
           "alts": [
             [
               "네이버 검색 mcp",
@@ -543,12 +585,67 @@
             [
               "PlayMCP",
               "NaverSearch-search_news"
+            ]
+          ],
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
+          "render": "news",
+          "input": {
+            "query": "교육청 입찰 공고 사업자 선정",
+            "display": 6,
+            "sort": "date"
+          },
+          "title": "입찰 공고 보도",
+          "lead": "입찰 관련 보도를 걸러 왔습니다.",
+          "empty": "새로 잡힌 입찰 보도가 없습니다."
+        },
+        {
+          "key": "news-g2b",
+          "chip": "조달·나라장터",
+          "ask": "조달 쪽 움직임은요?",
+          "alts": [
+            [
+              "네이버 검색 mcp",
+              "search_news"
             ],
             [
               "PlayMCP",
-              "NaverSearch.search_news"
+              "NaverSearch-search_news"
             ]
-          ]
+          ],
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
+          "render": "news",
+          "input": {
+            "query": "나라장터 조달청 교육 조달",
+            "display": 6,
+            "sort": "date"
+          },
+          "title": "조달 동향",
+          "lead": "조달 쪽 보도입니다.",
+          "empty": "조달 관련 새 보도가 없습니다."
+        },
+        {
+          "key": "mail-bid",
+          "chip": "입찰 메일",
+          "ask": "입찰 관련 메일 모아 주세요.",
+          "alts": [
+            [
+              "Gmail",
+              "search_threads"
+            ]
+          ],
+          "server": "Gmail",
+          "tool": "search_threads",
+          "render": "gmail",
+          "input": {
+            "query": "(입찰 OR 공고 OR 제안서 OR RFP) newer_than:14d",
+            "pageSize": 8,
+            "view": "THREAD_VIEW_MINIMAL"
+          },
+          "title": "입찰 관련 메일",
+          "lead": "최근 2주 입찰 관련 메일입니다.",
+          "empty": "최근 2주 안에 잡히는 입찰 메일이 없습니다."
         }
       ]
     },
@@ -688,14 +785,25 @@
               "v": "2건",
               "tone": "hot"
             }
-          ]
+          ],
+          "action": {
+            "call": "mail-risk",
+            "label": "리스크 신호 메일 확인",
+            "said": "리스크 신호 메일도 봅시다."
+          }
         }
       ],
       "live": [
         {
           "key": "mail-report",
-          "chip": "주간보고 메일",
-          "ask": "이번 주 주간보고 올라온 것 모아 주세요.",
+          "chip": "주간보고",
+          "ask": "이번 주 주간보고 모아 주세요.",
+          "alts": [
+            [
+              "Gmail",
+              "search_threads"
+            ]
+          ],
           "server": "Gmail",
           "tool": "search_threads",
           "render": "gmail",
@@ -704,15 +812,54 @@
             "pageSize": 8,
             "view": "THREAD_VIEW_MINIMAL"
           },
-          "lead": "최근 7일 주간보고 메일입니다.",
-          "empty": "최근 7일 안에 잡히는 주간보고가 없습니다.",
           "title": "주간보고 수신 현황",
+          "lead": "최근 7일 주간보고입니다.",
+          "empty": "최근 7일 안에 잡히는 주간보고가 없습니다."
+        },
+        {
+          "key": "mail-risk",
+          "chip": "리스크 신호",
+          "ask": "지연·이슈 얘기 나온 것 있습니까?",
           "alts": [
             [
               "Gmail",
               "search_threads"
             ]
-          ]
+          ],
+          "server": "Gmail",
+          "tool": "search_threads",
+          "render": "gmail",
+          "input": {
+            "query": "(지연 OR 이슈 OR 리스크 OR 지체) newer_than:7d",
+            "pageSize": 8,
+            "view": "THREAD_VIEW_MINIMAL"
+          },
+          "title": "리스크 신호",
+          "lead": "리스크로 읽히는 메일입니다.",
+          "empty": "리스크 신호로 잡히는 메일이 없습니다."
+        },
+        {
+          "key": "cal-week",
+          "chip": "이번 주 회의",
+          "ask": "이번 주 회의 일정 확인해 주세요.",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ],
+          "server": "Google Calendar",
+          "tool": "list_events",
+          "render": "calendar",
+          "range": "thisWeek",
+          "input": {
+            "orderBy": "startTime",
+            "pageSize": 15,
+            "timeZone": "Asia/Seoul"
+          },
+          "title": "이번 주 회의",
+          "lead": "이번 주 일정입니다.",
+          "empty": "이번 주는 잡힌 일정이 없습니다."
         }
       ]
     },
@@ -838,9 +985,38 @@
       ],
       "live": [
         {
+          "key": "cal-last7",
+          "chip": "지난 7일",
+          "ask": "지난 주 뭐 했는지 훑어 주세요.",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ],
+          "server": "Google Calendar",
+          "tool": "list_events",
+          "render": "calendar",
+          "range": "last7",
+          "input": {
+            "orderBy": "startTime",
+            "pageSize": 15,
+            "timeZone": "Asia/Seoul"
+          },
+          "title": "지난 7일 일정",
+          "lead": "지난 7일 실제로 잡혀 있던 일정입니다.",
+          "empty": "지난 7일은 비어 있습니다."
+        },
+        {
           "key": "cal-next7",
           "chip": "다음 7일",
-          "ask": "다음 주 일정 세팅 좀 봅시다.",
+          "ask": "다음 주 세팅 봅시다.",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ],
           "server": "Google Calendar",
           "tool": "list_events",
           "render": "calendar",
@@ -850,15 +1026,31 @@
             "pageSize": 15,
             "timeZone": "Asia/Seoul"
           },
-          "lead": "앞으로 7일 일정입니다.",
-          "empty": "다음 7일은 비어 있습니다.",
           "title": "다음 7일 일정",
+          "lead": "앞으로 7일 일정입니다.",
+          "empty": "다음 7일은 아직 비어 있습니다."
+        },
+        {
+          "key": "mail-req",
+          "chip": "받은 요청",
+          "ask": "이번 주 나한테 온 요청 있습니까?",
           "alts": [
             [
-              "Google Calendar",
-              "list_events"
+              "Gmail",
+              "search_threads"
             ]
-          ]
+          ],
+          "server": "Gmail",
+          "tool": "search_threads",
+          "render": "gmail",
+          "input": {
+            "query": "(요청 OR 검토 OR 확인 부탁) newer_than:7d",
+            "pageSize": 8,
+            "view": "THREAD_VIEW_MINIMAL"
+          },
+          "title": "이번 주 받은 요청",
+          "lead": "요청으로 읽히는 메일입니다.",
+          "empty": "이번 주 들어온 요청이 없습니다."
         }
       ]
     },
@@ -992,25 +1184,19 @@
               "v": "3/45 정체",
               "tone": "hot"
             }
-          ]
+          ],
+          "action": {
+            "call": "news-market",
+            "label": "시장 지표 보도 확인",
+            "said": "시장 지표도 같이 봅시다."
+          }
         }
       ],
       "live": [
         {
           "key": "news-market",
-          "chip": "시장 규모 보도",
-          "ask": "에듀테크 시장 지표 관련 보도 있습니까?",
-          "server": "네이버 검색 mcp",
-          "tool": "search_news",
-          "render": "news",
-          "input": {
-            "query": "에듀테크 시장 규모 실적",
-            "display": 6,
-            "sort": "date"
-          },
-          "lead": "시장 지표가 언급된 보도입니다.",
-          "empty": "지표성 보도가 잡히지 않습니다.",
-          "title": "시장 지표 보도",
+          "chip": "시장 지표",
+          "ask": "시장 지표 나온 보도 있습니까?",
           "alts": [
             [
               "네이버 검색 mcp",
@@ -1019,12 +1205,64 @@
             [
               "PlayMCP",
               "NaverSearch-search_news"
-            ],
-            [
-              "PlayMCP",
-              "NaverSearch.search_news"
             ]
-          ]
+          ],
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
+          "render": "news",
+          "input": {
+            "query": "에듀테크 시장 규모 매출 실적",
+            "display": 6,
+            "sort": "date"
+          },
+          "title": "시장 지표 보도",
+          "lead": "지표가 언급된 보도입니다.",
+          "empty": "지표성 보도가 잡히지 않습니다."
+        },
+        {
+          "key": "mail-kpi",
+          "chip": "실적 메일",
+          "ask": "실적·KPI 관련 메일 모아 주세요.",
+          "alts": [
+            [
+              "Gmail",
+              "search_threads"
+            ]
+          ],
+          "server": "Gmail",
+          "tool": "search_threads",
+          "render": "gmail",
+          "input": {
+            "query": "(실적 OR KPI OR 매출 OR 목표) newer_than:30d",
+            "pageSize": 8,
+            "view": "THREAD_VIEW_MINIMAL"
+          },
+          "title": "실적·KPI 메일",
+          "lead": "최근 30일 실적 관련 메일입니다.",
+          "empty": "최근 30일 안에 잡히는 실적 메일이 없습니다."
+        },
+        {
+          "key": "cal-month",
+          "chip": "이달 일정 밀도",
+          "ask": "이번 달 일정 얼마나 찼습니까?",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ],
+          "server": "Google Calendar",
+          "tool": "list_events",
+          "render": "calendar",
+          "range": "monthRest",
+          "input": {
+            "orderBy": "startTime",
+            "pageSize": 20,
+            "timeZone": "Asia/Seoul"
+          },
+          "title": "이달 잔여 일정",
+          "lead": "이번 달 남은 일정입니다.",
+          "empty": "이번 달 남은 일정이 없습니다."
         }
       ]
     },
@@ -1151,9 +1389,60 @@
       ],
       "live": [
         {
-          "key": "cal-month",
-          "chip": "이달 남은 일정",
-          "ask": "이번 달 남은 일정 확인해 주세요.",
+          "key": "cal-next30",
+          "chip": "앞으로 30일",
+          "ask": "앞으로 30일 전수 훑어 주세요.",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ],
+          "server": "Google Calendar",
+          "tool": "list_events",
+          "render": "calendar",
+          "range": "next30",
+          "input": {
+            "orderBy": "startTime",
+            "pageSize": 25,
+            "timeZone": "Asia/Seoul"
+          },
+          "title": "향후 30일 일정",
+          "lead": "앞으로 30일 일정 전부입니다.",
+          "empty": "향후 30일이 비어 있습니다."
+        },
+        {
+          "key": "mail-due",
+          "chip": "마감·기한",
+          "ask": "마감 걸린 것 있습니까?",
+          "alts": [
+            [
+              "Gmail",
+              "search_threads"
+            ]
+          ],
+          "server": "Gmail",
+          "tool": "search_threads",
+          "render": "gmail",
+          "input": {
+            "query": "(마감 OR 기한 OR 제출 OR 마감일) newer_than:14d",
+            "pageSize": 8,
+            "view": "THREAD_VIEW_MINIMAL"
+          },
+          "title": "마감·기한 메일",
+          "lead": "기한이 언급된 메일입니다.",
+          "empty": "기한 관련 메일이 잡히지 않습니다."
+        },
+        {
+          "key": "cal-monthrest",
+          "chip": "이달 잔여",
+          "ask": "이번 달 남은 것만 봅시다.",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ],
           "server": "Google Calendar",
           "tool": "list_events",
           "render": "calendar",
@@ -1163,15 +1452,9 @@
             "pageSize": 20,
             "timeZone": "Asia/Seoul"
           },
-          "lead": "이번 달 남은 일정입니다.",
-          "empty": "이번 달 남은 일정이 없습니다.",
           "title": "이달 잔여 일정",
-          "alts": [
-            [
-              "Google Calendar",
-              "list_events"
-            ]
-          ]
+          "lead": "이번 달 남은 일정입니다.",
+          "empty": "이번 달 남은 일정이 없습니다."
         }
       ]
     }
