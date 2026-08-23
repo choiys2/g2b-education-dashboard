@@ -41,7 +41,7 @@ python build_routine_hub.py          # routines/team.json -> live/routines/
 | 한도윤 · 조간 데스크 | ① 모닝 브리핑 | 오늘 일정 · 안 읽은 메일 · 교육 뉴스 |
 | 서지안 · 시장 애널리스트 | ② 시장·경쟁 / ⑥ 월간 KPI | 검색 트렌드 · 브랜드 비교 · 카페 여론 · 블로그 후기 · 시장 뉴스 |
 | 노태경 · B2G 헌터 | ③ 공고·입찰 / ⑦ 월말 D-30 | 입찰 보도 · 발주 정황 · 입찰 메일 · 마감 메일 · 30일 일정 |
-| 정하람 · 실행 PMO | ④ 3 Core 리스크 / ⑤ 주간 회고 | 주간보고 메일·문서 · 리스크 신호 · 이번 주 회의 · 지난 7일 |
+| 정하람 · 실행 PMO | ④ 3 Core 리스크 / ⑤ 주간 회고 | 주간보고 메일 · 리스크 신호 · 이번 주 회의 · 지난 7일 |
 
 주기가 아니라 역할로 묶었다. 주기로 나누면 어느 방이든 "내 일정·내 메일·업계 뉴스"가
 필요해져 같은 질문이 방마다 반복된다(7인 시절 칩 21개가 실제로는 도구 3종이었다).
@@ -57,7 +57,6 @@ python build_routine_hub.py          # routines/team.json -> live/routines/
 | Gmail | `search_threads` | 조간 · B2G · PMO |
 | 네이버 검색 mcp | `search_news` `search_cafearticle` `search_blog` `datalab_search` | 조간 · 시장 · B2G |
 | PlayMCP | `KakaoPNB-summarize_news` | 조간 · 시장 · B2G (없으면 `search_news`로 폴백) |
-| Google Drive | `search_files` | PMO |
 
 `KakaoPNB-summarize_news`는 요약문이 아니라 **요약 지시문 + 중복 제거된 기사 목록**을
 돌려준다. 페이지에는 요약할 모델이 없으므로 `=== 뉴스 목록 ===` 이후의 항목만 파싱해

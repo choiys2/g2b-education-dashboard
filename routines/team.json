@@ -855,7 +855,7 @@
       "unread": 1,
       "pinned": false,
       "scope": [
-        "주간보고 수신 현황 점검(메일·문서)",
+        "주간보고 수신 현황 점검(메일)",
         "지연·이슈 신호 선별",
         "이번 주 회의 일정 확인",
         "지난 7일 회고"
@@ -1010,28 +1010,6 @@
           ],
           "server": "Gmail",
           "tool": "search_threads"
-        },
-        {
-          "key": "drive-report",
-          "chip": "주간보고 문서",
-          "ask": "드라이브에 쌓인 주간보고 정리본 보여 주세요.",
-          "render": "drive",
-          "input": {
-            "query": "title contains '주간' and mimeType != 'application/vnd.google-apps.folder'",
-            "pageSize": 10,
-            "excludeContentSnippets": true
-          },
-          "title": "주간보고 문서",
-          "lead": "드라이브의 주간보고 정리본·인사이트입니다.",
-          "empty": "드라이브에서 주간 문서를 찾지 못했습니다.",
-          "alts": [
-            [
-              "Google Drive",
-              "search_files"
-            ]
-          ],
-          "server": "Google Drive",
-          "tool": "search_files"
         },
         {
           "key": "mail-risk",

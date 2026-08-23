@@ -1057,40 +1057,10 @@ LIVE_JS = r"""
     return {node:b, count:lines.length};
   }
 
-  function renderDrive(payload,call){
-    var fs=(payload&&payload.files)||[];
-    if(!fs.length) return {text:call.empty};
-    var KIND={'application/vnd.google-apps.document':'문서',
-              'application/vnd.google-apps.spreadsheet':'시트',
-              'application/pdf':'PDF',
-              'application/vnd.google-apps.folder':'폴더'};
-    var b=el('div','bubble rich live');
-    b.appendChild(head(call.title,true));
-    var box=el('div','rows');
-    fs.forEach(function(f){
-      var row=el('div','ev');
-      var d=f.modifiedTime?kstParts(new Date(f.modifiedTime)):null;
-      row.appendChild(el('div','when',d?(d.month+'/'+d.day):''));
-      var what=el('div','what');
-      what.appendChild(el('div',null,f.title||'(제목 없음)'));
-      var sub=el('div','sub');
-      var kind=KIND[f.mimeType]||(f.fileExtension||'파일');
-      sub.appendChild(document.createTextNode(kind));
-      if(f.viewUrl){
-        sub.appendChild(document.createTextNode(' · '));
-        var a=el('a',null,'열기'); a.href=f.viewUrl; a.target='_blank';
-        a.rel='noopener noreferrer'; sub.appendChild(a);
-      }
-      what.appendChild(sub);
-      row.appendChild(what); box.appendChild(row);
-    });
-    b.appendChild(box);
-    return {node:b, count:fs.length};
-  }
 
   var RENDER={calendar:renderCalendar, gmail:renderGmail, news:renderNews,
               trend:renderTrend, cafe:renderCafe, blog:renderBlog,
-              pnb:renderPnb, drive:renderDrive};
+              pnb:renderPnb};
 
   /* ---------- 스레드에 붙이기 ---------- */
   function paneFor(idx){
@@ -1397,7 +1367,7 @@ LIVE_JS = r"""
       diagChip(idx);
       return;
     }
-    var SRC={'Google Calendar':'캘린더','Gmail':'Gmail','Google Drive':'드라이브'};
+    var SRC={'Google Calendar':'캘린더','Gmail':'Gmail'};
     var off=0;
     s.calls.forEach(function(call){
       var tgt=target(call), srv=tgt[0];
