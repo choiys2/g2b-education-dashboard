@@ -327,6 +327,16 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .cardact:active{transform:scale(.985)}
 .cardact:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .cardact[disabled]{background:var(--field);color:var(--ink-3);cursor:default}
+/* 데이터랩 스파크라인 */
+.trendrow{padding:9px 0;border-top:.5px solid var(--hair)}
+.trendrow:first-child{border-top:0;padding-top:2px}
+.trendtop{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.tname{font-size:13px;font-weight:590}
+.tdelta{font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.tdelta.up{color:#FF453A}
+.tdelta.down{color:#0A84FF}
+.spark{display:block;margin:5px 0 3px;width:100%;height:34px;overflow:visible}
+.tspan{font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .err{font-size:13px;line-height:1.45}
 .err .fix{display:block;margin-top:5px;font-size:12px;color:var(--ink-2)}
 .err .code{font-size:10px;color:var(--ink-3);letter-spacing:.04em;
@@ -439,12 +449,16 @@ def render_thread(a):
         f'<div class="av-lg">{av}</div>',
         f'<h1>{plain(a["name"])}</h1>',
         f'<p>{plain(a["title"])} · {plain(a["tagline"])}</p>',
+        # 한 비서가 루틴 여러 개를 맡으므로 전부 배지로 세운다
         '<div class="chips">'
-        f'<span class="chip accent" style="background:{plain(a["accent"])}">'
-        f'루틴 {plain(a["no"])} · {plain(a["routine"])}</span>'
-        f'<span class="chip">{plain(sch.get("label"))}</span>'
+        + "".join(
+            f'<span class="chip accent" style="background:{plain(a["accent"])}">'
+            f'{plain(r)}</span>'
+            for r in a.get("routines", [a.get("routine")])
+        )
+        + f'<span class="chip">{plain(sch.get("label"))}</span>'
         f'<span class="chip">다음 실행 {plain(sch.get("next"))}</span>'
-        f"</div>",
+        "</div>",
         f'<div class="chips">{chips}</div>',
         "</div>",
     ]
@@ -737,9 +751,26 @@ LIVE_JS = r"""
     }
     return {};
   }
+  /* PNB 같은 1순위 도구가 없으면 2순위(일반 검색)로 내려앉는데,
+     그때는 인자와 렌더러가 함께 바뀌어야 한다 */
+  function isFallback(call){
+    var t=target(call), first=(call.alts||[])[0];
+    return !!(call.fallbackInput && first && (t[0]!==first[0] || t[1]!==first[1]));
+  }
+  function renderOf(call){
+    return isFallback(call) ? (call.fallbackRender||call.render) : call.render;
+  }
   function inputFor(call){
-    var i={}; for(var k in call.input) i[k]=call.input[k];
-    if(call.range){ var r=range(call.range); for(var j in r) i[j]=r[j]; }
+    var src=isFallback(call) ? call.fallbackInput : call.input;
+    var i={}; for(var k in src) i[k]=src[k];
+    if(call.range && !isFallback(call)){ var r=range(call.range); for(var j in r) i[j]=r[j]; }
+    if(call.labRange && !isFallback(call)){
+      /* 데이터랩은 기간이 필수다. 최근 7개월치를 월 단위로 본다 */
+      var t=dayStartKST(0); t.setMonth(t.getMonth()-6); t.setDate(1);
+      i.startDate=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',
+        month:'2-digit',day:'2-digit'}).format(t);
+      i.endDate='today';
+    }
     return i;
   }
 
@@ -878,7 +909,188 @@ LIVE_JS = r"""
     return {node:b, count:items.length};
   }
 
-  var RENDER={calendar:renderCalendar, gmail:renderGmail, news:renderNews};
+  /* 데이터랩 시계열 → 스파크라인. 값 자체보다 방향과 계절성이 읽혀야 한다 */
+  var SERIES=['#0A84FF','#FF9F0A','#30D158','#FF453A','#BF5AF2'];
+  function spark(pts,color){
+    if(pts.length<2) return null;
+    var W=132,H=34,P=3;
+    var lo=Math.min.apply(null,pts), hi=Math.max.apply(null,pts);
+    var span=(hi-lo)||1;
+    var xy=pts.map(function(v,i){
+      return [P+i*(W-2*P)/(pts.length-1), H-P-((v-lo)/span)*(H-2*P)];
+    });
+    var dLine=xy.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+    var dFill=dLine+' L'+xy[xy.length-1][0].toFixed(1)+' '+(H-P)+' L'+xy[0][0].toFixed(1)+' '+(H-P)+' Z';
+    var ns='http://www.w3.org/2000/svg';
+    var svg=document.createElementNS(ns,'svg');
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.setAttribute('width',W); svg.setAttribute('height',H);
+    svg.setAttribute('aria-hidden','true'); svg.setAttribute('class','spark');
+    var f=document.createElementNS(ns,'path');
+    f.setAttribute('d',dFill); f.setAttribute('fill',color); f.setAttribute('opacity','.13');
+    var l=document.createElementNS(ns,'path');
+    l.setAttribute('d',dLine); l.setAttribute('fill','none'); l.setAttribute('stroke',color);
+    l.setAttribute('stroke-width','1.8'); l.setAttribute('stroke-linejoin','round');
+    l.setAttribute('stroke-linecap','round');
+    var c=document.createElementNS(ns,'circle');
+    c.setAttribute('cx',xy[xy.length-1][0].toFixed(1));
+    c.setAttribute('cy',xy[xy.length-1][1].toFixed(1));
+    c.setAttribute('r','2.6'); c.setAttribute('fill',color);
+    svg.appendChild(f); svg.appendChild(l); svg.appendChild(c);
+    return svg;
+  }
+  function renderTrend(payload,call){
+    var rs=(payload&&payload.results)||[];
+    if(!rs.length) return {text:call.empty};
+    var b=el('div','bubble rich live');
+    b.appendChild(head(call.title,true));
+    var box=el('div','rows'), first=null, last=null;
+    rs.forEach(function(r,i){
+      var pts=(r.data||[]).map(function(x){return Number(x.ratio)||0;});
+      var row=el('div','trendrow');
+      var top=el('div','trendtop');
+      var nm=el('span','tname',r.title||('그룹 '+(i+1)));
+      nm.style.color=SERIES[i%SERIES.length];
+      top.appendChild(nm);
+      if(pts.length>=2){
+        var a=pts[0], z=pts[pts.length-1];
+        var pct=a? Math.round((z-a)/a*100) : 0;
+        var dv=el('span','tdelta',(pct>0?'▲ ':pct<0?'▼ ':'– ')+Math.abs(pct)+'%');
+        dv.classList.add(pct>0?'up':pct<0?'down':'flat');
+        top.appendChild(dv);
+        if(i===0){ first=a; last=z; }
+      }
+      row.appendChild(top);
+      var sp=spark(pts,SERIES[i%SERIES.length]);
+      if(sp) row.appendChild(sp);
+      var d=r.data||[];
+      if(d.length) row.appendChild(el('div','tspan',
+        d[0].period.slice(0,7)+' → '+d[d.length-1].period.slice(0,7)
+        +' · 최고 '+Math.max.apply(null,pts).toFixed(0)));
+      box.appendChild(row);
+    });
+    b.appendChild(box);
+    b.appendChild(el('div','rich-foot','네이버 데이터랩 · 기간 내 최고치를 100으로 둔 상대값'));
+    return {node:b, count:rs.length};
+  }
+
+  /* 카페글: 어느 커뮤니티에서 나온 말인지가 내용만큼 중요하다 */
+  function renderCafe(payload,call){
+    var items=(payload&&payload.items)||[];
+    if(!items.length) return {text:call.empty};
+    var b=el('div','bubble rich live');
+    b.appendChild(head(call.title,true));
+    var box=el('div','rows');
+    items.forEach(function(n){
+      var row=el('div','ev');
+      row.appendChild(el('div','when', detag(n.cafename||'').slice(0,7)||'카페'));
+      var what=el('div','what');
+      what.appendChild(el('div',null,detag(n.title)));
+      var sub=el('div','sub');
+      sub.appendChild(document.createTextNode(detag(n.description).slice(0,78)));
+      if(n.link){
+        sub.appendChild(document.createTextNode(' '));
+        var a=el('a',null,'글'); a.href=n.link; a.target='_blank';
+        a.rel='noopener noreferrer'; sub.appendChild(a);
+      }
+      what.appendChild(sub);
+      row.appendChild(what); box.appendChild(row);
+    });
+    b.appendChild(box);
+    return {node:b, count:items.length};
+  }
+
+  function renderBlog(payload,call){
+    var items=(payload&&payload.items)||[];
+    if(!items.length) return {text:call.empty};
+    var b=el('div','bubble rich live');
+    b.appendChild(head(call.title,true));
+    var box=el('div','rows');
+    items.forEach(function(n){
+      var row=el('div','ev');
+      var d=n.postdate&&n.postdate.length===8
+        ? (Number(n.postdate.slice(4,6))+'/'+Number(n.postdate.slice(6,8))) : '';
+      row.appendChild(el('div','when',d));
+      var what=el('div','what');
+      what.appendChild(el('div',null,detag(n.title)));
+      var sub=el('div','sub');
+      sub.appendChild(document.createTextNode(
+        (detag(n.bloggername||'')+' · '+detag(n.description)).slice(0,80)));
+      if(n.link){
+        sub.appendChild(document.createTextNode(' '));
+        var a=el('a',null,'글'); a.href=n.link; a.target='_blank';
+        a.rel='noopener noreferrer'; sub.appendChild(a);
+      }
+      what.appendChild(sub);
+      row.appendChild(what); box.appendChild(row);
+    });
+    b.appendChild(box);
+    return {node:b, count:items.length};
+  }
+
+  /* PNB 는 요약문이 아니라 '요약 지시문 + 기사 목록'을 돌려준다.
+     페이지에는 요약할 모델이 없으니 기사 목록만 떼어 쓴다. */
+  function renderPnb(payload,call){
+    var text = typeof payload==='string' ? payload
+             : (payload && (payload.result||payload.text)) || '';
+    var cut=String(text).split('=== 뉴스 목록 ===');
+    var body=cut.length>1?cut[1]:'';
+    var lines=body.split('\n').filter(function(l){return l.trim().indexOf('- ')===0;});
+    if(!lines.length) return {text:call.empty};
+    var b=el('div','bubble rich live');
+    b.appendChild(head(call.title,true));
+    var box=el('div','rows');
+    lines.slice(0,10).forEach(function(l){
+      var s=l.trim().replace(/^-\s*/,'');
+      var i=s.indexOf(' — ');
+      var t=i>0?s.slice(0,i):s, sub=i>0?s.slice(i+3):'';
+      var row=el('div','ev');
+      row.appendChild(el('div','dotmark')).style.background='#0A84FF';
+      var what=el('div','what');
+      what.appendChild(el('div',null,detag(t)));
+      if(sub) what.appendChild(el('div','sub',detag(sub).slice(0,80)));
+      row.appendChild(what); box.appendChild(row);
+    });
+    b.appendChild(box);
+    if(lines.length>10)
+      b.appendChild(el('div','rich-foot','표시 10건 · 중복 제거 후 전체 '+lines.length+'건'));
+    return {node:b, count:lines.length};
+  }
+
+  function renderDrive(payload,call){
+    var fs=(payload&&payload.files)||[];
+    if(!fs.length) return {text:call.empty};
+    var KIND={'application/vnd.google-apps.document':'문서',
+              'application/vnd.google-apps.spreadsheet':'시트',
+              'application/pdf':'PDF',
+              'application/vnd.google-apps.folder':'폴더'};
+    var b=el('div','bubble rich live');
+    b.appendChild(head(call.title,true));
+    var box=el('div','rows');
+    fs.forEach(function(f){
+      var row=el('div','ev');
+      var d=f.modifiedTime?kstParts(new Date(f.modifiedTime)):null;
+      row.appendChild(el('div','when',d?(d.month+'/'+d.day):''));
+      var what=el('div','what');
+      what.appendChild(el('div',null,f.title||'(제목 없음)'));
+      var sub=el('div','sub');
+      var kind=KIND[f.mimeType]||(f.fileExtension||'파일');
+      sub.appendChild(document.createTextNode(kind));
+      if(f.viewUrl){
+        sub.appendChild(document.createTextNode(' · '));
+        var a=el('a',null,'열기'); a.href=f.viewUrl; a.target='_blank';
+        a.rel='noopener noreferrer'; sub.appendChild(a);
+      }
+      what.appendChild(sub);
+      row.appendChild(what); box.appendChild(row);
+    });
+    b.appendChild(box);
+    return {node:b, count:fs.length};
+  }
+
+  var RENDER={calendar:renderCalendar, gmail:renderGmail, news:renderNews,
+              trend:renderTrend, cafe:renderCafe, blog:renderBlog,
+              pnb:renderPnb, drive:renderDrive};
 
   /* ---------- 스레드에 붙이기 ---------- */
   function paneFor(idx){
@@ -1000,7 +1212,7 @@ LIVE_JS = r"""
           return;
         }
         var res=ev.result||{};
-        var out=(RENDER[call.render]||function(){return{text:'표시할 수 없는 형식입니다.'};})
+        var out=(RENDER[renderOf(call)]||function(){return{text:'표시할 수 없는 형식입니다.'};})
                 (res.payload,call,null);
         if(out.text){ plainReply(out.text,0); return; }
         if(res.cache && res.cache.storedAt){
@@ -1185,7 +1397,7 @@ LIVE_JS = r"""
       diagChip(idx);
       return;
     }
-    var SRC={'Google Calendar':'캘린더','Gmail':'Gmail'};
+    var SRC={'Google Calendar':'캘린더','Gmail':'Gmail','Google Drive':'드라이브'};
     var off=0;
     s.calls.forEach(function(call){
       var tgt=target(call), srv=tgt[0];
