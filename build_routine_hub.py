@@ -880,11 +880,25 @@ LIVE_JS = r"""
   var mcpOk=null;       // 이 화면이 커넥터를 쓸 수 있는가. null = 확인 전
   var watches={};       // key -> unsubscribe
   var toolMap={};       // 'server::내가 쓴 이름' -> 커넥터가 실제로 쓰는 이름
+  var picked={};        // call.key -> [server, tool]  실제로 쓸 조합
 
   /* 업스트림 도구 이름에 점이나 공백이 있으면 도구 목록에 다른 표기로 잡힌다.
      구분자를 지우고 맞춰 실제 이름을 찾는다. */
   function norm(s){ return String(s).toLowerCase().replace(/[.\-_\s]/g,''); }
   function realTool(server,tool){ return toolMap[server+'::'+tool]||tool; }
+
+  /* 같은 기능이라도 계정마다 붙어 있는 커넥터가 다르다.
+     후보 중 실제로 연결된 것을 고르고, 확인 전이면 첫 후보로 간다. */
+  function target(call){
+    if(picked[call.key]) return picked[call.key];
+    var alts=call.alts||[[call.server,call.tool]];
+    if(available){
+      for(var i=0;i<alts.length;i++){
+        if(available.has(alts[i][0])) return alts[i];
+      }
+    }
+    return alts[0];
+  }
 
   function ask(idx,call){
     var pane=paneFor(idx); if(!pane)return;
@@ -924,8 +938,9 @@ LIVE_JS = r"""
         plainReply('이 화면에서는 커넥터를 쓸 수 없어 실시간 조회는 건너뜁니다. 위쪽 내용은 그대로 보실 수 있습니다.');
         return;
       }
-      if(available && !available.has(call.server)){
-        settle(errBubble({code:'server_not_connected',server:call.server},call));
+      var tgt=target(call), srv=tgt[0];
+      if(available && !available.has(srv)){
+        settle(errBubble({code:'server_not_connected',server:srv},call));
         return;
       }
 
@@ -934,7 +949,7 @@ LIVE_JS = r"""
 
       var lead=false;
       var un;
-      try{ un=mcp.watchTool(call.server, realTool(call.server,call.tool),
+      try{ un=mcp.watchTool(srv, realTool(srv,tgt[1]),
                             inputFor(call), function(ev){
         if(ev.type==='error'){
           var code=ev.error&&ev.error.code;
@@ -960,7 +975,7 @@ LIVE_JS = r"""
         if(!lead && call.lead){ lead=true; }
       }, {cache:{staleTime:120000, gcTime:600000}, refetchInterval:300000});
       }catch(e){
-        settle(errBubble({code:'watch_failed',server:call.server,
+        settle(errBubble({code:'watch_failed',server:srv,
                           message:String(e&&e.message||e)},call));
         return;
       }
@@ -1016,16 +1031,19 @@ LIVE_JS = r"""
         });
         if(!ss.length) put('해석','이 페이지가 요청한 커넥터가 뷰어 계정에 없습니다');
 
-        /* 목록에 있어도 실제로 불리는지는 별개다 — 세 개를 다 불러 본다 */
-        var probes=[['Gmail','search_threads',{query:'is:unread',pageSize:1}],
-                    ['Google Calendar','list_events',{pageSize:1}],
-                    ['PlayMCP','NaverSearch-search_news',{query:'교육',display:1}]];
+        /* 목록에 있어도 실제로 불리는지는 별개다 — 고른 조합을 하나씩 불러 본다 */
+        var seen={}, probes=[];
+        SPEC.forEach(function(pn){ pn.calls.forEach(function(c){
+          var t=target(c), k=t[0]+'::'+t[1];
+          if(seen[k]) return; seen[k]=1;
+          probes.push([t[0], realTool(t[0],t[1]), inputFor(c)]);
+        });});
         return Promise.all(probes.map(function(pr){
-          return mcp.callTool(pr[0], realTool(pr[0],pr[1]), pr[2], {cache:false})
-            .then(function(){ put(pr[0]+' 호출','성공'); })
+          return mcp.callTool(pr[0], pr[1], pr[2], {cache:false})
+            .then(function(){ put(pr[0]+' 호출','성공 · '+pr[1]); })
             .catch(function(e){
-              put(pr[0]+' 호출','거부 · '+(e&&e.code||'?')
-                  +(e&&e.message?' · '+String(e.message).slice(0,50):''));
+              put(pr[0]+' 호출','거부 · '+(e&&e.code||'?')+' · '+pr[1]
+                  +(e&&e.message?' · '+String(e.message).slice(0,40):''));
             });
         }));
       }).catch(function(e){
@@ -1052,16 +1070,21 @@ LIVE_JS = r"""
       diagChip(idx);
       return;
     }
-    var SRC={'PlayMCP':'네이버','Google Calendar':'캘린더','Gmail':'Gmail'};
+    var SRC={'Google Calendar':'캘린더','Gmail':'Gmail'};
     var off=0;
     s.calls.forEach(function(call){
+      var tgt=target(call), srv=tgt[0];
       var b=el('button','qc'); b.type='button';
       b.appendChild(document.createTextNode(call.chip));
-      b.appendChild(el('span','src',SRC[call.server]||call.server));
+      b.appendChild(el('span','src',SRC[srv]||(/네이버|naver|playmcp/i.test(srv)?'네이버':srv)));
       if(mcpOk===false){
         b.disabled=true; b.title='이 화면에서는 커넥터를 쓸 수 없습니다'; off++;
-      } else if(available && !available.has(call.server)){
-        b.disabled=true; b.title=call.server+' 커넥터가 연결돼 있지 않습니다'; off++;
+      } else if(available && !available.has(srv)){
+        b.disabled=true;
+        b.title=(call.alts||[]).map(function(a){return a[0];}).join(' / ')
+                +' 중 연결된 커넥터가 없습니다'; off++;
+      } else if(picked[call.key]){
+        b.title=picked[call.key][0]+' · '+picked[call.key][1];
       }
       b.addEventListener('click',function(){ ask(idx,call); });
       quick.appendChild(b);
@@ -1097,15 +1120,30 @@ LIVE_JS = r"""
       var ss=r.servers||[];
       available=new Set(ss.filter(function(s){return (s.tools||[]).length;})
                           .map(function(s){return s.server;}));
-      /* 선언한 이름과 실제 이름이 표기만 다를 때를 대비해 맞춰 둔다 */
-      var want={}; SPEC.forEach(function(p){ p.calls.forEach(function(c){
-        (want[c.server]=want[c.server]||[]).push(c.tool); }); });
+      /* 후보 전체를 놓고 실제 도구명과 대조한다. 표기만 다른 경우까지 맞춘다 */
+      var want={};
+      SPEC.forEach(function(p){ p.calls.forEach(function(c){
+        (c.alts||[[c.server,c.tool]]).forEach(function(pair){
+          (want[pair[0]]=want[pair[0]]||[]).push(pair[1]);
+        });
+      });});
       ss.forEach(function(s){
         (want[s.server]||[]).forEach(function(t){
           var hit=(s.tools||[]).filter(function(x){return norm(x.name)===norm(t);})[0];
           if(hit && hit.name!==t) toolMap[s.server+'::'+t]=hit.name;
         });
       });
+      /* 도구까지 실제로 있는 후보만 고른다 */
+      var byName={}; ss.forEach(function(s){ byName[s.server]=s; });
+      SPEC.forEach(function(p){ p.calls.forEach(function(c){
+        (c.alts||[]).some(function(pair){
+          var s=byName[pair[0]]; if(!s) return false;
+          var hit=(s.tools||[]).filter(function(x){return norm(x.name)===norm(pair[1]);})[0];
+          if(!hit) return false;
+          picked[c.key]=[pair[0],hit.name];
+          return true;
+        });
+      });});
     }).catch(function(){ available=null; });   // 확인 실패 시엔 막지 않고 호출에 맡긴다
   }).catch(function(){ mcpOk=false; available=new Set(); }).then(function(){
     var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];

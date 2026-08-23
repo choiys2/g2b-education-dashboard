@@ -153,7 +153,13 @@
           },
           "lead": "오늘 일정 훑었습니다.",
           "empty": "오늘 캘린더는 비어 있습니다. 통으로 쓸 수 있는 날이네요.",
-          "title": "오늘의 일정"
+          "title": "오늘의 일정",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ]
         },
         {
           "key": "mail-unread",
@@ -169,7 +175,13 @@
           },
           "lead": "받은편지함에서 안 읽은 것만 뽑았습니다.",
           "empty": "안 읽은 메일이 없습니다.",
-          "title": "안 읽은 메일"
+          "title": "안 읽은 메일",
+          "alts": [
+            [
+              "Gmail",
+              "search_threads"
+            ]
+          ]
         }
       ]
     },
@@ -315,8 +327,8 @@
           "key": "news-policy",
           "chip": "교육 정책 동향",
           "ask": "이번 주 교육 정책 동향 좀 봅시다.",
-          "server": "PlayMCP",
-          "tool": "NaverSearch-search_news",
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
           "render": "news",
           "input": {
             "query": "교육부 시도교육청 정책",
@@ -325,14 +337,28 @@
           },
           "lead": "정책 쪽 최신 보도부터 봅니다.",
           "empty": "새로 잡히는 보도가 없습니다.",
-          "title": "교육 정책 동향"
+          "title": "교육 정책 동향",
+          "alts": [
+            [
+              "네이버 검색 mcp",
+              "search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch-search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch.search_news"
+            ]
+          ]
         },
         {
           "key": "news-comp",
           "chip": "경쟁사 동향",
           "ask": "경쟁사 쪽은 어떻습니까?",
-          "server": "PlayMCP",
-          "tool": "NaverSearch-search_news",
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
           "render": "news",
           "input": {
             "query": "에듀테크 교원연수 기업",
@@ -341,7 +367,21 @@
           },
           "lead": "경쟁·시장 쪽 보도입니다.",
           "empty": "이번 주는 조용합니다.",
-          "title": "경쟁사·시장 동향"
+          "title": "경쟁사·시장 동향",
+          "alts": [
+            [
+              "네이버 검색 mcp",
+              "search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch-search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch.search_news"
+            ]
+          ]
         }
       ]
     },
@@ -484,8 +524,8 @@
           "key": "news-bid",
           "chip": "입찰·조달 보도",
           "ask": "입찰·조달 쪽 새로 뜬 것 있습니까?",
-          "server": "PlayMCP",
-          "tool": "NaverSearch-search_news",
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
           "render": "news",
           "input": {
             "query": "교육청 입찰 조달 나라장터",
@@ -494,7 +534,21 @@
           },
           "lead": "조달·입찰 관련 보도를 걸러 왔습니다.",
           "empty": "새로 잡힌 보도가 없습니다.",
-          "title": "입찰·조달 보도"
+          "title": "입찰·조달 보도",
+          "alts": [
+            [
+              "네이버 검색 mcp",
+              "search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch-search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch.search_news"
+            ]
+          ]
         }
       ]
     },
@@ -652,7 +706,13 @@
           },
           "lead": "최근 7일 주간보고 메일입니다.",
           "empty": "최근 7일 안에 잡히는 주간보고가 없습니다.",
-          "title": "주간보고 수신 현황"
+          "title": "주간보고 수신 현황",
+          "alts": [
+            [
+              "Gmail",
+              "search_threads"
+            ]
+          ]
         }
       ]
     },
@@ -792,7 +852,13 @@
           },
           "lead": "앞으로 7일 일정입니다.",
           "empty": "다음 7일은 비어 있습니다.",
-          "title": "다음 7일 일정"
+          "title": "다음 7일 일정",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ]
         }
       ]
     },
@@ -934,8 +1000,8 @@
           "key": "news-market",
           "chip": "시장 규모 보도",
           "ask": "에듀테크 시장 지표 관련 보도 있습니까?",
-          "server": "PlayMCP",
-          "tool": "NaverSearch-search_news",
+          "server": "네이버 검색 mcp",
+          "tool": "search_news",
           "render": "news",
           "input": {
             "query": "에듀테크 시장 규모 실적",
@@ -944,7 +1010,21 @@
           },
           "lead": "시장 지표가 언급된 보도입니다.",
           "empty": "지표성 보도가 잡히지 않습니다.",
-          "title": "시장 지표 보도"
+          "title": "시장 지표 보도",
+          "alts": [
+            [
+              "네이버 검색 mcp",
+              "search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch-search_news"
+            ],
+            [
+              "PlayMCP",
+              "NaverSearch.search_news"
+            ]
+          ]
         }
       ]
     },
@@ -1085,7 +1165,13 @@
           },
           "lead": "이번 달 남은 일정입니다.",
           "empty": "이번 달 남은 일정이 없습니다.",
-          "title": "이달 잔여 일정"
+          "title": "이달 잔여 일정",
+          "alts": [
+            [
+              "Google Calendar",
+              "list_events"
+            ]
+          ]
         }
       ]
     }
