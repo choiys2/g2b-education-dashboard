@@ -136,7 +136,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add history/daily_stats.jsonl history/competitor_wins.jsonl
+          git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(date -u +%F)"
           git push || true
 

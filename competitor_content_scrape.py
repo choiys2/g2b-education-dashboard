@@ -20,6 +20,25 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 OUT_PATH = Path("live/competitor_content_export.json")
+# live/는 매일 새로 만들어지고 git에 안 남는다(gitignore) - "어제와 비교"를 하려면
+# 어제 스냅샷이 뭐였는지 어딘가에 남아 있어야 하므로, history/ 아래(git 추적)에
+# 직전 스냅샷 하나만 롤링 저장한다. daily_stats.jsonl처럼 매일 누적하는 로그가
+# 아니라, diff 계산에만 필요한 "바로 전 상태" 스냅샷이다.
+PREV_SNAPSHOT_PATH = Path("history/competitor_content_snapshot.json")
+
+
+def diff_events(prev_events, curr_events):
+    """제목 집합 기준으로 신규/종료 이벤트만 뽑는다. period(기간) 변경은 별도로
+    추적하지 않는다 - 제목이 그대로인데 날짜만 미묘하게 바뀌는 경우가 많아
+    노이즈가 될 수 있어서다."""
+    prev_titles = {e.get("title") for e in prev_events}
+    curr_titles = {e.get("title") for e in curr_events}
+    new_titles = curr_titles - prev_titles
+    removed_titles = prev_titles - curr_titles
+    return {
+        "new": [e for e in curr_events if e.get("title") in new_titles],
+        "removed": [e for e in prev_events if e.get("title") in removed_titles],
+    }
 
 
 def scrape_vivasam(page):
@@ -80,6 +99,12 @@ SCRAPERS = {
 
 
 def main():
+    try:
+        prev = json.loads(PREV_SNAPSHOT_PATH.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        prev = {"captured_date": None, "companies": {}}
+    prev_companies = prev.get("companies", {})
+
     result = {"captured_date": date.today().isoformat(), "companies": {}}
     with sync_playwright() as p:
         browser = p.chromium.launch()
@@ -87,11 +112,20 @@ def main():
             page = browser.new_page()
             try:
                 events = fn(page)
-                result["companies"][name] = {"url": url, "events": events, "event_count": len(events)}
-                print(f"  {name}: {len(events)}건")
+                prev_events = prev_companies.get(name, {}).get("events", [])
+                diff = diff_events(prev_events, events)
+                result["companies"][name] = {
+                    "url": url, "events": events, "event_count": len(events),
+                    "diff": diff, "diff_since": prev.get("captured_date"),
+                }
+                new_n, removed_n = len(diff["new"]), len(diff["removed"])
+                print(f"  {name}: {len(events)}건 (신규 {new_n} · 종료 {removed_n})")
             except Exception as e:
                 print(f"  [경고] {name} 스크레이핑 실패: {e}", file=sys.stderr)
-                result["companies"][name] = {"url": url, "events": [], "event_count": 0, "error": str(e)}
+                result["companies"][name] = {
+                    "url": url, "events": [], "event_count": 0, "error": str(e),
+                    "diff": {"new": [], "removed": []}, "diff_since": prev.get("captured_date"),
+                }
             finally:
                 page.close()
         browser.close()
@@ -99,6 +133,14 @@ def main():
     OUT_PATH.parent.mkdir(exist_ok=True)
     OUT_PATH.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"saved {OUT_PATH}")
+
+    # 다음날 비교를 위해 (diff 없이) 오늘 스냅샷을 그대로 롤링 저장한다.
+    snapshot = {"captured_date": result["captured_date"], "companies": {
+        name: {"url": c["url"], "events": c["events"]} for name, c in result["companies"].items()
+    }}
+    PREV_SNAPSHOT_PATH.parent.mkdir(exist_ok=True)
+    PREV_SNAPSHOT_PATH.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"saved {PREV_SNAPSHOT_PATH} (내일 비교용)")
 
 
 if __name__ == "__main__":
