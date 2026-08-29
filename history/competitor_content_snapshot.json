@@ -1,9 +1,13 @@
 {
-  "captured_date": "2026-08-25",
+  "captured_date": "2026-08-29",
   "companies": {
     "티처빌": {
       "url": "https://www.teacherville.co.kr",
       "events": [
+        {
+          "title": "4학점 FINAL PASS 초특가",
+          "period": "2026.08.26~2026.08.31"
+        },
         {
           "title": "독서 수업 자료집 X 1학점 PACK",
           "period": "2026.08.24~2026.09.30"
@@ -34,10 +38,6 @@
         },
         {
           "title": "후기 쓰GO! 룰렛 돌리GO!",
-          "period": "2026.08.01~2026.08.31"
-        },
-        {
-          "title": "이달의 베스트 후기",
           "period": "2026.08.01~2026.08.31"
         }
       ]
