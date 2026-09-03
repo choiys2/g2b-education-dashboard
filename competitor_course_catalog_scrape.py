@@ -103,6 +103,11 @@ def _extract_candidates(page, href_pattern):
 
 
 def _try_click_next(page, debug):
+    # 번호형 페이지네이션(구형 JSP 사이트에 흔함)이 있으면 이쪽을 우선한다 -
+    # 텍스트 기반 '더보기' 버튼이 페이지네이션과 무관한 엉뚱한 요소를 잘못
+    # 매칭해 클릭만 되고 내용은 안 느는 경우(아이스크림에서 실측됨)를 피하려고.
+    if _try_click_numbered_page(page, debug):
+        return True
     for sel in NEXT_SELECTORS:
         try:
             loc = page.locator(sel).first
@@ -114,6 +119,35 @@ def _try_click_next(page, debug):
             return True
         except Exception:
             continue
+    return False
+
+
+def _try_click_numbered_page(page, debug):
+    """더보기/다음 버튼이 없거나 무의미할 때: 페이징 영역에서 현재 활성 페이지 번호를
+    찾아 다음 숫자를 클릭한다(전형적인 '1 2 3 4 5 다음' 형태 JSP 페이지네이션 대응)."""
+    try:
+        clicked = page.evaluate("""() => {
+            const activeSel = '.on, .active, .current, .selected, [aria-current="page"]';
+            const containers = document.querySelectorAll('[class*="paging" i], [class*="pagination" i], [class*="page" i]');
+            for (const c of containers) {
+                const active = c.querySelector(activeSel);
+                if (!active) continue;
+                const cur = parseInt((active.innerText || '').trim(), 10);
+                if (!cur) continue;
+                const links = [...c.querySelectorAll('a, button')];
+                for (const el of links) {
+                    const n = parseInt((el.innerText || '').trim(), 10);
+                    if (n === cur + 1) { el.click(); return n; }
+                }
+            }
+            return 0;
+        }""")
+    except Exception:
+        clicked = 0
+    if clicked:
+        if debug:
+            print(f"    [다음] 번호형 페이지네이션 {clicked}페이지 클릭", file=sys.stderr)
+        return True
     return False
 
 
@@ -158,16 +192,16 @@ def scrape_site(page, name, url, href_pattern, max_items, debug):
             if moved:
                 page.wait_for_timeout(1000)
 
-        if not moved and gained == 0:
+        if gained == 0:
             stall += 1
-        elif gained > 0:
+        else:
             stall = 0
 
         if not moved:
             note = "더 이상 다음 페이지/스크롤 없음"
             break
         if stall >= STALL_LIMIT:
-            note = f"연속 {STALL_LIMIT}회 신규 없음 - 중단"
+            note = f"클릭은 되지만 연속 {STALL_LIMIT}회 신규 없음 - 중단(실제 마지막 페이지이거나 버튼 오탐 가능)"
             break
     else:
         note = f"MAX_PAGES({MAX_PAGES}) 도달"
