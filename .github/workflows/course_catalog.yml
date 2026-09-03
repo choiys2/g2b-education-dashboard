@@ -1,0 +1,45 @@
+name: 경쟁사 연수과정 카탈로그 수동 크롤링
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_items:
+        description: "사이트별 최대 수집 건수"
+        default: "500"
+      sites:
+        description: "쉼표구분 (비우면 3사 전체)"
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: install dependencies
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      # 로그인 없이 보이는 공개 목록 페이지만 본다(robots.txt는 스크립트가 실행 시 재확인).
+      - name: 3사 직무연수 카탈로그 크롤링
+        run: |
+          python competitor_course_catalog_scrape.py \
+            --max-items "${{ inputs.max_items }}" \
+            --sites "${{ inputs.sites }}" \
+            --debug
+
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add history/competitor_course_catalog.json
+          git diff --cached --quiet || git commit -m "chore: 경쟁사 연수과정 카탈로그 수동 크롤링 $(date -u +%F)"
+          git push
