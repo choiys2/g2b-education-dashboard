@@ -1,0 +1,2421 @@
+{
+  "captured_date": "2026-09-03",
+  "target_per_site": 500,
+  "companies": {
+    "티처빌": {
+      "url": "https://www.teacherville.co.kr/trainapply/allCourseList.edu",
+      "count": 23,
+      "note": "더 이상 다음 페이지/스크롤 없음",
+      "courses": [
+        {
+          "index": 1,
+          "title": "나의강의실",
+          "url": "javascript:teacherville.common.menu.link('/mypage/mylectureroom/state.edu', 'yes');",
+          "context": "나의강의실"
+        },
+        {
+          "index": 2,
+          "title": "영수증/이수증",
+          "url": "javascript:teacherville.common.menu.link('/mypage/mylectureroom/review.edu', 'yes');",
+          "context": "영수증/이수증"
+        },
+        {
+          "index": 3,
+          "title": "연수신청",
+          "url": "https://www.teacherville.co.kr/trainapply/allCourseList.edu",
+          "context": "연수신청"
+        },
+        {
+          "index": 4,
+          "title": "AI 추천 연수n",
+          "url": "https://www.teacherville.co.kr/trainapply/newAICourseList.edu",
+          "context": "AI 추천 연수n"
+        },
+        {
+          "index": 5,
+          "title": "티스콘 직무연수",
+          "url": "https://www.teacherville.co.kr/trainapply/tsconCourseList.edu",
+          "context": "티스콘 직무연수"
+        },
+        {
+          "index": 6,
+          "title": "연수∙교구 SET",
+          "url": "https://www.teacherville.co.kr/trainapply/packageTrainingCourseList.edu",
+          "context": "연수∙교구 SET"
+        },
+        {
+          "index": 7,
+          "title": "위탁연수(교육청∙기관)",
+          "url": "https://www.teacherville.co.kr/b2g/progressingCourse.edu",
+          "context": "위탁연수(교육청∙기관)"
+        },
+        {
+          "index": 8,
+          "title": "자율연수",
+          "url": "https://www.teacherville.co.kr/trainapply/onlineCourseList.edu",
+          "context": "자율연수"
+        },
+        {
+          "index": 9,
+          "title": "에듀테크 활용 연수",
+          "url": "https://www.teacherville.co.kr/trainapply/eduTechCourseList.edu",
+          "context": "에듀테크 활용 연수"
+        },
+        {
+          "index": 10,
+          "title": "견적요청n",
+          "url": "https://www.teacherville.co.kr/trainapply/premiumEduCourseInfo.edu",
+          "context": "견적요청n"
+        },
+        {
+          "index": 11,
+          "title": "추천연수",
+          "url": "https://www.teacherville.co.kr/trainapply/top10course.edu",
+          "context": "추천연수"
+        },
+        {
+          "index": 12,
+          "title": "법정의무연수",
+          "url": "https://www.teacherville.co.kr/trainapply/recommendCourseDetail.edu?groupCode=R01&groupSeq=4",
+          "context": "법정의무연수"
+        },
+        {
+          "index": 13,
+          "title": "교육청 정책연수",
+          "url": "https://www.teacherville.co.kr/trainapply/recommendCourseDetail.edu?groupCode=R02&groupSeq=9",
+          "context": "교육청 정책연수"
+        },
+        {
+          "index": 14,
+          "title": "한국사",
+          "url": "https://www.teacherville.co.kr/trainapply/korHistCourseList.edu",
+          "context": "한국사"
+        },
+        {
+          "index": 15,
+          "title": "주제별",
+          "url": "https://www.teacherville.co.kr/trainapply/recommendCourseDetail.edu?groupCode=R03&groupSeq=163",
+          "context": "주제별"
+        },
+        {
+          "index": 16,
+          "title": "교과별",
+          "url": "https://www.teacherville.co.kr/trainapply/recommendCourseDetail.edu?groupCode=R04&groupSeq=164",
+          "context": "교과별"
+        },
+        {
+          "index": 17,
+          "title": "학교급별",
+          "url": "https://www.teacherville.co.kr/trainapply/recommendCourseDetail.edu?groupCode=R07&groupSeq=142",
+          "context": "학교급별"
+        },
+        {
+          "index": 18,
+          "title": "디지털역량",
+          "url": "https://www.teacherville.co.kr/trainapply/getPremiumEduCourseInfo.edu",
+          "context": "나의강의실 연수신청 디지털역량 추천연수 Books"
+        },
+        {
+          "index": 19,
+          "title": "학습연기",
+          "url": "javascript:teacherville.common.menu.link('/mypage/mylectureroom/delay.edu', 'yes');",
+          "context": "학습연기"
+        },
+        {
+          "index": 20,
+          "title": "연수신청",
+          "url": "javascript:teacherville.common.menu.link('/trainapply/allCourseList.edu');",
+          "context": "Home 연수신청 직무연수"
+        },
+        {
+          "index": 21,
+          "title": "맨위로",
+          "url": "https://www.teacherville.co.kr/trainapply/allCourseList.edu#allCourseListForm",
+          "context": "맨위로"
+        },
+        {
+          "index": 22,
+          "title": "관심연수",
+          "url": "javascript:teacherville.common.menu.link('/mypage/paymentinfo/selectCourseList.edu', 'yes');",
+          "context": "관심연수"
+        },
+        {
+          "index": 23,
+          "title": "테마연수",
+          "url": "https://www.teacherville.co.kr/trainapply/recommendCourseDetail.edu?groupCode=R04&groupSeq=8",
+          "context": "테마연수"
+        }
+      ]
+    },
+    "아이스크림": {
+      "url": "https://teacher.i-scream.co.kr/course/crs/creditList.do?searchOrdinalTyCode=TY01&searchOrderField=NEW",
+      "count": 104,
+      "note": "MAX_PAGES(80) 도달",
+      "courses": [
+        {
+          "index": 1,
+          "title": "직무연수",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditList.do?searchOrdinalTyCode=TY01&searchOrderField=NEW",
+          "context": "직무연수"
+        },
+        {
+          "index": 2,
+          "title": "테마별 연수",
+          "url": "https://teacher.i-scream.co.kr/course/theme/themeCrsList.do",
+          "context": "테마별 연수"
+        },
+        {
+          "index": 3,
+          "title": "교육부 정책연수",
+          "url": "https://teacher.i-scream.co.kr/course/theme/policy/crsList.do",
+          "context": "교육부 정책연수"
+        },
+        {
+          "index": 4,
+          "title": "연수·상품SET",
+          "url": "https://teacher.i-scream.co.kr/event/fullpage/crsProduct.do",
+          "context": "연수·상품SET"
+        },
+        {
+          "index": 5,
+          "title": "연수패키지",
+          "url": "https://teacher.i-scream.co.kr/event/crsPkg/index.do",
+          "context": "연수패키지"
+        },
+        {
+          "index": 6,
+          "title": "교사제작 쌤콘",
+          "url": "https://teacher.i-scream.co.kr/course/crs/ssamconList.do",
+          "context": "교사제작 쌤콘"
+        },
+        {
+          "index": 7,
+          "title": "자율연수",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditList.do?searchOrdinalTyCode=TY02&searchOrderField=NEW",
+          "context": "자율연수"
+        },
+        {
+          "index": 8,
+          "title": "위탁연수",
+          "url": "https://teacher.i-scream.co.kr/course/entrust/list.do",
+          "context": "위탁연수"
+        },
+        {
+          "index": 9,
+          "title": "유튜브연수",
+          "url": "https://teacher.i-scream.co.kr/course/youtube/list.do",
+          "context": "유튜브연수"
+        },
+        {
+          "index": 10,
+          "title": "연수·상품SET",
+          "url": "https://teacher.i-scream.co.kr/event/fullpage/crsProduct.do?sso=ok",
+          "context": "연수·상품SET"
+        },
+        {
+          "index": 11,
+          "title": "AI·디지털연수",
+          "url": "https://teacher.i-scream.co.kr/course/crs/aiCrsList.do",
+          "context": "AI·디지털연수"
+        },
+        {
+          "index": 12,
+          "title": "학교맞춤 예산견적",
+          "url": "https://teacher.i-scream.co.kr/course/crs/schoolEstimate.do",
+          "context": "학교맞춤 예산견적"
+        },
+        {
+          "index": 13,
+          "title": "MY위시리스트",
+          "url": "https://teacher.i-scream.co.kr/myroom/crs/crsInterest.do",
+          "context": "MY위시리스트"
+        },
+        {
+          "index": 14,
+          "title": "에듀테크",
+          "url": "https://teacher.i-scream.co.kr/event/crsPkg/index.do?sso=ok",
+          "context": "에듀테크"
+        },
+        {
+          "index": 15,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008916','8916','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 연수·상품SET 신규 2022 개정 교육과정에 딱 맞는 디지털 드로잉 수업 디자인 with 아트봉봉스쿨"
+        },
+        {
+          "index": 16,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7364&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 연수·상품SET 신규 2022 개정 교육과정에 딱 맞는 디지털 드로잉 수업 디자인 with 아트봉봉스쿨"
+        },
+        {
+          "index": 17,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008839','8839','030605','1920','1088','Y','040', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 패들렛·띵커벨·브리스크티칭으로 여는 AI 기반 디지털 활용 수업"
+        },
+        {
+          "index": 18,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7369&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 패들렛·띵커벨·브리스크티칭으로 여는 AI 기반 디지털 활용 수업"
+        },
+        {
+          "index": 19,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008880','8880','030605','0','0','Y','130', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 학급경영 50,000원 연수·상품SET 교재 신규 책으로 만나는 생태환경수업"
+        },
+        {
+          "index": 20,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7361&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 학급경영 50,000원 연수·상품SET 교재 신규 책으로 만나는 생태환경수업"
+        },
+        {
+          "index": 21,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008903','8903','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 생활교육 25,000원 20,000원 할인중 교재 신규 AI를 이기는 아이는 이렇게 가르칩니다"
+        },
+        {
+          "index": 22,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3063&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 생활교육 25,000원 20,000원 할인중 교재 신규 AI를 이기는 아이는 이렇게 가르칩니다"
+        },
+        {
+          "index": 23,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008868','8868','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 나를 대신할 PPT 에이전트 끝판왕, Gamma AI로 완성하는 보고서 프레젠테이션 마스터"
+        },
+        {
+          "index": 24,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3065&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 나를 대신할 PPT 에이전트 끝판왕, Gamma AI로 완성하는 보고서 프레젠테이션 마스터"
+        },
+        {
+          "index": 25,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008843','8843','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 68,000원 할인중 신규 '좋은 식재료'에 대한 새로운 기준과 이해"
+        },
+        {
+          "index": 26,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7362&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 68,000원 할인중 신규 '좋은 식재료'에 대한 새로운 기준과 이해"
+        },
+        {
+          "index": 27,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008817','8817','030605','0','0','Y','020', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 왕초보 선생님을 위한 Google Vids로 AI 영상 만들기"
+        },
+        {
+          "index": 28,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=5080&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 왕초보 선생님을 위한 Google Vids로 AI 영상 만들기"
+        },
+        {
+          "index": 29,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008806','8806','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 신규 영유아 교사를 위한 AI 활용: 놀이와 배움이 풍성해지는 교실"
+        },
+        {
+          "index": 30,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7355&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 신규 영유아 교사를 위한 AI 활용: 놀이와 배움이 풍성해지는 교실"
+        },
+        {
+          "index": 31,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008830','8830','030605','0','0','Y','020', true,'yes');",
+          "context": "미리보기 상세보기 5차시 교수학습 25,000원 20,000원 할인중 신규 학생들의 참여를 이끄는 만능 프로젝트 수업 설계하기"
+        },
+        {
+          "index": 32,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=5082&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 교수학습 25,000원 20,000원 할인중 신규 학생들의 참여를 이끄는 만능 프로젝트 수업 설계하기"
+        },
+        {
+          "index": 33,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008883','8883','030605','0','0','Y','040', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 교재 신규 서·논술형 평가, 아날로그에 AI 디지털을 더하다!"
+        },
+        {
+          "index": 34,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7353&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 교재 신규 서·논술형 평가, 아날로그에 AI 디지털을 더하다!"
+        },
+        {
+          "index": 35,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008805','8805','030605','0','0','Y','040', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 법정연수 교재 베스트 신규 자라는 인지 기반 느린학습자 학습 코칭"
+        },
+        {
+          "index": 36,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7351&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 법정연수 교재 베스트 신규 자라는 인지 기반 느린학습자 학습 코칭"
+        },
+        {
+          "index": 37,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008831','8831','030605','0','0','Y','130', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 학급운영부터 놀이자료까지! 유아 교사를 위한 디지털 드로잉"
+        },
+        {
+          "index": 38,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=1249&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 학급운영부터 놀이자료까지! 유아 교사를 위한 디지털 드로잉"
+        },
+        {
+          "index": 39,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008884','8884','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 30차시(2학점) 어학 85,000원 베스트 신규 영어 1차 임계점 돌파 - 영작 훈련"
+        },
+        {
+          "index": 40,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7358&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 어학 85,000원 베스트 신규 영어 1차 임계점 돌파 - 영작 훈련"
+        },
+        {
+          "index": 41,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008819','8819','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 어학 50,000원 40,000원 할인중 신규 영어로 세계 속으로 with 내셔널 지오그래픽 2"
+        },
+        {
+          "index": 42,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7356&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 어학 50,000원 40,000원 할인중 신규 영어로 세계 속으로 with 내셔널 지오그래픽 2"
+        },
+        {
+          "index": 43,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008848','8848','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 기록만 하던 노션은 끝, 스스로 일하는 노션 AI 에이전트 시작하기"
+        },
+        {
+          "index": 44,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3067&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 기록만 하던 노션은 끝, 스스로 일하는 노션 AI 에이전트 시작하기"
+        },
+        {
+          "index": 45,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008847','8847','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 당신은 지시만 하세요, 일은 AI가 합니다: 구글 오팔(Opal) 업무 자동화 시스템"
+        },
+        {
+          "index": 46,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3068&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 당신은 지시만 하세요, 일은 AI가 합니다: 구글 오팔(Opal) 업무 자동화 시스템"
+        },
+        {
+          "index": 47,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008842','8842','030605','0','0','Y','030', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 딱 10분! AI로 뚝딱 만드는 우리 반 웹툰"
+        },
+        {
+          "index": 48,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3062&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 딱 10분! AI로 뚝딱 만드는 우리 반 웹툰"
+        },
+        {
+          "index": 49,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008816','8816','030605','0','0','Y','020', true,'yes');",
+          "context": "미리보기 상세보기 5차시 인문소양 25,000원 신규 교실에서 바로 쓰는 5분 펜드로잉"
+        },
+        {
+          "index": 50,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=5079&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 인문소양 25,000원 신규 교실에서 바로 쓰는 5분 펜드로잉"
+        },
+        {
+          "index": 51,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008899','8899','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 30차시(2학점) 교수학습 85,000원 베스트 신규 깊이 있는 학습 & 학습 주도성 Up! AI 시대를 이끄는 질문의 힘"
+        },
+        {
+          "index": 52,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7349&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 교수학습 85,000원 베스트 신규 깊이 있는 학습 & 학습 주도성 Up! AI 시대를 이끄는 질문의 힘"
+        },
+        {
+          "index": 53,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008810','8810','030605','0','0','Y','040', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 신규 부모 인문학 클래스: 엄빠의 질문"
+        },
+        {
+          "index": 54,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7357&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 신규 부모 인문학 클래스: 엄빠의 질문"
+        },
+        {
+          "index": 55,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008828','8828','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 10차시 인문소양 50,000원 신규 아이들이 먼저 집중하는 시간! 교사도 따라하는 교실 밀착 마술"
+        },
+        {
+          "index": 56,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3058&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 10차시 인문소양 50,000원 신규 아이들이 먼저 집중하는 시간! 교사도 따라하는 교실 밀착 마술"
+        },
+        {
+          "index": 57,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008856','8856','030605','0','0','Y','020', true,'yes');",
+          "context": "미리보기 상세보기 60차시(4학점) 학급경영 140,000원 교재 신규 현장에서 바로 쓰는 교직실무 가이드 A to Z"
+        },
+        {
+          "index": 58,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7334&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 60차시(4학점) 학급경영 140,000원 교재 신규 현장에서 바로 쓰는 교직실무 가이드 A to Z"
+        },
+        {
+          "index": 59,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008788','8788','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 어학 50,000원 연수·상품SET 교재 신규 걱정없이 떠나는 여행 일본어 무작정 따라하기"
+        },
+        {
+          "index": 60,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7346&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 어학 50,000원 연수·상품SET 교재 신규 걱정없이 떠나는 여행 일본어 무작정 따라하기"
+        },
+        {
+          "index": 61,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008791','8791','030605','0','0','Y','020', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 신규 현실 월급쟁이의 재테크 1년 로드맵"
+        },
+        {
+          "index": 62,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7347&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 신규 현실 월급쟁이의 재테크 1년 로드맵"
+        },
+        {
+          "index": 63,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008797','8797','030605','0','0','Y','050', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 딱 10분! AI로 뚝딱 만드는 작사작곡"
+        },
+        {
+          "index": 64,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3057&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 딱 10분! AI로 뚝딱 만드는 작사작곡"
+        },
+        {
+          "index": 65,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008798','8798','030605','0','0','Y','060', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 신규 우영쌤의 쉽게 준비하고 바로 적용하는 과학 실험"
+        },
+        {
+          "index": 66,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7325&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 신규 우영쌤의 쉽게 준비하고 바로 적용하는 과학 실험"
+        },
+        {
+          "index": 67,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008822','8822','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 교재 베스트 신규 최소한의 세금공부"
+        },
+        {
+          "index": 68,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7354&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 교재 베스트 신규 최소한의 세금공부"
+        },
+        {
+          "index": 69,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008811','8811','030605','0','0','Y','060', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 교재 신규 1등급은 다르다! 수상자들의 디지털교육 연구대회 필승 전략"
+        },
+        {
+          "index": 70,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7352&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 교재 신규 1등급은 다르다! 수상자들의 디지털교육 연구대회 필승 전략"
+        },
+        {
+          "index": 71,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008795','8795','030605','0','0','Y','030', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 베스트 신규 선생님을 바꾸는 크로스핏! 살은 빼고 건강은 더하기"
+        },
+        {
+          "index": 72,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7350&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 베스트 신규 선생님을 바꾸는 크로스핏! 살은 빼고 건강은 더하기"
+        },
+        {
+          "index": 73,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008780','8780','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 베스트 신규 하루 20분, 몸이 달라지는 필라테스의 정석"
+        },
+        {
+          "index": 74,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7339&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 베스트 신규 하루 20분, 몸이 달라지는 필라테스의 정석"
+        },
+        {
+          "index": 75,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008783','8783','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 AI 에이전트 핵심만 쏙쏙 배우기 - 입문에서 실전까지, 업무 비서를 넘어선 초지능 에이전트"
+        },
+        {
+          "index": 76,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3051&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 AI 에이전트 핵심만 쏙쏙 배우기 - 입문에서 실전까지, 업무 비서를 넘어선 초지능 에이전트"
+        },
+        {
+          "index": 77,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008776','8776','030605','0','0','Y','040', true,'yes');",
+          "context": "미리보기 상세보기 5차시 교수학습 25,000원 연수·상품SET 신규 수업에 매직 한 스푼! 교실에서 함께하는 카드 마술"
+        },
+        {
+          "index": 78,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3053&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 교수학습 25,000원 연수·상품SET 신규 수업에 매직 한 스푼! 교실에서 함께하는 카드 마술"
+        },
+        {
+          "index": 79,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008784','8784','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 AI 이미지 생성의 대세, 나노바나나로 초격차 디자인 마스터하기"
+        },
+        {
+          "index": 80,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3050&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 AI 이미지 생성의 대세, 나노바나나로 초격차 디자인 마스터하기"
+        },
+        {
+          "index": 81,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008770','8770','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 인문소양 25,000원 신규 AI로 들여다보는 역사의 라이벌 - 조선편"
+        },
+        {
+          "index": 82,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3052&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 인문소양 25,000원 신규 AI로 들여다보는 역사의 라이벌 - 조선편"
+        },
+        {
+          "index": 83,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008838','8838','030605','0','0','Y','020', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 학급경영 50,000원 40,000원 할인중 연수·상품SET 신규 학교자율시간, 수업으로 바로 쓰다"
+        },
+        {
+          "index": 84,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7337&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 학급경영 50,000원 40,000원 할인중 연수·상품SET 신규 학교자율시간, 수업으로 바로 쓰다"
+        },
+        {
+          "index": 85,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008790','8790','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 Google 실무 마스터 - Gemini, NotebookLM, Antigravity"
+        },
+        {
+          "index": 86,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3056&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 Google 실무 마스터 - Gemini, NotebookLM, Antigravity"
+        },
+        {
+          "index": 87,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008762','8762','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 신규 블록코딩으로 배우는 AI, AICE Future 완벽대비"
+        },
+        {
+          "index": 88,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7336&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 신규 블록코딩으로 배우는 AI, AICE Future 완벽대비"
+        },
+        {
+          "index": 89,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008794','8794','030605','0','0','Y','080', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 베스트 신규 김창옥의 나의 힐링 아지트"
+        },
+        {
+          "index": 90,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7348&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 베스트 신규 김창옥의 나의 힐링 아지트"
+        },
+        {
+          "index": 91,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008787','8787','030605','0','0','Y','050', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 교재 베스트 신규 학교 업무 자동화를 위한 구글시트 첫걸음"
+        },
+        {
+          "index": 92,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=1248&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 교재 베스트 신규 학교 업무 자동화를 위한 구글시트 첫걸음"
+        },
+        {
+          "index": 93,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008749','8749','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 AI 통합 플랫폼, 구글 AI 스튜디오 완전정복 - 문서, 이미지, 영상 제작부터 바이브코딩까지 한 번에!"
+        },
+        {
+          "index": 94,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7335&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 AI 통합 플랫폼, 구글 AI 스튜디오 완전정복 - 문서, 이미지, 영상 제작부터 바이브코딩까지 한 번에!"
+        },
+        {
+          "index": 95,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008901','8901','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 60차시(4학점) 인문소양 140,000원 교재 신규 공부천재 서경석의 한국사능력검정시험 심화"
+        },
+        {
+          "index": 96,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7328&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 60차시(4학점) 인문소양 140,000원 교재 신규 공부천재 서경석의 한국사능력검정시험 심화"
+        },
+        {
+          "index": 97,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008771','8771','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 신규 꼭 알아야 할 최소한의 건강 지식"
+        },
+        {
+          "index": 98,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7338&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 신규 꼭 알아야 할 최소한의 건강 지식"
+        },
+        {
+          "index": 99,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008755','8755','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 신규 공부천재 서경석의 한국사능력검정시험 (심화)-상"
+        },
+        {
+          "index": 100,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7329&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 신규 공부천재 서경석의 한국사능력검정시험 (심화)-상"
+        },
+        {
+          "index": 101,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008756','8756','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 신규 공부천재 서경석의 한국사능력검정시험 (심화)-하"
+        },
+        {
+          "index": 102,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7330&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 신규 공부천재 서경석의 한국사능력검정시험 (심화)-하"
+        },
+        {
+          "index": 103,
+          "title": "미리보기",
+          "url": "javascript:open_crs_viewer_sample('2','00000008785','8785','030605','0','0','Y','010', true,'yes');",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 연수·상품SET 신규 교사의 시간을 돌려주는 AI: issamGPT 활용법"
+        },
+        {
+          "index": 104,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3055&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 연수·상품SET 신규 교사의 시간을 돌려주는 AI: issamGPT 활용법"
+        }
+      ]
+    },
+    "비바샘": {
+      "url": "https://t.vivasam.com/courses/job?menuId=MENU0610",
+      "count": 272,
+      "note": "더 이상 다음 페이지/스크롤 없음",
+      "courses": [
+        {
+          "index": 1,
+          "title": "연수신청",
+          "url": "https://t.vivasam.com/courses/job?menuId=MENU0529",
+          "context": "연수신청"
+        },
+        {
+          "index": 2,
+          "title": "직무연수",
+          "url": "https://t.vivasam.com/courses/job",
+          "context": "직무연수"
+        },
+        {
+          "index": 3,
+          "title": "상시연수",
+          "url": "https://t.vivasam.com/courses/regular",
+          "context": "상시연수"
+        },
+        {
+          "index": 4,
+          "title": "실시간연수",
+          "url": "https://t.vivasam.com/courses/live",
+          "context": "실시간연수"
+        },
+        {
+          "index": 5,
+          "title": "집합연수",
+          "url": "https://t.vivasam.com/courses/offline",
+          "context": "집합연수"
+        },
+        {
+          "index": 6,
+          "title": "자율연수",
+          "url": "https://t.vivasam.com/courses/self",
+          "context": "자율연수"
+        },
+        {
+          "index": 7,
+          "title": "교육청연수",
+          "url": "https://t.vivasam.com/courses/cnsgn",
+          "context": "교육청연수"
+        },
+        {
+          "index": 8,
+          "title": "연수 · 상품 SET",
+          "url": "https://t.vivasam.com/courses/bundle",
+          "context": "연수 · 상품 SET"
+        },
+        {
+          "index": 9,
+          "title": "학교맞춤 예산견적",
+          "url": "https://t.vivasam.com/courses/estimate",
+          "context": "학교맞춤 예산견적"
+        },
+        {
+          "index": 10,
+          "title": "연간수강권",
+          "url": "https://t.vivasam.com/courses/annual",
+          "context": "연간수강권"
+        },
+        {
+          "index": 11,
+          "title": "사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요! 15차시(1학점) 미리보기 상세보기 사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요!",
+          "url": "https://t.vivasam.com/courses/job/t25-002",
+          "context": "사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요! 15차시(1학점) 미리보기 상세보기 사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요!"
+        },
+        {
+          "index": 12,
+          "title": "선생님을 위한 구글 워크스페이스, 쉽게 배워보세요! 15차시(1학점) 미리보기 상세보기 선생님을 위한 구글 워크스페이스, 쉽게 배워보세요!",
+          "url": "https://t.vivasam.com/courses/job/t24-004",
+          "context": "선생님을 위한 구글 워크스페이스, 쉽게 배워보세요! 15차시(1학점) 미리보기 상세보기 선생님을 위한 구글 워크스페이스, 쉽게 배워보세요!"
+        },
+        {
+          "index": 13,
+          "title": "깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요. 15차시(1학점) 미리보기 상세보기 깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요.",
+          "url": "https://t.vivasam.com/courses/job/t24-034",
+          "context": "깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요. 15차시(1학점) 미리보기 상세보기 깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요."
+        },
+        {
+          "index": 14,
+          "title": "수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요! 15차시(1학점) 미리보기 상세보기 신규 수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요!",
+          "url": "https://t.vivasam.com/courses/job/t25-035",
+          "context": "수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요! 15차시(1학점) 미리보기 상세보기 신규 수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요!"
+        },
+        {
+          "index": 15,
+          "title": "구글 제미나이를 활용한 실질적인 수업 및 업무 혁신 방법! 직무/15차시(1학점) 미리보기 상세보기 신규 질문이 답이 되는 제미나이 수업 솔루션 20% 60,000원 48,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-022",
+          "context": "구글 제미나이를 활용한 실질적인 수업 및 업무 혁신 방법! 직무/15차시(1학점) 미리보기 상세보기 신규 질문이 답이 되는 제미나이 수업 솔루션 20% 60,000원 48,000원"
+        },
+        {
+          "index": 16,
+          "title": "의미 있는 한 걸음의 지도로 느린 학습자의 배움을 이어가주세요!​ 직무/15차시(1학점) 미리보기 상세보기 샘크리에이티브연수 느린 학습자(경계선 지능)를 위한 친절한 기초학력 지도와 에듀테크 한 걸음 20% 60,000원 48,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-023",
+          "context": "의미 있는 한 걸음의 지도로 느린 학습자의 배움을 이어가주세요!​ 직무/15차시(1학점) 미리보기 상세보기 샘크리에이티브연수 느린 학습자(경계선 지능)를 위한 친절한 기초학력 지도와 에듀테크 한 걸음 20% 60,000원 48,000원"
+        },
+        {
+          "index": 17,
+          "title": "학생들이 먼저 찾는 퀴즈 수업을 운영해 보세요. 직무/5차시(15차시미만) 미리보기 상세보기 샘크리에이티브연수 학생들이 먼저 찾는 AI 퀴즈 수업, 블루킷 완벽 마스터 20% 25,000원 20,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-009",
+          "context": "학생들이 먼저 찾는 퀴즈 수업을 운영해 보세요. 직무/5차시(15차시미만) 미리보기 상세보기 샘크리에이티브연수 학생들이 먼저 찾는 AI 퀴즈 수업, 블루킷 완벽 마스터 20% 25,000원 20,000원"
+        },
+        {
+          "index": 18,
+          "title": "Gemini와 Gemini Notebook을 활용한 수업 설계, 학급 운영 및 업무 자동화 역량 향상 연수 직무/15차시(1학점) 미리보기 상세보기 신규 나만의 AI 동료교사, Google Gemini와 Gemini Notebook 활용법 20% 60,000원 48,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-017",
+          "context": "Gemini와 Gemini Notebook을 활용한 수업 설계, 학급 운영 및 업무 자동화 역량 향상 연수 직무/15차시(1학점) 미리보기 상세보기 신규 나만의 AI 동료교사, Google Gemini와 Gemini Notebook 활용법 20% 60,000원 48,000원"
+        },
+        {
+          "index": 19,
+          "title": "마음이 연결되는 정서 교육, 체계가 잡히는 학급 운영 직무/6차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 사회정서교육 기반 학급 운영 전략–그라운드로 만드는 행복한 교실(중등편) 20% 30,000원 24,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-012",
+          "context": "마음이 연결되는 정서 교육, 체계가 잡히는 학급 운영 직무/6차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 사회정서교육 기반 학급 운영 전략–그라운드로 만드는 행복한 교실(중등편) 20% 30,000원 24,000원"
+        },
+        {
+          "index": 20,
+          "title": "수업 실행 전략으로 수업의 변화를 만들어보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 학생 참여와 상호작용을 이끄는 수업 실행 전략과 학습코칭 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-005",
+          "context": "수업 실행 전략으로 수업의 변화를 만들어보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 학생 참여와 상호작용을 이끄는 수업 실행 전략과 학습코칭 60,000원"
+        },
+        {
+          "index": 21,
+          "title": "사회정서교육 진단부터 실천까지, 생생한 사례 속에 담긴 구체적인 실전 팁을 확인하세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학습과 정서가 함께 자라는 비상한 사회정서학습-초등 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-038",
+          "context": "사회정서교육 진단부터 실천까지, 생생한 사례 속에 담긴 구체적인 실전 팁을 확인하세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학습과 정서가 함께 자라는 비상한 사회정서학습-초등 60,000원"
+        },
+        {
+          "index": 22,
+          "title": "바이브 코딩으로 고퀄리티 수업 이미지와 학생 상호작용 콘텐츠를 만들어 보세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 이제는 바이브 코딩! 프롬프트로 끝내는 AI 수업 콘텐츠 레시피 25,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-013",
+          "context": "바이브 코딩으로 고퀄리티 수업 이미지와 학생 상호작용 콘텐츠를 만들어 보세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 이제는 바이브 코딩! 프롬프트로 끝내는 AI 수업 콘텐츠 레시피 25,000원"
+        },
+        {
+          "index": 23,
+          "title": "Class1234로 더 스마트한 교실을 만들어보세요! 직무/3차시(15차시미만) 미리보기 상세보기 신규 올인원 학급관리-클래스1234로 자동화 교실 만들기 15,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-011",
+          "context": "Class1234로 더 스마트한 교실을 만들어보세요! 직무/3차시(15차시미만) 미리보기 상세보기 신규 올인원 학급관리-클래스1234로 자동화 교실 만들기 15,000원"
+        },
+        {
+          "index": 24,
+          "title": "배우고 끝나는 연수가 아니라, 직접 만들어 가는 연수! 직무/15차시(1학점) 미리보기 상세보기 신규 샘크리에이티브연수 클래스가 다른 샘크리에이터! 교육 콘텐츠로 시작하는 교사 퍼스널 브랜딩 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-007",
+          "context": "배우고 끝나는 연수가 아니라, 직접 만들어 가는 연수! 직무/15차시(1학점) 미리보기 상세보기 신규 샘크리에이티브연수 클래스가 다른 샘크리에이터! 교육 콘텐츠로 시작하는 교사 퍼스널 브랜딩 60,000원"
+        },
+        {
+          "index": 25,
+          "title": "나만의 맞춤형 보조교사 AI, 학교생활기록부 작성 비법을 만나보세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 Gemini, 학교생활기록부에 교사의 온기를 더하다: AI 활용 학생부 작성법 25,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-008",
+          "context": "나만의 맞춤형 보조교사 AI, 학교생활기록부 작성 비법을 만나보세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 Gemini, 학교생활기록부에 교사의 온기를 더하다: AI 활용 학생부 작성법 25,000원"
+        },
+        {
+          "index": 26,
+          "title": "사회정서교육부터 학급 운영까지! 그라운드로 교실의 깊이를 더하세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 사회정서교육 기반 학급 운영 전략-그라운드로 만드는 행복한 교실 25,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-003",
+          "context": "사회정서교육부터 학급 운영까지! 그라운드로 교실의 깊이를 더하세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 사회정서교육 기반 학급 운영 전략-그라운드로 만드는 행복한 교실 25,000원"
+        },
+        {
+          "index": 27,
+          "title": "고차적 사고, 문제해결력, 비판적 사고를 기르는 서·논술형 평가의 모든 것! 직무/15차시(1학점) 미리보기 상세보기 신규 질문에 답을 찾는 미래형 평가체제! 사고력을 깨우는 서·논술형 평가 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-006",
+          "context": "고차적 사고, 문제해결력, 비판적 사고를 기르는 서·논술형 평가의 모든 것! 직무/15차시(1학점) 미리보기 상세보기 신규 질문에 답을 찾는 미래형 평가체제! 사고력을 깨우는 서·논술형 평가 60,000원"
+        },
+        {
+          "index": 28,
+          "title": "에듀테크 도구와 함께 교실 속 미술 수업에 새로운 날개를 달아보세요! 직무/10차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 에듀테크로 미술 수업에 날개 달기! 20% 50,000원 40,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-024",
+          "context": "에듀테크 도구와 함께 교실 속 미술 수업에 새로운 날개를 달아보세요! 직무/10차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 에듀테크로 미술 수업에 날개 달기! 20% 50,000원 40,000원"
+        },
+        {
+          "index": 29,
+          "title": "사회정서교육 진단부터 실천까지, 생생한 사례 속에 담긴 구체적인 실전 팁을 확인하세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학습과 정서가 함께 자라는 비상한 사회정서학습-중등 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-039",
+          "context": "사회정서교육 진단부터 실천까지, 생생한 사례 속에 담긴 구체적인 실전 팁을 확인하세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학습과 정서가 함께 자라는 비상한 사회정서학습-중등 60,000원"
+        },
+        {
+          "index": 30,
+          "title": "읽고, 쓰고, 연결하는 힘이 자연스럽게 길러지는 순간 문해력 수업의 해답을 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 읽고, 쓰고, 연결하라! AI와 함께 여는 깊이 있는 문해력 수업 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-014",
+          "context": "읽고, 쓰고, 연결하는 힘이 자연스럽게 길러지는 순간 문해력 수업의 해답을 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 읽고, 쓰고, 연결하라! AI와 함께 여는 깊이 있는 문해력 수업 60,000원"
+        },
+        {
+          "index": 31,
+          "title": "학생들이 즐거워하는 AI 활용 수업, 쉽고 간단하게 시작해 볼까요? 직무/8차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 AI로 설계하는 에듀테크 수업 디자인 40,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-029",
+          "context": "학생들이 즐거워하는 AI 활용 수업, 쉽고 간단하게 시작해 볼까요? 직무/8차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 AI로 설계하는 에듀테크 수업 디자인 40,000원"
+        },
+        {
+          "index": 32,
+          "title": "기존 에듀테크가 주지 못한 진짜 성장의 기록을 스노클과 함께해 보세요! 직무/4차시(15차시미만) 미리보기 상세보기 신규 한 눈에 보이는 성장의 기록! 스노클로 실천하는 맞춤형 AI 과정중심평가 20,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-004",
+          "context": "기존 에듀테크가 주지 못한 진짜 성장의 기록을 스노클과 함께해 보세요! 직무/4차시(15차시미만) 미리보기 상세보기 신규 한 눈에 보이는 성장의 기록! 스노클로 실천하는 맞춤형 AI 과정중심평가 20,000원"
+        },
+        {
+          "index": 33,
+          "title": "학생의 성장과 수업 개선으로 이어주는 서·논술형 평가, 클리포 AI와 함께 시작해보세요! 직무/3차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 클리포 기반 AI 서·논술형 평가의 실제 15,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-028",
+          "context": "학생의 성장과 수업 개선으로 이어주는 서·논술형 평가, 클리포 AI와 함께 시작해보세요! 직무/3차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 클리포 기반 AI 서·논술형 평가의 실제 15,000원"
+        },
+        {
+          "index": 34,
+          "title": "교실에 맞게 AI, 디지털 도구를 직접 설계해보세요. 직무/15차시(1학점) 미리보기 상세보기 신규 AI 시대, 코딩하는 교사가 미래를 바꾼다! 바이브 코딩 기반 학생 맞춤형 수업 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-037",
+          "context": "교실에 맞게 AI, 디지털 도구를 직접 설계해보세요. 직무/15차시(1학점) 미리보기 상세보기 신규 AI 시대, 코딩하는 교사가 미래를 바꾼다! 바이브 코딩 기반 학생 맞춤형 수업 60,000원"
+        },
+        {
+          "index": 35,
+          "title": "정책 이해부터 학교 적용까지 현장 중심 실행 전략 살펴보기! 직무/15차시(1학점) 미리보기 상세보기 신규 학생맞춤통합지원 A to Z – 관찰에서 지원까지, 학업·기초학력·사회정서·돌봄·안전·경제·생활 지원 등을 잇는 학교의 변화 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-027",
+          "context": "정책 이해부터 학교 적용까지 현장 중심 실행 전략 살펴보기! 직무/15차시(1학점) 미리보기 상세보기 신규 학생맞춤통합지원 A to Z – 관찰에서 지원까지, 학업·기초학력·사회정서·돌봄·안전·경제·생활 지원 등을 잇는 학교의 변화 60,000원"
+        },
+        {
+          "index": 36,
+          "title": "교과서와 연동되는 고퀄리티 수업 도구의 모든 것을 알려드립니다. 직무/15차시(1학점) 미리보기 상세보기 신규 샘크리에이티브연수 비바샘으로 에듀테크 200% 활용하기 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-030",
+          "context": "교과서와 연동되는 고퀄리티 수업 도구의 모든 것을 알려드립니다. 직무/15차시(1학점) 미리보기 상세보기 신규 샘크리에이티브연수 비바샘으로 에듀테크 200% 활용하기 60,000원"
+        },
+        {
+          "index": 37,
+          "title": "2026 대한민국 교육 트렌드의 시작! 단, 2차시로 만나보세요. 직무/2차시(15차시미만) 미리보기 상세보기 신규 V-에듀테크 트렌드: AI 시대를 리드하는 교사, 수업을 디자인하다 12,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-001",
+          "context": "2026 대한민국 교육 트렌드의 시작! 단, 2차시로 만나보세요. 직무/2차시(15차시미만) 미리보기 상세보기 신규 V-에듀테크 트렌드: AI 시대를 리드하는 교사, 수업을 디자인하다 12,000원"
+        },
+        {
+          "index": 38,
+          "title": "수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 수학 불안 Zero! 기초학력 Up! 교실에서 바로 쓰는 중등 수학 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-036",
+          "context": "수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 수학 불안 Zero! 기초학력 Up! 교실에서 바로 쓰는 중등 수학 60,000원"
+        },
+        {
+          "index": 39,
+          "title": "BRISK로 개념기반 탐구학습을 쉽게 실천해 보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 샘크리에이티브연수 BRISK와 함께하는 개념기반 탐구학습 실천하기! 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-032",
+          "context": "BRISK로 개념기반 탐구학습을 쉽게 실천해 보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 샘크리에이티브연수 BRISK와 함께하는 개념기반 탐구학습 실천하기! 60,000원"
+        },
+        {
+          "index": 40,
+          "title": "학교자율시간으로 자율적이고 주도적인 수업을 설계해 보세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학교자율시간 실천 A to Z: 현장에서 바로 쓰는 활용 전략 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-026",
+          "context": "학교자율시간으로 자율적이고 주도적인 수업을 설계해 보세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학교자율시간 실천 A to Z: 현장에서 바로 쓰는 활용 전략 60,000원"
+        },
+        {
+          "index": 41,
+          "title": "현직 교사에게 필요한 All-in-One 클래스! 선생님을 위한 구글 통합 로드맵을 제공합니다. 직무/30차시(2학점) 미리보기 상세보기 신규 기초는 탄탄하게, 활용은 스마트하게! 구글 워크스페이스 All-in-One 클래스 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t26-014",
+          "context": "현직 교사에게 필요한 All-in-One 클래스! 선생님을 위한 구글 통합 로드맵을 제공합니다. 직무/30차시(2학점) 미리보기 상세보기 신규 기초는 탄탄하게, 활용은 스마트하게! 구글 워크스페이스 All-in-One 클래스 80,000원"
+        },
+        {
+          "index": 42,
+          "title": "선생님의 시간을 아껴줄 핵심 기능만 담은 6차시 실습형 캔바 연수! 직무/6차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 6차시 완성! 캔바로 수업·디자인 한 번에 30,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-033",
+          "context": "선생님의 시간을 아껴줄 핵심 기능만 담은 6차시 실습형 캔바 연수! 직무/6차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 6차시 완성! 캔바로 수업·디자인 한 번에 30,000원"
+        },
+        {
+          "index": 43,
+          "title": "다채로운 색으로 학생들의 마음을 다독이고, 마음에 생기를 채워주세요. 직무/15차시(1학점) 미리보기 상세보기 미술로 마음을 그리는 아이들, ​교실 속 마음 수업​ 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-020",
+          "context": "다채로운 색으로 학생들의 마음을 다독이고, 마음에 생기를 채워주세요. 직무/15차시(1학점) 미리보기 상세보기 미술로 마음을 그리는 아이들, ​교실 속 마음 수업​ 60,000원"
+        },
+        {
+          "index": 44,
+          "title": "미술로 감정을 표현하고, 나를 회복하는 시간을 선물해보세요. 직무/15차시(1학점) 미리보기 상세보기 미술로 마음의 안부를 묻다. “괜찮아? 괜찮아!” 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-021",
+          "context": "미술로 감정을 표현하고, 나를 회복하는 시간을 선물해보세요. 직무/15차시(1학점) 미리보기 상세보기 미술로 마음의 안부를 묻다. “괜찮아? 괜찮아!” 60,000원"
+        },
+        {
+          "index": 45,
+          "title": "역사의 흐름을 꿰뚫는 수업, 전환기를 서사로 풀어내는 전략! 직무/15차시(1학점) 미리보기 상세보기 왕좌를 설계한 자들 – 고려와 조선을 만든 권력의 흐름 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-019",
+          "context": "역사의 흐름을 꿰뚫는 수업, 전환기를 서사로 풀어내는 전략! 직무/15차시(1학점) 미리보기 상세보기 왕좌를 설계한 자들 – 고려와 조선을 만든 권력의 흐름 60,000원"
+        },
+        {
+          "index": 46,
+          "title": "똑똑한 생성형 AI 활용으로 업무 프로세스를 자동화하고, 업무 부담을 확! 줄여보세요. 직무/4차시(15차시미만) 미리보기 상세보기 생성형 AI를 활용한 교사 업무 자동화 실전 비법! 20,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-021",
+          "context": "똑똑한 생성형 AI 활용으로 업무 프로세스를 자동화하고, 업무 부담을 확! 줄여보세요. 직무/4차시(15차시미만) 미리보기 상세보기 생성형 AI를 활용한 교사 업무 자동화 실전 비법! 20,000원"
+        },
+        {
+          "index": 47,
+          "title": "학교생활기록부 수준 UP! 업무 시간 Down! 프로젝트를 실천해 보세요. 직무/3차시(15차시미만) 미리보기 상세보기 구글 시트로 쉽게 배우는 학교생활기록부 효율화 비법! 15,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-020",
+          "context": "학교생활기록부 수준 UP! 업무 시간 Down! 프로젝트를 실천해 보세요. 직무/3차시(15차시미만) 미리보기 상세보기 구글 시트로 쉽게 배우는 학교생활기록부 효율화 비법! 15,000원"
+        },
+        {
+          "index": 48,
+          "title": "놀이 하나로 교실이 달라집니다. 학생이 웃고, 교사가 편해지는 수업의 비밀! 직무/15차시(1학점) 미리보기 상세보기 교실을 움직이는 놀이의 힘! 사회정서학습 · 신체활동 · 사고력까지 한 번에! 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-009",
+          "context": "놀이 하나로 교실이 달라집니다. 학생이 웃고, 교사가 편해지는 수업의 비밀! 직무/15차시(1학점) 미리보기 상세보기 교실을 움직이는 놀이의 힘! 사회정서학습 · 신체활동 · 사고력까지 한 번에! 60,000원"
+        },
+        {
+          "index": 49,
+          "title": "업무 효율과 수업 혁신, 구글 워크스페이스에 그 해답이 있습니다! 직무/15차시(1학점) 미리보기 상세보기 인기 디지털 교실의 완성! 구글 워크스페이스 완전 정복 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-018",
+          "context": "업무 효율과 수업 혁신, 구글 워크스페이스에 그 해답이 있습니다! 직무/15차시(1학점) 미리보기 상세보기 인기 디지털 교실의 완성! 구글 워크스페이스 완전 정복 60,000원"
+        },
+        {
+          "index": 50,
+          "title": "어린이를 위한 이음교육, 지금 실천해야 합니다! 직무/15차시(1학점) 미리보기 상세보기 유보통합! 배움을 연결하는 이음교육 만나기 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-005",
+          "context": "어린이를 위한 이음교육, 지금 실천해야 합니다! 직무/15차시(1학점) 미리보기 상세보기 유보통합! 배움을 연결하는 이음교육 만나기 60,000원"
+        },
+        {
+          "index": 51,
+          "title": "사회정서학습(SEL)으로 학생의 정체성과 관계 형성을 도우며, AI·디지털 도구로 그 성장을 더 깊이 있게 지원하세요! 직무/15차시(1학점) 미리보기 상세보기 디지털 기반 사회정서학습(SEL) - 중등 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-003",
+          "context": "사회정서학습(SEL)으로 학생의 정체성과 관계 형성을 도우며, AI·디지털 도구로 그 성장을 더 깊이 있게 지원하세요! 직무/15차시(1학점) 미리보기 상세보기 디지털 기반 사회정서학습(SEL) - 중등 60,000원"
+        },
+        {
+          "index": 52,
+          "title": "변화를 읽는 기획, 물음을 여는 질문, 설득을 완성하는 표현 이제 AI와 함께 훈련하세요. 직무/15차시(1학점) 미리보기 상세보기 인기 ChatGPT와 함께 일하는 법: 기획력, 질문력, 보고의 기술 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-015",
+          "context": "변화를 읽는 기획, 물음을 여는 질문, 설득을 완성하는 표현 이제 AI와 함께 훈련하세요. 직무/15차시(1학점) 미리보기 상세보기 인기 ChatGPT와 함께 일하는 법: 기획력, 질문력, 보고의 기술 60,000원"
+        },
+        {
+          "index": 53,
+          "title": "칼퇴 가능한 엑셀 비법을 업무에 바로 적용해 보세요! 직무/30차시(2학점) 미리보기 상세보기 칼퇴하자! 엑셀 활용노트 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-007",
+          "context": "칼퇴 가능한 엑셀 비법을 업무에 바로 적용해 보세요! 직무/30차시(2학점) 미리보기 상세보기 칼퇴하자! 엑셀 활용노트 80,000원"
+        },
+        {
+          "index": 54,
+          "title": "정리 퀄리티는 높이고↑ 자료 준비 시간은 줄이고↓ 디지털 도구로 교사의 고민을 쉽고 빠르게 해결하세요.​ 직무/15차시(1학점) 미리보기 상세보기 인기 일 잘하는 교사의 비밀, 노션으로 정리! 캔바로 디자인! 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-008",
+          "context": "정리 퀄리티는 높이고↑ 자료 준비 시간은 줄이고↓ 디지털 도구로 교사의 고민을 쉽고 빠르게 해결하세요.​ 직무/15차시(1학점) 미리보기 상세보기 인기 일 잘하는 교사의 비밀, 노션으로 정리! 캔바로 디자인! 60,000원"
+        },
+        {
+          "index": 55,
+          "title": "교사 연구대회 보고서,영상,교육 자료,디자인까지! 한 큐에 정리해보세요 직무/6차시(15차시미만) 미리보기 상세보기 성장을 이끄는 교사 연구대회! 수상자가 전하는 실전 꿀팁 30,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-004",
+          "context": "교사 연구대회 보고서,영상,교육 자료,디자인까지! 한 큐에 정리해보세요 직무/6차시(15차시미만) 미리보기 상세보기 성장을 이끄는 교사 연구대회! 수상자가 전하는 실전 꿀팁 30,000원"
+        },
+        {
+          "index": 56,
+          "title": "실제 수업 현장에서 검증된 AI 활용법, 효율왕 선생님들이 알려드립니다! 직무/15차시(1학점) 미리보기 상세보기 인기 수업 및 업무 효율 UP! AI와 ChatGPT 200% 활용법 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-001",
+          "context": "실제 수업 현장에서 검증된 AI 활용법, 효율왕 선생님들이 알려드립니다! 직무/15차시(1학점) 미리보기 상세보기 인기 수업 및 업무 효율 UP! AI와 ChatGPT 200% 활용법 60,000원"
+        },
+        {
+          "index": 57,
+          "title": "디지털·AI 환경 및 도구의 특성을 살펴보고, 수업 상황에 맞게 활용해보세요. 직무/15차시(1학점) 미리보기 상세보기 수업이 새로워지는 디지털 · AI 첫걸음: 인프라 × 에듀테크 × AI 디지털교과서 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-010",
+          "context": "디지털·AI 환경 및 도구의 특성을 살펴보고, 수업 상황에 맞게 활용해보세요. 직무/15차시(1학점) 미리보기 상세보기 수업이 새로워지는 디지털 · AI 첫걸음: 인프라 × 에듀테크 × AI 디지털교과서 60,000원"
+        },
+        {
+          "index": 58,
+          "title": "단축키로 익히는 파워포인트 실전 꿀팁을 배워보세요! 직무/15차시(1학점) 미리보기 상세보기 칼퇴하자! 파워포인트 활용노트 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-006",
+          "context": "단축키로 익히는 파워포인트 실전 꿀팁을 배워보세요! 직무/15차시(1학점) 미리보기 상세보기 칼퇴하자! 파워포인트 활용노트 60,000원"
+        },
+        {
+          "index": 59,
+          "title": "에듀테크 전문가들과 함께 선생님의 미래교실을 준비해 보세요. 직무/15차시(1학점) 미리보기 상세보기 AI로 여는 미래교실! 에듀테크 수업 노하우 - 중등 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-033",
+          "context": "에듀테크 전문가들과 함께 선생님의 미래교실을 준비해 보세요. 직무/15차시(1학점) 미리보기 상세보기 AI로 여는 미래교실! 에듀테크 수업 노하우 - 중등 60,000원"
+        },
+        {
+          "index": 60,
+          "title": "교사라면 반드시 들어야 하는 평가 기본과 실전 필수 연수! 초등편 직무/15차시(1학점) 미리보기 상세보기 학습자 중심의 학생평가 기본기와 실전 가이드 - 초등편 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-028",
+          "context": "교사라면 반드시 들어야 하는 평가 기본과 실전 필수 연수! 초등편 직무/15차시(1학점) 미리보기 상세보기 학습자 중심의 학생평가 기본기와 실전 가이드 - 초등편 60,000원"
+        },
+        {
+          "index": 61,
+          "title": "에듀테크 전문가들과 함께 선생님의 미래교실을 준비해 보세요 직무/15차시(1학점) 미리보기 상세보기 AI로 여는 미래교실! 에듀테크 수업 노하우 - 초등 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-032",
+          "context": "에듀테크 전문가들과 함께 선생님의 미래교실을 준비해 보세요 직무/15차시(1학점) 미리보기 상세보기 AI로 여는 미래교실! 에듀테크 수업 노하우 - 초등 60,000원"
+        },
+        {
+          "index": 62,
+          "title": "교사의 경험과 지혜로 완성되는 AI 디지털교과서, 도전과 기회 속에서 함께 미래를 열어보세요. 직무/15차시(1학점) 미리보기 상세보기 Let's do it! 나의 첫 AI 디지털교과서 - 중등 0원",
+          "url": "https://t.vivasam.com/courses/job/t24-030",
+          "context": "교사의 경험과 지혜로 완성되는 AI 디지털교과서, 도전과 기회 속에서 함께 미래를 열어보세요. 직무/15차시(1학점) 미리보기 상세보기 Let's do it! 나의 첫 AI 디지털교과서 - 중등 0원"
+        },
+        {
+          "index": 63,
+          "title": "현직 교사 4인이 알려주는 교육용 캔바를 활용한 에듀테크 수업의 모든 것! 직무/15차시(1학점) 미리보기 상세보기 인기 샘크리에이티브연수 혼자 해도 프로 선생님처럼 잘 만드는 학교 수업 자료 with 캔바 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-006",
+          "context": "현직 교사 4인이 알려주는 교육용 캔바를 활용한 에듀테크 수업의 모든 것! 직무/15차시(1학점) 미리보기 상세보기 인기 샘크리에이티브연수 혼자 해도 프로 선생님처럼 잘 만드는 학교 수업 자료 with 캔바 60,000원"
+        },
+        {
+          "index": 64,
+          "title": "교사라면 반드시 들어야 하는 평가 기본과 실전 필수 연수! 중등편 직무/15차시(1학점) 미리보기 상세보기 학습자 중심의 학생평가 기본기와 실전 가이드 - 중등편 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-029",
+          "context": "교사라면 반드시 들어야 하는 평가 기본과 실전 필수 연수! 중등편 직무/15차시(1학점) 미리보기 상세보기 학습자 중심의 학생평가 기본기와 실전 가이드 - 중등편 60,000원"
+        },
+        {
+          "index": 65,
+          "title": "모든 학생이 차별 없이 양질의 교육 경험을 누릴 수 있도록 AI 에듀테크로 지원해 보세요. 직무/15차시(1학점) 미리보기 상세보기 디지털 교육의 씨앗을 심다! 모두를 위한 AI 에듀테크 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-020",
+          "context": "모든 학생이 차별 없이 양질의 교육 경험을 누릴 수 있도록 AI 에듀테크로 지원해 보세요. 직무/15차시(1학점) 미리보기 상세보기 디지털 교육의 씨앗을 심다! 모두를 위한 AI 에듀테크 60,000원"
+        },
+        {
+          "index": 66,
+          "title": "정답보다 중요한 건, 질문이 만드는 가능성! 학생 주도성과 사고 확장을 이끄는 질문법을 익혀보세요! 직무/5차시(15차시미만) 미리보기 상세보기 AI 시대의 핵심 역량, 질문의 기술 25,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-017",
+          "context": "정답보다 중요한 건, 질문이 만드는 가능성! 학생 주도성과 사고 확장을 이끄는 질문법을 익혀보세요! 직무/5차시(15차시미만) 미리보기 상세보기 AI 시대의 핵심 역량, 질문의 기술 25,000원"
+        },
+        {
+          "index": 67,
+          "title": "보고 업무는 가볍게, 흩어진 생각은 깔끔하게! 든든한 ChatGPT와 함께하세요! 직무/5차시(15차시미만) 미리보기 상세보기 인공지능 비서, ChatGPT를 활용한 보고서 작성법 25,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-016",
+          "context": "보고 업무는 가볍게, 흩어진 생각은 깔끔하게! 든든한 ChatGPT와 함께하세요! 직무/5차시(15차시미만) 미리보기 상세보기 인공지능 비서, ChatGPT를 활용한 보고서 작성법 25,000원"
+        },
+        {
+          "index": 68,
+          "title": "초중고 AIDT 담당자가 직접 알려주는 꿀팁부터, 교과별 수업 평가 설계까지, AIDT 활용의 모든 것! 직무/5차시(15차시미만) 미리보기 상세보기 수업이 새로워지는 디지털 · AI 첫걸음: AI 디지털교과서 0원",
+          "url": "https://t.vivasam.com/courses/job/t25-012",
+          "context": "초중고 AIDT 담당자가 직접 알려주는 꿀팁부터, 교과별 수업 평가 설계까지, AIDT 활용의 모든 것! 직무/5차시(15차시미만) 미리보기 상세보기 수업이 새로워지는 디지털 · AI 첫걸음: AI 디지털교과서 0원"
+        },
+        {
+          "index": 69,
+          "title": "구글 워크스페이스, MDM, AI 기반 콘텐츠 도구 실습으로 디지털 수업 설계의 기본을 다져보세요. 직무/10차시(15차시미만) 미리보기 상세보기 수업이 새로워지는 디지털 · AI 첫걸음: 인프라 × 에듀테크 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t25-011",
+          "context": "구글 워크스페이스, MDM, AI 기반 콘텐츠 도구 실습으로 디지털 수업 설계의 기본을 다져보세요. 직무/10차시(15차시미만) 미리보기 상세보기 수업이 새로워지는 디지털 · AI 첫걸음: 인프라 × 에듀테크 50,000원"
+        },
+        {
+          "index": 70,
+          "title": "초등 실천 사례를 담은 과정 중심 평가와 피드백! 직무/15차시(1학점) 미리보기 상세보기 학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 - 초등 실천편 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-026",
+          "context": "초등 실천 사례를 담은 과정 중심 평가와 피드백! 직무/15차시(1학점) 미리보기 상세보기 학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 - 초등 실천편 60,000원"
+        },
+        {
+          "index": 71,
+          "title": "중등 실천 사례를 담은 과정 중심 평가와 피드백! 직무/15차시(1학점) 미리보기 상세보기 학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 - 중등 실천편 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-027",
+          "context": "중등 실천 사례를 담은 과정 중심 평가와 피드백! 직무/15차시(1학점) 미리보기 상세보기 학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 - 중등 실천편 60,000원"
+        },
+        {
+          "index": 72,
+          "title": "실제 유튜브 운영 노하우 및 쉽고 간단한 영상편집 꿀팁 대방출! 직무/15차시(1학점) 미리보기 상세보기 샘크리에이티브연수 선생님의 두 번째 전성기, 유튜브 크리에이터로 LEVEL UP! 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-005",
+          "context": "실제 유튜브 운영 노하우 및 쉽고 간단한 영상편집 꿀팁 대방출! 직무/15차시(1학점) 미리보기 상세보기 샘크리에이티브연수 선생님의 두 번째 전성기, 유튜브 크리에이터로 LEVEL UP! 60,000원"
+        },
+        {
+          "index": 73,
+          "title": "갤럭시 탭 필수 기능 총정리! 직무/5차시(15차시미만) 미리보기 상세보기 샘크리에이티브연수 갤럭시 탭 인더 스쿨 25,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-019",
+          "context": "갤럭시 탭 필수 기능 총정리! 직무/5차시(15차시미만) 미리보기 상세보기 샘크리에이티브연수 갤럭시 탭 인더 스쿨 25,000원"
+        },
+        {
+          "index": 74,
+          "title": "17인의 명강사들이 전해주는 마음, 관계, 소통 고민의 인사이트! 직무/30차시(2학점) 미리보기 상세보기 인생 고민에 지혜를 구하는 명강사 클래스 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-022",
+          "context": "17인의 명강사들이 전해주는 마음, 관계, 소통 고민의 인사이트! 직무/30차시(2학점) 미리보기 상세보기 인생 고민에 지혜를 구하는 명강사 클래스 80,000원"
+        },
+        {
+          "index": 75,
+          "title": "학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 직무/15차시(1학점) 미리보기 상세보기 학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-025",
+          "context": "학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 직무/15차시(1학점) 미리보기 상세보기 학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 60,000원"
+        },
+        {
+          "index": 76,
+          "title": "한방에 끝내는! 초등 전과목 AI 에듀테크 융합 수업을 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 교과 융합 AI 에듀테크 수업 한방에 끝내기 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-015",
+          "context": "한방에 끝내는! 초등 전과목 AI 에듀테크 융합 수업을 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 교과 융합 AI 에듀테크 수업 한방에 끝내기 60,000원"
+        },
+        {
+          "index": 77,
+          "title": "DERS 카드를 활용하여 2022개정교육과정의 방향에 맞는 교사 교육과정 및 수업을 구체화하고 구조화해보세요. 직무/2차시(15차시미만) 미리보기 상세보기 디지털 기반 교육혁신 시나리오 카드 활용 가이드 10,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-021",
+          "context": "DERS 카드를 활용하여 2022개정교육과정의 방향에 맞는 교사 교육과정 및 수업을 구체화하고 구조화해보세요. 직무/2차시(15차시미만) 미리보기 상세보기 디지털 기반 교육혁신 시나리오 카드 활용 가이드 10,000원"
+        },
+        {
+          "index": 78,
+          "title": "요동치는 감정의 파도 속에서 고요히 소통의 길을 밝혀줄 등대로 초대합니다. 직무/3차시(15차시미만) 미리보기 상세보기 아나운서 정용실이 추천하는 소통과 공감을 위한 도서 15,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-014",
+          "context": "요동치는 감정의 파도 속에서 고요히 소통의 길을 밝혀줄 등대로 초대합니다. 직무/3차시(15차시미만) 미리보기 상세보기 아나운서 정용실이 추천하는 소통과 공감을 위한 도서 15,000원"
+        },
+        {
+          "index": 79,
+          "title": "AI를 활용해 학생들의 흥미와 특성을 반영한 맞춤형 수업자료를 만들어 보세요. 직무/3차시(15차시미만) 미리보기 상세보기 샘크리에이티브연수 AI로 수업자료 뚝딱! 나만의 스마트한 교실 만들기 15,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-010",
+          "context": "AI를 활용해 학생들의 흥미와 특성을 반영한 맞춤형 수업자료를 만들어 보세요. 직무/3차시(15차시미만) 미리보기 상세보기 샘크리에이티브연수 AI로 수업자료 뚝딱! 나만의 스마트한 교실 만들기 15,000원"
+        },
+        {
+          "index": 80,
+          "title": "선생님의 지식이 책으로, 새로운 기회로 이어지는 첫걸음을 시작해 보세요. 직무/4차시(15차시미만) 미리보기 상세보기 N잡러의 셀프브랜딩 노하우, 책쓰기로 인생 2막 여는 법 20,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-013",
+          "context": "선생님의 지식이 책으로, 새로운 기회로 이어지는 첫걸음을 시작해 보세요. 직무/4차시(15차시미만) 미리보기 상세보기 N잡러의 셀프브랜딩 노하우, 책쓰기로 인생 2막 여는 법 20,000원"
+        },
+        {
+          "index": 81,
+          "title": "전세계 학교에서 주목하는 IB, IB의 수업부터 평가까지 알아보세요! 직무/30차시(2학점) 미리보기 상세보기 인기 수업과 평가의 혁신! IB로 그리는 미래교육 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-009",
+          "context": "전세계 학교에서 주목하는 IB, IB의 수업부터 평가까지 알아보세요! 직무/30차시(2학점) 미리보기 상세보기 인기 수업과 평가의 혁신! IB로 그리는 미래교육 80,000원"
+        },
+        {
+          "index": 82,
+          "title": "기억에 오래 남는 독서 효과를 하기 위한 메모 독서법 직무/10차시(15차시미만) 미리보기 상세보기 삶을 바꾸는 메모 독서법 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-012",
+          "context": "기억에 오래 남는 독서 효과를 하기 위한 메모 독서법 직무/10차시(15차시미만) 미리보기 상세보기 삶을 바꾸는 메모 독서법 50,000원"
+        },
+        {
+          "index": 83,
+          "title": "상상의 문을 여는 비상 초등 교과서! 활용법 알아보기 직무/6차시(15차시미만) 미리보기 상세보기 비상하게 준비하는 2022 개정 비상교과서 활용법(초등 편) 0원",
+          "url": "https://t.vivasam.com/courses/job/t24-016",
+          "context": "상상의 문을 여는 비상 초등 교과서! 활용법 알아보기 직무/6차시(15차시미만) 미리보기 상세보기 비상하게 준비하는 2022 개정 비상교과서 활용법(초등 편) 0원"
+        },
+        {
+          "index": 84,
+          "title": "노명우 교수가 전하는 유럽 도시 곳곳에 숨겨진 문화와 예술 이야기 직무/6차시(15차시미만) 미리보기 상세보기 노명우 교수의 다시 찾은 유럽 도시 문화기행 30,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-011",
+          "context": "노명우 교수가 전하는 유럽 도시 곳곳에 숨겨진 문화와 예술 이야기 직무/6차시(15차시미만) 미리보기 상세보기 노명우 교수의 다시 찾은 유럽 도시 문화기행 30,000원"
+        },
+        {
+          "index": 85,
+          "title": "에듀테크 수업 쉽고 간단하게 시작해보세요. 직무/15차시(1학점) 미리보기 상세보기 쉽고 간단하게 시도해보는 AI 에듀테크 수업 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-001",
+          "context": "에듀테크 수업 쉽고 간단하게 시작해보세요. 직무/15차시(1학점) 미리보기 상세보기 쉽고 간단하게 시도해보는 AI 에듀테크 수업 60,000원"
+        },
+        {
+          "index": 86,
+          "title": "미술의 역사와 현대 미술 시장의 변화! 홍대 이작가가 알려주는 NFT와 미술 이야기 직무/15차시(1학점) 미리보기 상세보기 홍대 이작가가 그리는 최소한의 미술, 그리고 NFT 아트테크 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-008",
+          "context": "미술의 역사와 현대 미술 시장의 변화! 홍대 이작가가 알려주는 NFT와 미술 이야기 직무/15차시(1학점) 미리보기 상세보기 홍대 이작가가 그리는 최소한의 미술, 그리고 NFT 아트테크 60,000원"
+        },
+        {
+          "index": 87,
+          "title": "국어, 영어, 수학, 정서 분야별 기초학력 마스터 클래스! 직무/15차시(1학점) 미리보기 상세보기 기초학력 마스터 클래스 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-002",
+          "context": "국어, 영어, 수학, 정서 분야별 기초학력 마스터 클래스! 직무/15차시(1학점) 미리보기 상세보기 기초학력 마스터 클래스 60,000원"
+        },
+        {
+          "index": 88,
+          "title": "2022 개정 교육과정 반영, 직업계고 수업과 평가 가이드를 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 직업계Go! 교육과정과 함께하는 최소 성취수준 보장 지도 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-003",
+          "context": "2022 개정 교육과정 반영, 직업계고 수업과 평가 가이드를 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 직업계Go! 교육과정과 함께하는 최소 성취수준 보장 지도 60,000원"
+        },
+        {
+          "index": 89,
+          "title": "교사로서 내 상처를 마주하고 회복하는 여정에 함께해 보세요. 직무/15차시(1학점) 미리보기 상세보기 행복한 교사를 위한 마음 멘토링, 마음돌봄과 바로서기 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-027",
+          "context": "교사로서 내 상처를 마주하고 회복하는 여정에 함께해 보세요. 직무/15차시(1학점) 미리보기 상세보기 행복한 교사를 위한 마음 멘토링, 마음돌봄과 바로서기 60,000원"
+        },
+        {
+          "index": 90,
+          "title": "독서와 AI 융합 수업의 만남! 이야기 맥락에 푹! 빠지는 AI 수업을 만들어보세요 직무/15차시(1학점) 미리보기 상세보기 책 속 이야기로 펼치는 AI 융합수업 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-026",
+          "context": "독서와 AI 융합 수업의 만남! 이야기 맥락에 푹! 빠지는 AI 수업을 만들어보세요 직무/15차시(1학점) 미리보기 상세보기 책 속 이야기로 펼치는 AI 융합수업 60,000원"
+        },
+        {
+          "index": 91,
+          "title": "수리수리! 마술과 같이 학생들의 수리력이 향상되는 비법들을 배워보세요. 직무/15차시(1학점) 미리보기 상세보기 수학이 쑥쑥 늘어나는 기초학력 향상 프로젝트, 수리수리 수리력! 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-025",
+          "context": "수리수리! 마술과 같이 학생들의 수리력이 향상되는 비법들을 배워보세요. 직무/15차시(1학점) 미리보기 상세보기 수학이 쑥쑥 늘어나는 기초학력 향상 프로젝트, 수리수리 수리력! 60,000원"
+        },
+        {
+          "index": 92,
+          "title": "학생 주도성의 비밀! 에듀테크로 풀다 직무/15차시(1학점) 미리보기 상세보기 인기 학생 주도성이 살아있는 에듀테크 활용 수업 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-023",
+          "context": "학생 주도성의 비밀! 에듀테크로 풀다 직무/15차시(1학점) 미리보기 상세보기 인기 학생 주도성이 살아있는 에듀테크 활용 수업 60,000원"
+        },
+        {
+          "index": 93,
+          "title": "명강사들이 전해주는 관계, 소통 고민의 인사이트! 직무/15차시(1학점) 미리보기 상세보기 소통과 관계의 온도를 높이는 명강사 클래스 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-024",
+          "context": "명강사들이 전해주는 관계, 소통 고민의 인사이트! 직무/15차시(1학점) 미리보기 상세보기 소통과 관계의 온도를 높이는 명강사 클래스 60,000원"
+        },
+        {
+          "index": 94,
+          "title": "명강사들이 전해주는 마음, 정신건강, 심리 고민의 인사이트! 직무/15차시(1학점) 미리보기 상세보기 마음 근육을 단단하게 키우는 명강사 클래스 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-023",
+          "context": "명강사들이 전해주는 마음, 정신건강, 심리 고민의 인사이트! 직무/15차시(1학점) 미리보기 상세보기 마음 근육을 단단하게 키우는 명강사 클래스 60,000원"
+        },
+        {
+          "index": 95,
+          "title": "IB 교실 현장의 실제 수업 사례 노하우를 배워보세요! 직무/15차시(1학점) 미리보기 상세보기 수업과 평가의 혁신! IB 교실 속으로 – 수업편 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-018",
+          "context": "IB 교실 현장의 실제 수업 사례 노하우를 배워보세요! 직무/15차시(1학점) 미리보기 상세보기 수업과 평가의 혁신! IB 교실 속으로 – 수업편 60,000원"
+        },
+        {
+          "index": 96,
+          "title": "IB 교육의 모든 것, A부터 Z까지 알아보세요! 직무/15차시(1학점) 미리보기 상세보기 수업과 평가의 혁신! IB 교실 속으로 – 이해편 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t24-017",
+          "context": "IB 교육의 모든 것, A부터 Z까지 알아보세요! 직무/15차시(1학점) 미리보기 상세보기 수업과 평가의 혁신! IB 교실 속으로 – 이해편 60,000원"
+        },
+        {
+          "index": 97,
+          "title": "기초학력 향상 프로젝트, 문해력의 씨앗을 키워라! 직무/15차시(1학점) 미리보기 상세보기 기초학력 향상 프로젝트, 조병영의 문해력 특강 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-028",
+          "context": "기초학력 향상 프로젝트, 문해력의 씨앗을 키워라! 직무/15차시(1학점) 미리보기 상세보기 기초학력 향상 프로젝트, 조병영의 문해력 특강 60,000원"
+        },
+        {
+          "index": 98,
+          "title": "대화형 인공지능의 시대! ChatGPT에 들어가볼까요? 직무/15차시(1학점) 미리보기 상세보기 생성형 AI 완전정복! 교실에서 200% 활용하는 ChatGPT 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-019",
+          "context": "대화형 인공지능의 시대! ChatGPT에 들어가볼까요? 직무/15차시(1학점) 미리보기 상세보기 생성형 AI 완전정복! 교실에서 200% 활용하는 ChatGPT 60,000원"
+        },
+        {
+          "index": 99,
+          "title": "나만의 꽃 캘리그래피 레시피로 희망과 격려를 전해보세요. 직무/15차시(1학점) 미리보기 상세보기 감성 한 송이, 꽃 캘리그래피 감성 소품으로 교실 꾸미기 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-039",
+          "context": "나만의 꽃 캘리그래피 레시피로 희망과 격려를 전해보세요. 직무/15차시(1학점) 미리보기 상세보기 감성 한 송이, 꽃 캘리그래피 감성 소품으로 교실 꾸미기 60,000원"
+        },
+        {
+          "index": 100,
+          "title": "학교 리터러시 교육을 위한 비전, 문해력 인생 특강에 초대합니다! 직무/30차시(2학점) 미리보기 상세보기 인기 조병영의 문해력 특강 - 리터러시 교육을 위한 30가지 생각 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-011",
+          "context": "학교 리터러시 교육을 위한 비전, 문해력 인생 특강에 초대합니다! 직무/30차시(2학점) 미리보기 상세보기 인기 조병영의 문해력 특강 - 리터러시 교육을 위한 30가지 생각 80,000원"
+        },
+        {
+          "index": 101,
+          "title": "친절하고 부드럽게! 말 연습을 통해 교실의 변화를 경험해 보세요! 직무/30차시(2학점) 미리보기 상세보기 상처 주지 않으며 할 말은 다 하는 기술! 교사의 말 연습 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-015",
+          "context": "친절하고 부드럽게! 말 연습을 통해 교실의 변화를 경험해 보세요! 직무/30차시(2학점) 미리보기 상세보기 상처 주지 않으며 할 말은 다 하는 기술! 교사의 말 연습 80,000원"
+        },
+        {
+          "index": 102,
+          "title": "학습적 지원 외에도 배움을 종합적으로 지원하는 방법을 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 책임교육의 첫 단추, 최소 성취수준 보장 지도 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-016",
+          "context": "학습적 지원 외에도 배움을 종합적으로 지원하는 방법을 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 책임교육의 첫 단추, 최소 성취수준 보장 지도 60,000원"
+        },
+        {
+          "index": 103,
+          "title": "모두가 함께 살아갈 미래! 생태전환교육으로 가치 있는 미래를 만들어 보세요. 직무/15차시(1학점) 미리보기 상세보기 가치 있는 미래로의 전환, 생태전환교육 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-010",
+          "context": "모두가 함께 살아갈 미래! 생태전환교육으로 가치 있는 미래를 만들어 보세요. 직무/15차시(1학점) 미리보기 상세보기 가치 있는 미래로의 전환, 생태전환교육 60,000원"
+        },
+        {
+          "index": 104,
+          "title": "약사가 알려주는 마약&약물 오남용, 지금 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 알면 지키고 모르면 빠지는 마약&약물 오남용의 모든 것 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-018",
+          "context": "약사가 알려주는 마약&약물 오남용, 지금 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 알면 지키고 모르면 빠지는 마약&약물 오남용의 모든 것 60,000원"
+        },
+        {
+          "index": 105,
+          "title": "신계숙 교수와 함께 떠나는 국내여행, 미식기행의 길! 직무/15차시(1학점) 미리보기 상세보기 신계숙의 맛터사이클 여행, 전국의 맛을 찾아서 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-014",
+          "context": "신계숙 교수와 함께 떠나는 국내여행, 미식기행의 길! 직무/15차시(1학점) 미리보기 상세보기 신계숙의 맛터사이클 여행, 전국의 맛을 찾아서 60,000원"
+        },
+        {
+          "index": 106,
+          "title": "학생의 재능과 강점에 따라 차별화된 진로 코칭을 시도해 보세요! 직무/15차시(1학점) 미리보기 상세보기 학생의 평범함을 특별함으로! 강점 진로 코칭 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-012",
+          "context": "학생의 재능과 강점에 따라 차별화된 진로 코칭을 시도해 보세요! 직무/15차시(1학점) 미리보기 상세보기 학생의 평범함을 특별함으로! 강점 진로 코칭 60,000원"
+        },
+        {
+          "index": 107,
+          "title": "교실 속 관계의 온도를 높이는 행복한 애착 교실을 만들어 보세요! 직무/15차시(1학점) 미리보기 상세보기 애착 유형으로 알아보는 교실 속 관계 회복 처방전 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-008",
+          "context": "교실 속 관계의 온도를 높이는 행복한 애착 교실을 만들어 보세요! 직무/15차시(1학점) 미리보기 상세보기 애착 유형으로 알아보는 교실 속 관계 회복 처방전 60,000원"
+        },
+        {
+          "index": 108,
+          "title": "수업에 바로 적용가능한 교실 속 메타인지 학습법을 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 나를 아는 힘! 리사 손 교수와 함께하는 교실 속 메타인지 학습코칭 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-009",
+          "context": "수업에 바로 적용가능한 교실 속 메타인지 학습법을 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 나를 아는 힘! 리사 손 교수와 함께하는 교실 속 메타인지 학습코칭 60,000원"
+        },
+        {
+          "index": 109,
+          "title": "지금 바로! 필라테스로 건강한 일상을 만들어 보세요! 직무/15차시(1학점) 미리보기 상세보기 지금 바로! 필라테스 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-017",
+          "context": "지금 바로! 필라테스로 건강한 일상을 만들어 보세요! 직무/15차시(1학점) 미리보기 상세보기 지금 바로! 필라테스 60,000원"
+        },
+        {
+          "index": 110,
+          "title": "블럭식스로 효율적인 일정 계획을 통해 선생님의 소중한 시간 멋지게 결정해 보세요. 직무/15차시(1학점) 미리보기 상세보기 하루 24시간을 단 6블럭으로! 교사의 블럭식스 시간 관리 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-005",
+          "context": "블럭식스로 효율적인 일정 계획을 통해 선생님의 소중한 시간 멋지게 결정해 보세요. 직무/15차시(1학점) 미리보기 상세보기 하루 24시간을 단 6블럭으로! 교사의 블럭식스 시간 관리 60,000원"
+        },
+        {
+          "index": 111,
+          "title": "인공지능 시대 필수 역량, 누구나 알아야 하는 데이터 리터러시! 직무/15차시(1학점) 미리보기 상세보기 AI 빅데이터 시대를 읽는 힘! 학교에서 바로 쓰는 데이터 리터러시 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-042",
+          "context": "인공지능 시대 필수 역량, 누구나 알아야 하는 데이터 리터러시! 직무/15차시(1학점) 미리보기 상세보기 AI 빅데이터 시대를 읽는 힘! 학교에서 바로 쓰는 데이터 리터러시 60,000원"
+        },
+        {
+          "index": 112,
+          "title": "지금 내 마음은 어떠한가요? 내 마음을 살펴보는 시간을 가져보세요. 직무/6차시(15차시미만) 미리보기 상세보기 나를 사랑하기 위한 마음 여행 안내서 36,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-002",
+          "context": "지금 내 마음은 어떠한가요? 내 마음을 살펴보는 시간을 가져보세요. 직무/6차시(15차시미만) 미리보기 상세보기 나를 사랑하기 위한 마음 여행 안내서 36,000원"
+        },
+        {
+          "index": 113,
+          "title": "건강한 디지털 리터러시 활동을 위한 효과적인 교수학습 방법을 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 디지털 세상에서 읽고 쓰는 힘! 디지털 리터러시 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-003",
+          "context": "건강한 디지털 리터러시 활동을 위한 효과적인 교수학습 방법을 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 디지털 세상에서 읽고 쓰는 힘! 디지털 리터러시 60,000원"
+        },
+        {
+          "index": 114,
+          "title": "디지털 미디어 리터러시 시대, 선생님의 상상을 멋진 영상 콘텐츠로 만들어 보세요. 직무/15차시(1학점) 미리보기 상세보기 상상은 영상이 된다! 디지털 미디어 리터러시 시대, 쉽게 만드는 영상 콘텐츠 수업 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-043",
+          "context": "디지털 미디어 리터러시 시대, 선생님의 상상을 멋진 영상 콘텐츠로 만들어 보세요. 직무/15차시(1학점) 미리보기 상세보기 상상은 영상이 된다! 디지털 미디어 리터러시 시대, 쉽게 만드는 영상 콘텐츠 수업 60,000원"
+        },
+        {
+          "index": 115,
+          "title": "핵심만 콕콕 짚어주는 김준우 강사님의 한국사능력검정시험 대비 과정! 근현대사 부분 살펴보기! 직무/30차시(2학점) 미리보기 상세보기 김준우의 톡(Talk)톡(Talk)한국사, 한국사능력검정시험-근현대사 70,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-007",
+          "context": "핵심만 콕콕 짚어주는 김준우 강사님의 한국사능력검정시험 대비 과정! 근현대사 부분 살펴보기! 직무/30차시(2학점) 미리보기 상세보기 김준우의 톡(Talk)톡(Talk)한국사, 한국사능력검정시험-근현대사 70,000원"
+        },
+        {
+          "index": 116,
+          "title": "핵심만 콕콕 짚어주는 김준우 강사님의 한국사능력검정시험 대비 과정! 전근대사 부분 살펴보기! 직무/30차시(2학점) 미리보기 상세보기 김준우의 톡(Talk)톡(Talk)한국사, 한국사능력검정시험-전근대사 70,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-006",
+          "context": "핵심만 콕콕 짚어주는 김준우 강사님의 한국사능력검정시험 대비 과정! 전근대사 부분 살펴보기! 직무/30차시(2학점) 미리보기 상세보기 김준우의 톡(Talk)톡(Talk)한국사, 한국사능력검정시험-전근대사 70,000원"
+        },
+        {
+          "index": 117,
+          "title": "언플러그드, 스토리텔링, 앱&웹사이트를 활용한 AI 놀이를 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 AI야 놀자! 교실에서 놀이와 체험으로 만나는 인공지능 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-044",
+          "context": "언플러그드, 스토리텔링, 앱&웹사이트를 활용한 AI 놀이를 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 AI야 놀자! 교실에서 놀이와 체험으로 만나는 인공지능 60,000원"
+        },
+        {
+          "index": 118,
+          "title": "국가 개정 교육과정의 내용을 제대로 숙지하고 효과적인 수업 방법을 찾아 보세요! 직무/15차시(1학점) 미리보기 상세보기 핵심만 딱! 2022 개정 교육과정 한눈에 보기 - 중등 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-041",
+          "context": "국가 개정 교육과정의 내용을 제대로 숙지하고 효과적인 수업 방법을 찾아 보세요! 직무/15차시(1학점) 미리보기 상세보기 핵심만 딱! 2022 개정 교육과정 한눈에 보기 - 중등 50,000원"
+        },
+        {
+          "index": 119,
+          "title": "국가 개정 교육과정의 내용을 제대로 숙지하고 효과적인 수업 방법을 찾아 보세요! 직무/15차시(1학점) 미리보기 상세보기 핵심만 딱! 2022 개정 교육과정 한눈에 보기 - 초등 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-040",
+          "context": "국가 개정 교육과정의 내용을 제대로 숙지하고 효과적인 수업 방법을 찾아 보세요! 직무/15차시(1학점) 미리보기 상세보기 핵심만 딱! 2022 개정 교육과정 한눈에 보기 - 초등 50,000원"
+        },
+        {
+          "index": 120,
+          "title": "성격 유형을 통해 아이들의 심리를 파악하고, 맞춤형 수업을 진행해 보세요! 직무/30차시(2학점) 미리보기 상세보기 16가지 유형으로 탐구하는 학생 맞춤형 수업, 교실 속 MBTI 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-032",
+          "context": "성격 유형을 통해 아이들의 심리를 파악하고, 맞춤형 수업을 진행해 보세요! 직무/30차시(2학점) 미리보기 상세보기 16가지 유형으로 탐구하는 학생 맞춤형 수업, 교실 속 MBTI 80,000원"
+        },
+        {
+          "index": 121,
+          "title": "8개 정육면체 큐브로 성장하는 중등 그림책큐브의 세계에 빠져보세요. 직무/15차시(1학점) 미리보기 상세보기 상상력과 핵심 역량이 만나다! 그림책큐브로 생각이 커지는 중등 교실 55,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-016",
+          "context": "8개 정육면체 큐브로 성장하는 중등 그림책큐브의 세계에 빠져보세요. 직무/15차시(1학점) 미리보기 상세보기 상상력과 핵심 역량이 만나다! 그림책큐브로 생각이 커지는 중등 교실 55,000원"
+        },
+        {
+          "index": 122,
+          "title": "8개 정육면체 큐브로 상상력과 핵심 역량을 쑥쑥! 초등 교실 안에서 즐겁고 재미있게 활동해 보세요! 직무/15차시(1학점) 미리보기 상세보기 상상력과 핵심 역량이 만나다! 그림책큐브로 성장하는 초등 교실 55,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-015",
+          "context": "8개 정육면체 큐브로 상상력과 핵심 역량을 쑥쑥! 초등 교실 안에서 즐겁고 재미있게 활동해 보세요! 직무/15차시(1학점) 미리보기 상세보기 상상력과 핵심 역량이 만나다! 그림책큐브로 성장하는 초등 교실 55,000원"
+        },
+        {
+          "index": 123,
+          "title": "교사의 수업 개입으로 시작되는 변화, 수학습부진 학생의 문제해결을 위해 진단하고 시도한 사례를 만나보세요. 직무/30차시(2학점) 미리보기 상세보기 초등 학습부진과 기초학력, 수업 중 해결하기 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-021",
+          "context": "교사의 수업 개입으로 시작되는 변화, 수학습부진 학생의 문제해결을 위해 진단하고 시도한 사례를 만나보세요. 직무/30차시(2학점) 미리보기 상세보기 초등 학습부진과 기초학력, 수업 중 해결하기 80,000원"
+        },
+        {
+          "index": 124,
+          "title": "장애, 비장애를 넘어 하나를 이루는 특수교육의 필수 정보 안내! 통합교육 이론과 사례! 직무/30차시(2학점) 미리보기 상세보기 너와 나 우리들의 통합교육 80,000원",
+          "url": "https://t.vivasam.com/courses/job/t23-001",
+          "context": "장애, 비장애를 넘어 하나를 이루는 특수교육의 필수 정보 안내! 통합교육 이론과 사례! 직무/30차시(2학점) 미리보기 상세보기 너와 나 우리들의 통합교육 80,000원"
+        },
+        {
+          "index": 125,
+          "title": "장소, 이야기, 사람에 얽힌 역사 이야기! 심용환 작가와 함께 공간여행자로 함께 떠나보세요! 직무/15차시(1학점) 미리보기 상세보기 심용환 작가와 함께 따라 걷는 역사스테이, 흔적 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-028",
+          "context": "장소, 이야기, 사람에 얽힌 역사 이야기! 심용환 작가와 함께 공간여행자로 함께 떠나보세요! 직무/15차시(1학점) 미리보기 상세보기 심용환 작가와 함께 따라 걷는 역사스테이, 흔적 60,000원"
+        },
+        {
+          "index": 126,
+          "title": "현장에서 바로 사용가능한 고교학점제 수업과 평가 솔루션을 처방해드립니다! 직무/15차시(1학점) 미리보기 상세보기 당장 써먹는 고교학점제 수업과 평가 아이디어 60,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-033",
+          "context": "현장에서 바로 사용가능한 고교학점제 수업과 평가 솔루션을 처방해드립니다! 직무/15차시(1학점) 미리보기 상세보기 당장 써먹는 고교학점제 수업과 평가 아이디어 60,000원"
+        },
+        {
+          "index": 127,
+          "title": "수업 중 만나게 되는 학습부진 학생의 문제해결을 위해 현직 교사들이 진단하고 시도한 사례를 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 학습부진과 기초학력, 수업 중 해결하기 - 초등 실천편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-019",
+          "context": "수업 중 만나게 되는 학습부진 학생의 문제해결을 위해 현직 교사들이 진단하고 시도한 사례를 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 학습부진과 기초학력, 수업 중 해결하기 - 초등 실천편 50,000원"
+        },
+        {
+          "index": 128,
+          "title": "전 국민 사진작가 시대! 사진 찍기와 사진 해석으로 하는 즐거운 사진 놀이 직무/15차시(1학점) 미리보기 상세보기 이야기를 담은 사진 놀이, 사진명장 백승휴와 함께하는 포토플레이(Photo Play) 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-014",
+          "context": "전 국민 사진작가 시대! 사진 찍기와 사진 해석으로 하는 즐거운 사진 놀이 직무/15차시(1학점) 미리보기 상세보기 이야기를 담은 사진 놀이, 사진명장 백승휴와 함께하는 포토플레이(Photo Play) 50,000원"
+        },
+        {
+          "index": 129,
+          "title": "부정부패, 부정청탁 금지! 나를 지키는 청렴교육! 법정 의무 연수로 들어보세요! 직무/3차시(15차시미만) 미리보기 상세보기 나도 모르게 일어나는 유혹 방지! - 부정부패/부정청탁금지 교육 15,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-036",
+          "context": "부정부패, 부정청탁 금지! 나를 지키는 청렴교육! 법정 의무 연수로 들어보세요! 직무/3차시(15차시미만) 미리보기 상세보기 나도 모르게 일어나는 유혹 방지! - 부정부패/부정청탁금지 교육 15,000원"
+        },
+        {
+          "index": 130,
+          "title": "4대 폭력과 양성평등! 사고의 예방, 인식의 개선을 위한 주요 법정 의무 연수를 들어보세요! 직무/7차시(15차시미만) 미리보기 상세보기 폭력 NO! 4대 폭력 예방 교육, 양성평등 성인지 교육 35,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-035",
+          "context": "4대 폭력과 양성평등! 사고의 예방, 인식의 개선을 위한 주요 법정 의무 연수를 들어보세요! 직무/7차시(15차시미만) 미리보기 상세보기 폭력 NO! 4대 폭력 예방 교육, 양성평등 성인지 교육 35,000원"
+        },
+        {
+          "index": 131,
+          "title": "다양한 프로젝트 운영 사례 및 비법을 참고해서 나만의 프로젝트 수업을 만들어보세요! 직무/30차시(2학점) 미리보기 상세보기 혼자서도 쉽게 하는 프로젝트 수업 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-021",
+          "context": "다양한 프로젝트 운영 사례 및 비법을 참고해서 나만의 프로젝트 수업을 만들어보세요! 직무/30차시(2학점) 미리보기 상세보기 혼자서도 쉽게 하는 프로젝트 수업 75,000원"
+        },
+        {
+          "index": 132,
+          "title": "협동학습 활동 속에서 생기는 다양한 고민들을 속 시원하게 해결해드립니다. 직무/30차시(2학점) 미리보기 상세보기 알고 나면 누구나 할 수 있는 협동학습 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-003",
+          "context": "협동학습 활동 속에서 생기는 다양한 고민들을 속 시원하게 해결해드립니다. 직무/30차시(2학점) 미리보기 상세보기 알고 나면 누구나 할 수 있는 협동학습 75,000원"
+        },
+        {
+          "index": 133,
+          "title": "지역, 학교, 학생 특성 등 교사의 철학과 상황에 맞게 교육과정을 디자인 할 수 있는 방법을 소개합니다. 직무/30차시(2학점) 미리보기 상세보기 미래를 여는 교육과정 재구성 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-019",
+          "context": "지역, 학교, 학생 특성 등 교사의 철학과 상황에 맞게 교육과정을 디자인 할 수 있는 방법을 소개합니다. 직무/30차시(2학점) 미리보기 상세보기 미래를 여는 교육과정 재구성 75,000원"
+        },
+        {
+          "index": 134,
+          "title": "교사의 평가 전문성 향상을 위한 평가의 이해와 운영 필수 요소를 담은 연수! 직무/30차시(2학점) 미리보기 상세보기 교육과정-수업-평가-기록 일체화 관점에서 학생평가 바라보기 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-002",
+          "context": "교사의 평가 전문성 향상을 위한 평가의 이해와 운영 필수 요소를 담은 연수! 직무/30차시(2학점) 미리보기 상세보기 교육과정-수업-평가-기록 일체화 관점에서 학생평가 바라보기 75,000원"
+        },
+        {
+          "index": 135,
+          "title": "학생의 미래 역량을 키우고, 진로교육을 강화하는 프로그램! 지금 만나보세요 직무/15차시(1학점) 미리보기 상세보기 포노 사피엔스를 위한 미래교육 - 행복한 삶과 진로교육의 방향 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-024",
+          "context": "학생의 미래 역량을 키우고, 진로교육을 강화하는 프로그램! 지금 만나보세요 직무/15차시(1학점) 미리보기 상세보기 포노 사피엔스를 위한 미래교육 - 행복한 삶과 진로교육의 방향 50,000원"
+        },
+        {
+          "index": 136,
+          "title": "8개 정육면체큐브로 만들어가는 그림책큐브! 재미있는 활동과 이야기가 상상력과 핵심 역량을 쑥쑥! 직무/30차시(2학점) 미리보기 상세보기 상상력과 핵심 역량이 만나다! 교실에서 활용하는 그림책큐브 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-025",
+          "context": "8개 정육면체큐브로 만들어가는 그림책큐브! 재미있는 활동과 이야기가 상상력과 핵심 역량을 쑥쑥! 직무/30차시(2학점) 미리보기 상세보기 상상력과 핵심 역량이 만나다! 교실에서 활용하는 그림책큐브 75,000원"
+        },
+        {
+          "index": 137,
+          "title": "수업 중 만나게 되는 학습부진 학생의 문제해결을 위해 현직 교사들이 진단하고 시도한 사례를 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 학습부진과 기초학력, 수업 중 해결하기 - 중등 실천편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-020",
+          "context": "수업 중 만나게 되는 학습부진 학생의 문제해결을 위해 현직 교사들이 진단하고 시도한 사례를 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 학습부진과 기초학력, 수업 중 해결하기 - 중등 실천편 50,000원"
+        },
+        {
+          "index": 138,
+          "title": "학생들을 민주시민으로 성장시키는 한 걸음, 학생 사회참여 활동 지금 시작해보세요! 직무/15차시(1학점) 미리보기 상세보기 민주시민으로 성장하는 학생 사회참여 활동 - 학생자치 실현하기 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-023",
+          "context": "학생들을 민주시민으로 성장시키는 한 걸음, 학생 사회참여 활동 지금 시작해보세요! 직무/15차시(1학점) 미리보기 상세보기 민주시민으로 성장하는 학생 사회참여 활동 - 학생자치 실현하기 50,000원"
+        },
+        {
+          "index": 139,
+          "title": "문항 개발부터 수업 연계까지 사고력과 자기주도성을 향상시켜주는 서·논술형 평가를 시도해보세요! 직무/15차시(1학점) 미리보기 상세보기 사고력 UP! 자기주도성 UP! 수업과 연계한 서·논술형 평가 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-010",
+          "context": "문항 개발부터 수업 연계까지 사고력과 자기주도성을 향상시켜주는 서·논술형 평가를 시도해보세요! 직무/15차시(1학점) 미리보기 상세보기 사고력 UP! 자기주도성 UP! 수업과 연계한 서·논술형 평가 50,000원"
+        },
+        {
+          "index": 140,
+          "title": "수업에 바로 적용하는 교과별 에듀테크 활용 사례! 에듀테크를 활용하여 수업에 날개를 달아보세요! 직무/15차시(1학점) 미리보기 상세보기 미래교실을 사로잡는 초등 에듀테크 수업 활용 꿀팁 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-013",
+          "context": "수업에 바로 적용하는 교과별 에듀테크 활용 사례! 에듀테크를 활용하여 수업에 날개를 달아보세요! 직무/15차시(1학점) 미리보기 상세보기 미래교실을 사로잡는 초등 에듀테크 수업 활용 꿀팁 50,000원"
+        },
+        {
+          "index": 141,
+          "title": "시를 바라보는 새로운 시선과 질문으로 배우는 프로젝트 학습 직무/30차시(2학점) 미리보기 상세보기 프로젝트 학습 주제 선정을 위한 30개의 시선 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-007",
+          "context": "시를 바라보는 새로운 시선과 질문으로 배우는 프로젝트 학습 직무/30차시(2학점) 미리보기 상세보기 프로젝트 학습 주제 선정을 위한 30개의 시선 75,000원"
+        },
+        {
+          "index": 142,
+          "title": "게더타운! 수업에는 이렇게 활용한다! 고수가 알려주는 게더타운 수업 활용기! 직무/15차시(1학점) 미리보기 상세보기 고수 김쌤의 게더타운 활용기 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-006",
+          "context": "게더타운! 수업에는 이렇게 활용한다! 고수가 알려주는 게더타운 수업 활용기! 직무/15차시(1학점) 미리보기 상세보기 고수 김쌤의 게더타운 활용기 50,000원"
+        },
+        {
+          "index": 143,
+          "title": "게더타운 입문을 위한 기초 입문기! 직무/15차시(1학점) 미리보기 상세보기 초보 김쌤의 게더타운 입문기 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-005",
+          "context": "게더타운 입문을 위한 기초 입문기! 직무/15차시(1학점) 미리보기 상세보기 초보 김쌤의 게더타운 입문기 50,000원"
+        },
+        {
+          "index": 144,
+          "title": "최신 버전의 내용을 담은 학교생활기록부 디자인의 모든 것! 직무/30차시(2학점) 미리보기 상세보기 아무도 알려주지 않은 학교생활기록부의 모든 것 - 학교생활기록부 실질적 문해력 높이기 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-037",
+          "context": "최신 버전의 내용을 담은 학교생활기록부 디자인의 모든 것! 직무/30차시(2학점) 미리보기 상세보기 아무도 알려주지 않은 학교생활기록부의 모든 것 - 학교생활기록부 실질적 문해력 높이기 75,000원"
+        },
+        {
+          "index": 145,
+          "title": "다양한 놀이 에피소드와 선배 교사의 코칭으로 유아 놀이의 의미를 파악하는 시간! 직무/15차시(1학점) 미리보기 상세보기 신규 놀이 에피소드, 유아 놀이의 의미 읽기 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-003",
+          "context": "다양한 놀이 에피소드와 선배 교사의 코칭으로 유아 놀이의 의미를 파악하는 시간! 직무/15차시(1학점) 미리보기 상세보기 신규 놀이 에피소드, 유아 놀이의 의미 읽기 50,000원"
+        },
+        {
+          "index": 146,
+          "title": "각 지역별 고교학점제 연구 및 선도학교 사례를 생생하게 살펴보는 고교학점제 사용설명서! 직무/15차시(1학점) 미리보기 상세보기 연구학교 사례 플러스! 고교학점제 사용설명서 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-004",
+          "context": "각 지역별 고교학점제 연구 및 선도학교 사례를 생생하게 살펴보는 고교학점제 사용설명서! 직무/15차시(1학점) 미리보기 상세보기 연구학교 사례 플러스! 고교학점제 사용설명서 50,000원"
+        },
+        {
+          "index": 147,
+          "title": "장애, 비장애를 넘어 하나를 이루는 특수교육의 필수 정보 안내! 중등 통합교육 이론과 사례! 직무/15차시(1학점) 미리보기 상세보기 너와 나 우리들의 통합교육 - 중등 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-041",
+          "context": "장애, 비장애를 넘어 하나를 이루는 특수교육의 필수 정보 안내! 중등 통합교육 이론과 사례! 직무/15차시(1학점) 미리보기 상세보기 너와 나 우리들의 통합교육 - 중등 50,000원"
+        },
+        {
+          "index": 148,
+          "title": "공동체, 자존감, 감정, 공감, 소통, 나눔! 성진아 소장님과 함께 하는 사회성감성교육! 직무/30차시(2학점) 미리보기 상세보기 정서적 격차 해소! 기초 학력 향상! 사회성감성교육, 마음트리 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-001",
+          "context": "공동체, 자존감, 감정, 공감, 소통, 나눔! 성진아 소장님과 함께 하는 사회성감성교육! 직무/30차시(2학점) 미리보기 상세보기 정서적 격차 해소! 기초 학력 향상! 사회성감성교육, 마음트리 75,000원"
+        },
+        {
+          "index": 149,
+          "title": "디지털 시대에 아이들을 진정한 디지털 시민으로 성장시킬 수 있는 미디어 리터러시 교육! 직무/15차시(1학점) 미리보기 상세보기 세상을 읽어라! 미래교육의 필수 방법, 미디어 리터러시 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-038",
+          "context": "디지털 시대에 아이들을 진정한 디지털 시민으로 성장시킬 수 있는 미디어 리터러시 교육! 직무/15차시(1학점) 미리보기 상세보기 세상을 읽어라! 미래교육의 필수 방법, 미디어 리터러시 50,000원"
+        },
+        {
+          "index": 150,
+          "title": "온-오프라인의 융합을 통한 교육혁신! 무한한 공간에서 아이들과 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 교실을 넘어 무한한 세계로 메타버스 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-002",
+          "context": "온-오프라인의 융합을 통한 교육혁신! 무한한 공간에서 아이들과 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 교실을 넘어 무한한 세계로 메타버스 50,000원"
+        },
+        {
+          "index": 151,
+          "title": "교사의 수업 개입으로 시작되는 변화, 수학습부진 학생의 문제해결을 위해 진단하고 시도한 사례를 만나보세요. 직무/30차시(2학점) 미리보기 상세보기 중등 학습부진과 기초학력, 수업 중 해결하기 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-022",
+          "context": "교사의 수업 개입으로 시작되는 변화, 수학습부진 학생의 문제해결을 위해 진단하고 시도한 사례를 만나보세요. 직무/30차시(2학점) 미리보기 상세보기 중등 학습부진과 기초학력, 수업 중 해결하기 75,000원"
+        },
+        {
+          "index": 152,
+          "title": "게더타운 시작부터 수업활용기까지! 고수 김쌤의 노하우를 배워보세요! 직무/30차시(2학점) 미리보기 상세보기 게더타운 완벽 마스터 쌤 되기 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-027",
+          "context": "게더타운 시작부터 수업활용기까지! 고수 김쌤의 노하우를 배워보세요! 직무/30차시(2학점) 미리보기 상세보기 게더타운 완벽 마스터 쌤 되기 75,000원"
+        },
+        {
+          "index": 153,
+          "title": "인공지능 완전 정복 핵심편! 바로 교실에서 적용해볼까요? 직무/15차시(1학점) 미리보기 상세보기 인공지능 수업의 첫걸음, 수업에 바로 쓰는 AI - 활용편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-026",
+          "context": "인공지능 완전 정복 핵심편! 바로 교실에서 적용해볼까요? 직무/15차시(1학점) 미리보기 상세보기 인공지능 수업의 첫걸음, 수업에 바로 쓰는 AI - 활용편 50,000원"
+        },
+        {
+          "index": 154,
+          "title": "교원 필수 이수해야 하는 법정의무연수를 편안하게 모아서 들을 수 있는 연수 직무/15차시(1학점) 미리보기 상세보기 편하게 듣는 교원 법정 의무 연수 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-012",
+          "context": "교원 필수 이수해야 하는 법정의무연수를 편안하게 모아서 들을 수 있는 연수 직무/15차시(1학점) 미리보기 상세보기 편하게 듣는 교원 법정 의무 연수 50,000원"
+        },
+        {
+          "index": 155,
+          "title": "안전교육 7대 표준안만 모아서 듣는 연수! 직무/15차시(1학점) 미리보기 상세보기 7대 표준안이 있는 학교 안전 교육 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t22-008",
+          "context": "안전교육 7대 표준안만 모아서 듣는 연수! 직무/15차시(1학점) 미리보기 상세보기 7대 표준안이 있는 학교 안전 교육 50,000원"
+        },
+        {
+          "index": 156,
+          "title": "장애, 비장애를 넘어 하나를 이루는 특수교육의 필수 정보 안내!초등 통합교육 이론과 사례! 직무/15차시(1학점) 미리보기 상세보기 너와 나 우리들의 통합교육 - 초등 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-040",
+          "context": "장애, 비장애를 넘어 하나를 이루는 특수교육의 필수 정보 안내!초등 통합교육 이론과 사례! 직무/15차시(1학점) 미리보기 상세보기 너와 나 우리들의 통합교육 - 초등 50,000원"
+        },
+        {
+          "index": 157,
+          "title": "교사의 수업 개입으로 시작되는 변화, 교사와 학생이 함께 만드는 교육을 실천해 보세요. 직무/15차시(1학점) 미리보기 상세보기 학습부진과 기초학력, 수업 중 해결하기 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-036",
+          "context": "교사의 수업 개입으로 시작되는 변화, 교사와 학생이 함께 만드는 교육을 실천해 보세요. 직무/15차시(1학점) 미리보기 상세보기 학습부진과 기초학력, 수업 중 해결하기 50,000원"
+        },
+        {
+          "index": 158,
+          "title": "생활안전, 감염병 예방, 교통안전, 재난안전, 응급처치, 약물 및 사이버 중독 등 안전교육 7대 표준안 반영! 학교 안전의 모든 것! 직무/30차시(2학점) 미리보기 상세보기 안전하고 건강한 생활을 위한 습관! 학교 안전의 모든 것 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-039",
+          "context": "생활안전, 감염병 예방, 교통안전, 재난안전, 응급처치, 약물 및 사이버 중독 등 안전교육 7대 표준안 반영! 학교 안전의 모든 것! 직무/30차시(2학점) 미리보기 상세보기 안전하고 건강한 생활을 위한 습관! 학교 안전의 모든 것 75,000원"
+        },
+        {
+          "index": 159,
+          "title": "안전교육 7대 표준안 반영! 학교현장에서 잠재하는 위험요인들에 대한 풍부한 사례 제시! 직무/30차시(2학점) 미리보기 상세보기 학교 현장 중심, 사례로 배우는 안전한 학교 만들기 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-011",
+          "context": "안전교육 7대 표준안 반영! 학교현장에서 잠재하는 위험요인들에 대한 풍부한 사례 제시! 직무/30차시(2학점) 미리보기 상세보기 학교 현장 중심, 사례로 배우는 안전한 학교 만들기 65,000원"
+        },
+        {
+          "index": 160,
+          "title": "초등 음악수업! 이렇게까지 할 수 있다! 즐겁고 재미있게 하는 음악지도 비법! 직무/30차시(2학점) 미리보기 상세보기 선생님과 아이들이 함께 만드는 즐거운 음악수업 70,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-012",
+          "context": "초등 음악수업! 이렇게까지 할 수 있다! 즐겁고 재미있게 하는 음악지도 비법! 직무/30차시(2학점) 미리보기 상세보기 선생님과 아이들이 함께 만드는 즐거운 음악수업 70,000원"
+        },
+        {
+          "index": 161,
+          "title": "메이커 교육을 처음 시작하는 선생님들께 좋은 안내자 역할이 되도록 구성하였습니다. 직무/15차시(1학점) 미리보기 상세보기 교실 속! 메이커 교육 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-008",
+          "context": "메이커 교육을 처음 시작하는 선생님들께 좋은 안내자 역할이 되도록 구성하였습니다. 직무/15차시(1학점) 미리보기 상세보기 교실 속! 메이커 교육 50,000원"
+        },
+        {
+          "index": 162,
+          "title": "VR·AR 기술과 교육의 융합시대! VR·AR·로봇을 교실로! 직무/15차시(1학점) 미리보기 상세보기 VR·AR·로봇을 활용한 수업 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-017",
+          "context": "VR·AR 기술과 교육의 융합시대! VR·AR·로봇을 교실로! 직무/15차시(1학점) 미리보기 상세보기 VR·AR·로봇을 활용한 수업 50,000원"
+        },
+        {
+          "index": 163,
+          "title": "분노, 거절, 후회 등 삶의 중요한 주제부터 학생상담, 코칭 등 예방과 해결까지! 직무/30차시(2학점) 미리보기 상세보기 교사를 위한 비폭력대화 - 활용편 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-006",
+          "context": "분노, 거절, 후회 등 삶의 중요한 주제부터 학생상담, 코칭 등 예방과 해결까지! 직무/30차시(2학점) 미리보기 상세보기 교사를 위한 비폭력대화 - 활용편 75,000원"
+        },
+        {
+          "index": 164,
+          "title": "회복적 생활교육의 기초! 교실에서, 삶에서 비폭력대화 실천하기! 직무/30차시(2학점) 미리보기 상세보기 교사를 위한 비폭력대화 - 기본편 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-005",
+          "context": "회복적 생활교육의 기초! 교실에서, 삶에서 비폭력대화 실천하기! 직무/30차시(2학점) 미리보기 상세보기 교사를 위한 비폭력대화 - 기본편 75,000원"
+        },
+        {
+          "index": 165,
+          "title": "진정한 학습자 중심의 교육 실천! 디퍼 러닝 무브먼트에 함께하세요. 직무/15차시(1학점) 미리보기 상세보기 미래 교육의 혁신, 디퍼 러닝 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-035",
+          "context": "진정한 학습자 중심의 교육 실천! 디퍼 러닝 무브먼트에 함께하세요. 직무/15차시(1학점) 미리보기 상세보기 미래 교육의 혁신, 디퍼 러닝 50,000원"
+        },
+        {
+          "index": 166,
+          "title": "캠핑이 처음인 선생님들을 위한 캠핑의 모든 것! 캠핑으로 나만의 힐링을 찾아 떠나보세요! 직무/15차시(1학점) 미리보기 상세보기 초보 캠퍼를 위한 꼼꼼 가이드, 캠핑의 모든 순간 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-034",
+          "context": "캠핑이 처음인 선생님들을 위한 캠핑의 모든 것! 캠핑으로 나만의 힐링을 찾아 떠나보세요! 직무/15차시(1학점) 미리보기 상세보기 초보 캠퍼를 위한 꼼꼼 가이드, 캠핑의 모든 순간 50,000원"
+        },
+        {
+          "index": 167,
+          "title": "교육 현장 경험이 풍부한 놀이 활동 전문가 5인과 함께하는 활동으로 공감하는 수업! 직무/30차시(2학점) 미리보기 상세보기 활동으로 공감하는 수업 만들기 70,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-004",
+          "context": "교육 현장 경험이 풍부한 놀이 활동 전문가 5인과 함께하는 활동으로 공감하는 수업! 직무/30차시(2학점) 미리보기 상세보기 활동으로 공감하는 수업 만들기 70,000원"
+        },
+        {
+          "index": 168,
+          "title": "수학 포기자 없이 모든 학생이 즐겁워 하는 교과서, 수업방법, 학습법 안내! 직무/30차시(2학점) 미리보기 상세보기 최수일 박사님의 수포자 없는 소통과 배움의 수학교실 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t17-010",
+          "context": "수학 포기자 없이 모든 학생이 즐겁워 하는 교과서, 수업방법, 학습법 안내! 직무/30차시(2학점) 미리보기 상세보기 최수일 박사님의 수포자 없는 소통과 배움의 수학교실 75,000원"
+        },
+        {
+          "index": 169,
+          "title": "수업 코칭을 하면서 알게된 선생님들의 다양한 수업 고민과 수업 기술 총정리! 직무/30차시(2학점) 미리보기 상세보기 철학이 살아있는 수업 기술 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t17-003",
+          "context": "수업 코칭을 하면서 알게된 선생님들의 다양한 수업 고민과 수업 기술 총정리! 직무/30차시(2학점) 미리보기 상세보기 철학이 살아있는 수업 기술 65,000원"
+        },
+        {
+          "index": 170,
+          "title": "교육환경 변화에 따라 다양한 놀이 주제를 풀어내는 유치원 교사들의 미래 잇 수다! 직무/15차시(1학점) 미리보기 상세보기 신규 놀이로 역량을 키우는 유치원 미래교육 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-033",
+          "context": "교육환경 변화에 따라 다양한 놀이 주제를 풀어내는 유치원 교사들의 미래 잇 수다! 직무/15차시(1학점) 미리보기 상세보기 신규 놀이로 역량을 키우는 유치원 미래교육 50,000원"
+        },
+        {
+          "index": 171,
+          "title": "수업을 잘 따라오지 못하고 어려워하는 다양한 유형의 학생의 예방 지도방법! 직무/30차시(2학점) 미리보기 상세보기 모두가 행복한 기초학력, 학습부진 현장 전문가 과정 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-001",
+          "context": "수업을 잘 따라오지 못하고 어려워하는 다양한 유형의 학생의 예방 지도방법! 직무/30차시(2학점) 미리보기 상세보기 모두가 행복한 기초학력, 학습부진 현장 전문가 과정 75,000원"
+        },
+        {
+          "index": 172,
+          "title": "초,중,고 대상별 성교육 표준안에 따라 성교육과 관련한 다양한 이슈를 다루고 있습니다. 직무/30차시(2학점) 미리보기 상세보기 우리 아이가 알고 싶은 거침없는 성교육 이야기 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-023",
+          "context": "초,중,고 대상별 성교육 표준안에 따라 성교육과 관련한 다양한 이슈를 다루고 있습니다. 직무/30차시(2학점) 미리보기 상세보기 우리 아이가 알고 싶은 거침없는 성교육 이야기 65,000원"
+        },
+        {
+          "index": 173,
+          "title": "교실놀이, 수업놀이, 모험놀이! 아이들을 변화시키는 기적같은 60개 놀이 소개! 직무/30차시(2학점) 미리보기 상세보기 노래하는 교장 선생님 방승호의 모험놀이 70,000원",
+          "url": "https://t.vivasam.com/courses/job/t17-014",
+          "context": "교실놀이, 수업놀이, 모험놀이! 아이들을 변화시키는 기적같은 60개 놀이 소개! 직무/30차시(2학점) 미리보기 상세보기 노래하는 교장 선생님 방승호의 모험놀이 70,000원"
+        },
+        {
+          "index": 174,
+          "title": "좋은 평가도구의 조건부터 채점기준표 개발을 활용한 수업의 실제 사례 소개까지! 직무/30차시(2학점) 미리보기 상세보기 수행평가와 채점기준표 개발 - 중등 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-011",
+          "context": "좋은 평가도구의 조건부터 채점기준표 개발을 활용한 수업의 실제 사례 소개까지! 직무/30차시(2학점) 미리보기 상세보기 수행평가와 채점기준표 개발 - 중등 75,000원"
+        },
+        {
+          "index": 175,
+          "title": "좋은 평가도구의 조건부터 채점기준표 개발을 활용한 수업의 실제 사례 소개까지! 직무/30차시(2학점) 미리보기 상세보기 수행평가와 채점기준표 개발 - 초등 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-010",
+          "context": "좋은 평가도구의 조건부터 채점기준표 개발을 활용한 수업의 실제 사례 소개까지! 직무/30차시(2학점) 미리보기 상세보기 수행평가와 채점기준표 개발 - 초등 75,000원"
+        },
+        {
+          "index": 176,
+          "title": "선생님의 마음의 속도는 얼마인가요? 명상으로 마음의 평온을 찾아보세요. 직무/15차시(1학점) 미리보기 상세보기 힐링모먼트, 나를 돌보는 마음 챙김 명상 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-031",
+          "context": "선생님의 마음의 속도는 얼마인가요? 명상으로 마음의 평온을 찾아보세요. 직무/15차시(1학점) 미리보기 상세보기 힐링모먼트, 나를 돌보는 마음 챙김 명상 50,000원"
+        },
+        {
+          "index": 177,
+          "title": "창업의 개념과 기업가 정신을 함양하여 미래 경제 인재를 키울 수 있는 방법 대방출! 직무/15차시(1학점) 미리보기 상세보기 창업, 미래 인재의 기업가 정신을 키운다! 학교 밖 스타트업 로드맵 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-020",
+          "context": "창업의 개념과 기업가 정신을 함양하여 미래 경제 인재를 키울 수 있는 방법 대방출! 직무/15차시(1학점) 미리보기 상세보기 창업, 미래 인재의 기업가 정신을 키운다! 학교 밖 스타트업 로드맵 50,000원"
+        },
+        {
+          "index": 178,
+          "title": "STEAM 과학수업 설계, 스마트 교육 환경을 이용한 과학 수업 등 과학 수업의 창의적 수업설계 내공 전수! 직무/30차시(2학점) 미리보기 상세보기 내공팍팍! 과학수업 전문가 과정 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-105",
+          "context": "STEAM 과학수업 설계, 스마트 교육 환경을 이용한 과학 수업 등 과학 수업의 창의적 수업설계 내공 전수! 직무/30차시(2학점) 미리보기 상세보기 내공팍팍! 과학수업 전문가 과정 65,000원"
+        },
+        {
+          "index": 179,
+          "title": "고교학점제 연구·선도학교 운영 교사들과 함께 내실 있는 진로교육 역량을 키워보세요! 직무/15차시(1학점) 미리보기 상세보기 직업계Go! 고교학점제로 디자인하는 진로교육 59,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-019",
+          "context": "고교학점제 연구·선도학교 운영 교사들과 함께 내실 있는 진로교육 역량을 키워보세요! 직무/15차시(1학점) 미리보기 상세보기 직업계Go! 고교학점제로 디자인하는 진로교육 59,000원"
+        },
+        {
+          "index": 180,
+          "title": "교육청 변호사와 교감선생님이 최신 개정법률에 따라 정리한 학생사안처리! 인권을 존중하는 발걸음에 함께하세요! 직무/15차시(1학점) 미리보기 상세보기 학생사안처리의 정석 - 아동학대, 학교폭력, 생활지도 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-022",
+          "context": "교육청 변호사와 교감선생님이 최신 개정법률에 따라 정리한 학생사안처리! 인권을 존중하는 발걸음에 함께하세요! 직무/15차시(1학점) 미리보기 상세보기 학생사안처리의 정석 - 아동학대, 학교폭력, 생활지도 50,000원"
+        },
+        {
+          "index": 181,
+          "title": "평범한 일상 속 특별함 한 스푼, 최선경선생님과 함께 소중한 '나'의 반짝거리는 행복을 찾으세요! 직무/15차시(1학점) 미리보기 상세보기 교사 공감, 행복한 교사가 되는 15가지 습관 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-014",
+          "context": "평범한 일상 속 특별함 한 스푼, 최선경선생님과 함께 소중한 '나'의 반짝거리는 행복을 찾으세요! 직무/15차시(1학점) 미리보기 상세보기 교사 공감, 행복한 교사가 되는 15가지 습관 50,000원"
+        },
+        {
+          "index": 182,
+          "title": "담임이 꼭 마스터 해야 할 행복한 학급을 만드는 필살기 ! 직무/30차시(2학점) 미리보기 상세보기 학급 사회심리학 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-009",
+          "context": "담임이 꼭 마스터 해야 할 행복한 학급을 만드는 필살기 ! 직무/30차시(2학점) 미리보기 상세보기 학급 사회심리학 75,000원"
+        },
+        {
+          "index": 183,
+          "title": "교실로 들어온 인공지능! 미래 교육에 큰 변화가 시작됩니다! 직무/30차시(2학점) 미리보기 상세보기 수업에 바로 쓰는 AI, 미래 교육을 준비하다 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-013",
+          "context": "교실로 들어온 인공지능! 미래 교육에 큰 변화가 시작됩니다! 직무/30차시(2학점) 미리보기 상세보기 수업에 바로 쓰는 AI, 미래 교육을 준비하다 75,000원"
+        },
+        {
+          "index": 184,
+          "title": "다문화 교실에서 교사의 역할과 실제 수업 사례를 바탕의 현장 지도 방법 안내! 직무/15차시(1학점) 미리보기 상세보기 다문화 시대의 다문화 교육 길라잡이 40,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-112",
+          "context": "다문화 교실에서 교사의 역할과 실제 수업 사례를 바탕의 현장 지도 방법 안내! 직무/15차시(1학점) 미리보기 상세보기 다문화 시대의 다문화 교육 길라잡이 40,000원"
+        },
+        {
+          "index": 185,
+          "title": "학습코칭 현장전문가들이 친절하게 안내하는 학습 유형별, 전략별 코칭 이야기 직무/30차시(2학점) 미리보기 상세보기 인기 학습격차 해소를 위한 교실 속 학습코칭 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-018",
+          "context": "학습코칭 현장전문가들이 친절하게 안내하는 학습 유형별, 전략별 코칭 이야기 직무/30차시(2학점) 미리보기 상세보기 인기 학습격차 해소를 위한 교실 속 학습코칭 75,000원"
+        },
+        {
+          "index": 186,
+          "title": "베테랑 교사도 당황했던 초등학교 1학년 아이들! 1학년 아이들과 함께 할 1년 학급살이와 수업살이의 경험을 나눠주는 연수! 직무/30차시(2학점) 미리보기 상세보기 1학년은 처음인데요 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-012",
+          "context": "베테랑 교사도 당황했던 초등학교 1학년 아이들! 1학년 아이들과 함께 할 1년 학급살이와 수업살이의 경험을 나눠주는 연수! 직무/30차시(2학점) 미리보기 상세보기 1학년은 처음인데요 75,000원"
+        },
+        {
+          "index": 187,
+          "title": "비대면! 비접촉! 학생 중심! 교과 통합! 모든 것이 가능한 스포츠 활동 직무/15차시(1학점) 미리보기 상세보기 12개 컵의 마법! 언제나, 누구나 스포츠스태킹 활동 수업 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-006",
+          "context": "비대면! 비접촉! 학생 중심! 교과 통합! 모든 것이 가능한 스포츠 활동 직무/15차시(1학점) 미리보기 상세보기 12개 컵의 마법! 언제나, 누구나 스포츠스태킹 활동 수업 50,000원"
+        },
+        {
+          "index": 188,
+          "title": "PPT 실전 활용 방법을 시원하게 알려준다! 안들으면 후회하는 교사 필수 OA 과정 직무/30차시(2학점) 미리보기 상세보기 PPT, P할 수 없다면 TKO 시켜라 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-008",
+          "context": "PPT 실전 활용 방법을 시원하게 알려준다! 안들으면 후회하는 교사 필수 OA 과정 직무/30차시(2학점) 미리보기 상세보기 PPT, P할 수 없다면 TKO 시켜라 75,000원"
+        },
+        {
+          "index": 189,
+          "title": "수업개선과 변화를 위해 실천 연구가들이 함께 만든 교육실천공동체 프로그램 직무/30차시(2학점) 미리보기 상세보기 수업공동체, 함께 배우는 우리 그리고 수업혁신! 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-109",
+          "context": "수업개선과 변화를 위해 실천 연구가들이 함께 만든 교육실천공동체 프로그램 직무/30차시(2학점) 미리보기 상세보기 수업공동체, 함께 배우는 우리 그리고 수업혁신! 65,000원"
+        },
+        {
+          "index": 190,
+          "title": "학교, 가정, 사회에서 할 수 있는 인성·성품 교육의 구체적인 사례와 방법 제시! 직무/30차시(2학점) 미리보기 상세보기 미래 인재를 키우는 인성교육 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-111",
+          "context": "학교, 가정, 사회에서 할 수 있는 인성·성품 교육의 구체적인 사례와 방법 제시! 직무/30차시(2학점) 미리보기 상세보기 미래 인재를 키우는 인성교육 65,000원"
+        },
+        {
+          "index": 191,
+          "title": "멀게만 느껴지는 오페라, 바리톤 정경 교수님과 함께 오페라 작품에 한층 더 가까워지는 시간을 가져보세요! 직무/30차시(2학점) 미리보기 상세보기 바리톤 정경 교수의 오페라 스토리 70,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-003",
+          "context": "멀게만 느껴지는 오페라, 바리톤 정경 교수님과 함께 오페라 작품에 한층 더 가까워지는 시간을 가져보세요! 직무/30차시(2학점) 미리보기 상세보기 바리톤 정경 교수의 오페라 스토리 70,000원"
+        },
+        {
+          "index": 192,
+          "title": "한국 문화 · 예술계의 뛰어난 기획자인 이명옥 관장님과 함께 마치 살아 움직이는 듯한 명화를 만나보세요. 직무/30차시(2학점) 미리보기 상세보기 명화의 지혜를 빌리다 70,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-002",
+          "context": "한국 문화 · 예술계의 뛰어난 기획자인 이명옥 관장님과 함께 마치 살아 움직이는 듯한 명화를 만나보세요. 직무/30차시(2학점) 미리보기 상세보기 명화의 지혜를 빌리다 70,000원"
+        },
+        {
+          "index": 193,
+          "title": "소심한 아이들이 더 좋아하는 수업! 흥미를 높이며 참여율 높은 수업! 직무/30차시(2학점) 미리보기 상세보기 동이쌤의 비주얼씽킹 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-118",
+          "context": "소심한 아이들이 더 좋아하는 수업! 흥미를 높이며 참여율 높은 수업! 직무/30차시(2학점) 미리보기 상세보기 동이쌤의 비주얼씽킹 75,000원"
+        },
+        {
+          "index": 194,
+          "title": "한국진로교육학회 회장 역임 김봉환 교수의 진로지도 Power UP 강좌! 직무/30차시(2학점) 미리보기 상세보기 진로지도 실전 가이드 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-110",
+          "context": "한국진로교육학회 회장 역임 김봉환 교수의 진로지도 Power UP 강좌! 직무/30차시(2학점) 미리보기 상세보기 진로지도 실전 가이드 65,000원"
+        },
+        {
+          "index": 195,
+          "title": "의사, 언어치료사, 특수교육전문가, 현장 선생님이 알려주는 학습부진아를 위한 실질적인 지도방안 제시! 직무/30차시(2학점) 미리보기 상세보기 학력격차해소를 위한 학습장애, 학습부진 현장전문가 과정 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-104",
+          "context": "의사, 언어치료사, 특수교육전문가, 현장 선생님이 알려주는 학습부진아를 위한 실질적인 지도방안 제시! 직무/30차시(2학점) 미리보기 상세보기 학력격차해소를 위한 학습장애, 학습부진 현장전문가 과정 65,000원"
+        },
+        {
+          "index": 196,
+          "title": "진로지도 핵심 이론, 온오프라인 진로/진학/직업 체험 정보 및 활용 기법 등 진로지도의 방향을 잡아주는 과정! 직무/30차시(2학점) 미리보기 상세보기 진로지도의 나침반을 잡아라 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-100",
+          "context": "진로지도 핵심 이론, 온오프라인 진로/진학/직업 체험 정보 및 활용 기법 등 진로지도의 방향을 잡아주는 과정! 직무/30차시(2학점) 미리보기 상세보기 진로지도의 나침반을 잡아라 65,000원"
+        },
+        {
+          "index": 197,
+          "title": "미래교실네트워크 선생님들이 코로나 19 시대 이전부터 쌓아온 온ㆍ오프라인 연계 수업 비법 전수! 직무/30차시(2학점) 미리보기 상세보기 거꾸로교실로 풀어가는 초등 온ㆍ오프라인 연계 수업 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-001",
+          "context": "미래교실네트워크 선생님들이 코로나 19 시대 이전부터 쌓아온 온ㆍ오프라인 연계 수업 비법 전수! 직무/30차시(2학점) 미리보기 상세보기 거꾸로교실로 풀어가는 초등 온ㆍ오프라인 연계 수업 75,000원"
+        },
+        {
+          "index": 198,
+          "title": "현장에서 엑셀을 다양하게 활용할 수 있는 꿀팁과 노하우를 교사가 직접 전수해 드립니다! 직무/30차시(2학점) 미리보기 상세보기 선생님에게 지금 필요한 마법같은 엑셀 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-029",
+          "context": "현장에서 엑셀을 다양하게 활용할 수 있는 꿀팁과 노하우를 교사가 직접 전수해 드립니다! 직무/30차시(2학점) 미리보기 상세보기 선생님에게 지금 필요한 마법같은 엑셀 75,000원"
+        },
+        {
+          "index": 199,
+          "title": "사진 명장, 포토테라피스트 백승휴 작가가 유쾌하게 전하는 사진 이야기와 포토테라피! 직무/30차시(2학점) 미리보기 상세보기 사진명장 백승휴의 삶을 아름답게 바꾸는 포토테라피 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-119",
+          "context": "사진 명장, 포토테라피스트 백승휴 작가가 유쾌하게 전하는 사진 이야기와 포토테라피! 직무/30차시(2학점) 미리보기 상세보기 사진명장 백승휴의 삶을 아름답게 바꾸는 포토테라피 75,000원"
+        },
+        {
+          "index": 200,
+          "title": "학습부진 이해와 진단부터 정서지도, 예방수업과 지원 체계까지 모두 담았습니다. 직무/15차시(1학점) 미리보기 상세보기 요점만 쏙쏙 기초학력, 학습부진 현장 전문가 과정 40,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-015",
+          "context": "학습부진 이해와 진단부터 정서지도, 예방수업과 지원 체계까지 모두 담았습니다. 직무/15차시(1학점) 미리보기 상세보기 요점만 쏙쏙 기초학력, 학습부진 현장 전문가 과정 40,000원"
+        },
+        {
+          "index": 201,
+          "title": "학습부진 학생 3R's 중심의 구체적인 지도법과 사례를 제시합니다. 직무/15차시(1학점) 미리보기 상세보기 3Rs 기초학력, 학습부진 현장 전문가 과정 40,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-014",
+          "context": "학습부진 학생 3R's 중심의 구체적인 지도법과 사례를 제시합니다. 직무/15차시(1학점) 미리보기 상세보기 3Rs 기초학력, 학습부진 현장 전문가 과정 40,000원"
+        },
+        {
+          "index": 202,
+          "title": "기초 튼튼, 핵심 쏙쏙! 이제는 초중등 교사 모두가 알아야 하는 고교학점제! 직무/15차시(1학점) 미리보기 상세보기 쉬운 해설 고교학점제 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-032",
+          "context": "기초 튼튼, 핵심 쏙쏙! 이제는 초중등 교사 모두가 알아야 하는 고교학점제! 직무/15차시(1학점) 미리보기 상세보기 쉬운 해설 고교학점제 50,000원"
+        },
+        {
+          "index": 203,
+          "title": "베테랑 교사도 당황했던 초등학교 1학년 아이들! 첫 여름방학을 보내고 온 아이들 시끌벅적한 2학기 보내기! 직무/15차시(1학점) 미리보기 상세보기 1학년은 처음인데요 - 2학기 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-029",
+          "context": "베테랑 교사도 당황했던 초등학교 1학년 아이들! 첫 여름방학을 보내고 온 아이들 시끌벅적한 2학기 보내기! 직무/15차시(1학점) 미리보기 상세보기 1학년은 처음인데요 - 2학기 50,000원"
+        },
+        {
+          "index": 204,
+          "title": "두근두근~초등학교 1학년 아이들과의 첫 만남! 함께 시작하는 1학기 학급살이와 수업살이! 직무/15차시(1학점) 미리보기 상세보기 1학년은 처음인데요 - 1학기 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-028",
+          "context": "두근두근~초등학교 1학년 아이들과의 첫 만남! 함께 시작하는 1학기 학급살이와 수업살이! 직무/15차시(1학점) 미리보기 상세보기 1학년은 처음인데요 - 1학기 50,000원"
+        },
+        {
+          "index": 205,
+          "title": "온ㆍ오프라인 연계 수업이 혼합 된 거꾸로 교실을 적용하다! 직무/15차시(1학점) 미리보기 상세보기 거꾸로교실 선생님들과 함께하는 초등 온ㆍ오프라인 연계 수업 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-027",
+          "context": "온ㆍ오프라인 연계 수업이 혼합 된 거꾸로 교실을 적용하다! 직무/15차시(1학점) 미리보기 상세보기 거꾸로교실 선생님들과 함께하는 초등 온ㆍ오프라인 연계 수업 50,000원"
+        },
+        {
+          "index": 206,
+          "title": "피할수 없는 실시간 쌍방향 원격 수업 거꾸로 교실에서 찾다! 직무/15차시(1학점) 미리보기 상세보기 거꾸로교실 선생님들과 함께하는 초등 실시간 쌍방향 원격 수업 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-026",
+          "context": "피할수 없는 실시간 쌍방향 원격 수업 거꾸로 교실에서 찾다! 직무/15차시(1학점) 미리보기 상세보기 거꾸로교실 선생님들과 함께하는 초등 실시간 쌍방향 원격 수업 50,000원"
+        },
+        {
+          "index": 207,
+          "title": "고교학점제에서 진로교육과 책임교육에 대해 알아보고, 학점제형 공간혁신의 사례를 탐색해보세요. 직무/15차시(1학점) 미리보기 상세보기 현장 속 고교학점제 - 실천편 (진로교육, 공간, 책임교육) 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-005",
+          "context": "고교학점제에서 진로교육과 책임교육에 대해 알아보고, 학점제형 공간혁신의 사례를 탐색해보세요. 직무/15차시(1학점) 미리보기 상세보기 현장 속 고교학점제 - 실천편 (진로교육, 공간, 책임교육) 50,000원"
+        },
+        {
+          "index": 208,
+          "title": "고교학점제의 학교문화와 업무조직을 알아보고, 학생 선택권을 존중하는 교육과정 편성 사례를 탐색해보세요. 직무/15차시(1학점) 미리보기 상세보기 현장 속 고교학점제 - 실천편 (학교문화, 교육과정 편성) 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-004",
+          "context": "고교학점제의 학교문화와 업무조직을 알아보고, 학생 선택권을 존중하는 교육과정 편성 사례를 탐색해보세요. 직무/15차시(1학점) 미리보기 상세보기 현장 속 고교학점제 - 실천편 (학교문화, 교육과정 편성) 50,000원"
+        },
+        {
+          "index": 209,
+          "title": "고교학점제 실천편! 사례를 중심으로 탐색해보고, 고교학점제를 민주적이고 안정적으로 시작해보세요. 직무/30차시(2학점) 미리보기 상세보기 현장 속 고교학점제 - 실천편 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-032",
+          "context": "고교학점제 실천편! 사례를 중심으로 탐색해보고, 고교학점제를 민주적이고 안정적으로 시작해보세요. 직무/30차시(2학점) 미리보기 상세보기 현장 속 고교학점제 - 실천편 75,000원"
+        },
+        {
+          "index": 210,
+          "title": "영어의 기초부터 시작한다! 생초보 여행 영어! 영어 회화 시작 전에 점검하고 가세요! 직무/15차시(1학점) 미리보기 상세보기 생초보를 위한 여행 영어 45,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-035",
+          "context": "영어의 기초부터 시작한다! 생초보 여행 영어! 영어 회화 시작 전에 점검하고 가세요! 직무/15차시(1학점) 미리보기 상세보기 생초보를 위한 여행 영어 45,000원"
+        },
+        {
+          "index": 211,
+          "title": "표현, 치유, 성장! 애니어그램의 이론과 활용을 통한 상담 비법 소개! 직무/30차시(2학점) 미리보기 상세보기 상담 능력을 향상시키는 에니어그램 이론과 활용 프로그램 100,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-108",
+          "context": "표현, 치유, 성장! 애니어그램의 이론과 활용을 통한 상담 비법 소개! 직무/30차시(2학점) 미리보기 상세보기 상담 능력을 향상시키는 에니어그램 이론과 활용 프로그램 100,000원"
+        },
+        {
+          "index": 212,
+          "title": "질문을 통해 진정한 학습의 촉진자로서의 구체적인 역할을 제시합니다. 직무/30차시(2학점) 미리보기 상세보기 질문이 살아있는 수업 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-114",
+          "context": "질문을 통해 진정한 학습의 촉진자로서의 구체적인 역할을 제시합니다. 직무/30차시(2학점) 미리보기 상세보기 질문이 살아있는 수업 65,000원"
+        },
+        {
+          "index": 213,
+          "title": "존중과 배려, 자발성이 살아있는 엄은남 선생님만의 특별한 학급운영 비법! 직무/30차시(2학점) 미리보기 상세보기 모두가 주인이 되는 Win-Win Class 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-121",
+          "context": "존중과 배려, 자발성이 살아있는 엄은남 선생님만의 특별한 학급운영 비법! 직무/30차시(2학점) 미리보기 상세보기 모두가 주인이 되는 Win-Win Class 65,000원"
+        },
+        {
+          "index": 214,
+          "title": "기능성 보드게임으로 하는 교과연계, 창의인성 활동 지도법 공개! 직무/30차시(2학점) 미리보기 상세보기 기능성 보드 게임 활용! 교과 연계 창의 인성 활동 지도법 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-116",
+          "context": "기능성 보드게임으로 하는 교과연계, 창의인성 활동 지도법 공개! 직무/30차시(2학점) 미리보기 상세보기 기능성 보드 게임 활용! 교과 연계 창의 인성 활동 지도법 65,000원"
+        },
+        {
+          "index": 215,
+          "title": "블랜디드 러닝을 위한 온라인 수업 스마트 도구의 이해와 생생한 학교 현장 이야기 직무/30차시(2학점) 미리보기 상세보기 수업에 불을 켜는 시간, ON! 온라인과 오프라인을 연결하다 - 중등 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-028",
+          "context": "블랜디드 러닝을 위한 온라인 수업 스마트 도구의 이해와 생생한 학교 현장 이야기 직무/30차시(2학점) 미리보기 상세보기 수업에 불을 켜는 시간, ON! 온라인과 오프라인을 연결하다 - 중등 75,000원"
+        },
+        {
+          "index": 216,
+          "title": "온라인 수업 운영을 기반으로 한 미래 교육에 대한 시야를 넓혀주는 연수 직무/30차시(2학점) 미리보기 상세보기 수업에 불을 켜는 시간, ON! 온라인과 오프라인을 연결하다 - 초등 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-027",
+          "context": "온라인 수업 운영을 기반으로 한 미래 교육에 대한 시야를 넓혀주는 연수 직무/30차시(2학점) 미리보기 상세보기 수업에 불을 켜는 시간, ON! 온라인과 오프라인을 연결하다 - 초등 75,000원"
+        },
+        {
+          "index": 217,
+          "title": "로그아웃한 아이들도 돌아오게 하는 꿀팁들이 담긴 연수! 나의 온라인 수업을 레벨업 시켜 보세요. 직무/15차시(1학점) 미리보기 상세보기 쌍방향 온라인 수업 만렙 교사되기 프로젝트 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-036",
+          "context": "로그아웃한 아이들도 돌아오게 하는 꿀팁들이 담긴 연수! 나의 온라인 수업을 레벨업 시켜 보세요. 직무/15차시(1학점) 미리보기 상세보기 쌍방향 온라인 수업 만렙 교사되기 프로젝트 50,000원"
+        },
+        {
+          "index": 218,
+          "title": "프로젝트 수업의 이론부터 과목별 사례까지! 어느 교과나 적용 가능한 다양한 프로젝트 수업 사례를 만나보세요! 직무/30차시(2학점) 미리보기 상세보기 수업을 바꾸는 중등 프로젝트 수업 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-024",
+          "context": "프로젝트 수업의 이론부터 과목별 사례까지! 어느 교과나 적용 가능한 다양한 프로젝트 수업 사례를 만나보세요! 직무/30차시(2학점) 미리보기 상세보기 수업을 바꾸는 중등 프로젝트 수업 75,000원"
+        },
+        {
+          "index": 219,
+          "title": "마치 정글과도 같은 학교생활! 몽당분필 선생님들의 경험담이 담긴 연수와 함께 노하우를 살펴보며 한해를 준비해 보세요. 직무/30차시(2학점) 미리보기 상세보기 좌충우돌 학교 드라마, 교사 공감 한해살이 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-037",
+          "context": "마치 정글과도 같은 학교생활! 몽당분필 선생님들의 경험담이 담긴 연수와 함께 노하우를 살펴보며 한해를 준비해 보세요. 직무/30차시(2학점) 미리보기 상세보기 좌충우돌 학교 드라마, 교사 공감 한해살이 75,000원"
+        },
+        {
+          "index": 220,
+          "title": "전문가에게 배우는 돈의 감각. 돈, 이제 목적이 아닌 수단으로 우리 삶의 행복을 찾아보세요. 직무/15차시(1학점) 미리보기 상세보기 돈알못이 꼭 봐야 할 머니 토크쇼 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-022",
+          "context": "전문가에게 배우는 돈의 감각. 돈, 이제 목적이 아닌 수단으로 우리 삶의 행복을 찾아보세요. 직무/15차시(1학점) 미리보기 상세보기 돈알못이 꼭 봐야 할 머니 토크쇼 50,000원"
+        },
+        {
+          "index": 221,
+          "title": "이야기와 놀이를 통해 아이들 마음에 다가가는 수학 수업을 만들어 보세요. 직무/30차시(2학점) 미리보기 상세보기 이야기와 놀이로 배우는 수학시간 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-017",
+          "context": "이야기와 놀이를 통해 아이들 마음에 다가가는 수학 수업을 만들어 보세요. 직무/30차시(2학점) 미리보기 상세보기 이야기와 놀이로 배우는 수학시간 75,000원"
+        },
+        {
+          "index": 222,
+          "title": "고교학점제는 이미 시작되었다! 고교학점제의 성장과 도약을 위해 힘차게 한 걸음 더 다가가보세요. 직무/15차시(1학점) 미리보기 상세보기 직업계Go! 학점제로 다시 도약 59,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-018",
+          "context": "고교학점제는 이미 시작되었다! 고교학점제의 성장과 도약을 위해 힘차게 한 걸음 더 다가가보세요. 직무/15차시(1학점) 미리보기 상세보기 직업계Go! 학점제로 다시 도약 59,000원"
+        },
+        {
+          "index": 223,
+          "title": "이루리, 김중석 작가 외 그림책 작가와 교사들이 알려주는 진짜 그림책 수업! 직무/30차시(2학점) 미리보기 상세보기 그림책 작가들과 함께 그리는 그림책 수업 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-020",
+          "context": "이루리, 김중석 작가 외 그림책 작가와 교사들이 알려주는 진짜 그림책 수업! 직무/30차시(2학점) 미리보기 상세보기 그림책 작가들과 함께 그리는 그림책 수업 75,000원"
+        },
+        {
+          "index": 224,
+          "title": "유아의 놀이에 담긴 의미를 알아보고, 현장 교사의 실천 노하우를 담은 놀이 지원 사례 소개하기! 직무/15차시(1학점) 미리보기 상세보기 교사, 놀이중심 교육과정에 빠지다 - 실행편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-016",
+          "context": "유아의 놀이에 담긴 의미를 알아보고, 현장 교사의 실천 노하우를 담은 놀이 지원 사례 소개하기! 직무/15차시(1학점) 미리보기 상세보기 교사, 놀이중심 교육과정에 빠지다 - 실행편 50,000원"
+        },
+        {
+          "index": 225,
+          "title": "교육 철학과 함께 개정 누리과정을 정확하게 이해하고, 현장에서 바로 활용할 수 있는 다양한 놀이 알아보기! 직무/15차시(1학점) 미리보기 상세보기 교사, 놀이중심 교육과정에 빠지다 - 이해편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-015",
+          "context": "교육 철학과 함께 개정 누리과정을 정확하게 이해하고, 현장에서 바로 활용할 수 있는 다양한 놀이 알아보기! 직무/15차시(1학점) 미리보기 상세보기 교사, 놀이중심 교육과정에 빠지다 - 이해편 50,000원"
+        },
+        {
+          "index": 226,
+          "title": "학교민주주의 완성을 위해 학교자치를 어떻게 실천하면 좋을지 각 교육공동체 측면에서 바라본 연수! 직무/30차시(2학점) 미리보기 상세보기 학교자치로 열어가는 민주적 학교문화 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-008",
+          "context": "학교민주주의 완성을 위해 학교자치를 어떻게 실천하면 좋을지 각 교육공동체 측면에서 바라본 연수! 직무/30차시(2학점) 미리보기 상세보기 학교자치로 열어가는 민주적 학교문화 75,000원"
+        },
+        {
+          "index": 227,
+          "title": "문학을 현실과 연결하고, 문학의 배경지를 찾아 떠나는 여행을 통해 경험을 넓히고, 학생에게 지식과 경험을 공유해보세요. 직무/15차시(1학점) 미리보기 상세보기 문알못 교사가 지금 바로 떠나는 문학 여행 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-012",
+          "context": "문학을 현실과 연결하고, 문학의 배경지를 찾아 떠나는 여행을 통해 경험을 넓히고, 학생에게 지식과 경험을 공유해보세요. 직무/15차시(1학점) 미리보기 상세보기 문알못 교사가 지금 바로 떠나는 문학 여행 50,000원"
+        },
+        {
+          "index": 228,
+          "title": "교권과 관련된 다양한 법률과 사례를 통해 교사 스스로 자신을 지킬 수 있는 연수 직무/30차시(2학점) 미리보기 상세보기 나를 지키는 교권 이야기 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-009",
+          "context": "교권과 관련된 다양한 법률과 사례를 통해 교사 스스로 자신을 지킬 수 있는 연수 직무/30차시(2학점) 미리보기 상세보기 나를 지키는 교권 이야기 75,000원"
+        },
+        {
+          "index": 229,
+          "title": "김현수교수님과 관계 심리학 교사연구단에서 전해주는 요즘 아이들 관계의 비밀 직무/30차시(2학점) 미리보기 상세보기 관계 공격 - 요즘 아이들 관계의 비밀 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-005",
+          "context": "김현수교수님과 관계 심리학 교사연구단에서 전해주는 요즘 아이들 관계의 비밀 직무/30차시(2학점) 미리보기 상세보기 관계 공격 - 요즘 아이들 관계의 비밀 75,000원"
+        },
+        {
+          "index": 230,
+          "title": "다양한 분야의 책을 다양한 시각으로 바라볼 수 있도록 인문학적 소양을 함양시켜 보세요. 직무/30차시(2학점) 미리보기 상세보기 마음을 채우는 오늘, 책이 들려주는 북소리 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-011",
+          "context": "다양한 분야의 책을 다양한 시각으로 바라볼 수 있도록 인문학적 소양을 함양시켜 보세요. 직무/30차시(2학점) 미리보기 상세보기 마음을 채우는 오늘, 책이 들려주는 북소리 75,000원"
+        },
+        {
+          "index": 231,
+          "title": "피할 수 없는 학부모와의 소통! 여전히 어렵고 불편하신가요? 높아만 지는 교사와 학부모와의 벽을 허물다! 직무/30차시(2학점) 미리보기 상세보기 소통왕, 학부모를 부탁해! 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-001",
+          "context": "피할 수 없는 학부모와의 소통! 여전히 어렵고 불편하신가요? 높아만 지는 교사와 학부모와의 벽을 허물다! 직무/30차시(2학점) 미리보기 상세보기 소통왕, 학부모를 부탁해! 75,000원"
+        },
+        {
+          "index": 232,
+          "title": "훈민정음 창제 원리를 바탕으로 한, 10일 한글 익히기 프로젝트!! 직무/15차시(1학점) 미리보기 상세보기 문해 교육의 기초! 읽기 & 쓰기 한글 교육 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-006",
+          "context": "훈민정음 창제 원리를 바탕으로 한, 10일 한글 익히기 프로젝트!! 직무/15차시(1학점) 미리보기 상세보기 문해 교육의 기초! 읽기 & 쓰기 한글 교육 50,000원"
+        },
+        {
+          "index": 233,
+          "title": "어려운 천문학? 편견을 깨다! 별박사 이태형 교수님이 들려주는 너무 쉽고, 재미있는 우주 이야기! 직무/30차시(2학점) 미리보기 상세보기 알수록 반짝이는 밤하늘, 별박사 이태형의 우주 이야기 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-004",
+          "context": "어려운 천문학? 편견을 깨다! 별박사 이태형 교수님이 들려주는 너무 쉽고, 재미있는 우주 이야기! 직무/30차시(2학점) 미리보기 상세보기 알수록 반짝이는 밤하늘, 별박사 이태형의 우주 이야기 75,000원"
+        },
+        {
+          "index": 234,
+          "title": "세상을 변화시키는 창의적인 지혜가 넘치는 학급을 만들어보세요. 직무/30차시(2학점) 미리보기 상세보기 교실 속! 트리즈 씽킹 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-018",
+          "context": "세상을 변화시키는 창의적인 지혜가 넘치는 학급을 만들어보세요. 직무/30차시(2학점) 미리보기 상세보기 교실 속! 트리즈 씽킹 75,000원"
+        },
+        {
+          "index": 235,
+          "title": "학생들을 ‘리드’하는 수업 스피치 능력을 길러, 수업을 리드하자! 직무/30차시(2학점) 미리보기 상세보기 소통하는 선생님 언어의 연금술사가 되라! 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-003",
+          "context": "학생들을 ‘리드’하는 수업 스피치 능력을 길러, 수업을 리드하자! 직무/30차시(2학점) 미리보기 상세보기 소통하는 선생님 언어의 연금술사가 되라! 75,000원"
+        },
+        {
+          "index": 236,
+          "title": "수동적 독자에서 능동적 저자로! 책쓰기 교육 꿀팁 대방출 직무/30차시(2학점) 미리보기 상세보기 우리 아이들 작가되기 프로젝트, 책쓰기 교육 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-002",
+          "context": "수동적 독자에서 능동적 저자로! 책쓰기 교육 꿀팁 대방출 직무/30차시(2학점) 미리보기 상세보기 우리 아이들 작가되기 프로젝트, 책쓰기 교육 75,000원"
+        },
+        {
+          "index": 237,
+          "title": "다문화교육에 대한 선생님들의 모든 궁금증! 다문화교육 전문가가 알려드립니다. 직무/30차시(2학점) 미리보기 상세보기 블랑카와 함께하는 다문화교실 이야기 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-017",
+          "context": "다문화교육에 대한 선생님들의 모든 궁금증! 다문화교육 전문가가 알려드립니다. 직무/30차시(2학점) 미리보기 상세보기 블랑카와 함께하는 다문화교실 이야기 75,000원"
+        },
+        {
+          "index": 238,
+          "title": "2022년 부분 도입, 2025년 전면 시행! 고교학점제의 전문가와 연구학교 교사들이 말하는 고교학점제의 모든 것! 직무/30차시(2학점) 미리보기 상세보기 왜 고교학점제인가 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-015",
+          "context": "2022년 부분 도입, 2025년 전면 시행! 고교학점제의 전문가와 연구학교 교사들이 말하는 고교학점제의 모든 것! 직무/30차시(2학점) 미리보기 상세보기 왜 고교학점제인가 75,000원"
+        },
+        {
+          "index": 239,
+          "title": "도형, 측정 놀이부터 수학적 사고를 자극할 만한 규칙성, 자료와 가능성에 대한 이야기까지 학생들의 마음에 다가가는 수학 수업을 만들어보세요. 직무/15차시(1학점) 미리보기 상세보기 이야기와 놀이로 배우는 수학시간 (도형, 측정, 규칙성, 자료와 가능성 영역) 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-034",
+          "context": "도형, 측정 놀이부터 수학적 사고를 자극할 만한 규칙성, 자료와 가능성에 대한 이야기까지 학생들의 마음에 다가가는 수학 수업을 만들어보세요. 직무/15차시(1학점) 미리보기 상세보기 이야기와 놀이로 배우는 수학시간 (도형, 측정, 규칙성, 자료와 가능성 영역) 50,000원"
+        },
+        {
+          "index": 240,
+          "title": "숫자의 도입 이야기부터 자연수, 분수, 소수를 재미있게 익힐 수 있는 놀이까지 즐거운 수학 수업을 만들어보세요. 직무/15차시(1학점) 미리보기 상세보기 이야기와 놀이로 배우는 수학시간 (수와 연산 영역) 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-033",
+          "context": "숫자의 도입 이야기부터 자연수, 분수, 소수를 재미있게 익힐 수 있는 놀이까지 즐거운 수학 수업을 만들어보세요. 직무/15차시(1학점) 미리보기 상세보기 이야기와 놀이로 배우는 수학시간 (수와 연산 영역) 50,000원"
+        },
+        {
+          "index": 241,
+          "title": "학교민주주의 완성을 위한 학교자치 실현의 핵심 내용을 소개합니다! 직무/15차시(1학점) 미리보기 상세보기 학교자치로 열어가는 민주적 학교문화 - 핵심편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-031",
+          "context": "학교민주주의 완성을 위한 학교자치 실현의 핵심 내용을 소개합니다! 직무/15차시(1학점) 미리보기 상세보기 학교자치로 열어가는 민주적 학교문화 - 핵심편 50,000원"
+        },
+        {
+          "index": 242,
+          "title": "유아의 목소리를 따라 교사의 주도성을 내려놓고 함께 놀아봐요! 직무/30차시(2학점) 미리보기 상세보기 교사, 놀이중심 교육과정에 빠지다 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-030",
+          "context": "유아의 목소리를 따라 교사의 주도성을 내려놓고 함께 놀아봐요! 직무/30차시(2학점) 미리보기 상세보기 교사, 놀이중심 교육과정에 빠지다 75,000원"
+        },
+        {
+          "index": 243,
+          "title": "다문화가정 학생과의 만남과 교육을 위한 다문화 철학을 통해 다문화 전문성과 감수성을 향상시켜 보세요. 직무/15차시(1학점) 미리보기 상세보기 블랑카와 함께하는 다문화교실 이야기 - 심화편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-014",
+          "context": "다문화가정 학생과의 만남과 교육을 위한 다문화 철학을 통해 다문화 전문성과 감수성을 향상시켜 보세요. 직무/15차시(1학점) 미리보기 상세보기 블랑카와 함께하는 다문화교실 이야기 - 심화편 50,000원"
+        },
+        {
+          "index": 244,
+          "title": "다문화교육 전문가와 함께하는 다문화교육 이해 첫걸음, 다문화교실 이야기 직무/15차시(1학점) 미리보기 상세보기 블랑카와 함께하는 다문화교실 이야기 - 기본편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-013",
+          "context": "다문화교육 전문가와 함께하는 다문화교육 이해 첫걸음, 다문화교실 이야기 직무/15차시(1학점) 미리보기 상세보기 블랑카와 함께하는 다문화교실 이야기 - 기본편 50,000원"
+        },
+        {
+          "index": 245,
+          "title": "마을 교육공동체를 운영하는 실무자들의 현장 이야기를 통해 우리 마을에 맞는 마을 교육공동체를 만들어보세요! 직무/15차시(1학점) 미리보기 상세보기 마을과 학교가 하나 되는 마을교육공동체 - 실천가편 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t20-010",
+          "context": "마을 교육공동체를 운영하는 실무자들의 현장 이야기를 통해 우리 마을에 맞는 마을 교육공동체를 만들어보세요! 직무/15차시(1학점) 미리보기 상세보기 마을과 학교가 하나 되는 마을교육공동체 - 실천가편 50,000원"
+        },
+        {
+          "index": 246,
+          "title": "오늘 하루 나를 위한 차 한잔의 달콤한 휴식! 직무/15차시(1학점) 미리보기 상세보기 교실에서 즐기는 힐링 티타임 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-020",
+          "context": "오늘 하루 나를 위한 차 한잔의 달콤한 휴식! 직무/15차시(1학점) 미리보기 상세보기 교실에서 즐기는 힐링 티타임 50,000원"
+        },
+        {
+          "index": 247,
+          "title": "아이들 스스로 삶의 주인공이 되도록 함께하는 진로교육 직무/30차시(2학점) 미리보기 상세보기 진로지도로 그리는 아이들의 미래지도 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-019",
+          "context": "아이들 스스로 삶의 주인공이 되도록 함께하는 진로교육 직무/30차시(2학점) 미리보기 상세보기 진로지도로 그리는 아이들의 미래지도 75,000원"
+        },
+        {
+          "index": 248,
+          "title": "정리를 통해 잃어버린 시간, 공간, 관계를 찾고 꼭 필요한 삶의 여유와 행복을 찾으세요! 직무/15차시(1학점) 미리보기 상세보기 단순함의 미학, 심플라이프 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-016",
+          "context": "정리를 통해 잃어버린 시간, 공간, 관계를 찾고 꼭 필요한 삶의 여유와 행복을 찾으세요! 직무/15차시(1학점) 미리보기 상세보기 단순함의 미학, 심플라이프 50,000원"
+        },
+        {
+          "index": 249,
+          "title": "예술 속에서 얻은 통찰력을 교육 안에서 실현하고 적용해 볼 수 있는 연수! 직무/30차시(2학점) 미리보기 상세보기 교육에 예술을 덧입히다 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-014",
+          "context": "예술 속에서 얻은 통찰력을 교육 안에서 실현하고 적용해 볼 수 있는 연수! 직무/30차시(2학점) 미리보기 상세보기 교육에 예술을 덧입히다 75,000원"
+        },
+        {
+          "index": 250,
+          "title": "생각과 표현이 팡펑 터지는 비주얼씽킹 수업으로의 초대! 직무/30차시(2학점) 미리보기 상세보기 비주얼씽킹으로 수업을 리드하라! 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-013",
+          "context": "생각과 표현이 팡펑 터지는 비주얼씽킹 수업으로의 초대! 직무/30차시(2학점) 미리보기 상세보기 비주얼씽킹으로 수업을 리드하라! 75,000원"
+        },
+        {
+          "index": 251,
+          "title": "베스트셀러 <보고서의 법칙> 작가가 알려주는 글쓰기 법칙과, 매뉴얼, 보고서 작성 노하우! 직무/30차시(2학점) 미리보기 상세보기 딱딱한 글쓰기를 쉽게 풀어낸 백승권 작가의 딱풀 글쓰기 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-012",
+          "context": "베스트셀러 <보고서의 법칙> 작가가 알려주는 글쓰기 법칙과, 매뉴얼, 보고서 작성 노하우! 직무/30차시(2학점) 미리보기 상세보기 딱딱한 글쓰기를 쉽게 풀어낸 백승권 작가의 딱풀 글쓰기 75,000원"
+        },
+        {
+          "index": 252,
+          "title": "정신건강의학과 전문의 김현수 교수님이 전해주시는 요즘 아이들 마음고생의 비밀 직무/30차시(2학점) 미리보기 상세보기 요즘 아이들 마음고생의 비밀 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-011",
+          "context": "정신건강의학과 전문의 김현수 교수님이 전해주시는 요즘 아이들 마음고생의 비밀 직무/30차시(2학점) 미리보기 상세보기 요즘 아이들 마음고생의 비밀 75,000원"
+        },
+        {
+          "index": 253,
+          "title": "색연필 하나로 선생님만의 손그림을 완성해보세요! 직무/15차시(1학점) 미리보기 상세보기 하루 한 번 쉼표, 색연필로 그리는 1일 1손그림 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-010",
+          "context": "색연필 하나로 선생님만의 손그림을 완성해보세요! 직무/15차시(1학점) 미리보기 상세보기 하루 한 번 쉼표, 색연필로 그리는 1일 1손그림 50,000원"
+        },
+        {
+          "index": 254,
+          "title": "학생 스스로 질문을 던지고, 스스로 생각하는 리얼한 과학 수업! 직무/15차시(1학점) 미리보기 상세보기 질문이 살아있는 과학 수업 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-006",
+          "context": "학생 스스로 질문을 던지고, 스스로 생각하는 리얼한 과학 수업! 직무/15차시(1학점) 미리보기 상세보기 질문이 살아있는 과학 수업 50,000원"
+        },
+        {
+          "index": 255,
+          "title": "행복한 국어 수업을 꿈꾸는 교사들을 위해 질문이 곧 수업이 되는 생생한 현장 지도법 안내 직무/15차시(1학점) 미리보기 상세보기 질문이 살아있는 국어 수업 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-007",
+          "context": "행복한 국어 수업을 꿈꾸는 교사들을 위해 질문이 곧 수업이 되는 생생한 현장 지도법 안내 직무/15차시(1학점) 미리보기 상세보기 질문이 살아있는 국어 수업 50,000원"
+        },
+        {
+          "index": 256,
+          "title": "알면 알수록 맛있다! 매일 즐기는 커피를 더욱 특별하게 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 일상에 특별함을 더하는 커피 라이프 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-008",
+          "context": "알면 알수록 맛있다! 매일 즐기는 커피를 더욱 특별하게 만나보세요. 직무/15차시(1학점) 미리보기 상세보기 일상에 특별함을 더하는 커피 라이프 50,000원"
+        },
+        {
+          "index": 257,
+          "title": "유치원 교사로 어떻게 성장해야 할지 고민 많으셨죠? 다함께 고민 탈출해봐요! 직무/30차시(2학점) 미리보기 상세보기 신규 유치원 교사 고민 탈출 직무연수 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-005",
+          "context": "유치원 교사로 어떻게 성장해야 할지 고민 많으셨죠? 다함께 고민 탈출해봐요! 직무/30차시(2학점) 미리보기 상세보기 신규 유치원 교사 고민 탈출 직무연수 75,000원"
+        },
+        {
+          "index": 258,
+          "title": "마을교육공동체의 국내외 다양한 운영 사례를 현장의 생생한 소리로 담았습니다. 직무/30차시(2학점) 미리보기 상세보기 마을과 학교가 하나 되는 마을교육공동체 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t19-004",
+          "context": "마을교육공동체의 국내외 다양한 운영 사례를 현장의 생생한 소리로 담았습니다. 직무/30차시(2학점) 미리보기 상세보기 마을과 학교가 하나 되는 마을교육공동체 75,000원"
+        },
+        {
+          "index": 259,
+          "title": "유럽 예술사 전문가가 알려주는 살아있는 예술 이야기 속으로 떠나볼까요? 직무/30차시(2학점) 미리보기 상세보기 나를 찾는 인생 힐링, 미술관에서 보는 유럽의 문화와 역사 70,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-122",
+          "context": "유럽 예술사 전문가가 알려주는 살아있는 예술 이야기 속으로 떠나볼까요? 직무/30차시(2학점) 미리보기 상세보기 나를 찾는 인생 힐링, 미술관에서 보는 유럽의 문화와 역사 70,000원"
+        },
+        {
+          "index": 260,
+          "title": "국내외 다양한 사회 이슈를 공간이라는 렌즈를 통해 재해석하다! 직무/15차시(1학점) 미리보기 상세보기 공간의 눈으로 세상을 읽다 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-022",
+          "context": "국내외 다양한 사회 이슈를 공간이라는 렌즈를 통해 재해석하다! 직무/15차시(1학점) 미리보기 상세보기 공간의 눈으로 세상을 읽다 50,000원"
+        },
+        {
+          "index": 261,
+          "title": "4차 산업혁명을 준비하는 30명의 명사들이 모여서 알려주는 꿀팁! 직무/30차시(2학점) 미리보기 상세보기 4차 산업혁명 시대! 미래 교육을 준비하는 20분 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-018",
+          "context": "4차 산업혁명을 준비하는 30명의 명사들이 모여서 알려주는 꿀팁! 직무/30차시(2학점) 미리보기 상세보기 4차 산업혁명 시대! 미래 교육을 준비하는 20분 75,000원"
+        },
+        {
+          "index": 262,
+          "title": "세계적 기업 IDEO에서 시작한 문제해결 전략, 디자인씽킹을 시작해보세요! 직무/30차시(2학점) 미리보기 상세보기 교실에 혁신을 더하는 마법, 디자인씽킹 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-020",
+          "context": "세계적 기업 IDEO에서 시작한 문제해결 전략, 디자인씽킹을 시작해보세요! 직무/30차시(2학점) 미리보기 상세보기 교실에 혁신을 더하는 마법, 디자인씽킹 75,000원"
+        },
+        {
+          "index": 263,
+          "title": "[단체신청 인기 과정] 디지털교과서 디바이스 사용법 어렵지 않아요! 직무/15차시(1학점) 미리보기 상세보기 디지털교과서, 학생 중심 수업에 녹이다 40,000원",
+          "url": "https://t.vivasam.com/courses/job/t18-009",
+          "context": "[단체신청 인기 과정] 디지털교과서 디바이스 사용법 어렵지 않아요! 직무/15차시(1학점) 미리보기 상세보기 디지털교과서, 학생 중심 수업에 녹이다 40,000원"
+        },
+        {
+          "index": 264,
+          "title": "10명의 저자들의 독서수업 사례와 활동 자료들을 아낌없이 나눠 드립니다! 직무/30차시(2학점) 미리보기 상세보기 교과를 꽃피게 하는 독서 수업 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t17-011",
+          "context": "10명의 저자들의 독서수업 사례와 활동 자료들을 아낌없이 나눠 드립니다! 직무/30차시(2학점) 미리보기 상세보기 교과를 꽃피게 하는 독서 수업 75,000원"
+        },
+        {
+          "index": 265,
+          "title": "학생들이 금기없이 자유롭게 자기 생각을 말하는 수업을 만들어보세요! 직무/30차시(2학점) 미리보기 상세보기 토론으로 수업을 잡자! 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t16-010",
+          "context": "학생들이 금기없이 자유롭게 자기 생각을 말하는 수업을 만들어보세요! 직무/30차시(2학점) 미리보기 상세보기 토론으로 수업을 잡자! 75,000원"
+        },
+        {
+          "index": 266,
+          "title": "평가 전문 직무 연수! 평가를 고민하는 선생님들에게 추천합니다. 직무/30차시(2학점) 미리보기 상세보기 중등 수업 평가 혁신 75,000원",
+          "url": "https://t.vivasam.com/courses/job/t17-001",
+          "context": "평가 전문 직무 연수! 평가를 고민하는 선생님들에게 추천합니다. 직무/30차시(2학점) 미리보기 상세보기 중등 수업 평가 혁신 75,000원"
+        },
+        {
+          "index": 267,
+          "title": "100세 인생 시대, 교사 맞춤형 특별한 재무 설계로 관리해보세요. 직무/30차시(2학점) 미리보기 상세보기 경제를 알아야 교사가 산다 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-120",
+          "context": "100세 인생 시대, 교사 맞춤형 특별한 재무 설계로 관리해보세요. 직무/30차시(2학점) 미리보기 상세보기 경제를 알아야 교사가 산다 65,000원"
+        },
+        {
+          "index": 268,
+          "title": "진로를 다섯가지 영역으로 나누어 실제 사례별 진로지도 방법을 상세히 알려드립니다. 직무/30차시(2학점) 미리보기 상세보기 진로로 풀어가는 학생지도 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-113",
+          "context": "진로를 다섯가지 영역으로 나누어 실제 사례별 진로지도 방법을 상세히 알려드립니다. 직무/30차시(2학점) 미리보기 상세보기 진로로 풀어가는 학생지도 65,000원"
+        },
+        {
+          "index": 269,
+          "title": "학생, 동료 교사, 학부모와 효과적으로 소통할 수 있는 대화의 기술! 직무/30차시(2학점) 미리보기 상세보기 결정적 순간의 대화 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-107",
+          "context": "학생, 동료 교사, 학부모와 효과적으로 소통할 수 있는 대화의 기술! 직무/30차시(2학점) 미리보기 상세보기 결정적 순간의 대화 65,000원"
+        },
+        {
+          "index": 270,
+          "title": "학업, 인성, 건강 모두에 도움되는 신개념 창의체험활동! 스포츠스태킹의 이론 및 실습을 담음 직무/15차시(1학점) 미리보기 상세보기 빠르게! 신나게! 신개념 창의체험활동 스포츠스태킹 50,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-106",
+          "context": "학업, 인성, 건강 모두에 도움되는 신개념 창의체험활동! 스포츠스태킹의 이론 및 실습을 담음 직무/15차시(1학점) 미리보기 상세보기 빠르게! 신나게! 신개념 창의체험활동 스포츠스태킹 50,000원"
+        },
+        {
+          "index": 271,
+          "title": "신나고 즐거운 수업을 만들 수 있는 CTS 창의적교수법을 소개하고 수업에 적용할 수 있는 다양한 수업방법 소개! 직무/30차시(2학점) 미리보기 상세보기 Bob Pike의 교사를 위한 창의적교수법 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-102",
+          "context": "신나고 즐거운 수업을 만들 수 있는 CTS 창의적교수법을 소개하고 수업에 적용할 수 있는 다양한 수업방법 소개! 직무/30차시(2학점) 미리보기 상세보기 Bob Pike의 교사를 위한 창의적교수법 65,000원"
+        },
+        {
+          "index": 272,
+          "title": "스티븐 코비 박사의 7가지 성공습관을 소개하고 성공하는 교사의 7가지 습관과 다양한 방법 소개! 직무/30차시(2학점) 미리보기 상세보기 성공하는 교사를 위한 7가지 습관 65,000원",
+          "url": "https://t.vivasam.com/courses/job/t21-103",
+          "context": "스티븐 코비 박사의 7가지 성공습관을 소개하고 성공하는 교사의 7가지 습관과 다양한 방법 소개! 직무/30차시(2학점) 미리보기 상세보기 성공하는 교사를 위한 7가지 습관 65,000원"
+        }
+      ]
+    }
+  }
+}
