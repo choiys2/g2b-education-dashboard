@@ -9,6 +9,14 @@ on:
       sites:
         description: "쉼표구분 (비우면 3사 전체)"
         default: ""
+  # workflow_dispatch는 워크플로 파일이 기본 브랜치(main)에 있어야만 API로 실행할 수
+  # 있어서, main 병합 전 이 브랜치에서 바로 검증하기 위해 push 트리거를 임시로 둔다.
+  # main 병합 후에는 이 push 트리거를 제거해도 된다(workflow_dispatch만으로 충분).
+  push:
+    branches: [claude/opensource-api-dashboard-f3o7q7]
+    paths:
+      - "competitor_course_catalog_scrape.py"
+      - ".github/workflows/course_catalog.yml"
 
 permissions:
   contents: write
@@ -31,9 +39,11 @@ jobs:
       # 로그인 없이 보이는 공개 목록 페이지만 본다(robots.txt는 스크립트가 실행 시 재확인).
       - name: 3사 직무연수 카탈로그 크롤링
         run: |
+          MAX_ITEMS="${{ inputs.max_items }}"
+          SITES="${{ inputs.sites }}"
           python competitor_course_catalog_scrape.py \
-            --max-items "${{ inputs.max_items }}" \
-            --sites "${{ inputs.sites }}" \
+            --max-items "${MAX_ITEMS:-500}" \
+            --sites "${SITES}" \
             --debug
 
       - name: 결과 커밋
