@@ -39,7 +39,7 @@ jobs:
 
       # ⚠️ 임시: 실제 강좌 카드 DOM 구조를 확인하기 위해 진단 덤프를 먼저 돈다.
       # 정상 크롤링(competitor_course_catalog_scrape.py)으로 되돌리기 전까지만 유지.
-      - name: [임시진단] 3사 목록 페이지 렌더링 DOM 덤프
+      - name: "[임시진단] 3사 목록 페이지 렌더링 DOM 덤프"
         run: python debug_dump_catalog_html.py
 
       - name: 결과 커밋
