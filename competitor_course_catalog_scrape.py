@@ -196,7 +196,7 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
     # networkidle 대기는 티처빌에서 백그라운드 폴링으로 추정되는 이유로 30초
     # 타임아웃이 났다(진단 덤프에서 실측) - domcontentloaded + 고정 대기로 교체.
     page.goto(url, wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
-    page.wait_for_timeout(2500)
+    page.wait_for_timeout(4000)
     collected = {}
     stall = 0
     note = ""
@@ -209,7 +209,7 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
         for page_no in range(1, MAX_PAGES + 1):
             if page_no > 1:
                 page.goto(f"{url}{sep}{param}={page_no}", wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
-                page.wait_for_timeout(1500)
+                page.wait_for_timeout(2500)
             before = len(collected)
             for it in _extract_candidates(page, extract_cfg):
                 collected.setdefault(it["href"], it)
