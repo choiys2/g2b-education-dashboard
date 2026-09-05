@@ -36,8 +36,11 @@ def main():
         for name, url in SITES.items():
             page = browser.new_page()
             try:
-                page.goto(url, wait_until="networkidle", timeout=30000)
-                page.wait_for_timeout(2000)
+                # networkidle 대기는 티처빌에서 30초 타임아웃으로 실패했다(백그라운드
+                # 폴링/애널리틱스가 계속 도는 것으로 추정) - domcontentloaded + 고정
+                # 대기로 교체.
+                page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                page.wait_for_timeout(4000)
                 html = trim(page.evaluate("document.documentElement.outerHTML"))
                 out = OUT_DIR / f"{name}.html"
                 out.write_text(html[:MAX_CHARS], encoding="utf-8")
