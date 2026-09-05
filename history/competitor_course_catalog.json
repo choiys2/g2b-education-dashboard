@@ -3011,9 +3011,280 @@
     },
     "아이스크림": {
       "url": "https://teacher.i-scream.co.kr/course/crs/creditList.do?searchOrdinalTyCode=TY01&searchOrderField=NEW",
-      "count": 0,
+      "count": 45,
       "note": "연속 3페이지 신규 없음 - 마지막 페이지로 판단하고 중단",
-      "courses": []
+      "courses": [
+        {
+          "index": 1,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7364&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 연수·상품SET 신규 2022 개정 교육과정에 딱 맞는 디지털 드로잉 수업 디자인 with 아트봉봉스쿨"
+        },
+        {
+          "index": 2,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7369&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 패들렛·띵커벨·브리스크티칭으로 여는 AI 기반 디지털 활용 수업"
+        },
+        {
+          "index": 3,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7361&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 학급경영 50,000원 연수·상품SET 교재 신규 책으로 만나는 생태환경수업"
+        },
+        {
+          "index": 4,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3063&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 생활교육 25,000원 20,000원 할인중 교재 신규 AI를 이기는 아이는 이렇게 가르칩니다"
+        },
+        {
+          "index": 5,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3065&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 나를 대신할 PPT 에이전트 끝판왕, Gamma AI로 완성하는 보고서 프레젠테이션 마스터"
+        },
+        {
+          "index": 6,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7362&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 68,000원 할인중 신규 '좋은 식재료'에 대한 새로운 기준과 이해"
+        },
+        {
+          "index": 7,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=5080&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 왕초보 선생님을 위한 Google Vids로 AI 영상 만들기"
+        },
+        {
+          "index": 8,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7355&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 신규 영유아 교사를 위한 AI 활용: 놀이와 배움이 풍성해지는 교실"
+        },
+        {
+          "index": 9,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=5082&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 교수학습 25,000원 20,000원 할인중 신규 학생들의 참여를 이끄는 만능 프로젝트 수업 설계하기"
+        },
+        {
+          "index": 10,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7353&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 교재 신규 서·논술형 평가, 아날로그에 AI 디지털을 더하다!"
+        },
+        {
+          "index": 11,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7351&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 법정연수 교재 베스트 신규 자라는 인지 기반 느린학습자 학습 코칭"
+        },
+        {
+          "index": 12,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=1249&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 학급운영부터 놀이자료까지! 유아 교사를 위한 디지털 드로잉"
+        },
+        {
+          "index": 13,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7358&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 어학 85,000원 베스트 신규 영어 1차 임계점 돌파 - 영작 훈련"
+        },
+        {
+          "index": 14,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7356&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 어학 50,000원 40,000원 할인중 신규 영어로 세계 속으로 with 내셔널 지오그래픽 2"
+        },
+        {
+          "index": 15,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3067&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 기록만 하던 노션은 끝, 스스로 일하는 노션 AI 에이전트 시작하기"
+        },
+        {
+          "index": 16,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3068&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 당신은 지시만 하세요, 일은 AI가 합니다: 구글 오팔(Opal) 업무 자동화 시스템"
+        },
+        {
+          "index": 17,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3062&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 딱 10분! AI로 뚝딱 만드는 우리 반 웹툰"
+        },
+        {
+          "index": 18,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=5079&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 인문소양 25,000원 신규 교실에서 바로 쓰는 5분 펜드로잉"
+        },
+        {
+          "index": 19,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7349&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 교수학습 85,000원 베스트 신규 깊이 있는 학습 & 학습 주도성 Up! AI 시대를 이끄는 질문의 힘"
+        },
+        {
+          "index": 20,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7357&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 신규 부모 인문학 클래스: 엄빠의 질문"
+        },
+        {
+          "index": 21,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3058&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 10차시 인문소양 50,000원 신규 아이들이 먼저 집중하는 시간! 교사도 따라하는 교실 밀착 마술"
+        },
+        {
+          "index": 22,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7334&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 60차시(4학점) 학급경영 140,000원 교재 신규 현장에서 바로 쓰는 교직실무 가이드 A to Z"
+        },
+        {
+          "index": 23,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7346&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 어학 50,000원 연수·상품SET 교재 신규 걱정없이 떠나는 여행 일본어 무작정 따라하기"
+        },
+        {
+          "index": 24,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7347&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 신규 현실 월급쟁이의 재테크 1년 로드맵"
+        },
+        {
+          "index": 25,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3057&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 딱 10분! AI로 뚝딱 만드는 작사작곡"
+        },
+        {
+          "index": 26,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7325&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 교수학습 50,000원 신규 우영쌤의 쉽게 준비하고 바로 적용하는 과학 실험"
+        },
+        {
+          "index": 27,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7354&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 교재 베스트 신규 최소한의 세금공부"
+        },
+        {
+          "index": 28,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7352&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 교재 신규 1등급은 다르다! 수상자들의 디지털교육 연구대회 필승 전략"
+        },
+        {
+          "index": 29,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7350&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 베스트 신규 선생님을 바꾸는 크로스핏! 살은 빼고 건강은 더하기"
+        },
+        {
+          "index": 30,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7339&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 베스트 신규 하루 20분, 몸이 달라지는 필라테스의 정석"
+        },
+        {
+          "index": 31,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3051&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 AI 에이전트 핵심만 쏙쏙 배우기 - 입문에서 실전까지, 업무 비서를 넘어선 초지능 에이전트"
+        },
+        {
+          "index": 32,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3053&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 교수학습 25,000원 연수·상품SET 신규 수업에 매직 한 스푼! 교실에서 함께하는 카드 마술"
+        },
+        {
+          "index": 33,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3050&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 신규 AI 이미지 생성의 대세, 나노바나나로 초격차 디자인 마스터하기"
+        },
+        {
+          "index": 34,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3052&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 인문소양 25,000원 신규 AI로 들여다보는 역사의 라이벌 - 조선편"
+        },
+        {
+          "index": 35,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7337&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 학급경영 50,000원 40,000원 할인중 연수·상품SET 신규 학교자율시간, 수업으로 바로 쓰다"
+        },
+        {
+          "index": 36,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3056&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 20,000원 할인중 신규 Google 실무 마스터 - Gemini, NotebookLM, Antigravity"
+        },
+        {
+          "index": 37,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7336&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 신규 블록코딩으로 배우는 AI, AICE Future 완벽대비"
+        },
+        {
+          "index": 38,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7348&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 연수·상품SET 베스트 신규 김창옥의 나의 힐링 아지트"
+        },
+        {
+          "index": 39,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=1248&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 교재 베스트 신규 학교 업무 자동화를 위한 구글시트 첫걸음"
+        },
+        {
+          "index": 40,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7335&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 AI 통합 플랫폼, 구글 AI 스튜디오 완전정복 - 문서, 이미지, 영상 제작부터 바이브코딩까지 한 번에!"
+        },
+        {
+          "index": 41,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7328&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 60차시(4학점) 인문소양 140,000원 교재 신규 공부천재 서경석의 한국사능력검정시험 심화"
+        },
+        {
+          "index": 42,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7338&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 15차시(1학점) 인문소양 50,000원 신규 꼭 알아야 할 최소한의 건강 지식"
+        },
+        {
+          "index": 43,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7329&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 신규 공부천재 서경석의 한국사능력검정시험 (심화)-상"
+        },
+        {
+          "index": 44,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7330&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 30차시(2학점) 인문소양 85,000원 연수·상품SET 신규 공부천재 서경석의 한국사능력검정시험 (심화)-하"
+        },
+        {
+          "index": 45,
+          "title": "상세보기",
+          "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=3055&searchOrdinalTyCode=TY01",
+          "context": "미리보기 상세보기 5차시 디지털역량 25,000원 연수·상품SET 신규 교사의 시간을 돌려주는 AI: issamGPT 활용법"
+        }
+      ]
     },
     "비바샘": {
       "url": "https://t.vivasam.com/courses/job?menuId=MENU0610",
@@ -3022,123 +3293,123 @@
       "courses": [
         {
           "index": 1,
-          "title": "사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요! 15차시(1학점) 미리보기 상세보기 사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요!",
-          "url": "https://t.vivasam.com/courses/job/t25-002",
-          "context": "사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요! 15차시(1학점) 미리보기 상세보기 사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요!"
-        },
-        {
-          "index": 2,
-          "title": "선생님을 위한 구글 워크스페이스, 쉽게 배워보세요! 15차시(1학점) 미리보기 상세보기 선생님을 위한 구글 워크스페이스, 쉽게 배워보세요!",
-          "url": "https://t.vivasam.com/courses/job/t24-004",
-          "context": "선생님을 위한 구글 워크스페이스, 쉽게 배워보세요! 15차시(1학점) 미리보기 상세보기 선생님을 위한 구글 워크스페이스, 쉽게 배워보세요!"
-        },
-        {
-          "index": 3,
-          "title": "깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요. 15차시(1학점) 미리보기 상세보기 깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요.",
-          "url": "https://t.vivasam.com/courses/job/t24-034",
-          "context": "깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요. 15차시(1학점) 미리보기 상세보기 깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요."
-        },
-        {
-          "index": 4,
-          "title": "수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요! 15차시(1학점) 미리보기 상세보기 신규 수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요!",
-          "url": "https://t.vivasam.com/courses/job/t25-035",
-          "context": "수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요! 15차시(1학점) 미리보기 상세보기 신규 수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요!"
-        },
-        {
-          "index": 5,
           "title": "구글 제미나이를 활용한 실질적인 수업 및 업무 혁신 방법! 직무/15차시(1학점) 미리보기 상세보기 신규 질문이 답이 되는 제미나이 수업 솔루션 20% 60,000원 48,000원",
           "url": "https://t.vivasam.com/courses/job/t26-022",
           "context": "구글 제미나이를 활용한 실질적인 수업 및 업무 혁신 방법! 직무/15차시(1학점) 미리보기 상세보기 신규 질문이 답이 되는 제미나이 수업 솔루션 20% 60,000원 48,000원"
         },
         {
-          "index": 6,
+          "index": 2,
           "title": "의미 있는 한 걸음의 지도로 느린 학습자의 배움을 이어가주세요!​ 직무/15차시(1학점) 미리보기 상세보기 샘크리에이티브연수 느린 학습자(경계선 지능)를 위한 친절한 기초학력 지도와 에듀테크 한 걸음 20% 60,000원 48,000원",
           "url": "https://t.vivasam.com/courses/job/t25-023",
           "context": "의미 있는 한 걸음의 지도로 느린 학습자의 배움을 이어가주세요!​ 직무/15차시(1학점) 미리보기 상세보기 샘크리에이티브연수 느린 학습자(경계선 지능)를 위한 친절한 기초학력 지도와 에듀테크 한 걸음 20% 60,000원 48,000원"
         },
         {
-          "index": 7,
+          "index": 3,
           "title": "학생들이 먼저 찾는 퀴즈 수업을 운영해 보세요. 직무/5차시(15차시미만) 미리보기 상세보기 샘크리에이티브연수 학생들이 먼저 찾는 AI 퀴즈 수업, 블루킷 완벽 마스터 20% 25,000원 20,000원",
           "url": "https://t.vivasam.com/courses/job/t26-009",
           "context": "학생들이 먼저 찾는 퀴즈 수업을 운영해 보세요. 직무/5차시(15차시미만) 미리보기 상세보기 샘크리에이티브연수 학생들이 먼저 찾는 AI 퀴즈 수업, 블루킷 완벽 마스터 20% 25,000원 20,000원"
         },
         {
-          "index": 8,
+          "index": 4,
           "title": "Gemini와 Gemini Notebook을 활용한 수업 설계, 학급 운영 및 업무 자동화 역량 향상 연수 직무/15차시(1학점) 미리보기 상세보기 신규 나만의 AI 동료교사, Google Gemini와 Gemini Notebook 활용법 20% 60,000원 48,000원",
           "url": "https://t.vivasam.com/courses/job/t26-017",
           "context": "Gemini와 Gemini Notebook을 활용한 수업 설계, 학급 운영 및 업무 자동화 역량 향상 연수 직무/15차시(1학점) 미리보기 상세보기 신규 나만의 AI 동료교사, Google Gemini와 Gemini Notebook 활용법 20% 60,000원 48,000원"
         },
         {
-          "index": 9,
+          "index": 5,
           "title": "마음이 연결되는 정서 교육, 체계가 잡히는 학급 운영 직무/6차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 사회정서교육 기반 학급 운영 전략–그라운드로 만드는 행복한 교실(중등편) 20% 30,000원 24,000원",
           "url": "https://t.vivasam.com/courses/job/t26-012",
           "context": "마음이 연결되는 정서 교육, 체계가 잡히는 학급 운영 직무/6차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 사회정서교육 기반 학급 운영 전략–그라운드로 만드는 행복한 교실(중등편) 20% 30,000원 24,000원"
         },
         {
-          "index": 10,
+          "index": 6,
           "title": "수업 실행 전략으로 수업의 변화를 만들어보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 학생 참여와 상호작용을 이끄는 수업 실행 전략과 학습코칭 60,000원",
           "url": "https://t.vivasam.com/courses/job/t26-005",
           "context": "수업 실행 전략으로 수업의 변화를 만들어보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 학생 참여와 상호작용을 이끄는 수업 실행 전략과 학습코칭 60,000원"
         },
         {
-          "index": 11,
+          "index": 7,
           "title": "사회정서교육 진단부터 실천까지, 생생한 사례 속에 담긴 구체적인 실전 팁을 확인하세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학습과 정서가 함께 자라는 비상한 사회정서학습-초등 60,000원",
           "url": "https://t.vivasam.com/courses/job/t25-038",
           "context": "사회정서교육 진단부터 실천까지, 생생한 사례 속에 담긴 구체적인 실전 팁을 확인하세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학습과 정서가 함께 자라는 비상한 사회정서학습-초등 60,000원"
         },
         {
-          "index": 12,
+          "index": 8,
           "title": "바이브 코딩으로 고퀄리티 수업 이미지와 학생 상호작용 콘텐츠를 만들어 보세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 이제는 바이브 코딩! 프롬프트로 끝내는 AI 수업 콘텐츠 레시피 25,000원",
           "url": "https://t.vivasam.com/courses/job/t26-013",
           "context": "바이브 코딩으로 고퀄리티 수업 이미지와 학생 상호작용 콘텐츠를 만들어 보세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 이제는 바이브 코딩! 프롬프트로 끝내는 AI 수업 콘텐츠 레시피 25,000원"
         },
         {
-          "index": 13,
+          "index": 9,
           "title": "Class1234로 더 스마트한 교실을 만들어보세요! 직무/3차시(15차시미만) 미리보기 상세보기 신규 올인원 학급관리-클래스1234로 자동화 교실 만들기 15,000원",
           "url": "https://t.vivasam.com/courses/job/t26-011",
           "context": "Class1234로 더 스마트한 교실을 만들어보세요! 직무/3차시(15차시미만) 미리보기 상세보기 신규 올인원 학급관리-클래스1234로 자동화 교실 만들기 15,000원"
         },
         {
-          "index": 14,
+          "index": 10,
           "title": "배우고 끝나는 연수가 아니라, 직접 만들어 가는 연수! 직무/15차시(1학점) 미리보기 상세보기 신규 샘크리에이티브연수 클래스가 다른 샘크리에이터! 교육 콘텐츠로 시작하는 교사 퍼스널 브랜딩 60,000원",
           "url": "https://t.vivasam.com/courses/job/t26-007",
           "context": "배우고 끝나는 연수가 아니라, 직접 만들어 가는 연수! 직무/15차시(1학점) 미리보기 상세보기 신규 샘크리에이티브연수 클래스가 다른 샘크리에이터! 교육 콘텐츠로 시작하는 교사 퍼스널 브랜딩 60,000원"
         },
         {
-          "index": 15,
+          "index": 11,
           "title": "나만의 맞춤형 보조교사 AI, 학교생활기록부 작성 비법을 만나보세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 Gemini, 학교생활기록부에 교사의 온기를 더하다: AI 활용 학생부 작성법 25,000원",
           "url": "https://t.vivasam.com/courses/job/t26-008",
           "context": "나만의 맞춤형 보조교사 AI, 학교생활기록부 작성 비법을 만나보세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 Gemini, 학교생활기록부에 교사의 온기를 더하다: AI 활용 학생부 작성법 25,000원"
         },
         {
-          "index": 16,
+          "index": 12,
           "title": "사회정서교육부터 학급 운영까지! 그라운드로 교실의 깊이를 더하세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 사회정서교육 기반 학급 운영 전략-그라운드로 만드는 행복한 교실 25,000원",
           "url": "https://t.vivasam.com/courses/job/t26-003",
           "context": "사회정서교육부터 학급 운영까지! 그라운드로 교실의 깊이를 더하세요! 직무/5차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 사회정서교육 기반 학급 운영 전략-그라운드로 만드는 행복한 교실 25,000원"
         },
         {
-          "index": 17,
+          "index": 13,
           "title": "고차적 사고, 문제해결력, 비판적 사고를 기르는 서·논술형 평가의 모든 것! 직무/15차시(1학점) 미리보기 상세보기 신규 질문에 답을 찾는 미래형 평가체제! 사고력을 깨우는 서·논술형 평가 60,000원",
           "url": "https://t.vivasam.com/courses/job/t26-006",
           "context": "고차적 사고, 문제해결력, 비판적 사고를 기르는 서·논술형 평가의 모든 것! 직무/15차시(1학점) 미리보기 상세보기 신규 질문에 답을 찾는 미래형 평가체제! 사고력을 깨우는 서·논술형 평가 60,000원"
         },
         {
-          "index": 18,
+          "index": 14,
           "title": "에듀테크 도구와 함께 교실 속 미술 수업에 새로운 날개를 달아보세요! 직무/10차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 에듀테크로 미술 수업에 날개 달기! 20% 50,000원 40,000원",
           "url": "https://t.vivasam.com/courses/job/t25-024",
           "context": "에듀테크 도구와 함께 교실 속 미술 수업에 새로운 날개를 달아보세요! 직무/10차시(15차시미만) 미리보기 상세보기 신규 샘크리에이티브연수 에듀테크로 미술 수업에 날개 달기! 20% 50,000원 40,000원"
         },
         {
-          "index": 19,
+          "index": 15,
           "title": "사회정서교육 진단부터 실천까지, 생생한 사례 속에 담긴 구체적인 실전 팁을 확인하세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학습과 정서가 함께 자라는 비상한 사회정서학습-중등 60,000원",
           "url": "https://t.vivasam.com/courses/job/t25-039",
           "context": "사회정서교육 진단부터 실천까지, 생생한 사례 속에 담긴 구체적인 실전 팁을 확인하세요. 직무/15차시(1학점) 미리보기 상세보기 신규 학습과 정서가 함께 자라는 비상한 사회정서학습-중등 60,000원"
         },
         {
-          "index": 20,
+          "index": 16,
           "title": "읽고, 쓰고, 연결하는 힘이 자연스럽게 길러지는 순간 문해력 수업의 해답을 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 읽고, 쓰고, 연결하라! AI와 함께 여는 깊이 있는 문해력 수업 60,000원",
           "url": "https://t.vivasam.com/courses/job/t25-014",
           "context": "읽고, 쓰고, 연결하는 힘이 자연스럽게 길러지는 순간 문해력 수업의 해답을 만나보세요! 직무/15차시(1학점) 미리보기 상세보기 신규 읽고, 쓰고, 연결하라! AI와 함께 여는 깊이 있는 문해력 수업 60,000원"
+        },
+        {
+          "index": 17,
+          "title": "사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요! 15차시(1학점) 미리보기 상세보기 사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요!",
+          "url": "https://t.vivasam.com/courses/job/t25-002",
+          "context": "사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요! 15차시(1학점) 미리보기 상세보기 사회정서학습(SEL)으로 학생의 감정과 관계를 키우고 AI·디지털 도구로 그 과정을 더 섬세하게 도와주세요!"
+        },
+        {
+          "index": 18,
+          "title": "선생님을 위한 구글 워크스페이스, 쉽게 배워보세요! 15차시(1학점) 미리보기 상세보기 선생님을 위한 구글 워크스페이스, 쉽게 배워보세요!",
+          "url": "https://t.vivasam.com/courses/job/t24-004",
+          "context": "선생님을 위한 구글 워크스페이스, 쉽게 배워보세요! 15차시(1학점) 미리보기 상세보기 선생님을 위한 구글 워크스페이스, 쉽게 배워보세요!"
+        },
+        {
+          "index": 19,
+          "title": "깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요. 15차시(1학점) 미리보기 상세보기 깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요.",
+          "url": "https://t.vivasam.com/courses/job/t24-034",
+          "context": "깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요. 15차시(1학점) 미리보기 상세보기 깊이 있는 배움을 더한 에듀테크 수업을 완성해보세요."
+        },
+        {
+          "index": 20,
+          "title": "수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요! 15차시(1학점) 미리보기 상세보기 신규 수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요!",
+          "url": "https://t.vivasam.com/courses/job/t25-035",
+          "context": "수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요! 15차시(1학점) 미리보기 상세보기 신규 수학 불안 관리 프로그램을 통해 중등 교실의 변화를 이뤄보세요!"
         },
         {
           "index": 21,
