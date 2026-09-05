@@ -37,15 +37,20 @@ jobs:
           pip install playwright
           python -m playwright install --with-deps chromium
 
-      # ⚠️ 임시: 실제 강좌 카드 DOM 구조를 확인하기 위해 진단 덤프를 먼저 돈다.
-      # 정상 크롤링(competitor_course_catalog_scrape.py)으로 되돌리기 전까지만 유지.
-      - name: "[임시진단] 3사 목록 페이지 렌더링 DOM 덤프"
-        run: python debug_dump_catalog_html.py
+      # 로그인 없이 보이는 공개 목록 페이지만 본다(robots.txt는 스크립트가 실행 시 재확인).
+      - name: 3사 직무연수 카탈로그 크롤링
+        run: |
+          MAX_ITEMS="${{ inputs.max_items }}"
+          SITES="${{ inputs.sites }}"
+          python competitor_course_catalog_scrape.py \
+            --max-items "${MAX_ITEMS:-500}" \
+            --sites "${SITES}" \
+            --debug
 
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add debug_html/
-          git diff --cached --quiet || git commit -m "chore: 진단용 DOM 덤프 $(date -u +%F)"
+          git add history/competitor_course_catalog.json
+          git diff --cached --quiet || git commit -m "chore: 경쟁사 연수과정 카탈로그 수동 크롤링 $(date -u +%F)"
           git push

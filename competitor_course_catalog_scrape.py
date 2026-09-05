@@ -3,21 +3,21 @@
 경쟁사(티처빌/아이스크림/비바샘) 연수원 "직무연수 전체 목록"을 사이트당 최대
 --max-items(기본 500)건까지 수집한다. 로그인 없이 보이는 공개 목록 페이지만 본다.
 
-⚠️ 작성 시점 한계: 이 스크립트는 세 사이트의 실제 목록 페이지 DOM을 직접 눈으로
-확인하지 못한 상태로 작성됐다(개발 환경 네트워크 정책상 세 도메인 접속이 막혀
-있었음 - competitor_content_scrape.py를 작성했던 예전 세션과는 다른 제약).
-그래서 "정확한 CSS 셀렉터"가 아니라 href 패턴 기반의 느슨한 추출 전략을 쓴다:
+개발 환경 네트워크 정책상 세 도메인에 직접 접속할 수 없어, debug_dump_catalog_html.py로
+GitHub Actions에서 실제 렌더링된 DOM을 한 번 받아본 뒤(2026-09-03) 사이트별 실제 강좌
+카드 구조를 확인하고 맞춘 값이다(SITES 딕셔너리의 사이트별 주석 참고):
 
-  1) 목록 페이지에서 상세 페이지로 연결되는 <a href="..."> 중, 사이트별로 지정한
-     정규식(COURSE_HREF_PATTERN)에 매칭하는 것만 "강좌 후보"로 모은다.
-  2) 페이지 넘기기는 "다음/더보기" 류 버튼을 우선 클릭 시도하고, 안 되면
-     아래로 스크롤해 무한스크롤 로딩을 유도한다.
-  3) 안전장치: 500건 도달, 더 이상 신규 건이 늘지 않음(연속 STALL_LIMIT회),
-     또는 MAX_PAGES 도달 중 먼저 오는 조건에서 멈춘다.
+  - 아이스크림/비바샘: 강좌 상세로 연결되는 <a href="..."> 중 실측된 정규식에
+    매칭하는 것만 "강좌 후보"로 모은다(extract mode "href").
+  - 티처빌: <a href="...">가 아예 없이 onclick+data 속성으로 카드가 구성돼(data-seq
+    등) 별도 추출 모드를 쓴다(extract mode "data_attr").
+  - 페이지 넘기기는 사이트별로 "다음/더보기" 버튼 클릭(기본) 또는 URL 쿼리
+    파라미터 직접 이동(아이스크림 - pagination mode "url_param") 중 확인된 방식을 쓴다.
+  - 안전장치: 500건 도달, 더 이상 신규 건이 늘지 않음(연속 STALL_LIMIT회),
+    또는 MAX_PAGES 도달 중 먼저 오는 조건에서 멈춘다.
 
-최초 실행 결과가 목표(500건)에 크게 못 미치면 COURSE_HREF_PATTERN이나
-NEXT_SELECTORS를 실제 페이지에 맞게 보정해야 한다 - --debug 옵션을 켜면 매
-스텝마다 후보 건수·다음버튼 탐지 여부를 stderr로 자세히 찍는다.
+그래도 실제 사이트 구조가 이후 바뀌면 실측치가 틀어질 수 있다 - --debug 옵션을 켜면
+매 스텝마다 후보 건수·다음버튼 탐지 여부를 stderr로 자세히 찍는다.
 
 robots.txt: teacherville.co.kr / teacher.i-scream.co.kr 루트 도메인은
 2026-08-04 확인 당시 "Allow: /"였다(competitor_content_scrape.py 주석 참고).
@@ -40,7 +40,6 @@ MAX_ITEMS_DEFAULT = 500
 MAX_PAGES = 80          # 안전장치: 무한루프 방지
 STALL_LIMIT = 3          # 연속 N회 신규 후보가 0건이면 그만둔다
 NAV_TIMEOUT_MS = 30000
-STEP_WAIT_MS = 15000
 
 # 페이지 넘기기 시도 순서: 번호형 페이지네이션 -> 다음/더보기 버튼
 NEXT_SELECTORS = [
@@ -78,8 +77,37 @@ def check_robots_disallowed(url):
     return False
 
 
-def _extract_candidates(page, href_pattern):
-    """href_pattern에 매칭하는 <a>를 강좌 후보로 모아 제목/링크/주변 텍스트를 반환."""
+def _extract_candidates(page, extract_cfg):
+    """extract_cfg에 따라 강좌 후보를 모아 제목/링크(또는 참조 키)/주변 텍스트를 반환.
+
+    mode "href" (기본): href_pattern에 매칭하는 <a>를 강좌 후보로 본다(아이스크림/비바샘).
+    mode "data_attr": <a href>가 아예 없이 onclick+data 속성으로 카드가 구성되는
+    사이트용(티처빌 실측: <div class="info-item" data-seq="O1006337"
+    data-tv-label="...">) - id_attr로 카드를 찾고 title_attr(없으면 텍스트)을 제목으로 쓴다.
+    """
+    if extract_cfg.get("mode") == "data_attr":
+        return page.eval_on_selector_all(
+            f"[{extract_cfg['id_attr']}]",
+            """(els, cfg) => {
+                const seen = new Set();
+                const out = [];
+                for (const el of els) {
+                    const seq = el.getAttribute(cfg.idAttr) || '';
+                    if (!seq || seen.has(seq)) continue;
+                    let title = cfg.titleAttr ? (el.getAttribute(cfg.titleAttr) || '') : '';
+                    if (!title) title = (el.innerText || el.textContent || '').trim().replace(/\\s+/g, ' ');
+                    if (!title || title.length < 2) continue;
+                    seen.add(seq);
+                    let ctx = (el.innerText || '').trim().replace(/\\s+/g, ' ');
+                    if (ctx.length > 300) ctx = ctx.slice(0, 300);
+                    out.push({ title: title.slice(0, 200), href: '#' + seq, context: ctx });
+                }
+                return out;
+            }""",
+            {"idAttr": extract_cfg["id_attr"], "titleAttr": extract_cfg.get("title_attr")},
+        )
+
+    href_pattern = extract_cfg["href_pattern"]
     return page.eval_on_selector_all(
         "a[href]",
         """(els, pattern) => {
@@ -159,52 +187,79 @@ def _scroll_more(page):
     return new_height > prev_height
 
 
-def scrape_site(page, name, url, href_pattern, max_items, debug):
+def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None):
+    pagination = pagination or {"mode": "click"}
     if check_robots_disallowed(url):
         print(f"  [중단] {name}: robots.txt가 이 경로를 금지함 - 크롤링하지 않음", file=sys.stderr)
         return [], "robots.txt disallow"
 
-    page.goto(url, wait_until="networkidle", timeout=NAV_TIMEOUT_MS)
+    # networkidle 대기는 티처빌에서 백그라운드 폴링으로 추정되는 이유로 30초
+    # 타임아웃이 났다(진단 덤프에서 실측) - domcontentloaded + 고정 대기로 교체.
+    page.goto(url, wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
+    page.wait_for_timeout(2500)
     collected = {}
     stall = 0
     note = ""
 
-    for step in range(MAX_PAGES):
-        before = len(collected)
-        for it in _extract_candidates(page, href_pattern):
-            collected.setdefault(it["href"], it)
-        gained = len(collected) - before
-        if debug:
-            print(f"  [{name}] step {step}: 누적 {len(collected)}건 (신규 {gained})", file=sys.stderr)
-
-        if len(collected) >= max_items:
-            note = f"목표({max_items}건) 도달"
-            break
-
-        moved = _try_click_next(page, debug)
-        if moved:
-            try:
-                page.wait_for_load_state("networkidle", timeout=STEP_WAIT_MS)
-            except Exception:
-                page.wait_for_timeout(2000)
+    if pagination["mode"] == "url_param":
+        # 클릭 기반 대신 페이지 번호를 URL 쿼리 파라미터로 직접 요청한다(구형 JSP
+        # 사이트가 hidden input으로 pageIndex를 쓰는 걸 실측으로 확인 - 아이스크림).
+        param = pagination["param"]
+        sep = "&" if "?" in url else "?"
+        for page_no in range(1, MAX_PAGES + 1):
+            if page_no > 1:
+                page.goto(f"{url}{sep}{param}={page_no}", wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
+                page.wait_for_timeout(1500)
+            before = len(collected)
+            for it in _extract_candidates(page, extract_cfg):
+                collected.setdefault(it["href"], it)
+            gained = len(collected) - before
+            if debug:
+                print(f"  [{name}] {param}={page_no}: 누적 {len(collected)}건 (신규 {gained})", file=sys.stderr)
+            if len(collected) >= max_items:
+                note = f"목표({max_items}건) 도달"
+                break
+            stall = stall + 1 if gained == 0 else 0
+            if stall >= STALL_LIMIT:
+                note = f"연속 {STALL_LIMIT}페이지 신규 없음 - 마지막 페이지로 판단하고 중단"
+                break
         else:
-            moved = _scroll_more(page)
-            if moved:
-                page.wait_for_timeout(1000)
-
-        if gained == 0:
-            stall += 1
-        else:
-            stall = 0
-
-        if not moved:
-            note = "더 이상 다음 페이지/스크롤 없음"
-            break
-        if stall >= STALL_LIMIT:
-            note = f"클릭은 되지만 연속 {STALL_LIMIT}회 신규 없음 - 중단(실제 마지막 페이지이거나 버튼 오탐 가능)"
-            break
+            note = f"MAX_PAGES({MAX_PAGES}) 도달"
     else:
-        note = f"MAX_PAGES({MAX_PAGES}) 도달"
+        for step in range(MAX_PAGES):
+            before = len(collected)
+            for it in _extract_candidates(page, extract_cfg):
+                collected.setdefault(it["href"], it)
+            gained = len(collected) - before
+            if debug:
+                print(f"  [{name}] step {step}: 누적 {len(collected)}건 (신규 {gained})", file=sys.stderr)
+
+            if len(collected) >= max_items:
+                note = f"목표({max_items}건) 도달"
+                break
+
+            moved = _try_click_next(page, debug)
+            if moved:
+                try:
+                    page.wait_for_load_state("networkidle", timeout=3000)
+                except Exception:
+                    pass
+                page.wait_for_timeout(1000)
+            else:
+                moved = _scroll_more(page)
+                if moved:
+                    page.wait_for_timeout(1000)
+
+            stall = stall + 1 if gained == 0 else 0
+
+            if not moved:
+                note = "더 이상 다음 페이지/스크롤 없음"
+                break
+            if stall >= STALL_LIMIT:
+                note = f"클릭은 되지만 연속 {STALL_LIMIT}회 신규 없음 - 중단(실제 마지막 페이지이거나 버튼 오탐 가능)"
+                break
+        else:
+            note = f"MAX_PAGES({MAX_PAGES}) 도달"
 
     items = []
     for i, (href, it) in enumerate(list(collected.items())[:max_items]):
@@ -220,17 +275,30 @@ def scrape_site(page, name, url, href_pattern, max_items, debug):
 
 
 SITES = {
+    # 티처빌 실측(2026-09-03, debug_html/티처빌.html): 강좌 카드는 <a href>가 아니라
+    # <div class="info-item" data-seq="O1006337" data-tv-label="...">이고, 신청은
+    # onclick="allCourseList.fn.link(('O1006337', 'T')"로 처리된다(href 자체가 없음).
+    # "더보기" 버튼(id="more" 안, recordCountPerPage=20)은 실제 로드모어 버튼으로 확인됨
+    # - 기존 클릭 기반 페이지네이션은 그대로 두고 추출 방식만 data_attr로 교체.
     "티처빌": {
         "url": "https://www.teacherville.co.kr/trainapply/allCourseList.edu",
-        "href_pattern": r"(course|Course|crs|lecture)",
+        "extract": {"mode": "data_attr", "id_attr": "data-seq", "title_attr": "data-tv-label"},
     },
+    # 아이스크림 실측(2026-09-03, debug_html/아이스크림.html): 강좌 카드는
+    # /course/crs/creditView.do?crsCode=NNNN 로 연결되고(목록 메뉴 링크와 명확히
+    # 구분됨), 페이지는 hidden input #pageIndex로 넘어간다(recordCountPerPage=30) -
+    # 클릭 대신 URL에 pageIndex=N을 직접 붙여 GET으로 이동.
     "아이스크림": {
         "url": "https://teacher.i-scream.co.kr/course/crs/creditList.do?searchOrdinalTyCode=TY01&searchOrderField=NEW",
-        "href_pattern": r"(crs|course|credit|Credit)",
+        "extract": {"mode": "href", "href_pattern": r"creditView\.do\?crsCode=\d+"},
+        "pagination": {"mode": "url_param", "param": "pageIndex"},
     },
+    # 비바샘 실측(2026-09-03, debug_html/비바샘.html): 강좌 카드는 /courses/job/t26-022
+    # 같은 슬러그로 연결되고(카테고리 메뉴 /courses/job 자체와 구분됨), '더보기'
+    # 버튼은 실제 클릭마다 신규 항목이 늘어나는 것으로 확인됨(기존 클릭 방식 유지).
     "비바샘": {
         "url": "https://t.vivasam.com/courses/job?menuId=MENU0610",
-        "href_pattern": r"/courses?/(job|view)?/?[a-zA-Z0-9]+",
+        "extract": {"mode": "href", "href_pattern": r"/courses/job/[a-zA-Z0-9-]+"},
     },
 }
 
@@ -253,7 +321,10 @@ def main():
             page = browser.new_page()
             print(f"== {name} ==")
             try:
-                items, note = scrape_site(page, name, cfg["url"], cfg["href_pattern"], args.max_items, args.debug)
+                items, note = scrape_site(
+                    page, name, cfg["url"], cfg["extract"], args.max_items, args.debug,
+                    pagination=cfg.get("pagination"),
+                )
                 result["companies"][name] = {
                     "url": cfg["url"], "count": len(items), "note": note, "courses": items,
                 }
