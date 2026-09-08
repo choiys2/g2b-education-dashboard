@@ -260,6 +260,41 @@
     background:color-mix(in srgb, var(--accent) 12%, transparent);padding:3px 9px;border-radius:100px;
   }
 
+  /* ---------- 3D 마이크로인터랙션 ----------
+     장식/인터랙션만 3D로 - 차트 자체(막대·파이·레이더)는 절대 3D로 왜곡하지 않는다.
+     값 비교의 정확성이 깨지기 때문. prefers-reduced-motion에서는 전부 끈다. */
+  @media (prefers-reduced-motion:no-preference){
+    .school-card, .segment-card{ transition:transform .15s ease-out, box-shadow .15s ease-out; }
+    .school-card:hover, .segment-card:hover{ box-shadow:0 18px 34px -14px rgba(0,0,0,.32); }
+    .kpi{ animation:kpiFlipIn .5s cubic-bezier(.2,.8,.2,1) both; }
+    .kpis .kpi:nth-child(1){animation-delay:.02s;} .kpis .kpi:nth-child(2){animation-delay:.06s;}
+    .kpis .kpi:nth-child(3){animation-delay:.10s;} .kpis .kpi:nth-child(4){animation-delay:.14s;}
+    .kpis .kpi:nth-child(5){animation-delay:.18s;} .kpis .kpi:nth-child(6){animation-delay:.22s;}
+    .map-stage{ perspective:1400px; }
+    #provinceMap, #pipeMap{ transition:transform .2s ease-out; }
+  }
+  @keyframes kpiFlipIn{
+    from{ opacity:0; transform:perspective(600px) rotateX(-35deg) translateY(10px); }
+    to{ opacity:1; transform:perspective(600px) rotateX(0) translateY(0); }
+  }
+
+  /* ---------- 경쟁사 프로필 3D 플립 카드 ---------- */
+  .flip-card{ perspective:1200px; cursor:pointer; }
+  .flip-card-inner{ display:grid; }
+  .flip-card-inner .school-card{ grid-area:1/1; backface-visibility:hidden; }
+  .flip-card-back{ transform:rotateY(180deg); }
+  @media (prefers-reduced-motion:no-preference){
+    .flip-card-inner{ transition:transform .6s cubic-bezier(.2,.8,.2,1); transform-style:preserve-3d; }
+    .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .flip-card-front{ display:block; }
+    .flip-card-back{ display:none; }
+    .flip-card.flipped .flip-card-front{ display:none; }
+    .flip-card.flipped .flip-card-back{ display:block; transform:none; }
+  }
+  .flip-card .flip-hint{ margin-top:auto;padding-top:6px;font-size:11px;color:var(--muted);text-align:right; }
+
   /* ---------- segment strategy cards ---------- */
   .segment-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:14px;}
   .segment-card{
@@ -3116,16 +3151,45 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 })();
 
 (function renderG2BCompTable(){
-  document.getElementById('g2bCompTableBody').innerHTML = G2B_FULL.competitor.map(r => `
-    <tr>
-      <td>${r.순위}</td>
-      <td style="font-weight:600;">${r.낙찰업체}</td>
-      <td class="num">${r.낙찰건수}건</td>
-      <td class="num amount">${r.총낙찰금액}</td>
-      <td class="num">${r.평균낙찰률}</td>
-      <td style="font-size:12.5px;color:var(--ink-2);">${r.주요수주기관}</td>
-    </tr>
-  `).join('');
+  const tbody = document.getElementById('g2bCompTableBody');
+  // 업체별 실제 수주 내역(공고명/기관/지역/금액/날짜)을 클릭 시 펼쳐 보여주기 위해
+  // 낙찰정보 상세 원자료(G2B_FULL.detail)에서 업체명으로 미리 묶어둔다.
+  const wins = (G2B_FULL.detail || []).filter(d => d.구분 === '낙찰정보' && d.낙찰업체);
+  const dealsByVendor = {};
+  wins.forEach(d => { (dealsByVendor[d.낙찰업체] = dealsByVendor[d.낙찰업체] || []).push(d); });
+
+  tbody.innerHTML = G2B_FULL.competitor.map(r => {
+    const deals = (dealsByVendor[r.낙찰업체] || []).slice().sort((a,b) => (b.날짜||'').localeCompare(a.날짜||''));
+    const dealsHtml = deals.length ? `
+      <ul class="insight-list" style="margin:2px 0;">
+        ${deals.map(d => `
+          <li>
+            <b>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener" style="color:inherit;">${d.공고명}</a>` : (d.공고명 || '-')}</b><br>
+            <span style="color:var(--muted);font-size:12px;">${d.기관||'-'} · ${d.지역||'-'} · ${d.예산표시 || fmtWon(d.예산||0)} · ${d.날짜||'-'}</span>
+          </li>`).join('')}
+      </ul>` : '<p style="color:var(--muted);font-size:12.5px;padding:6px 0;margin:0;">상세 낙찰 내역을 찾지 못했습니다.</p>';
+    return `
+      <tr class="comp-row" data-vendor="${r.낙찰업체}" style="cursor:pointer;">
+        <td>${r.순위}</td>
+        <td style="font-weight:600;">${r.낙찰업체} <span class="expand-arrow" style="color:var(--muted);font-size:10px;display:inline-block;transition:transform .15s;">▸</span></td>
+        <td class="num">${r.낙찰건수}건</td>
+        <td class="num amount">${r.총낙찰금액}</td>
+        <td class="num">${r.평균낙찰률}</td>
+        <td style="font-size:12.5px;color:var(--ink-2);">${r.주요수주기관}</td>
+      </tr>
+      <tr class="comp-detail-row" hidden>
+        <td colspan="6" style="background:var(--surface-2);padding:10px 18px;">${dealsHtml}</td>
+      </tr>`;
+  }).join('');
+
+  tbody.querySelectorAll('.comp-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const detailRow = row.nextElementSibling;
+      const willOpen = detailRow.hidden;
+      detailRow.hidden = !willOpen;
+      row.querySelector('.expand-arrow').style.transform = willOpen ? 'rotate(90deg)' : '';
+    });
+  });
 })();
 
 (function renderG2BBizChart(){
@@ -3837,20 +3901,59 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 (function renderCompetitorCards(){
   const wrap = document.getElementById('competitorCards');
   const ownRegions = new Set(PIPE.byRegion.filter(r=>r.own_count>0).map(r=>r.region));
+  // 나라장터 낙찰업체명은 사업자등록 법인명(예: "주식회사 아이스크림미디어")이라
+  // 재무/브랜드 데이터 키("아이스크림" 등)와 다르다 - competitor_g2b_export.py가
+  // 쓰는 것과 동일한 법인명 매핑을 재사용해 카드 뒷면에 매칭한다.
+  const FINANCE_ALIAS = {"티처빌":"테크빌교육","아이스크림":"아이스크림미디어","비바샘":"비상교육","한교원":"한국교원연수원"};
+  function matchBrand(legalName){
+    for (const [brand, frag] of Object.entries(FINANCE_ALIAS)) {
+      if (legalName && legalName.includes(frag)) return brand;
+    }
+    return null;
+  }
+  const financeCompanies = (COMPETITOR_TRAINING.finance || {}).companies || {};
+
   wrap.innerHTML = G2B_FULL.competitor.slice(0,12).map(c => {
     const overlap = ownRegions.has(c.주요지역);
-    return `
-      <div class="school-card">
-        <div class="region-tag">#${c.순위} · ${c.주요지역}${overlap ? ' <span style="color:var(--warning);">· 접점지역</span>' : ''}</div>
-        <div class="name">${c.낙찰업체}</div>
-        <div class="meta">최근 수주 ${c.최근수주일}</div>
-        <div class="class-count">${c.낙찰건수}건 · ${c.총낙찰금액}</div>
+    const brand = matchBrand(c.낙찰업체);
+    const fin = brand && financeCompanies[brand];
+    const finRow = fin && fin.available ? (fin.standalone || fin.consolidated) : null;
+    const backBody = finRow ? `
+        <div class="region-tag">공시 재무정보 (${fin.biz_year || '-'}${!fin.standalone && fin.consolidated ? ', 연결' : ''})</div>
+        <div class="name">${brand}</div>
         <div class="contact">
-          <div class="row"><span class="ico">📊</span><span>평균낙찰률 ${c.평균낙찰률}</span></div>
-          <div class="row"><span class="ico">🏢</span><span>${c.주요수주기관}</span></div>
+          <div class="row"><span class="ico">💰</span><span>매출 ${fmtWon(finRow.sales||0)}</span></div>
+          <div class="row"><span class="ico">📉</span><span>부채비율 ${finRow.debt_ratio!=null ? Number(finRow.debt_ratio).toFixed(1)+'%' : '-'}</span></div>
+        </div>` : `
+        <div class="region-tag">추가 정보</div>
+        <div class="meta">${brand ? '공시 재무정보 없음(비상장 또는 미공시)' : '4개 핵심 경쟁사 외 업체라 추가 정보가 없습니다'}</div>`;
+    return `
+      <div class="flip-card" tabindex="0" role="button" aria-label="${c.낙찰업체} 카드 뒤집기">
+        <div class="flip-card-inner">
+          <div class="school-card flip-card-front">
+            <div class="region-tag">#${c.순위} · ${c.주요지역}${overlap ? ' <span style="color:var(--warning);">· 접점지역</span>' : ''}</div>
+            <div class="name">${c.낙찰업체}</div>
+            <div class="meta">최근 수주 ${c.최근수주일}</div>
+            <div class="class-count">${c.낙찰건수}건 · ${c.총낙찰금액}</div>
+            <div class="contact">
+              <div class="row"><span class="ico">📊</span><span>평균낙찰률 ${c.평균낙찰률}</span></div>
+              <div class="row"><span class="ico">🏢</span><span>${c.주요수주기관}</span></div>
+            </div>
+            <div class="flip-hint">↻ 클릭하면 뒤집힘</div>
+          </div>
+          <div class="school-card flip-card-back">
+            ${backBody}
+            <div class="flip-hint">↻ 클릭하면 앞면으로</div>
+          </div>
         </div>
       </div>`;
   }).join('');
+
+  wrap.querySelectorAll('.flip-card').forEach(card => {
+    const toggle = () => card.classList.toggle('flipped');
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
 })();
 
 (function renderMissedOpportunities(){
@@ -4359,5 +4462,43 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         </tr>`).join('')}</tbody>
     </table></div>`;
   }
+})();
+
+/* ---------------- 3D 마이크로인터랙션 (카드 틸트 · 지도 틸트) ----------------
+   전부 순수 장식/인터랙션이고 실제 데이터·차트 값은 전혀 건드리지 않는다.
+   접근성: prefers-reduced-motion이면 아무 것도 하지 않는다. */
+(function init3DEffects(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // 카드 커서 추적 틸트 - .school-card/.segment-card는 여러 렌더 함수가 각자
+  // 다른 시점에 innerHTML로 새로 만들어내므로, 개별 바인딩 대신 document
+  // 레벨 이벤트 위임으로 처리한다(나중에 새로 그려진 카드에도 자동 적용됨).
+  let tiltEl = null;
+  document.addEventListener('mousemove', e => {
+    const el = e.target.closest('.school-card, .segment-card');
+    if (el !== tiltEl) {
+      if (tiltEl) tiltEl.style.transform = '';
+      tiltEl = el;
+    }
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(800px) rotateX(${(-py*7).toFixed(2)}deg) rotateY(${(px*7).toFixed(2)}deg) translateY(-3px)`;
+  });
+
+  // 시도 지도(시장분석/영업파이프라인) 커서 추적 틸트
+  ['provinceMap', 'pipeMap'].forEach(id => {
+    const svg = document.getElementById(id);
+    const stage = svg && svg.closest('.map-stage');
+    if (!stage) return;
+    stage.addEventListener('mousemove', e => {
+      const r = stage.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      svg.style.transform = `rotateX(${(-py*10).toFixed(2)}deg) rotateY(${(px*10).toFixed(2)}deg)`;
+    });
+    stage.addEventListener('mouseleave', () => { svg.style.transform = ''; });
+  });
 })();
 </script>
