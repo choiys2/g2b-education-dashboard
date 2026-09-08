@@ -3095,9 +3095,42 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 })();
 
 (function renderG2BOrgTable(){
-  document.getElementById('g2bOrgTableBody').innerHTML = G2B_FULL.org.map(r => `
-    <tr><td style="font-weight:600;">${r.기관}</td><td class="num">${r.건수}건</td><td class="num amount">${r.총예산}</td><td class="num">${r.평균사업비}</td></tr>
-  `).join('');
+  const tbody = document.getElementById('g2bOrgTableBody');
+  const CAT_COLOR = {'입찰공고':'var(--accent)', '사전규격':'var(--accent-2)', '낙찰정보':'var(--warning)'};
+  const detailByOrg = {};
+  (G2B_FULL.detail || []).forEach(d => { if (d.기관) (detailByOrg[d.기관] = detailByOrg[d.기관] || []).push(d); });
+
+  tbody.innerHTML = G2B_FULL.org.map(r => {
+    const items = (detailByOrg[r.기관] || []).slice().sort((a,b) => (b.날짜||'').localeCompare(a.날짜||''));
+    const itemsHtml = items.length ? `
+      <ul class="insight-list" style="margin:2px 0;">
+        ${items.map(d => `
+          <li>
+            <span class="chip" style="background:color-mix(in srgb, ${CAT_COLOR[d.구분]||'var(--muted)'} 16%, transparent);color:${CAT_COLOR[d.구분]||'var(--muted)'};margin-right:6px;">${d.구분}</span>
+            <b>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener" style="color:inherit;">${d.공고명}</a>` : (d.공고명 || '-')}</b><br>
+            <span style="color:var(--muted);font-size:12px;">${d.지역||'-'} · ${d.예산표시 || fmtWon(d.예산||0)} · ${d.날짜||'-'}${d.낙찰업체 ? ' · 낙찰업체: '+d.낙찰업체 : ''}</span>
+          </li>`).join('')}
+      </ul>` : '<p style="color:var(--muted);font-size:12.5px;padding:6px 0;margin:0;">상세 공고 내역을 찾지 못했습니다.</p>';
+    return `
+      <tr class="org-row" style="cursor:pointer;">
+        <td style="font-weight:600;">${r.기관} <span class="expand-arrow" style="color:var(--muted);font-size:10px;display:inline-block;transition:transform .15s;">▸</span></td>
+        <td class="num">${r.건수}건</td>
+        <td class="num amount">${r.총예산}</td>
+        <td class="num">${r.평균사업비}</td>
+      </tr>
+      <tr class="org-detail-row" hidden>
+        <td colspan="4" style="background:var(--surface-2);padding:10px 18px;">${itemsHtml}</td>
+      </tr>`;
+  }).join('');
+
+  tbody.querySelectorAll('.org-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const detailRow = row.nextElementSibling;
+      const willOpen = detailRow.hidden;
+      detailRow.hidden = !willOpen;
+      row.querySelector('.expand-arrow').style.transform = willOpen ? 'rotate(90deg)' : '';
+    });
+  });
 })();
 
 (function renderOrgVendorLookup(){
