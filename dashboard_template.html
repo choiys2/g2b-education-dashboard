@@ -826,6 +826,7 @@
       <div class="filter-row">
         <select id="ggSidoFilter"><option value="">전국 TOP 120</option></select>
         <span class="count" id="ggSchoolRowCount"></span>
+        <button class="btn-ghost" id="ggSchoolCsvBtn" type="button" style="margin-left:auto;">⬇ CSV 다운로드</button>
       </div>
       <div class="tbl-wrap">
         <table class="data" id="ggSchoolTable">
@@ -1026,6 +1027,7 @@
           <p class="panel-title">기관 랭킹</p>
           <p class="panel-desc">Top 20 &middot; 총예산순.</p>
         </div>
+        <button class="btn-ghost" id="g2bOrgCsvBtn" type="button">⬇ CSV 다운로드</button>
       </div>
       <div class="tbl-wrap">
         <table class="data" id="g2bOrgTable">
@@ -1056,6 +1058,7 @@
           <p class="panel-title">경쟁사(낙찰기업) 분석</p>
           <p class="panel-desc">Top 30 &middot; 총낙찰금액순.</p>
         </div>
+        <button class="btn-ghost" id="g2bCompCsvBtn" type="button">⬇ CSV 다운로드</button>
       </div>
       <div class="tbl-wrap">
         <table class="data" id="g2bCompTable">
@@ -1146,6 +1149,16 @@
         <div><div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;text-transform:uppercase;">상태 분포</div><div id="statusChips" style="display:flex;flex-wrap:wrap;gap:8px;"></div></div>
         <div><div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;text-transform:uppercase;">계약방식 분포</div><div id="contractChips" style="display:flex;flex-wrap:wrap;gap:8px;"></div></div>
       </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">Tier1 우선지역 요약 — 경기 · 강원 · 경남 · 전북</p>
+          <p class="panel-desc">2026 하반기 영업전략상 최우선 4개 지역만 골라 시장·AI에듀테크·학교회계·자사 파이프라인·경쟁사 신호를 한 화면에 모았습니다. 아래 17개 지역 전체 표에서 매번 찾을 필요 없이 여기서 바로 확인하세요.</p>
+        </div>
+      </div>
+      <div id="tier1Grid" class="segment-grid"></div>
     </section>
 
     <section class="panel">
@@ -1662,6 +1675,23 @@ const fmtWon = n => {
   return fmt(n) + '원';
 };
 
+/* ---------------- CSV 다운로드 공통 헬퍼 ----------------
+   표에 이미 표시 중인 값(포맷 완료된 문자열 포함)을 그대로 CSV로 내보낸다 -
+   엑셀에서 한글이 깨지지 않도록 UTF-8 BOM을 붙인다. */
+function downloadCsv(filename, headers, rows){
+  const esc = v => {
+    const s = (v == null ? '' : String(v)).replace(/"/g, '""');
+    return /[",\n]/.test(s) ? `"${s}"` : s;
+  };
+  const csv = [headers.map(esc).join(','), ...rows.map(r => r.map(esc).join(','))].join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 /* ---------------- 지역명 매핑 (약칭 ↔ 정식 시도명) ----------------
    DATA/PIPE/G2B/COMPETITOR_TRAINING 계열은 "경기·강원·충북"처럼 약칭을 쓰고,
    SCHOOL_CONTRACT_2025(EDSS 학교회계)는 "경기도·강원특별자치도·충청북도"처럼
@@ -1682,15 +1712,44 @@ const REGION_FULL2SHORT = Object.fromEntries(Object.entries(REGION_SHORT2FULL).m
   if (el && raw) el.textContent = String(raw).slice(0, 10);
 })();
 
-/* ---------------- tabs ---------------- */
+/* ---------------- tabs (+ URL 딥링크) ----------------
+   탭 전환/필터 상태를 URL 해시(#tab=school&sido=경기도)에 남겨서 새로고침이나
+   링크 공유로도 같은 화면을 다시 열 수 있게 한다. 해시 파싱 실패나 존재하지
+   않는 탭 이름이면 조용히 기본 탭을 유지한다(에러로 취급하지 않음). */
+function parseHashState(){
+  const out = {};
+  (location.hash || '').replace(/^#/, '').split('&').forEach(pair => {
+    if (!pair) return;
+    const [k, v] = pair.split('=');
+    if (k) out[decodeURIComponent(k)] = decodeURIComponent(v || '');
+  });
+  return out;
+}
+function writeHashState(patch){
+  const state = { ...parseHashState(), ...patch };
+  const parts = Object.entries(state).filter(([,v]) => v).map(([k,v]) => `${k}=${encodeURIComponent(v)}`);
+  history.replaceState(null, '', parts.length ? '#' + parts.join('&') : location.pathname + location.search);
+}
+function activateTab(tabName){
+  const btn = document.querySelector(`.tabbtn[data-tab="${tabName}"]`);
+  const panel = document.getElementById('panel-' + tabName);
+  if (!btn || !panel) return false;
+  document.querySelectorAll('.tabbtn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+  document.querySelectorAll('.tabpanel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+  panel.classList.add('active');
+  return true;
+}
 document.querySelectorAll('.tabbtn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.tabbtn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-    document.querySelectorAll('.tabpanel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
-    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    activateTab(btn.dataset.tab);
+    writeHashState({ tab: btn.dataset.tab });
   });
 });
+(function restoreTabFromHash(){
+  const state = parseHashState();
+  if (state.tab) activateTab(state.tab);
+})();
 
 /* ---------------- KPI tiles ---------------- */
 (function renderKPIs(){
@@ -2471,6 +2530,45 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 })();
 
 /* ---------------- 통합 지역 기회 스코어 (시장분석 + AI에듀테크 + 학교단위) ---------------- */
+(function renderTier1Summary(){
+  const el = document.getElementById('tier1Grid');
+  if (!el || typeof PIPE === 'undefined') return;
+  const TIER1 = ['경기', '강원', '경남', '전북'];
+  const byRegion = {};
+  (PIPE.byRegion || []).forEach(r => { byRegion[r.region] = r; });
+  const aiByRegion = {};
+  (typeof AI_ROWS !== 'undefined' ? AI_ROWS : []).forEach(r => { aiByRegion[r.region] = (aiByRegion[r.region] || 0) + (r.amount || 0); });
+  const schoolByRegion = {};
+  if (typeof SCHOOL_CONTRACT_2025 !== 'undefined') {
+    SCHOOL_CONTRACT_2025.by_sido.forEach(r => {
+      const short = REGION_FULL2SHORT[r.sido];
+      if (short) schoolByRegion[short] = r;
+    });
+  }
+  const compByRegion = {};
+  if (typeof COMPETITOR_TRAINING !== 'undefined' && COMPETITOR_TRAINING.g2b && COMPETITOR_TRAINING.g2b.region_matrix) {
+    COMPETITOR_TRAINING.g2b.region_matrix.forEach(r => { compByRegion[r.region] = r.total; });
+  }
+
+  el.innerHTML = TIER1.map(region => {
+    const p = byRegion[region] || {};
+    const sc = schoolByRegion[region] || {};
+    const compCount = compByRegion[region] || 0;
+    return `
+      <div class="segment-card">
+        <div class="seg-title">${region} <span style="font-size:11px;color:var(--muted);font-weight:400;">(${REGION_SHORT2FULL[region] || ''})</span></div>
+        <div class="seg-range">기회점수 <b style="color:var(--accent);">${p.opportunity_score != null ? p.opportunity_score : '-'}</b></div>
+        <div class="seg-strategy" style="display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--border);padding-top:8px;">
+          <span>시장 예산(전체) <b>${fmtWon(p.market_amount || 0)}</b></span>
+          <span>AI·에듀테크 발주액 <b>${fmtWon(aiByRegion[region] || 0)}</b></span>
+          <span>학교회계 계약액 <b>${fmtWon(sc.amt || 0)}</b>${sc.n ? ` (${fmt(sc.n)}교)` : ''}</span>
+          <span>자사 파이프라인 <b>${fmt(p.own_count || 0)}건</b> · ${fmtWon(p.own_amount || 0)}</span>
+          <span>경쟁사 낙찰 이력 <b style="color:${compCount > 0 ? 'var(--critical)' : 'inherit'};">${fmt(compCount)}건</b></span>
+        </div>
+      </div>`;
+  }).join('');
+})();
+
 (function renderCombinedScore(){
   const tbody = document.getElementById('combinedScoreTableBody');
   if (!tbody || typeof PIPE === 'undefined' || typeof AI_ROWS === 'undefined' || typeof SCHOOL_CONTRACT_2025 === 'undefined') return;
@@ -2656,10 +2754,13 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 
   const tbody = document.getElementById('ggSchoolTableBody');
   const countEl = document.getElementById('ggSchoolRowCount');
+  let currentTableRows = [];
+  let currentMetric = 'amt';
   function drawTable(){
     const metric = metricSel.value;
     const sido = sidoSel.value;
     const rows = [...(sido ? (SC.top_by_sido[sido] || []) : SC.top_national)].sort((a,b) => b[metric]-a[metric]);
+    currentTableRows = rows; currentMetric = metric;
     countEl.textContent = sido ? `${sido} TOP ${rows.length}` : `전국 TOP ${rows.length}`;
     tbody.innerHTML = rows.map((r,i) => `
       <tr>
@@ -2683,8 +2784,20 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     drawSidoChart();
     drawTable();
   }
+  document.getElementById('ggSchoolCsvBtn').addEventListener('click', () => {
+    const label = METRIC_LABEL[currentMetric];
+    downloadCsv('학교랭킹.csv', ['순위','시도','학교종류','설립구분','시군구','읍면동','교육지원청', label, '계약건수'],
+      currentTableRows.map((r,i) => [i+1, r.sido, r.grade, r.type, r.sigungu, r.dong, r.office, r[currentMetric], r.cnt]));
+  });
   metricSel.addEventListener('change', redrawAll);
-  sidoSel.addEventListener('change', drawTable);
+  sidoSel.addEventListener('change', () => { drawTable(); writeHashState({ sido: sidoSel.value, tab: 'school' }); });
+  (function restoreSidoFromHash(){
+    const state = parseHashState();
+    if (state.sido && [...sidoSel.options].some(o => o.value === state.sido)) {
+      sidoSel.value = state.sido;
+      drawTable();
+    }
+  })();
   redrawAll();
 })();
 
@@ -3108,7 +3221,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
           <li>
             <span class="chip" style="background:color-mix(in srgb, ${CAT_COLOR[d.구분]||'var(--muted)'} 16%, transparent);color:${CAT_COLOR[d.구분]||'var(--muted)'};margin-right:6px;">${d.구분}</span>
             <b>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener" style="color:inherit;">${d.공고명}</a>` : (d.공고명 || '-')}</b><br>
-            <span style="color:var(--muted);font-size:12px;">${d.지역||'-'} · ${d.예산표시 || fmtWon(d.예산||0)} · ${d.날짜||'-'}${d.낙찰업체 ? ' · 낙찰업체: '+d.낙찰업체 : ''}</span>
+            <span style="color:var(--muted);font-size:12px;">${d.지역||'-'} · ${d.예산표시 || fmtWon(d.예산||0)} · ${d.날짜||'-'}${d.낙찰업체 ? ' · 낙찰업체: '+d.낙찰업체 : ''}${d.공공조달분류 ? ' · <span style="color:var(--ink-2);">공공조달분류: '+d.공공조달분류+'</span>' : ''}</span>
           </li>`).join('')}
       </ul>` : '<p style="color:var(--muted);font-size:12.5px;padding:6px 0;margin:0;">상세 공고 내역을 찾지 못했습니다.</p>';
     return `
@@ -3130,6 +3243,11 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       detailRow.hidden = !willOpen;
       row.querySelector('.expand-arrow').style.transform = willOpen ? 'rotate(90deg)' : '';
     });
+  });
+
+  document.getElementById('g2bOrgCsvBtn').addEventListener('click', () => {
+    downloadCsv('기관랭킹.csv', ['발주기관','건수','총예산','평균사업비'],
+      G2B_FULL.org.map(r => [r.기관, r.건수, r.총예산, r.평균사업비]));
   });
 })();
 
@@ -3198,7 +3316,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         ${deals.map(d => `
           <li>
             <b>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener" style="color:inherit;">${d.공고명}</a>` : (d.공고명 || '-')}</b><br>
-            <span style="color:var(--muted);font-size:12px;">${d.기관||'-'} · ${d.지역||'-'} · ${d.예산표시 || fmtWon(d.예산||0)} · ${d.날짜||'-'}</span>
+            <span style="color:var(--muted);font-size:12px;">${d.기관||'-'} · ${d.지역||'-'} · ${d.예산표시 || fmtWon(d.예산||0)} · ${d.날짜||'-'}${d.공공조달분류 ? ' · <span style="color:var(--ink-2);">공공조달분류: '+d.공공조달분류+'</span>' : ''}</span>
           </li>`).join('')}
       </ul>` : '<p style="color:var(--muted);font-size:12.5px;padding:6px 0;margin:0;">상세 낙찰 내역을 찾지 못했습니다.</p>';
     return `
@@ -3222,6 +3340,11 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       detailRow.hidden = !willOpen;
       row.querySelector('.expand-arrow').style.transform = willOpen ? 'rotate(90deg)' : '';
     });
+  });
+
+  document.getElementById('g2bCompCsvBtn').addEventListener('click', () => {
+    downloadCsv('경쟁사랭킹.csv', ['순위','낙찰업체','낙찰건수','총낙찰금액','평균낙찰률','최근수주일','주요수주기관','주요지역'],
+      G2B_FULL.competitor.map(r => [r.순위, r.낙찰업체, r.낙찰건수, r.총낙찰금액, r.평균낙찰률, r.최근수주일, r.주요수주기관, r.주요지역]));
   });
 })();
 
