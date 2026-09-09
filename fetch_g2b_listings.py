@@ -217,6 +217,10 @@ def fetch_bid_announcements(cfg, keywords=SEARCH_KEYWORDS, days_back=21):
                     "_key": bid_key,
                     "_bid_key": bid_key,
                     "자격": extract_eligibility(it),
+                    # 공공조달분류(중분류) - 실측(2026-09-09) 확인: 입찰공고 응답에만 있고
+                    # (사전규격은 prdctClsfcNoNm이 이미 제목 자체, 낙찰정보는 bidClsfcNo가
+                    # 항상 "0"이라 무의미) 제목 키워드 매칭보다 정확한 사업유형 분류에 쓴다.
+                    "공공조달분류": it.get("pubPrcrmntMidClsfcNm", ""),
                 })
             time.sleep(interval)
     result = dedupe(rows, lambda r: r["_key"])
