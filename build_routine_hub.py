@@ -1090,6 +1090,7 @@ LIVE_JS = r"""
   var watches={};       // key -> unsubscribe
   var toolMap={};       // 'server::내가 쓴 이름' -> 커넥터가 실제로 쓰는 이름
   var picked={};        // call.key -> [server, tool]  실제로 쓸 조합
+  var autoRan={};       // idx -> 이 세션에서 이미 원탭 자동 실행했는가
 
   /* 업스트림 도구 이름에 점이나 공백이 있으면 도구 목록에 다른 표기로 잡힌다.
      구분자를 지우고 맞춰 실제 이름을 찾는다. */
@@ -1395,14 +1396,27 @@ LIVE_JS = r"""
       hint.innerHTML='연결된 커넥터가 없어 조회가 꺼져 있습니다 · '
         +'claude.ai 설정 → 커넥터에서 추가하면 바로 살아납니다';
     else
-      hint.innerHTML='칩을 누르면 해당 비서가 <b>실제 데이터</b>를 조회해 답합니다 · '
-        +'자유 문장 입력은 아직 기록만 남습니다';
+      hint.innerHTML='방을 열면 <b>실제 데이터</b>를 자동으로 조회해 답합니다 · '
+        +'칩을 누르면 그 항목만 다시 조회하고, 자유 문장 입력은 아직 기록만 남습니다';
+  }
+
+  /* 방을 열 때 한 번은 자동으로 실제 조회까지 보여준다 — 열기(1탭) 다음에
+     실행(2탭)을 또 눌러야 값이 나오던 것을 없앤다. 커넥터를 못 쓰는 화면
+     (mcpOk===false, 정적 배포본 포함)에서는 지어낸 대본을 자동 재생하지
+     않고 그대로 상단 실행 버튼에 맡긴다. 같은 방은 세션당 한 번만 자동
+     실행하고, 다시 보려면 실행 버튼의 '다시 조회'를 쓴다. */
+  function maybeAutoRun(idx){
+    if(autoRan[idx] || mcpOk!==true) return;
+    var calls=(SPEC[idx]&&SPEC[idx].calls)||[];
+    if(!calls.length) return;
+    autoRan[idx]=true;
+    setTimeout(function(){ runLive(idx); },260);
   }
 
   /* 스레드가 바뀔 때마다 칩 교체 */
   var mo=new MutationObserver(function(){
     var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
-    if(open) chipsFor(Number(open.dataset.idx));
+    if(open){ var idx=Number(open.dataset.idx); chipsFor(idx); maybeAutoRun(idx); }
   });
   [].forEach.call(panes.children,function(p){
     mo.observe(p,{attributes:true,attributeFilter:['hidden']});
@@ -1444,7 +1458,7 @@ LIVE_JS = r"""
     }).catch(function(){ available=null; });   // 확인 실패 시엔 막지 않고 호출에 맡긴다
   }).catch(function(){ mcpOk=false; available=new Set(); }).then(function(){
     var open=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
-    if(open) chipsFor(Number(open.dataset.idx));
+    if(open){ var idx=Number(open.dataset.idx); chipsFor(idx); maybeAutoRun(idx); }
   });
 
   /* 실행 버튼을 넘겨받는다. 복제하면 앞 스크립트가 걸어둔 대본 재생이 떨어진다 */
@@ -1474,7 +1488,7 @@ LIVE_JS = r"""
   });
 
   var first=[].filter.call(panes.children,function(p){return !p.hidden;})[0];
-  if(first) chipsFor(Number(first.dataset.idx));
+  if(first){ chipsFor(Number(first.dataset.idx)); maybeAutoRun(Number(first.dataset.idx)); }
 })();
 """
 
