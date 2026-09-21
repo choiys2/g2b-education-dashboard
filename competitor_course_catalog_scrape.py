@@ -35,6 +35,8 @@ from urllib.parse import urljoin, urlparse
 
 from playwright.sync_api import sync_playwright
 
+from catalog_field_parser import parse_fields
+
 OUT_PATH = Path("history/competitor_course_catalog.json")
 MAX_ITEMS_DEFAULT = 500
 MAX_PAGES = 80          # 안전장치: 무한루프 방지
@@ -263,15 +265,34 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
 
     items = []
     for i, (href, it) in enumerate(list(collected.items())[:max_items]):
+        fields = parse_fields(name, it["title"], it["context"])
         items.append({
             "index": i + 1,
-            "title": it["title"],
+            "title": fields["title"],
+            "category": fields["category"],
+            "credit": fields["credit"],
+            "price": fields["price"],
+            "orig_price": fields["orig_price"],
             "url": urljoin(url, href),
             "context": it["context"],
         })
     if not note:
         note = "정상 종료"
     return items, note
+
+
+def _diff_courses(prev_items, curr_items):
+    """url 기준으로 신규/종료 강좌만 뽑는다(competitor_content_scrape.py의
+    diff_events와 동일한 패턴 - 제목이 아니라 url을 키로 쓰는 이유는 이쪽은
+    가격 표기 등으로 title이 실행마다 미세하게 흔들릴 수 있어서)."""
+    prev_urls = {it.get("url") for it in prev_items}
+    curr_urls = {it.get("url") for it in curr_items}
+    new_urls = curr_urls - prev_urls
+    removed_urls = prev_urls - curr_urls
+    return {
+        "new": [it for it in curr_items if it.get("url") in new_urls],
+        "removed": [it for it in prev_items if it.get("url") in removed_urls],
+    }
 
 
 SITES = {
@@ -313,7 +334,20 @@ def main():
 
     targets = [s.strip() for s in args.sites.split(",") if s.strip()] or list(SITES.keys())
 
-    result = {"captured_date": date.today().isoformat(), "target_per_site": args.max_items, "companies": {}}
+    out_path = Path(args.out)
+    try:
+        prev = json.loads(out_path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        prev = {"captured_date": None, "companies": {}}
+    prev_companies = prev.get("companies", {})
+
+    # --sites로 일부만 재크롤링해도 나머지 회사의 이전 결과는 그대로 보존한다
+    # (부분 실행이 전체 파일을 덮어써 지우지 않도록).
+    result = {
+        "captured_date": date.today().isoformat(),
+        "target_per_site": args.max_items,
+        "companies": dict(prev_companies),
+    }
     with sync_playwright() as p:
         browser = p.chromium.launch()
         for name in targets:
@@ -325,20 +359,24 @@ def main():
                     page, name, cfg["url"], cfg["extract"], args.max_items, args.debug,
                     pagination=cfg.get("pagination"),
                 )
+                prev_items = prev_companies.get(name, {}).get("courses", [])
+                diff = _diff_courses(prev_items, items)
                 result["companies"][name] = {
                     "url": cfg["url"], "count": len(items), "note": note, "courses": items,
+                    "diff": diff, "diff_since": prev.get("captured_date"),
                 }
-                print(f"  수집 {len(items)}건 / 목표 {args.max_items}건 - {note}")
+                new_n, removed_n = len(diff["new"]), len(diff["removed"])
+                print(f"  수집 {len(items)}건 / 목표 {args.max_items}건 - {note} (신규 {new_n}·종료 {removed_n})")
             except Exception as e:
                 print(f"  [오류] {name} 수집 실패: {e}", file=sys.stderr)
                 result["companies"][name] = {
                     "url": cfg["url"], "count": 0, "note": f"오류: {e}", "courses": [],
+                    "diff": {"new": [], "removed": []}, "diff_since": prev.get("captured_date"),
                 }
             finally:
                 page.close()
         browser.close()
 
-    out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"saved {out_path}")
