@@ -26,7 +26,7 @@ _ISCREAM_RE = re.compile(
     r"(?P<category>\S+)\s*"
     r"(?P<price1>[\d,]+원)\s*(?:(?P<price2>[\d,]+원)\s*)?"
     r"(?:할인중\s*)?"
-    r"(?:(?:연수.상품SET|신규|베스트|교재|할인중)\s*)*"
+    r"(?:(?:연수.\S*SET|신규|베스트|교재|할인중)\s*)*"
     r"(?P<title>.+)$"
 )
 
@@ -71,7 +71,9 @@ def parse_fields(site, title, context):
         return out
 
     if site == "비바샘":
-        m = _VIVASAM_RE.match(title or "")
+        # title이 아니라 context에서 파싱한다 - scrape_site가 title을 이미 정제된
+        # 값으로 덮어쓴 뒤에도(예: 재처리) context는 원본 그대로 남아있어 안전하다.
+        m = _VIVASAM_RE.match(context or title or "")
         if m:
             out["title"] = m.group("title").strip()
             out["credit"] = m.group("credit")
