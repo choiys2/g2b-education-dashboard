@@ -1400,17 +1400,29 @@ LIVE_JS = r"""
         +'칩을 누르면 그 항목만 다시 조회하고, 자유 문장 입력은 아직 기록만 남습니다';
   }
 
-  /* 방을 열 때 한 번은 자동으로 실제 조회까지 보여준다 — 열기(1탭) 다음에
-     실행(2탭)을 또 눌러야 값이 나오던 것을 없앤다. 커넥터를 못 쓰는 화면
-     (mcpOk===false, 정적 배포본 포함)에서는 지어낸 대본을 자동 재생하지
-     않고 그대로 상단 실행 버튼에 맡긴다. 같은 방은 세션당 한 번만 자동
-     실행하고, 다시 보려면 실행 버튼의 '다시 조회'를 쓴다. */
+  /* 방을 열 때 한 번은 자동으로 내용을 보여준다 — 열기(1탭) 다음에 실행(2탭)을
+     또 눌러야 값이 나오던 것을 없앤다. runLive 자체가 커넥터가 있으면 실제
+     조회로, 없으면 저장된 대본 재생(playScript)으로 갈라지므로 여기서는
+     mcpOk 를 가리지 않는다 — 로컬에서 그냥 index.html 을 열어도(window.claude
+     없음) 방을 여는 순간 뭔가는 보여야 한다. 같은 방은 세션당 한 번만
+     자동 실행하고, 다시 보려면 실행 버튼의 '다시 조회'를 쓴다.
+
+     running 은 방을 가리지 않는 전역 잠금이라, 앞 방이 아직 재생 중일 때
+     바로 runLive 를 부르면 조용히 무시된다(runLive 자체가 그냥 return
+     한다). 방을 빠르게 넘나들면 뒤에 연 방이 그렇게 영영 비어 보일 수
+     있어, 잠금이 풀릴 때까지 기다렸다가 부른다. */
   function maybeAutoRun(idx){
-    if(autoRan[idx] || mcpOk!==true) return;
+    if(autoRan[idx]) return;
     var calls=(SPEC[idx]&&SPEC[idx].calls)||[];
-    if(!calls.length) return;
+    var pane=paneFor(idx);
+    var src=pane&&pane.querySelector('[data-run]');
+    var hasScript=src&&src.children.length;
+    if(!calls.length && !hasScript) return;
     autoRan[idx]=true;
-    setTimeout(function(){ runLive(idx); },260);
+    (function wait(){
+      if(running){ setTimeout(wait,300); return; }
+      runLive(idx);
+    })();
   }
 
   /* 스레드가 바뀔 때마다 칩 교체 */
