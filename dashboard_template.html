@@ -1460,6 +1460,55 @@
       <div id="compContentCards" class="school-card-grid"></div>
     </section>
 
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">연수과정 카탈로그 (3사 비교)</p>
+          <p class="panel-desc" id="compCatalogDesc"></p>
+        </div>
+      </div>
+      <section class="kpis" id="kpisCatalog"></section>
+      <div class="panel-head" style="margin-top:18px;">
+        <div>
+          <p class="panel-title" style="font-size:14.5px;">가격대 분포</p>
+          <p class="panel-desc" style="font-size:12.5px;">사이트별 강좌 수, 가격 구간별 막대(가격 정보가 확인된 강좌만 집계).</p>
+        </div>
+      </div>
+      <svg id="compCatalogPriceChart" viewBox="0 0 620 220"></svg>
+      <div class="panel-head" style="margin-top:18px;">
+        <div>
+          <p class="panel-title" style="font-size:14.5px;">카테고리 상위 10개 (사이트 합계)</p>
+          <p class="panel-desc" style="font-size:12.5px;" id="compCatalogCategoryDesc"></p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="compCatalogCategoryTable">
+          <thead><tr><th>카테고리</th><th class="num">티처빌</th><th class="num">아이스크림</th><th class="num">비바샘</th><th class="num sorted">합계</th></tr></thead>
+          <tbody id="compCatalogCategoryBody"></tbody>
+        </table>
+      </div>
+      <div class="panel-head" style="margin-top:18px;">
+        <div>
+          <p class="panel-title" style="font-size:14.5px;">강좌 목록</p>
+          <p class="panel-desc" id="compCatalogDiffDesc" style="font-size:12.5px;"></p>
+        </div>
+      </div>
+      <div class="filter-row">
+        <select id="catalogCompanyFilter"><option value="">전체 사이트</option></select>
+        <input type="text" id="catalogSearchInput" placeholder="강좌명 검색" style="flex:1;min-width:180px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel-2);color:inherit;">
+        <span class="count" id="catalogRecordCount"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="catalogTable">
+          <thead><tr>
+            <th data-key="company">사이트</th><th data-key="title">강좌명</th>
+            <th class="num" data-key="price">가격</th><th data-key="credit">차시/학점</th><th data-key="category">카테고리</th>
+          </tr></thead>
+          <tbody id="catalogTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
   </div><!-- /panel-competitor -->
 
   <div class="tabpanel" id="panel-search">
@@ -3993,6 +4042,135 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       </ul>
     </div>`;
   }).join('') || '<div style="color:var(--muted);padding:20px;">데이터 없음</div>';
+})();
+
+(function renderCatalog(){
+  const catalog = (typeof COMPETITOR_TRAINING !== 'undefined' && COMPETITOR_TRAINING.catalog) || {};
+  const companies = catalog.companies || {};
+  const COMPANY_COLOR = {'비바샘':'var(--accent)','티처빌':'var(--accent-2)','아이스크림':'var(--warning)'};
+  const names = Object.keys(companies);
+  if (!names.length) {
+    document.getElementById('compCatalogDesc').textContent = '데이터 없음 — 아직 수집 전이거나 파일을 못 찾았습니다.';
+    return;
+  }
+  document.getElementById('compCatalogDesc').textContent =
+    `수집일 ${catalog.captured_date || '-'} · 로그인 없이 보이는 공개 목록 페이지 기준`;
+
+  document.getElementById('kpisCatalog').innerHTML = names.map(name => {
+    const c = companies[name] || {};
+    const diff = c.diff || {new: [], removed: []};
+    const sup = !c.diff_since ? '최초 수집'
+      : (diff.new.length || diff.removed.length) ? `신규 ${diff.new.length} · 종료 ${diff.removed.length}`
+      : `${c.diff_since} 대비 변동 없음`;
+    return `<div class="kpi">
+      <div class="lbl">${name}</div>
+      <div class="val" style="color:${COMPANY_COLOR[name]||'var(--muted)'};">${fmt(c.count||0)}건</div>
+      <div class="sup">${sup}</div>
+    </div>`;
+  }).join('');
+
+  const allCourses = [];
+  names.forEach(name => {
+    (companies[name].courses || []).forEach(it => allCourses.push(Object.assign({}, it, {company: name})));
+  });
+
+  // ---- 가격대 분포(사이트별 누적 막대) ----
+  (function drawPriceChart(){
+    const svg = document.getElementById('compCatalogPriceChart');
+    const BUCKETS = [
+      {label:'~2만원', max:20000}, {label:'2~4만원', max:40000}, {label:'4~6만원', max:60000},
+      {label:'6~8만원', max:80000}, {label:'8만원 초과', max:Infinity},
+    ];
+    const bucketOf = price => BUCKETS.find(b => price <= b.max) || BUCKETS[BUCKETS.length-1];
+    const counts = {};
+    BUCKETS.forEach(b => counts[b.label] = {});
+    let priced = 0;
+    allCourses.forEach(it => {
+      if (it.price == null) return;
+      priced++;
+      const b = bucketOf(it.price);
+      counts[b.label][it.company] = (counts[b.label][it.company]||0) + 1;
+    });
+    if (!priced) { svg.innerHTML = ''; return; }
+    const W=620, H=220, m={l:74, r:60, t:10, b:26};
+    const plotW = W-m.l-m.r;
+    const rowH = (H-m.t-m.b)/BUCKETS.length;
+    const maxTotal = Math.max(1, ...BUCKETS.map(b => names.reduce((s,n)=>s+(counts[b.label][n]||0),0)));
+    let out = '';
+    BUCKETS.forEach((b,i) => {
+      let x = m.l;
+      const y = m.t + i*rowH + rowH*0.22;
+      const bh = rowH*0.56;
+      let total = 0;
+      names.forEach(n => {
+        const v = counts[b.label][n]||0;
+        total += v;
+        const w = (v/maxTotal)*plotW;
+        if (w > 0) out += `<rect x="${x}" y="${y}" width="${w}" height="${bh}" fill="${COMPANY_COLOR[n]||'var(--muted)'}" rx="2"/>`;
+        x += w;
+      });
+      out += `<text class="row-label" x="${m.l-8}" y="${y+bh/2+4}" text-anchor="end">${b.label}</text>`;
+      out += `<text class="row-value num" x="${x+8}" y="${y+bh/2+4}">${total}건</text>`;
+    });
+    let legend = '';
+    names.forEach((n,i) => {
+      legend += `<rect x="${m.l+i*90}" y="${H-14}" width="10" height="10" rx="2" fill="${COMPANY_COLOR[n]||'var(--muted)'}"/>`;
+      legend += `<text class="axis-label" x="${m.l+i*90+15}" y="${H-5}">${n}</text>`;
+    });
+    svg.innerHTML = out + legend;
+  })();
+
+  // ---- 카테고리 상위 10개 ----
+  (function drawCategoryTable(){
+    const catCounts = {};
+    allCourses.forEach(it => {
+      const cat = it.category || '미분류';
+      if (!catCounts[cat]) catCounts[cat] = {total: 0};
+      catCounts[cat][it.company] = (catCounts[cat][it.company]||0) + 1;
+      catCounts[cat].total += 1;
+    });
+    const rows = Object.entries(catCounts).sort((a,b) => b[1].total - a[1].total).slice(0, 10);
+    document.getElementById('compCatalogCategoryDesc').textContent =
+      `총 ${Object.keys(catCounts).length}개 카테고리 확인(카테고리 정보가 없는 강좌는 '미분류'로 집계)`;
+    document.getElementById('compCatalogCategoryBody').innerHTML = rows.map(([cat, v]) => `
+      <tr>
+        <td style="font-weight:600;">${cat}</td>
+        <td class="num">${v['티처빌']||'-'}</td>
+        <td class="num">${v['아이스크림']||'-'}</td>
+        <td class="num">${v['비바샘']||'-'}</td>
+        <td class="num" style="font-weight:800;">${v.total}</td>
+      </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">데이터 없음</td></tr>';
+  })();
+
+  const totalNew = names.reduce((s,n) => s + ((companies[n].diff||{}).new||[]).length, 0);
+  const totalRemoved = names.reduce((s,n) => s + ((companies[n].diff||{}).removed||[]).length, 0);
+  document.getElementById('compCatalogDiffDesc').textContent = (totalNew || totalRemoved)
+    ? `직전 수집 대비 신규 ${totalNew}건 · 종료 ${totalRemoved}건`
+    : '직전 수집 대비 변동 없음(또는 이번이 첫 수집)';
+
+  // ---- 검색 가능한 전체 목록 ----
+  const compSel = document.getElementById('catalogCompanyFilter');
+  names.forEach(n => { const o = document.createElement('option'); o.value = n; o.textContent = n; compSel.appendChild(o); });
+  const searchInput = document.getElementById('catalogSearchInput');
+  const tbody = document.getElementById('catalogTableBody');
+  const countEl = document.getElementById('catalogRecordCount');
+
+  function drawCatalogTable(){
+    const cf = compSel.value, q = (searchInput.value||'').trim().toLowerCase();
+    const rows = allCourses.filter(it => (!cf || it.company===cf) && (!q || (it.title||'').toLowerCase().includes(q)));
+    countEl.textContent = `${rows.length}건 표시 중 (전체 ${allCourses.length}건)`;
+    tbody.innerHTML = rows.slice(0, 300).map(it => `
+      <tr>
+        <td><span class="chip" style="background:color-mix(in srgb, ${COMPANY_COLOR[it.company]||'var(--muted)'} 16%, transparent);color:${COMPANY_COLOR[it.company]||'var(--muted)'};">${it.company}</span></td>
+        <td class="title"><a href="${it.url}" target="_blank" rel="noopener" style="color:inherit;">${it.title}</a></td>
+        <td class="num">${it.price!=null ? fmt(it.price)+'원' : '-'}</td>
+        <td>${it.credit||'-'}</td>
+        <td>${it.category||'-'}</td>
+      </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">일치하는 강좌가 없습니다.</td></tr>';
+  }
+  compSel.addEventListener('change', drawCatalogTable);
+  searchInput.addEventListener('input', drawCatalogTable);
+  drawCatalogTable();
 })();
 
 (function renderRepFieldCharts(){
