@@ -136,6 +136,78 @@ def _extract_candidates(page, extract_cfg):
     )
 
 
+
+# 아이스크림 실측(2026-09-27 로그): pageIndex=2~4를 GET으로 붙여도 1페이지와 같은 45건만
+# 돌아왔다 - 서버가 쿼리 파라미터를 무시하고 폼 POST/JS 함수로만 페이지를 넘기는 구조로
+# 추정. 개발 환경에선 사이트에 접속할 수 없어 DOM을 직접 못 보므로, 흔한 전자정부/JSP
+# 페이징 방식들을 순서대로 시도하고, 실패하면 진단 정보를 로그에 남긴다.
+PAGE_SIZE_PARAMS = ("recordCountPerPage", "pageUnit", "pageSize", "listSize", "rows")
+PAGE_JS_FUNCS = ("fn_egov_link_page", "fn_link_page", "linkPage", "goPage", "fnGoPage",
+                 "fn_goPage", "movePage", "fnMovePage", "fn_movePage", "pageMove", "goList")
+
+
+def _goto_page_in_dom(page, page_no, param="pageIndex"):
+    """URL 파라미터가 먹지 않을 때 페이지 안에서 page_no 페이지로 이동. 성공한 방법명 반환."""
+    how = page.evaluate("""([n, param, funcs]) => {
+        // 1) 페이지 번호 링크를 직접 클릭(텍스트가 정확히 n인 a/button, 페이징 영역 우선)
+        const areas = document.querySelectorAll('[class*="pag" i], [id*="pag" i]');
+        for (const a of areas) {
+            for (const el of a.querySelectorAll('a, button')) {
+                if ((el.innerText || '').trim() === String(n)) { el.click(); return 'link'; }
+            }
+        }
+        // 2) 전자정부 프레임워크류 전역 페이징 함수
+        for (const f of funcs) {
+            if (typeof window[f] === 'function') { try { window[f](n); return 'fn:' + f; } catch (e) {} }
+        }
+        // 3) hidden input에 번호를 넣고 그 폼을 제출
+        const inp = document.querySelector(`input[name="${param}"], #${param}`);
+        if (inp && inp.form) { inp.value = String(n); inp.form.submit(); return 'form'; }
+        return '';
+    }""", [page_no, param, list(PAGE_JS_FUNCS)])
+    if how:
+        try:
+            page.wait_for_load_state("domcontentloaded", timeout=NAV_TIMEOUT_MS)
+        except Exception:
+            pass
+        page.wait_for_timeout(2500)
+    return how
+
+
+def _dump_paging_diagnostics(page, name):
+    """페이징이 막혔을 때 다음 수정에 쓸 단서를 로그에 남긴다(사이트 DOM을 직접 볼 수 없어서)."""
+    try:
+        info = page.evaluate("""() => {
+            const pick = sel => [...document.querySelectorAll(sel)].slice(0, 4)
+                .map(e => e.outerHTML.replace(/\s+/g, ' ').slice(0, 700));
+            return {
+                url: location.href,
+                paging: pick('[class*="pag" i], [id*="pag" i]'),
+                more: pick('[id*="more" i], [class*="more" i]'),
+                inputs: [...document.querySelectorAll('input[type=hidden]')].map(i => `${i.name||i.id}=${i.value}`).slice(0, 30),
+                pageFuncs: Object.keys(window).filter(k => { try { return typeof window[k] === 'function' && /page|more|list/i.test(k); } catch (e) { return false; } }).slice(0, 40),
+            };
+        }""")
+        print(f"  [{name}] 페이징 진단: {json.dumps(info, ensure_ascii=False)[:4000]}", file=sys.stderr)
+    except Exception as e:
+        print(f"  [{name}] 페이징 진단 실패: {e}", file=sys.stderr)
+
+
+def _wait_for_growth(page, extract_cfg, before_count, timeout_ms=10000):
+    """'더보기' 클릭 후 목록이 실제로 늘 때까지 최대 timeout_ms 기다린다(고정 1초 대기로는
+    티처빌 응답이 늦을 때 '신규 0'으로 오판했다 - 2026-09-27 20/500건 사고)."""
+    waited = 0
+    while waited < timeout_ms:
+        page.wait_for_timeout(500)
+        waited += 500
+        try:
+            if len(_extract_candidates(page, extract_cfg)) > before_count:
+                return True
+        except Exception:
+            pass
+    return False
+
+
 def _try_click_next(page, debug):
     # 번호형 페이지네이션(구형 JSP 사이트에 흔함)이 있으면 이쪽을 우선한다 -
     # 텍스트 기반 '더보기' 버튼이 페이지네이션과 무관한 엉뚱한 요소를 잘못
@@ -212,10 +284,35 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
         # 사이트가 hidden input으로 pageIndex를 쓰는 걸 실측으로 확인 - 아이스크림).
         param = pagination["param"]
         sep = "&" if "?" in url else "?"
+        # 먼저 한 페이지 크기를 크게 요청해 본다 - 서버가 받아주면 1페이지로 끝난다.
+        big = "&".join(f"{k}={max_items}" for k in PAGE_SIZE_PARAMS)
+        first = len(_extract_candidates(page, extract_cfg))
+        page.goto(f"{url}{sep}{big}", wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
+        page.wait_for_timeout(3000)
+        if len(_extract_candidates(page, extract_cfg)) <= first:
+            page.goto(url, wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
+            page.wait_for_timeout(3000)
+        elif debug:
+            print(f"  [{name}] 페이지 크기 확대 파라미터 적용됨", file=sys.stderr)
+        dom_mode = False  # URL 파라미터가 무시되는 게 확인되면 페이지 안 이동으로 전환
         for page_no in range(1, MAX_PAGES + 1):
-            if page_no > 1:
+            if page_no > 1 and not dom_mode:
                 page.goto(f"{url}{sep}{param}={page_no}", wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
                 page.wait_for_timeout(2500)
+                if page_no == 2 and not any(it["href"] not in collected for it in _extract_candidates(page, extract_cfg)):
+                    dom_mode = True
+                    if debug:
+                        print(f"  [{name}] {param} URL 파라미터 무시됨 - 페이지 안 이동으로 전환", file=sys.stderr)
+                    page.goto(url, wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
+                    page.wait_for_timeout(2500)
+            if page_no > 1 and dom_mode:
+                how = _goto_page_in_dom(page, page_no, param)
+                if debug:
+                    print(f"  [{name}] {page_no}페이지 이동 방법: {how or '없음'}", file=sys.stderr)
+                if not how:
+                    _dump_paging_diagnostics(page, name)
+                    note = "페이지 이동 수단을 찾지 못함(로그의 페이징 진단 참고)"
+                    break
             before = len(collected)
             for it in _extract_candidates(page, extract_cfg):
                 collected.setdefault(it["href"], it)
@@ -228,6 +325,8 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
             stall = stall + 1 if gained == 0 else 0
             if stall >= STALL_LIMIT:
                 note = f"연속 {STALL_LIMIT}페이지 신규 없음 - 마지막 페이지로 판단하고 중단"
+                if len(collected) < 100:
+                    _dump_paging_diagnostics(page, name)
                 break
         else:
             note = f"MAX_PAGES({MAX_PAGES}) 도달"
@@ -244,13 +343,17 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
                 note = f"목표({max_items}건) 도달"
                 break
 
+            page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            page.wait_for_timeout(500)
+            count_before_click = len(_extract_candidates(page, extract_cfg))
             moved = _try_click_next(page, debug)
             if moved:
                 try:
                     page.wait_for_load_state("networkidle", timeout=3000)
                 except Exception:
                     pass
-                page.wait_for_timeout(1000)
+                if not _wait_for_growth(page, extract_cfg, count_before_click) and debug:
+                    print(f"  [{name}] 클릭 후 10초 내 목록 증가 없음", file=sys.stderr)
             else:
                 moved = _scroll_more(page)
                 if moved:
@@ -260,9 +363,12 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
 
             if not moved:
                 note = "더 이상 다음 페이지/스크롤 없음"
+                if len(collected) < 100:
+                    _dump_paging_diagnostics(page, name)
                 break
             if stall >= STALL_LIMIT:
                 note = f"클릭은 되지만 연속 {STALL_LIMIT}회 신규 없음 - 중단(실제 마지막 페이지이거나 버튼 오탐 가능)"
+                _dump_paging_diagnostics(page, name)
                 break
         else:
             note = f"MAX_PAGES({MAX_PAGES}) 도달"
