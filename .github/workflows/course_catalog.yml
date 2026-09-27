@@ -46,4 +46,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/competitor_course_catalog.json history/competitor_new_courses.jsonl
           git diff --cached --quiet || git commit -m "chore: 경쟁사 연수과정 카탈로그 크롤링 $(date -u +%F)"
+          # 월요일 06:00엔 deploy.yml도 history/를 커밋하므로 먼저 받아서 올린다.
+          git pull --rebase origin main
           git push

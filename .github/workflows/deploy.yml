@@ -143,7 +143,9 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(date -u +%F)"
-          git push || true
+          # 2026-09-27: 카탈로그 크롤링 커밋과 겹쳐 push가 거부돼 그날 지표가 유실됐다.
+          # 서로 다른 파일만 건드리므로 rebase 후 올리면 충돌 없이 합쳐진다.
+          git pull --rebase origin main && git push || true
 
       - name: prepare pages artifact
         run: |
