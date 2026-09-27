@@ -257,7 +257,37 @@ def main():
         competitor_finance = load("live/competitor_finance_export.json")
     except FileNotFoundError:
         competitor_finance = {"data_source": "", "note": "", "companies": {}}
-    competitor_training = {"g2b": competitor_g2b, "content": competitor_content, "finance": competitor_finance}
+    try:
+        # competitor_course_catalog_scrape.py는 live/가 아니라 history/에 직접 쓴다(매일
+        # 새로 지워지는 게 아니라 항상 "최신 전체 스냅샷"을 git으로 추적하는 파일이라서).
+        # context(원문 텍스트, 필드 파싱용 원본)는 대시보드 페이로드를 불필요하게
+        # 키우기만 하므로 여기서 제외한다.
+        competitor_catalog_raw = load("history/competitor_course_catalog.json")
+        competitor_catalog = {
+            "captured_date": competitor_catalog_raw.get("captured_date"),
+            "companies": {
+                name: {
+                    "count": c.get("count", 0),
+                    "note": c.get("note"),
+                    "diff_since": c.get("diff_since"),
+                    "diff": {
+                        "new": [{"title": it.get("title")} for it in c.get("diff", {}).get("new", [])],
+                        "removed": [{"title": it.get("title")} for it in c.get("diff", {}).get("removed", [])],
+                    },
+                    "courses": [
+                        {k: it.get(k) for k in ("title", "category", "credit", "price", "url")}
+                        for it in c.get("courses", [])
+                    ],
+                }
+                for name, c in competitor_catalog_raw.get("companies", {}).items()
+            },
+        }
+    except FileNotFoundError:
+        competitor_catalog = {"captured_date": "", "companies": {}}
+    competitor_training = {
+        "g2b": competitor_g2b, "content": competitor_content, "finance": competitor_finance,
+        "catalog": competitor_catalog,
+    }
 
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
@@ -295,7 +325,8 @@ def main():
           f"베타-경쟁사트렌드 {len(beta['competitor_trend'])}, 베타-모멘텀 {len(beta['pipeline_momentum'])}, "
           f"경쟁사연수-낙찰 {len(competitor_g2b.get('records', []))}, "
           f"경쟁사연수-콘텐츠 {len(competitor_content.get('companies', {}))}개사, "
-          f"경쟁사연수-재무 {sum(1 for c in competitor_finance.get('companies', {}).values() if c.get('available'))}개사")
+          f"경쟁사연수-재무 {sum(1 for c in competitor_finance.get('companies', {}).values() if c.get('available'))}개사, "
+          f"경쟁사연수-카탈로그 {sum(c.get('count', 0) for c in competitor_catalog.get('companies', {}).values())}건")
 
 
 if __name__ == "__main__":
