@@ -3778,7 +3778,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       return sortDir*((av||0)-(bv||0));
     });
     recCountEl.textContent = `${rows.length}건 표시 중`;
-    recTbody.innerHTML = rows.slice(0, 300).map(r => `
+    recTbody.innerHTML = rows.map(r => `
       <tr>
         <td><span class="chip" style="background:color-mix(in srgb, ${compColor(r.competitor)} 16%, transparent);color:${compColor(r.competitor)};">${r.competitor}</span></td>
         <td>${r.region||'-'}</td>
@@ -4049,8 +4049,9 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       <div class="name">${name}</div>
       <div class="meta"><a href="${c.url}" target="_blank" rel="noopener" style="color:var(--accent);">${c.url}</a></div>
       ${diffBlock}
-      <ul class="insight-list" style="margin-top:8px;">
-        ${(c.events||[]).slice(0,6).map(e => `<li>${newTitles.has(e.title) ? '<span style="color:var(--warning);font-weight:700;">🆕</span> ' : ''}<b>${e.title}</b><br><span style="color:var(--muted);font-size:12px;">${e.period||''}</span></li>`).join('') || '<li style="color:var(--muted);">이벤트 없음</li>'}
+      <div style="font-size:12px;color:var(--muted);margin-top:8px;">진행중 이벤트 전체 ${(c.events||[]).length}건</div>
+      <ul class="insight-list" style="margin-top:4px;max-height:360px;overflow-y:auto;padding-right:6px;">
+        ${(c.events||[]).map(e => `<li>${newTitles.has(e.title) ? '<span style="color:var(--warning);font-weight:700;">🆕</span> ' : ''}<b>${e.title}</b><br><span style="color:var(--muted);font-size:12px;">${e.period||''}</span></li>`).join('') || '<li style="color:var(--muted);">이벤트 없음</li>'}
       </ul>
     </div>`;
   }).join('') || '<div style="color:var(--muted);padding:20px;">데이터 없음</div>';
