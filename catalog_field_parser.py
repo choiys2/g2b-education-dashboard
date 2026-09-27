@@ -45,6 +45,10 @@ _TEACHERVILLE_RE = re.compile(
 )
 
 
+# 가격 없이 소개 문구만 있는 카드(예: 추천 강좌 영역):
+# "<소개> 15차시(1학점) 미리보기 상세보기 [신규 ]<강좌명>"
+_VIVASAM_NOPRICE_RE = re.compile(r"^.*?(?P<credit>\d+차시\S*)\s+미리보기\s+상세보기\s+(?:신규\s+)?(?P<title>.+?)\s*$")
+
 def _price_int(s):
     if not s:
         return None
@@ -80,6 +84,11 @@ def parse_fields(site, title, context):
             p1, p2 = _price_int(m.group("price1")), _price_int(m.group("price2"))
             out["price"] = p2 if p2 is not None else p1
             out["orig_price"] = p1 if p2 is not None else None
+        else:
+            m = _VIVASAM_NOPRICE_RE.match(context or title or "")
+            if m:
+                out["title"] = m.group("title").strip()
+                out["credit"] = m.group("credit")
         return out
 
     if site == "티처빌":
