@@ -242,6 +242,23 @@
   .new-badge{display:inline-block;font-size:10.5px;font-weight:800;color:var(--warning);border:1px solid color-mix(in srgb, var(--warning) 60%, transparent);border-radius:4px;padding:0 4px;margin-right:6px;vertical-align:1px;}
   .new-date{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;}
 
+  /* ---------- 콘텐츠 갭 분석 ---------- */
+  .gap-cell{font-variant-numeric:tabular-nums;}
+  .gap-cell .pct{display:block;font-size:11px;color:var(--muted);}
+  .gap-bar{display:flex;align-items:center;gap:8px;min-width:150px;}
+  .gap-bar .track{flex:1;height:8px;border-radius:4px;background:var(--surface-2);position:relative;overflow:hidden;}
+  .gap-bar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:4px;}
+  .gap-bar .mark{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink-2);left:50%;}
+  .gap-badge{font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;white-space:nowrap;}
+  .gap-badge.lack{color:var(--critical);background:color-mix(in srgb, var(--critical) 14%, transparent);}
+  .gap-badge.weak{color:var(--warning);background:color-mix(in srgb, var(--warning) 14%, transparent);}
+  .gap-badge.even{color:var(--ink-2);background:var(--surface-2);}
+  .gap-badge.lead{color:var(--good);background:color-mix(in srgb, var(--good) 14%, transparent);}
+  #gapMatrixTable tbody tr.active td{background:color-mix(in srgb, var(--accent) 10%, transparent);}
+  .gap-grid{display:grid;grid-template-columns:1fr;gap:18px;}
+  .vel-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-top:6px;}
+  .vel-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;}
+
   /* ---------- data table ---------- */
   .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;}
   table.data{width:100%;border-collapse:collapse;font-size:13px;min-width:760px;}
@@ -1487,6 +1504,51 @@
       <div id="compContentCards" class="school-card-grid"></div>
     </section>
 
+    <section class="panel" id="contentGapPanel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">콘텐츠 갭 분석 — 3사 공통 분류</p>
+          <p class="panel-desc" id="gapDesc"></p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="gapMatrixTable">
+          <thead><tr id="gapMatrixHead"></tr></thead>
+          <tbody id="gapMatrixBody"></tbody>
+        </table>
+      </div>
+      <p class="panel-desc" style="font-size:12px;margin-top:8px;">판정은 각 사 목록에서 그 분야가 차지하는 <b>비중</b>을 비교합니다(자사 목록 규모가 경쟁사의 약 1/3이라 건수 비교는 전 분야가 열세로 나옴). 강점 ≥ +5%p · 약점 ≤ −5%p · 규모 지수 = 자사 강좌 수 ÷ 경쟁사 평균. 행을 누르면 아래 '연수 콘텐츠' 목록이 그 분류로 걸러집니다.</p>
+
+      <div class="panel-head" style="margin-top:22px;">
+        <div>
+          <p class="panel-title" style="font-size:14.5px;">주제 공백 백로그 <span style="font-weight:600;color:var(--muted);font-size:12.5px;">경쟁사 2곳 모두 다루는데 자사엔 없거나(공백) 크게 부족한(열세) 주제</span></p>
+          <p class="panel-desc" style="font-size:12.5px;" id="backlogDesc"></p>
+        </div>
+      </div>
+      <div class="filter-row">
+        <span class="count" id="backlogCount"></span>
+        <button type="button" class="btn-csv" id="backlogCsvBtn">백로그 CSV</button>
+      </div>
+      <div class="tbl-wrap tall" style="max-height:52vh;">
+        <table class="data" id="backlogTable">
+          <thead><tr id="backlogHead"></tr></thead>
+          <tbody id="backlogBody"></tbody>
+        </table>
+      </div>
+
+      <div class="panel-head" style="margin-top:22px;">
+        <div>
+          <p class="panel-title" style="font-size:14.5px;">신규 출시 속도 (주 단위)</p>
+          <p class="panel-desc" style="font-size:12.5px;" id="velocityDesc"></p>
+        </div>
+      </div>
+      <svg id="velocityChart" viewBox="0 0 620 200" role="img" aria-label="연수원별 주간 신규 강좌 수"></svg>
+      <div class="vel-legend" id="velocityLegend"></div>
+      <div class="tbl-wrap" style="margin-top:10px;">
+        <table class="data"><thead><tr id="velocityCatHead"></tr></thead><tbody id="velocityCatBody"></tbody></table>
+      </div>
+    </section>
+
     <section class="panel" id="courseCatalogPanel">
       <div class="panel-head">
         <div>
@@ -1501,7 +1563,8 @@
           <button type="button" data-view="new" aria-pressed="false" id="courseViewNewBtn">신규만</button>
         </div>
         <input type="search" id="courseSearch" placeholder="강좌명 검색" aria-label="강좌명 검색">
-        <select id="courseCategoryFilter" aria-label="카테고리"><option value="">전체 카테고리</option></select>
+        <select id="courseStdFilter" aria-label="공통 분류"><option value="">전체 공통 분류</option></select>
+        <select id="courseCategoryFilter" aria-label="카테고리"><option value="">사이트 카테고리</option></select>
         <select id="courseSort" aria-label="정렬">
           <option value="new">신규 우선</option>
           <option value="title">강좌명순</option>
@@ -1514,7 +1577,7 @@
       <div class="tbl-wrap tall">
         <table class="data">
           <thead><tr>
-            <th>연수원</th><th>강좌명</th><th>카테고리</th><th>차시/학점</th><th class="num">가격</th>
+            <th>연수원</th><th>강좌명</th><th>공통 분류</th><th>사이트 카테고리</th><th>차시/학점</th><th class="num">가격</th>
           </tr></thead>
           <tbody id="newCourseBody"></tbody>
         </table>
@@ -4083,7 +4146,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     document.getElementById('compNewCourseDesc').textContent =
       `로그인 없이 보이는 3사 직무연수 목록 기준 · 최근 수집 ${nc.captured_date || '-'} · 주 1회(월 06:00) 비교해 새로 올라온 강좌에 NEW 표시(최근 ${nc.window_days || 180}일)`;
 
-    const state = {co: '', view: 'all', q: '', cat: '', sort: 'new'};
+    const state = {co: '', view: 'all', q: '', cat: '', std: '', sort: 'new'};
     const newCount = n => all.filter(c => c.first_seen && (!n || c.company === n)).length;
     const listCount = n => all.filter(c => !c.delisted && (!n || c.company === n)).length;
 
@@ -4108,12 +4171,25 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     function drawCategories(){
       const cats = {};
       all.forEach(c => { if (c.category && (!state.co || c.company === state.co)) cats[c.category] = (cats[c.category] || 0) + 1; });
-      catSel.innerHTML = '<option value="">전체 카테고리</option>' + Object.entries(cats)
+      catSel.innerHTML = '<option value="">사이트 카테고리</option>' + Object.entries(cats)
         .sort((a, b) => b[1] - a[1]).map(([k, v]) => `<option value="${h(k)}">${h(k)} (${v})</option>`).join('');
       catSel.disabled = !Object.keys(cats).length;
       catSel.value = state.cat;
     }
     catSel.addEventListener('change', () => { state.cat = catSel.value; draw(); });
+
+    // 공통 분류(3사 동일 기준, content_gap.py) - 갭 분석 표에서 행을 누르면 여기로 연결된다
+    const stdSel = document.getElementById('courseStdFilter');
+    const stdOrder = ((COMPETITOR_TRAINING.content_gap || {}).categories) || [];
+    stdSel.innerHTML = '<option value="">전체 공통 분류</option>' + stdOrder
+      .filter(c => all.some(x => x.std === c)).map(c => `<option value="${h(c)}">${h(c)}</option>`).join('');
+    stdSel.addEventListener('change', () => { state.std = stdSel.value; draw(); });
+    window.setCourseStdFilter = (std, co) => {
+      state.std = std || ''; stdSel.value = state.std;
+      if (co !== undefined) { state.co = co; state.cat = ''; drawTabs(); drawCategories(); }
+      draw();
+      document.getElementById('courseCatalogPanel').scrollIntoView({behavior: 'smooth', block: 'start'});
+    };
 
     document.querySelectorAll('#courseCatalogPanel .view-toggle button').forEach(b => b.addEventListener('click', () => {
       state.view = b.dataset.view;
@@ -4139,6 +4215,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         (!state.co || c.company === state.co) &&
         (state.view === 'new' ? !!c.first_seen : !c.delisted) &&
         (!state.cat || c.category === state.cat) &&
+        (!state.std || c.std === state.std) &&
         (!state.q || (c.title || '').toLowerCase().includes(state.q))
       ).sort(SORTS[state.sort]);
       const base = state.view === 'new' ? newCount(state.co) : listCount(state.co);
@@ -4153,19 +4230,130 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
         return `<tr>
           <td><span class="chip" style="background:color-mix(in srgb, ${col} 16%, transparent);color:${col};">${h(label(c.company))}</span></td>
           <td class="title">${c.first_seen ? '<span class="new-badge">NEW</span>' : ''}${title}${c.first_seen ? `<span class="new-date">${h(c.first_seen)} 확인${c.delisted ? ' · 현재 목록에서 내려감' : ''}</span>` : ''}</td>
+          <td style="white-space:nowrap;">${h(c.std || '-')}</td>
           <td>${h(c.category || '-')}</td>
           <td>${h(c.credit || '-')}</td>
           <td class="num">${price}</td>
         </tr>`;
-      }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">조건에 맞는 강좌가 없습니다.</td></tr>';
+      }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">조건에 맞는 강좌가 없습니다.</td></tr>';
     }
     document.getElementById('courseCsvBtn').addEventListener('click', () => {
       downloadCsv(`연수콘텐츠_${state.co ? label(state.co) : '3사'}_${nc.captured_date || ''}.csv`,
-        ['연수원', '강좌명', '신규확인일', '카테고리', '차시/학점', '가격', '정가', 'URL'],
-        current.map(c => [label(c.company), c.title, c.first_seen || '', c.category || '', c.credit || '', c.price == null ? '' : c.price, c.orig_price || '', c.url || '']));
+        ['연수원', '강좌명', '신규확인일', '공통분류', '사이트카테고리', '차시/학점', '가격', '정가', 'URL'],
+        current.map(c => [label(c.company), c.title, c.first_seen || '', c.std || '', c.category || '', c.credit || '', c.price == null ? '' : c.price, c.orig_price || '', c.url || '']));
     });
 
     drawTabs(); drawCategories(); draw();
+  })();
+
+  // ---- 콘텐츠 갭 분석: 공통 분류 매트릭스 · 주제 공백 백로그 · 신규 출시 속도 ----
+  (function renderContentGap(){
+    const g = COMPETITOR_TRAINING.content_gap || {};
+    const SELF = g.self || '비바샘연수원';
+    const COLOR = {'비바샘연수원':'var(--accent)','티처빌':'var(--accent-2)','아이스크림':'var(--warning)'};
+    const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    if (!g.matrix || !g.matrix.length) {
+      document.getElementById('gapDesc').textContent = '데이터 없음 — 강좌 카탈로그 수집 전입니다.';
+      return;
+    }
+    // 자사를 맨 앞에
+    const cos = [SELF, ...g.companies.filter(c => c !== SELF)];
+    const comps = cos.filter(c => c !== SELF);
+    document.getElementById('gapDesc').textContent =
+      `${g.method} · 강좌 수 ${cos.map(c => `${c} ${fmt(g.totals[c] || 0)}`).join(' / ')}`;
+
+    // ---- 1) 매트릭스 ----
+    const VCLS = {'공백':'lack','약점':'weak','비슷':'even','강점':'lead'};
+    const verdict = r => r.verdict ? `<span class="gap-badge ${VCLS[r.verdict]}">${h(r.verdict)}</span>` : '';
+    document.getElementById('gapMatrixHead').innerHTML =
+      '<th>공통 분류</th>' + cos.map(c => `<th class="num">${h(c)}${c === SELF ? ' <span style="color:var(--muted);font-weight:600;">자사</span>' : ''}</th>`).join('') +
+      '<th>비중 차이 (자사 − 경쟁사 평균)</th><th class="num">규모 지수</th><th>판정</th>';
+    const rows = g.matrix.filter(r => r.total > 0);
+    const maxPP = Math.max(10, ...rows.map(r => Math.abs(r.share_gap_pp || 0)));
+    const gapBody = document.getElementById('gapMatrixBody');
+    gapBody.innerHTML = rows.map(r => {
+      const pp = r.share_gap_pp || 0;
+      const w = Math.abs(pp) / maxPP * 50;   // 가운데(0)에서 좌우로 뻗는 막대
+      const col = r.verdict === '공백' ? 'var(--critical)' : pp <= -5 ? 'var(--warning)' : pp >= 5 ? 'var(--good)' : 'var(--ink-2)';
+      const left = pp < 0 ? 50 - w : 50;
+      return `<tr data-std="${h(r.category)}" tabindex="0">
+        <td style="font-weight:700;white-space:nowrap;">${h(r.category)}</td>
+        ${cos.map(c => {
+          const n = r.counts[c] || 0, tot = g.totals[c] || 1;
+          return `<td class="num gap-cell">${fmt(n)}<span class="pct">${(n / tot * 100).toFixed(0)}%</span></td>`;
+        }).join('')}
+        <td><div class="gap-bar" title="자사 ${r.pct[SELF]}% · 경쟁사 평균 ${r.comp_pct_avg}%"><div class="track"><div class="fill" style="left:${left}%;width:${w}%;background:${col};"></div><div class="mark"></div></div>
+          <b class="gap-cell" style="min-width:52px;text-align:right;color:${col};">${pp > 0 ? '+' : ''}${pp.toFixed(1)}%p</b></div></td>
+        <td class="num gap-cell">${r.self_vs_comp == null ? '-' : r.self_vs_comp.toFixed(2)}</td>
+        <td>${verdict(r)}</td>
+      </tr>`;
+    }).join('');
+    const pick = tr => {
+      const on = tr.classList.contains('active');
+      gapBody.querySelectorAll('tr').forEach(x => x.classList.remove('active'));
+      if (!on) tr.classList.add('active');
+      if (window.setCourseStdFilter) window.setCourseStdFilter(on ? '' : tr.dataset.std, '');
+    };
+    gapBody.addEventListener('click', e => { const tr = e.target.closest('tr[data-std]'); if (tr) pick(tr); });
+    gapBody.addEventListener('keydown', e => { if (e.key === 'Enter') { const tr = e.target.closest('tr[data-std]'); if (tr) pick(tr); } });
+
+    // ---- 2) 백로그 ----
+    const bl = g.backlog || [];
+    const nGap = bl.filter(b => b.status === '공백').length;
+    document.getElementById('backlogDesc').textContent =
+      `강좌명에 등장하는 교육 주제 ${'약 100개'} 사전 기준 · 공백 ${nGap}개 · 열세 ${bl.length - nGap}개 · 경쟁사 보유 강좌 수가 많은 순 — 수강 수요가 아니라 '경쟁사 보유 여부'이므로 기획 후보 목록으로 활용`;
+    document.getElementById('backlogCount').textContent = `${bl.length}개 주제`;
+    document.getElementById('backlogHead').innerHTML =
+      '<th>상태</th><th>주제</th>' + comps.map(c => `<th class="num">${h(c)}</th>`).join('') + `<th class="num">${h(SELF)}</th><th>경쟁사 예시 강좌</th>`;
+    document.getElementById('backlogBody').innerHTML = bl.map(b => `<tr>
+        <td><span class="gap-badge ${b.status === '공백' ? 'lack' : 'weak'}">${h(b.status)}</span></td>
+        <td style="font-weight:700;white-space:nowrap;">${h(b.topic)}</td>
+        ${comps.map(c => `<td class="num">${fmt(b.comp[c] || 0)}</td>`).join('')}
+        <td class="num" style="color:${b.self ? 'var(--ink)' : 'var(--critical)'};font-weight:700;">${fmt(b.self)}</td>
+        <td class="title" style="font-size:12px;color:var(--ink-2);">${b.examples.map(h).join('<br>')}</td>
+      </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">공백 주제가 없습니다.</td></tr>';
+    document.getElementById('backlogCsvBtn').addEventListener('click', () => {
+      downloadCsv(`콘텐츠_공백_백로그_${(COMPETITOR_TRAINING.new_courses || {}).captured_date || ''}.csv`,
+        ['상태', '주제', ...comps, SELF, '경쟁사 예시 강좌'],
+        bl.map(b => [b.status, b.topic, ...comps.map(c => b.comp[c] || 0), b.self, b.examples.join(' / ')]));
+    });
+
+    // ---- 4) 신규 출시 속도 ----
+    const vel = g.velocity || [];
+    const svg = document.getElementById('velocityChart');
+    document.getElementById('velocityDesc').textContent = vel.length
+      ? `주 1회 카탈로그 비교에서 새로 확인된 강좌 수 · 현재 ${vel.length}주 축적${vel.length < 4 ? ' — 4주 이상 쌓이면 추세로 해석하세요' : ''} · 수집 범위가 넓어진 주(크롤러 개선)는 신규에서 제외`
+      : '아직 신규 출시 기록이 없습니다.';
+    document.getElementById('velocityLegend').innerHTML = cos.map(c => `<span><i style="background:${COLOR[c] || 'var(--muted)'}"></i>${h(c)}</span>`).join('');
+    if (vel.length) {
+      const W = 620, H = 200, m = {l: 34, r: 12, t: 14, b: 28};
+      const pw = W - m.l - m.r, ph = H - m.t - m.b;
+      const maxV = Math.max(1, ...vel.flatMap(v => cos.map(c => v.counts[c] || 0)));
+      const gw = pw / Math.max(vel.length, 4);
+      const bw = Math.min(22, (gw - 12) / cos.length);
+      const y = v => m.t + ph - v / maxV * ph;
+      let out = '';
+      for (let i = 0; i <= 4; i++) {
+        const val = Math.round(maxV * i / 4), yy = y(val);
+        out += `<line x1="${m.l}" x2="${W - m.r}" y1="${yy}" y2="${yy}" stroke="var(--grid)"/><text class="axis-label" x="${m.l - 6}" y="${yy + 4}" text-anchor="end">${val}</text>`;
+      }
+      vel.forEach((v, i) => {
+        const x0 = m.l + gw * i + (gw - bw * cos.length) / 2;
+        cos.forEach((c, j) => {
+          const n = v.counts[c] || 0;
+          out += `<rect x="${x0 + j * bw}" y="${y(n)}" width="${bw - 2}" height="${m.t + ph - y(n)}" rx="2" fill="${COLOR[c] || 'var(--muted)'}"><title>${h(v.week)} 주 · ${h(c)} ${n}건</title></rect>`;
+          if (n) out += `<text class="axis-label" x="${x0 + j * bw + (bw - 2) / 2}" y="${y(n) - 4}" text-anchor="middle">${n}</text>`;
+        });
+        out += `<text class="axis-label" x="${m.l + gw * i + gw / 2}" y="${H - 8}" text-anchor="middle">${h(v.week.slice(5))} 주</text>`;
+      });
+      svg.innerHTML = out;
+      const last = vel[vel.length - 1];
+      const cats = Object.entries(last.by_category || {}).sort((a, b) => b[1] - a[1]);
+      document.getElementById('velocityCatHead').innerHTML = `<th>${h(last.week)} 주 신규 — 공통 분류별</th>` + cats.map(([k]) => `<th class="num">${h(k)}</th>`).join('');
+      document.getElementById('velocityCatBody').innerHTML = `<tr><td>건수</td>${cats.map(([, n]) => `<td class="num">${n}</td>`).join('')}</tr>`;
+    } else {
+      svg.innerHTML = '';
+    }
   })();
 })();
 
