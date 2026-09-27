@@ -233,6 +233,31 @@ def build_missed_opportunities(ai_rows, pipeline_records, top_n=30):
     ]
 
 
+def build_new_courses(days=180):
+    """경쟁사 연수원 신규 강좌(competitor_course_catalog_scrape.py가 주 1회 누적).
+    이벤트가 아니라 강좌 카탈로그에 새로 올라온 연수과정만 담는다."""
+    from datetime import date, timedelta
+    try:
+        catalog = load("history/competitor_course_catalog.json")
+    except FileNotFoundError:
+        catalog = {"captured_date": "", "companies": {}}
+    rows = []
+    try:
+        with open("history/competitor_new_courses.jsonl", encoding="utf-8") as f:
+            rows = [json.loads(l) for l in f if l.strip()]
+    except FileNotFoundError:
+        pass
+    cutoff = (date.today() - timedelta(days=days)).isoformat()
+    rows = sorted((r for r in rows if (r.get("first_seen") or "") >= cutoff),
+                  key=lambda r: (r.get("first_seen") or "", r.get("company") or ""), reverse=True)
+    return {
+        "captured_date": catalog.get("captured_date"),
+        "window_days": days,
+        "catalog_counts": {n: c.get("count", 0) for n, c in catalog.get("companies", {}).items()},
+        "rows": rows,
+    }
+
+
 def main():
     template_path = sys.argv[1] if len(sys.argv) > 1 else "dashboard_template.html"
     out_path = sys.argv[2] if len(sys.argv) > 2 else "live/neis_dashboard_full.html"
@@ -257,7 +282,10 @@ def main():
         competitor_finance = load("live/competitor_finance_export.json")
     except FileNotFoundError:
         competitor_finance = {"data_source": "", "note": "", "companies": {}}
-    competitor_training = {"g2b": competitor_g2b, "content": competitor_content, "finance": competitor_finance}
+    competitor_training = {
+        "g2b": competitor_g2b, "content": competitor_content, "finance": competitor_finance,
+        "new_courses": build_new_courses(),
+    }
 
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
@@ -295,7 +323,8 @@ def main():
           f"베타-경쟁사트렌드 {len(beta['competitor_trend'])}, 베타-모멘텀 {len(beta['pipeline_momentum'])}, "
           f"경쟁사연수-낙찰 {len(competitor_g2b.get('records', []))}, "
           f"경쟁사연수-콘텐츠 {len(competitor_content.get('companies', {}))}개사, "
-          f"경쟁사연수-재무 {sum(1 for c in competitor_finance.get('companies', {}).values() if c.get('available'))}개사")
+          f"경쟁사연수-재무 {sum(1 for c in competitor_finance.get('companies', {}).values() if c.get('available'))}개사, "
+          f"경쟁사연수-신규콘텐츠 {len(competitor_training['new_courses']['rows'])}건")
 
 
 if __name__ == "__main__":

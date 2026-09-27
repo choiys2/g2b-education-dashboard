@@ -113,7 +113,7 @@ def build_pdf(out_path="live/weekly_report.pdf"):
     doc = SimpleDocTemplate(out_path, pagesize=A4, topMargin=18 * mm, bottomMargin=16 * mm,
                              leftMargin=16 * mm, rightMargin=16 * mm)
     story = [
-        Paragraph("비바샘 B2G 시장 리포트", title_style),
+        Paragraph("(주)비상교육 B2G 시장 리포트", title_style),
         Paragraph(f"생성일: {date.today().isoformat()} (매일 자동 갱신 - 이 시점 스냅샷)", small_style),
         Spacer(1, 10),
     ]
