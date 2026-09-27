@@ -388,6 +388,16 @@ def main():
                 )
                 prev_items = prev_companies.get(name, {}).get("courses", [])
                 diff = _diff_courses(prev_items, items)
+                # 2026-09-27 실측: 티처빌 '더보기'가 한 번도 안 눌려 500건 -> 20건만 수집됐고,
+                # 그대로 저장하면 "종료 481건"이 되고 다음 주엔 480건이 "신규"로 쏟아진다.
+                # 직전의 절반도 못 모았으면 부분 수집으로 보고, 새로 보인 강좌만 반영한 채
+                # 이전 목록을 유지한다(종료 판정은 하지 않음).
+                if prev_items and len(prev_items) >= 20 and len(items) < len(prev_items) * 0.5:
+                    kept = {it.get("url") for it in items}
+                    merged = items + [it for it in prev_items if it.get("url") not in kept]
+                    note = f"부분 수집({len(items)}/{len(prev_items)}건) - 이전 목록 유지, 종료 판정 생략"
+                    diff = {"new": diff["new"], "removed": []}
+                    items = merged
                 result["companies"][name] = {
                     "url": cfg["url"], "count": len(items), "note": note, "courses": items,
                     "diff": diff, "diff_since": prev.get("captured_date"),
