@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-비바샘 자체 영업 파이프라인 구글시트 -> live/own_pipeline_export.json
+(주)비상교육 자체 영업 파이프라인 구글시트 -> live/own_pipeline_export.json
 
 *** 개인정보 보호 방침 (반드시 지킬 것) ***
 원본 시트에는 담당 공무원 연락처/이메일/실명(주무관) 컬럼이 그대로 들어있다.
