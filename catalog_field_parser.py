@@ -24,7 +24,7 @@ _ISCREAM_RE = re.compile(
     r"^(?:미리보기\s*)?(?:상세보기\s*)?"
     r"(?P<credit>\d+차시(?:\(\d+학점\))?)\s*"
     r"(?P<category>\S+)\s*"
-    r"(?P<price1>[\d,]+원)\s*(?:(?P<price2>[\d,]+원)\s*)?"
+    r"(?:(?P<price1>[\d,]+원)\s*(?:(?P<price2>[\d,]+원)\s*)?|(?P<free>무료)\s*)"
     r"(?:할인중\s*)?"
     r"(?:(?:연수.\S*SET|신규|베스트|교재|할인중)\s*)*"
     r"(?P<title>.+)$"
@@ -70,7 +70,8 @@ def parse_fields(site, title, context):
             out["category"] = m.group("category")
             out["credit"] = m.group("credit")
             p1, p2 = _price_int(m.group("price1")), _price_int(m.group("price2"))
-            out["price"] = p2 if p2 is not None else p1
+            # 교과서 연계 무료 연수는 가격 대신 '무료'로 표기된다(2026-09-27 실측 8건)
+            out["price"] = 0 if m.group("free") else (p2 if p2 is not None else p1)
             out["orig_price"] = p1 if p2 is not None else None
         return out
 

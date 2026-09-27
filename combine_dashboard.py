@@ -264,6 +264,8 @@ def build_new_courses(days=180):
             f = parse_fields(name, it.get("title") or "", it.get("context") or "")
             if f.get("title") == (it.get("title") or ""):  # 파싱 실패 시 저장값 유지
                 f = {k: it.get(k) for k in ("title", "category", "credit", "price", "orig_price")}
+            if (f.get("title") or "").strip() in ("", "상세보기", "미리보기"):
+                continue  # 버튼 문구가 제목으로 잡힌 카드(파싱 실패) - 목록에서 제외
             out.append({**f, "url": it["url"]})
         courses[name] = out
     return {
@@ -299,9 +301,13 @@ def main():
         competitor_finance = load("live/competitor_finance_export.json")
     except FileNotFoundError:
         competitor_finance = {"data_source": "", "note": "", "companies": {}}
+    new_courses = build_new_courses()
+    import content_gap
     competitor_training = {
         "g2b": competitor_g2b, "content": competitor_content, "finance": competitor_finance,
-        "new_courses": build_new_courses(),
+        "new_courses": new_courses,
+        # 3사 공통 분류 갭·주제 공백 백로그·신규 출시 추이(강좌 행에 'std' 분류도 채워 넣는다)
+        "content_gap": content_gap.build(new_courses["courses"], new_courses["rows"], "비바샘연수원"),
     }
 
     data_rows, totals = build_data_totals(neis_export, full_live)
