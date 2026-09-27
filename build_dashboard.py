@@ -242,7 +242,7 @@ def render_digest(digest, out_path, notice=None):
 </head>
 <body>
 <header>
-  <div class="eyebrow">비바샘원격교육연수원 · B2G 인텔리전스</div>
+  <div class="eyebrow">(주)비상교육 · B2G 인텔리전스</div>
   <h1>나라장터 교원연수 공고 다이제스트</h1>
   <div class="sub">기준일시 {digest.get("생성일시","-")} · 최근 {digest.get("조회기간_일","-")}일 · {digest.get("기준_범위","")}</div>
   <div class="stats">
@@ -316,7 +316,7 @@ def render(scored, out_path, sample_notice=True):
 </head>
 <body>
 <header>
-  <div class="eyebrow">비바샘원격교육연수원 · B2G 인텔리전스</div>
+  <div class="eyebrow">(주)비상교육 · B2G 인텔리전스</div>
   <h1>나라장터 공고 스코어링 다이제스트</h1>
   <div class="sub">기준일 {today} · 총 {len(scored)}건 분석 · 최우선 {top_n}건</div>
   <div class="stats">
@@ -585,7 +585,7 @@ new Chart(document.getElementById('bizChart'), {
 '''
 
 
-def render_v2(full, out_path, company_name="비상교육"):
+def render_v2(full, out_path, company_name="(주)비상교육"):
     """전략 대시보드: KPI + 추이/지역/사업유형 차트 + 기관/경쟁사 랭킹 + 키워드 클라우드
     + 규칙기반 인사이트 + 검색/필터/정렬/CSV 가능한 상세 테이블. Chart.js는 CDN에서 로드한다
     (인터넷 연결 필요). 실시간 LLM 분석은 포함하지 않으며, 인사이트는 전부 결정적 규칙으로
@@ -643,7 +643,7 @@ def render_v2(full, out_path, company_name="비상교육"):
 </head>
 <body>
 <header>
-  <div class="eyebrow">{company_name} · 비바샘원격교육연수원 · B2G 전략 대시보드</div>
+  <div class="eyebrow">{company_name} · B2G 전략 대시보드</div>
   <h1>교육청·연수원 나라장터 시장 현황</h1>
   <div class="sub">기준일시 {full.get("generated_at", datetime.now().strftime("%Y-%m-%d %H:%M"))} · 대상: 발주기관/수요기관명에 "교육청" 또는 "연수원" 포함 건</div>
   <div class="m-stripe"></div>

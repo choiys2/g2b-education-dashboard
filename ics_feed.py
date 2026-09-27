@@ -14,7 +14,7 @@ import re
 import sys
 from datetime import datetime, timezone
 
-CALENDAR_NAME = "비바샘 나라장터 AI공고 마감일"
+CALENDAR_NAME = "(주)비상교육 나라장터 AI공고 마감일"
 
 
 def esc(s):
