@@ -1,11 +1,11 @@
 {
   "captured_date": "2026-09-27",
-  "target_per_site": 1500,
+  "target_per_site": 500,
   "companies": {
     "티처빌": {
       "url": "https://www.teacherville.co.kr/trainapply/allCourseList.edu",
       "count": 700,
-      "note": "부분 수집(460/700건) - 이전 목록 유지, 종료 판정 생략 (2026-09-27 수동 복구)",
+      "note": "부분 수집(500/700건) - 이전 목록 유지, 종료 판정 생략",
       "courses": [
         {
           "index": 1,
@@ -7017,7 +7017,7 @@
     "아이스크림": {
       "url": "https://teacher.i-scream.co.kr/course/crs/creditList.do?searchOrdinalTyCode=TY01&searchOrderField=NEW",
       "count": 585,
-      "note": "클릭은 되지만 연속 3회 신규 없음 - 중단(실제 마지막 페이지이거나 버튼 오탐 가능)",
+      "note": "부분 수집(315/585건) - 이전 목록 유지, 종료 판정 생략",
       "courses": [
         {
           "index": 1,
@@ -7187,7 +7187,7 @@
           "price": 85000,
           "orig_price": null,
           "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7358&searchOrdinalTyCode=TY01",
-          "context": "미리보기 상세보기 30차시(2학점) 어학 85,000원 베스트 신규 영어 1차 임계점 돌파 - 영작 훈련"
+          "context": "미리보기 상세보기 30차시(2학점) 어학 85,000원 신규 영어 1차 임계점 돌파 - 영작 훈련"
         },
         {
           "index": 18,
@@ -7287,7 +7287,7 @@
           "price": 50000,
           "orig_price": null,
           "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7346&searchOrdinalTyCode=TY01",
-          "context": "미리보기 상세보기 15차시(1학점) 어학 50,000원 연수·상품SET 교재 신규 걱정없이 떠나는 여행 일본어 무작정 따라하기"
+          "context": "미리보기 상세보기 15차시(1학점) 어학 50,000원 연수·상품SET 교재 베스트 신규 걱정없이 떠나는 여행 일본어 무작정 따라하기"
         },
         {
           "index": 28,
@@ -7457,7 +7457,7 @@
           "price": 50000,
           "orig_price": null,
           "url": "https://teacher.i-scream.co.kr/course/crs/creditView.do?crsCode=7335&searchOrdinalTyCode=TY01",
-          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 베스트 신규 AI 통합 플랫폼, 구글 AI 스튜디오 완전정복 - 문서, 이미지, 영상 제작부터 바이브코딩까지 한 번에!"
+          "context": "미리보기 상세보기 15차시(1학점) 디지털역량 50,000원 연수·상품SET 신규 AI 통합 플랫폼, 구글 AI 스튜디오 완전정복 - 문서, 이미지, 영상 제작부터 바이브코딩까지 한 번에!"
         },
         {
           "index": 45,
