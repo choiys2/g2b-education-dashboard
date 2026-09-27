@@ -208,6 +208,22 @@ def _wait_for_growth(page, extract_cfg, before_count, timeout_ms=10000):
     return False
 
 
+
+def _click_more_selector(page, selector, debug):
+    """지정한 '더보기' 요소가 보이면 클릭. 없거나 비어 있으면(마지막 페이지) False."""
+    try:
+        loc = page.locator(selector).first
+        if loc.count() == 0 or not loc.is_visible():
+            return False
+        loc.scroll_into_view_if_needed(timeout=3000)
+        loc.click(timeout=5000)
+        if debug:
+            print(f"    [다음] '{selector}' 클릭", file=sys.stderr)
+        return True
+    except Exception:
+        return False
+
+
 def _try_click_next(page, debug):
     # 번호형 페이지네이션(구형 JSP 사이트에 흔함)이 있으면 이쪽을 우선한다 -
     # 텍스트 기반 '더보기' 버튼이 페이지네이션과 무관한 엉뚱한 요소를 잘못
@@ -346,7 +362,12 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
             page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             page.wait_for_timeout(500)
             count_before_click = len(_extract_candidates(page, extract_cfg))
-            moved = _try_click_next(page, debug)
+            if pagination.get("more_selector"):
+                # 사이트별로 실측한 '목록 더보기' 버튼만 누른다. 범용 텍스트 매칭은 헤더/추천
+                # 영역의 다른 '더보기'를 잘못 눌렀다(티처빌 AI추천, 아이스크림 상단 메뉴).
+                moved = _click_more_selector(page, pagination["more_selector"], debug)
+            else:
+                moved = _try_click_next(page, debug)
             if moved:
                 try:
                     page.wait_for_load_state("networkidle", timeout=3000)
@@ -354,7 +375,7 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
                     pass
                 if not _wait_for_growth(page, extract_cfg, count_before_click) and debug:
                     print(f"  [{name}] 클릭 후 10초 내 목록 증가 없음", file=sys.stderr)
-            else:
+            elif not pagination.get("more_selector"):
                 moved = _scroll_more(page)
                 if moved:
                     page.wait_for_timeout(1000)
@@ -414,6 +435,9 @@ SITES = {
     "티처빌": {
         "url": "https://www.teacherville.co.kr/trainapply/allCourseList.edu",
         "extract": {"mode": "data_attr", "id_attr": "data-seq", "title_attr": "data-tv-label"},
+        # 2026-09-27 진단: 목록 더보기는 <div id="more"> 안의 버튼이고 끝에 가면 비워진다.
+        # 그 뒤엔 범용 매칭이 AI추천 영역의 '더 보기'를 눌러 헛돌았다.
+        "pagination": {"mode": "click", "more_selector": "#more button, #more a"},
     },
     # 아이스크림 실측(2026-09-03, debug_html/아이스크림.html): 강좌 카드는
     # /course/crs/creditView.do?crsCode=NNNN 로 연결되고(목록 메뉴 링크와 명확히
@@ -422,7 +446,9 @@ SITES = {
     "아이스크림": {
         "url": "https://teacher.i-scream.co.kr/course/crs/creditList.do?searchOrdinalTyCode=TY01&searchOrderField=NEW",
         "extract": {"mode": "href", "href_pattern": r"creditView\.do\?crsCode=\d+"},
-        "pagination": {"mode": "url_param", "param": "pageIndex"},
+        # 2026-09-27 진단: pageIndex는 GET/폼 제출 모두 무시되고, 목록은
+        # <div id="divMore" onclick="getCrsList(null, true)">더보기</div>로 AJAX 추가된다.
+        "pagination": {"mode": "click", "more_selector": "#divMore"},
     },
     # 비바샘연수원 실측(2026-09-03, debug_html/비바샘.html): 강좌 카드는 /courses/job/t26-022
     # 같은 슬러그로 연결되고(카테고리 메뉴 /courses/job 자체와 구분됨), '더보기'
@@ -510,8 +536,15 @@ def main():
                 }
                 new_n, removed_n = len(diff["new"]), len(diff["removed"])
                 # 첫 수집(비교 대상 없음)이나 직전 수집 0건이면 전부 "신규"로 잡히므로 기록하지 않는다.
-                if prev_items:
+                # 수집 범위 자체가 크게 늘어난 경우(상한 상향·크롤러 개선)도 새로 보인 강좌가
+                # 신규 출시가 아니라 이전에 못 모았던 것이므로 기록하지 않는다(2026-09-27
+                # 티처빌 500->700건 확장 때 199건이 NEW로 잘못 기록된 사고).
+                if prev_items and len(items) <= len(prev_items) * 1.2:
                     append_new_courses(name, diff["new"], result["captured_date"])
+                elif prev_items:
+                    print(f"  {name}: 수집 범위 확장({len(prev_items)}->{len(items)}건) - 신규 기록 생략", file=sys.stderr)
+                    diff = {"new": [], "removed": diff["removed"]}
+                    result["companies"][name]["diff"] = diff
                 print(f"  수집 {len(items)}건 / 목표 {args.max_items}건 - {note} (신규 {new_n}·종료 {removed_n})")
             except Exception as e:
                 print(f"  [오류] {name} 수집 실패: {e}", file=sys.stderr)
