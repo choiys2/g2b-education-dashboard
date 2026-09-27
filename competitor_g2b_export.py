@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-경쟁사(티처빌/아이스크림/비상교육/한교원) 나라장터 낙찰 매트릭스를 실제 API로
+경쟁사(티처빌/아이스크림/비바샘연수원/한교원) 나라장터 낙찰 매트릭스를 실제 API로
 재현한다. 원본은 경쟁사_연수_대시보드/work/g2b_snapshot.json — 2026-07-15
 기준 엑셀 피벗테이블 1회성 export였다.
 
@@ -28,7 +28,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from fetch_g2b_listings import call_api, date_chunks, guess_region, load_config, to_date
 
-TARGET_COMPETITORS = ["티처빌", "아이스크림", "비상교육", "한교원"]
+TARGET_COMPETITORS = ["티처빌", "아이스크림", "비바샘연수원", "한교원"]
 
 # 나라장터 낙찰업체명(bidwinnrNm)은 소비자 브랜드명이 아니라 사업자등록증상
 # 법인명으로 등록돼 있어, 브랜드명 그대로는 거의 안 걸린다(실측: "티처빌"
@@ -37,7 +37,7 @@ TARGET_COMPETITORS = ["티처빌", "아이스크림", "비상교육", "한교원
 COMPETITOR_ALIASES = {
     "티처빌": ["테크빌교육"],
     "아이스크림": ["아이스크림미디어"],
-    "비상교육": ["비상교육"],  # 자사 - 낙찰업체명 "(주)비상교육"/"주식회사 비상교육" 모두 부분일치
+    "비바샘연수원": ["비상교육"],  # 자사 - 법인명 "(주)비상교육"/"주식회사 비상교육" 모두 부분일치
     "한교원": ["한국교원연수원"],
 }
 
