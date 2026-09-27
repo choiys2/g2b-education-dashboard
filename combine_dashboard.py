@@ -250,10 +250,27 @@ def build_new_courses(days=180):
     cutoff = (date.today() - timedelta(days=days)).isoformat()
     rows = sorted((r for r in rows if (r.get("first_seen") or "") >= cutoff),
                   key=lambda r: (r.get("first_seen") or "", r.get("company") or ""), reverse=True)
+
+    # 전체 강좌 목록(현재 카탈로그). 저장된 title이 옛 파서 결과일 수 있어 원문(context)으로
+    # 다시 파싱한다. 대시보드 용량을 위해 context 자체는 싣지 않는다.
+    from catalog_field_parser import parse_fields
+    courses = {}
+    for name, c in catalog.get("companies", {}).items():
+        out, seen = [], set()
+        for it in c.get("courses", []):
+            if not it.get("url") or it["url"] in seen:
+                continue
+            seen.add(it["url"])
+            f = parse_fields(name, it.get("title") or "", it.get("context") or "")
+            if f.get("title") == (it.get("title") or ""):  # 파싱 실패 시 저장값 유지
+                f = {k: it.get(k) for k in ("title", "category", "credit", "price", "orig_price")}
+            out.append({**f, "url": it["url"]})
+        courses[name] = out
     return {
         "captured_date": catalog.get("captured_date"),
         "window_days": days,
-        "catalog_counts": {n: c.get("count", 0) for n, c in catalog.get("companies", {}).items()},
+        "catalog_counts": {n: len(v) for n, v in courses.items()},
+        "courses": courses,
         "rows": rows,
     }
 
@@ -324,7 +341,8 @@ def main():
           f"경쟁사연수-낙찰 {len(competitor_g2b.get('records', []))}, "
           f"경쟁사연수-콘텐츠 {len(competitor_content.get('companies', {}))}개사, "
           f"경쟁사연수-재무 {sum(1 for c in competitor_finance.get('companies', {}).values() if c.get('available'))}개사, "
-          f"경쟁사연수-신규콘텐츠 {len(competitor_training['new_courses']['rows'])}건")
+          f"경쟁사연수-신규콘텐츠 {len(competitor_training['new_courses']['rows'])}건, "
+          f"경쟁사연수-전체강좌 {sum(competitor_training['new_courses']['catalog_counts'].values())}건")
 
 
 if __name__ == "__main__":

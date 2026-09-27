@@ -215,6 +215,33 @@
   }
   .filter-row .count{font-size:12.5px;color:var(--muted);}
 
+  /* ---------- 연수 콘텐츠: 업체 탭 + 전체 목록 ---------- */
+  .co-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 12px;}
+  .co-tab{
+    font-family:inherit;display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:132px;
+    padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface-2);
+    color:var(--ink-2);cursor:pointer;text-align:left;transition:border-color .15s, background .15s;
+  }
+  .co-tab:hover{border-color:color-mix(in srgb, var(--co, var(--accent)) 55%, transparent);}
+  .co-tab[aria-pressed="true"]{
+    border-color:var(--co, var(--accent));background:color-mix(in srgb, var(--co, var(--accent)) 14%, var(--surface));color:var(--ink);
+  }
+  .co-tab .nm{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;}
+  .co-tab .nm i{width:8px;height:8px;border-radius:50%;background:var(--co, var(--muted));}
+  .co-tab .ct{font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .co-tab .nw{font-size:11.5px;color:var(--warning);font-weight:700;min-height:14px;}
+  .view-toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+  .view-toggle button{font-family:inherit;font-size:13px;padding:6px 12px;border:0;background:var(--surface-2);color:var(--ink-2);cursor:pointer;}
+  .view-toggle button[aria-pressed="true"]{background:var(--accent);color:#fff;font-weight:700;}
+  .filter-row input[type="search"]{
+    font-family:inherit;font-size:13px;color:var(--ink);background:var(--surface-2);
+    border:1px solid var(--border);border-radius:8px;padding:6px 10px;flex:1;min-width:160px;
+  }
+  .filter-row .btn-csv{font-family:inherit;font-size:12.5px;padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink-2);cursor:pointer;margin-left:auto;}
+  .tbl-wrap.tall{max-height:70vh;overflow:auto;margin-top:8px;}
+  .new-badge{display:inline-block;font-size:10.5px;font-weight:800;color:var(--warning);border:1px solid color-mix(in srgb, var(--warning) 60%, transparent);border-radius:4px;padding:0 4px;margin-right:6px;vertical-align:1px;}
+  .new-date{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;}
+
   /* ---------- data table ---------- */
   .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;}
   table.data{width:100%;border-collapse:collapse;font-size:13px;min-width:760px;}
@@ -1460,23 +1487,34 @@
       <div id="compContentCards" class="school-card-grid"></div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="courseCatalogPanel">
       <div class="panel-head">
         <div>
-          <p class="panel-title">신규 연수 콘텐츠</p>
+          <p class="panel-title">연수 콘텐츠 — 3사 전체 강좌</p>
           <p class="panel-desc" id="compNewCourseDesc"></p>
         </div>
       </div>
-      <section class="kpis" id="kpisNewCourse"></section>
+      <div class="co-tabs" id="courseCompanyTabs" role="group" aria-label="연수원 선택"></div>
       <div class="filter-row">
-        <select id="newCourseCompanyFilter"><option value="">전체 연수원</option></select>
-        <select id="newCourseCategoryFilter"><option value="">전체 카테고리</option></select>
+        <div class="view-toggle" role="group" aria-label="보기">
+          <button type="button" data-view="all" aria-pressed="true">전체 강좌</button>
+          <button type="button" data-view="new" aria-pressed="false" id="courseViewNewBtn">신규만</button>
+        </div>
+        <input type="search" id="courseSearch" placeholder="강좌명 검색" aria-label="강좌명 검색">
+        <select id="courseCategoryFilter" aria-label="카테고리"><option value="">전체 카테고리</option></select>
+        <select id="courseSort" aria-label="정렬">
+          <option value="new">신규 우선</option>
+          <option value="title">강좌명순</option>
+          <option value="price_asc">가격 낮은순</option>
+          <option value="price_desc">가격 높은순</option>
+        </select>
         <span class="count" id="newCourseCount"></span>
+        <button type="button" class="btn-csv" id="courseCsvBtn">CSV 다운로드</button>
       </div>
-      <div class="tbl-wrap">
+      <div class="tbl-wrap tall">
         <table class="data">
           <thead><tr>
-            <th>확인일</th><th>연수원</th><th>강좌명</th><th>카테고리</th><th>차시/학점</th><th class="num">가격</th>
+            <th>연수원</th><th>강좌명</th><th>카테고리</th><th>차시/학점</th><th class="num">가격</th>
           </tr></thead>
           <tbody id="newCourseBody"></tbody>
         </table>
@@ -4017,61 +4055,116 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     </div>`;
   }).join('') || '<div style="color:var(--muted);padding:20px;">데이터 없음</div>';
 
-  // ---- 신규 연수 콘텐츠(이벤트 제외, 강좌 카탈로그에 새로 올라온 과정만) ----
-  (function renderNewCourses(){
+  // ---- 연수 콘텐츠: 3사 전체 강좌 + 신규 표시(이벤트 제외) ----
+  (function renderCourseCatalog(){
     const nc = COMPETITOR_TRAINING.new_courses || {};
-    const rows = nc.rows || [];
-    const counts = nc.catalog_counts || {};
+    const byCo = nc.courses || {};
     const SELF = '비상교육';
     const COLOR = {'비상교육':'var(--accent)','티처빌':'var(--accent-2)','아이스크림':'var(--warning)'};
     const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const label = n => n === SELF ? '(주)비상교육' : n;
-    const companies = [...new Set([...Object.keys(counts), ...rows.map(r => r.company)])]
-      .sort((a, b) => (a === SELF) - (b === SELF) || a.localeCompare(b, 'ko'));
+    // 자사를 맨 앞에, 나머지는 강좌 수 많은 순
+    const companies = Object.keys(byCo).sort((a, b) => (b === SELF) - (a === SELF) || byCo[b].length - byCo[a].length);
 
-    document.getElementById('compNewCourseDesc').textContent = companies.length
-      ? `3사 연수원 공개 강좌 목록을 주 1회(월 06:00) 비교해 새로 올라온 과정만 모았습니다 · 최근 수집 ${nc.captured_date || '-'} · 최근 ${nc.window_days || 180}일`
-      : '데이터 없음 — 카탈로그 수집 전입니다.';
+    const firstSeen = {};
+    (nc.rows || []).forEach(r => { firstSeen[r.company + '|' + r.url] = r.first_seen; });
+    const all = [];
+    companies.forEach(n => byCo[n].forEach(c => all.push(Object.assign({}, c, {company: n, first_seen: firstSeen[n + '|' + c.url] || null}))));
+    // 로그엔 있지만 이미 목록에서 내려간 신규 강좌도 "신규만" 보기에서는 보이게 한다
+    const inList = new Set(all.map(c => c.company + '|' + c.url));
+    (nc.rows || []).forEach(r => { if (!inList.has(r.company + '|' + r.url)) all.push(Object.assign({}, r, {delisted: true})); });
 
-    const latest = rows.reduce((m, r) => r.first_seen > m ? r.first_seen : m, '');
-    document.getElementById('kpisNewCourse').innerHTML = companies.map(n => {
-      const mine = rows.filter(r => r.company === n);
-      const recent = mine.filter(r => r.first_seen === latest).length;
-      return `<div class="kpi">
-        <div class="lbl">${h(label(n))}${n === SELF ? ' (자사)' : ''}</div>
-        <div class="val" style="color:${COLOR[n] || 'var(--muted)'};">신규 ${mine.length}건</div>
-        <div class="sup">${latest ? `최근 수집 ${recent}건 · ` : ''}전체 강좌 ${fmt(counts[n] || 0)}건</div>
-      </div>`;
-    }).join('');
+    const tabsEl = document.getElementById('courseCompanyTabs');
+    if (!all.length) {
+      document.getElementById('compNewCourseDesc').textContent = '데이터 없음 — 카탈로그 수집 전입니다.';
+      return;
+    }
+    document.getElementById('compNewCourseDesc').textContent =
+      `로그인 없이 보이는 3사 직무연수 목록 기준 · 최근 수집 ${nc.captured_date || '-'} · 주 1회(월 06:00) 비교해 새로 올라온 강좌에 NEW 표시(최근 ${nc.window_days || 180}일)`;
 
-    const compSel = document.getElementById('newCourseCompanyFilter');
-    const catSel = document.getElementById('newCourseCategoryFilter');
-    companies.forEach(n => compSel.insertAdjacentHTML('beforeend', `<option value="${h(n)}">${h(label(n))}</option>`));
-    [...new Set(rows.map(r => r.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ko'))
-      .forEach(c => catSel.insertAdjacentHTML('beforeend', `<option value="${h(c)}">${h(c)}</option>`));
+    const state = {co: '', view: 'all', q: '', cat: '', sort: 'new'};
+    const newCount = n => all.filter(c => c.first_seen && (!n || c.company === n)).length;
+    const listCount = n => all.filter(c => !c.delisted && (!n || c.company === n)).length;
 
+    function drawTabs(){
+      const tab = (key, name, color) => {
+        const nw = newCount(key);
+        return `<button type="button" class="co-tab" data-co="${h(key)}" aria-pressed="${state.co === key}" style="--co:${color}">
+          <span class="nm"><i></i>${h(name)}${key === SELF ? ' <span style="font-weight:600;color:var(--muted);">자사</span>' : ''}</span>
+          <span class="ct">${fmt(listCount(key))}<span style="font-size:12px;font-weight:600;color:var(--muted);"> 강좌</span></span>
+          <span class="nw">${nw ? `NEW ${nw}` : ''}</span>
+        </button>`;
+      };
+      tabsEl.innerHTML = tab('', '전체', 'var(--ink-2)') + companies.map(n => tab(n, label(n), COLOR[n] || 'var(--muted)')).join('');
+    }
+    tabsEl.addEventListener('click', e => {
+      const b = e.target.closest('.co-tab'); if (!b) return;
+      state.co = b.dataset.co; state.cat = '';
+      drawTabs(); drawCategories(); draw();
+    });
+
+    const catSel = document.getElementById('courseCategoryFilter');
+    function drawCategories(){
+      const cats = {};
+      all.forEach(c => { if (c.category && (!state.co || c.company === state.co)) cats[c.category] = (cats[c.category] || 0) + 1; });
+      catSel.innerHTML = '<option value="">전체 카테고리</option>' + Object.entries(cats)
+        .sort((a, b) => b[1] - a[1]).map(([k, v]) => `<option value="${h(k)}">${h(k)} (${v})</option>`).join('');
+      catSel.disabled = !Object.keys(cats).length;
+      catSel.value = state.cat;
+    }
+    catSel.addEventListener('change', () => { state.cat = catSel.value; draw(); });
+
+    document.querySelectorAll('#courseCatalogPanel .view-toggle button').forEach(b => b.addEventListener('click', () => {
+      state.view = b.dataset.view;
+      document.querySelectorAll('#courseCatalogPanel .view-toggle button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      draw();
+    }));
+    document.getElementById('courseViewNewBtn').textContent = `신규만 (${newCount('')})`;
+    const search = document.getElementById('courseSearch');
+    let t; search.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { state.q = search.value.trim().toLowerCase(); draw(); }, 120); });
+    const sortSel = document.getElementById('courseSort');
+    sortSel.addEventListener('change', () => { state.sort = sortSel.value; draw(); });
+
+    const coOrder = n => companies.indexOf(n);
+    const SORTS = {
+      new: (a, b) => (b.first_seen || '').localeCompare(a.first_seen || '') || coOrder(a.company) - coOrder(b.company),
+      title: (a, b) => (a.title || '').localeCompare(b.title || '', 'ko'),
+      price_asc: (a, b) => (a.price == null) - (b.price == null) || (a.price || 0) - (b.price || 0),
+      price_desc: (a, b) => (a.price == null) - (b.price == null) || (b.price || 0) - (a.price || 0),
+    };
+    let current = [];
     function draw(){
-      const cf = compSel.value, kf = catSel.value;
-      const list = rows.filter(r => (!cf || r.company === cf) && (!kf || r.category === kf));
-      document.getElementById('newCourseCount').textContent = `${list.length}건`;
-      document.getElementById('newCourseBody').innerHTML = list.map(r => {
-        const c = COLOR[r.company] || 'var(--muted)';
-        const price = r.price == null ? '-'
-          : r.price === 0 && r.orig_price ? `무료 <span style="color:var(--muted);text-decoration:line-through;">${fmt(r.orig_price)}원</span>`
-          : `${fmt(r.price)}원`;
+      current = all.filter(c =>
+        (!state.co || c.company === state.co) &&
+        (state.view === 'new' ? !!c.first_seen : !c.delisted) &&
+        (!state.cat || c.category === state.cat) &&
+        (!state.q || (c.title || '').toLowerCase().includes(state.q))
+      ).sort(SORTS[state.sort]);
+      const base = state.view === 'new' ? newCount(state.co) : listCount(state.co);
+      document.getElementById('newCourseCount').textContent = `${fmt(current.length)}건 표시 / ${fmt(base)}건`;
+      document.getElementById('newCourseBody').innerHTML = current.map(c => {
+        const col = COLOR[c.company] || 'var(--muted)';
+        const price = c.price == null ? '-'
+          : c.price === 0 && c.orig_price ? `무료 <span style="color:var(--muted);text-decoration:line-through;">${fmt(c.orig_price)}원</span>`
+          : c.orig_price ? `${fmt(c.price)}원 <span style="color:var(--muted);text-decoration:line-through;font-size:11.5px;">${fmt(c.orig_price)}원</span>`
+          : `${fmt(c.price)}원`;
+        const title = c.url ? `<a href="${h(c.url)}" target="_blank" rel="noopener" style="color:inherit;">${h(c.title)}</a>` : h(c.title);
         return `<tr>
-          <td>${h(r.first_seen)}</td>
-          <td><span class="chip" style="background:color-mix(in srgb, ${c} 16%, transparent);color:${c};">${h(label(r.company))}</span></td>
-          <td class="title">${r.url ? `<a href="${h(r.url)}" target="_blank" rel="noopener" style="color:inherit;">${h(r.title)}</a>` : h(r.title)}</td>
-          <td>${h(r.category || '-')}</td>
-          <td>${h(r.credit || '-')}</td>
+          <td><span class="chip" style="background:color-mix(in srgb, ${col} 16%, transparent);color:${col};">${h(label(c.company))}</span></td>
+          <td class="title">${c.first_seen ? '<span class="new-badge">NEW</span>' : ''}${title}${c.first_seen ? `<span class="new-date">${h(c.first_seen)} 확인${c.delisted ? ' · 현재 목록에서 내려감' : ''}</span>` : ''}</td>
+          <td>${h(c.category || '-')}</td>
+          <td>${h(c.credit || '-')}</td>
           <td class="num">${price}</td>
         </tr>`;
-      }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">아직 신규 강좌 기록이 없습니다(다음 주간 수집부터 누적).</td></tr>';
+      }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">조건에 맞는 강좌가 없습니다.</td></tr>';
     }
-    compSel.addEventListener('change', draw);
-    catSel.addEventListener('change', draw);
-    draw();
+    document.getElementById('courseCsvBtn').addEventListener('click', () => {
+      downloadCsv(`연수콘텐츠_${state.co ? label(state.co) : '3사'}_${nc.captured_date || ''}.csv`,
+        ['연수원', '강좌명', '신규확인일', '카테고리', '차시/학점', '가격', '정가', 'URL'],
+        current.map(c => [label(c.company), c.title, c.first_seen || '', c.category || '', c.credit || '', c.price == null ? '' : c.price, c.orig_price || '', c.url || '']));
+    });
+
+    drawTabs(); drawCategories(); draw();
   })();
 })();
 
