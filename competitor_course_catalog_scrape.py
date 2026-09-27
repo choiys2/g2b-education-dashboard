@@ -179,7 +179,7 @@ def _dump_paging_diagnostics(page, name):
     try:
         info = page.evaluate("""() => {
             const pick = sel => [...document.querySelectorAll(sel)].slice(0, 4)
-                .map(e => e.outerHTML.replace(/\s+/g, ' ').slice(0, 700));
+                .map(e => e.outerHTML.replace(/\\s+/g, ' ').slice(0, 700));
             return {
                 url: location.href,
                 paging: pick('[class*="pag" i], [id*="pag" i]'),
@@ -193,7 +193,7 @@ def _dump_paging_diagnostics(page, name):
         print(f"  [{name}] 페이징 진단 실패: {e}", file=sys.stderr)
 
 
-def _wait_for_growth(page, extract_cfg, before_count, timeout_ms=10000):
+def _wait_for_growth(page, extract_cfg, before_count, timeout_ms=20000):
     """'더보기' 클릭 후 목록이 실제로 늘 때까지 최대 timeout_ms 기다린다(고정 1초 대기로는
     티처빌 응답이 늦을 때 '신규 0'으로 오판했다 - 2026-09-27 20/500건 사고)."""
     waited = 0
@@ -213,7 +213,11 @@ def _click_more_selector(page, selector, debug):
     """지정한 '더보기' 요소가 보이면 클릭. 없거나 비어 있으면(마지막 페이지) False."""
     try:
         loc = page.locator(selector).first
-        if loc.count() == 0 or not loc.is_visible():
+        # 티처빌은 응답이 10초 넘게 늦을 때 로딩 중 버튼을 잠깐 숨긴다(2026-09-27: 460건에서
+        # '끝'으로 오판). 사라졌다고 바로 끝내지 않고 다시 나타나길 최대 20초 기다린다.
+        try:
+            loc.wait_for(state="visible", timeout=20000)
+        except Exception:
             return False
         loc.scroll_into_view_if_needed(timeout=3000)
         loc.click(timeout=5000)
@@ -374,7 +378,7 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
                 except Exception:
                     pass
                 if not _wait_for_growth(page, extract_cfg, count_before_click) and debug:
-                    print(f"  [{name}] 클릭 후 10초 내 목록 증가 없음", file=sys.stderr)
+                    print(f"  [{name}] 클릭 후 20초 내 목록 증가 없음", file=sys.stderr)
             elif not pagination.get("more_selector"):
                 moved = _scroll_more(page)
                 if moved:
@@ -524,7 +528,8 @@ def main():
                 # 그대로 저장하면 "종료 481건"이 되고 다음 주엔 480건이 "신규"로 쏟아진다.
                 # 직전의 절반도 못 모았으면 부분 수집으로 보고, 새로 보인 강좌만 반영한 채
                 # 이전 목록을 유지한다(종료 판정은 하지 않음).
-                if prev_items and len(prev_items) >= 20 and len(items) < len(prev_items) * 0.5:
+                # 기준을 절반에서 80%로 강화(2026-09-27 티처빌 700->460건 중단이 "종료 240건"으로 기록됨)
+                if prev_items and len(prev_items) >= 20 and len(items) < len(prev_items) * 0.8:
                     kept = {it.get("url") for it in items}
                     merged = items + [it for it in prev_items if it.get("url") not in kept]
                     note = f"부분 수집({len(items)}/{len(prev_items)}건) - 이전 목록 유지, 종료 판정 생략"
