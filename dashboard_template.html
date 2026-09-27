@@ -1460,6 +1460,29 @@
       <div id="compContentCards" class="school-card-grid"></div>
     </section>
 
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">신규 연수 콘텐츠</p>
+          <p class="panel-desc" id="compNewCourseDesc"></p>
+        </div>
+      </div>
+      <section class="kpis" id="kpisNewCourse"></section>
+      <div class="filter-row">
+        <select id="newCourseCompanyFilter"><option value="">전체 연수원</option></select>
+        <select id="newCourseCategoryFilter"><option value="">전체 카테고리</option></select>
+        <span class="count" id="newCourseCount"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data">
+          <thead><tr>
+            <th>확인일</th><th>연수원</th><th>강좌명</th><th>카테고리</th><th>차시/학점</th><th class="num">가격</th>
+          </tr></thead>
+          <tbody id="newCourseBody"></tbody>
+        </table>
+      </div>
+    </section>
+
   </div><!-- /panel-competitor -->
 
   <div class="tabpanel" id="panel-search">
@@ -3993,6 +4016,63 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       </ul>
     </div>`;
   }).join('') || '<div style="color:var(--muted);padding:20px;">데이터 없음</div>';
+
+  // ---- 신규 연수 콘텐츠(이벤트 제외, 강좌 카탈로그에 새로 올라온 과정만) ----
+  (function renderNewCourses(){
+    const nc = COMPETITOR_TRAINING.new_courses || {};
+    const rows = nc.rows || [];
+    const counts = nc.catalog_counts || {};
+    const SELF = '비상교육';
+    const COLOR = {'비상교육':'var(--accent)','티처빌':'var(--accent-2)','아이스크림':'var(--warning)'};
+    const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const label = n => n === SELF ? '(주)비상교육' : n;
+    const companies = [...new Set([...Object.keys(counts), ...rows.map(r => r.company)])]
+      .sort((a, b) => (a === SELF) - (b === SELF) || a.localeCompare(b, 'ko'));
+
+    document.getElementById('compNewCourseDesc').textContent = companies.length
+      ? `3사 연수원 공개 강좌 목록을 주 1회(월 06:00) 비교해 새로 올라온 과정만 모았습니다 · 최근 수집 ${nc.captured_date || '-'} · 최근 ${nc.window_days || 180}일`
+      : '데이터 없음 — 카탈로그 수집 전입니다.';
+
+    const latest = rows.reduce((m, r) => r.first_seen > m ? r.first_seen : m, '');
+    document.getElementById('kpisNewCourse').innerHTML = companies.map(n => {
+      const mine = rows.filter(r => r.company === n);
+      const recent = mine.filter(r => r.first_seen === latest).length;
+      return `<div class="kpi">
+        <div class="lbl">${h(label(n))}${n === SELF ? ' (자사)' : ''}</div>
+        <div class="val" style="color:${COLOR[n] || 'var(--muted)'};">신규 ${mine.length}건</div>
+        <div class="sup">${latest ? `최근 수집 ${recent}건 · ` : ''}전체 강좌 ${fmt(counts[n] || 0)}건</div>
+      </div>`;
+    }).join('');
+
+    const compSel = document.getElementById('newCourseCompanyFilter');
+    const catSel = document.getElementById('newCourseCategoryFilter');
+    companies.forEach(n => compSel.insertAdjacentHTML('beforeend', `<option value="${h(n)}">${h(label(n))}</option>`));
+    [...new Set(rows.map(r => r.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ko'))
+      .forEach(c => catSel.insertAdjacentHTML('beforeend', `<option value="${h(c)}">${h(c)}</option>`));
+
+    function draw(){
+      const cf = compSel.value, kf = catSel.value;
+      const list = rows.filter(r => (!cf || r.company === cf) && (!kf || r.category === kf));
+      document.getElementById('newCourseCount').textContent = `${list.length}건`;
+      document.getElementById('newCourseBody').innerHTML = list.map(r => {
+        const c = COLOR[r.company] || 'var(--muted)';
+        const price = r.price == null ? '-'
+          : r.price === 0 && r.orig_price ? `무료 <span style="color:var(--muted);text-decoration:line-through;">${fmt(r.orig_price)}원</span>`
+          : `${fmt(r.price)}원`;
+        return `<tr>
+          <td>${h(r.first_seen)}</td>
+          <td><span class="chip" style="background:color-mix(in srgb, ${c} 16%, transparent);color:${c};">${h(label(r.company))}</span></td>
+          <td class="title">${r.url ? `<a href="${h(r.url)}" target="_blank" rel="noopener" style="color:inherit;">${h(r.title)}</a>` : h(r.title)}</td>
+          <td>${h(r.category || '-')}</td>
+          <td>${h(r.credit || '-')}</td>
+          <td class="num">${price}</td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;">아직 신규 강좌 기록이 없습니다(다음 주간 수집부터 누적).</td></tr>';
+    }
+    compSel.addEventListener('change', draw);
+    catSel.addEventListener('change', draw);
+    draw();
+  })();
 })();
 
 (function renderRepFieldCharts(){
