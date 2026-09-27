@@ -87,7 +87,7 @@ jobs:
         continue-on-error: true
         run: python kosis_edu_finance.py "${{ secrets.KOSIS_KEY }}" live/kosis_edu_finance.json
 
-      # 경쟁사(티처빌/아이스크림/비상교육/한교원) 나라장터 낙찰 - history/competitor_wins.jsonl에
+      # 경쟁사(티처빌/아이스크림/비바샘연수원/한교원) 나라장터 낙찰 - history/competitor_wins.jsonl에
       # 누적(git 추적, live/처럼 매일 지워지지 않음). 매일은 최근 60일치만 조회(낙찰 데이터가
       # 뒤늦게 등록되는 경우를 감안해 겹치게), 대시보드에는 누적 전체를 집계해 보여준다.
       - name: 경쟁사 나라장터 낙찰 매트릭스 export (누적)

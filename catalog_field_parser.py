@@ -11,7 +11,7 @@
 - 아이스크림 context 예: "미리보기 상세보기 15차시(1학점) 교수학습 50,000원
   연수·상품SET 신규 2022 개정 교육과정에 딱 맞는 디지털 드로잉 수업 디자인"
   -> 카드의 <a>가 '상세보기' 버튼 자체라 title이 항상 '상세보기'로만 잡힌다.
-- 비상교육 title 예: "구글 제미나이를 활용한 실질적인 수업 및 업무 혁신 방법!
+- 비바샘연수원 title 예: "구글 제미나이를 활용한 실질적인 수업 및 업무 혁신 방법!
   직무/15차시(1학점) 미리보기 상세보기 신규 질문이 답이 되는 제미나이 수업
   솔루션 20% 60,000원 48,000원" -> 앞부분은 홍보 카피(teaser)이고 실제 강좌명은
   '미리보기 상세보기' 뒤, 가격 앞에 온다.
@@ -74,7 +74,7 @@ def parse_fields(site, title, context):
             out["orig_price"] = p1 if p2 is not None else None
         return out
 
-    if site == "비상교육":
+    if site == "비바샘연수원":
         # title이 아니라 context에서 파싱한다 - scrape_site가 title을 이미 정제된
         # 값으로 덮어쓴 뒤에도(예: 재처리) context는 원본 그대로 남아있어 안전하다.
         m = _VIVASAM_RE.match(context or title or "")

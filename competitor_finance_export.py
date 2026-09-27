@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-경쟁사(티처빌/아이스크림/비상교육/한교원)의 공시 재무정보를 금융위원회 오픈API로 조회한다.
+경쟁사(티처빌/아이스크림/비바샘연수원/한교원)의 공시 재무정보를 금융위원회 오픈API로 조회한다.
 
 - GetCorpBasicInfoService_V2(getCorpOutline_V2)로 회사명 -> 법인등록번호(crno)를 1회
   수동 조회해 아래 COMPETITOR_CRNO에 고정해뒀다(매일 이름 매칭에 의존하면 동명이인/과거
@@ -27,7 +27,7 @@ BASE = "https://apis.data.go.kr/1160100/service/GetFinaStatInfoService_V2/getSum
 COMPETITOR_CRNO = {
     "티처빌": "1101112163907",
     "아이스크림": "1101112453184",
-    "비상교육": "1101112427098",
+    "비바샘연수원": "1101112427098",  # (주)비상교육
     "한교원": "9991168170154",
 }
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-경쟁사(티처빌/아이스크림/비상교육) 연수원 "직무연수 전체 목록"을 사이트당 최대
+경쟁사(티처빌/아이스크림/비바샘연수원) 연수원 "직무연수 전체 목록"을 사이트당 최대
 --max-items(기본 500)건까지 수집한다. 로그인 없이 보이는 공개 목록 페이지만 본다.
 
 개발 환경 네트워크 정책상 세 도메인에 직접 접속할 수 없어, debug_dump_catalog_html.py로
 GitHub Actions에서 실제 렌더링된 DOM을 한 번 받아본 뒤(2026-09-03) 사이트별 실제 강좌
 카드 구조를 확인하고 맞춘 값이다(SITES 딕셔너리의 사이트별 주석 참고):
 
-  - 아이스크림/비상교육: 강좌 상세로 연결되는 <a href="..."> 중 실측된 정규식에
+  - 아이스크림/비바샘연수원: 강좌 상세로 연결되는 <a href="..."> 중 실측된 정규식에
     매칭하는 것만 "강좌 후보"로 모은다(extract mode "href").
   - 티처빌: <a href="...">가 아예 없이 onclick+data 속성으로 카드가 구성돼(data-seq
     등) 별도 추출 모드를 쓴다(extract mode "data_attr").
@@ -86,7 +86,7 @@ def check_robots_disallowed(url):
 def _extract_candidates(page, extract_cfg):
     """extract_cfg에 따라 강좌 후보를 모아 제목/링크(또는 참조 키)/주변 텍스트를 반환.
 
-    mode "href" (기본): href_pattern에 매칭하는 <a>를 강좌 후보로 본다(아이스크림/비상교육).
+    mode "href" (기본): href_pattern에 매칭하는 <a>를 강좌 후보로 본다(아이스크림/비바샘연수원).
     mode "data_attr": <a href>가 아예 없이 onclick+data 속성으로 카드가 구성되는
     사이트용(티처빌 실측: <div class="info-item" data-seq="O1006337"
     data-tv-label="...">) - id_attr로 카드를 찾고 title_attr(없으면 텍스트)을 제목으로 쓴다.
@@ -318,10 +318,10 @@ SITES = {
         "extract": {"mode": "href", "href_pattern": r"creditView\.do\?crsCode=\d+"},
         "pagination": {"mode": "url_param", "param": "pageIndex"},
     },
-    # 비상교육 실측(2026-09-03, debug_html/비상교육.html): 강좌 카드는 /courses/job/t26-022
+    # 비바샘연수원 실측(2026-09-03, debug_html/비바샘.html): 강좌 카드는 /courses/job/t26-022
     # 같은 슬러그로 연결되고(카테고리 메뉴 /courses/job 자체와 구분됨), '더보기'
     # 버튼은 실제 클릭마다 신규 항목이 늘어나는 것으로 확인됨(기존 클릭 방식 유지).
-    "비상교육": {
+    "비바샘연수원": {
         "url": "https://t.vivasam.com/courses/job?menuId=MENU0610",
         "extract": {"mode": "href", "href_pattern": r"/courses/job/[a-zA-Z0-9-]+"},
     },
@@ -355,7 +355,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-items", type=int, default=MAX_ITEMS_DEFAULT)
     ap.add_argument("--out", default=str(OUT_PATH))
-    ap.add_argument("--sites", default="", help="쉼표구분, 비우면 전체 (예: 티처빌,비상교육)")
+    ap.add_argument("--sites", default="", help="쉼표구분, 비우면 전체 (예: 티처빌,비바샘연수원)")
     ap.add_argument("--debug", action="store_true")
     args = ap.parse_args()
 
