@@ -3,7 +3,12 @@ name: 나라장터 대시보드 자동 갱신·배포
 on:
   schedule:
     - cron: "0 21 * * *"   # 매일 06:00 KST (UTC 21:00 전날)
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      competitor_days:
+        description: "경쟁사 낙찰 조회 기간(일). 평소 60, 과거분 재수집(백필)은 730"
+        required: false
+        default: "60"
   push:
     branches: [main]
     # 브리핑 데이터만 바뀐 푸시는 news.yml 이 전담한다. 두 워크플로가 같은 push 로
@@ -82,14 +87,14 @@ jobs:
         continue-on-error: true
         run: python kosis_edu_finance.py "${{ secrets.KOSIS_KEY }}" live/kosis_edu_finance.json
 
-      # 경쟁사(티처빌/아이스크림/비바샘/한교원) 나라장터 낙찰 - history/competitor_wins.jsonl에
+      # 경쟁사(티처빌/아이스크림/비상교육/한교원) 나라장터 낙찰 - history/competitor_wins.jsonl에
       # 누적(git 추적, live/처럼 매일 지워지지 않음). 매일은 최근 60일치만 조회(낙찰 데이터가
       # 뒤늦게 등록되는 경우를 감안해 겹치게), 대시보드에는 누적 전체를 집계해 보여준다.
       - name: 경쟁사 나라장터 낙찰 매트릭스 export (누적)
         continue-on-error: true
         env:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
-        run: python competitor_g2b_export.py --days 60 --out live/competitor_g2b_export.json
+        run: python competitor_g2b_export.py --days ${{ github.event.inputs.competitor_days || '60' }} --out live/competitor_g2b_export.json
 
       # 경쟁사 홈페이지 비로그인 공개 화면의 진행중 이벤트 목록만 읽는다(robots.txt 확인:
       # teacherville.co.kr, teacher.i-scream.co.kr, t.vivasam.com 모두 Allow: / - 자동화 허용).

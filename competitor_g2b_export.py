@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-경쟁사(티처빌/아이스크림/비바샘/한교원) 나라장터 낙찰 매트릭스를 실제 API로
+경쟁사(티처빌/아이스크림/비상교육/한교원) 나라장터 낙찰 매트릭스를 실제 API로
 재현한다. 원본은 경쟁사_연수_대시보드/work/g2b_snapshot.json — 2026-07-15
 기준 엑셀 피벗테이블 1회성 export였다.
 
@@ -28,7 +28,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from fetch_g2b_listings import call_api, date_chunks, guess_region, load_config, to_date
 
-TARGET_COMPETITORS = ["티처빌", "아이스크림", "비바샘", "한교원"]
+TARGET_COMPETITORS = ["티처빌", "아이스크림", "비상교육", "한교원"]
 
 # 나라장터 낙찰업체명(bidwinnrNm)은 소비자 브랜드명이 아니라 사업자등록증상
 # 법인명으로 등록돼 있어, 브랜드명 그대로는 거의 안 걸린다(실측: "티처빌"
@@ -37,7 +37,7 @@ TARGET_COMPETITORS = ["티처빌", "아이스크림", "비바샘", "한교원"]
 COMPETITOR_ALIASES = {
     "티처빌": ["테크빌교육"],
     "아이스크림": ["아이스크림미디어"],
-    "비바샘": ["비상교육"],
+    "비상교육": ["비상교육"],  # 자사 - 낙찰업체명 "(주)비상교육"/"주식회사 비상교육" 모두 부분일치
     "한교원": ["한국교원연수원"],
 }
 
@@ -87,17 +87,27 @@ def fetch_competitor_wins(cfg, days_back, keywords=COMPETITOR_KEYWORDS):
     rows = []
     for kw in keywords:
         for begin, end in date_chunks(days_back, chunk_days):
-            params = {
-                "serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 200,
-                "inqryDiv": 1, "inqryBgnDt": begin.strftime("%Y%m%d%H%M"),
-                "inqryEndDt": end.strftime("%Y%m%d%H%M"), "type": "json",
-                svc["keyword_param"]: kw,
-            }
-            try:
-                items, _ = call_api(svc["base_url"], svc["operation"], params)
-            except Exception as e:
-                print(f"  [경고] 조회 실패 (kw={kw}, {begin.date()}~{end.date()}): {e}", file=sys.stderr)
-                continue
+            # 이전엔 1페이지(200건)만 읽고 totalCount를 버려서, "역량강화"처럼 교육 외
+            # 기관까지 수백 건 걸리는 키워드는 200건 뒤의 낙찰이 통째로 누락됐다.
+            items = []
+            page, total = 1, None
+            while total is None or (page - 1) * 200 < total:
+                params = {
+                    "serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 200,
+                    "inqryDiv": 1, "inqryBgnDt": begin.strftime("%Y%m%d%H%M"),
+                    "inqryEndDt": end.strftime("%Y%m%d%H%M"), "type": "json",
+                    svc["keyword_param"]: kw,
+                }
+                try:
+                    page_items, total = call_api(svc["base_url"], svc["operation"], params)
+                except Exception as e:
+                    print(f"  [경고] 조회 실패 (kw={kw}, {begin.date()}~{end.date()}, p{page}): {e}", file=sys.stderr)
+                    break
+                items.extend(page_items)
+                if not page_items or page >= 20:  # 20페이지(4,000건) 상한 - 무한루프 방지
+                    break
+                page += 1
+                time.sleep(interval)
             for it in items:
                 dminstt = it.get("dminsttNm", "")
                 winner = it.get("bidwinnrNm", "")

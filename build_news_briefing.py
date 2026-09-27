@@ -334,7 +334,7 @@ def render_box(rows):
     )
     return (
         '<section class="box" id="implications">'
-        '<div class="box-head"><h3>비바샘 교원연수원 시사점</h3>'
+        '<div class="box-head"><h3>(주)비상교육 시사점</h3>'
         "<p>오늘 뉴스가 B2G 정책연수 · 샘크리에이티브 · 콘텐츠 파이프라인에 주는 함의</p></div>"
         '<div class="box-scroll"><table><thead><tr><th>뉴스</th><th>사업 함의</th></tr></thead>'
         "<tbody>%s</tbody></table></div></section>"

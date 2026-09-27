@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-경쟁사(티처빌/아이스크림/비바샘) 홈페이지 공개 이벤트 목록을 매일 스크레이핑한다.
+경쟁사(티처빌/아이스크림/비상교육) 홈페이지 공개 이벤트 목록을 매일 스크레이핑한다.
 로그인 없이 보이는 화면만 본다(비로그인 공개 정보). 세 사이트 모두 robots.txt를
 확인했다(2026-08-04): teacherville.co.kr "Allow: /", teacher.i-scream.co.kr
 "Allow:/", t.vivasam.com은 자사 사이트라 별도 확인 불필요.
@@ -94,7 +94,7 @@ def scrape_iscream(page):
 SCRAPERS = {
     "티처빌": ("https://www.teacherville.co.kr", scrape_teacherville),
     "아이스크림": ("https://teacher.i-scream.co.kr", scrape_iscream),
-    "비바샘": ("https://t.vivasam.com", scrape_vivasam),
+    "비상교육": ("https://t.vivasam.com", scrape_vivasam),
 }
 
 
