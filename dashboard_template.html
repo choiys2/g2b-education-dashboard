@@ -563,6 +563,18 @@
     </div>
   </div>
 
+  <!-- 교육 뉴스: 조간 브리핑 위젯(widget/news-widget.js, 데이터 api/news). 영업용 앱과 같은 위젯을 재사용 -->
+  <section class="panel" id="marketNewsPanel" style="margin-top:22px;">
+    <div class="panel-head">
+      <div>
+        <p class="panel-title">교육 뉴스 · 조간 브리핑</p>
+        <p class="panel-desc">매일 아침 발행되는 조간 브리핑의 1면 헤드라인, 영업 토킹포인트, 분야별 기사입니다. 분야 칩으로 거르고, 아래에서 지난 호를 검색할 수 있습니다. <a href="../news/" target="_blank" rel="noopener" style="color:var(--accent);">신문 지면으로 보기 ↗</a></p>
+      </div>
+    </div>
+    <div id="vedu-news" data-base="../api/news"></div>
+  </section>
+  <script src="../widget/news-widget.js" defer></script>
+
   </div><!-- /panel-market -->
 
   <div class="tabpanel" id="panel-g2b">
