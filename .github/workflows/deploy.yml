@@ -132,6 +132,11 @@ jobs:
         continue-on-error: true
         run: python build_news_briefing.py briefings live/news
 
+      # 비상 영업용 앱(v-edu-board) 뉴스 위젯이 읽는 공개 JSON (api/news/*.json, 명세: docs/NEWS_API.md)
+      - name: 뉴스 공개 JSON(API) 생성
+        continue-on-error: true
+        run: python news_api_export.py briefings live/api/news
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
@@ -181,6 +186,9 @@ jobs:
           fi
           if [ -d live/news ]; then
             cp -r live/news _site/news
+          fi
+          if [ -d live/api ]; then
+            cp -r live/api _site/api
           fi
 
       - uses: actions/upload-pages-artifact@v3

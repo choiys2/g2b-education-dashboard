@@ -8,6 +8,7 @@ on:
     paths:
       - "briefings/**"
       - "build_news_briefing.py"
+      - "news_api_export.py"
       - ".github/workflows/news.yml"
   workflow_dispatch: {}
 
@@ -34,7 +35,9 @@ jobs:
           python-version: "3.12"
 
       - name: 신문 지면 생성 (표준 라이브러리만 사용)
-        run: python build_news_briefing.py briefings live/news
+        run: |
+          python build_news_briefing.py briefings live/news
+          python news_api_export.py briefings live/api/news
 
       - uses: actions/configure-pages@v5
         id: pages
@@ -63,6 +66,9 @@ jobs:
           fi
 
           cp -r live/news _site/news
+          # 대시보드 배포본에 이미 있던 api/ 는 회수하지 않고 여기서 새로 만든 뉴스 API로 채운다
+          # (api/ 에는 현재 뉴스만 있으므로 브리핑 원본에서 재생성하면 동일하다).
+          cp -r live/api _site/api
           echo "deployable=true" >> "$GITHUB_OUTPUT"
           echo "회수한 파일:"; find _site -type f | sort
 
