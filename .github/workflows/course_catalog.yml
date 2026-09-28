@@ -7,7 +7,7 @@ on:
     inputs:
       max_items:
         description: "사이트별 최대 수집 건수"
-        default: "500"
+        default: "2000"
       sites:
         description: "쉼표구분 (비우면 3사 전체)"
         default: ""
@@ -36,7 +36,7 @@ jobs:
           MAX_ITEMS="${{ inputs.max_items }}"
           SITES="${{ inputs.sites }}"
           python competitor_course_catalog_scrape.py \
-            --max-items "${MAX_ITEMS:-500}" \
+            --max-items "${MAX_ITEMS:-2000}" \
             --sites "${SITES}" \
             --debug
 

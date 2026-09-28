@@ -42,7 +42,7 @@ OUT_PATH = Path("history/competitor_course_catalog.json")
 # "신규 콘텐츠" 패널이 몇 달치를 보여줄 수 있게 신규 강좌만 따로 누적한다.
 NEW_LOG_PATH = Path("history/competitor_new_courses.jsonl")
 NEW_LOG_FIELDS = ("title", "category", "credit", "price", "orig_price", "url")
-MAX_ITEMS_DEFAULT = 500
+MAX_ITEMS_DEFAULT = 2000  # 티처빌 700·아이스크림 585건(2026-09-27) - 500 상한이면 잘린다
 MAX_PAGES = 80          # 안전장치: 무한루프 방지
 STALL_LIMIT = 3          # 연속 N회 신규 후보가 0건이면 그만둔다
 NAV_TIMEOUT_MS = 30000
