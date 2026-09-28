@@ -9,7 +9,11 @@ live/ 전체는 .gitignore로 매번 덮어써지지만, 이 파일은 git에 �
 정직하게 밝혀야 한다.
 """
 import json, os, sys
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+
+# 러너는 UTC라 06:00 KST 정기 실행이 지연 여부에 따라 전날/당일로 갈려 날짜가 겹치거나
+# 빠졌다(09-17·21·24 누락, 09-22·26 중복). 대시보드 기준일과 같은 한국 시간으로 기록한다.
+KST = timezone(timedelta(hours=9))
 
 
 def summarize(g2b_full, ai_rows, pipe):
@@ -17,7 +21,7 @@ def summarize(g2b_full, ai_rows, pipe):
     months = trend.get("months", [])
     latest_month_idx = len(months) - 1
     return {
-        "date": datetime.now().strftime("%Y-%m-%d"),
+        "date": datetime.now(KST).strftime("%Y-%m-%d"),
         "g2b_total_detail": len(g2b_full.get("detail", [])),
         "g2b_notice_latest_month": trend.get("입찰공고", [None])[latest_month_idx] if months else None,
         "g2b_award_latest_month": trend.get("낙찰", [None])[latest_month_idx] if months else None,
