@@ -105,9 +105,20 @@ def main():
     meta = {"generated_at": now.isoformat(timespec="minutes"), "latest_date": latest["date"],
             "age_days": age, "stale": age > STALE_DAYS, "tag_list": list(TOPIC_TAGS)}
     (out / "latest.json").write_text(json.dumps({**meta, "issue": latest}, ensure_ascii=False, indent=1), encoding="utf-8")
+    def issue_tags(i):
+        ts = list(i["lead"]["tags"])
+        for sec in i["sections"]:
+            for it in sec["items"]:
+                ts += [t for t in it["tags"] if t in TOPIC_TAGS]
+        return list(dict.fromkeys(ts))
+
+    # titles: 지난 호 검색용(호마다 파일을 다 받지 않고 목록만으로 기사 제목·시사점까지 검색)
     index = [{"date": i["date"], "issue_no": i["issue_no"], "headline": i["lead"]["headline"],
-              "kicker": i["lead"]["kicker"], "tags": i["lead"]["tags"], "url": i["url"],
-              "json": f"{SITE}/api/news/{i['date']}.json"} for i in reversed(issues)]
+              "kicker": i["lead"]["kicker"], "tags": issue_tags(i), "url": i["url"],
+              "json": f"{SITE}/api/news/{i['date']}.json",
+              "titles": [it["title"] for sec in i["sections"] for it in sec["items"]] +
+                        [im["news"] for im in i["implications"]]}
+             for i in reversed(issues)]
     (out / "index.json").write_text(json.dumps({**meta, "issues": index}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"news api: {len(issues)}개 호 -> {out} (최신 {latest['date']}, {age}일 전{' · stale' if meta['stale'] else ''})")
 
