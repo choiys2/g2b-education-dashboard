@@ -190,6 +190,7 @@ jobs:
           if [ -d live/api ]; then
             cp -r live/api _site/api
           fi
+          cp -r widget _site/widget   # 외부 앱 삽입용 뉴스 위젯(정적 파일)
 
       - uses: actions/upload-pages-artifact@v3
         with:

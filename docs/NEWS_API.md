@@ -1,5 +1,17 @@
 # 뉴스 공개 JSON (영업용 앱 연동)
 
+## 가장 쉬운 방법: 삽입형 위젯
+앱 화면에 아래 두 줄을 넣으면 ①토킹포인트(복사) ②분야 필터 ③헤드라인 ④경쟁사·자사 강조 ⑤지난 호 검색이 모두 들어간 카드가 그려진다.
+```html
+<div id="vedu-news"></div>
+<script src="https://choiys2.github.io/g2b-education-dashboard/widget/news-widget.js" defer></script>
+```
+- 미리보기: https://choiys2.github.io/g2b-education-dashboard/widget/
+- `data-tags="예산,AI·디지털"` 로 처음 켜 둘 분야 지정, `data-base="/api/news"` 로 프록시 주소 사용 가능.
+- Shadow DOM 안에서 그려서 앱 CSS와 간섭하지 않고, 라이트/다크 모드를 따른다.
+
+## 직접 데이터를 쓰는 방법
+
 조간 브리핑(`briefings/*.json`)을 외부 앱이 `fetch`로 바로 쓸 수 있게 평문 JSON으로 내보낸다.
 매일 06:00 KST 대시보드 배포와, 브리핑이 새로 올라올 때(`news.yml`) 함께 갱신된다.
 

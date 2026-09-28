@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>영업용 뉴스 위젯 미리보기</title>
+<style>
+  :root{color-scheme:light dark;--page:#eef1f5;--ink:#15171a;--muted:#6b7280;}
+  @media (prefers-color-scheme:dark){:root{--page:#0f1420;--ink:#eef1f6;--muted:#8a93a2;}}
+  body{margin:0;background:var(--page);color:var(--ink);font-family:system-ui,sans-serif;}
+  main{max-width:720px;margin:0 auto;padding:24px 16px;}
+  h1{font-size:18px;margin:0 0 4px;} p{font-size:13px;color:var(--muted);margin:0 0 16px;}
+  code{font-size:12px;}
+</style>
+</head>
+<body>
+<main>
+  <h1>영업용 뉴스 위젯 미리보기</h1>
+  <p>앱에 넣을 때는 아래 두 줄이면 됩니다.<br>
+  <code>&lt;div id="vedu-news"&gt;&lt;/div&gt;</code><br>
+  <code>&lt;script src="https://choiys2.github.io/g2b-education-dashboard/widget/news-widget.js" defer&gt;&lt;/script&gt;</code></p>
+  <div id="vedu-news" data-base="../api/news"></div>
+</main>
+<script src="news-widget.js" defer></script>
+</body>
+</html>
