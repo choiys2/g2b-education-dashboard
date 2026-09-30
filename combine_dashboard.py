@@ -314,6 +314,10 @@ def main():
     import training_topics
     training_topic_data = training_topics.build_from_files(new_courses["courses"], "비바샘연수원", full_live)
 
+    # B2S 학교 타깃 레이더 + 샘몰 상품 기획 보드(B2S·샘몰 기획 탭) - 위 데이터 재조합, API 호출 없음
+    import b2s_board
+    b2s = b2s_board.build(full_live, new_courses["courses"], new_courses["rows"], training_topic_data, "비바샘연수원")
+
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
     leading_rows, leading_by_region, leading_enriched = build_leading(neis_export, data_rows)
@@ -332,6 +336,7 @@ def main():
         "__BETA_JSON__": beta, "__KOSIS_FINANCE_JSON__": kosis_finance,
         "__COMPETITOR_TRAINING_JSON__": competitor_training,
         "__TRAINING_TOPICS_JSON__": training_topic_data,
+        "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():
         if token not in html:
