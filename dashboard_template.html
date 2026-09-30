@@ -47,6 +47,91 @@
     --good:#3ecf5e; --warning:#ff8a3d; --critical:#ff5c4d;
     --shadow: 0 1px 2px rgba(0,0,10,.4), 0 4px 10px rgba(0,0,10,.35), 0 20px 44px -18px rgba(0,0,15,.75);
   }
+  /* ---- 색 테마(팔레트). 라이트/다크 모드와 독립: data-palette 가 색, data-theme 가 명암 ----
+     기본(blue)은 위 토큰 그대로. 나머지는 라이트 토큰 -> 다크 토큰(시스템 다크, 강제 다크) 순으로 덮는다.
+     --hero 가 있는 팔레트는 상단 헤더를 색 띠로 칠한다. */
+  :root[data-palette="lime"]{
+    --page:#f2f4ee; --surface:#ffffff; --surface-2:#e7ecdf; --ink:#14202e; --ink-2:#3a4757; --muted:#667085;
+    --grid:#dde3d4; --border:#d6ddcb; --accent:#4d7c0f; --accent-2:#1f4e79; --accent-light:#a3c93a; --accent-dark:#3f6212;
+    --neutral-top:#e6ebde; --neutral-front:#cfd8c2; --neutral-side:#aab99a;
+    --hero:#0f2a4a; --hero-accent:#c6e03a; --hero-accent-ink:#14202e;
+  }
+  :root[data-palette="teal"]{
+    --page:#eef5f3; --surface:#ffffff; --surface-2:#dcebe7; --ink:#10211f; --ink-2:#34504b; --muted:#5f7a75;
+    --grid:#d3e4df; --border:#cde0da; --accent:#0f766e; --accent-2:#b7791f; --accent-light:#4fb3a6; --accent-dark:#0b5c55;
+    --neutral-top:#e1eeea; --neutral-front:#c5dcd6; --neutral-side:#9dbdb5;
+    --hero:#0f4d44; --hero-accent:#e8f5f1; --hero-accent-ink:#0f4d44;
+  }
+  :root[data-palette="midnight"]{
+    --page:#eef1f7; --surface:#ffffff; --surface-2:#e1e7f3; --ink:#0d1b33; --ink-2:#34425e; --muted:#64708a;
+    --grid:#d8dfed; --border:#d2dae9; --accent:#2563eb; --accent-2:#0891b2; --accent-light:#6c9cf5; --accent-dark:#1d4ed8;
+    --neutral-top:#e2e8f4; --neutral-front:#c6d1e6; --neutral-side:#a3b2cf;
+    --hero:#0d1b33; --hero-accent:#4f8cff; --hero-accent-ink:#ffffff;
+  }
+  :root[data-palette="amber"]{
+    --page:#f4f3ef; --surface:#ffffff; --surface-2:#eae8e1; --ink:#1f2328; --ink-2:#454b54; --muted:#6b7079;
+    --grid:#e2dfd6; --border:#dcd9cf; --accent:#b45309; --accent-2:#475569; --accent-light:#f0a93b; --accent-dark:#92400e;
+    --neutral-top:#eceae3; --neutral-front:#d6d2c6; --neutral-side:#b3ad9f;
+    --hero:#23272f; --hero-accent:#f5b544; --hero-accent-ink:#1f2328;
+  }
+  @media (prefers-color-scheme: dark){
+    :root[data-palette="lime"]:not([data-theme="light"]){
+      --page:#0b1524; --surface:#13213a; --surface-2:#1a2b47; --ink:#eef3f8; --ink-2:#b5c1d1; --muted:#7f8ea3;
+      --grid:#24344f; --border:rgba(198,224,58,0.12); --accent:#c6e03a; --accent-2:#5fb3d9; --accent-light:#dcef7a; --accent-dark:#9bb52a;
+      --neutral-top:#24344f; --neutral-front:#18263e; --neutral-side:#111c2f; --hero:#16345c;
+    }
+    :root[data-palette="teal"]:not([data-theme="light"]){
+      --page:#0b1716; --surface:#122523; --surface-2:#18322f; --ink:#e9f4f1; --ink-2:#b0cac4; --muted:#7a9993;
+      --grid:#21403b; --border:rgba(120,220,200,0.12); --accent:#3fc1ad; --accent-2:#e3a948; --accent-light:#7ad8ca; --accent-dark:#1f9e8c;
+      --neutral-top:#21403b; --neutral-front:#162c29; --neutral-side:#0f201e; --hero:#0f4d44;
+    }
+    :root[data-palette="midnight"]:not([data-theme="light"]){
+      --page:#080d19; --surface:#0f182b; --surface-2:#16223a; --ink:#e8eefb; --ink-2:#aebbd4; --muted:#7483a0;
+      --grid:#1e2c47; --border:rgba(120,160,255,0.13); --accent:#5b8cff; --accent-2:#38bdf8; --accent-light:#8fb0ff; --accent-dark:#3b6ef0;
+      --neutral-top:#1e2c47; --neutral-front:#131e33; --neutral-side:#0c1424; --hero:#18305e;
+    }
+    :root[data-palette="amber"]:not([data-theme="light"]){
+      --page:#15171b; --surface:#1e2127; --surface-2:#272b33; --ink:#f1f0ec; --ink-2:#c1c0ba; --muted:#8a8c90;
+      --grid:#30343c; --border:rgba(255,255,255,0.09); --accent:#f5b544; --accent-2:#94a3b8; --accent-light:#f8cd7a; --accent-dark:#d99a2b;
+      --neutral-top:#30343c; --neutral-front:#23262d; --neutral-side:#1a1c21; --hero:#343a46;
+    }
+  }
+  :root[data-palette="lime"][data-theme="dark"]{
+    --page:#0b1524; --surface:#13213a; --surface-2:#1a2b47; --ink:#eef3f8; --ink-2:#b5c1d1; --muted:#7f8ea3;
+    --grid:#24344f; --border:rgba(198,224,58,0.12); --accent:#c6e03a; --accent-2:#5fb3d9; --accent-light:#dcef7a; --accent-dark:#9bb52a;
+    --neutral-top:#24344f; --neutral-front:#18263e; --neutral-side:#111c2f; --hero:#16345c;
+  }
+  :root[data-palette="teal"][data-theme="dark"]{
+    --page:#0b1716; --surface:#122523; --surface-2:#18322f; --ink:#e9f4f1; --ink-2:#b0cac4; --muted:#7a9993;
+    --grid:#21403b; --border:rgba(120,220,200,0.12); --accent:#3fc1ad; --accent-2:#e3a948; --accent-light:#7ad8ca; --accent-dark:#1f9e8c;
+    --neutral-top:#21403b; --neutral-front:#162c29; --neutral-side:#0f201e; --hero:#0f4d44;
+  }
+  :root[data-palette="midnight"][data-theme="dark"]{
+    --page:#080d19; --surface:#0f182b; --surface-2:#16223a; --ink:#e8eefb; --ink-2:#aebbd4; --muted:#7483a0;
+    --grid:#1e2c47; --border:rgba(120,160,255,0.13); --accent:#5b8cff; --accent-2:#38bdf8; --accent-light:#8fb0ff; --accent-dark:#3b6ef0;
+    --neutral-top:#1e2c47; --neutral-front:#131e33; --neutral-side:#0c1424; --hero:#18305e;
+  }
+  :root[data-palette="amber"][data-theme="dark"]{
+    --page:#15171b; --surface:#1e2127; --surface-2:#272b33; --ink:#f1f0ec; --ink-2:#c1c0ba; --muted:#8a8c90;
+    --grid:#30343c; --border:rgba(255,255,255,0.09); --accent:#f5b544; --accent-2:#94a3b8; --accent-light:#f8cd7a; --accent-dark:#d99a2b;
+    --neutral-top:#30343c; --neutral-front:#23262d; --neutral-side:#1a1c21; --hero:#343a46;
+  }
+  /* 색 띠 헤더: 띠 안에서는 글자·칩 색을 띠 기준으로 다시 잡는다 */
+  :root[data-palette]:not([data-palette="blue"]) header.top{
+    background:var(--hero);border-radius:16px;padding:22px 24px 20px;
+    --ink:#ffffff; --ink-2:rgba(255,255,255,.78); --surface-2:rgba(255,255,255,.10); --surface:rgba(255,255,255,.22);
+    --border:rgba(255,255,255,.16); --accent:var(--hero-accent);
+  }
+  header.top h1{color:var(--ink);}
+
+  /* 색 맛보기(팔레트 선택) */
+  .palette-switch{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--border);border-radius:100px;padding:4px 8px;}
+  .palette-switch .lbl{font-size:12px;color:var(--ink-2);font-weight:600;margin-right:2px;}
+  .pal-btn{appearance:none;cursor:pointer;width:20px;height:20px;border-radius:50%;padding:0;border:2px solid transparent;
+    background:linear-gradient(135deg, var(--c1) 0 50%, var(--c2) 50% 100%);}
+  .pal-btn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface);}
+  .header-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -189,7 +274,8 @@
   .callout p+p{margin-top:6px;}
 
   /* ---------- tabs ---------- */
-  .tabnav{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--border);}
+  .tabnav{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:thin;}
+  .tabnav .tabbtn{flex:none;white-space:nowrap;}  /* 좁은 화면에서 탭 글자가 세로로 쪼개지던 문제 -> 가로 스크롤 */
   .tabbtn{
     appearance:none;border:none;background:transparent;cursor:pointer;
     font-family:inherit;font-size:14px;font-weight:600;color:var(--ink-2);
@@ -489,10 +575,20 @@
   <header class="top">
     <div class="header-top-row">
       <div class="eyebrow">(주)비상교육 · B2G 시장 전략 대시보드</div>
-      <div class="theme-switch" role="group" aria-label="화면 테마 선택">
-        <button class="theme-btn" data-mode="light" title="라이트 모드" aria-label="라이트 모드">☀️</button>
-        <button class="theme-btn" data-mode="auto" title="시스템 설정 따르기" aria-label="자동(시스템 설정)">🖥️</button>
-        <button class="theme-btn" data-mode="dark" title="다크 모드" aria-label="다크 모드">🌙</button>
+      <div class="header-tools">
+        <div class="palette-switch" role="group" aria-label="색 테마 선택">
+          <span class="lbl">색</span>
+          <button class="pal-btn" data-palette="blue" style="--c1:#0075de;--c2:#eef3fb" title="기본 블루" aria-label="기본 블루"></button>
+          <button class="pal-btn" data-palette="lime" style="--c1:#0f2a4a;--c2:#c6e03a" title="네이비+라임" aria-label="네이비+라임"></button>
+          <button class="pal-btn" data-palette="teal" style="--c1:#0f4d44;--c2:#3fc1ad" title="비바샘 틸" aria-label="비바샘 틸"></button>
+          <button class="pal-btn" data-palette="midnight" style="--c1:#0d1b33;--c2:#4f8cff" title="미드나잇 블루" aria-label="미드나잇 블루"></button>
+          <button class="pal-btn" data-palette="amber" style="--c1:#23272f;--c2:#f5b544" title="슬레이트+앰버" aria-label="슬레이트+앰버"></button>
+        </div>
+        <div class="theme-switch" role="group" aria-label="화면 테마 선택">
+          <button class="theme-btn" data-mode="light" title="라이트 모드" aria-label="라이트 모드">☀️</button>
+          <button class="theme-btn" data-mode="auto" title="시스템 설정 따르기" aria-label="자동(시스템 설정)">🖥️</button>
+          <button class="theme-btn" data-mode="dark" title="다크 모드" aria-label="다크 모드">🌙</button>
+        </div>
       </div>
     </div>
     <h1>17개 시도교육청 초·중등 교육시장 입체 분석</h1>
@@ -1842,6 +1938,27 @@
   apply(saved);
 
   btns.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+})();
+
+/* ---------------- 색 테마(팔레트) 선택 - 명암 모드와 따로 저장 ---------------- */
+(function paletteSwitcher(){
+  const KEY = 'neis-dashboard-palette';
+  const root = document.documentElement;
+  const btns = [...document.querySelectorAll('.pal-btn')];
+  const valid = btns.map(b => b.dataset.palette);
+  function apply(p){
+    if (!valid.includes(p)) p = 'blue';
+    if (p === 'blue') root.removeAttribute('data-palette');
+    else root.setAttribute('data-palette', p);
+    btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.palette === p)));
+  }
+  let saved = 'blue';
+  try { saved = localStorage.getItem(KEY) || 'blue'; } catch(e){}
+  apply(saved);
+  btns.forEach(b => b.addEventListener('click', () => {
+    try { localStorage.setItem(KEY, b.dataset.palette); } catch(e){}
+    apply(b.dataset.palette);
+  }));
 })();
 
 const DATA = __DATA_JSON__;
