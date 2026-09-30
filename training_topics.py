@@ -35,7 +35,11 @@ FETCH_KEYWORDS = ["연수", "역량강화", "워크숍", "위탁교육", "직무
 EDU_ORG_RE = re.compile(r"교육청|교육지원청|연수원|교육원|교육연구|교육정보|교육과학|과학원|초등학교|중학교|고등학교|학교")
 UNIV_RE = re.compile(r"대학교|대학원|대학$")
 # 연수·교육 용역이 아닌 공고(시설·물품·급식 등)
-NOT_TRAINING_RE = re.compile(r"공사|구매|임차|설치|급식|청소|경비|시설|리모델링|건축|전기|소방|물품|차량|보험|"
+# 교원 연수 과정 개발과 무관한 여행·교류형 연수(학생·교원 해외/어학연수, 자매학교 방문 등)
+TRIP_RE = re.compile(r"해외|국외|어학\s?연수|자매\s?학교|방한|해외\s?체험|글로벌\s?현장|콜센터|탐방|문화\s?교류|초청\s?연수")
+# 교육 행정기관이 아닌 발주처(이름에 '연수원'·'학교'가 들어가도 제외)
+NOT_EDU_ORG_RE = re.compile(r"소방|해양수산|경찰|국방|산림|농업기술|공무원|인재개발원|사법|법무|보훈|연금|기술교육원|고용노동")
+NOT_TRAINING_RE = re.compile(r"공사|구매|임차|설치|급식|청소|경비|세탁|침구|사무\s?기기|전산\s?장비|시설|리모델링|건축|전기|소방|물품|차량|보험|"
                              r"인쇄|제작\s?설치|유지\s?보수|유지관리|숙박|식당|방역|승강기|냉난방|조경|감리|설계")
 
 # ---------------- 분류 규칙 ----------------
@@ -56,9 +60,9 @@ MODE_RULES = [
 _MODE_RE = [(k, re.compile(v, re.I)) for k, v in MODE_RULES]
 
 AUDIENCE_RULES = [
-    ("교원", r"교원|교사|교직원|직무|관리자|교장|교감|선도교|수석|신규|저경력|장학|연수"),
-    ("학생", r"학생|캠프|체험|방과후|동아리"),
+    ("교원", r"교원|교사|교직|직무|관리자|교장|교감|선도교|수석|신규|저경력|장학|교육\s?공무원|전문직|교육\s?전문가"),
     ("학부모", r"학부모"),
+    ("학생", r"학생|캠프|체험|방과후|동아리|취업|진로\s?체험|중소기업\s?(의\s?)?이해|현장\s?실습|도제|기능\s?경기|인력\s?양성"),
 ]
 _AUD_RE = [(k, re.compile(v)) for k, v in AUDIENCE_RULES]
 
@@ -112,7 +116,7 @@ TOPICS = [
      {"초": ("초등 기후·생태전환 프로젝트 수업", "학교 텃밭·에너지 프로젝트, 교과 연계 탐구"),
       "중": ("중등 디지털 시민성과 미디어 리터러시", "허위정보 판별, 디지털 발자국, 온라인 관계 윤리 수업"),
       "고": ("중등 디지털 시민성과 미디어 리터러시", "허위정보 판별, 디지털 발자국, 온라인 관계 윤리 수업")}),
-    ("leader", "학교 리더십·교원 성장", r"관리자|교장|교감|리더십|신규\s?교사|신규\s?교원|저경력|수석\s?교사|멘토링|컨설팅|장학|자격\s?연수|승진",
+    ("leader", "학교 리더십·교원 성장", r"관리자|교장|교감|리더십|생애\s?단계|교직\s?생애|은퇴|신규\s?교사|신규\s?교원|저경력|수석\s?교사|멘토링|컨설팅|장학|자격\s?연수|승진",
      2, "저경력 교사 처우·성장 경로가 정책 쟁점으로 부각되고(OECD 교육지표 2026), 관리자 역량 요구도 커지고 있다.",
      {"초": ("초등 저경력 교사 학급경영 첫 3년", "학급 규칙·관계 형성, 학부모 상담, 업무 적응 사례"),
       "중": ("중등 저경력 교사 수업·생활지도 실무", "수업 운영, 생활지도 초기 대응, 담임 업무 사례"),
@@ -131,6 +135,7 @@ TOPICS = [
 _TOPIC_RE = [(t[0], re.compile(t[2])) for t in TOPICS]  # 대소문자 구분: "AI"가 영문 단어 속 "ai"에 걸리지 않게
 TOPIC_META = {t[0]: t for t in TOPICS}
 POLICY_POINTS = {3: 20, 2: 13, 1: 6}
+GENERIC_CONTENT_RE = re.compile(r"콘텐츠|원격\s?(직무)?연수|사이버\s?연수|이러닝")
 
 
 def classify_levels(title, org=""):
@@ -171,9 +176,9 @@ def _to_int(v):
 
 
 def is_training_bid(title, org):
-    if not title or NOT_TRAINING_RE.search(title):
+    if not title or NOT_TRAINING_RE.search(title) or TRIP_RE.search(title):
         return False
-    if UNIV_RE.search(org or ""):
+    if UNIV_RE.search(org or "") or NOT_EDU_ORG_RE.search(org or ""):
         return False
     return bool(EDU_ORG_RE.search(org or ""))
 
@@ -292,8 +297,12 @@ def build(history_rows=None, full_live=None, competitor_wins=None, courses_by_co
           self_name="비바샘연수원", today=None, window_days=WINDOW_DAYS):
     today = today or date.today()
     start = (today - timedelta(days=window_days)).isoformat()
-    rows = [r for r in _rows_from_sources(history_rows or {}, full_live, competitor_wins)
-            if start <= (r.get("d") or "") <= today.isoformat()]
+    # 누적 이력에도 현재 규칙을 다시 적용한다(규칙을 고치면 과거분까지 바로 반영되게)
+    in_window = [r for r in _rows_from_sources(history_rows or {}, full_live, competitor_wins)
+                 if start <= (r.get("d") or "") <= today.isoformat() and is_training_bid(r["t"], r.get("o", ""))]
+    # 학생 대상 프로그램(취업캠프·현장실습 등)은 교원 연수 개발 대상이 아니라 분석에서 뺀다
+    rows = [r for r in in_window if classify_audience(r["t"]) != "학생"]
+    excluded_student = len(in_window) - len(rows)
     dates = sorted(r["d"] for r in rows)
     first = dates[0] if dates else ""
     # 증감: 실제 데이터 구간을 반으로 나눠 앞/뒤 건수 비교(데이터가 12개월이 안 차도 공정하게)
@@ -305,7 +314,7 @@ def build(history_rows=None, full_live=None, competitor_wins=None, courses_by_co
     coverage, has_catalog = _catalog_coverage(courses_by_company, self_name)
     agg = {tid: {"n": 0, "amount": 0, "recent": 0, "prior": 0, "levels": Counter(), "modes": Counter(),
                  "aud": Counter(), "regions": Counter(), "samples": []} for tid, *_ in TOPICS}
-    level_totals, mode_totals, untagged = Counter(), Counter(), 0
+    level_totals, mode_totals, untagged, generic = Counter(), Counter(), 0, []
     for r in rows:
         title = r["t"]
         lv = classify_levels(title, r.get("o", ""))
@@ -317,6 +326,8 @@ def build(history_rows=None, full_live=None, competitor_wins=None, courses_by_co
         tids = classify_topics(title)
         if not tids:
             untagged += 1
+            if GENERIC_CONTENT_RE.search(title):
+                generic.append({"t": title, "o": r.get("o", ""), "d": r["d"], "a": r.get("a") or 0})
         for tid in tids:
             a = agg[tid]
             a["n"] += 1
@@ -386,7 +397,10 @@ def build(history_rows=None, full_live=None, competitor_wins=None, courses_by_co
         "generated": today.isoformat(),
         "window": {"from": first or start, "to": today.isoformat(), "target_days": window_days,
                    "covered_days": (today - date.fromisoformat(first)).days + 1 if first else 0, "mid": mid},
-        "total": total, "untagged": untagged,
+        "total": total, "untagged": untagged, "excluded_student": excluded_student,
+        # 주제를 정하지 않은 원격연수 콘텐츠 개발·임대 공고 = 자사 콘텐츠를 그대로 제안할 수 있는 직접 기회
+        "generic_content": {"n": len(generic), "amount": sum(g["a"] for g in generic),
+                            "samples": sorted(generic, key=lambda g: g["d"], reverse=True)[:5]},
         "levels": {l: level_totals[l] for l in LEVELS + ["공통"]},
         "modes": {m: mode_totals[m] for m in MODES + ["미표기"]},
         "has_catalog": has_catalog, "self_name": self_name,
