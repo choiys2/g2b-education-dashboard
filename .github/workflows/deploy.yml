@@ -137,6 +137,15 @@ jobs:
         continue-on-error: true
         run: python news_api_export.py briefings live/api/news
 
+      # 연수 주제 수요 분석용 입찰공고(연수 일반 키워드) - history/training_bids.jsonl 에 누적.
+      # 누적이 비어 있으면 스크립트가 알아서 12개월을 백필하고, 이후엔 최근 45일만 겹쳐 조회한다.
+      - name: 연수 입찰공고 누적 (2027 연수 개발 추천용)
+        timeout-minutes: 30
+        continue-on-error: true
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python training_topics.py fetch --days 45
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
@@ -163,6 +172,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
+          [ -f history/training_bids.jsonl ] && git add history/training_bids.jsonl   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(TZ=Asia/Seoul date +%F)"
           # 2026-09-27: 카탈로그 크롤링 커밋과 겹쳐 push가 거부돼 그날 지표가 유실됐다.
           # 서로 다른 파일만 건드리므로 rebase 후 올리면 충돌 없이 합쳐진다.
