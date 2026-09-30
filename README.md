@@ -16,6 +16,7 @@ URL 확인 (`https://<사용자명>.github.io/<저장소명>/`)
 | `build_dashboard.py` | 스코어링·집계 결과 → 단일 HTML 대시보드(`render_v2`) |
 | `run_pipeline.py` | 위 과정을 한 번에 실행 (올해 1/1~오늘 범위) |
 | `g2b_config.example.json` | 설정 템플릿(서비스키 자리는 플레이스홀더) |
+| `b2s_board.py` | 통합 대시보드 'B2S·샘몰 기획' 탭: 학교 타깃 레이더(가중치 조정) + 샘몰 상품 개발 우선순위 Top 20 (기존 데이터 재조합, API 호출 없음) |
 | `build_news_briefing.py` | `briefings/*.json` → 조간 신문 지면(`/news/`) 렌더링 |
 | `.github/workflows/deploy.yml` | 매일 06:00 KST 자동 수집·재생성 후 GitHub Pages 배포 |
 | `.github/workflows/news.yml` | `briefings/` 변경 시 신문 지면만 재생성·배포 (나라장터 API 미호출) |
