@@ -3471,7 +3471,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   }
   const w = D.window;
   const partial = w.covered_days < w.target_days - 15;
-  desc.innerHTML = `${h(w.from)} ~ ${h(w.to)} 교육청·교육지원청·연수원·학교가 낸 연수 입찰공고 <b>${fmt(D.total)}건</b>을 주제별로 묶었습니다. 공고 수(수요), 증감, 2027 정책 연계, 자사 강좌 공백을 합산해 우선순위를 매기고 학교급별 과정안을 제안합니다.`
+  desc.innerHTML = `${h(w.from)} ~ ${h(w.to)} 교육청·교육지원청·연수원·학교가 낸 연수 입찰공고 <b>${fmt(D.total)}건</b>을 주제별로 묶었습니다(해외·어학연수, 시설 용역${D.excluded_student ? `, 학생 대상 프로그램 ${fmt(D.excluded_student)}건` : ''}은 제외). 공고 수(수요), 증감, 2027 정책 연계, 자사 강좌 공백을 합산해 우선순위를 매기고 학교급별 과정안을 제안합니다.`
     + (partial ? ` <span style="color:var(--warning);">현재 ${fmt(w.covered_days)}일치 데이터이며, 매일 누적되어 12개월로 채워집니다.</span>` : '');
 
   const stack = (obj, colors, names) => {
@@ -3480,10 +3480,14 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     return `<div class="tt-stack">${keys.map(k => `<span style="width:${obj[k]/tot*100}%;background:${colors[k]}"></span>`).join('')}</div>
       <div class="tt-legend">${keys.map(k => `<span><i style="background:${colors[k]}"></i>${h(names ? names[k] : k)} ${fmt(obj[k])}건 (${Math.round(obj[k]/tot*100)}%)</span>`).join('')}</div>`;
   };
+  const G = D.generic_content;
   const topMode = Object.entries(D.modes).filter(([k]) => k !== '미표기').sort((a, b) => b[1] - a[1])[0];
   document.getElementById('ttStrip').innerHTML = `
     <div class="tt-stat"><div class="lbl">학교급 분포 (공고명 기준, 중복 포함)</div>${stack(D.levels, LV_COLOR, LV_NAME)}</div>
-    <div class="tt-stat"><div class="lbl">운영 형태${topMode && topMode[1] ? ` · 표기된 공고 중 ${h(topMode[0])}형이 가장 많음` : ''}</div>${stack(D.modes, MODE_COLOR)}</div>`;
+    <div class="tt-stat"><div class="lbl">운영 형태${topMode && topMode[1] ? ` · 표기된 공고 중 ${h(topMode[0])}형이 가장 많음` : ''}</div>${stack(D.modes, MODE_COLOR)}</div>
+    ${G && G.n ? `<div class="tt-stat"><div class="lbl">주제 미지정 원격연수 콘텐츠 개발·이용 공고 · 자사 콘텐츠 직접 제안 대상</div>
+      <div style="font-size:20px;font-weight:800;color:var(--ink);">${fmt(G.n)}건${G.amount ? ` <span style="font-size:13px;color:var(--muted);font-weight:700;">예산 ${fmtWon(G.amount)}</span>` : ''}</div>
+      <ul class="tt-samples" style="margin-top:6px;">${G.samples.slice(0, 3).map(s => `<li title="${h(s.o)} · ${h(s.t)}">${h(s.d)} ${h(s.o)} · ${h(s.t)}</li>`).join('')}</ul></div>` : ''}`;
 
   // 학교급을 고르면 수요를 '그 학교급 명시 + 공통' 공고로 다시 계산해 순위를 매긴다.
   const scored = lv => {
@@ -3511,7 +3515,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 
   function render(lv) {
     const rows = scored(lv);
-    cards.innerHTML = rows.slice(0, 6).map((t, i) => {
+    cards.innerHTML = rows.filter(t => t.demand > 0).slice(0, 6).map((t, i) => {  // 공고 0건 주제는 표에만
       const props = lv ? t.proposals.filter(p => p.level === lv) : t.proposals.slice().sort((a, b) => b.demand - a.demand).slice(0, 2);
       const samples = t.samples.filter(s => !lv || !s.lv.length || s.lv.includes(lv)).slice(0, 3);
       return `<article class="tt-card">
