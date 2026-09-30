@@ -378,6 +378,32 @@
   .tt-more{margin-top:16px;}
   .tt-more summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--ink-2);}
   .tt-note{font-size:12px;color:var(--muted);line-height:1.6;margin:10px 0 0;}
+  /* B2S·샘몰 기획 탭 */
+  .bs-weights{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px 18px;margin:0 0 16px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);}
+  .bs-weights label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;font-weight:700;color:var(--ink-2);}
+  .bs-weights label span{display:flex;justify-content:space-between;}
+  .bs-weights label small{font-weight:500;color:var(--muted);font-size:11.5px;}
+  .bs-weights input[type=range]{width:100%;accent-color:var(--accent);}
+  .bs-regions{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:14px;}
+  .bs-reg{font-family:inherit;text-align:left;border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:var(--surface);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;gap:4px;}
+  .bs-reg[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);}
+  .bs-reg .top{display:flex;justify-content:space-between;align-items:baseline;font-weight:800;font-size:13.5px;}
+  .bs-reg .top b{font-variant-numeric:tabular-nums;color:var(--accent);}
+  .bs-reg .bar{height:5px;border-radius:3px;background:var(--surface-2);overflow:hidden;}
+  .bs-reg .bar i{display:block;height:100%;background:var(--accent);}
+  .bs-reg .sub2{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .bs-detail{border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:var(--ink-2);line-height:1.6;background:var(--surface-2);}
+  .bs-detail b{color:var(--ink);}
+  .bs-parts{display:flex;height:8px;border-radius:4px;overflow:hidden;min-width:90px;background:var(--surface-2);}
+  .bs-parts i{display:block;height:100%;}
+  .bs-pos{font-size:11px;font-weight:800;padding:2px 7px;border-radius:100px;white-space:nowrap;}
+  .bs-pos.new{color:var(--warning);background:color-mix(in srgb, var(--warning) 14%, transparent);}
+  .bs-pos.add{color:var(--accent);background:color-mix(in srgb, var(--accent) 14%, transparent);}
+  .bs-pos.keep{color:var(--muted);background:var(--surface-2);}
+  .bs-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+  .bs-filters select{font-family:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);}
+  #panel-b2s table.data td, #panel-b2s table.data th{white-space:nowrap;}
+  #panel-b2s table.data td.wrap{white-space:normal;min-width:220px;}
   .tt-empty{border:1px dashed var(--border);border-radius:12px;padding:22px;text-align:center;color:var(--muted);font-size:13px;}
 
   /* ---------- data table ---------- */
@@ -609,6 +635,7 @@
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 선도학교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">영업 파이프라인</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="search">통합검색</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">관계망</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="beta">베타 기능</button>
@@ -1757,6 +1784,81 @@
 
   </div><!-- /panel-competitor -->
 
+  <div class="tabpanel" id="panel-b2s">
+
+    <div class="callout">
+      <div class="icon">i</div>
+      <div>
+        <h3>B2S 학교 타깃 레이더 + 샘몰 상품 기획 보드</h3>
+        <p><b>어디에 팔지(①)</b>와 <b>무엇을 만들지(②)</b>를 한 화면에서 봅니다. 새로 수집하는 데이터는 없고, 이미 있는 공개 데이터를 조합했습니다: EDSS 학교회계 2025 계약(학교 단위), 나라장터 교원 연수 입찰공고 12개월, 경쟁사 나라장터 낙찰, 3사 연수원 강좌 카탈로그(가격·차시).</p>
+        <p><b>한계(추정 포함):</b> 학교 계약 데이터에는 <b>학교명이 없어</b> 소재지(시군구·읍면동)·학교급·설립유형으로 구분하며, 시도별 계약액 상위 30개교만 들어 있습니다. '용역 구매력'은 연수 예산 자체가 아니라 학교 용역 계약액으로 추정한 값입니다. 경쟁사 낙찰은 표본이 적고(<span id="bsWinsN"></span>) 나라장터 밖 거래(S2B·직접계약)는 빠져 있습니다. 카탈로그는 부분 수집이라 가격·강좌 수는 경향으로만 보세요.</p>
+      </div>
+    </div>
+
+    <section class="kpis" id="kpisB2S"></section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">① B2S 학교 타깃 레이더</p>
+          <p class="panel-desc">4가지 요인(각 0~1)에 가중치를 곱해 100점으로 합산합니다. 가중치를 바꾸면 순위가 바로 다시 계산됩니다. 시도 카드를 누르면 아래 학교 리드가 그 지역으로 좁혀집니다.</p>
+        </div>
+      </div>
+      <div class="bs-weights" id="bsWeights"></div>
+      <div class="bs-regions" id="bsRegions"></div>
+      <div class="bs-detail" id="bsRegionDetail"></div>
+      <div class="panel-head" style="margin-bottom:8px;">
+        <div><p class="panel-title" style="font-size:15px;">타깃 학교 리드 <span id="bsLeadCount" style="font-size:12px;color:var(--muted);font-weight:600;"></span></p></div>
+        <div class="bs-filters">
+          <select id="bsGrade"><option value="">전체 학교급</option><option value="초">초등학교</option><option value="중">중학교</option><option value="고">고등학교</option></select>
+          <select id="bsType"><option value="">전체 설립유형</option><option value="공립">공립</option><option value="사립">사립</option><option value="국립">국립</option></select>
+          <button class="btn-ghost" id="bsLeadCsv" type="button">⬇ CSV 다운로드</button>
+        </div>
+      </div>
+      <div class="tbl-wrap tall">
+        <table class="data" id="bsLeadTable">
+          <thead><tr><th>#</th><th>점수</th><th>요인 구성</th><th>시도</th><th>시군구 · 읍면동</th><th>학교급</th><th>설립</th><th>용역 계약액</th><th>전체 계약액</th><th>계약 건수</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <details class="tt-more">
+        <summary>시군구별 학교당 계약액 (계약 총액 상위 80개 시군구)</summary>
+        <div class="tbl-wrap" style="margin-top:10px;max-height:50vh;overflow:auto;">
+          <table class="data" id="bsSigunguTable">
+            <thead><tr><th>시군구</th><th>학교 수</th><th>계약 총액</th><th>학교당 계약액</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+      <p class="tt-note" id="bsRadarNote"></p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">② 샘몰 상품 기획 보드 · 개발 우선순위 Top 20</p>
+          <p class="panel-desc" id="bsProdDesc"></p>
+        </div>
+        <div class="view-toggle" id="bsProdLevel" role="group" aria-label="학교급 선택">
+          <button type="button" data-lv="" aria-pressed="true">전체</button>
+          <button type="button" data-lv="초" aria-pressed="false">초등</button>
+          <button type="button" data-lv="중" aria-pressed="false">중학교</button>
+          <button type="button" data-lv="고" aria-pressed="false">고등학교</button>
+        </div>
+      </div>
+      <div class="tt-strip" id="bsPriceStrip"></div>
+      <div class="tt-grid" id="bsProdCards"></div>
+      <div class="tbl-wrap" style="margin-top:16px;">
+        <table class="data" id="bsProdTable">
+          <thead><tr><th>#</th><th>점수</th><th>요인 구성</th><th>과정안</th><th>주제</th><th>학교급</th><th>포지션</th><th>공공 수요</th><th>경쟁사 강좌</th><th>자사 강좌</th><th>권장 차시</th><th>권장 가격(15차시)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="tt-note">점수(100) = 공공 수요 25(학교급 명시+공통 연수 공고 수) + 시장 규모 20(경쟁사 2사 보유 강좌 수: 교사가 이미 돈을 내고 듣는 주제인지) + 경쟁사 신규 모멘텀 15(최근 180일 경쟁사 신규 강좌) + 2027 정책 15(상 15·중 10·하 5) + 자사 공백 25(자사 강좌가 경쟁사 평균보다 적을수록 높음, 0개면 만점). 권장 가격은 같은 주제 경쟁사 15차시(1학점) 과정의 가격 분포(25~75%)이며 3개 미만이면 경쟁사 전체 15차시 분포를 씁니다. 주제·학교급은 강좌명·공고명 키워드로 자동 분류(검수 전)했습니다.</p>
+    </section>
+
+  </div><!-- /panel-b2s -->
+
   <div class="tabpanel" id="panel-search">
 
     <div class="callout">
@@ -1982,6 +2084,7 @@ const LEADING_BY_REGION = __LEADING_BY_REGION_JSON__;
 const LEADING_ENRICHED = __LEADING_ENRICHED_JSON__;
 const G2B_FULL = __G2B_FULL_JSON__;
 const TRAINING_TOPICS = __TRAINING_TOPICS_JSON__;
+const B2S_BOARD = __B2S_BOARD_JSON__;
 const PIPE = __PIPE_JSON__;
 const BETA = __BETA_JSON__;
 
@@ -3550,6 +3653,160 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     render(b.dataset.lv);
   });
   render('');
+})();
+
+// B2S·샘몰 기획: ① 학교 타깃 레이더(가중치 조정) + ② 샘몰 상품 개발 우선순위 (b2s_board.py)
+(function renderB2SBoard(){
+  const B = B2S_BOARD;
+  if (!B || !B.regions || !B.regions.length) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const LV_NAME = {'초':'초등', '중':'중학교', '고':'고등학교'};
+  const TN = B.topic_names || {};
+  const FACTORS = [
+    {k:'buy', name:'용역 구매력', color:'var(--accent)', def:35, hint:'학교당 용역 계약액(지역) · 학교별 용역 계약액 백분위(리드)'},
+    {k:'history', name:'연수 구매 이력', color:'var(--accent-2)', def:25, hint:'지역 교원 연수 입찰공고 12개월 건수'},
+    {k:'scale', name:'규모', color:'var(--accent-purple)', def:20, hint:'학교 수(지역) · 전체 계약액 백분위(리드)'},
+    {k:'gap', name:'경쟁사 공백', color:'var(--good)', def:20, hint:'경쟁사 낙찰이 적은 지역일수록 높음'},
+  ];
+  const W = Object.fromEntries(FACTORS.map(f => [f.k, f.def]));
+  let selRegion = '';
+  const score = f => {
+    const tot = FACTORS.reduce((a, x) => a + W[x.k], 0) || 1;
+    return Math.round(FACTORS.reduce((a, x) => a + W[x.k] * (f[x.k] || 0), 0) / tot * 100);
+  };
+  const partsBar = f => {
+    const tot = FACTORS.reduce((a, x) => a + W[x.k], 0) || 1;
+    return `<div class="bs-parts" title="${FACTORS.map(x => `${x.name} ${Math.round(W[x.k] * (f[x.k] || 0) / tot * 100)}점`).join(' · ')}">${
+      FACTORS.map(x => `<i style="width:${W[x.k] * (f[x.k] || 0) / tot * 100}%;background:${x.color}"></i>`).join('')}</div>`;
+  };
+
+  document.getElementById('bsWinsN').textContent = `누적 ${fmt(B.comp_wins_total)}건`;
+
+  // ---- KPI ----
+  const regionsSorted = () => B.regions.map(r => ({...r, s: score(r.f)})).sort((a, b) => b.s - a.s);
+  const P = B.products;
+  const po = B.price_overall || {};
+  function renderKpis(){
+    const top = regionsSorted()[0];
+    const tiles = [
+      {lbl:'분석 대상 학교', val: fmt(B.school_total) + '교', sup:`EDSS ${h(B.school_year)} 계약 · 리드 ${fmt(B.leads.length)}교(시도 상위 30)`},
+      {lbl:'교원 연수 공고 (12개월)', val: fmt(B.bids_total) + '건', sup:'학생 대상·해외연수·시설 용역 제외'},
+      {lbl:'B2S 1순위 지역', val: h(top.region), sup:`${top.s}점 · 학교당 용역 ${fmtWon(top.svc_per_school)}`},
+      {lbl:'샘몰 1순위 과정', val: P.length ? h(TN[P[0].tid] || P[0].topic) : '-', sup: P.length ? `${h(LV_NAME[P[0].level])} · ${P[0].score}점` : ''},
+      {lbl:'15차시 가격 중앙값', val: po.own ? fmtWon(po.own.median) : '-', sup: po.comp ? `자사 기준 · 경쟁사 ${fmtWon(po.comp.median)}` : ''},
+    ];
+    document.getElementById('kpisB2S').innerHTML = tiles.map(t => `<div class="kpi"><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div><div class="sup">${t.sup}</div></div>`).join('');
+  }
+
+  // ---- 가중치 슬라이더 ----
+  const wEl = document.getElementById('bsWeights');
+  wEl.innerHTML = FACTORS.map(f => `<label title="${h(f.hint)}"><span><span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${f.color};margin-right:5px;"></i>${f.name}</span><b data-wv="${f.k}">${f.def}</b></span>
+    <input type="range" min="0" max="50" step="5" value="${f.def}" data-w="${f.k}" aria-label="${f.name} 가중치"><small>${h(f.hint)}</small></label>`).join('');
+  wEl.addEventListener('input', e => {
+    const k = e.target.dataset.w;
+    if (!k) return;
+    W[k] = +e.target.value;
+    wEl.querySelector(`[data-wv="${k}"]`).textContent = W[k];
+    renderRadar();
+  });
+
+  // ---- 지역 카드 + 상세 ----
+  const regEl = document.getElementById('bsRegions');
+  regEl.addEventListener('click', e => {
+    const b = e.target.closest('.bs-reg');
+    if (!b) return;
+    selRegion = selRegion === b.dataset.r ? '' : b.dataset.r;
+    renderRadar();
+  });
+  function renderRegionDetail(rows){
+    const r = rows.find(x => x.region === selRegion) || rows[0];
+    const topics = (r.top_topics || []).map(([tid, n]) => `${h(TN[tid] || tid)} ${n}건`).join(', ') || '분류된 공고 없음';
+    const tids = (r.top_topics || []).map(t => t[0]);
+    const match = P.filter(p => tids.includes(p.tid)).slice(0, 3);
+    document.getElementById('bsRegionDetail').innerHTML = `<b>${h(r.sido)}</b>${selRegion ? '' : ' (1순위 · 카드를 눌러 다른 지역 선택)'} — 점수 <b>${r.s}</b> ·
+      학교 ${fmt(r.schools)}교 · 학교당 용역 계약 ${fmtWon(r.svc_per_school)} · 교원 연수 공고 ${fmt(r.bids)}건 · 경쟁사 낙찰 ${fmt(r.comp_wins)}건<br>
+      이 지역 연수 공고 주제 Top 3: <b>${topics}</b>${match.length ? `<br>샘몰 보드 연결 과정: ${match.map(p => `${h(p.title)} (${h(LV_NAME[p.level])}, ${p.score}점)`).join(' / ')}` : ''}`;
+  }
+
+  // ---- 학교 리드 ----
+  let leadRows = [];
+  function renderLeads(){
+    const g = document.getElementById('bsGrade').value, t = document.getElementById('bsType').value;
+    const all = B.leads.filter(l => (!selRegion || l.region === selRegion) && (!g || l.grade === g) && (!t || l.type === t))
+      .map(l => ({...l, s: score(l.f)})).sort((a, b) => b.s - a.s || b.svc_amt - a.svc_amt);
+    leadRows = all.slice(0, 100);
+    document.getElementById('bsLeadCount').textContent = `${selRegion ? selRegion + ' · ' : ''}${fmt(all.length)}교 중 상위 ${fmt(leadRows.length)}교`;
+    document.querySelector('#bsLeadTable tbody').innerHTML = leadRows.map((l, i) => `<tr>
+      <td class="num">${i + 1}</td><td class="num"><b>${l.s}</b></td><td>${partsBar(l.f)}</td>
+      <td>${h(l.region)}</td><td>${h(l.sigungu)} ${h(l.dong)}</td><td>${h(LV_NAME[l.grade] || l.grade)}</td><td>${h(l.type)}</td>
+      <td class="num">${fmtWon(l.svc_amt)}</td><td class="num">${fmtWon(l.amt)}</td><td class="num">${fmt(l.cnt)}</td></tr>`).join('')
+      || '<tr><td colspan="10">조건에 맞는 학교가 없습니다.</td></tr>';
+  }
+  document.getElementById('bsGrade').addEventListener('change', renderLeads);
+  document.getElementById('bsType').addEventListener('change', renderLeads);
+  document.getElementById('bsLeadCsv').addEventListener('click', () => {
+    downloadCsv('b2s_target_leads.csv', ['순위','점수','시도','시군구','읍면동','학교급','설립','용역계약액','전체계약액','계약건수'],
+      leadRows.map((l, i) => [i + 1, l.s, l.region, l.sigungu, l.dong, LV_NAME[l.grade] || l.grade, l.type, l.svc_amt, l.amt, l.cnt]));
+  });
+
+  function renderRadar(){
+    const rows = regionsSorted();
+    regEl.innerHTML = rows.map((r, i) => `<button type="button" class="bs-reg" data-r="${h(r.region)}" aria-pressed="${r.region === selRegion}">
+      <span class="top"><span>${i + 1}. ${h(r.region)}</span><b>${r.s}</b></span>${partsBar(r.f)}
+      <span class="sub2">연수공고 ${fmt(r.bids)} · 경쟁사 ${fmt(r.comp_wins)}</span></button>`).join('');
+    renderRegionDetail(rows);
+    renderLeads();
+    renderKpis();
+  }
+
+  document.querySelector('#bsSigunguTable tbody').innerHTML = B.sigungu.slice().sort((a, b) => b.per_school - a.per_school)
+    .map(x => `<tr><td>${h(x.label)}</td><td class="num">${fmt(x.n)}</td><td class="num">${fmtWon(x.amt)}</td><td class="num"><b>${fmtWon(x.per_school)}</b></td></tr>`).join('');
+  document.getElementById('bsRadarNote').textContent = '지역 요인은 17개 시도 안에서 최소~최대로 0~1 정규화했고, 학교 리드는 용역·전체 계약액을 리드 안 백분위로 바꾼 뒤 지역의 연수 이력·경쟁사 공백 값을 이어받습니다. 학교명이 없는 데이터라 실제 학교 특정은 소재지·학교급·설립유형으로 학교알리미 등에서 확인해야 합니다.';
+  renderRadar();
+
+  // ---- ② 샘몰 상품 기획 ----
+  const PART_COLOR = {'수요':'var(--accent)', '시장':'var(--accent-2)', '모멘텀':'var(--accent-purple)', '정책':'var(--warning)', '공백':'var(--good)'};
+  const POS_CLASS = {'신규 진입':'new', '라인업 보강':'add', '보유 강화·리뉴얼':'keep'};
+  const cc = B.catalog_counts || {};
+  document.getElementById('bsProdDesc').innerHTML = `연수 입찰공고 수요, 경쟁사 카탈로그(${Object.entries(cc).filter(([n]) => n !== B.self_name).map(([n, c]) => `${h(n)} ${fmt(c)}`).join(' · ')}개), 자사 ${fmt(cc[B.self_name] || 0)}개 강좌를 주제·학교급별로 맞춰 샘몰에서 먼저 만들 과정을 고릅니다.`;
+  const ps = (lbl, st) => st ? `<div class="tt-stat"><div class="lbl">${lbl}</div><div style="font-size:20px;font-weight:800;color:var(--ink);">${fmtWon(st.median)}</div>
+    <div class="tt-legend"><span>25% ${fmtWon(st.p25)}</span><span>75% ${fmtWon(st.p75)}</span><span>${fmt(st.n)}개 과정</span></div></div>` : '';
+  const gapPct = po.own && po.comp ? Math.round((po.own.median - po.comp.median) / po.comp.median * 100) : null;
+  document.getElementById('bsPriceStrip').innerHTML = ps('경쟁사 15차시(1학점) 가격 중앙값', po.comp) + ps(`${h(B.self_name)} 15차시(1학점) 가격 중앙값`, po.own)
+    + (gapPct != null ? `<div class="tt-stat"><div class="lbl">가격 포지션</div><div style="font-size:20px;font-weight:800;color:${gapPct > 0 ? 'var(--warning)' : 'var(--good)'};">${gapPct > 0 ? '+' : ''}${gapPct}%</div>
+      <div class="tt-legend"><span>자사 중앙값이 경쟁사보다 ${gapPct > 0 ? '높음' : gapPct < 0 ? '낮음' : '같음'} · 샘몰 진입가 설정 시 참고</span></div></div>` : '');
+
+  const priceTxt = p => {
+    const st = p.price || po.comp;
+    return st ? `${fmtWon(st.p25)}~${fmtWon(st.p75)}${p.price ? '' : ' (전체 기준)'}` : '-';
+  };
+  const pparts = p => `<div class="bs-parts" title="${Object.entries(p.parts).map(([k, v]) => `${k} ${v}`).join(' · ')}">${
+    Object.entries(p.parts).map(([k, v]) => `<i style="width:${v}%;background:${PART_COLOR[k]}"></i>`).join('')}</div>`;
+  function renderProducts(lv){
+    const rows = P.filter(p => !lv || p.level === lv).slice(0, 20);
+    document.getElementById('bsProdCards').innerHTML = rows.slice(0, 6).map((p, i) => `<article class="tt-card">
+      <div class="hd"><span class="rk">${i + 1}</span><span class="nm">${h(p.title)}</span><span class="sc">${p.score}<small>/100</small></span></div>
+      ${pparts(p)}
+      <div class="tt-meta"><span>${h(p.topic)}</span><span>${h(LV_NAME[p.level])}</span><span class="bs-pos ${POS_CLASS[p.position]}">${h(p.position)}</span>
+        <span>공고 ${fmt(p.demand)}건</span><span class="${p.own < p.comp_avg ? 'gap' : ''}">자사 ${fmt(p.own)} / 경쟁사 평균 ${p.comp_avg}</span>${p.comp_new ? `<span class="up">경쟁사 신규 ${p.comp_new}</span>` : ''}</div>
+      <div class="tt-course"><div class="lv">상품 설계안</div><div class="c">${h(p.content)}</div>
+        <div class="f">권장: ${p.chasi_mode ? `${p.chasi_mode}차시` : '15차시'} · ${priceTxt(p)}${p.own_price_median ? ` · 자사 동일 주제 중앙값 ${fmtWon(p.own_price_median)}` : ''}</div></div>
+      ${p.comp_samples.length ? `<ul class="tt-samples">${p.comp_samples.slice(0, 3).map(c => `<li title="${h(c.t)}">${h(c.co)} · ${h(c.t)}${c.p ? ` (${fmtWon(c.p)})` : ''}</li>`).join('')}</ul>` : ''}
+    </article>`).join('') || '<div class="tt-empty">해당 학교급 과정안이 없습니다.</div>';
+    document.querySelector('#bsProdTable tbody').innerHTML = rows.map((p, i) => `<tr>
+      <td class="num">${i + 1}</td><td class="num"><b>${p.score}</b></td><td>${pparts(p)}</td><td class="wrap">${h(p.title)}</td>
+      <td>${h(p.topic)}</td><td>${h(LV_NAME[p.level])}</td><td><span class="bs-pos ${POS_CLASS[p.position]}">${h(p.position)}</span></td>
+      <td class="num">${fmt(p.demand)}</td><td class="num">${fmt(p.comp_courses)}</td><td class="num">${fmt(p.own)}</td>
+      <td class="num">${p.chasi_mode ? p.chasi_mode + '차시' : '-'}</td><td class="num">${priceTxt(p)}</td></tr>`).join('');
+  }
+  const lvT = document.getElementById('bsProdLevel');
+  lvT.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    lvT.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    renderProducts(b.dataset.lv);
+  });
+  renderProducts('');
 })();
 
 (function renderG2BTrendChart(){
