@@ -310,6 +310,10 @@ def main():
         "content_gap": content_gap.build(new_courses["courses"], new_courses["rows"], "비바샘연수원"),
     }
 
+    # 입찰공고 최근 12개월 -> 초·중·고 연수 주제 수요와 2027 개발 추천(나라장터 종합 탭)
+    import training_topics
+    training_topic_data = training_topics.build_from_files(new_courses["courses"], "비바샘연수원", full_live)
+
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
     leading_rows, leading_by_region, leading_enriched = build_leading(neis_export, data_rows)
@@ -327,6 +331,7 @@ def main():
         "__LEADING_ENRICHED_JSON__": leading_enriched, "__G2B_FULL_JSON__": g2b_full, "__PIPE_JSON__": pipe,
         "__BETA_JSON__": beta, "__KOSIS_FINANCE_JSON__": kosis_finance,
         "__COMPETITOR_TRAINING_JSON__": competitor_training,
+        "__TRAINING_TOPICS_JSON__": training_topic_data,
     }
     for token, value in subs.items():
         if token not in html:
