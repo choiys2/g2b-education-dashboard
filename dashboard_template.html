@@ -428,6 +428,7 @@
   .grade-badge.초{background:color-mix(in srgb, var(--accent) 18%, transparent);color:var(--accent);}
   .grade-badge.중{background:color-mix(in srgb, var(--accent-2) 18%, transparent);color:var(--accent-2);}
   .grade-badge.고{background:color-mix(in srgb, var(--good) 18%, transparent);color:var(--good);}
+  .grade-badge.특수{background:var(--surface-2);color:var(--ink-2);font-size:10px;width:30px;}
   .school-name{display:flex;align-items:center;}
   td.amount{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
   td.region-cell{white-space:nowrap;}
@@ -632,7 +633,7 @@
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="market">시장 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2b">AI·에듀테크 발주 리스트</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="school">학교단위 발주</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 선도학교</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 중점·선도학교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">영업 파이프라인</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
@@ -1103,9 +1104,10 @@
     <div class="callout">
       <div class="icon">i</div>
       <div>
-        <h3>한국과학창의재단 AI교육 선도학교 지정 정보 — 1,095개교</h3>
-        <p>지난 세션에서 못 받았던 데이터입니다. 공공데이터포털에서 활용신청 승인을 받아(2026-07-29) 실제 API로 전체 1,095개교를 받아왔습니다. 학교급(초/중/고)·유형(교육활동 모델교/정보교육실 구축교)·소속지역·학교명이 담겨 있습니다.</p>
-        <p><b>주의할 점:</b> 원본 데이터의 &lsquo;지정연도&rsquo; 값이 1,095건 전부 <b>2022</b>로만 기록돼 있습니다. 포털상 수정일은 2025-08-22지만, 이후(2023~2026) 신규 지정 학교가 이 데이터셋에 실제로 반영됐는지는 확인이 안 됩니다 — 즉 이 탭은 &ldquo;2022년 지정 코호트 기준 최소치&rdquo;로 보수적으로 해석하는 게 안전합니다.</p>
+        <h3>2026 지정 AI 중점학교 · AI·디지털 활용 선도학교 — 시도교육청 공개 명단</h3>
+        <p>각 시도교육청 누리집에 공개된 2026년 선정 명단을 모으고, 나이스 교육정보 개방포털 학교기본정보로 연락처·주소를 붙였습니다(2026.10 조회). 두 사업에 모두 선정된 학교는 1개 학교로 합쳐 &lsquo;겸임&rsquo;으로 표시합니다.</p>
+        <p><b>빠진 곳:</b> 세종·강원·충남은 두 사업 모두 명단이 비공개이고, 경기(디지털 350교)·제주(디지털 50교)·경남은 디지털 선도학교 명단이 비공개입니다. 아래 &lsquo;시도별 공개 현황&rsquo;에서 교육부 지정 수 대비 확보 수를 확인하세요.</p>
+        <p style="margin-top:10px;"><a class="pill" id="aiSchoolXlsx" href="./ai_schools_2026.xlsx" download style="text-decoration:none;">⬇ 전체 명단 엑셀 내려받기 (영업 관리 칸 포함)</a></p>
       </div>
     </div>
 
@@ -1114,19 +1116,24 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <p class="panel-title">지역별 대표 선도학교 (학급수 최다 기준)</p>
-          <p class="panel-desc">시도마다 학급수(학교 규모 &middot; 교원수 대리지표)가 가장 많은 선도학교 1곳을 뽑아 연락처와 함께 보여줍니다. 실제 교원현황은 학교알리미(schoolinfo.go.kr)에서 개인 소셜로그인으로 인증키를 받으면 정확한 수치로 교체할 수 있습니다.</p>
+          <p class="panel-title">시도별 공개 현황</p>
+          <p class="panel-desc">AI 중점학교는 교육부 발표 시도별 지정 수 대비 확보한 명단 수, 디지털 선도학교는 시도교육청 공개 명단 수입니다. 명단이 비공개인 시도는 붉게 표시했습니다.</p>
         </div>
       </div>
-      <div class="school-card-grid" id="topSchoolCards"></div>
+      <div class="tbl-wrap">
+        <table class="data" id="aiStatusTable" style="min-width:640px;">
+          <thead><tr><th>시도</th><th class="num">AI 중점 교육부 지정</th><th class="num">AI 중점 확보</th><th class="num">디지털 선도 확보</th><th class="num">합계(중복 제외)</th><th>비고</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </section>
 
     <div class="grid-2">
       <section class="panel">
         <div class="panel-head">
           <div>
-            <p class="panel-title">시도별 선도학교 수 &amp; 침투율</p>
-            <p class="panel-desc">막대는 선도학교 수, 괄호 안 %는 나이스 초·중 학교 수 대비 비중(고등학교는 나이스 쪽 데이터가 없어 분모에서 제외).</p>
+            <p class="panel-title">시도별 지정 학교 수 &amp; 침투율</p>
+            <p class="panel-desc">막대는 AI 중점(진한색)과 디지털 선도만(연한색) 학교 수, 괄호 안 %는 나이스 초·중 학교 수 대비 초·중 지정 학교 비중입니다. 명단 비공개 시도는 0으로 보입니다.</p>
           </div>
         </div>
         <svg id="leadingRegionChart" viewBox="0 0 560 460"></svg>
@@ -1134,8 +1141,8 @@
       <section class="panel">
         <div class="panel-head">
           <div>
-            <p class="panel-title">유형 &amp; 학교급 분포</p>
-            <p class="panel-desc">교육활동 모델교가 압도적 다수, 정보교육실 구축교는 소수입니다.</p>
+            <p class="panel-title">사업 &amp; 학교급 분포</p>
+            <p class="panel-desc">AI 중점학교만, 디지털 선도학교만, 두 사업 겸임으로 나눠 학교급별로 쌓았습니다.</p>
           </div>
         </div>
         <svg id="leadingTypeChart" viewBox="0 0 560 460"></svg>
@@ -1145,8 +1152,8 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <p class="panel-title">선도학교 상세 &amp; 연락처</p>
-          <p class="panel-desc">학급수(규모 대리지표) 많은 순으로 정렬돼 있습니다. 학교명을 클릭하면 홈페이지로 이동합니다.</p>
+          <p class="panel-title">지정 학교 상세 &amp; 연락처</p>
+          <p class="panel-desc">시도·학교급·사업으로 거르고 학교명·교육지원청·주소로 검색할 수 있습니다. 학교명을 누르면 홈페이지로 이동합니다. 걸러진 목록은 CSV로, 전체 명단은 엑셀로 내려받을 수 있습니다.</p>
         </div>
       </div>
       <div class="filter-row">
@@ -1156,17 +1163,28 @@
           <option value="초">초등학교</option>
           <option value="중">중학교</option>
           <option value="고">고등학교</option>
+          <option value="특수">특수/기타</option>
         </select>
+        <select id="leadProgFilter">
+          <option value="">전체 사업</option>
+          <option value="AI 중점">AI 중점학교</option>
+          <option value="디지털 선도">디지털 선도학교</option>
+          <option value="겸임">두 사업 겸임</option>
+        </select>
+        <input type="search" id="leadSearch" placeholder="학교명·교육지원청·주소 검색">
         <span class="count" id="leadRowCount"></span>
+        <button type="button" class="btn-csv" id="leadCsv">CSV</button>
+        <a class="btn-csv" href="./ai_schools_2026.xlsx" download style="margin-left:0;text-decoration:none;">엑셀 전체</a>
       </div>
-      <div class="tbl-wrap">
+      <div class="tbl-wrap tall">
         <table class="data" id="leadTable">
           <thead>
             <tr>
               <th data-key="학교명">학교<span class="arrow">▾</span></th>
-              <th data-key="소속지역">지역<span class="arrow">▾</span></th>
-              <th data-key="유형">유형<span class="arrow">▾</span></th>
-              <th data-key="class_count" class="num sorted">학급수<span class="arrow">▾</span></th>
+              <th data-key="소속지역" class="sorted">지역<span class="arrow">▴</span></th>
+              <th data-key="교육지원청">교육지원청<span class="arrow">▾</span></th>
+              <th data-key="유형">사업·유형<span class="arrow">▾</span></th>
+              <th data-key="설립">설립<span class="arrow">▾</span></th>
               <th data-key="tel">전화</th>
               <th data-key="addr">주소</th>
             </tr>
@@ -1179,8 +1197,8 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <p class="panel-title">선도학교 &times; 나라장터 실구매 교차 확인</p>
-          <p class="panel-desc">&ldquo;학교단위 발주&rdquo; 탭에서 확인된 14개교 중, 이 선도학교 명단(2022년 코호트)에도 있는 학교입니다. 나머지는 &lsquo;선도학교 아님&rsquo;이 아니라 &lsquo;이 명단 기준으로는 확인 안 됨&rsquo;입니다(2023년 이후 지정됐거나, 애초에 나라장터 대신 학교장터로 구매했을 수 있음).</p>
+          <p class="panel-title">지정 학교 &times; 나라장터 실구매 교차 확인</p>
+          <p class="panel-desc">&ldquo;학교단위 발주&rdquo; 탭에서 확인된 학교 중 2026 AI 중점·디지털 선도 명단에 있는 학교입니다. &lsquo;명단에 없음&rsquo;은 미지정이 아니라 명단 비공개 시도이거나 교명이 다를 수 있다는 뜻입니다.</p>
         </div>
       </div>
       <div class="tbl-wrap">
@@ -2081,7 +2099,8 @@ const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
 const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
 const LEADING_ROWS = __LEADING_ROWS_JSON__;
 const LEADING_BY_REGION = __LEADING_BY_REGION_JSON__;
-const LEADING_ENRICHED = __LEADING_ENRICHED_JSON__;
+const LEADING_ENRICHED = LEADING_ROWS;  // 같은 데이터 - 두 번 싣지 않는다
+const AI_SCHOOL_STATUS = __AI_SCHOOL_STATUS_JSON__;
 const G2B_FULL = __G2B_FULL_JSON__;
 const TRAINING_TOPICS = __TRAINING_TOPICS_JSON__;
 const B2S_BOARD = __B2S_BOARD_JSON__;
@@ -3317,22 +3336,25 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   `).join('');
 })();
 
-/* ================= AI 선도학교 탭 ================= */
+/* ================= AI 선도학교 탭 (2026 AI 중점학교 · AI·디지털 선도학교) ================= */
+const hasProg = (r, p) => (r.사업 || []).includes(p);
 (function renderKpisLeading(){
   const total = LEADING_ROWS.length;
+  const ai = LEADING_ROWS.filter(r => hasProg(r, 'AI 중점')).length;
+  const dig = LEADING_ROWS.filter(r => hasProg(r, '디지털 선도')).length;
+  const both = LEADING_ROWS.filter(r => r.겸임).length;
+  const st = (AI_SCHOOL_STATUS && AI_SCHOOL_STATUS.status) || [];
+  const aiMoe = st.reduce((s, r) => s + (r.ai_moe || 0), 0);
+  const aiOpen = st.filter(r => r.ai_open).length, digOpen = st.filter(r => r.dig_open).length;
   const byGrade = {};
-  const byType = {};
-  LEADING_ROWS.forEach(r => {
-    byGrade[r.학교급] = (byGrade[r.학교급]||0) + 1;
-    byType[r.유형] = (byType[r.유형]||0) + 1;
-  });
+  LEADING_ROWS.forEach(r => { byGrade[r.학교급] = (byGrade[r.학교급]||0) + 1; });
   const strengthTotal = LEADING_BY_REGION.filter(r => DATA.find(d=>d.region===r.region && d.strength)).reduce((s,r)=>s+r.total,0);
-  const strengthPct = Math.round(strengthTotal/total*1000)/10;
+  const pct = (a, b) => b ? Math.round(a/b*1000)/10 : 0;
   const tiles = [
-    {lbl:'전체 선도학교', val: fmt(total)+'교', sup:`초 ${byGrade['초']||0} · 중 ${byGrade['중']||0} · 고 ${byGrade['고']||0}`},
-    {lbl:'교육활동 모델교', val: fmt(byType['교육활동 모델교']||0)+'교', sup:'전체의 '+Math.round((byType['교육활동 모델교']||0)/total*1000)/10+'%'},
-    {lbl:'정보교육실 구축교', val: fmt(byType['정보교육실 구축교']||0)+'교', sup:'전체의 '+Math.round((byType['정보교육실 구축교']||0)/total*1000)/10+'%'},
-    {lbl:'강점권역 커버리지', val: strengthPct+'%', sup:`${fmt(strengthTotal)}교 · 학교수 비중 65.9%와 비교`},
+    {lbl:'2026 지정 학교(중복 제외)', val: fmt(total)+'교', sup:`초 ${byGrade['초']||0} · 중 ${byGrade['중']||0} · 고 ${byGrade['고']||0} · 특수 ${byGrade['특수']||0}`},
+    {lbl:'AI 중점학교', val: fmt(ai)+'교', sup: aiMoe ? `교육부 지정 ${fmt(aiMoe)}교 중 ${pct(ai, aiMoe)}% 확보 · ${aiOpen}/${st.length} 시도 공개` : ''},
+    {lbl:'AI·디지털 선도학교', val: fmt(dig)+'교', sup: `${digOpen}/${st.length} 시도 공개 · 겸임 ${fmt(both)}교`},
+    {lbl:'강점권역 커버리지', val: pct(strengthTotal, total)+'%', sup:`${fmt(strengthTotal)}교 · 세종·강원·충남 명단 비공개 감안`},
   ];
   document.getElementById('kpisLeading').innerHTML = tiles.map(t => `
     <div class="kpi">
@@ -3342,25 +3364,44 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     </div>`).join('');
 })();
 
+(function renderAiStatusTable(){
+  const st = (AI_SCHOOL_STATUS && AI_SCHOOL_STATUS.status) || [];
+  const byReg = Object.fromEntries(LEADING_BY_REGION.map(r => [r.region, r.total]));
+  const h = v => String(v == null ? '' : v).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const closed = 'color:var(--critical);font-weight:700;';
+  document.querySelector('#aiStatusTable tbody').innerHTML = st.map(r => `<tr>
+    <td><b>${h(r.region)}</b></td>
+    <td class="num">${r.ai_moe != null ? fmt(r.ai_moe) : '-'}</td>
+    <td class="num" style="${r.ai_open ? '' : closed}">${r.ai_open ? fmt(r.ai_got) : '비공개'}</td>
+    <td class="num" style="${r.dig_open ? '' : closed}">${r.dig_open ? fmt(r.dig_got) : (r.dig_announced ? `비공개(${fmt(r.dig_announced)}교 발표)` : '비공개')}</td>
+    <td class="num">${fmt(byReg[r.region] || 0)}</td>
+    <td style="font-size:12.5px;color:var(--ink-2);">${h(r.note)}</td>
+  </tr>`).join('');
+})();
+
 (function renderLeadingRegionChart(){
   const svg = document.getElementById('leadingRegionChart');
-  const rows = [...LEADING_BY_REGION].sort((a,b)=>b.total-a.total);
-  const W=560, H=460, m={l:44,r:70,t:8,b:12};
+  const st = (AI_SCHOOL_STATUS && AI_SCHOOL_STATUS.status) || [];
+  const known = new Set(LEADING_BY_REGION.map(r => r.region));
+  const rows = [...LEADING_BY_REGION, ...st.filter(r => !known.has(r.region)).map(r => ({region:r.region, total:0, ai:0, dig:0, elem:0, middle:0, high:0, penetration_em_pct:0}))]
+    .sort((a,b)=>b.total-a.total);
+  const W=560, H=460, m={l:44,r:110,t:8,b:12};
   const rowH = (H-m.t-m.b)/rows.length;
-  const maxV = Math.max(...rows.map(r=>r.total));
+  const maxV = Math.max(1, ...rows.map(r=>r.total));
   let out = '';
   rows.forEach((r,i)=>{
     const y = m.t + i*rowH + rowH*0.16;
     const bh = rowH*0.68;
-    const w = (r.total/maxV)*(W-m.l-m.r);
-    out += `<rect x="${m.l}" y="${y}" width="${w}" height="${bh}" rx="3" fill="var(--accent)" class="lbar" data-region="${r.region}" style="cursor:pointer;"/>`;
+    const wAi = (r.ai/maxV)*(W-m.l-m.r), wDig = ((r.total-r.ai)/maxV)*(W-m.l-m.r);
+    out += `<rect x="${m.l}" y="${y}" width="${wAi}" height="${bh}" rx="2" fill="var(--accent)" class="lbar" data-region="${r.region}" style="cursor:pointer;"/>`;
+    out += `<rect x="${m.l+wAi}" y="${y}" width="${wDig}" height="${bh}" rx="2" fill="var(--accent-light)" class="lbar" data-region="${r.region}" style="cursor:pointer;"/>`;
     out += `<text class="row-label" x="${m.l-8}" y="${y+bh/2+4}" text-anchor="end">${r.region}</text>`;
-    out += `<text class="row-value num" x="${m.l+w+8}" y="${y+bh/2+4}">${r.total}교 (${r.penetration_em_pct}%)</text>`;
+    out += `<text class="row-value num" x="${m.l+wAi+wDig+8}" y="${y+bh/2+4}">${r.total ? `${r.total}교 (${r.penetration_em_pct}%)` : '명단 비공개'}</text>`;
   });
   svg.innerHTML = out;
   svg.querySelectorAll('.lbar').forEach(el=>{
-    const r = LEADING_BY_REGION.find(x=>x.region===el.dataset.region);
-    el.addEventListener('mouseenter', e=>showTip(e, `<div class="tt-title">${r.region}</div><div class="tt-row"><span>선도학교</span><b>${r.total}교</b></div><div class="tt-row"><span>초/중/고</span><b>${r.elem}/${r.middle}/${r.high}</b></div><div class="tt-row"><span>초중 침투율</span><b>${r.penetration_em_pct}%</b></div>`));
+    const r = rows.find(x=>x.region===el.dataset.region);
+    el.addEventListener('mouseenter', e=>showTip(e, `<div class="tt-title">${r.region}</div><div class="tt-row"><span>지정 학교</span><b>${r.total}교</b></div><div class="tt-row"><span>AI 중점 / 디지털 선도</span><b>${r.ai}/${r.dig}</b></div><div class="tt-row"><span>초/중/고</span><b>${r.elem}/${r.middle}/${r.high}</b></div><div class="tt-row"><span>초중 침투율</span><b>${r.penetration_em_pct}%</b></div>`));
     el.addEventListener('mousemove', moveTip);
     el.addEventListener('mouseleave', hideTip);
   });
@@ -3368,14 +3409,12 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 
 (function renderLeadingTypeChart(){
   const svg = document.getElementById('leadingTypeChart');
+  const cat = r => r.겸임 ? '두 사업 겸임' : (hasProg(r, 'AI 중점') ? 'AI 중점학교만' : '디지털 선도학교만');
   const byType = {};
-  LEADING_ROWS.forEach(r => {
-    const key = r.유형 + '·' + r.학교급;
-    byType[key] = (byType[key]||0) + 1;
-  });
-  const types = ['교육활동 모델교','정보교육실 구축교'];
-  const grades = ['초','중','고'];
-  const colors = {'초':'var(--accent)','중':'var(--accent-2)','고':'var(--good)'};
+  LEADING_ROWS.forEach(r => { const k = cat(r) + '·' + r.학교급; byType[k] = (byType[k]||0) + 1; });
+  const types = ['AI 중점학교만','디지털 선도학교만','두 사업 겸임'];
+  const grades = ['초','중','고','특수'];
+  const colors = {'초':'var(--accent)','중':'var(--accent-2)','고':'var(--good)','특수':'var(--neutral-side)'};
   const W=560, H=460, m={l:150,r:70,t:20,b:20};
   const rowH = (H-m.t-m.b)/types.length;
   const totals = types.map(t => grades.reduce((s,g)=>s+(byType[t+'·'+g]||0),0));
@@ -3397,49 +3436,21 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   let legend = '';
   grades.forEach((g,i)=>{
     legend += `<rect x="${m.l+i*90}" y="${H-14}" width="10" height="10" rx="2" fill="${colors[g]}"/>`;
-    legend += `<text class="axis-label" x="${m.l+i*90+16}" y="${H-5}">${g}등학교</text>`;
+    legend += `<text class="axis-label" x="${m.l+i*90+16}" y="${H-5}">${g === '특수' ? '특수/기타' : g+'등학교'}</text>`;
   });
   svg.innerHTML = out + legend;
   svg.querySelectorAll('.tybar').forEach(el=>{
-    el.addEventListener('mouseenter', e=>showTip(e, `<div class="tt-title">${el.dataset.t} · ${el.dataset.g}등학교</div><div class="tt-row"><span>학교 수</span><b>${el.dataset.v}교</b></div>`));
+    el.addEventListener('mouseenter', e=>showTip(e, `<div class="tt-title">${el.dataset.t} · ${el.dataset.g}</div><div class="tt-row"><span>학교 수</span><b>${el.dataset.v}교</b></div>`));
     el.addEventListener('mousemove', moveTip);
     el.addEventListener('mouseleave', hideTip);
   });
 })();
 
-(function renderTopSchoolCards(){
-  const wrap = document.getElementById('topSchoolCards');
-  const byRegion = {};
-  LEADING_ENRICHED.forEach(r => {
-    if (!r.class_count) return;
-    const reg = r.소속지역;
-    if (!byRegion[reg] || r.class_count > byRegion[reg].class_count) byRegion[reg] = r;
-  });
-  const regionsOrdered = LEADING_BY_REGION.slice().sort((a,b)=>b.total-a.total).map(r=>r.region);
-  wrap.innerHTML = regionsOrdered.filter(r=>byRegion[r]).map(reg => {
-    const s = byRegion[reg];
-    const homepage = s.homepage ? (s.homepage.startsWith('http') ? s.homepage : 'http://'+s.homepage) : '';
-    return `
-      <div class="school-card">
-        <div class="region-tag">${reg}</div>
-        <div class="name">
-          <span class="grade-badge ${s.학교급}">${s.학교급}</span>
-          ${homepage ? `<a href="${homepage}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">${s.학교명}</a>` : s.학교명}
-        </div>
-        <div class="meta">${s.유형}${s.found_sc ? ' · '+s.found_sc : ''}</div>
-        <div class="class-count">학급수 ${s.class_count}개</div>
-        <div class="contact">
-          ${s.tel ? `<div class="row"><span class="ico">☎</span><span>${s.tel}</span></div>` : ''}
-          ${s.addr ? `<div class="row"><span class="ico">📍</span><span>${s.addr}</span></div>` : ''}
-          ${homepage ? `<div class="row"><span class="ico">🔗</span><a href="${homepage}" target="_blank" rel="noopener">${s.homepage}</a></div>` : ''}
-        </div>
-      </div>`;
-  }).join('');
-})();
-
 (function renderLeadTable(){
   const regionSel = document.getElementById('leadRegionFilter');
   const gradeSel = document.getElementById('leadGradeFilter');
+  const progSel = document.getElementById('leadProgFilter');
+  const search = document.getElementById('leadSearch');
   const tbody = document.getElementById('leadTableBody');
   const rowCountEl = document.getElementById('leadRowCount');
   const ths = [...document.querySelectorAll('#leadTable th')];
@@ -3451,44 +3462,63 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     regionSel.appendChild(opt);
   });
 
-  let sortKey = 'class_count', sortDir = -1;
+  let sortKey = '소속지역', sortDir = 1, current = [];
 
+  function filtered(){
+    const rf = regionSel.value, gf = gradeSel.value, pf = progSel.value;
+    const q = search.value.trim().toLowerCase();
+    return LEADING_ENRICHED.filter(r => (!rf || r.소속지역===rf) && (!gf || r.학교급===gf)
+      && (!pf || (pf === '겸임' ? r.겸임 : hasProg(r, pf)))
+      && (!q || [r.학교명, r.교육지원청, r.시군구, r.addr].join(' ').toLowerCase().includes(q)));
+  }
   function draw(){
-    const rf = regionSel.value, gf = gradeSel.value;
-    let rows = LEADING_ENRICHED.filter(r => (!rf || r.소속지역===rf) && (!gf || r.학교급===gf));
-    rows = rows.slice().sort((a,b) => {
-      let av = a[sortKey], bv = b[sortKey];
-      if (av == null) av = sortKey==='class_count' ? -1 : '';
-      if (bv == null) bv = sortKey==='class_count' ? -1 : '';
-      if (typeof av === 'string') return sortDir * av.localeCompare(bv, 'ko');
-      return sortDir * (av - bv);
+    current = filtered().sort((a,b) => {
+      const av = a[sortKey] == null ? '' : String(a[sortKey]), bv = b[sortKey] == null ? '' : String(b[sortKey]);
+      return sortDir * (av.localeCompare(bv, 'ko') || a.학교명.localeCompare(b.학교명, 'ko'));
     });
-    rowCountEl.textContent = `${rows.length}건 표시 중`;
+    rowCountEl.textContent = `${fmt(current.length)}교 표시 중`;
     tbody.innerHTML = '';
-    rows.forEach(r => {
+    current.forEach(r => {
       const tr = document.createElement('tr');
       const tdName = document.createElement('td');
       const wrap = document.createElement('div'); wrap.className = 'school-name';
       const badge = document.createElement('span'); badge.className = 'grade-badge ' + r.학교급; badge.textContent = r.학교급;
-      const nameSpan = document.createElement('span'); nameSpan.textContent = r.학교명;
-      wrap.append(badge, nameSpan);
+      let nameEl;
+      if (r.homepage) {
+        nameEl = document.createElement('a');
+        nameEl.href = /^https?:/.test(r.homepage) ? r.homepage : 'http://' + r.homepage;
+        nameEl.target = '_blank'; nameEl.rel = 'noopener'; nameEl.style.color = 'inherit';
+      } else nameEl = document.createElement('span');
+      nameEl.textContent = r.학교명;
+      wrap.append(badge, nameEl);
       tdName.appendChild(wrap);
-
-      const tdRegion = document.createElement('td'); tdRegion.textContent = r.소속지역;
-      const tdType = document.createElement('td'); tdType.textContent = r.유형; tdType.style.fontSize='12.5px'; tdType.style.color='var(--ink-2)';
-      const tdClass = document.createElement('td'); tdClass.className='num'; tdClass.textContent = r.class_count != null ? r.class_count+'개' : '-';
-      const tdTel = document.createElement('td'); tdTel.textContent = r.tel || '-'; tdTel.style.fontSize='12.5px'; tdTel.style.whiteSpace='nowrap';
-      const tdAddr = document.createElement('td'); tdAddr.textContent = r.addr || '-'; tdAddr.style.fontSize='12.5px'; tdAddr.style.color='var(--ink-2)'; tdAddr.className='title';
-
-      tr.append(tdName, tdRegion, tdType, tdClass, tdTel, tdAddr);
+      const cell = (txt, style) => { const td = document.createElement('td'); td.textContent = txt || '-'; if (style) td.style.cssText = style; return td; };
+      tr.append(tdName, cell(r.소속지역), cell(r.교육지원청, 'font-size:12.5px;color:var(--ink-2);'),
+        cell(r.유형, 'font-size:12.5px;color:var(--ink-2);' + (r.겸임 ? 'font-weight:700;color:var(--accent);' : '')),
+        cell(r.설립, 'font-size:12.5px;'), cell(r.tel, 'font-size:12.5px;white-space:nowrap;'),
+        cell(r.addr, 'font-size:12.5px;color:var(--ink-2);'));
+      tr.lastChild.className = 'title';
       tbody.appendChild(tr);
     });
   }
 
+  document.getElementById('leadCsv').addEventListener('click', () => {
+    const cols = ['소속지역','교육지원청','시군구','학교급','설립','학교명','유형','tel','homepage','addr'];
+    const head = ['시도','교육지원청','시군구','학교급','설립','학교명','사업·유형','대표전화','홈페이지','주소'];
+    const q = v => { const t = String(v == null ? '' : v).replace(/"/g, '""'); return /[",\n]/.test(t) ? `"${t}"` : t; };
+    const csv = '﻿' + [head.join(','), ...current.map(r => cols.map(c => q(r[c])).join(','))].join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+    a.download = 'ai_schools_2026_filtered.csv';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
   ths.forEach(th => {
     th.addEventListener('click', () => {
       const key = th.dataset.key;
-      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = key==='class_count' ? -1 : 1; }
+      if (!key) return;
+      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = 1; }
       ths.forEach(t => { t.classList.remove('sorted'); const a=t.querySelector('.arrow'); if(a) a.textContent='▾'; });
       th.classList.add('sorted');
       const arrow = th.querySelector('.arrow');
@@ -3496,8 +3526,8 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       draw();
     });
   });
-  regionSel.addEventListener('change', draw);
-  gradeSel.addEventListener('change', draw);
+  [regionSel, gradeSel, progSel].forEach(el => el.addEventListener('change', draw));
+  search.addEventListener('input', draw);
   draw();
 })();
 
@@ -3525,7 +3555,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     const tdFlag = document.createElement('td');
     const chip = document.createElement('span');
     chip.className = 'chip ' + (isLeading ? 'won' : 'pre');
-    chip.textContent = isLeading ? '선도학교 (2022 코호트)' : '이 명단엔 없음';
+    chip.textContent = isLeading ? '2026 지정' : '이 명단엔 없음';
     tdFlag.appendChild(chip);
     tr.append(tdName, tdProduct, tdFlag);
     tbody.appendChild(tr);
@@ -5222,7 +5252,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
       { key:'school', label:'학교단위 발주', items: SCHOOL_GOODS.filter(r =>
           (!region || r.지역===region) && (!minAmount || r.예산>=minAmount) && textMatch(r.상품명+r.학교명, keyword))
         .map(r => ({ title:`${r.학교명} · ${r.상품명}`, meta:`${r.지역} · ${fmtWon(r.예산)}`, url:r.url })) },
-      { key:'leading', label:'AI 선도학교', items: LEADING_ROWS.filter(r =>
+      { key:'leading', label:'AI 중점·선도학교', items: LEADING_ROWS.filter(r =>
           (!region || r.소속지역===region) && !minAmount && textMatch(r.학교명, keyword))
         .map(r => ({ title:r.학교명, meta:`${r.소속지역} · ${r.유형}`, url:null })) },
       { key:'pipeline', label:'영업 파이프라인', items: PIPE.records.filter(r =>
