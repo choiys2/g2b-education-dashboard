@@ -1,0 +1,39 @@
+name: AI선도학교 연락처 엑셀(충북·전남)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/modest-galileo-99ya2v]
+    paths:
+      - "leading_schools_xlsx.py"
+      - ".github/workflows/leading_schools_xlsx.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install openpyxl
+      - name: 엑셀 생성
+        env:
+          NEIS_KEY: ${{ secrets.NEIS_KEY }}
+          ODCLOUD_KEY: ${{ secrets.ODCLOUD_KEY }}
+        run: python leading_schools_xlsx.py "docs/AI선도학교_충북_전남.xlsx"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AI선도학교_충북_전남
+          path: docs/AI선도학교_충북_전남.xlsx
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "docs/AI선도학교_충북_전남.xlsx"
+          git diff --cached --quiet || git commit -m "data: AI선도학교 충북·전남 연락처 엑셀 생성"
+          git push origin HEAD:${{ github.ref_name }}
