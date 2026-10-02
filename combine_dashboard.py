@@ -152,14 +152,21 @@ def build_ai_rows(full_live):
 
 # ---------- 3) LEADING_* (AI 선도학교) ----------
 def build_leading(neis_export, data_rows):
-    leading = neis_export.get("leading_schools", [])
-    by_region = defaultdict(lambda: {"count": 0, "초": 0, "중": 0, "고": 0})
+    # 2026 지정 AI 중점학교·AI·디지털 선도학교(시도교육청 공개 명단, ai_schools_2026.py가 엑셀에서 생성).
+    # 없으면 예전 한국과학창의재단 2022 코호트(odcloud)로 돌아간다.
+    try:
+        leading = load("static_data/ai_schools_2026.json")["schools"]
+    except FileNotFoundError:
+        leading = neis_export.get("leading_schools", [])
+    by_region = defaultdict(lambda: {"count": 0, "초": 0, "중": 0, "고": 0, "ai": 0, "dig": 0})
     for r in leading:
         reg = r.get("소속지역")
         by_region[reg]["count"] += 1
         grade = r.get("학교급")
         if grade in ("초", "중", "고"):
             by_region[reg][grade] += 1
+        by_region[reg]["ai"] += "AI 중점" in (r.get("사업") or [])
+        by_region[reg]["dig"] += "디지털 선도" in (r.get("사업") or [])
     neis_by_region = {r["region"]: r for r in data_rows}
     leading_by_region = []
     for reg, v in by_region.items():
@@ -168,6 +175,7 @@ def build_leading(neis_export, data_rows):
         pen = round(leading_em/neis_total*100, 2) if neis_total else 0
         leading_by_region.append({
             "region": reg, "total": v["count"], "elem": v["초"], "middle": v["중"], "high": v["고"],
+            "ai": v["ai"], "dig": v["dig"],
             "neis_total_em": neis_total, "penetration_em_pct": pen,
         })
     return leading, leading_by_region, leading  # LEADING_ROWS, LEADING_BY_REGION, LEADING_ENRICHED(같은 데이터)
@@ -321,6 +329,11 @@ def main():
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
     leading_rows, leading_by_region, leading_enriched = build_leading(neis_export, data_rows)
+    try:
+        _ai = load("static_data/ai_schools_2026.json")
+        ai_school_status = {k: _ai[k] for k in ("source", "captured", "xlsx", "status")}
+    except FileNotFoundError:
+        ai_school_status = {"status": []}
     pipe = build_pipe(pipeline_export, g2b_full, data_rows)
     pipe["missed_opportunities"] = build_missed_opportunities(ai_rows, pipeline_export.get("records", []))
 
@@ -332,10 +345,11 @@ def main():
     subs = {
         "__DATA_JSON__": data_rows, "__TOTALS_JSON__": totals, "__AI_ROWS_JSON__": ai_rows,
         "__LEADING_ROWS_JSON__": leading_rows, "__LEADING_BY_REGION_JSON__": leading_by_region,
-        "__LEADING_ENRICHED_JSON__": leading_enriched, "__G2B_FULL_JSON__": g2b_full, "__PIPE_JSON__": pipe,
+"__G2B_FULL_JSON__": g2b_full, "__PIPE_JSON__": pipe,
         "__BETA_JSON__": beta, "__KOSIS_FINANCE_JSON__": kosis_finance,
         "__COMPETITOR_TRAINING_JSON__": competitor_training,
         "__TRAINING_TOPICS_JSON__": training_topic_data,
+        "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():

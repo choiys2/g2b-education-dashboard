@@ -186,6 +186,11 @@ jobs:
             mkdir -p _site/full
             cp live/neis_dashboard_full.html _site/full/index.html
           fi
+          # 2026 AI 중점·디지털 선도학교 명단 엑셀(대시보드 'AI 중점·선도학교' 탭의 내려받기)
+          if [ -f static_data/ai_schools_2026.xlsx ]; then
+            mkdir -p _site/full
+            cp static_data/ai_schools_2026.xlsx _site/full/ai_schools_2026.xlsx
+          fi
           if [ -f live/g2b_deadlines.ics ]; then
             mkdir -p _site/full
             cp live/g2b_deadlines.ics _site/full/calendar.ics
