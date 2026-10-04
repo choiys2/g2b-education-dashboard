@@ -178,7 +178,41 @@ def build_leading(neis_export, data_rows):
             "ai": v["ai"], "dig": v["dig"],
             "neis_total_em": neis_total, "penetration_em_pct": pen,
         })
+    score_schools(leading)
     return leading, leading_by_region, leading  # LEADING_ROWS, LEADING_BY_REGION, LEADING_ENRICHED(같은 데이터)
+
+
+SIDO_SHORT = {"서울특별시": "서울", "부산광역시": "부산", "대구광역시": "대구", "인천광역시": "인천", "광주광역시": "광주",
+              "대전광역시": "대전", "울산광역시": "울산", "세종특별자치시": "세종", "경기도": "경기", "강원특별자치도": "강원",
+              "강원도": "강원", "충청북도": "충북", "충청남도": "충남", "전북특별자치도": "전북", "전라북도": "전북",
+              "전라남도": "전남", "경상북도": "경북", "경상남도": "경남", "제주특별자치도": "제주"}
+
+
+def score_schools(schools):
+    """B2S 영업 우선순위 점수(100). 공개 데이터만 쓴다(자사 영업 기록은 넣지 않음).
+      사업 30: 두 사업 겸임 30 / AI 중점 20 / 디지털 선도 15  (AI 예산이 학교로 내려가는 사업일수록 높게)
+      AI 중점 유형 15: 선도형 15 / 중심형 10 / 문화확산형·기타 5
+      강점 권역 20: 자사 강점 10개 시도
+      학교장터 구매력 20: 2025 시도별 학교 1곳당 학교장터 구매액(최대 시도 대비)
+      연락 가능 10: 대표전화 확보 / 고교 5: 고교학점제·AI 선택과목으로 교원 연수 수요가 큰 학교급"""
+    try:
+        sc = load("static_data/school_contract_national_2025.json")
+        per = {SIDO_SHORT.get(r["sido"], r["sido"]): r["amt"] / r["n"] for r in sc.get("by_sido", []) if r.get("n")}
+    except FileNotFoundError:
+        per = {}
+    top = max(per.values() or [1])
+    for s in schools:
+        progs = s.get("사업") or []
+        parts = {}
+        parts["사업"] = 30 if s.get("겸임") else (20 if "AI 중점" in progs else 15)
+        t = s.get("ai_type") or ""
+        parts["유형"] = 15 if t.startswith("선도형") else 10 if t.startswith("중심형") else 5 if "AI 중점" in progs else 0
+        parts["강점권역"] = 20 if s.get("소속지역") in STRENGTH else 0
+        parts["구매력"] = round(20 * per.get(s.get("소속지역"), 0) / top)
+        parts["연락"] = 10 if s.get("tel") else 0
+        parts["학교급"] = 5 if s.get("학교급") == "고" else 0
+        s["score"] = sum(parts.values())
+        s["score_parts"] = parts
 
 
 # ---------- 4) PIPE (영업파이프라인, 기회점수 포함) ----------
@@ -329,6 +363,13 @@ def main():
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
     leading_rows, leading_by_region, leading_enriched = build_leading(neis_export, data_rows)
+    import early_warning
+    cov = {t["id"]: t["coverage"] for t in training_topic_data.get("topics", [])}
+    early = early_warning.build(full_live, cov)
+    try:
+        contracts = load("live/competitor_contract_export.json")
+    except FileNotFoundError:
+        contracts = {"status": "아직 수집 전", "competitors": [], "records": []}
     try:
         _ai = load("static_data/ai_schools_2026.json")
         ai_school_status = {k: _ai[k] for k in ("source", "captured", "xlsx", "status")}
@@ -350,6 +391,7 @@ def main():
         "__COMPETITOR_TRAINING_JSON__": competitor_training,
         "__TRAINING_TOPICS_JSON__": training_topic_data,
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
+        "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():
@@ -360,6 +402,12 @@ def main():
 
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(html)
+
+    # 주간 보고(weekly_digest.py)가 쓰는 입력 묶음 - 대시보드와 같은 계산 결과를 그대로 넘긴다
+    with open("live/_weekly_inputs.json", "w", encoding="utf-8") as f:
+        json.dump({"bids": full_live["analytics"]["입찰공고"], "early": early,
+                   "topics": training_topic_data.get("topics", [])[:5], "new_courses": new_courses["rows"],
+                   "contracts": contracts.get("competitors", [])}, f, ensure_ascii=False)
 
     # history_tracker.py가 참고할 요약(전체 AI_ROWS를 또 커밋하지 않기 위해 최소 정보만)
     with open("live/_ai_rows_count.json", "w", encoding="utf-8") as f:
