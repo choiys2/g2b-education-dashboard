@@ -21,7 +21,7 @@ import training_topics as tt
 
 HERE = Path(__file__).parent
 CACHE = HERE / "history" / "rfp_analysis.jsonl"
-MAX_PER_RUN = 8
+MAX_PER_RUN = 5
 DOC_PRIORITY = re.compile(r"제안\s?요청|과업|규격|사양|지시서|공고문")
 
 PROMPT = """다음은 교육청·교육기관의 교원 연수 용역 입찰 첨부문서(제안요청서·과업지시서 등)다.
