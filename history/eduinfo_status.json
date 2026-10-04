@@ -1,12 +1,13 @@
 {
  "date": "2026-10-04",
- "doc_errors": [
-  "https://openapi.eduinfo.go.kr/portal/open/openData/openApiPage.do: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid f"
- ],
+ "doc_errors": [],
  "services_found": {
-  "opclTotal": " + \"&key=sample&pSize=5&pIndex=1\"; //apiTestUrl = \"http://localhost/hub/opclTotal\"; //http://175.126.194.225/openApi.do?",
+  "opclTotal": "hub:= apiTestUrl + \"&key=sample&pSize=5&pIndex=1\"; //apiTestUrl = \"http://localhost/",
   "pIndex": "기본값 : XML",
   "pSize": "기본값 : 1(sample key는 1 고정)"
  },
- "fetched": {}
+ "fetched": {},
+ "probe": {
+  "opclTotal": "{\"TOTAL_CNT\":0,\"RESULT\":{\"CODE\":\"ERROR\",\"MESSAGE\":\"인증키가 유효하지 않습니다.\\\\n인증키가 없는 경우, 홈페이지에서 인증키를 신청하십시오.\"},\"RESULT_LIST\":[]}\n"
+ }
 }
