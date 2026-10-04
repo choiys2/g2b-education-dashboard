@@ -350,6 +350,8 @@ def main():
         "new_courses": new_courses,
         # 3사 공통 분류 갭·주제 공백 백로그·신규 출시 추이(강좌 행에 'std' 분류도 채워 넣는다)
         "content_gap": content_gap.build(new_courses["courses"], new_courses["rows"], "비바샘연수원"),
+        # 아이스크림·티처빌 결합상품(연수+도서·교구·이용권·상품)
+        "bundles": __import__("bundle_products").build(),
     }
 
     # 입찰공고 최근 12개월 -> 초·중·고 연수 주제 수요와 2027 개발 추천(나라장터 종합 탭)
