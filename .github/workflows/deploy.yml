@@ -183,6 +183,17 @@ jobs:
         continue-on-error: true
         run: python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html
 
+      # Gemini로 '오늘의 AI 브리핑' 생성 후 대시보드를 한 번 더 조합(조합 결과를 입력으로 쓰기 때문)
+      - name: 오늘의 AI 브리핑 (Gemini)
+        if: steps.combine.outcome == 'success'
+        timeout-minutes: 5
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python ai_insights.py live/ai_insights.json
+          if [ -f live/ai_insights.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
+
       - name: 주간 보고(최근 7일) 생성
         if: steps.combine.outcome == 'success'
         continue-on-error: true
@@ -209,7 +220,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
-          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json history/eduinfo_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
+          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json history/eduinfo_status.json history/ai_insights_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(TZ=Asia/Seoul date +%F)"
           # 2026-09-27: 카탈로그 크롤링 커밋과 겹쳐 push가 거부돼 그날 지표가 유실됐다.
           # 서로 다른 파일만 건드리므로 rebase 후 올리면 충돌 없이 합쳐진다.

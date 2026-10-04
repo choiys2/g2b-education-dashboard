@@ -378,6 +378,10 @@ def main():
     ai_rows = build_ai_rows(full_live)
     leading_rows, leading_by_region, leading_enriched = build_leading(neis_export, data_rows)
     try:
+        ai_brief = load("live/ai_insights.json")
+    except FileNotFoundError:
+        ai_brief = None
+    try:
         weather = load("live/weather.json")
     except FileNotFoundError:
         weather = {"cities": []}
@@ -410,7 +414,7 @@ def main():
         "__TRAINING_TOPICS_JSON__": training_topic_data,
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
-        "__WEATHER_JSON__": weather,
+        "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
         "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():
