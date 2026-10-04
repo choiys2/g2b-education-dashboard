@@ -27,6 +27,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 HISTORY_PATH = HERE / "history" / "training_bids.jsonl"
 KEEP_DAYS = 400      # 12개월 창 + 여유
+RULES_VERSION = "2026-10-04"  # 연수 판정 규칙을 바꾸면 올린다 -> 다음 수집 때 12개월 재백필('학업설계'가 '설계'로 걸러지던 문제 수정)
 WINDOW_DAYS = 365
 
 # 입찰공고 서버측 제목 검색어. '연수'가 대부분을 잡고, 연수라는 말을 안 쓰는 위탁 사업을 나머지로 보완.
@@ -40,7 +41,7 @@ TRIP_RE = re.compile(r"해외|국외|어학\s?연수|자매\s?학교|방한|해�
 # 교육 행정기관이 아닌 발주처(이름에 '연수원'·'학교'가 들어가도 제외)
 NOT_EDU_ORG_RE = re.compile(r"소방|해양수산|경찰|국방|산림|농업기술|공무원|인재개발원|사법|법무|보훈|연금|기술교육원|고용노동")
 NOT_TRAINING_RE = re.compile(r"공사|구매|임차|설치|급식|청소|경비|세탁|침구|사무\s?기기|전산\s?장비|시설|리모델링|건축|전기|소방|물품|차량|보험|"
-                             r"인쇄|제작\s?설치|유지\s?보수|유지관리|숙박|식당|방역|승강기|냉난방|조경|감리|설계")
+                             r"인쇄|제작\s?설치|유지\s?보수|유지관리|숙박|식당|방역|승강기|냉난방|조경|감리|(?<!학업)(?<!수업)(?<!과정)(?<!교육)(?<!진로)설계")
 
 # ---------------- 분류 규칙 ----------------
 LEVELS = ["초", "중", "고"]
@@ -266,19 +267,44 @@ def _rows_from_sources(history, full_live=None, competitor_wins=None):
     return list(rows.values())
 
 
+def _chasi(credit):
+    m = re.search(r"(\d+)\s*차시", credit or "")
+    return int(m.group(1)) if m else None
+
+
 def _catalog_coverage(courses_by_company, self_name):
-    """주제별 자사·경쟁사 보유 강좌 수(강좌명에 주제 키워드가 들어간 것)."""
+    """주제별 자사·경쟁사 보유 강좌 수, 경쟁사 대표 강좌·가격(15차시 환산 중앙값).
+    B2C(개인 수강) 시장의 공급 지표로도 쓴다 - 경쟁사가 많이 깔아둔 주제 = 개인 수요가 검증된 주제."""
     own, comp = Counter(), defaultdict(Counter)
+    comp_courses, prices15 = defaultdict(list), defaultdict(list)
+    comp_total = 0
     for name, courses in (courses_by_company or {}).items():
         for c in courses:
-            for tid in classify_topics(c.get("title") or ""):
+            title = c.get("title") or ""
+            if name != self_name:
+                comp_total += 1
+            for tid in classify_topics(title):
                 if name == self_name:
                     own[tid] += 1
-                else:
-                    comp[name][tid] += 1
+                    continue
+                comp[name][tid] += 1
+                ch, price = _chasi(c.get("credit")), c.get("price")
+                if ch and price:
+                    prices15[tid].append(round(price / ch * 15))
+                comp_courses[tid].append({"co": name, "t": title, "credit": c.get("credit") or "", "price": price, "url": c.get("url")})
     n_comp = max(len(comp), 1)
-    return {tid: {"own": own[tid], "comp_avg": round(sum(comp[c][tid] for c in comp) / n_comp, 1)}
-            for tid, *_ in TOPICS}, bool(courses_by_company)
+    out = {}
+    for tid, *_ in TOPICS:
+        ps = sorted(prices15[tid])
+        comp_n = sum(comp[c][tid] for c in comp)
+        out[tid] = {"own": own[tid], "comp_avg": round(comp_n / n_comp, 1), "comp_n": comp_n,
+                    "comp_share": round(comp_n / comp_total * 100, 1) if comp_total else 0,
+                    "price15_median": ps[len(ps) // 2] if ps else None,
+                    "price15_range": [ps[len(ps) // 4], ps[(len(ps) * 3) // 4]] if len(ps) >= 4 else None,
+                    # 대표 강좌: 회사별로 고르게(한 회사가 독식하지 않게) 최대 6개
+                    "comp_examples": [x for i in range(3) for co in comp
+                                      for x in [c for c in comp_courses[tid] if c["co"] == co][i:i + 1]][:6]}
+    return out, bool(courses_by_company)
 
 
 def _pick_mode(mode_counter):
@@ -392,6 +418,16 @@ def build(history_rows=None, full_live=None, competitor_wins=None, courses_by_co
             "format": mode_label, "format_reason": mode_reason, "level_explicit": lv_total,
             "proposals": proposals, "samples": samples,
         })
+    # B2G(입찰) 수요 비중 vs B2C(경쟁사 개인 수강 카탈로그) 공급 비중 - 주제별 채널 전략 신호
+    if has_catalog:
+        med = lambda xs: sorted(xs)[len(xs) // 2] if xs else 0
+        g_med = med([t["share"] for t in topics if t["n"]])
+        c_med = med([t["coverage"]["comp_share"] for t in topics])
+        for t in topics:
+            g_hi, c_hi = t["share"] >= g_med and t["n"] > 0, t["coverage"]["comp_share"] >= c_med
+            t["channel"] = ("양쪽 수요 확인 · B2G 제안 + 샘몰 상품" if g_hi and c_hi else
+                            "B2G 선점 기회 · 경쟁사 개인과정 적음" if g_hi else
+                            "B2C 검증 주제 · 샘몰 상품화 우선" if c_hi else "관망")
     topics.sort(key=lambda t: (-t["score"], -t["n"]))
     return {
         "generated": today.isoformat(),
@@ -432,11 +468,15 @@ def main():
         from fetch_g2b_listings import load_config
         cfg = load_config()
         hist = load_history()
-        days = args.days if hist else max(args.days, WINDOW_DAYS)  # 누적이 비어 있으면 12개월 백필
+        # 누적이 비어 있거나 수집 규칙이 바뀌었으면(예전 규칙이 걸러낸 공고 복구) 12개월 다시 백필
+        ver_path = HERE / "history" / "training_bids.rules"
+        rules_changed = not ver_path.exists() or ver_path.read_text().strip() != RULES_VERSION
+        days = max(args.days, WINDOW_DAYS) if (not hist or rules_changed) else args.days
         new = fetch(cfg, days)
         added = sum(1 for r in new if r["k"] not in hist)
         hist.update({r["k"]: r for r in new})
         kept = save_history(hist)
+        ver_path.write_text(RULES_VERSION + "\n")
         print(f"training bids: 최근 {days}일 조회 {len(new)}건, 신규 {added}건, 누적 {kept}건(최근 {KEEP_DAYS}일)")
 
 

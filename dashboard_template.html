@@ -317,7 +317,8 @@
   .co-tab .ct{font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);font-variant-numeric:tabular-nums;}
   .co-tab .nw{font-size:11.5px;color:var(--warning);font-weight:700;min-height:14px;}
   .view-toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
-  .view-toggle button{font-family:inherit;font-size:13px;padding:6px 12px;border:0;background:var(--surface-2);color:var(--ink-2);cursor:pointer;}
+  .view-toggle button{font-family:inherit;font-size:13px;padding:6px 12px;border:0;background:var(--surface-2);color:var(--ink-2);cursor:pointer;white-space:nowrap;}
+  .view-toggle{flex-wrap:wrap;}
   .view-toggle button[aria-pressed="true"]{background:var(--accent);color:#fff;font-weight:700;}
   .filter-row input[type="search"]{
     font-family:inherit;font-size:13px;color:var(--ink);background:var(--surface-2);
@@ -625,6 +626,7 @@
       <span class="pill">데이터 출처 ① <b>나이스 개방포털 Open API</b> (학교기본정보, 실시간 조회)</span>
       <span class="pill">데이터 출처 ② <b>나라장터 G2B</b> (자체 수집 파이프라인, 교육청·연수원·연수 키워드)</span>
       <a class="pill" href="./report.pdf" target="_blank" rel="noopener" style="text-decoration:none;">📄 PDF 리포트 다운로드</a>
+      <a class="pill" href="./weekly.html" target="_blank" rel="noopener" style="text-decoration:none;">🗓 주간 보고(최근 7일)</a>
     </div>
   </header>
 
@@ -1153,7 +1155,7 @@
       <div class="panel-head">
         <div>
           <p class="panel-title">지정 학교 상세 &amp; 연락처</p>
-          <p class="panel-desc">시도·학교급·사업으로 거르고 학교명·교육지원청·주소로 검색할 수 있습니다. 학교명을 누르면 홈페이지로 이동합니다. 걸러진 목록은 CSV로, 전체 명단은 엑셀로 내려받을 수 있습니다.</p>
+          <p class="panel-desc">B2S 영업 우선순위 점수 순으로 정렬돼 있습니다(점수에 마우스를 올리면 산정 내역). 시도·학교급·사업으로 거르고 학교명·교육지원청·주소로 검색할 수 있으며, 걸러진 목록은 CSV로, 전체 명단은 엑셀로 내려받을 수 있습니다. 점수는 공개 데이터만으로 계산합니다.</p>
         </div>
       </div>
       <div class="filter-row">
@@ -1174,6 +1176,7 @@
         <input type="search" id="leadSearch" placeholder="학교명·교육지원청·주소 검색">
         <span class="count" id="leadRowCount"></span>
         <button type="button" class="btn-csv" id="leadCsv">CSV</button>
+        <button type="button" class="btn-csv" id="leadTop200" style="margin-left:0;">우선순위 상위 200 CSV</button>
         <a class="btn-csv" href="./ai_schools_2026.xlsx" download style="margin-left:0;text-decoration:none;">엑셀 전체</a>
       </div>
       <div class="tbl-wrap tall">
@@ -1181,7 +1184,8 @@
           <thead>
             <tr>
               <th data-key="학교명">학교<span class="arrow">▾</span></th>
-              <th data-key="소속지역" class="sorted">지역<span class="arrow">▴</span></th>
+              <th data-key="score" class="num sorted" title="B2S 영업 우선순위(100점): 사업 30 · AI 중점 유형 15 · 강점권역 20 · 학교장터 구매력 20 · 연락처 10 · 고교 5">우선순위<span class="arrow">▾</span></th>
+              <th data-key="소속지역">지역<span class="arrow">▾</span></th>
               <th data-key="교육지원청">교육지원청<span class="arrow">▾</span></th>
               <th data-key="유형">사업·유형<span class="arrow">▾</span></th>
               <th data-key="설립">설립<span class="arrow">▾</span></th>
@@ -1252,12 +1256,34 @@
         <summary>주제별 전체 점수표와 산정 기준</summary>
         <div class="tbl-wrap" style="margin-top:10px;">
           <table class="data" id="ttTable">
-            <thead><tr><th>주제</th><th>추천 점수</th><th>공고 수</th><th>증감</th><th>학교급 명시(초/중/고)</th><th>운영 형태</th><th>2027 정책</th><th>강좌 보유(자사/경쟁사 평균)</th></tr></thead>
+            <thead><tr><th>주제</th><th>추천 점수</th><th>공고 수</th><th>증감</th><th>학교급 명시(초/중/고)</th><th>운영 형태</th><th>2027 정책</th><th>강좌 보유(자사/경쟁사 평균)</th><th>B2C 공급(경쟁사 강좌 비중)</th><th>채널 전략</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
         <p class="tt-note">추천 점수(100점) = 수요 40(주제별 공고 수, 최다 주제 대비) + 성장 20(분석 구간 후반부 공고 수가 전반부보다 늘어난 정도, 3건 미만 제외) + 2027 정책 연계 20(편집 기준 가중치 상 20·중 13·하 6) + 자사 공백 20(비바샘연수원 강좌가 경쟁사 평균보다 적을수록 높음). 학교급·운영 형태·주제는 공고명 키워드로 자동 분류(검수 전)했으며, 한 공고가 여러 주제에 걸리면 주제마다 1건씩 셉니다. 학교급이 공고명에 없으면 초·중·고 공통으로 봅니다.</p>
       </details>
+    </section>
+
+    <!-- 발주 조기 경보: 사전규격·발주계획 단계에서 우리 연수 주제와 맞는 사업 (early_warning.py) -->
+    <section class="panel" id="earlyWarnPanel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">발주 조기 경보<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">입찰공고 전 단계 &middot; 사전규격 &middot; 발주계획</span></p>
+          <p class="panel-desc" id="ewDesc"></p>
+        </div>
+        <div class="view-toggle" id="ewToggle" role="group" aria-label="단계 선택">
+          <button type="button" data-st="" aria-pressed="true">전체</button>
+          <button type="button" data-st="사전규격" aria-pressed="false">사전규격</button>
+          <button type="button" data-st="발주계획" aria-pressed="false">발주계획</button>
+          <button type="button" data-st="ready" aria-pressed="false">자사 강좌 보유</button>
+        </div>
+      </div>
+      <div class="tbl-wrap tall">
+        <table class="data" id="ewTable" style="min-width:760px;">
+          <thead><tr><th>단계</th><th>사업명</th><th>기관</th><th class="num">예산</th><th>마감·예정월</th><th>연수 주제</th><th>대응</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </section>
 
     <div class="grid-2">
@@ -1605,6 +1631,26 @@
       </div>
       <svg id="scorecardChart" viewBox="0 0 500 460"></svg>
       <p style="font-size:11.5px;color:var(--muted);margin:8px 0 0;">⚠ "나라장터/파이프라인 활동" 축은 자사는 자사 영업 파이프라인 건수, 경쟁사는 나라장터 낙찰 확정 건수를 씁니다 — 성격이 달라 완전히 같은 잣대는 아닙니다. 데이터가 없는 축은 0으로 처리됩니다(실제로 0이라는 뜻이 아니라 "미확인"일 수 있습니다).</p>
+    </section>
+
+    <section class="panel" id="contractPanel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">계약 기준 B2G 점유 (수의계약·협상계약 포함)</p>
+          <p class="panel-desc" id="contractDesc">나라장터 계약정보서비스(용역)에서 연수·역량강화·원격 관련 계약을 모아 업체별로 집계합니다. 낙찰정보(경쟁입찰만)로는 보이지 않던 수의·협상 계약이 포함됩니다.</p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data" id="contractTable" style="min-width:640px;">
+          <thead><tr><th>업체</th><th class="num">계약 건수</th><th class="num">계약 금액</th><th class="num">금액 점유</th><th>계약 방법</th><th>주요 지역</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <details class="tt-more"><summary>최근 계약 레코드</summary>
+        <div class="tbl-wrap tall" style="margin-top:10px;">
+          <table class="data" id="contractRecTable"><thead><tr><th>계약일</th><th>업체</th><th>기관</th><th>계약명</th><th>방법</th><th class="num">금액</th></tr></thead><tbody></tbody></table>
+        </div>
+      </details>
     </section>
 
     <section class="panel">
@@ -2103,6 +2149,8 @@ const LEADING_ENRICHED = LEADING_ROWS;  // 같은 데이터 - 두 번 싣지 않
 const AI_SCHOOL_STATUS = __AI_SCHOOL_STATUS_JSON__;
 const G2B_FULL = __G2B_FULL_JSON__;
 const TRAINING_TOPICS = __TRAINING_TOPICS_JSON__;
+const EARLY_WARNING = __EARLY_WARNING_JSON__;
+const CONTRACTS = __CONTRACTS_JSON__;
 const B2S_BOARD = __B2S_BOARD_JSON__;
 const PIPE = __PIPE_JSON__;
 const BETA = __BETA_JSON__;
@@ -3336,6 +3384,25 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   `).join('');
 })();
 
+// 계약 기준 B2G 점유(수의·협상 포함) - competitor_contract_export.py
+(function renderContracts(){
+  const D = CONTRACTS || {competitors: [], records: []};
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const tb = document.querySelector('#contractTable tbody');
+  if (D.status !== 'ok' || !D.competitors.length) {
+    tb.innerHTML = `<tr><td colspan="6" style="color:var(--muted);padding:16px;">${D.status === 'ok' ? '아직 매칭된 계약이 없습니다.' : h(D.status || '아직 수집 전')}</td></tr>`;
+    return;
+  }
+  tb.innerHTML = D.competitors.map(c => `<tr>
+    <td><b>${h(c.name)}</b></td><td class="num">${fmt(c.n)}</td><td class="num">${fmtWon(c.amount)}</td>
+    <td class="num">${c.share}%</td>
+    <td style="font-size:12.5px;">${Object.entries(c.methods).map(([k, v]) => `${h(k)} ${v}`).join(' · ')}</td>
+    <td style="font-size:12.5px;">${c.top_regions.map(h).join(', ')}</td></tr>`).join('');
+  document.querySelector('#contractRecTable tbody').innerHTML = D.records.map(r => `<tr>
+    <td class="num" style="white-space:nowrap;">${h(r.date)}</td><td>${h(r.competitor)}</td><td style="font-size:12.5px;">${h(r.org)}</td>
+    <td class="title">${h(r.course)}</td><td style="font-size:12.5px;">${h(r.method)}</td><td class="num">${fmtWon(r.amount || 0)}</td></tr>`).join('');
+})();
+
 /* ================= AI 선도학교 탭 (2026 AI 중점학교 · AI·디지털 선도학교) ================= */
 const hasProg = (r, p) => (r.사업 || []).includes(p);
 (function renderKpisLeading(){
@@ -3462,7 +3529,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     regionSel.appendChild(opt);
   });
 
-  let sortKey = '소속지역', sortDir = 1, current = [];
+  let sortKey = 'score', sortDir = -1, current = [];
 
   function filtered(){
     const rf = regionSel.value, gf = gradeSel.value, pf = progSel.value;
@@ -3473,6 +3540,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   }
   function draw(){
     current = filtered().sort((a,b) => {
+      if (sortKey === 'score') return sortDir * ((a.score || 0) - (b.score || 0)) || a.학교명.localeCompare(b.학교명, 'ko');
       const av = a[sortKey] == null ? '' : String(a[sortKey]), bv = b[sortKey] == null ? '' : String(b[sortKey]);
       return sortDir * (av.localeCompare(bv, 'ko') || a.학교명.localeCompare(b.학교명, 'ko'));
     });
@@ -3493,7 +3561,9 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       wrap.append(badge, nameEl);
       tdName.appendChild(wrap);
       const cell = (txt, style) => { const td = document.createElement('td'); td.textContent = txt || '-'; if (style) td.style.cssText = style; return td; };
-      tr.append(tdName, cell(r.소속지역), cell(r.교육지원청, 'font-size:12.5px;color:var(--ink-2);'),
+      const tdScore = cell(r.score != null ? String(r.score) : '-', 'font-weight:800;text-align:right;');
+      tdScore.title = Object.entries(r.score_parts || {}).map(([k, v]) => `${k} ${v}`).join(' · ');
+      tr.append(tdName, tdScore, cell(r.소속지역), cell(r.교육지원청, 'font-size:12.5px;color:var(--ink-2);'),
         cell(r.유형, 'font-size:12.5px;color:var(--ink-2);' + (r.겸임 ? 'font-weight:700;color:var(--accent);' : '')),
         cell(r.설립, 'font-size:12.5px;'), cell(r.tel, 'font-size:12.5px;white-space:nowrap;'),
         cell(r.addr, 'font-size:12.5px;color:var(--ink-2);'));
@@ -3502,23 +3572,27 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     });
   }
 
-  document.getElementById('leadCsv').addEventListener('click', () => {
-    const cols = ['소속지역','교육지원청','시군구','학교급','설립','학교명','유형','tel','homepage','addr'];
-    const head = ['시도','교육지원청','시군구','학교급','설립','학교명','사업·유형','대표전화','홈페이지','주소'];
+  function downloadCsv(rows, name){
+    const cols = ['score','소속지역','교육지원청','시군구','학교급','설립','학교명','유형','tel','homepage','addr'];
+    const head = ['우선순위','시도','교육지원청','시군구','학교급','설립','학교명','사업·유형','대표전화','홈페이지','주소'];
     const q = v => { const t = String(v == null ? '' : v).replace(/"/g, '""'); return /[",\n]/.test(t) ? `"${t}"` : t; };
-    const csv = '﻿' + [head.join(','), ...current.map(r => cols.map(c => q(r[c])).join(','))].join('\n');
+    const csv = '\ufeff' + [head.join(','), ...rows.map(r => cols.map(c => q(r[c])).join(','))].join('\n');
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
-    a.download = 'ai_schools_2026_filtered.csv';
+    a.download = name;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  });
+  }
+  document.getElementById('leadCsv').addEventListener('click', () => downloadCsv(current, 'ai_schools_2026_filtered.csv'));
+  // 현재 필터(시도·학교급·사업·검색) 안에서 점수 상위 200교
+  document.getElementById('leadTop200').addEventListener('click', () =>
+    downloadCsv(filtered().sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 200), 'b2s_target_top200.csv'));
 
   ths.forEach(th => {
     th.addEventListener('click', () => {
       const key = th.dataset.key;
       if (!key) return;
-      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = 1; }
+      if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = key === 'score' ? -1 : 1; }
       ths.forEach(t => { t.classList.remove('sorted'); const a=t.querySelector('.arrow'); if(a) a.textContent='▾'; });
       th.classList.add('sorted');
       const arrow = th.querySelector('.arrow');
@@ -3659,7 +3733,9 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
           <div class="t">${h(p.title)}</div><div class="c">${h(p.content)}</div>
           <div class="f">형태: ${h(p.format)} · ${h(t.format_reason)}</div></div>`).join('')}
         <div class="tt-policy"><b>2027 근거</b> ${h(t.policy_note)}</div>
+        ${t.channel ? `<div class="tt-policy"><b>채널</b> ${h(t.channel)} <span style="color:var(--muted);">(B2G 공고 비중 ${t.share}% · 경쟁사 개인과정 비중 ${t.coverage.comp_share}%)</span></div>` : ''}
         ${samples.length ? `<ul class="tt-samples">${samples.map(s => `<li title="${h(s.o)} · ${h(s.t)}">${h(s.d)} ${h(s.o)} · ${h(s.t)}</li>`).join('')}</ul>` : ''}
+        <button type="button" class="btn-csv tt-draft" data-tid="${h(t.id)}" data-lv="${h(lv)}" style="margin:2px 0 0;align-self:flex-start;">기획서 초안 보기</button>
       </article>`;
     }).join('') || '<div class="tt-empty">이 학교급으로 분류된 공고가 없습니다.</div>';
 
@@ -3672,8 +3748,83 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       <td>원격 ${t.modes['원격']} · 집합 ${t.modes['집합']} · 혼합 ${t.modes['혼합']}</td>
       <td>${POLICY[t.policy_weight]}</td>
       <td class="num">${D.has_catalog ? `${fmt(t.coverage.own)} / ${t.coverage.comp_avg}` : '-'}</td>
+      <td class="num">${D.has_catalog ? t.coverage.comp_share + '%' : '-'}</td>
+      <td style="font-size:12px;">${h(t.channel || '-')}</td>
     </tr>`).join('');
   }
+
+  // 기획서 초안: 추천 근거(공고·정책·경쟁 과정·가격)를 과정 기획서 뼈대로 엮는다. 사람이 다듬는 출발점.
+  function draftFor(t, lv){
+    const props = lv ? t.proposals.filter(p => p.level === lv) : t.proposals;
+    const p = props[0] || {title: t.name + ' 연수', content: '', format: t.format, level: lv || ''};
+    const c = t.coverage || {};
+    const won = n => n ? Math.round(n / 1000) * 1000 : null;
+    const price = c.price15_median ? `${fmt(won(c.price15_median))}원 내외(경쟁사 같은 주제 15차시 환산 중앙값${c.price15_range ? `, 25~75% 구간 ${fmt(won(c.price15_range[0]))}~${fmt(won(c.price15_range[1]))}원` : ''})` : '경쟁사 가격 표본 부족 - 전체 평균가 기준으로 책정';
+    const modules = (p.content || '').split(/[,·]|\s→\s/).map(x => x.trim()).filter(Boolean);
+    const plan = modules.length ? modules : ['개념과 정책 이해', '수업 적용 사례', '실습', '평가와 피드백'];
+    const per = Math.max(1, Math.floor(15 / plan.length));
+    let used = 0;
+    const rows = plan.map((m, i) => { const n = i === plan.length - 1 ? 15 - used : per; used += n; return `| ${i + 1} | ${m} | ${n}차시 |`; });
+    const lines = [
+      `# [기획서 초안] ${p.title}`, '',
+      `- 대상: ${p.level ? (LV_NAME[p.level] || p.level) + ' 교원' : '초·중·고 교원'}`,
+      `- 운영 형태: ${p.format || t.format} (${t.format_reason})`,
+      `- 추천 점수: ${t.total ?? t.score}/100 (${Object.entries(t.parts || t.score_parts).map(([k, v]) => k + ' ' + v).join(' · ')})`, '',
+      '## 1. 개발 근거',
+      `- 최근 12개월 교원 연수 입찰공고 중 '${t.name}' 주제 ${t.n}건${t.n >= 3 ? `, 분석 기간 후반부 ${t.growth > 0 ? '+' : ''}${t.growth}%` : ''}${t.amount ? `, 예산 합계 ${fmtWon(t.amount)}` : ''}`,
+      `- 2027 정책: ${t.policy_note}`,
+      ...(t.samples || []).slice(0, 3).map(s => `- 공고 예: ${s.d} ${s.o} · ${s.t}`),
+      `- 채널: ${t.channel || '-'}`, '',
+      '## 2. 경쟁 과정',
+      `- 자사 보유 ${c.own ?? 0}개 / 경쟁사 평균 ${c.comp_avg ?? 0}개`,
+      ...(c.comp_examples || []).map(x => `- ${x.co}: ${x.t}${x.credit ? ` (${x.credit}` + (x.price ? `, ${fmt(x.price)}원)` : ')') : ''}`),
+      '- 차별화 포인트: (작성) 경쟁 과정 대비 실습 산출물·현장 사례·평가 연계 중 무엇으로 차별화할지', '',
+      '## 3. 차시 구성안 (15차시 기준 초안)',
+      '| 모듈 | 내용 | 분량 |', '|---|---|---|', ...rows, '',
+      '## 4. 가격·판매',
+      `- 개인(B2C·샘몰) 권장가: ${price}`,
+      '- 단체(B2S·B2G): 학교·교육청 단체 신청 할인과 집합 실습 옵션 묶음',
+      '', '## 5. 성과 지표',
+      '- 출시 6개월 수강 인원, 수료율, 만족도, 단체(학교·교육청) 계약 건수', '',
+      `> 자동 생성 초안(${D.window.to} 기준 데이터). 공고·카탈로그 키워드 분류에 기반하므로 내용 검수가 필요합니다.`,
+    ];
+    return lines.join('\n');
+  }
+  let dlg = document.getElementById('ttDraftDlg');
+  if (!dlg) {
+    dlg = document.createElement('dialog');
+    dlg.id = 'ttDraftDlg';
+    dlg.style.cssText = 'max-width:760px;width:calc(100% - 32px);border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--ink);padding:0;';
+    dlg.innerHTML = `<div style="display:flex;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);">
+        <b style="flex:1;">과정 기획서 초안</b>
+        <button type="button" class="btn-csv" data-act="copy" style="margin:0;">복사</button>
+        <button type="button" class="btn-csv" data-act="md" style="margin:0;">.md 내려받기</button>
+        <button type="button" class="btn-csv" data-act="close" style="margin:0;">닫기</button></div>
+      <pre style="margin:0;padding:16px;white-space:pre-wrap;font:13px/1.65 inherit;font-family:inherit;max-height:70vh;overflow:auto;"></pre>`;
+    document.body.appendChild(dlg);
+    dlg.addEventListener('click', async e => {
+      const act = e.target.dataset && e.target.dataset.act;
+      const text = dlg.querySelector('pre').textContent;
+      if (act === 'close' || e.target === dlg) dlg.close();
+      if (act === 'copy') { try { await navigator.clipboard.writeText(text); e.target.textContent = '복사됨'; setTimeout(() => e.target.textContent = '복사', 1200); } catch (err) {} }
+      if (act === 'md') {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([text], {type: 'text/markdown;charset=utf-8'}));
+        a.download = (text.split('\n')[0].replace(/^#\s*\[기획서 초안\]\s*/, '') || 'draft').replace(/[\\/:*?"<>|]/g, '').slice(0, 60) + '.md';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      }
+    });
+  }
+  cards.addEventListener('click', e => {
+    const b = e.target.closest('.tt-draft');
+    if (!b) return;
+    const lv = b.dataset.lv;
+    const t = scored(lv).find(x => x.id === b.dataset.tid);
+    if (!t) return;
+    dlg.querySelector('pre').textContent = draftFor(t, lv);
+    dlg.showModal();
+  });
 
   const toggle = document.getElementById('ttLevelToggle');
   toggle.addEventListener('click', e => {
@@ -3837,6 +3988,35 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     renderProducts(b.dataset.lv);
   });
   renderProducts('');
+})();
+
+// 발주 조기 경보(사전규격·발주계획 단계) - early_warning.py
+(function renderEarlyWarning(){
+  const D = EARLY_WARNING || {items: []};
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const desc = document.getElementById('ewDesc');
+  const tbody = document.querySelector('#ewTable tbody');
+  const c = D.counts || {};
+  desc.innerHTML = `정식 입찰공고 전에 뜨는 <b>사전규격 ${fmt(c['사전규격'] || 0)}건</b>(의견등록 마감 전)과 <b>발주계획 ${fmt(c['발주계획'] || 0)}건</b>(예정월이 지나지 않은 것) 중 교원 연수 사업만 골랐습니다. 이 중 <b>${fmt(D.ready || 0)}건</b>은 같은 주제의 자사 강좌가 있어 바로 제안할 수 있습니다. 발주계획은 매일 받은 스냅샷을 누적합니다.`;
+  function draw(st){
+    const rows = D.items.filter(x => !st || (st === 'ready' ? x.own > 0 : x.stage === st));
+    tbody.innerHTML = rows.length ? rows.map(x => `<tr>
+      <td><span class="chip ${x.stage === '사전규격' ? 'open' : 'pre'}">${h(x.stage)}</span></td>
+      <td class="title">${x.url && !/g2b\.go\.kr\/?$/.test(x.url) ? `<a href="${h(x.url)}" target="_blank" rel="noopener" style="color:inherit;">${h(x.t)}</a>` : h(x.t)}${x.extra ? `<div style="font-size:11.5px;color:var(--muted);">${h(x.extra)}</div>` : ''}</td>
+      <td style="font-size:12.5px;">${h(x.o)}</td>
+      <td class="num">${x.a ? fmtWon(x.a) : '-'}</td>
+      <td class="num" style="white-space:nowrap;">${h(x.due || '-')}</td>
+      <td style="font-size:12px;">${x.topics.map(h).join(', ') || '-'}</td>
+      <td style="font-size:12px;font-weight:700;color:${x.own ? 'var(--good)' : 'var(--warning)'};">${h(x.ready)}${x.own ? ` (${x.own}개)` : ''}</td>
+    </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:18px;">해당 단계의 연수 사업이 지금은 없습니다.</td></tr>';
+  }
+  const tg = document.getElementById('ewToggle');
+  tg.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    tg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    draw(b.dataset.st);
+  });
+  draw('');
 })();
 
 (function renderG2BTrendChart(){

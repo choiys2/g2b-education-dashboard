@@ -146,10 +146,23 @@ jobs:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
         run: python training_topics.py fetch --days 45
 
+      # 계약정보(용역): 수의·협상계약까지 포함한 경쟁사·자사 B2G 계약 이력 - history/competitor_contracts.jsonl 누적
+      - name: 경쟁사 계약정보 누적 (수의계약 포함)
+        timeout-minutes: 25
+        continue-on-error: true
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python competitor_contract_export.py --days 60 --out live/competitor_contract_export.json
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
         run: python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html
+
+      - name: 주간 보고(최근 7일) 생성
+        if: steps.combine.outcome == 'success'
+        continue-on-error: true
+        run: python weekly_digest.py live/weekly.html live/weekly_mail.txt
 
       - name: 입찰 마감일 .ics 캘린더 피드 생성
         if: steps.combine.outcome == 'success'
@@ -172,7 +185,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
-          [ -f history/training_bids.jsonl ] && git add history/training_bids.jsonl   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
+          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(TZ=Asia/Seoul date +%F)"
           # 2026-09-27: 카탈로그 크롤링 커밋과 겹쳐 push가 거부돼 그날 지표가 유실됐다.
           # 서로 다른 파일만 건드리므로 rebase 후 올리면 충돌 없이 합쳐진다.
@@ -190,6 +203,11 @@ jobs:
           if [ -f static_data/ai_schools_2026.xlsx ]; then
             mkdir -p _site/full
             cp static_data/ai_schools_2026.xlsx _site/full/ai_schools_2026.xlsx
+          fi
+          if [ -f live/weekly.html ]; then
+            mkdir -p _site/full
+            cp live/weekly.html _site/full/weekly.html
+            cp live/weekly_mail.txt _site/full/weekly_mail.txt 2>/dev/null || true
           fi
           if [ -f live/g2b_deadlines.ics ]; then
             mkdir -p _site/full
