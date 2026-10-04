@@ -170,6 +170,14 @@ jobs:
           EDUINFO_KEY: ${{ secrets.EDUINFO_KEY }}
         run: python eduinfo_export.py live/eduinfo_export.json
 
+      # 기상청 단기예보(공공데이터포털 계정 공용 키) - 대시보드 머리말 날씨
+      - name: 주요 도시 날씨
+        timeout-minutes: 5
+        continue-on-error: true
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python weather_export.py live/weather.json
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true

@@ -377,6 +377,10 @@ def main():
     data_rows, totals = build_data_totals(neis_export, full_live)
     ai_rows = build_ai_rows(full_live)
     leading_rows, leading_by_region, leading_enriched = build_leading(neis_export, data_rows)
+    try:
+        weather = load("live/weather.json")
+    except FileNotFoundError:
+        weather = {"cities": []}
     import early_warning
     cov = {t["id"]: t["coverage"] for t in training_topic_data.get("topics", [])}
     early = early_warning.build(full_live, cov)
@@ -406,6 +410,7 @@ def main():
         "__TRAINING_TOPICS_JSON__": training_topic_data,
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
+        "__WEATHER_JSON__": weather,
         "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():
