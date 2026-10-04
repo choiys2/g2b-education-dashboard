@@ -51,7 +51,18 @@ def call(key, api_type, sido, sgg, kind, year):
     return None, err
 
 
-def total_of(row):
+# 학교알리미 응답 확인 결과(2026-10-04 진단): 교원(22) 총원 = COL_S(남 COL_SM + 여 COL_SW), 학생(09) 총원 = COL_S_SUM
+EXACT = {"22": "COL_S", "09": "COL_S_SUM"}
+
+
+def total_of(row, api_type=None):
+    f = EXACT.get(api_type)
+    if f and str(row.get(f, "")).replace(",", "").isdigit():
+        return int(str(row[f]).replace(",", "")), f
+    return _guess_total(row)
+
+
+def _guess_total(row):
     """행에서 합계로 보이는 숫자 필드를 쓰고, 없으면 숫자 필드 합으로 추정한다(필드명은 진단 파일로 검수)."""
     nums = {}
     for k, v in row.items():
@@ -101,13 +112,14 @@ def main():
                 targets.setdefault((regions[full]["code"], code, kind), set()).add(s["학교명"])
     print(f"학교알리미: 호출 대상 {len(targets)}개 (시군구×학교급) × {len(TYPES)}항목, 공시연도 {year}")
 
-    found, samples, errors, method = {}, {}, [], {}
+    found, samples, errors, method, n_err = {}, {}, [], {}, 0
     for (sido, sgg, kind), names in sorted(targets.items()):
         for api_type, field in TYPES.items():
             rows, err = call(key, api_type, sido, sgg, kind, year)
             if rows is None and year:
-                rows, err = call(key, api_type, sido, sgg, kind, None)  # 해당 연도 미공시면 최신
+                rows, err = call(key, api_type, sido, sgg, kind, str(int(year) - 1))  # 해당 연도 미공시면 전년도(pbanYr 필수)
             if rows is None:
+                n_err += 1
                 if len(errors) < 20:
                     errors.append(f"{api_type}/{sido}/{sgg}/{kind}: {err}")
                 continue
@@ -116,7 +128,7 @@ def main():
             for r in rows:
                 nm = str(r.get("SCHUL_NM") or "").strip()
                 if nm in names:
-                    val, how = total_of(r)
+                    val, how = total_of(r, api_type)
                     rec = found.setdefault(f"{sido}|{nm}", {"name": nm, "code": r.get("SCHUL_CODE")})
                     if val is not None:
                         rec[field] = max(val, rec.get(field) or 0)
@@ -126,7 +138,7 @@ def main():
     out_path.parent.mkdir(exist_ok=True)
     out_path.write_text(json.dumps({"year": year, "schools": found}, ensure_ascii=False), encoding="utf-8")
     status_path.write_text(json.dumps({"date": date.today().isoformat(), "matched": len(found),
-                                       "targets": len(targets), "method": method, "errors": errors,
+                                       "targets": len(targets), "method": method, "errors": errors, "error_count": n_err,
                                        "sample_fields": samples}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"학교알리미: 매칭 {len(found)}교, 오류 {len(errors)}건, 산출 방식 {method}")
 

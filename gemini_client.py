@@ -18,6 +18,7 @@ API = "https://generativelanguage.googleapis.com/v1beta"
 MIN_INTERVAL = 6.5  # 초. 무료 등급(분당 약 10회) 여유
 _last = [0.0]
 _model = [None]
+_fallbacks = []  # 과부하(503) 때 차례로 넘어갈 다른 flash 모델
 
 
 def key():
@@ -45,14 +46,16 @@ def model():
                  and "flash" in m["name"] and not re.search(r"lite|image|tts|live|exp|preview|thinking|audio", m["name"])]
         ver = lambda n: float((re.search(r"gemini-(\d+(?:\.\d+)?)", n) or [0, 0])[1] or 0)
         if cands:
-            name = max(cands, key=ver)
+            ranked = sorted(set(cands), key=ver, reverse=True)
+            name = ranked[0]
+            _fallbacks[:] = ranked[1:4]
     except Exception:
         pass
     _model[0] = name
     return name
 
 
-def generate_json(prompt, files=None, temperature=0.3, retries=2, as_text=False):
+def generate_json(prompt, files=None, temperature=0.3, retries=3, as_text=False):
     """prompt(문자열) + files[(mime, bytes)] -> 파싱된 JSON(as_text=True 면 마크다운 등 원문). 실패 시 예외."""
     parts = [{"text": prompt}]
     for mime, data in files or []:
@@ -71,6 +74,11 @@ def generate_json(prompt, files=None, temperature=0.3, retries=2, as_text=False)
         except HTTPError as e:
             if e.code == 429 and attempt < retries:  # 분당 한도 - 잠시 쉬고 재시도
                 time.sleep(30)
+                continue
+            if e.code in (500, 503) and attempt < retries:  # 일시 과부하 - 잠시 뒤 재시도, 마지막엔 다른 모델로
+                time.sleep(15 * (attempt + 1))
+                if attempt == retries - 1 and _fallbacks:
+                    _model[0] = _fallbacks.pop(0)
                 continue
             raise RuntimeError(mask(f"HTTP {e.code}: {e.read()[:200]!r}"))
         except (KeyError, IndexError, json.JSONDecodeError) as e:

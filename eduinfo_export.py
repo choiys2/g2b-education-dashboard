@@ -23,7 +23,7 @@ HERE = Path(__file__).parent
 BASE = "http://openapi.eduinfo.go.kr/openApi.do"
 DOC_PAGES = ["https://www.eduinfo.go.kr/portal/open/openData/openApiPage.do",
              "https://www.eduinfo.go.kr/portal/open/openData/openApiInfo.do",
-             "https://openapi.eduinfo.go.kr/portal/open/openData/openApiPage.do"]
+             "http://openapi.eduinfo.go.kr/portal/open/openData/openApiPage.do"]  # https 는 인증서 이름 불일치
 SERVICES = []  # 1단계 진단 후 채운다. 예: [("서비스명", "설명")]
 TRAIN_RE = re.compile(r"연수|역량\s?강화|직무")
 STATUS = HERE / "history" / "eduinfo_status.json"
@@ -51,6 +51,14 @@ def discover():
             errors.append(f"{u}: {str(e)[:120]}")
             continue
         text = re.sub(r"\s+", " ", html)
+        # 안내 페이지 스크립트의 테스트 주소(".../hub/<서비스명>")와 페이지가 읽는 js 파일까지 훑는다
+        for js in re.findall(r'src="([^"]+\.js[^"]*)"', html)[:15]:
+            try:
+                text += " " + get(js if js.startswith("http") else re.match(r"https?://[^/]+", u).group(0) + js)
+            except Exception:
+                pass
+        for m in re.finditer(r"hub/([A-Za-z][A-Za-z0-9_]{3,40})", text):
+            found.setdefault(m.group(1), "hub:" + text[max(0, m.start() - 80):m.start()][-80:])
         for m in re.finditer(r"requestType=([A-Za-z0-9_]+)", text):
             found.setdefault(m.group(1), text[max(0, m.start() - 120):m.start()][-120:])
         # 표/목록에 영문 서비스명이 따로 적힌 경우: 한글명 옆 영문 식별자
@@ -98,6 +106,18 @@ def main():
                 result["services"].append({"svc": svc, "label": label})
             except Exception as e:
                 status["fetched"][svc] = {"error": str(e)[:200]}
+        # SERVICES 가 비어 있는 동안: 영문 식별자 후보를 소량 시험 호출해 응답 필드를 기록(다음 단계 서비스 선정용)
+        if not SERVICES:
+            probe = {}
+            for svc in [k for k in found if re.fullmatch(r"[a-z][A-Za-z0-9_]{3,40}", k) and k not in ("pIndex", "pSize")][:25]:
+                try:
+                    q = {"requestType": svc, "key": key, "type": "json", "pIndex": 1, "pSize": 3}
+                    raw = get(f"{BASE}?{urlencode(q)}", timeout=20)
+                    probe[svc] = raw.replace(key, "***")[:600]
+                except Exception as e:
+                    probe[svc] = "error: " + str(e)[:120]
+                time.sleep(0.2)
+            status["probe"] = probe
     else:
         status["note"] = "EDUINFO_KEY 없음 - 서비스 목록 진단만 수행"
     STATUS.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")
