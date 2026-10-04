@@ -388,8 +388,21 @@ def main():
     rfp = {"items": [], "total": 0, "skipped": 0}
     if os.path.exists("history/rfp_analysis.jsonl"):
         _rows = [json.loads(l) for l in open("history/rfp_analysis.jsonl", encoding="utf-8") if l.strip()]
-        _ok = sorted([r for r in _rows if r.get("ai")], key=lambda r: r["d"], reverse=True)
-        rfp = {"items": _ok[:24], "total": len(_ok), "skipped": len(_rows) - len(_ok)}
+        import bid_fit, rfp_analysis
+        _ok, _seen = [], set()
+        for r in sorted([r for r in _rows if r.get("ai") and rfp_analysis.relevant(r)], key=lambda r: r["d"], reverse=True):
+            nt = rfp_analysis.norm_title(r["t"])
+            if nt in _seen:  # 재공고는 최신 한 건만
+                continue
+            _seen.add(nt)
+            _ok.append({**r, "fit": bid_fit.judge(r["ai"])})
+        _prof = bid_fit.load_profile()
+        rfp = {"items": _ok[:30], "total": len(_ok), "skipped": sum(1 for r in _rows if not r.get("ai")),
+               "profile": {k: _prof[k] for k in ("name", "hq_region", "company_size", "industry_codes")}}
+    import b2s_demand
+    b2s_market = b2s_demand.build()
+    if b2s_market.get("available"):
+        b2s_demand.write_csv("live/b2s_schools.csv")
     try:
         tour = load("live/tour_venues.json")
     except FileNotFoundError:
@@ -428,7 +441,7 @@ def main():
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
-        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour,
+        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__B2S_MARKET_JSON__": b2s_market,
         "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():

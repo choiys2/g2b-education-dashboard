@@ -53,12 +53,28 @@ def download(url, timeout=40):
         return r.read(25_000_000)
 
 
+def norm_title(t):
+    """재공고·긴급 표기를 지워 같은 사업을 한 번만 분석한다."""
+    return re.sub(r"\[[^\]]*\]|\([^)]*공고[^)]*\)|재공고|긴급|\s|[「」『』\"'.·,]", "", t or "")
+
+
+def relevant(r):
+    return tt.is_training_bid(r["t"], r.get("o", "")) and tt.classify_audience(r["t"]) != "학생"
+
+
 def candidates(cache, days=60):
     cutoff = (date.today() - timedelta(days=days)).isoformat()
-    rows = [r for r in tt.load_history().values()
-            if r.get("f") and (r.get("d") or "") >= cutoff and r["k"] not in cache
-            and tt.is_training_bid(r["t"], r.get("o", "")) and tt.classify_audience(r["t"]) != "학생"]
-    return sorted(rows, key=lambda r: (-(r.get("a") or 0), r["d"]), reverse=False)
+    seen = {norm_title(v["t"]) for v in cache.values()}
+    rows = sorted([r for r in tt.load_history().values()
+                   if r.get("f") and (r.get("d") or "") >= cutoff and r["k"] not in cache and relevant(r)],
+                  key=lambda r: (-(r.get("a") or 0), r["d"]))
+    out = []
+    for r in rows:
+        nt = norm_title(r["t"])
+        if nt not in seen:
+            seen.add(nt)
+            out.append(r)
+    return out
 
 
 def analyze(row):
@@ -87,7 +103,7 @@ def main():
     if not gc.key():
         print("[경고] GEMINI_API_KEY 없음 - 제안요청서 분석 건너뜀", file=sys.stderr)
         return
-    cache = load_cache()
+    cache = {k: v for k, v in load_cache().items() if relevant(v)}  # 판정 규칙이 바뀌면(예: 국제교류 제외) 기존 결과도 정리
     todo = candidates(cache)[:MAX_PER_RUN]
     done = 0
     for row in todo:
