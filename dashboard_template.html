@@ -428,6 +428,11 @@
   .rfp-card dt{color:var(--muted);font-weight:700;}
   .rfp-card dd{margin:0;}
   .rfp-card ul{margin:2px 0 6px;padding-left:18px;}
+  .fit{display:inline-block;font-size:12px;font-weight:800;border-radius:999px;padding:2px 10px;margin-right:6px;}
+  .fit-가능{background:color-mix(in srgb, var(--good) 18%, transparent);color:var(--good);}
+  .fit-확인{background:color-mix(in srgb, var(--warning) 20%, transparent);color:var(--warning);}
+  .fit-불가{background:color-mix(in srgb, var(--danger, #d64545) 18%, transparent);color:var(--danger, #d64545);}
+  .rfp-card .why{font-size:12px;color:var(--muted);margin:4px 0 6px;}
   .rfp-card .pitch{background:color-mix(in srgb, var(--accent) 8%, var(--surface));border-radius:8px;padding:6px 10px;}
   .ai-brief{border:1px solid color-mix(in srgb, var(--accent) 35%, var(--border));background:color-mix(in srgb, var(--accent) 7%, var(--surface));border-radius:12px;padding:14px 16px;margin-bottom:14px;}
   .ai-brief .hd{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--accent);margin-bottom:6px;}
@@ -1315,7 +1320,9 @@
           <p class="panel-desc" id="rfpDesc"></p>
         </div>
       </div>
+      <div id="rfpFitBar" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 12px;"></div>
       <div class="rfp-list" id="rfpList"></div>
+      <p class="tt-note" id="rfpProfile"></p>
     </section>
 
     <!-- 발주 조기 경보: 사전규격·발주계획 단계에서 우리 연수 주제와 맞는 사업 (early_warning.py) -->
@@ -1956,6 +1963,32 @@
       </div>
     </div>
 
+    <!-- B2S 학교 잠재 수요: 학교알리미 전국 학교별 교원 수 (b2s_demand.py) -->
+    <section class="panel" id="b2sMarketPanel">
+      <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
+        <div>
+          <p class="panel-title">B2S 학교 잠재 수요<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">학교알리미 교원 수 &middot; 전국 초&middot;중&middot;고</span></p>
+          <p class="panel-desc" id="bmDesc"></p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;">
+          <label>참여율 <input id="bmRate" type="number" min="1" max="100" value="20" style="width:56px;font:inherit;padding:4px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);">%</label>
+          <label>1인 객단가 <input id="bmPrice" type="number" min="1000" step="5000" value="60000" style="width:88px;font:inherit;padding:4px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);">원</label>
+          <a class="btn-csv" id="bmCsv" href="b2s_schools.csv" download style="margin:0;text-decoration:none;">전체 학교 CSV</a>
+        </div>
+      </div>
+      <div class="kpis" id="bmKpis" style="margin-bottom:14px;"></div>
+      <div class="tbl-wrap"><table class="data" id="bmSido">
+        <thead><tr><th>시도</th><th class="num">학교</th><th class="num">교원</th><th class="num">초 / 중 / 고 교원</th><th class="num">대·중·소 학교</th><th class="num">AI 중점·선도</th><th class="num">잠재 매출</th><th class="num">계약 자사 / 경쟁사</th><th>공략 신호</th></tr></thead><tbody></tbody>
+      </table></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:14px;">
+        <div><p style="font-weight:800;margin:0 0 6px;" id="bmSggTitle">교원 많은 시군구</p>
+          <div class="tbl-wrap"><table class="data" id="bmSgg"><thead><tr><th>시군구</th><th class="num">학교</th><th class="num">교원</th><th class="num">대규모</th><th class="num">잠재 매출</th></tr></thead><tbody></tbody></table></div></div>
+        <div><p style="font-weight:800;margin:0 0 6px;" id="bmTopTitle">우선 공략 학교</p>
+          <div class="tbl-wrap" style="max-height:420px;overflow:auto;"><table class="data" id="bmTop"><thead><tr><th>학교</th><th>시군구</th><th class="num">교원</th><th>제안 방식</th><th class="num">잠재 매출</th></tr></thead><tbody></tbody></table></div></div>
+      </div>
+      <p class="tt-note">잠재 매출 = 교원 수 × 참여율 × 1인 객단가(가정값, 위에서 변경). 실제 매출 전망이 아니라 지역·학교 간 상대 크기를 비교하는 지표입니다. 규모: 대 = 교원 60명 이상(학교 단위 단체연수), 중 = 30~59명, 소 = 30명 미만(교육지원청 단위 묶음 제안). 우선 공략 학교는 시도별로 AI 중점·선도학교를 먼저, 그다음 교원 수 순으로 60곳씩 보여줍니다. 계약 건수는 계약정보 API 최근 1년 교원연수 관련 매칭분입니다.</p>
+    </section>
+
     <section class="kpis" id="kpisB2S"></section>
 
     <section class="panel">
@@ -2253,6 +2286,7 @@ const AI_BRIEF = __AI_BRIEF_JSON__;
 const RFP_ANALYSIS = __RFP_JSON__;
 const AI_DRAFTS = __AI_DRAFTS_JSON__;
 const TOUR_VENUES = __TOUR_JSON__;
+const B2S_MARKET = __B2S_MARKET_JSON__;
 const B2S_BOARD = __B2S_BOARD_JSON__;
 const PIPE = __PIPE_JSON__;
 const BETA = __BETA_JSON__;
@@ -3833,9 +3867,21 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     list.innerHTML = '';
     return;
   }
-  desc.innerHTML = `분석 ${fmt(R.total)}건(문서 확보 실패 ${fmt(R.skipped)}건 제외) 중 최근 공고 순. 첨부 원문 기준 자동 추출이므로 입찰 전 원문을 반드시 확인하세요. 같은 주제의 요구사항은 2027 추천의 'AI 초안'에 반영됩니다.`;
+  const FK = v => v === '확인 필요' ? '확인' : v;
+  const cnt = {'가능': 0, '확인 필요': 0, '불가': 0};
+  R.items.forEach(r => { if (r.fit) cnt[r.fit.verdict]++; });
+  const st = {v: ''};
+  const bar = document.getElementById('rfpFitBar');
+  bar.innerHTML = `<b style="font-size:13px;">참가 가능 여부</b><span class="view-toggle" id="rfpFitToggle">
+    <button type="button" data-v="" aria-pressed="true">전체 ${R.items.length}</button>
+    ${Object.entries(cnt).map(([k, n]) => `<button type="button" data-v="${k}" aria-pressed="false">${k} ${n}</button>`).join('')}</span>`;
+  const P = R.profile || {};
+  document.getElementById('rfpProfile').textContent = P.name ? `판정 기준(static_data/own_profile.json): 본사 ${P.hq_region.value}${P.hq_region.verified ? '' : '(미검증)'} · 기업 규모 ${P.company_size.value}${P.company_size.verified ? '' : '(추정)'} · 등록 업종 ${Object.entries(P.industry_codes.value).map(([c, n]) => c + ' ' + n).join(', ')}${P.industry_codes.verified ? '' : '(일부만 반영, 실제 등록 목록으로 교체 필요)'}. 미검증 항목에 걸리면 '불가' 대신 '확인 필요'로 표시합니다. 승부처: 협상·기술 비중 높음 → 기술, 적격자 중 최저가 → 가격.` : '';
+  desc.innerHTML = `분석 ${fmt(R.total)}건(재공고 중복 정리, 문서 확보 실패 ${fmt(R.skipped)}건 제외), 최근 공고 순. 참가자격을 자사 프로필과 대조해 가능·확인 필요·불가로 표시합니다. 첨부 원문 기준 자동 추출이므로 입찰 전 원문을 반드시 확인하세요. 같은 주제의 요구사항은 2027 추천의 'AI 초안'에 반영됩니다.`;
   const li = a => (a || []).filter(Boolean).map(x => `<li>${h(x)}</li>`).join('');
-  list.innerHTML = R.items.map(r => { const a = r.ai || {}; return `<article class="rfp-card">
+  const draw = () => { list.innerHTML = R.items.filter(r => !st.v || (r.fit && r.fit.verdict === st.v)).map(r => { const a = r.ai || {}, f = r.fit; return `<article class="rfp-card">
+    ${f ? `<div><span class="fit fit-${FK(f.verdict)}">${h(f.verdict)}</span>${f.play !== '미상' ? `<span class="fit" style="background:var(--surface);border:1px solid var(--border);color:var(--ink-2);">${f.play === '기술' ? '기술점수 승부' : '가격 승부'}</span>` : ''}</div>
+      ${(f.reasons || []).length || (f.ok || []).length ? `<div class="why">${[...(f.reasons || []).map(x => '⚠ ' + h(x)), ...(f.ok || []).map(x => '✓ ' + h(x))].join('<br>')}</div>` : ''}` : ''}
     <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)} ↗</a>` : h(r.t)}</div>
     <div class="m">${h(r.d)} · ${h(r.o)}${r.a ? ` · 예산 ${fmtWon(r.a)}` : ''}${r.doc ? ` · 문서: ${h(r.doc)}` : ''}</div>
     <dl>${[['대상', a.target], ['인원', a.headcount], ['운영', a.format], ['기간', a.period], ['시간', a.hours], ['평가', a.evaluation]]
@@ -3843,7 +3889,14 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     ${(a.requirements || []).length ? `<b>핵심 요구사항</b><ul>${li(a.requirements)}</ul>` : ''}
     ${(a.qualifications || []).length ? `<b>자격·실적</b><ul>${li(a.qualifications)}</ul>` : ''}
     ${(a.pitch || []).length ? `<div class="pitch"><b>제안 포인트</b><ul style="margin:2px 0 0;">${li(a.pitch)}</ul></div>` : ''}
-  </article>`; }).join('');
+  </article>`; }).join('') || '<div class="tt-empty">해당 판정의 공고가 없습니다.</div>'; };
+  document.getElementById('rfpFitToggle').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    st.v = b.dataset.v;
+    e.currentTarget.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    draw();
+  });
+  draw();
 })();
 
 // 집합연수 장소 찾기(tour_export.py, 한국관광공사)
@@ -3890,6 +3943,61 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   });
+  draw();
+})();
+
+// B2S 학교 잠재 수요(b2s_demand.py, 학교알리미)
+(function renderB2sMarket(){
+  const M = B2S_MARKET || {};
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const desc = document.getElementById('bmDesc');
+  if (!M.available) {
+    desc.textContent = '학교알리미에서 전국 초·중·고의 교원 수를 모아 시도·시군구·학교별 교원연수 잠재 시장을 계산합니다. 다음 자동 배포(주 1회 전국 수집) 후 채워집니다.';
+    document.getElementById('bmCsv').hidden = true;
+    return;
+  }
+  desc.innerHTML = `${h(M.year)} 공시 · ${h(M.collected)} 수집 · 전국 <b>${fmt(M.n_schools)}개 학교, 교원 ${fmt(M.n_teachers)}명</b>. 시도 행을 누르면 아래 시군구·학교 목록이 그 시도로 바뀝니다.`;
+  const st = {s: ''};
+  const rate = () => Math.max(0, +document.getElementById('bmRate').value || 0) / 100;
+  const price = () => Math.max(0, +document.getElementById('bmPrice').value || 0);
+  const pot = t => t * rate() * price();
+  const way = t => t >= 60 ? '학교 단체연수' : t >= 30 ? '학교 단체 / 지원청 묶음' : '지원청 묶음';
+  const maxOwnShare = r => (r.own_c + r.comp_c) ? r.own_c / (r.own_c + r.comp_c) : null;
+  function draw() {
+    const tot = M.sido.reduce((a, r) => a + r.teachers, 0);
+    const large = M.sido.reduce((a, r) => a + (r.tier['대'] || 0), 0);
+    const ai = M.sido.reduce((a, r) => a + r.ai, 0);
+    document.getElementById('bmKpis').innerHTML = [
+      ['전국 교원', fmt(tot) + '명', `${fmt(M.n_schools)}개 학교`],
+      ['잠재 시장(가정)', fmtWon(pot(tot)), `참여율 ${Math.round(rate() * 100)}% × ${fmt(price())}원`],
+      ['대규모 학교(교원 60+)', fmt(large) + '곳', '학교 단위 단체연수 대상'],
+      ['AI 중점·선도 매칭', fmt(ai) + '곳', '정책 수요 확실'],
+    ].map(t => `<div class="kpi"><div class="lbl">${t[0]}</div><div class="val num">${t[1]}</div><div class="sup">${t[2]}</div></div>`).join('');
+    const medT = [...M.sido].map(r => r.teachers).sort((a, b) => a - b)[Math.floor(M.sido.length / 2)];
+    document.querySelector('#bmSido tbody').innerHTML = M.sido.map(r => {
+      const sh = maxOwnShare(r);
+      const sig = r.own_c === 0 && r.comp_c > 0 ? '경쟁사만 계약 - 진입 공략' : r.own_c === 0 && r.teachers >= medT ? '미진출 대형 시장' : sh != null && sh < 0.25 ? `자사 점유 ${Math.round(sh * 100)}% - 확대 여지` : sh != null && sh >= 0.5 ? '자사 우위 - 수성' : '';
+      return `<tr data-s="${h(r.s)}" style="cursor:pointer;${st.s === r.s ? 'background:color-mix(in srgb, var(--accent) 10%, transparent);' : ''}">
+        <td><b>${h(r.s)}</b></td><td class="num">${fmt(r.schools)}</td><td class="num">${fmt(r.teachers)}</td>
+        <td class="num">${fmt(r.kind['초'] || 0)} / ${fmt(r.kind['중'] || 0)} / ${fmt(r.kind['고'] || 0)}</td>
+        <td class="num">${r.tier['대'] || 0} · ${r.tier['중'] || 0} · ${r.tier['소'] || 0}</td>
+        <td class="num">${fmt(r.ai)}</td><td class="num">${fmtWon(pot(r.teachers))}</td>
+        <td class="num">${r.own_c} / ${r.comp_c}</td><td style="font-size:12px;">${h(sig)}</td></tr>`;
+    }).join('');
+    const sg = M.sgg.filter(r => !st.s || r.s === st.s).slice(0, 15);
+    document.getElementById('bmSggTitle').textContent = `교원 많은 시군구 ${st.s ? '· ' + st.s : '· 전국'} 상위 ${sg.length}`;
+    document.querySelector('#bmSgg tbody').innerHTML = sg.map(r => `<tr><td>${st.s ? '' : h(r.s) + ' '}${h(r.g)}</td><td class="num">${fmt(r.schools)}</td><td class="num">${fmt(r.teachers)}</td><td class="num">${fmt(r.large)}</td><td class="num">${fmtWon(pot(r.teachers))}</td></tr>`).join('');
+    const tp = M.top.filter(r => !st.s || r.s === st.s).sort((a, b) => (!!b.ai - !!a.ai) || b.t - a.t).slice(0, st.s ? 60 : 100);
+    document.getElementById('bmTopTitle').textContent = `우선 공략 학교 ${st.s ? '· ' + st.s : '· 전국'} ${tp.length}곳`;
+    document.querySelector('#bmTop tbody').innerHTML = tp.map(r => `<tr><td><b>${h(r.n)}</b> <span style="color:var(--muted);font-size:12px;">${h(r.k)}</span>${r.ai ? ` <span class="fit fit-가능" style="font-size:11px;">${h(r.ai)}</span>` : ''}</td>
+      <td>${st.s ? '' : h(r.s) + ' '}${h(r.g)}</td><td class="num">${fmt(r.t)}</td><td style="font-size:12px;">${way(r.t)}</td><td class="num">${fmtWon(pot(r.t))}</td></tr>`).join('');
+  }
+  document.querySelector('#bmSido tbody').addEventListener('click', e => {
+    const tr = e.target.closest('tr'); if (!tr) return;
+    st.s = st.s === tr.dataset.s ? '' : tr.dataset.s;
+    draw();
+  });
+  ['bmRate', 'bmPrice'].forEach(id => document.getElementById(id).addEventListener('input', draw));
   draw();
 })();
 

@@ -103,7 +103,7 @@ def fetch(cfg, days):
                         parts = dm.strip("[]").split("^")
                         org = parts[2] if len(parts) > 2 else org
                     rows[key] = {"k": key, "competitor": comp, "course": title, "org": org,
-                                 "region": guess_region(org), "method": _first(it, "cntrctMthdNm", "cntrctMthd"),
+                                 "region": guess_region(org), "method": _first(it, "cntrctCnclsMthdNm", "cntrctMthdNm", "cntrctMthd"),
                                  "amount": int(float(_first(it, "totCntrctAmt", "thtmCntrctAmt", "cntrctAmt") or 0)),
                                  "date": str(_first(it, "cntrctCnclsDate", "cntrctDate"))[:10]}
                 if not items or page >= 10:
@@ -155,7 +155,8 @@ def main():
     ap.add_argument("--out", default="live/competitor_contract_export.json")
     args = ap.parse_args()
     hist = load_history()
-    days = args.days if hist else max(args.days, 365)
+    # 처음이거나 계약방법이 비어 있는 기록이 있으면(필드명 교정 전 수집분) 1년치를 다시 받는다
+    days = args.days if hist and all(r.get("method") for r in hist.values()) else max(args.days, 365)
     rows, err = fetch(load_config(), days)
     if rows is None:
         status = f"계약정보 API 사용 불가 - 공공데이터포털에서 '조달청_나라장터 계약정보서비스' 활용신청이 필요할 수 있음 ({err})"

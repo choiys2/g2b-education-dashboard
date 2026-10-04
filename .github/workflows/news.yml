@@ -70,6 +70,7 @@ jobs:
           cp static_data/ai_schools_2026.xlsx _site/full/ai_schools_2026.xlsx 2>/dev/null || true
           curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/weekly.html"      -o _site/full/weekly.html      || true
           curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/weekly_mail.txt"  -o _site/full/weekly_mail.txt  || true
+          curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/b2s_schools.csv"  -o _site/full/b2s_schools.csv  || true
           find _site -type f -empty -delete
 
           if [ ! -s _site/index.html ]; then
