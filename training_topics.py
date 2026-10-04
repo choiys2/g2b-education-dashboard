@@ -27,7 +27,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 HISTORY_PATH = HERE / "history" / "training_bids.jsonl"
 KEEP_DAYS = 400      # 12개월 창 + 여유
-RULES_VERSION = "2026-10-04"  # 연수 판정 규칙을 바꾸면 올린다 -> 다음 수집 때 12개월 재백필('학업설계'가 '설계'로 걸러지던 문제 수정)
+RULES_VERSION = "2026-10-04b"  # 연수 판정 규칙을 바꾸면 올린다 -> 다음 수집 때 12개월 재백필('학업설계' 오분류 수정, 첨부파일 주소 수집 추가)
 WINDOW_DAYS = 365
 
 # 입찰공고 서버측 제목 검색어. '연수'가 대부분을 잡고, 연수라는 말을 안 쓰는 위탁 사업을 나머지로 보완.
@@ -211,10 +211,14 @@ def fetch(cfg, days_back):
                     if not is_training_bid(title, org):
                         continue
                     key = f'{it.get("bidNtceNo","")}-{it.get("bidNtceOrd","")}'
+                    docs = [[it.get(f"ntceSpecFileNm{i}") or "", it.get(f"ntceSpecDocUrl{i}")]
+                            for i in range(1, 11) if it.get(f"ntceSpecDocUrl{i}")]
                     rows[key] = {"k": key, "t": title, "o": org,
                                  "r": guess_region(org, it.get("ntceInsttNm", "")),
                                  "d": to_date(it.get("bidNtceDt")),
-                                 "a": _to_int(it.get("asignBdgtAmt") or it.get("presmptPrce"))}
+                                 "a": _to_int(it.get("asignBdgtAmt") or it.get("presmptPrce")),
+                                 "u": it.get("bidNtceDtlUrl") or "",
+                                 "f": docs[:6]}  # 첨부(제안요청서·과업지시서 등) - rfp_analysis.py 가 읽는다
                 if not items or page >= 20:
                     break
                 page += 1

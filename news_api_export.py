@@ -94,9 +94,20 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     now = datetime.now(KST)
     issues = []
+    ai = {}  # news_ai.py(Gemini) 결과: 3줄 요약·영업 한마디·키워드
+    ai_path = Path(__file__).parent / "history" / "news_ai.jsonl"
+    if ai_path.exists():
+        for line in ai_path.read_text(encoding="utf-8").splitlines():
+            try:
+                r = json.loads(line)
+                ai[r["date"]] = {k: r.get(k) for k in ("summary", "sales_brief", "keywords", "risk", "model")}
+            except (json.JSONDecodeError, KeyError):
+                pass
     for n, f in enumerate(files, 1):
         issue = convert(json.loads(f.read_text(encoding="utf-8")))
         issue["issue_no"] = n
+        if issue["date"] in ai:
+            issue["ai"] = ai[issue["date"]]
         (out / f"{issue['date']}.json").write_text(json.dumps(issue, ensure_ascii=False, indent=1), encoding="utf-8")
         issues.append(issue)
 

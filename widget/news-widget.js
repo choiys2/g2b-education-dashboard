@@ -153,6 +153,18 @@
         w.appendChild(ul);
       }
 
+      // AI 3줄 요약(news_ai.py, Gemini) - 있을 때만
+      if (iss.ai && (iss.ai.summary || []).length) {
+        var ab = el('div', 'tp');
+        ab.appendChild(el('div', 'n', 'AI 3줄 요약' + (iss.ai.model ? ' · ' + iss.ai.model : '')));
+        var aul = el('ul', 'facts');
+        iss.ai.summary.forEach(function (x) { aul.appendChild(el('li', null, x)); });
+        ab.appendChild(aul);
+        if (iss.ai.sales_brief) ab.appendChild(el('div', 's', '오늘의 영업 한마디 · ' + iss.ai.sales_brief));
+        if ((iss.ai.keywords || []).length) ab.appendChild(el('div', 'n', '# ' + iss.ai.keywords.join('  # ')));
+        w.appendChild(ab);
+      }
+
       // ① 오늘의 토킹포인트
       var h1 = el('h4', null, '오늘의 토킹포인트'); h1.appendChild(el('span', 'note', '내부 참고용 · 고객 전달 시 표현 다듬기'));
       w.appendChild(h1);

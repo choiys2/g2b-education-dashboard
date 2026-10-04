@@ -10,6 +10,7 @@ on:
       - "build_news_briefing.py"
       - "news_api_export.py"
       - "widget/**"
+      - "news_ai.py"
       - ".github/workflows/news.yml"
   workflow_dispatch: {}
 
@@ -34,6 +35,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      # Gemini 3줄 요약(실패해도 지면 배포는 진행). 이 워크플로는 커밋하지 않으므로 다음 정기 배포가 history 에 남긴다.
+      - name: 조간 브리핑 AI 요약 (Gemini)
+        timeout-minutes: 3
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python news_ai.py briefings
 
       - name: 신문 지면 생성 (표준 라이브러리만 사용)
         run: |

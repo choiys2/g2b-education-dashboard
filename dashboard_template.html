@@ -419,6 +419,16 @@
   .wx-c .p{color:var(--accent);font-weight:700;}
 
   /* ---------- 오늘의 AI 브리핑(Gemini) ---------- */
+  .rfp-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;}
+  .rfp-card{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:var(--surface-2);font-size:13px;line-height:1.55;}
+  .rfp-card .t{font-weight:800;color:var(--ink);}
+  .rfp-card .t a{color:inherit;text-decoration:none;}
+  .rfp-card .m{color:var(--muted);font-size:12px;margin:2px 0 6px;}
+  .rfp-card dl{display:grid;grid-template-columns:72px 1fr;gap:2px 8px;margin:0 0 6px;}
+  .rfp-card dt{color:var(--muted);font-weight:700;}
+  .rfp-card dd{margin:0;}
+  .rfp-card ul{margin:2px 0 6px;padding-left:18px;}
+  .rfp-card .pitch{background:color-mix(in srgb, var(--accent) 8%, var(--surface));border-radius:8px;padding:6px 10px;}
   .ai-brief{border:1px solid color-mix(in srgb, var(--accent) 35%, var(--border));background:color-mix(in srgb, var(--accent) 7%, var(--surface));border-radius:12px;padding:14px 16px;margin-bottom:14px;}
   .ai-brief .hd{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--accent);margin-bottom:6px;}
   .ai-brief .hd small{font-weight:600;color:var(--muted);}
@@ -1297,6 +1307,17 @@
       </details>
     </section>
 
+    <!-- 제안요청서 AI 분석: 연수 입찰공고 첨부(제안요청서·과업지시서)를 Gemini로 구조화 (rfp_analysis.py) -->
+    <section class="panel" id="rfpPanel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-title">제안요청서 AI 분석<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">최근 60일 교원 연수 입찰 첨부문서 &middot; Gemini</span></p>
+          <p class="panel-desc" id="rfpDesc"></p>
+        </div>
+      </div>
+      <div class="rfp-list" id="rfpList"></div>
+    </section>
+
     <!-- 발주 조기 경보: 사전규격·발주계획 단계에서 우리 연수 주제와 맞는 사업 (early_warning.py) -->
     <section class="panel" id="earlyWarnPanel">
       <div class="panel-head">
@@ -1637,6 +1658,25 @@
           <tbody id="missedOppTableBody"></tbody>
         </table>
       </div>
+    </section>
+
+    <!-- 집합연수 장소 찾기: 한국관광공사 국문 관광정보(tour_export.py) - 시도별 숙박·연수·회의 시설 -->
+    <section class="panel" id="venuePanel">
+      <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
+        <div>
+          <p class="panel-title">집합연수 장소 찾기<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">17개 시도 숙박 &middot; 연수원 &middot; 컨벤션</span></p>
+          <p class="panel-desc" id="venueDesc"></p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <select id="venueSido" aria-label="시도"></select>
+          <span class="view-toggle" id="venueKind"><button type="button" data-k="" aria-pressed="true">전체</button><button type="button" data-k="연수·회의" aria-pressed="false">연수·회의</button><button type="button" data-k="숙박" aria-pressed="false">숙박</button></span>
+          <input id="venueQ" type="search" placeholder="이름·주소 검색" style="font:inherit;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);">
+          <button type="button" class="btn-csv" id="venueCsv" style="margin:0;">CSV</button>
+        </div>
+      </div>
+      <div class="tbl-wrap"><table class="data" id="venueTable">
+        <thead><tr><th>구분</th><th>이름</th><th>주소</th><th>전화</th><th>지도</th></tr></thead><tbody></tbody>
+      </table></div>
     </section>
 
   </div><!-- /panel-pipeline -->
@@ -2210,6 +2250,9 @@ const EARLY_WARNING = __EARLY_WARNING_JSON__;
 const CONTRACTS = __CONTRACTS_JSON__;
 const WEATHER = __WEATHER_JSON__;
 const AI_BRIEF = __AI_BRIEF_JSON__;
+const RFP_ANALYSIS = __RFP_JSON__;
+const AI_DRAFTS = __AI_DRAFTS_JSON__;
+const TOUR_VENUES = __TOUR_JSON__;
 const B2S_BOARD = __B2S_BOARD_JSON__;
 const PIPE = __PIPE_JSON__;
 const BETA = __BETA_JSON__;
@@ -3780,6 +3823,76 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     ${(A.watch || []).map(w => `<p class="w">· ${h(w)}</p>`).join('')}`;
 })();
 
+// 제안요청서 AI 분석(rfp_analysis.py) - 문서에 적힌 내용만 추출, 원문 확인 필수
+(function renderRfp(){
+  const R = RFP_ANALYSIS || {items: []};
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const desc = document.getElementById('rfpDesc'), list = document.getElementById('rfpList');
+  if (!R.items.length) {
+    desc.textContent = '교원 연수 입찰공고의 제안요청서·과업지시서를 AI가 읽어 대상·차시·평가방식·요구사항·제안 포인트를 정리합니다. 다음 자동 배포부터 하루 최대 8건씩 채워집니다.';
+    list.innerHTML = '';
+    return;
+  }
+  desc.innerHTML = `분석 ${fmt(R.total)}건(문서 확보 실패 ${fmt(R.skipped)}건 제외) 중 최근 공고 순. 첨부 원문 기준 자동 추출이므로 입찰 전 원문을 반드시 확인하세요. 같은 주제의 요구사항은 2027 추천의 'AI 초안'에 반영됩니다.`;
+  const li = a => (a || []).filter(Boolean).map(x => `<li>${h(x)}</li>`).join('');
+  list.innerHTML = R.items.map(r => { const a = r.ai || {}; return `<article class="rfp-card">
+    <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)} ↗</a>` : h(r.t)}</div>
+    <div class="m">${h(r.d)} · ${h(r.o)}${r.a ? ` · 예산 ${fmtWon(r.a)}` : ''}${r.doc ? ` · 문서: ${h(r.doc)}` : ''}</div>
+    <dl>${[['대상', a.target], ['인원', a.headcount], ['운영', a.format], ['기간', a.period], ['시간', a.hours], ['평가', a.evaluation]]
+      .filter(x => x[1]).map(x => `<dt>${x[0]}</dt><dd>${h(x[1])}</dd>`).join('')}</dl>
+    ${(a.requirements || []).length ? `<b>핵심 요구사항</b><ul>${li(a.requirements)}</ul>` : ''}
+    ${(a.qualifications || []).length ? `<b>자격·실적</b><ul>${li(a.qualifications)}</ul>` : ''}
+    ${(a.pitch || []).length ? `<div class="pitch"><b>제안 포인트</b><ul style="margin:2px 0 0;">${li(a.pitch)}</ul></div>` : ''}
+  </article>`; }).join('');
+})();
+
+// 집합연수 장소 찾기(tour_export.py, 한국관광공사)
+(function renderVenues(){
+  const V = TOUR_VENUES || {regions: {}};
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const sidos = Object.keys(V.regions || {});
+  const desc = document.getElementById('venueDesc'), sel = document.getElementById('venueSido');
+  const tbody = document.querySelector('#venueTable tbody');
+  if (!sidos.length) {
+    desc.textContent = '한국관광공사 관광정보로 시도별 숙박·연수원·컨벤션 위치를 모읍니다. 다음 자동 배포 후 채워집니다' + ((V.errors || [])[0] ? ` (최근 상태: ${V.errors[0]})` : '.');
+    sel.hidden = true;
+    return;
+  }
+  const total = sidos.reduce((a, k) => a + V.regions[k].length, 0);
+  desc.textContent = `${V.source || '한국관광공사'} · ${V.generated} 수집 · ${sidos.length}개 시도 ${fmt(total)}곳. 교육청 집합연수·워크숍 장소 섭외와 출장 숙소 확인용이며, 수용 인원·대관 여부는 시설에 직접 확인하세요.`;
+  sel.innerHTML = sidos.map(k => `<option value="${h(k)}">${h(k)} (${V.regions[k].length})</option>`).join('');
+  const st = {kind: ''};
+  const rows = () => {
+    const q = document.getElementById('venueQ').value.trim();
+    return (V.regions[sel.value] || []).filter(r => (!st.kind || r.k === st.kind) && (!q || (r.n + ' ' + r.addr).includes(q)));
+  };
+  const draw = () => {
+    const rs = rows();
+    tbody.innerHTML = rs.map(r => `<tr><td>${h(r.k)}</td><td><b>${h(r.n)}</b></td><td style="font-size:12px;">${h(r.addr)}</td><td style="white-space:nowrap;">${h(r.tel)}</td>
+      <td>${r.x && r.y ? `<a href="https://map.kakao.com/link/map/${encodeURIComponent(r.n)},${h(r.y)},${h(r.x)}" target="_blank" rel="noopener">카카오맵 ↗</a>` : '-'}</td></tr>`).join('')
+      || '<tr><td colspan="5" style="color:var(--muted);">조건에 맞는 시설이 없습니다.</td></tr>';
+  };
+  sel.addEventListener('change', draw);
+  document.getElementById('venueQ').addEventListener('input', draw);
+  document.getElementById('venueKind').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    st.kind = b.dataset.k;
+    e.currentTarget.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    draw();
+  });
+  document.getElementById('venueCsv').addEventListener('click', () => {
+    const esc = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const all = sidos.flatMap(k => V.regions[k].map(r => [k, r.k, r.n, r.addr, r.tel, r.y, r.x]));
+    const csv = '\ufeff' + [['시도', '구분', '이름', '주소', '전화', '위도', '경도'], ...all].map(r => r.map(esc).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8'}));
+    a.download = `집합연수_장소_${(V.generated || '').slice(0, 10)}.csv`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+  draw();
+})();
+
 (function renderInsightList(){
   document.getElementById('insightList').innerHTML = G2B_FULL.insights.map(t => `<li>${t}</li>`).join('');
 })();
@@ -3859,7 +3972,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
         <div class="tt-policy"><b>2027 근거</b> ${h(t.policy_note)}</div>
         ${t.channel ? `<div class="tt-policy"><b>채널</b> ${h(t.channel)} <span style="color:var(--muted);">(B2G 공고 비중 ${t.share}% · 경쟁사 개인과정 비중 ${t.coverage.comp_share}%)</span></div>` : ''}
         ${samples.length ? `<ul class="tt-samples">${samples.map(s => `<li title="${h(s.o)} · ${h(s.t)}">${h(s.d)} ${h(s.o)} · ${h(s.t)}</li>`).join('')}</ul>` : ''}
-        <button type="button" class="btn-csv tt-draft" data-tid="${h(t.id)}" data-lv="${h(lv)}" style="margin:2px 0 0;align-self:flex-start;">기획서 초안 보기</button>
+        <button type="button" class="btn-csv tt-draft" data-tid="${h(t.id)}" data-lv="${h(lv)}" style="margin:2px 0 0;align-self:flex-start;">기획서 초안 보기${AI_DRAFTS && AI_DRAFTS[t.id] ? ' · AI' : ''}</button>
       </article>`;
     }).join('') || '<div class="tt-empty">이 학교급으로 분류된 공고가 없습니다.</div>';
 
@@ -3921,12 +4034,19 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     dlg.style.cssText = 'max-width:760px;width:calc(100% - 32px);border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--ink);padding:0;';
     dlg.innerHTML = `<div style="display:flex;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);">
         <b style="flex:1;">과정 기획서 초안</b>
+        <span class="view-toggle" data-role="ver" hidden><button type="button" data-ver="ai" aria-pressed="true">AI 초안</button><button type="button" data-ver="base" aria-pressed="false">기본 초안</button></span>
         <button type="button" class="btn-csv" data-act="copy" style="margin:0;">복사</button>
         <button type="button" class="btn-csv" data-act="md" style="margin:0;">.md 내려받기</button>
         <button type="button" class="btn-csv" data-act="close" style="margin:0;">닫기</button></div>
       <pre style="margin:0;padding:16px;white-space:pre-wrap;font:13px/1.65 inherit;font-family:inherit;max-height:70vh;overflow:auto;"></pre>`;
     document.body.appendChild(dlg);
     dlg.addEventListener('click', async e => {
+      const ver = e.target.dataset && e.target.dataset.ver;
+      if (ver && dlg._drafts) {
+        dlg.querySelectorAll('[data-ver]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.ver === ver)));
+        dlg.querySelector('pre').textContent = dlg._drafts[ver];
+        return;
+      }
       const act = e.target.dataset && e.target.dataset.act;
       const text = dlg.querySelector('pre').textContent;
       if (act === 'close' || e.target === dlg) dlg.close();
@@ -3934,7 +4054,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       if (act === 'md') {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob([text], {type: 'text/markdown;charset=utf-8'}));
-        a.download = (text.split('\n')[0].replace(/^#\s*\[기획서 초안\]\s*/, '') || 'draft').replace(/[\\/:*?"<>|]/g, '').slice(0, 60) + '.md';
+        a.download = (text.split('\n')[0].replace(/^#\s*\[(AI )?기획서 초안\]\s*/, '') || 'draft').replace(/[\\/:*?"<>|]/g, '').slice(0, 60) + '.md';
         a.click();
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       }
@@ -3946,7 +4066,12 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     const lv = b.dataset.lv;
     const t = scored(lv).find(x => x.id === b.dataset.tid);
     if (!t) return;
-    dlg.querySelector('pre').textContent = draftFor(t, lv);
+    const base = draftFor(t, lv), ai = AI_DRAFTS && AI_DRAFTS[t.id];
+    dlg._drafts = ai ? {ai: ai.md + `\n\n> AI 생성 초안(${ai.model}, ${ai.date}${ai.rfp ? `, 제안요청서 ${ai.rfp}건 반영` : ''}). 사실관계는 공고 원문으로 검수하세요.`, base} : null;
+    const tg = dlg.querySelector('[data-role="ver"]');
+    tg.hidden = !ai;
+    tg.querySelectorAll('[data-ver]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.ver === 'ai')));
+    dlg.querySelector('pre').textContent = ai ? dlg._drafts.ai : base;
     dlg.showModal();
   });
 
