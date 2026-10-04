@@ -19,6 +19,7 @@ import gemini_client as gc
 
 HERE = Path(__file__).parent
 STATUS = HERE / "history" / "ai_insights_status.json"
+LAST = HERE / "history" / "ai_insights_last.json"  # 실패한 날엔 마지막 성공본을 날짜와 함께 보여준다
 
 
 def compact_inputs():
@@ -69,21 +70,25 @@ def main():
     status = {"date": date.today().isoformat()}
     try:
         data = compact_inputs()
-        model = gc.model()
-        status["model"] = model
+        status["model"] = gc.model()
         ai = gc.generate_json(PROMPT + json.dumps(data, ensure_ascii=False))
+        model = gc.model()  # 한도·과부하로 대체 모델을 썼을 수 있다
         ai = {"summary": str(ai.get("summary", ""))[:400],
               "actions": [{k: str(a.get(k, ""))[:160] for k in ("title", "why", "owner")} for a in ai.get("actions", [])[:3]],
               "watch": [str(w)[:200] for w in ai.get("watch", [])[:3]],
               "model": model.split("/")[-1], "date": date.today().isoformat()}
         out.parent.mkdir(exist_ok=True)
         out.write_text(json.dumps(ai, ensure_ascii=False), encoding="utf-8")
+        LAST.write_text(json.dumps(ai, ensure_ascii=False), encoding="utf-8")
         status["ok"] = True
         print(f"AI 브리핑 생성: {model}")
     except Exception as e:
         status["ok"] = False
         status["error"] = gc.mask(e)[:300]
         print(f"[경고] AI 브리핑 실패: {status['error']}", file=sys.stderr)
+        if LAST.exists():
+            out.parent.mkdir(exist_ok=True)
+            out.write_text(LAST.read_text(encoding="utf-8"), encoding="utf-8")
     STATUS.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")
 
 

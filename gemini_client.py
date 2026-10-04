@@ -72,8 +72,12 @@ def generate_json(prompt, files=None, temperature=0.3, retries=3, as_text=False)
             text = "".join(p.get("text", "") for p in res["candidates"][0]["content"]["parts"] if not p.get("thought"))
             return text if as_text else json.loads(text)
         except HTTPError as e:
-            if e.code == 429 and attempt < retries:  # 분당 한도 - 잠시 쉬고 재시도
-                time.sleep(30)
+            if e.code == 429 and attempt < retries:
+                msg = e.read()[:400].decode("utf-8", "replace")
+                if "quota" in msg.lower() and _fallbacks:  # 일일 무료 한도 소진 - 한도가 따로인 다른 모델로
+                    _model[0] = _fallbacks.pop(0)
+                    continue
+                time.sleep(30)  # 분당 한도 - 잠시 쉬고 재시도
                 continue
             if e.code in (500, 503) and attempt < retries:  # 일시 과부하 - 잠시 뒤 재시도, 마지막엔 다른 모델로
                 time.sleep(15 * (attempt + 1))
