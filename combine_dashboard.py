@@ -178,6 +178,18 @@ def build_leading(neis_export, data_rows):
             "ai": v["ai"], "dig": v["dig"],
             "neis_total_em": neis_total, "penetration_em_pct": pen,
         })
+    # 학교알리미 교원·학생 수(schoolinfo_export.py, SCHOOLINFO_KEY 있을 때만)
+    try:
+        si = load("live/schoolinfo_export.json").get("schools", {})
+        by_name = {}
+        for v in si.values():
+            by_name.setdefault(v["name"], []).append(v)
+        for s in leading:
+            hits = by_name.get(s.get("학교명")) or []
+            if len(hits) == 1:  # 동명 학교가 여러 시도에 있으면 붙이지 않는다(오매칭 방지)
+                s["teachers"], s["students"] = hits[0].get("teachers"), hits[0].get("students")
+    except FileNotFoundError:
+        pass
     score_schools(leading)
     return leading, leading_by_region, leading  # LEADING_ROWS, LEADING_BY_REGION, LEADING_ENRICHED(같은 데이터)
 
