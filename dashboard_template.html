@@ -418,6 +418,16 @@
   .wx-c .t{font-size:14px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;}
   .wx-c .p{color:var(--accent);font-weight:700;}
 
+  /* ---------- 오늘의 AI 브리핑(Gemini) ---------- */
+  .ai-brief{border:1px solid color-mix(in srgb, var(--accent) 35%, var(--border));background:color-mix(in srgb, var(--accent) 7%, var(--surface));border-radius:12px;padding:14px 16px;margin-bottom:14px;}
+  .ai-brief .hd{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--accent);margin-bottom:6px;}
+  .ai-brief .hd small{font-weight:600;color:var(--muted);}
+  .ai-brief .sm{font-size:14px;color:var(--ink);line-height:1.6;margin:0 0 10px;}
+  .ai-brief ol{margin:0 0 8px;padding-left:20px;font-size:13.5px;color:var(--ink-2);line-height:1.55;}
+  .ai-brief ol b{color:var(--ink);}
+  .ai-brief .own{font-size:11px;font-weight:800;padding:1px 6px;border-radius:5px;background:var(--surface-2);color:var(--ink-2);margin-left:4px;}
+  .ai-brief .w{font-size:12.5px;color:var(--muted);margin:0;}
+
   /* ---------- data table ---------- */
   .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;}
   table.data{width:100%;border-collapse:collapse;font-size:13px;min-width:760px;}
@@ -1255,6 +1265,7 @@
           <p class="panel-title">AI 인사이트<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">규칙 기반 자동 요약 &middot; LLM 미사용</span></p>
         </div>
       </div>
+      <div id="aiBrief" class="ai-brief" hidden></div>
       <ul class="insight-list" id="insightList"></ul>
     </section>
 
@@ -2198,6 +2209,7 @@ const TRAINING_TOPICS = __TRAINING_TOPICS_JSON__;
 const EARLY_WARNING = __EARLY_WARNING_JSON__;
 const CONTRACTS = __CONTRACTS_JSON__;
 const WEATHER = __WEATHER_JSON__;
+const AI_BRIEF = __AI_BRIEF_JSON__;
 const B2S_BOARD = __B2S_BOARD_JSON__;
 const PIPE = __PIPE_JSON__;
 const BETA = __BETA_JSON__;
@@ -3753,6 +3765,19 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       <div class="val num">${t.val}</div>
       <div class="sup">${t.sup}</div>
     </div>`).join('');
+})();
+
+// 오늘의 AI 브리핑(ai_insights.py, Gemini) - 생성 결과만 싣고 키는 브라우저에 없다
+(function renderAiBrief(){
+  const A = AI_BRIEF;
+  if (!A || !A.summary) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const el = document.getElementById('aiBrief');
+  el.hidden = false;
+  el.innerHTML = `<div class="hd">오늘의 AI 브리핑 <small>${h(A.model)} 생성 · ${h(A.date)} · 공개 데이터 기준, 검토 후 활용</small></div>
+    <p class="sm">${h(A.summary)}</p>
+    <ol>${(A.actions || []).map(a => `<li><b>${h(a.title)}</b>${a.owner ? `<span class="own">${h(a.owner)}</span>` : ''} — ${h(a.why)}</li>`).join('')}</ol>
+    ${(A.watch || []).map(w => `<p class="w">· ${h(w)}</p>`).join('')}`;
 })();
 
 (function renderInsightList(){
