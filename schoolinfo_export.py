@@ -1,0 +1,135 @@
+#!/usr/bin/env python3
+"""
+학교알리미(schoolinfo.go.kr) 공시정보로 AI 중점·선도학교의 교원 수·학생 수를 붙인다.
+
+- API: https://www.schoolinfo.go.kr/openApi.do?apiKey=..&apiType=..&sidoCode=..&sggCode=..&schulKndCode=..&pbanYr=..
+  (2026년 이후 발급 키는 시군구 코드 필수) 키는 GitHub Secret SCHOOLINFO_KEY.
+- apiType 22 = 직위별 교원 현황, 09 = 학년별·학급별 학생수. 응답은 시군구 단위 전체 학교 목록.
+- 시도·시군구 코드표(static_data/schoolinfo_regions.json)와 apiType 코드는 MIT 라이선스
+  오픈소스 chrisryugj/schoolinfo-mcp 를 참고했다.
+- 대상 학교(static_data/ai_schools_2026.json)가 있는 시군구만 호출한다. 결과는 live/schoolinfo_export.json,
+  응답 필드 진단은 history/schoolinfo_status.json(git 추적)에 남긴다.
+"""
+import json
+import os
+import re
+import sys
+import time
+from datetime import date
+from pathlib import Path
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
+HERE = Path(__file__).parent
+BASE = "https://www.schoolinfo.go.kr/openApi.do"
+KIND = {"초": "02", "중": "03", "고": "04", "특수": "05"}
+TYPES = {"22": "teachers", "09": "students"}
+FULL = {"서울": ["서울특별시"], "부산": ["부산광역시"], "대구": ["대구광역시"], "인천": ["인천광역시"],
+        "광주": ["광주광역시", "전남광주통합특별시"], "대전": ["대전광역시"], "울산": ["울산광역시"],
+        "세종": ["세종특별자치시"], "경기": ["경기도"], "강원": ["강원특별자치도"], "충북": ["충청북도"],
+        "충남": ["충청남도"], "전북": ["전북특별자치도"], "전남": ["전라남도", "전남광주통합특별시"],
+        "경북": ["경상북도"], "경남": ["경상남도"], "제주": ["제주특별자치도"]}
+SKIP_KEY = re.compile(r"CODE|_CD$|YR|YEAR|NO$|ZIP|TEL|FAX|DT$|DATE", re.I)
+TOTAL_KEY = re.compile(r"SUM|TOT|TOTAL|ALL", re.I)
+
+
+def call(key, api_type, sido, sgg, kind, year):
+    q = {"apiKey": key, "apiType": api_type, "sidoCode": sido, "sggCode": sgg, "schulKndCode": kind}
+    if year:
+        q["pbanYr"] = year
+    req = Request(f"{BASE}?{urlencode(q)}", headers={"User-Agent": "g2b-education-dashboard"})
+    for attempt in range(3):
+        try:
+            with urlopen(req, timeout=20) as r:
+                data = json.loads(r.read().decode("utf-8"))
+            if data.get("resultCode") != "success":
+                return None, data.get("resultMsg") or str(data)[:200]
+            return data.get("list") or [], None
+        except Exception as e:
+            err = str(e)[:200]
+            time.sleep(1 + attempt)
+    return None, err
+
+
+def total_of(row):
+    """행에서 합계로 보이는 숫자 필드를 쓰고, 없으면 숫자 필드 합으로 추정한다(필드명은 진단 파일로 검수)."""
+    nums = {}
+    for k, v in row.items():
+        if SKIP_KEY.search(k):
+            continue
+        try:
+            nums[k] = float(str(v).replace(",", ""))
+        except (TypeError, ValueError):
+            pass
+    tot = [v for k, v in nums.items() if TOTAL_KEY.search(k)]
+    if tot:
+        return int(max(tot)), "합계필드"
+    return (int(sum(nums.values())), "필드합") if nums else (None, "없음")
+
+
+def sgg_codes(region_full, sigungu, regions):
+    sgg = regions.get(region_full, {}).get("sgg", {})
+    t = (sigungu or "").strip()
+    if not t:
+        return []
+    if t in sgg:
+        kids = [c for n, c in sgg.items() if n.startswith(t + " ")]
+        return [sgg[t]] + kids
+    return [c for n, c in sgg.items() if n.startswith(t)]
+
+
+def main():
+    key = os.environ.get("SCHOOLINFO_KEY")
+    status_path = HERE / "history" / "schoolinfo_status.json"
+    out_path = Path(sys.argv[1] if len(sys.argv) > 1 else "live/schoolinfo_export.json")
+    if not key:
+        print("[경고] SCHOOLINFO_KEY 없음 - 학교알리미 조회 건너뜀", file=sys.stderr)
+        return
+    regions = json.loads((HERE / "static_data" / "schoolinfo_regions.json").read_text(encoding="utf-8"))
+    schools = json.loads((HERE / "static_data" / "ai_schools_2026.json").read_text(encoding="utf-8"))["schools"]
+    year = os.environ.get("SCHOOLINFO_YEAR") or str(date.today().year)
+
+    targets = {}  # (sidoCode, sggCode, kind) -> set(names)
+    for s in schools:
+        kind = KIND.get(s.get("학교급"))
+        if not kind:
+            continue
+        for full in FULL.get(s.get("소속지역"), []):
+            if full not in regions:
+                continue
+            for code in sgg_codes(full, s.get("시군구"), regions):
+                targets.setdefault((regions[full]["code"], code, kind), set()).add(s["학교명"])
+    print(f"학교알리미: 호출 대상 {len(targets)}개 (시군구×학교급) × {len(TYPES)}항목, 공시연도 {year}")
+
+    found, samples, errors, method = {}, {}, [], {}
+    for (sido, sgg, kind), names in sorted(targets.items()):
+        for api_type, field in TYPES.items():
+            rows, err = call(key, api_type, sido, sgg, kind, year)
+            if rows is None and year:
+                rows, err = call(key, api_type, sido, sgg, kind, None)  # 해당 연도 미공시면 최신
+            if rows is None:
+                if len(errors) < 20:
+                    errors.append(f"{api_type}/{sido}/{sgg}/{kind}: {err}")
+                continue
+            if rows and api_type not in samples:
+                samples[api_type] = {k: (str(v)[:40]) for k, v in rows[0].items()}
+            for r in rows:
+                nm = str(r.get("SCHUL_NM") or "").strip()
+                if nm in names:
+                    val, how = total_of(r)
+                    rec = found.setdefault(f"{sido}|{nm}", {"name": nm, "code": r.get("SCHUL_CODE")})
+                    if val is not None:
+                        rec[field] = max(val, rec.get(field) or 0)
+                        method[api_type] = how
+            time.sleep(0.08)
+
+    out_path.parent.mkdir(exist_ok=True)
+    out_path.write_text(json.dumps({"year": year, "schools": found}, ensure_ascii=False), encoding="utf-8")
+    status_path.write_text(json.dumps({"date": date.today().isoformat(), "matched": len(found),
+                                       "targets": len(targets), "method": method, "errors": errors,
+                                       "sample_fields": samples}, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"학교알리미: 매칭 {len(found)}교, 오류 {len(errors)}건, 산출 방식 {method}")
+
+
+if __name__ == "__main__":
+    main()

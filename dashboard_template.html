@@ -1189,6 +1189,7 @@
               <th data-key="교육지원청">교육지원청<span class="arrow">▾</span></th>
               <th data-key="유형">사업·유형<span class="arrow">▾</span></th>
               <th data-key="설립">설립<span class="arrow">▾</span></th>
+              <th data-key="teachers" class="num" title="학교알리미 직위별 교원 현황(공시)">교원<span class="arrow">▾</span></th>
               <th data-key="tel">전화</th>
               <th data-key="addr">주소</th>
             </tr>
@@ -3615,6 +3616,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   function draw(){
     current = filtered().sort((a,b) => {
       if (sortKey === 'score') return sortDir * ((a.score || 0) - (b.score || 0)) || a.학교명.localeCompare(b.학교명, 'ko');
+      if (sortKey === 'teachers') return sortDir * ((a.teachers || 0) - (b.teachers || 0)) || a.학교명.localeCompare(b.학교명, 'ko');
       const av = a[sortKey] == null ? '' : String(a[sortKey]), bv = b[sortKey] == null ? '' : String(b[sortKey]);
       return sortDir * (av.localeCompare(bv, 'ko') || a.학교명.localeCompare(b.학교명, 'ko'));
     });
@@ -3639,7 +3641,8 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       tdScore.title = Object.entries(r.score_parts || {}).map(([k, v]) => `${k} ${v}`).join(' · ');
       tr.append(tdName, tdScore, cell(r.소속지역), cell(r.교육지원청, 'font-size:12.5px;color:var(--ink-2);'),
         cell(r.유형, 'font-size:12.5px;color:var(--ink-2);' + (r.겸임 ? 'font-weight:700;color:var(--accent);' : '')),
-        cell(r.설립, 'font-size:12.5px;'), cell(r.tel, 'font-size:12.5px;white-space:nowrap;'),
+        cell(r.설립, 'font-size:12.5px;'), cell(r.teachers != null ? fmt(r.teachers) + '명' : '-', 'font-size:12.5px;text-align:right;white-space:nowrap;'),
+        cell(r.tel, 'font-size:12.5px;white-space:nowrap;'),
         cell(r.addr, 'font-size:12.5px;color:var(--ink-2);'));
       tr.lastChild.className = 'title';
       tbody.appendChild(tr);
@@ -3647,8 +3650,8 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   }
 
   function downloadCsv(rows, name){
-    const cols = ['score','소속지역','교육지원청','시군구','학교급','설립','학교명','유형','tel','homepage','addr'];
-    const head = ['우선순위','시도','교육지원청','시군구','학교급','설립','학교명','사업·유형','대표전화','홈페이지','주소'];
+    const cols = ['score','소속지역','교육지원청','시군구','학교급','설립','학교명','유형','teachers','students','tel','homepage','addr'];
+    const head = ['우선순위','시도','교육지원청','시군구','학교급','설립','학교명','사업·유형','교원수','학생수','대표전화','홈페이지','주소'];
     const q = v => { const t = String(v == null ? '' : v).replace(/"/g, '""'); return /[",\n]/.test(t) ? `"${t}"` : t; };
     const csv = '\ufeff' + [head.join(','), ...rows.map(r => cols.map(c => q(r[c])).join(','))].join('\n');
     const a = document.createElement('a');

@@ -154,6 +154,14 @@ jobs:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
         run: python competitor_contract_export.py --days 60 --out live/competitor_contract_export.json
 
+      # 학교알리미 공시(교원·학생 수) - AI 중점·선도학교에 붙인다. SCHOOLINFO_KEY 시크릿이 없으면 건너뜀
+      - name: 학교알리미 교원·학생 수
+        timeout-minutes: 30
+        continue-on-error: true
+        env:
+          SCHOOLINFO_KEY: ${{ secrets.SCHOOLINFO_KEY }}
+        run: python schoolinfo_export.py live/schoolinfo_export.json
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
@@ -185,7 +193,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
-          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
+          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(TZ=Asia/Seoul date +%F)"
           # 2026-09-27: 카탈로그 크롤링 커밋과 겹쳐 push가 거부돼 그날 지표가 유실됐다.
           # 서로 다른 파일만 건드리므로 rebase 후 올리면 충돌 없이 합쳐진다.
