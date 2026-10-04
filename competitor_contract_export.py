@@ -26,7 +26,8 @@ from competitor_g2b_export import COMPETITOR_ALIASES, TARGET_COMPETITORS
 from fetch_g2b_listings import call_api, date_chunks, guess_region, load_config
 
 # 서비스 경로가 개편 전후로 다르다(ao/ 접두 유무). 둘 다 시도해 되는 쪽을 쓴다.
-BASES = ["https://apis.data.go.kr/1230000/ao/CntrctInfoService", "https://apis.data.go.kr/1230000/CntrctInfoService"]
+BASES = ["https://apis.data.go.kr/1230000/ao/CntrctInfoService", "https://apis.data.go.kr/1230000/ao/CntrctInfoService02",
+         "https://apis.data.go.kr/1230000/CntrctInfoService"]  # 신규 서비스는 '02' 접미가 붙기도 한다(사용자정보 UsrInfoService02)
 STATUS_PATH = Path(__file__).parent / "history" / "competitor_contracts_status.json"
 OPERATIONS = ["getCntrctInfoListServcPPSSrch", "getCntrctInfoListServc"]  # 검색조건 지원판 우선, 안 되면 전체 목록판
 KEYWORDS = ["연수", "역량강화", "원격", "위탁교육", "직무교육"]
