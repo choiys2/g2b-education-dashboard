@@ -25,11 +25,14 @@ sys.path.insert(0, str(Path(__file__).parent))
 from competitor_g2b_export import COMPETITOR_ALIASES, TARGET_COMPETITORS
 from fetch_g2b_listings import call_api, date_chunks, guess_region, load_config
 
-BASE = "https://apis.data.go.kr/1230000/ao/CntrctInfoService"
+# 서비스 경로가 개편 전후로 다르다(ao/ 접두 유무). 둘 다 시도해 되는 쪽을 쓴다.
+BASES = ["https://apis.data.go.kr/1230000/ao/CntrctInfoService", "https://apis.data.go.kr/1230000/CntrctInfoService"]
+STATUS_PATH = Path(__file__).parent / "history" / "competitor_contracts_status.json"
 OPERATIONS = ["getCntrctInfoListServcPPSSrch", "getCntrctInfoListServc"]  # 검색조건 지원판 우선, 안 되면 전체 목록판
 KEYWORDS = ["연수", "역량강화", "원격", "위탁교육", "직무교육"]
 TITLE_RE = re.compile(r"연수|역량\s?강화|원격|위탁\s?교육|직무\s?교육|교원")
 HISTORY_PATH = Path(__file__).parent / "history" / "competitor_contracts.jsonl"
+FIELDS = []  # 첫 응답 항목의 필드 목록(진단용)
 NAMES = {c: [c] + COMPETITOR_ALIASES.get(c, []) for c in TARGET_COMPETITORS}
 
 
@@ -50,22 +53,24 @@ def match_company(item):
 
 def fetch(cfg, days):
     interval = cfg.get("request_interval_sec", 0.15)
-    rows, op_ok, diag = {}, None, None
-    for op in OPERATIONS:
+    rows, op_ok, diag, BASE = {}, None, [], None
+    for base, op in [(b, o) for b in BASES for o in OPERATIONS]:
         try:
-            call_api(BASE, op, {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 1, "inqryDiv": 1,
+            call_api(base, op, {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 1, "inqryDiv": 1,
                                 "inqryBgnDate": date.today().strftime("%Y%m01"), "inqryEndDate": date.today().strftime("%Y%m%d"),
                                 "type": "json"})
-            op_ok = op
+            op_ok, BASE = op, base
             break
         except Exception as e:
-            diag = str(e)[:300]
-            print(f"  [경고] {op} 사용 불가: {diag}", file=sys.stderr)
+            msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:300]  # 키는 기록하지 않는다
+            diag.append(f"{base.rsplit('/', 2)[-2]}/{op}: {msg}")
+            print(f"  [경고] {op} 사용 불가: {msg}", file=sys.stderr)
     if not op_ok:
-        return None, diag
+        return None, " | ".join(diag)
     print(f"  계약정보 오퍼레이션: {op_ok}")
     kws = KEYWORDS if op_ok.endswith("PPSSrch") else [None]
-    shown = False
+    shown, fields = False, FIELDS
+    fields.clear()
     for kw in kws:
         for begin, end in date_chunks(days, 28):
             page, total = 1, None
@@ -81,6 +86,7 @@ def fetch(cfg, days):
                     break
                 if items and not shown:
                     print(f"  응답 필드: {sorted(items[0].keys())}")
+                    fields[:] = sorted(items[0].keys())
                     shown = True
                 for it in items:
                     title = _first(it, "cntrctNm", "bizNm", "cntrctNmNm")
@@ -161,6 +167,10 @@ def main():
                                 encoding="utf-8")
         status = "ok"
         print(f"계약정보: 최근 {days}일 매칭 {len(rows)}건, 신규 {added}건, 누적 {len(hist)}건")
+    # 진단 기록(git 추적): CI 로그를 못 볼 때도 API 상태·응답 필드를 확인할 수 있게
+    STATUS_PATH.write_text(json.dumps({"date": date.today().isoformat(), "status": status, "days": days,
+                                       "matched": None if rows is None else len(rows), "fields": FIELDS},
+                                      ensure_ascii=False, indent=1), encoding="utf-8")
     out = aggregate(list(hist.values()), status)
     Path(args.out).parent.mkdir(exist_ok=True)
     Path(args.out).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
