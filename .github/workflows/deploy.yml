@@ -45,7 +45,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip install openpyxl reportlab PublicDataReader playwright google-auth
+          pip install openpyxl reportlab PublicDataReader playwright google-auth olefile
           sudo apt-get update -y && sudo apt-get install -y fonts-nanum
           python -m playwright install --with-deps chromium
 
@@ -133,6 +133,14 @@ jobs:
         run: python build_news_briefing.py briefings live/news
 
       # 비상 영업용 앱(v-edu-board) 뉴스 위젯이 읽는 공개 JSON (api/news/*.json, 명세: docs/NEWS_API.md)
+      # Gemini: 최신 브리핑 3줄 요약·영업 한마디·키워드(history/news_ai.jsonl, 호당 1회 호출)
+      - name: 조간 브리핑 AI 요약 (Gemini)
+        timeout-minutes: 3
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python news_ai.py briefings
+
       - name: 뉴스 공개 JSON(API) 생성
         continue-on-error: true
         run: python news_api_export.py briefings live/api/news
@@ -178,6 +186,23 @@ jobs:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
         run: python weather_export.py live/weather.json
 
+      # 한국관광공사 관광정보 - 17개 시도 숙박·연수·회의 시설(집합연수 장소 섭외)
+      - name: 집합연수 장소(관광공사)
+        timeout-minutes: 8
+        continue-on-error: true
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+        run: python tour_export.py live/tour_venues.json
+
+      # Gemini: 연수 입찰 첨부(제안요청서·과업지시서) 구조화 - 하루 최대 8건, 결과는 history 에 누적
+      - name: 제안요청서 AI 분석 (Gemini)
+        timeout-minutes: 12
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python rfp_analysis.py
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
@@ -186,13 +211,14 @@ jobs:
       # Gemini로 '오늘의 AI 브리핑' 생성 후 대시보드를 한 번 더 조합(조합 결과를 입력으로 쓰기 때문)
       - name: 오늘의 AI 브리핑 (Gemini)
         if: steps.combine.outcome == 'success'
-        timeout-minutes: 5
+        timeout-minutes: 8
         continue-on-error: true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python ai_insights.py live/ai_insights.json
-          if [ -f live/ai_insights.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
+          python ai_insights.py live/ai_insights.json || true
+          python ai_drafts.py live/ai_drafts.json || true
+          if [ -f live/ai_insights.json ] || [ -f live/ai_drafts.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
 
       - name: 주간 보고(최근 7일) 생성
         if: steps.combine.outcome == 'success'
@@ -220,7 +246,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
-          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json history/eduinfo_status.json history/ai_insights_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
+          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json history/eduinfo_status.json history/ai_insights_status.json history/rfp_analysis.jsonl history/ai_drafts_cache.json history/news_ai.jsonl history/tour_venues.json history/tour_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(TZ=Asia/Seoul date +%F)"
           # 2026-09-27: 카탈로그 크롤링 커밋과 겹쳐 push가 거부돼 그날 지표가 유실됐다.
           # 서로 다른 파일만 건드리므로 rebase 후 올리면 충돌 없이 합쳐진다.

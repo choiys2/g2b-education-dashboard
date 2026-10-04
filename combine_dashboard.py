@@ -11,7 +11,7 @@ live/full_live.json + live/g2b_full_export.json + live/neis_full_export.json
   4) g2b_full_export.json 그대로 -> G2B_FULL (나라장터종합 탭)
   5) own_pipeline_export.json 가공 -> PIPE (영업파이프라인 탭, 지역기회점수 포함)
 """
-import json, re, sys
+import json, os, re, sys
 from collections import defaultdict
 
 import analytics as an
@@ -382,6 +382,19 @@ def main():
     except FileNotFoundError:
         ai_brief = None
     try:
+        ai_drafts = load("live/ai_drafts.json")
+    except FileNotFoundError:
+        ai_drafts = {}
+    rfp = {"items": [], "total": 0, "skipped": 0}
+    if os.path.exists("history/rfp_analysis.jsonl"):
+        _rows = [json.loads(l) for l in open("history/rfp_analysis.jsonl", encoding="utf-8") if l.strip()]
+        _ok = sorted([r for r in _rows if r.get("ai")], key=lambda r: r["d"], reverse=True)
+        rfp = {"items": _ok[:24], "total": len(_ok), "skipped": len(_rows) - len(_ok)}
+    try:
+        tour = load("live/tour_venues.json")
+    except FileNotFoundError:
+        tour = {"regions": {}}
+    try:
         weather = load("live/weather.json")
     except FileNotFoundError:
         weather = {"cities": []}
@@ -415,6 +428,7 @@ def main():
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
+        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour,
         "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():
@@ -429,7 +443,7 @@ def main():
     # 주간 보고(weekly_digest.py)가 쓰는 입력 묶음 - 대시보드와 같은 계산 결과를 그대로 넘긴다
     with open("live/_weekly_inputs.json", "w", encoding="utf-8") as f:
         json.dump({"bids": full_live["analytics"]["입찰공고"], "early": early,
-                   "topics": training_topic_data.get("topics", [])[:5], "new_courses": new_courses["rows"],
+                   "topics": training_topic_data.get("topics", [])[:8], "new_courses": new_courses["rows"],
                    "contracts": contracts.get("competitors", [])}, f, ensure_ascii=False)
 
     # history_tracker.py가 참고할 요약(전체 AI_ROWS를 또 커밋하지 않기 위해 최소 정보만)

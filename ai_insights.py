@@ -14,31 +14,11 @@ import re
 import sys
 from datetime import date, timedelta
 from pathlib import Path
-from urllib.request import Request, urlopen
 
-API = "https://generativelanguage.googleapis.com/v1beta"
+import gemini_client as gc
+
 HERE = Path(__file__).parent
 STATUS = HERE / "history" / "ai_insights_status.json"
-
-
-def http(url, body=None, timeout=60):
-    req = Request(url, data=json.dumps(body).encode() if body is not None else None,
-                  headers={"Content-Type": "application/json"})
-    with urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read().decode("utf-8"))
-
-
-def pick_model(key):
-    try:
-        models = http(f"{API}/models?key={key}&pageSize=200").get("models", [])
-    except Exception:
-        return "models/gemini-2.5-flash"
-    names = [m["name"] for m in models if "generateContent" in m.get("supportedGenerationMethods", [])
-             and "flash" in m["name"] and not re.search(r"lite|image|tts|live|exp|preview|thinking|audio", m["name"])]
-    def ver(n):
-        m = re.search(r"gemini-(\d+(?:\.\d+)?)", n)
-        return float(m.group(1)) if m else 0
-    return max(names, key=ver) if names else "models/gemini-2.5-flash"
 
 
 def compact_inputs():
@@ -89,14 +69,9 @@ def main():
     status = {"date": date.today().isoformat()}
     try:
         data = compact_inputs()
-        model = pick_model(key)
+        model = gc.model()
         status["model"] = model
-        res = http(f"{API}/{model}:generateContent?key={key}", {
-            "contents": [{"role": "user", "parts": [{"text": PROMPT + json.dumps(data, ensure_ascii=False)}]}],
-            "generationConfig": {"temperature": 0.3, "responseMimeType": "application/json"},
-        }, timeout=120)
-        text = res["candidates"][0]["content"]["parts"][0]["text"]
-        ai = json.loads(text)
+        ai = gc.generate_json(PROMPT + json.dumps(data, ensure_ascii=False))
         ai = {"summary": str(ai.get("summary", ""))[:400],
               "actions": [{k: str(a.get(k, ""))[:160] for k in ("title", "why", "owner")} for a in ai.get("actions", [])[:3]],
               "watch": [str(w)[:200] for w in ai.get("watch", [])[:3]],
@@ -107,7 +82,7 @@ def main():
         print(f"AI 브리핑 생성: {model}")
     except Exception as e:
         status["ok"] = False
-        status["error"] = re.sub(r"key=[^&\s]+", "key=***", str(e))[:300]
+        status["error"] = gc.mask(e)[:300]
         print(f"[경고] AI 브리핑 실패: {status['error']}", file=sys.stderr)
     STATUS.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")
 
