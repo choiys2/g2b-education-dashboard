@@ -1,0 +1,7 @@
+{
+ "date": "2026-10-04",
+ "status": "계약정보 API 사용 불가 - 공공데이터포털에서 '조달청_나라장터 계약정보서비스' 활용신청이 필요할 수 있음 (ao/getCntrctInfoListServcPPSSrch: 네트워크 오류: HTTP Error 403: Forbidden url=https://apis.data.go.kr/1230000/ao/CntrctInfoService/getCntrctInfoListServcPPSSrch?serviceKey=***&pageNo=1&numOfRows=1&inqryDiv=1&inqryBgnDate=20261001&inqryEndDate=20261004&type=json | ao/getCntrctInfoListServc: 네트워크 오류: HTTP Error 403: Forbidden url=https://apis.data.go.kr/1230000/ao/CntrctInfoService/getCntrctInfoListServc?serviceKey=***&pageNo=1&numOfRows=1&inqryDiv=1&inqryBgnDate=20261001&inqryEndDate=20261004&type=json | 1230000/getCntrctInfoListServcPPSSrch: 네트워크 오류: HTTP Error 400: Bad Request url=https://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListServcPPSSrch?serviceKey=***&pageNo=1&numOfRows=1&inqryDiv=1&inqryBgnDate=20261001&inqryEndDate=20261004&type=json | 1230000/getCntrctInfoListServc: 네트워크 오류: HTTP Error 400: Bad Request url=https://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListServc?serviceKey=***&pageNo=1&numOfRows=1&inqryDiv=1&inqryBgnDate=20261001&inqryEndDate=20261004&type=json)",
+ "days": 365,
+ "matched": null,
+ "fields": []
+}
