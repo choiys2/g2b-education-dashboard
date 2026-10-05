@@ -6,11 +6,11 @@
 - 소통 원문은 CI 메모리에서만 쓰고 live/·history/ 어디에도 저장하지 않는다.
 - 이름·연락처·이메일 열은 아예 읽지 않는다(ROLE 판별에서 제외). 본문은 Gemini에 보내기 전
   전화·이메일·'홍길동 장학사' 같은 호칭 앞 이름을 지운다.
-- 공개되는 것은 사업별 소통 건수·최근 소통일·경과일과, 이름을 쓰지 말라고 지시한 AI 요약(상황·이슈·다음 액션·리스크)뿐.
-- AI 요약은 지역 단위로 묶어 호출하고(무료 한도), 입력이 바뀐 지역만 다시 만든다(history/pipeline_comms_ai.json).
+- 공개 범위는 숫자 지표뿐(2026-10-05 사용자 결정): 소통 건수(30일/이전 30일/전체), 최근 소통일·경과일,
+  소통 유형 분포, 이슈 분류 태그 건수(예산·일정·모집 등 정해진 범주명만), 규칙 기반 관리 신호.
+  문장 요약·원문 발췌는 만들지 않고, 소통 원문을 외부 AI로 보내지도 않는다.
   python pipeline_comms.py [out_json]
 """
-import hashlib
 import json
 import os
 import re
@@ -21,7 +21,6 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 COMMS_GID = os.environ.get("PIPELINE_COMMS_GID", "1083489926")
-AI_CACHE = HERE / "history" / "pipeline_comms_ai.json"
 STATUS_PATH = HERE / "history" / "pipeline_comms_status.json"
 REGIONS = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원",
            "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
@@ -136,35 +135,32 @@ def link(rows, records):
     return out, unlinked
 
 
-PROMPT = """너는 (주)비상교육 비바샘원격교육연수원 B2G 교원연수 사업 PMO다. 아래는 {region} 지역 위탁 연수 사업별 최근 소통 기록(교육청·지원청 담당 장학사와의 협의 메모, 개인정보 제거됨)이다.
-기록에 있는 사실만 근거로 사업별 운영·진행 핵심 상황을 한국어 JSON으로 정리하라. 사람 이름·연락처·직위+이름은 절대 쓰지 마라('담당 장학사'처럼 역할로만). 추측 금지.
-{{"region_summary": "지역 전체 상황 2문장", "items": [{{"id": "사업 id 그대로", "status": "현재 상황 1문장(40자 이내)", "issue": "핵심 이슈·요청(40자 이내, 없으면 빈 문자열)", "next": "다음 액션(30자 이내)", "risk": "높음|보통|낮음"}}]}}
-사업 기록:
-"""
+# 이슈 분류: 원문에서 범주 '이름'만 센다(문장은 게시하지 않음)
+ISSUES = [("예산", r"예산|추경|단가|금액|정산|결산"), ("일정", r"일정|연기|지연|변경|늦|마감|기한"),
+          ("모집", r"모집|신청|인원|미달|홍보|공문"), ("계약", r"계약|견적|수의|입찰|품의|발주"),
+          ("운영", r"강사|콘텐츠|시스템|오류|접속|출결|수료|만족도"), ("민원", r"민원|불만|항의|클레임|문제\s?제기"),
+          ("확대", r"추가|확대|차년도|내년|2027|재계약|후속")]
+ISSUE_RX = [(k, re.compile(v)) for k, v in ISSUES]
+KIND_RX = re.compile(r"전화|통화|방문|대면|비대면|메일|문자|카톡|메신저|회의|미팅|협의회|공문|온라인|화상|설명회")
 
 
-def ai_summaries(by_region_payload):
-    import gemini_client as gc
-    if not gc.key():
-        return {}, "GEMINI_API_KEY 없음"
-    cache = json.loads(AI_CACHE.read_text(encoding="utf-8")) if AI_CACHE.exists() else {}
-    err = None
-    for region, payload in by_region_payload.items():
-        blob = json.dumps(payload, ensure_ascii=False, sort_keys=True)
-        h = hashlib.sha1(blob.encode()).hexdigest()[:16]
-        if cache.get(region, {}).get("h") == h:
-            continue
-        try:
-            res = gc.generate_json(PROMPT.format(region=region) + blob[:30000])
-        except Exception as e:
-            err = gc.mask(e)[:200]
-            continue
-        items = {str(it.get("id")): {k: scrub(str(it.get(k, "")))[:120] for k in ("status", "issue", "next", "risk")}
-                 for it in res.get("items", []) if it.get("id") is not None}
-        cache[region] = {"h": h, "summary": scrub(str(res.get("region_summary", "")))[:300], "items": items,
-                         "date": date.today().isoformat(), "model": gc.model().split("/")[-1]}
-    AI_CACHE.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
-    return cache, err
+def kind_label(k):
+    """소통 유형은 정해진 어휘만 게시(셀에 사람 이름 등이 섞여도 새지 않게)."""
+    m = KIND_RX.search(k or "")
+    return m.group(0) if m else "기타"
+
+
+def signal(status, n, days, n30, prev30):
+    """규칙 기반 관리 신호(문장 없이 등급만)."""
+    if re.search(r"완료|종료|취소|정산", status or ""):
+        return "종료"
+    if not n:
+        return "기록 없음"
+    if days is not None and days > 30:
+        return "주의"
+    if n30 < prev30 / 2 and prev30 >= 2:
+        return "관심"
+    return "정상"
 
 
 def main():
@@ -186,35 +182,40 @@ def main():
     today = date.today()
     linked, unlinked = link(rows, records)
     status["linked_courses"], status["unlinked_rows"] = len(linked), unlinked
-    per = {}
-    payload = defaultdict(list)
+    per, kinds_all, issues_all = {}, defaultdict(int), defaultdict(int)
     for i, rec in enumerate(records):
-        rs = sorted([r for r in linked.get(i, [])], key=lambda r: r["date"] or date.min)
+        rs = linked.get(i, [])
         dated = [r for r in rs if r["date"]]
-        last = dated[-1]["date"] if dated else None
-        per[i] = {"n": len(rs), "n30": sum(1 for r in dated if (today - r["date"]).days <= 30),
-                  "last": last.isoformat() if last else "", "days": (today - last).days if last else None,
-                  "kinds": sorted({r["kind"] for r in rs if r["kind"]})[:4]}
-        if rs:
-            reg = rec.get("region") or region_of(rec.get("org")) or "기타"
-            payload[reg].append({"id": i, "사업": rec.get("courseName"), "기관": rec.get("org"), "상태": rec.get("status"),
-                                 "계약": rec.get("contractProgress"),
-                                 "기록": [f"{r['date'] or ''} {r['kind']} {r['stage']} {r['text']}".strip() for r in rs[-8:]]})
-    cache, ai_err = ai_summaries(payload) if payload else ({}, None)
-    if ai_err:
-        status["ai_error"] = ai_err
-    regions = {}
-    for reg, c in cache.items():
-        if reg in payload:
-            regions[reg] = {"summary": c.get("summary", ""), "date": c.get("date"), "model": c.get("model")}
-            for sid, it in c.get("items", {}).items():
-                if sid.isdigit() and int(sid) in per:
-                    per[int(sid)]["ai"] = it
+        last = max((r["date"] for r in dated), default=None)
+        n30 = sum(1 for r in dated if (today - r["date"]).days <= 30)
+        prev30 = sum(1 for r in dated if 30 < (today - r["date"]).days <= 60)
+        kinds = defaultdict(int)
+        for r in rs:
+            if r["kind"]:
+                kl = kind_label(r["kind"])
+                kinds[kl] += 1
+                kinds_all[kl] += 1
+        iss = defaultdict(int)
+        for r in rs:
+            for k, rx in ISSUE_RX:
+                if rx.search(r["text"]):
+                    iss[k] += 1
+                    issues_all[k] += 1
+        days = (today - last).days if last else None
+        per[i] = {"n": len(rs), "n30": n30, "prev30": prev30, "last": last.isoformat() if last else "",
+                  "days": days, "kinds": dict(kinds), "issues": dict(iss),
+                  "signal": signal(rec.get("status"), len(rs), days, n30, prev30)}
+    months = defaultdict(int)
+    for r in rows:
+        if r["date"] and r["date"].year >= today.year - 1:
+            months[r["date"].strftime("%Y-%m")] += 1
     out.write_text(json.dumps({"available": True, "tab": tab, "rows": len(rows), "linked": len(linked), "unlinked": unlinked,
                                "fetched": (datetime.utcnow() + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M"),
-                               "per": per, "regions": regions}, ensure_ascii=False), encoding="utf-8")
+                               "per": per, "kinds": dict(kinds_all), "issues": dict(issues_all),
+                               "issue_labels": [k for k, _ in ISSUES], "months": dict(sorted(months.items()))},
+                              ensure_ascii=False), encoding="utf-8")
     STATUS_PATH.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"소통 분석: {len(rows)}건, 사업 연결 {len(linked)}개, 미연결 {unlinked}건, AI 지역 {len(regions)}")
+    print(f"소통 분석: {len(rows)}건, 사업 연결 {len(linked)}개, 미연결 {unlinked}건")
 
 
 if __name__ == "__main__":
