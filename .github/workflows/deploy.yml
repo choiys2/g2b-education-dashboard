@@ -302,6 +302,7 @@ jobs:
             cp -r live/api _site/api
           fi
           cp -r widget _site/widget   # 외부 앱 삽입용 뉴스 위젯(정적 파일)
+          python add_noindex.py _site   # 검색엔진 비노출(링크 받은 사람만)
 
       - uses: actions/upload-pages-artifact@v3
         with:
