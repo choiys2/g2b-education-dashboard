@@ -19,7 +19,7 @@ REGION_LIMIT = re.compile(r"(본점|주된\s?영업소|소재지|소재|주사�
 SMALL = re.compile(r"소기업|소상공인")
 SME = re.compile(r"중소기업(확인서|자)|중소기업자간")
 CODE = re.compile(r"[\(（]\s*(?:업종코드\s*)?(\d{4})\s*[\)）]")
-TRAVEL = {"1261", "1262"}
+TRAVEL = {"1261", "1262", "1263", "1264"}  # 종합·국외·국내여행업
 
 
 def load_profile():
