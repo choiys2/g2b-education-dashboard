@@ -45,7 +45,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip install openpyxl reportlab PublicDataReader playwright google-auth olefile
+          pip install openpyxl reportlab PublicDataReader playwright google-auth olefile cryptography
           sudo apt-get update -y && sudo apt-get install -y fonts-nanum
           python -m playwright install --with-deps chromium
 
@@ -269,6 +269,8 @@ jobs:
           git pull --rebase origin main && git push || true
 
       - name: prepare pages artifact
+        env:
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
         run: |
           mkdir -p _site
           cp live/dashboard_live.html _site/index.html
@@ -303,6 +305,7 @@ jobs:
           fi
           cp -r widget _site/widget   # 외부 앱 삽입용 뉴스 위젯(정적 파일)
           python add_noindex.py _site   # 검색엔진 비노출(링크 받은 사람만)
+          python encrypt_pages.py _site   # 처음 열 때 비밀번호(DASHBOARD_PASSWORD 시크릿)
 
       - uses: actions/upload-pages-artifact@v3
         with:
