@@ -1,7 +1,7 @@
 name: API 키 빠른 점검
 
 # 시크릿을 새로 넣거나 바꾼 뒤, 전체 배포(약 70분)를 기다리지 않고 해당 수집만 돌려 결과를 history/에 남긴다.
-# .github/key_test_trigger 파일을 바꿔 push 하거나 Actions 탭에서 수동 실행.
+# .github/key_test_trigger 파일을 바꿔 push 하거나 Actions 탭에서 수동 실행. 구글시트 머리글 진단도 함께 한다.
 on:
   workflow_dispatch: {}
   push:
@@ -29,11 +29,21 @@ jobs:
         env:
           EDUINFO_KEY: ${{ secrets.EDUINFO_KEY }}
         run: python eduinfo_export.py /tmp/eduinfo_export.json
+      - name: 구글시트 연동(파이프라인·소통·배너) 진단
+        continue-on-error: true
+        env:
+          GOOGLE_SHEETS_SA_JSON: ${{ secrets.GOOGLE_SHEETS_SA_JSON }}
+        run: |
+          pip install -q google-auth requests
+          mkdir -p live
+          python own_pipeline_export.py live/own_pipeline_export.json
+          python pipeline_comms.py live/pipeline_comms.json
+          python banner_market.py live/banner_market.json
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add history/eduinfo_status.json
+          for f in history/eduinfo_status.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done
           git diff --cached --quiet && exit 0
           git commit -m "chore: API 키 점검 결과 (eduinfo)"
           for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep 5; done
