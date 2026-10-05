@@ -1651,6 +1651,26 @@
       </div>
     </section>
 
+    <!-- 연수 배너 시장: 구글시트 26타사DT (banner_market.py) - 자사·타사 테마·지역 교차 -->
+    <section class="panel" id="bannerPanel">
+      <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
+        <div>
+          <p class="panel-title">연수 배너 시장 분석<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">B2G 수의계약 포함 &middot; 자사·타사 &middot; 테마·지역</span></p>
+          <p class="panel-desc" id="bnDesc"></p>
+        </div>
+      </div>
+      <div class="kpis" id="bnKpis" style="margin-bottom:12px;"></div>
+      <div id="bnShare" style="margin-bottom:16px;"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px;">
+        <div><p style="font-weight:800;margin:0 0 6px;">테마 × 업체 <span style="font-size:12px;color:var(--muted);font-weight:600;">진할수록 많음 · 공백 = 타사 3건 이상인데 자사 0건</span></p><div class="tbl-wrap"><table class="data" id="bnTheme"></table></div></div>
+        <div><p style="font-weight:800;margin:0 0 6px;">지역 × 업체 <span style="font-size:12px;color:var(--muted);font-weight:600;">자사 점유율 낮은 순</span></p><div class="tbl-wrap"><table class="data" id="bnRegion"></table></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px;margin-top:14px;">
+        <div class="rfp-card"><div class="t">월별 배너 수 (업체별 누적)</div><div id="bnMonths" style="margin-top:10px;"></div></div>
+        <div class="rfp-card"><div class="t" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">최근 배너 <select id="bnCo" aria-label="업체" style="font:inherit;font-size:12px;"></select></div><div id="bnRecent" style="max-height:300px;overflow:auto;margin-top:8px;font-size:13px;"></div></div>
+      </div>
+    </section>
+
     <!-- 사업 진행 분석: 영업 소통 내역(26영업소통 DT) 연계 (pipeline_comms.py) - 원문·이름·연락처 미게시 -->
     <section class="panel" id="commsPanel">
       <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
@@ -2308,6 +2328,7 @@ const B2S_MARKET = __B2S_MARKET_JSON__;
 const B2S_BOARD = __B2S_BOARD_JSON__;
 const PIPE = __PIPE_JSON__;
 const PIPE_COMMS = __PIPE_COMMS_JSON__;
+const BANNER = __BANNER_JSON__;
 const BETA = __BETA_JSON__;
 
 const fmt = n => n.toLocaleString('ko-KR');
@@ -4096,6 +4117,61 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     draw();
   });
   draw();
+})();
+
+// 연수 배너 시장(banner_market.py): 자사·타사 테마·지역 교차
+(function renderBanner(){
+  const B = BANNER || {};
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const desc = document.getElementById('bnDesc');
+  if (!B.available) {
+    desc.textContent = '구글시트 26타사DT(매일 B2G 수의계약 포함 자사·타사 연수 배너)를 테마·지역·업체로 교차 분석합니다. ' + (B.error ? `아직 연동되지 않았습니다(${String(B.error).slice(0, 80)}).` : '다음 자동 배포 후 채워집니다.');
+    return;
+  }
+  const CO = B.companies, SELF = B.self;
+  const PAL = ['#4f8cff', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#14b8a6', '#94a3b8'];
+  const col = c => c === SELF ? 'var(--accent)' : PAL[(CO.filter(x => x !== SELF).indexOf(c) + 1) % PAL.length];
+  const tot = Object.values(B.totals).reduce((a, b) => a + b, 0) || 1;
+  const own = B.totals[SELF] || 0;
+  const lead = Object.entries(B.totals).filter(([c]) => c !== '기타').sort((a, b) => b[1] - a[1])[0] || ['-', 0];
+  const l30 = B.last30 || {}, l30t = Object.values(l30).reduce((a, b) => a + b, 0);
+  desc.textContent = `구글시트 '${B.tab}' · ${B.fetched} 조회 · 배너 ${fmt(B.rows)}건 (테마별·지역별 피벗과 같은 원본에서 직접 집계).`;
+  document.getElementById('bnKpis').innerHTML = [
+    ['전체 배너', fmt(B.rows) + '건', `업체 ${CO.length}곳 기준`],
+    ['자사 점유', Math.round(own / tot * 100) + '%', `${fmt(own)}건`],
+    ['1위', h(lead[0]), `${fmt(lead[1])}건 · ${Math.round(lead[1] / tot * 100)}%`],
+    ['최근 30일 자사', fmt(l30[SELF] || 0) + '건', `전체 ${fmt(l30t)}건 중 ${l30t ? Math.round((l30[SELF] || 0) / l30t * 100) : 0}%`],
+  ].map(t => `<div class="kpi"><div class="lbl">${t[0]}</div><div class="val num">${t[1]}</div><div class="sup">${t[2]}</div></div>`).join('');
+  document.getElementById('bnShare').innerHTML = `<div style="display:flex;height:26px;border-radius:8px;overflow:hidden;">${CO.map(c => `<span title="${h(c)} ${B.totals[c]}건" style="width:${B.totals[c] / tot * 100}%;background:${col(c)};display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;">${B.totals[c] / tot > 0.07 ? h(c) + ' ' + Math.round(B.totals[c] / tot * 100) + '%' : ''}</span>`).join('')}</div>
+    <div class="tt-legend" style="margin-top:6px;">${CO.map(c => `<span><i style="background:${col(c)}"></i>${h(c)} ${fmt(B.totals[c])}건</span>`).join('')}</div>`;
+  const heat = (obj, el, sortFn, label) => {
+    const rows = Object.entries(obj);
+    const mx = Math.max(1, ...rows.flatMap(([, v]) => CO.map(c => v[c] || 0)));
+    if (sortFn) rows.sort(sortFn);
+    document.getElementById(el).innerHTML = `<thead><tr><th>${label}</th>${CO.map(c => `<th class="num" style="${c === SELF ? 'color:var(--accent);' : ''}">${h(c)}</th>`).join('')}<th class="num">자사 점유</th></tr></thead><tbody>${rows.map(([k, v]) => {
+      const t = CO.reduce((a, c) => a + (v[c] || 0), 0), o = v[SELF] || 0, comp = t - o;
+      const gap = o === 0 && comp >= 3;
+      return `<tr><td><b>${h(k)}</b>${gap ? ' <span class="fit fit-불가" style="font-size:11px;">공백</span>' : ''}</td>${CO.map(c => { const n = v[c] || 0; return `<td class="num" style="background:color-mix(in srgb, ${col(c)} ${Math.round(n / mx * 70)}%, transparent);${n ? '' : 'color:var(--muted);'}">${n || '·'}</td>`; }).join('')}<td class="num">${t ? Math.round(o / t * 100) : 0}%</td></tr>`;
+    }).join('')}</tbody>`;
+  };
+  heat(B.theme, 'bnTheme', null, '테마');
+  const share = v => { const t = CO.reduce((a, c) => a + (v[c] || 0), 0); return t ? (v[SELF] || 0) / t : 0; };
+  heat(B.region, 'bnRegion', (a, b) => share(a[1]) - share(b[1]) || CO.reduce((s, c) => s + (b[1][c] || 0), 0) - CO.reduce((s, c) => s + (a[1][c] || 0), 0), '지역');
+  const M = Object.entries(B.months || {});
+  const mmax = Math.max(1, ...M.map(([, v]) => Object.values(v).reduce((a, b) => a + b, 0)));
+  document.getElementById('bnMonths').innerHTML = `<div style="display:flex;align-items:flex-end;gap:6px;height:160px;">${M.map(([m, v]) => {
+    const t = Object.values(v).reduce((a, b) => a + b, 0);
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;" title="${h(m)} ${t}건 · ${CO.map(c => c + ' ' + (v[c] || 0)).join(', ')}"><span style="font-size:10px;color:var(--muted);">${t}</span>
+      <div style="width:100%;height:${t / mmax * 130}px;display:flex;flex-direction:column-reverse;border-radius:3px 3px 0 0;overflow:hidden;">${CO.map(c => `<span style="height:${(v[c] || 0) / (t || 1) * 100}%;background:${col(c)};"></span>`).join('')}</div>
+      <span style="font-size:10px;color:var(--muted);">${h(m.slice(5))}</span></div>`; }).join('')}</div>`;
+  const sel = document.getElementById('bnCo');
+  sel.innerHTML = '<option value="">전체 업체</option>' + CO.filter(c => c !== '기타').map(c => `<option>${h(c)}</option>`).join('');
+  const drawRecent = () => {
+    const xs = (B.recent || []).filter(r => !sel.value || r.co === sel.value);
+    document.getElementById('bnRecent').innerHTML = xs.map(r => `<div style="padding:6px 0;border-bottom:1px solid var(--border);"><span class="fit" style="background:${col(CO.includes(r.co) ? r.co : '기타')};color:#fff;font-size:11px;">${h(r.co)}</span> <b>${h(r.t)}</b><div style="font-size:12px;color:var(--muted);">${h(r.d)} · ${h(r.rg)} ${h(r.org)} · ${h(r.th)}</div></div>`).join('') || '<div style="color:var(--muted);">해당 업체 배너가 없습니다.</div>';
+  };
+  sel.addEventListener('change', drawRecent);
+  drawRecent();
 })();
 
 (function renderInsightList(){
