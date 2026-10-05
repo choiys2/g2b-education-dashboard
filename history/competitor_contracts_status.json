@@ -1,8 +1,8 @@
 {
  "date": "2026-10-05",
  "status": "ok",
- "days": 365,
- "matched": 202,
+ "days": 60,
+ "matched": 18,
  "fields": [
   "baseDtls",
   "baseLawNm",
