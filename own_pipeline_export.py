@@ -28,7 +28,12 @@ import json, os, re, sys, urllib.request, urllib.parse, urllib.error
 from collections import defaultdict, Counter
 
 SHEET_ID = os.environ.get("PIPELINE_SHEET_ID", "1qF-wdKmD5buPLZKPwqIn9jA5fv69NDg1K6bUF4vo3Hw")
-SHEET_GID = os.environ.get("PIPELINE_SHEET_GID", "274729463")
+# B2G 영업 시트(2026-10-05 사용자 지정). 헤더가 맞지 않으면 기존 탭(274729463)으로 자동 폴백한다.
+SHEET_GIDS = [g for g in os.environ.get("PIPELINE_SHEET_GID", "1739447705,274729463").split(",") if g.strip()]
+SHEET_GID = SHEET_GIDS[0]
+STATUS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "history", "pipeline_status.json")
+STATUS = {"sheet_tab": None, "gid": None, "header_row": None, "matched_headers": [], "missing_headers": [],
+          "rows": 0, "via": None, "error": None, "tried": []}
 SA_JSON = os.environ.get("GOOGLE_SHEETS_SA_JSON", "")
 
 # 시트 헤더 -> 안전한 내부 필드명. 이 목록에 없는 컬럼(연락처/메일/주무관 등)은 아예 안 읽는다.
@@ -80,7 +85,7 @@ def _sheets_api_get(url, access_token):
         return json.loads(resp.read().decode("utf-8"))
 
 
-def fetch_via_service_account():
+def fetch_via_service_account(gid=None):
     """서비스계정 자격증명으로 Sheets API v4를 호출해 values.get 결과를 gviz와
     동일한 {행렬} 형태로 반환한다. google-auth가 JWT 서명·토큰 교환을 처리한다."""
     from google.oauth2 import service_account
@@ -100,11 +105,12 @@ def fetch_via_service_account():
     title = None
     for s in meta.get("sheets", []):
         props = s.get("properties", {})
-        if str(props.get("sheetId")) == str(SHEET_GID):
+        if str(props.get("sheetId")) == str(gid or SHEET_GID):
             title = props.get("title")
             break
     if not title:
-        raise RuntimeError(f"gid={SHEET_GID}에 해당하는 시트 탭을 찾지 못함")
+        raise RuntimeError(f"gid={gid or SHEET_GID}에 해당하는 시트 탭을 찾지 못함")
+    STATUS["sheet_tab"] = title
 
     range_q = urllib.parse.quote(f"'{title}'", safe="")
     values_url = (f"https://sheets.googleapis.com/v4/spreadsheets/{SHEET_ID}/values/{range_q}"
@@ -118,7 +124,13 @@ def rows_from_matrix(matrix):
     동일하게 SAFE_FIELDS 화이트리스트만 걸러 records로 변환한다."""
     if not matrix:
         return []
-    header = matrix[0]
+    # 제목 줄·병합 머리글이 위에 있는 시트가 있어, 처음 10줄 중 화이트리스트 헤더가 가장 많이 맞는 줄을 헤더로 쓴다
+    best = max(range(min(10, len(matrix))), key=lambda i: sum(1 for h in matrix[i] if SAFE_FIELDS.get((h or "").strip())))
+    header = matrix[best]
+    STATUS["header_row"] = best + 1
+    STATUS["matched_headers"] = [h.strip() for h in header if SAFE_FIELDS.get((h or "").strip())]
+    STATUS["missing_headers"] = [h for h in SAFE_FIELDS if h not in STATUS["matched_headers"]]
+    matrix = matrix[best:]
     col_field = [SAFE_FIELDS.get((h or "").strip()) for h in header]
 
     records = []
@@ -193,9 +205,38 @@ def analyze(records):
 
 
 def fetch_records():
-    if SA_JSON:
-        return rows_from_matrix(fetch_via_service_account())
-    return rows_from_gviz(fetch_gviz())
+    if not SA_JSON:
+        STATUS["via"] = "gviz(공개 링크)"
+        return rows_from_gviz(fetch_gviz())
+    STATUS["via"] = "서비스계정"
+    best, last_err = None, None
+    for gid in SHEET_GIDS:
+        try:
+            recs = rows_from_matrix(fetch_via_service_account(gid))
+        except Exception as e:
+            last_err = e
+            STATUS["tried"].append({"gid": gid, "error": str(e)[:200]})
+            continue
+        STATUS["tried"].append({"gid": gid, "tab": STATUS["sheet_tab"], "matched": len(STATUS["matched_headers"]), "rows": len(recs)})
+        if len(STATUS["matched_headers"]) >= 5 and recs:  # 영업 시트로 쓸 만하면 채택
+            STATUS["gid"] = gid
+            return recs
+        best = best or (gid, recs)
+    if best:
+        STATUS["gid"] = best[0]
+        return best[1]
+    raise last_err or RuntimeError("시트 조회 실패")
+
+
+def write_status():
+    """연동 진단(git 추적). 개인정보 없이 탭 이름·매칭된 헤더·행 수·오류만 남긴다."""
+    import datetime
+    try:
+        os.makedirs(os.path.dirname(STATUS_PATH), exist_ok=True)
+        with open(STATUS_PATH, "w", encoding="utf-8") as f:
+            json.dump({"date": datetime.date.today().isoformat(), **STATUS}, f, ensure_ascii=False, indent=1)
+    except Exception:
+        pass
 
 
 def main():
@@ -203,10 +244,14 @@ def main():
     try:
         records = fetch_records()
     except Exception as e:
+        STATUS["error"] = str(e)[:300]
+        write_status()
         print(f"[경고] 시트 조회 실패(비공개로 전환됐거나 서비스계정 미공유일 수 있음): {e}", file=sys.stderr)
         json.dump({"records": [], "kpi": {"total": 0}, "byRegion": {}, "byRep": {}, "byField": {}, "byMonth": {}},
                    open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         return
+    STATUS["rows"] = len(records)
+    write_status()
     records = anonymize_reps(records)
     analysis = analyze(records)
     analysis["records"] = records
