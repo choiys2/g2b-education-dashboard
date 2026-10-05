@@ -1655,17 +1655,17 @@
     <section class="panel" id="commsPanel">
       <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
         <div>
-          <p class="panel-title">사업 진행 분석<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">영업 소통 내역 연계 &middot; 운영·진행 핵심 상황</span></p>
+          <p class="panel-title">사업 진행 분석<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">영업 소통 내역 연계 &middot; 숫자 지표</span></p>
           <p class="panel-desc" id="commsDesc"></p>
         </div>
-        <span class="view-toggle" id="commsFilter"><button type="button" data-f="" aria-pressed="true">전체</button><button type="button" data-f="risk" aria-pressed="false">리스크 높음</button><button type="button" data-f="stale" aria-pressed="false">30일+ 무소통</button><button type="button" data-f="none" aria-pressed="false">소통 기록 없음</button></span>
+        <span class="view-toggle" id="commsFilter"><button type="button" data-f="" aria-pressed="true">전체</button><button type="button" data-f="stale" aria-pressed="false">주의(30일+ 무소통)</button><button type="button" data-f="drop" aria-pressed="false">관심(소통 급감)</button><button type="button" data-f="none" aria-pressed="false">소통 기록 없음</button></span>
       </div>
       <div class="kpis" id="commsKpis" style="margin-bottom:14px;"></div>
       <div class="rfp-list" id="commsRegions" style="margin-bottom:14px;"></div>
       <div class="tbl-wrap"><table class="data" id="commsTable">
-        <thead><tr><th>지역</th><th>사업</th><th>상태</th><th class="num">소통(30일/전체)</th><th>최근 소통</th><th>현재 상황</th><th>이슈·요청</th><th>다음 액션</th><th>리스크</th></tr></thead><tbody></tbody>
+        <thead><tr><th>지역</th><th>사업</th><th>상태</th><th>관리 신호</th><th class="num">소통 30일 / 이전 30일 / 전체</th><th>최근 소통</th><th>소통 유형</th><th>이슈 분류(건)</th></tr></thead><tbody></tbody>
       </table></div>
-      <p class="tt-note">소통 원문, 장학사 이름, 연락처는 대시보드와 저장소 어디에도 싣지 않습니다. 사업별 최근 소통 8건을 개인정보를 지운 뒤 AI(Gemini)가 지역 단위로 요약했으며, 사실관계는 원본 시트에서 확인하세요. 사업 연결은 연수명·기관명 일치로 자동 판단합니다(연결 안 된 소통 기록은 집계에서 빠짐).</p>
+      <p class="tt-note">공개 범위: 숫자 지표만 싣습니다. 소통 원문·문장 요약, 장학사 이름, 연락처는 대시보드와 저장소 어디에도 없으며 외부 AI로도 보내지 않습니다. 이슈 분류는 소통 기록에 예산·일정·모집·계약·운영·민원·확대 관련 단어가 나온 건수를 범주 이름으로만 셉니다. 관리 신호: 주의 = 진행 중인데 30일 넘게 소통 없음, 관심 = 최근 30일 소통이 이전 30일의 절반 미만, 기록 없음 = 연결된 소통 기록 없음. 사업 연결은 연수명·기관명 일치로 자동 판단합니다.</p>
     </section>
 
     <section class="panel">
@@ -4034,46 +4034,60 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   }
 })();
 
-// 사업 진행 분석(pipeline_comms.py): 파이프라인 사업 × 영업 소통 내역
+// 사업 진행 분석(pipeline_comms.py): 파이프라인 사업 × 영업 소통 내역 - 숫자 지표만
 (function renderComms(){
   const C = PIPE_COMMS || {};
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const desc = document.getElementById('commsDesc');
   const recs = (PIPE && PIPE.records) || [];
   if (!C.available) {
-    desc.textContent = '구글시트 영업 소통 내역(26영업소통 DT)을 사업별로 연결해 최근 소통·이슈·다음 액션을 정리합니다. ' + (C.error ? `아직 연동되지 않았습니다(${String(C.error).slice(0, 80)}).` : '다음 자동 배포 후 채워집니다.');
+    desc.textContent = '구글시트 영업 소통 내역(26영업소통 DT)을 사업별로 연결해 소통 빈도·경과일·이슈 분류를 숫자로 보여줍니다. ' + (C.error ? `아직 연동되지 않았습니다(${String(C.error).slice(0, 80)}).` : '다음 자동 배포 후 채워집니다.');
     document.getElementById('commsFilter').hidden = true;
     return;
   }
-  const done = s => /완료|종료|취소|정산/.test(s || '');
-  const rows = recs.map((r, i) => ({r, c: (C.per || {})[i] || {n: 0}}));
-  const active = rows.filter(x => !done(x.r.status));
-  const stale = active.filter(x => x.c.n && x.c.days != null && x.c.days > 30);
-  const none = active.filter(x => !x.c.n);
-  const high = rows.filter(x => x.c.ai && x.c.ai.risk === '높음');
+  const rows = recs.map((r, i) => ({r, c: (C.per || {})[i] || {n: 0, signal: '기록 없음'}}));
+  const active = rows.filter(x => x.c.signal !== '종료');
+  const by = sig => active.filter(x => x.c.signal === sig);
   desc.textContent = `구글시트 '${C.tab}' · ${C.fetched} 조회 · 소통 기록 ${fmt(C.rows)}건 중 사업 연결 ${fmt(C.rows - C.unlinked)}건(사업 ${C.linked}개).`;
+  const n30 = active.reduce((a, x) => a + (x.c.n30 || 0), 0), p30 = active.reduce((a, x) => a + (x.c.prev30 || 0), 0);
   document.getElementById('commsKpis').innerHTML = [
     ['진행 중 사업', active.length + '건', `전체 ${recs.length}건 중 완료·종료 제외`],
-    ['리스크 높음', high.length + '건', 'AI가 소통 기록에서 판단'],
-    ['30일 이상 무소통', stale.length + '건', '진행 중인데 최근 접촉 없음'],
-    ['소통 기록 없음', none.length + '건', '시트에 연결된 기록 없음'],
+    ['주의', by('주의').length + '건', '30일 넘게 소통 없음'],
+    ['관심', by('관심').length + '건', '최근 30일 소통 급감'],
+    ['소통 기록 없음', by('기록 없음').length + '건', '연결된 기록 없음'],
+    ['최근 30일 소통', fmt(n30) + '건', `이전 30일 ${fmt(p30)}건${p30 ? ` (${n30 >= p30 ? '+' : ''}${Math.round((n30 - p30) / p30 * 100)}%)` : ''}`],
   ].map(t => `<div class="kpi"><div class="lbl">${t[0]}</div><div class="val num">${t[1]}</div><div class="sup">${t[2]}</div></div>`).join('');
-  const R = C.regions || {};
-  document.getElementById('commsRegions').innerHTML = Object.keys(R).sort().map(k => `<article class="rfp-card"><div class="t">${h(k)}</div><div class="m">${h(R[k].date)} · ${h(R[k].model)}</div><div>${h(R[k].summary)}</div></article>`).join('');
-  const RISK = {'높음': 'fit-불가', '보통': 'fit-확인', '낮음': 'fit-가능'};
+  // 지역별 숫자 요약 + 이슈 분류 분포 + 월별 소통 추이
+  const reg = {};
+  active.forEach(({r, c}) => { const k = r.region || '미정'; const o = reg[k] = reg[k] || {n: 0, warn: 0, c30: 0}; o.n++; o.c30 += c.n30 || 0; if (c.signal === '주의' || c.signal === '기록 없음') o.warn++; });
+  const iss = C.issues || {}, imax = Math.max(1, ...Object.values(iss));
+  const mon = C.months || {}, mmax = Math.max(1, ...Object.values(mon));
+  document.getElementById('commsRegions').innerHTML = `
+    <article class="rfp-card"><div class="t">지역별 진행 사업</div>
+      <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 14px;margin-top:8px;font-size:13px;">
+        <span style="color:var(--muted);font-size:12px;">지역</span><span style="color:var(--muted);font-size:12px;text-align:right;">사업</span><span style="color:var(--muted);font-size:12px;text-align:right;">주의·기록 없음</span><span style="color:var(--muted);font-size:12px;text-align:right;">30일 소통</span>
+        ${Object.entries(reg).sort((a, b) => b[1].n - a[1].n).map(([k, o]) => `<span>${h(k)}</span><span class="num" style="text-align:right;">${o.n}</span><span class="num" style="text-align:right;${o.warn ? 'color:var(--warning);font-weight:700;' : ''}">${o.warn}</span><span class="num" style="text-align:right;">${o.c30}</span>`).join('')}
+      </div></article>
+    <article class="rfp-card"><div class="t">이슈 분류(소통 기록 건수)</div>
+      ${(C.issue_labels || Object.keys(iss)).map(k => `<div style="display:flex;align-items:center;gap:8px;margin:6px 0;"><span style="width:36px;">${h(k)}</span><span style="flex:1;height:10px;background:var(--surface);border-radius:5px;overflow:hidden;"><span style="display:block;height:100%;width:${(iss[k] || 0) / imax * 100}%;background:var(--accent);"></span></span><span class="num" style="width:40px;text-align:right;">${fmt(iss[k] || 0)}</span></div>`).join('')}</article>
+    <article class="rfp-card"><div class="t">월별 소통 건수</div><div style="display:flex;align-items:flex-end;gap:4px;height:110px;margin-top:10px;">
+      ${Object.entries(mon).slice(-12).map(([m, v]) => `<div title="${h(m)} ${v}건" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;"><span style="font-size:10px;color:var(--muted);">${v}</span><span style="width:100%;background:var(--accent);border-radius:3px 3px 0 0;height:${Math.max(2, v / mmax * 80)}px;"></span><span style="font-size:10px;color:var(--muted);">${h(m.slice(5))}</span></div>`).join('')}</div></article>`;
+  const SIG = {'주의': 'fit-불가', '관심': 'fit-확인', '기록 없음': 'fit-확인', '정상': 'fit-가능', '종료': ''};
+  const ORDER = {'주의': 0, '관심': 1, '기록 없음': 2, '정상': 3, '종료': 4};
   const st = {f: ''};
   const draw = () => {
     let xs = rows;
-    if (st.f === 'risk') xs = high;
-    if (st.f === 'stale') xs = stale;
-    if (st.f === 'none') xs = none;
-    xs = [...xs].sort((a, b) => ((b.c.ai && b.c.ai.risk === '높음') - (a.c.ai && a.c.ai.risk === '높음')) || ((b.c.days ?? -1) - (a.c.days ?? -1)));
-    document.querySelector('#commsTable tbody').innerHTML = xs.map(({r, c}) => { const a = c.ai || {}; return `<tr>
+    if (st.f === 'stale') xs = by('주의');
+    if (st.f === 'drop') xs = by('관심');
+    if (st.f === 'none') xs = by('기록 없음');
+    xs = [...xs].sort((a, b) => (ORDER[a.c.signal] - ORDER[b.c.signal]) || ((b.c.days ?? -1) - (a.c.days ?? -1)));
+    const tags = o => Object.entries(o || {}).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<span class="fit" style="background:var(--surface);border:1px solid var(--border);color:var(--ink-2);font-weight:600;">${h(k)} ${v}</span>`).join('');
+    document.querySelector('#commsTable tbody').innerHTML = xs.map(({r, c}) => `<tr>
       <td>${h(r.region)}</td><td><b>${h(r.courseName)}</b><div style="font-size:12px;color:var(--muted);">${h(r.org)}</div></td><td>${h(r.status)}</td>
-      <td class="num">${c.n ? `${c.n30 || 0} / ${c.n}` : '-'}</td>
-      <td style="white-space:nowrap;">${c.last ? `${h(c.last)}<div style="font-size:12px;color:${c.days > 30 && !done(r.status) ? 'var(--warning)' : 'var(--muted)'};">${c.days}일 전</div>` : '<span style="color:var(--muted);">기록 없음</span>'}</td>
-      <td style="font-size:12px;">${h(a.status)}</td><td style="font-size:12px;">${h(a.issue)}</td><td style="font-size:12px;">${h(a.next)}</td>
-      <td>${a.risk ? `<span class="fit ${RISK[a.risk] || ''}">${h(a.risk)}</span>` : ''}</td></tr>`; }).join('') || '<tr><td colspan="9" style="color:var(--muted);">해당 사업이 없습니다.</td></tr>';
+      <td><span class="fit ${SIG[c.signal] || ''}">${h(c.signal)}</span></td>
+      <td class="num">${c.n ? `${c.n30 || 0} / ${c.prev30 || 0} / ${c.n}` : '-'}</td>
+      <td style="white-space:nowrap;">${c.last ? `${h(c.last)}<div style="font-size:12px;color:${c.signal === '주의' ? 'var(--warning)' : 'var(--muted)'};">${c.days}일 전</div>` : '<span style="color:var(--muted);">-</span>'}</td>
+      <td>${tags(c.kinds)}</td><td>${tags(c.issues)}</td></tr>`).join('') || '<tr><td colspan="8" style="color:var(--muted);">해당 사업이 없습니다.</td></tr>';
   };
   document.getElementById('commsFilter').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;

@@ -97,21 +97,12 @@ jobs:
           GOOGLE_SHEETS_SA_JSON: ${{ secrets.GOOGLE_SHEETS_SA_JSON }}
         run: python own_pipeline_export.py live/own_pipeline_export.json
 
-      # 영업 소통 내역 AI 요약 캐시 - 공개 저장소라 git 이 아니라 Actions 캐시에만 둔다
-      - name: 소통 분석 캐시 복원
-        uses: actions/cache@v4
-        with:
-          path: history/pipeline_comms_ai.json
-          key: comms-ai-${{ github.run_id }}
-          restore-keys: comms-ai-
-
-      # '26영업소통 DT' -> 사업별 소통 건수·최근 소통일 + Gemini 상황 요약(원문·이름·연락처는 저장/게시 안 함)
+      # '26영업소통 DT' -> 사업별 소통 숫자 지표만(원문·이름·연락처·문장 요약은 저장/게시/외부 AI 전송 안 함)
       - name: 사업별 소통·진행 분석
         continue-on-error: true
         timeout-minutes: 10
         env:
           GOOGLE_SHEETS_SA_JSON: ${{ secrets.GOOGLE_SHEETS_SA_JSON }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python pipeline_comms.py live/pipeline_comms.json
 
       - name: KOSIS 시도교육청 교육재정 규모 export
