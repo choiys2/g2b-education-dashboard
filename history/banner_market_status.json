@@ -1,0 +1,16 @@
+{
+ "date": "2026-10-05",
+ "gid": "400854416",
+ "tab": "25타사DT",
+ "pivot_theme_rows": 333,
+ "pivot_region_rows": 366,
+ "header_row": 2,
+ "roles": {
+  "region": "지역",
+  "org": "기관명",
+  "theme": "연수분야",
+  "date": "배너게시",
+  "title": "연수제목"
+ },
+ "rows": 364
+}
