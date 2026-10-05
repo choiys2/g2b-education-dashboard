@@ -1,0 +1,39 @@
+name: API 키 빠른 점검
+
+# 시크릿을 새로 넣거나 바꾼 뒤, 전체 배포(약 70분)를 기다리지 않고 해당 수집만 돌려 결과를 history/에 남긴다.
+# .github/key_test_trigger 파일을 바꿔 push 하거나 Actions 탭에서 수동 실행.
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: [".github/key_test_trigger"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: key-test
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 지방교육재정알리미(EDUINFO_KEY)
+        continue-on-error: true
+        env:
+          EDUINFO_KEY: ${{ secrets.EDUINFO_KEY }}
+        run: python eduinfo_export.py /tmp/eduinfo_export.json
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add history/eduinfo_status.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: API 키 점검 결과 (eduinfo)"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep 5; done
