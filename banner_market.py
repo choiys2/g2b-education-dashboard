@@ -24,12 +24,15 @@ SELF = "비바샘"
 PRIVATE = re.compile(r"연락|전화|휴대|메일|성명|이름|주무관|장학사|담당자|담당\s?공무원")
 ROLES = [
     ("date", re.compile(r"일자|날짜|일시|게시|등록일|공고일|시작일|date", re.I)),
-    ("company", re.compile(r"연수원|업체|운영\s?기관|회사|사업자|자사|타사|경쟁사|브랜드")),
+    ("company", re.compile(r"주관사|연수원|업체|운영\s?기관|회사|사업자|자사|타사|경쟁사|브랜드")),
     ("region", re.compile(r"시도|지역|권역")),
     ("org", re.compile(r"교육청|지원청|발주|기관|학교")),
     ("theme", re.compile(r"테마|주제|분야|영역|카테고리")),
     ("title", re.compile(r"연수명|과정명|제목|배너|연수")),
-    ("kind", re.compile(r"수의|계약|유형|방식|구분")),
+    ("kind", re.compile(r"경쟁\s?여부|수의|계약|방식")),
+    ("type", re.compile(r"^종류$|유형|구분")),
+    ("target", re.compile(r"^대상$")),
+    ("courses", re.compile(r"과목\s?개수|과목수|과정수")),
     ("amount", re.compile(r"금액|예산|단가|매출")),
     ("people", re.compile(r"인원|명수|수강")),
 ]
@@ -73,14 +76,23 @@ def region(*ts):
     return "미상"
 
 
+YEAR = 2026
+
+
 def pdate(s):
     s = (s or "").strip()
+    w = re.search(r"(\d{1,2})\s?월\s?(\d)\s?주", s)  # '3월 2주' 형식(배너 게시 주차)
+    if w:
+        try:
+            return date(YEAR, int(w.group(1)), min(28, (int(w.group(2)) - 1) * 7 + 1))
+        except ValueError:
+            return None
     m = re.search(r"(20\d{2})\D{1,3}(\d{1,2})\D{1,3}(\d{1,2})", s)
     try:
         if m:
             return date(*map(int, m.groups()))
         m = re.search(r"(?<!\d)(\d{1,2})\s?[./월-]\s?(\d{1,2})", s)
-        return date(2026, *map(int, m.groups())) if m else None
+        return date(YEAR, *map(int, m.groups())) if m else None
     except ValueError:
         return None
 
@@ -101,8 +113,12 @@ def main():
             raise RuntimeError("GOOGLE_SHEETS_SA_JSON 없음")
         gid = ope.find_gid(DT_TITLE) or DT_GID
         status["gid"] = gid
+        global YEAR
         m = ope.fetch_via_service_account(gid)
         status["tab"] = ope.STATUS.get("sheet_tab")
+        ym = re.search(r"(\d{2})\s*타사", status["tab"] or "")
+        if ym:
+            YEAR = 2000 + int(ym.group(1))
         for k, g in PIVOT_GIDS.items():
             try:
                 status[f"pivot_{k}_rows"] = len(ope.fetch_via_service_account(g))
@@ -126,7 +142,7 @@ def main():
             continue
         rows.append({"d": pdate(g("date")), "co": company(g("company") or g("title")), "rg": region(g("region"), g("org")),
                      "org": g("org").strip()[:30], "t": g("title").strip()[:80], "th": (g("theme").strip() or "미분류")[:16],
-                     "k": g("kind").strip()[:10], "a": num(g("amount")), "p": num(g("people"))})
+                     "k": g("kind").strip()[:10], "ty": g("type").strip()[:10], "a": num(g("amount")), "p": num(g("people"))})
     status["rows"] = len(rows)
     cos = [c for c, _ in Counter(r["co"] for r in rows).most_common(6)]
     if SELF in {r["co"] for r in rows} and SELF not in cos:
@@ -143,6 +159,11 @@ def main():
         if r["d"]:
             mon[r["d"].strftime("%Y-%m")][top(r["co"])] += 1
     kinds = Counter(r["k"] for r in rows if r["k"])
+    kind_co = defaultdict(Counter)
+    for r in rows:
+        if r["k"]:
+            kind_co[r["k"]][top(r["co"])] += 1
+    types = Counter(r["ty"] for r in rows if r["ty"])
     series = cos + (["기타"] if any(r["co"] not in cos for r in rows) else [])
     today = date.today()
     recent = sorted([r for r in rows if r["d"]], key=lambda r: r["d"], reverse=True)[:40]
@@ -153,7 +174,8 @@ def main():
         "theme": {t: dict(v) for t, v in sorted(theme.items(), key=lambda x: -sum(x[1].values()))[:20]},
         "region": {k: dict(reg[k]) for k in REGIONS + ["미상"] if k in reg},
         "months": {k: dict(mon[k]) for k in sorted(mon)[-12:]},
-        "kinds": dict(kinds.most_common(6)),
+        "kinds": dict(kinds.most_common(6)), "kind_co": {k: dict(kind_co[k]) for k, _ in kinds.most_common(6)},
+        "types": dict(types.most_common(8)),
         "last30": Counter(top(r["co"]) for r in rows if r["d"] and (today - r["d"]).days <= 30),
         "recent": [{"d": r["d"].isoformat(), "co": r["co"], "rg": r["rg"], "org": r["org"], "t": r["t"], "th": r["th"]} for r in recent],
     }
