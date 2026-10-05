@@ -25,7 +25,7 @@ STATUS_PATH = HERE / "history" / "pipeline_comms_status.json"
 REGIONS = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원",
            "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
 # 열 역할: 머리글에 이 단어가 들어 있으면 그 역할. PRIVATE 에 걸리는 열은 절대 안 읽는다.
-PRIVATE = re.compile(r"연락|전화|휴대|핸드폰|메일|e-?mail|성명|이름|주무관|장학사|연구사|담당자|담당\s?공무원|직위|직급", re.I)
+PRIVATE = re.compile(r"연락|전화|휴대|핸드폰|메일|e-?mail|성명|이름|주무관|장학사|연구사|담당|직위|직급|소통자|작성자|기록자|상대|대상자", re.I)
 ROLES = [
     ("date", re.compile(r"일자|날짜|일시|소통일|접촉일|연락일|date", re.I)),
     ("region", re.compile(r"^지역$|시도|권역|지역")),
@@ -62,9 +62,12 @@ def detect_roles(header):
 
 def parse_date(s, default_year=2026):
     s = (s or "").strip()
-    m = re.search(r"(20\d{2})\D{1,3}(\d{1,2})\D{1,3}(\d{1,2})", s)
+    if re.fullmatch(r"4\d{4}(\.\d+)?", s):  # 스프레드시트 일련번호(1899-12-30 기준)
+        return date(1899, 12, 30) + timedelta(days=int(float(s)))
+    m = re.search(r"(20\d{2})\D{1,3}(\d{1,2})\D{1,3}(\d{1,2})", s) or re.search(r"(?<!\d)(2\d)[./-](\d{1,2})[./-](\d{1,2})", s)
     if m:
         y, mo, d = map(int, m.groups())
+        y = y + 2000 if y < 100 else y
     else:
         m = re.search(r"(?<!\d)(\d{1,2})\s?[./월-]\s?(\d{1,2})", s)
         if not m:
@@ -99,10 +102,17 @@ def load_matrix():
     return m, ope.STATUS.get("sheet_tab")
 
 
+DIAG = {}
+
+
 def parse(matrix):
     best = max(range(min(10, len(matrix))), key=lambda i: len(detect_roles(matrix[i])))
     header = matrix[best]
     roles = detect_roles(header)
+    # 진단(공개 저장소에 커밋): 머리글 이름과 날짜 열 표본만. 본문·이름 값은 남기지 않는다.
+    DIAG["header"] = [(h or "").strip()[:20] for h in header][:50]
+    if "date" in roles:
+        DIAG["date_samples"] = [r[roles["date"]] for r in matrix[best + 1:best + 40] if roles["date"] < len(r) and r[roles["date"]]][:5]
     rows = []
     for r in matrix[best + 1:]:
         g = lambda k: (r[roles[k]] if k in roles and roles[k] < len(r) else "") or ""
@@ -171,7 +181,7 @@ def main():
         records = pipe.get("records", [])
         matrix, tab = load_matrix()
         rows, roles, hrow = parse(matrix)
-        status.update({"tab": tab, "header_row": hrow, "roles": roles, "rows": len(rows),
+        status.update({"tab": tab, "header_row": hrow, "roles": roles, **DIAG, "rows": len(rows),
                        "dated": sum(1 for r in rows if r["date"])})
     except Exception as e:
         status["error"] = str(e)[:300]

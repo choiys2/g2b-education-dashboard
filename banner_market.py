@@ -16,7 +16,8 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 HERE = Path(__file__).parent
-DT_GID = os.environ.get("BANNER_DT_GID", "400854416")
+DT_GID = os.environ.get("BANNER_DT_GID", "400854416")  # 사용자가 준 링크(25타사DT). 올해 탭(26타사DT)이 있으면 그쪽을 쓴다
+DT_TITLE = r"^\s*'?2[6-9]\s*타사\s*DT"
 PIVOT_GIDS = {"theme": "1889843024", "region": "116759966"}
 STATUS_PATH = HERE / "history" / "banner_market_status.json"
 SELF = "비바샘"
@@ -98,7 +99,9 @@ def main():
         import own_pipeline_export as ope
         if not ope.SA_JSON:
             raise RuntimeError("GOOGLE_SHEETS_SA_JSON 없음")
-        m = ope.fetch_via_service_account(DT_GID)
+        gid = ope.find_gid(DT_TITLE) or DT_GID
+        status["gid"] = gid
+        m = ope.fetch_via_service_account(gid)
         status["tab"] = ope.STATUS.get("sheet_tab")
         for k, g in PIVOT_GIDS.items():
             try:
@@ -113,7 +116,9 @@ def main():
         return
     hrow = max(range(min(10, len(m))), key=lambda i: len(detect(m[i])))
     header, roles = m[hrow], detect(m[hrow])
-    status.update({"header_row": hrow + 1, "roles": {k: (header[i] or "").strip() for k, i in roles.items()}})
+    status.update({"header_row": hrow + 1, "roles": {k: (header[i] or "").strip() for k, i in roles.items()},
+                   "header": [(h or "").strip()[:20] for h in header][:40],
+                   "date_samples": [r[roles["date"]] for r in m[hrow + 1:hrow + 40] if "date" in roles and roles["date"] < len(r) and r[roles["date"]]][:5]})
     rows = []
     for r in m[hrow + 1:]:
         g = lambda k: (r[roles[k]] if k in roles and roles[k] < len(r) else "") or ""

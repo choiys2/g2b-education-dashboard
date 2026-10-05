@@ -85,6 +85,25 @@ def _sheets_api_get(url, access_token):
         return json.loads(resp.read().decode("utf-8"))
 
 
+def _sa_token():
+    from google.oauth2 import service_account
+    import google.auth.transport.requests as ga_requests
+    creds = service_account.Credentials.from_service_account_info(
+        json.loads(SA_JSON), scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"])
+    creds.refresh(ga_requests.Request())
+    return creds.token
+
+
+def find_gid(title_regex):
+    """탭 이름 정규식으로 gid 찾기(연도별 탭이 새로 생겨도 따라가도록). 없으면 None."""
+    meta = _sheets_api_get(f"https://sheets.googleapis.com/v4/spreadsheets/{SHEET_ID}?fields=sheets.properties", _sa_token())
+    for s in meta.get("sheets", []):
+        props = s.get("properties", {})
+        if re.search(title_regex, props.get("title", "")):
+            return str(props.get("sheetId"))
+    return None
+
+
 def fetch_via_service_account(gid=None):
     """서비스계정 자격증명으로 Sheets API v4를 호출해 values.get 결과를 gviz와
     동일한 {행렬} 형태로 반환한다. google-auth가 JWT 서명·토큰 교환을 처리한다."""
