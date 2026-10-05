@@ -1,5 +1,6 @@
 {
  "date": "2026-10-05",
  "model": "models/gemini-3.8-flash",
- "ok": true
+ "ok": false,
+ "error": "HTTP 429: b'{\\n  \"error\": {\\n    \"code\": 429,\\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a'"
 }
