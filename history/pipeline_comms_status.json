@@ -1,0 +1,16 @@
+{
+ "date": "2026-10-05",
+ "gid": "1083489926",
+ "tab": "26영업소통 DT",
+ "header_row": 1,
+ "roles": {
+  "region": "지역",
+  "date": "소통일자",
+  "course": "사업화",
+  "text": "소통자"
+ },
+ "rows": 4004,
+ "dated": 0,
+ "linked_courses": 3,
+ "unlinked_rows": 4003
+}
