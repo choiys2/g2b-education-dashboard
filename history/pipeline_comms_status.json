@@ -5,9 +5,17 @@
  "header_row": 1,
  "roles": {
   "region": "지역",
+  "org": "해당청",
+  "dept": "부서",
   "date": "소통일자",
-  "course": "사업화",
-  "text": "처리 사항 및  메모"
+  "won": "수주여부",
+  "wontype": "수주형태",
+  "text": "담당자미팅내용",
+  "text2": "처리 사항 및  메모",
+  "flag:현장방문": "현장방문",
+  "flag:계획서전달": "계획서전달",
+  "flag:사업화": "사업화",
+  "flag:과정개발": "과정개발"
  },
  "header": [
   "",
@@ -36,8 +44,8 @@
   "26/9/21",
   "26/9/21"
  ],
- "rows": 792,
- "dated": 790,
- "linked_courses": 3,
- "unlinked_rows": 791
+ "rows": 4007,
+ "dated": 3998,
+ "linked_courses": 77,
+ "unlinked_rows": 1987
 }

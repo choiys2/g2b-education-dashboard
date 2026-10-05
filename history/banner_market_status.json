@@ -7,10 +7,15 @@
  "header_row": 2,
  "roles": {
   "region": "지역",
+  "type": "종류",
   "org": "기관명",
   "theme": "연수분야",
+  "company": "주관사",
   "date": "배너게시",
-  "title": "연수제목"
+  "kind": "경쟁여부",
+  "title": "연수제목",
+  "target": "대상",
+  "courses": "과목개수"
  },
  "header": [
   "번호",
@@ -34,5 +39,5 @@
   "3월1주",
   "3월1주"
  ],
- "rows": 279
+ "rows": 283
 }
