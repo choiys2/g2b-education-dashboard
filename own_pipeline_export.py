@@ -28,8 +28,8 @@ import json, os, re, sys, urllib.request, urllib.parse, urllib.error
 from collections import defaultdict, Counter
 
 SHEET_ID = os.environ.get("PIPELINE_SHEET_ID", "1qF-wdKmD5buPLZKPwqIn9jA5fv69NDg1K6bUF4vo3Hw")
-# B2G 영업 시트(2026-10-05 사용자 지정). 헤더가 맞지 않으면 기존 탭(274729463)으로 자동 폴백한다.
-SHEET_GIDS = [g for g in os.environ.get("PIPELINE_SHEET_GID", "1739447705,274729463").split(",") if g.strip()]
+# 26운영DT 탭(gid 274729463, 2026-10-05 사용자 지정). 헤더가 맞지 않으면 다음 gid로 폴백한다.
+SHEET_GIDS = [g for g in os.environ.get("PIPELINE_SHEET_GID", "274729463,1739447705").split(",") if g.strip()]
 SHEET_GID = SHEET_GIDS[0]
 STATUS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "history", "pipeline_status.json")
 STATUS = {"sheet_tab": None, "gid": None, "header_row": None, "matched_headers": [], "missing_headers": [],
@@ -247,7 +247,8 @@ def main():
         STATUS["error"] = str(e)[:300]
         write_status()
         print(f"[경고] 시트 조회 실패(비공개로 전환됐거나 서비스계정 미공유일 수 있음): {e}", file=sys.stderr)
-        json.dump({"records": [], "kpi": {"total": 0}, "byRegion": {}, "byRep": {}, "byField": {}, "byMonth": {}},
+        json.dump({"records": [], "kpi": {"total": 0}, "byRegion": {}, "byRep": {}, "byField": {}, "byMonth": {},
+                   "source": {"error": STATUS["error"], "via": STATUS["via"]}},
                    open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         return
     STATUS["rows"] = len(records)
@@ -255,6 +256,10 @@ def main():
     records = anonymize_reps(records)
     analysis = analyze(records)
     analysis["records"] = records
+    import datetime
+    kst = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
+    analysis["source"] = {"tab": STATUS["sheet_tab"], "rows": len(records), "via": STATUS["via"],
+                          "fetched": kst.strftime("%Y-%m-%d %H:%M")}
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(analysis, f, ensure_ascii=False, indent=2)
     print(f"saved {out_path}: {len(records)}건, 안전 필드 {len(SAFE_FIELDS)}개만 사용")
