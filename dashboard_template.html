@@ -556,6 +556,8 @@
     width:100%;font-family:inherit;font-size:16px;color:var(--ink);background:var(--surface);
     border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:6px;
   }
+  .head-search{margin:14px 0 4px;}
+  .head-search .search-box{margin:0;}
   .search-box:focus{outline:2px solid var(--accent);outline-offset:1px;}
   .search-summary{font-size:13.5px;color:var(--ink-2);margin:8px 0 18px;line-height:1.6;}
   .search-summary b{color:var(--ink);}
@@ -664,6 +666,9 @@
       <a class="pill" href="./report.pdf" target="_blank" rel="noopener" style="text-decoration:none;">📄 PDF 리포트 다운로드</a>
       <a class="pill" href="./weekly.html" target="_blank" rel="noopener" style="text-decoration:none;">🗓 주간 보고(최근 7일)</a>
     </div>
+    <div class="head-search">
+      <input id="globalSearch" class="search-box" type="search" placeholder="통합검색 — 예: 경기 AI 1억 이상 / 초등학교 로봇 / 아이스크림미디어" aria-label="통합검색">
+    </div>
     <div class="wx" id="wxStrip" hidden>
       <div class="wx-head"><b>날씨</b>
         <div class="view-toggle" id="wxToggle" role="group" aria-label="날짜 선택">
@@ -682,10 +687,10 @@
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2b">AI·에듀테크 발주 리스트</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="school">학교단위 발주</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 중점·선도학교</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">영업 파이프라인</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="search">통합검색</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="search" hidden>통합검색</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">관계망</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="beta">베타 기능</button>
   </nav>
@@ -1478,9 +1483,9 @@
     <div class="callout">
       <div class="icon">i</div>
       <div>
-        <h3>(주)비상교육 자체 영업 파이프라인 (2026-06-24 기준 스냅샷)</h3>
+        <h3>B2G영업 — (주)비상교육 자체 영업 파이프라인 (구글시트 26운영DT 매일 연동)</h3>
         <p>담당 영업자는 &ldquo;영업자 A/B/C&rdquo;로 익명 표기했습니다. 목표금액·계약방식 등 사업 단위 정보는 시장 데이터(나라장터 종합·시장분석 탭)와 교차분석하기 위해 그대로 남겨뒀습니다.</p>
-        <p>기준: 총 54건. 지역별 점유율과 기회점수는 이 표본과 앞선 탭들의 시장 전체 데이터를 비교해 계산한 것입니다.</p>
+        <p>기준: 매 배포 때 구글시트에서 다시 읽은 전체 건수(아래 &lsquo;전체 사업 리스트&rsquo; 제목에 표시). 지역별 점유율과 기회점수는 이 표본과 앞선 탭들의 시장 전체 데이터를 비교해 계산한 것입니다.</p>
       </div>
     </div>
 
@@ -2096,13 +2101,12 @@
     <div class="callout">
       <div class="icon">i</div>
       <div>
-        <h3>통합검색 — 6개 탭을 한 번에 훑습니다</h3>
+        <h3>통합검색 결과 — 상단 검색창에서 6개 탭을 한 번에 훑습니다</h3>
         <p>지역명이나 금액 조건("경기 1억 이상"처럼)을 같이 입력하면 자동으로 인식합니다. 나머지 글자는 사업명·기관명·학교명 부분일치로 찾습니다. 자연어 생성형 AI가 아니라 규칙 기반 파서입니다.</p>
       </div>
     </div>
 
     <section class="panel">
-      <input id="globalSearch" class="search-box" type="text" placeholder="예: 경기 AI 1억 이상 / 초등학교 로봇 / 아이스크림미디어">
       <div class="search-summary" id="searchSummary"></div>
       <div id="searchResults"></div>
     </section>
@@ -5946,6 +5950,14 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
 /* ================= 통합검색 ================= */
 (function globalSearch(){
   const input = document.getElementById('globalSearch');
+  // 헤더 검색창: 입력하면 결과 화면(숨은 통합검색 탭)으로 전환, 지우면 직전 탭으로 복귀
+  let prevTab = null;
+  input.addEventListener('input', () => {
+    const cur = (document.querySelector('.tabbtn.active') || {}).dataset;
+    if (input.value.trim()) {
+      if (cur && cur.tab !== 'search') { prevTab = cur.tab; activateTab('search'); }
+    } else if (prevTab) { activateTab(prevTab); prevTab = null; }
+  });
   const summaryEl = document.getElementById('searchSummary');
   const resultsEl = document.getElementById('searchResults');
   const ALL_REGIONS = ['서울','부산','대구','인천','광주','대전','울산','세종','경기','강원','충북','충남','전북','전남','경북','경남','제주'];
@@ -5992,7 +6004,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       { key:'leading', label:'AI 중점·선도학교', items: LEADING_ROWS.filter(r =>
           (!region || r.소속지역===region) && !minAmount && textMatch(r.학교명, keyword))
         .map(r => ({ title:r.학교명, meta:`${r.소속지역} · ${r.유형}`, url:null })) },
-      { key:'pipeline', label:'영업 파이프라인', items: PIPE.records.filter(r =>
+      { key:'pipeline', label:'B2G영업', items: PIPE.records.filter(r =>
           (!region || r.region===region) && (!minAmount || toNum(r.targetAmount)>=minAmount) && textMatch(r.courseName+r.org, keyword))
         .map(r => ({ title:`${r.org} · ${r.courseName}`, meta:`${r.region||'-'} · ${fmtWon(toNum(r.targetAmount))}`, url:null })) },
     ];
