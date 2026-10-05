@@ -25,17 +25,23 @@ STATUS_PATH = HERE / "history" / "pipeline_comms_status.json"
 REGIONS = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원",
            "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
 # 열 역할: 머리글에 이 단어가 들어 있으면 그 역할. PRIVATE 에 걸리는 열은 절대 안 읽는다.
-PRIVATE = re.compile(r"연락|전화|휴대|핸드폰|메일|e-?mail|성명|이름|주무관|장학사|연구사|담당|직위|직급|소통자|작성자|기록자|상대|대상자", re.I)
+PRIVATE = re.compile(r"^(이름|성명|소통자|작성자|기록자|담당자|담당|상대|대상자)$|연락|전화|휴대|핸드폰|메일|e-?mail|주무관|장학사|연구사|직위|직급", re.I)
+# 실제 머리글(2026-10-05 진단): 월·지역·해당청·부서·이름·소통일자·현장방문·계획서전달·사업화·과정개발·소통자·
+# 수주여부·수주형태·담당자미팅내용·처리 사항 및 메모·메일주소·기타정보. 사업명 열이 없어 기관(해당청) 단위로 사업과 잇는다.
 ROLES = [
-    ("date", re.compile(r"일자|날짜|일시|소통일|접촉일|연락일|date", re.I)),
-    ("region", re.compile(r"^지역$|시도|권역|지역")),
-    ("org", re.compile(r"기관|교육청|지원청|학교명|발주처")),
-    ("course", re.compile(r"연수명|사업명|과정명|연수|사업")),
+    ("date", re.compile(r"소통일|일자|날짜|일시|접촉일|연락일|date", re.I)),
+    ("region", re.compile(r"^지역$|시도|권역")),
+    ("org", re.compile(r"해당청|교육청|지원청|기관|학교명|발주처")),
+    ("dept", re.compile(r"^부서$")),
+    ("course", re.compile(r"연수명|사업명|과정명")),
+    ("won", re.compile(r"수주\s?여부")),
+    ("wontype", re.compile(r"수주\s?형태")),
+    ("text", re.compile(r"미팅\s?내용|협의|내용|메모|처리|비고|이슈")),
+    ("text2", re.compile(r"처리|메모|비고")),
     ("kind", re.compile(r"유형|구분|방법|채널|방식")),
-    ("stage", re.compile(r"단계|상태|진행")),
-    ("text", re.compile(r"내용|소통|협의|메모|비고|요청|이슈|결과|특이|상황|대화")),
-    ("rep", re.compile(r"영업\s?담당|영업자|작성자")),
 ]
+# 활동 체크 열(값이 있으면 그 활동을 한 것으로 센다)
+FLAGS = ["현장방문", "계획서전달", "사업화", "과정개발"]
 PHONE = re.compile(r"\d{2,4}[-.\s)]\d{3,4}[-.\s]\d{4}")
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+")
 TITLED = re.compile(r"[가-힣]{2,4}\s?(장학사|장학관|주무관|연구사|연구관|선생님|교사|과장|팀장|사무관|부장|교감|교장|원장|국장|님)")
@@ -55,8 +61,14 @@ def detect_roles(header):
             continue
         for role, rx in ROLES:
             if role not in roles and rx.search(h):
+                if role == "text2" and roles.get("text") == i:
+                    continue
                 roles[role] = i
                 break
+    for f in FLAGS:
+        for i, h in enumerate(header):
+            if (h or "").strip() == f:
+                roles["flag:" + f] = i
     return roles
 
 
@@ -114,16 +126,30 @@ def parse(matrix):
     if "date" in roles:
         DIAG["date_samples"] = [r[roles["date"]] for r in matrix[best + 1:best + 40] if roles["date"] < len(r) and r[roles["date"]]][:5]
     rows = []
+    YES = re.compile(r"^(o|y|yes|v|✓|✔|●|○|true|1|완료|수주|진행|예)$", re.I)
     for r in matrix[best + 1:]:
         g = lambda k: (r[roles[k]] if k in roles and roles[k] < len(r) else "") or ""
-        txt = g("text")
+        txt = (g("text") + " " + g("text2")).strip()
         d = parse_date(g("date"))
-        if not (txt.strip() or g("course").strip()):
+        if not (txt or g("org").strip()):
             continue
+        flags = [f for f in FLAGS if YES.search(g("flag:" + f).strip()) or (g("flag:" + f).strip() and not re.fullmatch(r"x|n|no|-|0|false|미|없음", g("flag:" + f).strip(), re.I))]
+        won = g("won").strip()
         rows.append({"date": d, "region": g("region").strip() or region_of(g("org")), "org": g("org").strip(),
-                     "course": g("course").strip(), "kind": g("kind").strip(), "stage": g("stage").strip(),
-                     "text": scrub(txt)[:600]})
+                     "course": g("course").strip(), "kind": g("kind").strip(), "stage": "",
+                     "flags": flags, "won": bool(won) and bool(re.search(r"o|y|수주|완료|계약|확정|true", won, re.I)) and not re.search(r"미|x|n|불|실패|false", won, re.I),
+                     "wontype": g("wontype").strip()[:10], "text": scrub(txt)[:600]})
     return rows, {k: (header[i] or "").strip() for k, i in roles.items()}, best + 1
+
+
+def org_key(s):
+    s = norm(s)
+    for _ in range(3):
+        s = re.sub(r"(교육지원청|지원청|교육청|특별자치도|특별자치시|광역시|특별시|도|시)$", "", s)
+    for a, b in (("경상북", "경북"), ("경상남", "경남"), ("전라북", "전북"), ("전라남", "전남"), ("충청북", "충북"), ("충청남", "충남")):
+        if s == a:
+            s = b
+    return s
 
 
 def link(rows, records):
@@ -137,10 +163,12 @@ def link(rows, records):
         c, o = norm(row["course"]), norm(row["org"])
         hit = [i for i, kc, ko, _ in keys if kc and c and (kc in c or c in kc) and (not o or not ko or ko[:4] in o or o[:4] in ko)]
         if not hit and o:
-            hit = [i for i, kc, ko, _ in keys if ko and (ko == o or (len(o) >= 4 and (o in ko or ko in o)))]
+            ok_ = org_key(row["org"])
+            hit = [i for i, kc, ko, _ in keys if ko and (ko == o or (len(o) >= 4 and (o in ko or ko in o))
+                                                         or (len(ok_) >= 2 and org_key(records[i].get("org")) == ok_))]
         if not hit:
             unlinked += 1
-        for i in hit[:3]:
+        for i in hit[:6]:
             out[i].append(row)
     return out, unlinked
 
@@ -212,9 +240,31 @@ def main():
                     iss[k] += 1
                     issues_all[k] += 1
         days = (today - last).days if last else None
+        for r in rs:
+            for f in r.get("flags", []):
+                kinds[f] += 1
+                kinds_all[f] += 1
         per[i] = {"n": len(rs), "n30": n30, "prev30": prev30, "last": last.isoformat() if last else "",
-                  "days": days, "kinds": dict(kinds), "issues": dict(iss),
+                  "days": days, "kinds": dict(kinds), "issues": dict(iss), "won": sum(1 for r in rs if r.get("won")),
                   "signal": signal(rec.get("status"), len(rs), days, n30, prev30)}
+    linked_rows = {id(r) for v in linked.values() for r in v}
+    orgs = defaultdict(lambda: {"n": 0, "n30": 0, "region": "", "won": 0, "flags": defaultdict(int)})
+    for r in rows:
+        if id(r) in linked_rows or not r["org"]:
+            continue
+        o = orgs[r["org"][:20]]
+        o["n"] += 1
+        o["region"] = o["region"] or r["region"]
+        o["n30"] += 1 if r["date"] and (today - r["date"]).days <= 30 else 0
+        o["won"] += 1 if r.get("won") else 0
+        for f in r.get("flags", []):
+            o["flags"][f] += 1
+    no_deal = sorted([{"org": k, **{kk: (dict(vv) if kk == "flags" else vv) for kk, vv in v.items()}} for k, v in orgs.items()],
+                     key=lambda x: (-x["n30"], -x["n"]))[:40]
+    flags_all = defaultdict(int)
+    for r in rows:
+        for f in r.get("flags", []):
+            flags_all[f] += 1
     months = defaultdict(int)
     for r in rows:
         if r["date"] and r["date"].year >= today.year - 1:
@@ -222,6 +272,8 @@ def main():
     out.write_text(json.dumps({"available": True, "tab": tab, "rows": len(rows), "linked": len(linked), "unlinked": unlinked,
                                "fetched": (datetime.utcnow() + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M"),
                                "per": per, "kinds": dict(kinds_all), "issues": dict(issues_all),
+                               "flags": dict(flags_all), "won_rows": sum(1 for r in rows if r.get("won")),
+                               "no_deal_orgs": no_deal,
                                "issue_labels": [k for k, _ in ISSUES], "months": dict(sorted(months.items()))},
                               ensure_ascii=False), encoding="utf-8")
     STATUS_PATH.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")

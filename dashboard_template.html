@@ -1671,6 +1671,7 @@
         <div><p style="font-weight:800;margin:0 0 6px;">지역 × 업체 <span style="font-size:12px;color:var(--muted);font-weight:600;">자사 점유율 낮은 순</span></p><div class="tbl-wrap"><table class="data" id="bnRegion"></table></div></div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px;margin-top:14px;">
+        <div class="rfp-card"><div class="t">계약 방식별 업체 (경쟁여부)</div><div id="bnKind" style="margin-top:8px;"></div></div>
         <div class="rfp-card"><div class="t">월별 배너 수 (업체별 누적)</div><div id="bnMonths" style="margin-top:10px;"></div></div>
         <div class="rfp-card"><div class="t" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">최근 배너 <select id="bnCo" aria-label="업체" style="font:inherit;font-size:12px;"></select></div><div id="bnRecent" style="max-height:300px;overflow:auto;margin-top:8px;font-size:13px;"></div></div>
       </div>
@@ -1688,9 +1689,9 @@
       <div class="kpis" id="commsKpis" style="margin-bottom:14px;"></div>
       <div class="rfp-list" id="commsRegions" style="margin-bottom:14px;"></div>
       <div class="tbl-wrap"><table class="data" id="commsTable">
-        <thead><tr><th>지역</th><th>사업</th><th>상태</th><th>관리 신호</th><th class="num">소통 30일 / 이전 30일 / 전체</th><th>최근 소통</th><th>소통 유형</th><th>이슈 분류(건)</th></tr></thead><tbody></tbody>
+        <thead><tr><th>지역</th><th>사업</th><th>상태</th><th>관리 신호</th><th class="num">소통 30일 / 이전 30일 / 전체</th><th>최근 소통</th><th>활동(건)</th><th>이슈 분류(건)</th></tr></thead><tbody></tbody>
       </table></div>
-      <p class="tt-note">공개 범위: 숫자 지표만 싣습니다. 소통 원문·문장 요약, 장학사 이름, 연락처는 대시보드와 저장소 어디에도 없으며 외부 AI로도 보내지 않습니다. 이슈 분류는 소통 기록에 예산·일정·모집·계약·운영·민원·확대 관련 단어가 나온 건수를 범주 이름으로만 셉니다. 관리 신호: 주의 = 진행 중인데 30일 넘게 소통 없음, 관심 = 최근 30일 소통이 이전 30일의 절반 미만, 기록 없음 = 연결된 소통 기록 없음. 사업 연결은 연수명·기관명 일치로 자동 판단합니다.</p>
+      <p class="tt-note">공개 범위: 숫자 지표만 싣습니다. 소통 원문·문장 요약, 장학사 이름·부서 담당자·메일, 소통자(자사 담당) 이름은 대시보드와 저장소 어디에도 없으며 외부 AI로도 보내지 않습니다. 소통 기록은 교육청(해당청) 단위라 같은 기관의 사업들에 함께 집계됩니다. 이슈 분류는 소통 기록에 예산·일정·모집·계약·운영·민원·확대 관련 단어가 나온 건수를 범주 이름으로만 셉니다. 관리 신호: 주의 = 진행 중인데 30일 넘게 소통 없음, 관심 = 최근 30일 소통이 이전 30일의 절반 미만, 기록 없음 = 연결된 소통 기록 없음. 사업 연결은 연수명·기관명 일치로 자동 판단합니다.</p>
     </section>
 
     <section class="panel">
@@ -4095,6 +4096,11 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       </div></article>
     <article class="rfp-card"><div class="t">이슈 분류(소통 기록 건수)</div>
       ${(C.issue_labels || Object.keys(iss)).map(k => `<div style="display:flex;align-items:center;gap:8px;margin:6px 0;"><span style="width:36px;">${h(k)}</span><span style="flex:1;height:10px;background:var(--surface);border-radius:5px;overflow:hidden;"><span style="display:block;height:100%;width:${(iss[k] || 0) / imax * 100}%;background:var(--accent);"></span></span><span class="num" style="width:40px;text-align:right;">${fmt(iss[k] || 0)}</span></div>`).join('')}</article>
+    <article class="rfp-card"><div class="t">영업 활동(소통 기록 체크)</div>
+      ${Object.entries(C.flags || {}).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<div style="display:flex;justify-content:space-between;margin:6px 0;"><span>${h(k)}</span><b class="num">${fmt(v)}건</b></div>`).join('') || '<div style="color:var(--muted);">활동 체크 열 없음</div>'}
+      <div style="display:flex;justify-content:space-between;margin:10px 0 0;padding-top:8px;border-top:1px solid var(--border);"><span>수주 기록</span><b class="num">${fmt(C.won_rows || 0)}건</b></div></article>
+    <article class="rfp-card"><div class="t">소통 중인데 사업 리스트에 없는 기관 <span style="font-size:12px;color:var(--muted);font-weight:600;">신규 사업화 후보</span></div>
+      <div style="max-height:230px;overflow:auto;margin-top:6px;font-size:13px;">${(C.no_deal_orgs || []).slice(0, 25).map(o => `<div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);"><span>${h(o.region)} ${h(o.org)}</span><span class="num" style="white-space:nowrap;">30일 ${o.n30} · 전체 ${o.n}${o.won ? ` · 수주 ${o.won}` : ''}</span></div>`).join('') || '<div style="color:var(--muted);">없음</div>'}</div></article>
     <article class="rfp-card"><div class="t">월별 소통 건수</div><div style="display:flex;align-items:flex-end;gap:4px;height:110px;margin-top:10px;">
       ${Object.entries(mon).slice(-12).map(([m, v]) => `<div title="${h(m)} ${v}건" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;"><span style="font-size:10px;color:var(--muted);">${v}</span><span style="width:100%;background:var(--accent);border-radius:3px 3px 0 0;height:${Math.max(2, v / mmax * 80)}px;"></span><span style="font-size:10px;color:var(--muted);">${h(m.slice(5))}</span></div>`).join('')}</div></article>`;
   const SIG = {'주의': 'fit-불가', '관심': 'fit-확인', '기록 없음': 'fit-확인', '정상': 'fit-가능', '종료': ''};
@@ -4168,6 +4174,12 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;" title="${h(m)} ${t}건 · ${CO.map(c => c + ' ' + (v[c] || 0)).join(', ')}"><span style="font-size:10px;color:var(--muted);">${t}</span>
       <div style="width:100%;height:${t / mmax * 130}px;display:flex;flex-direction:column-reverse;border-radius:3px 3px 0 0;overflow:hidden;">${CO.map(c => `<span style="height:${(v[c] || 0) / (t || 1) * 100}%;background:${col(c)};"></span>`).join('')}</div>
       <span style="font-size:10px;color:var(--muted);">${h(m.slice(5))}</span></div>`; }).join('')}</div>`;
+  const KC = B.kind_co || {};
+  document.getElementById('bnKind').innerHTML = Object.keys(KC).length ? Object.entries(KC).map(([k, v]) => {
+    const t = Object.values(v).reduce((a, b) => a + b, 0) || 1;
+    return `<div style="margin:8px 0;"><div style="display:flex;justify-content:space-between;font-size:13px;"><b>${h(k)}</b><span class="num">${fmt(t)}건 · 자사 ${Math.round((v[SELF] || 0) / t * 100)}%</span></div>
+      <div style="display:flex;height:14px;border-radius:5px;overflow:hidden;margin-top:4px;">${CO.map(c => v[c] ? `<span title="${h(c)} ${v[c]}건" style="width:${v[c] / t * 100}%;background:${col(c)};"></span>` : '').join('')}</div></div>`;
+  }).join('') : '<div style="color:var(--muted);font-size:13px;">경쟁여부 열이 없습니다.</div>';
   const sel = document.getElementById('bnCo');
   sel.innerHTML = '<option value="">전체 업체</option>' + CO.filter(c => c !== '기타').map(c => `<option>${h(c)}</option>`).join('');
   const drawRecent = () => {
