@@ -140,7 +140,8 @@ def rows_from_matrix(matrix):
             if not field:
                 continue  # 화이트리스트 밖 컬럼은 절대 안 읽음
             v = row[i] if i < len(row) else ""
-            rec[field] = v
+            if str(v).strip() or field not in rec:  # 같은 머리글이 두 번 있으면(예: 계약진행) 값이 있는 쪽을 쓴다
+                rec[field] = v
         if any(str(v).strip() for v in rec.values()):
             records.append(rec)
     return records
