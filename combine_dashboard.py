@@ -405,6 +405,10 @@ def main():
     if b2s_market.get("available"):
         b2s_demand.write_csv("live/b2s_schools.csv")
     try:
+        pipe_comms = load("live/pipeline_comms.json")
+    except FileNotFoundError:
+        pipe_comms = {"available": False}
+    try:
         tour = load("live/tour_venues.json")
     except FileNotFoundError:
         tour = {"regions": {}}
@@ -442,7 +446,7 @@ def main():
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
-        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__B2S_MARKET_JSON__": b2s_market,
+        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__B2S_MARKET_JSON__": b2s_market,
         "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():
