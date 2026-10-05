@@ -8,6 +8,6 @@
  },
  "fetched": {},
  "probe": {
-  "opclTotal": "{\"TOTAL_CNT\":0,\"RESULT\":{\"CODE\":\"ERROR\",\"MESSAGE\":\"인증키가 유효하지 않습니다.\\\\n인증키가 없는 경우, 홈페이지에서 인증키를 신청하십시오.\"},\"RESULT_LIST\":[]}\n"
+  "opclTotal": "{\"TOTAL_CNT\":759,\"RESULT\":{\"CODE\":\"INFO\",\"MESSAGE\":\"정상 처리되었습니다.\"},\"RESULT_LIST\":[{\"IDX\":1,\"YMQ\":\"2024\",\"ITEM_CD1\":\"서울\",\"ITEM_CD2\":\"세입총계\",\"AMT\":14906726943355,\"ITEM_CD1_SEQ\":\"B10\"},{\"IDX\":2,\"YMQ\":\"2024\",\"ITEM_CD1\":\"서울\",\"ITEM_CD2\":\"세출총계\",\"AMT\":13891476239985,\"ITEM_CD1_SEQ\":\"B10\"},{\"IDX\":3,\"YMQ\":\"2024\",\"ITEM_CD1\":\"서울\",\"ITEM_CD2\":\"차액\",\"AMT\":1015250703370,\"ITEM_CD1_SEQ\":\"B10\"}]}\n"
  }
 }
