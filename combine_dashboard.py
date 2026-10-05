@@ -267,6 +267,7 @@ def build_pipe(pipeline_export, g2b_full, data_rows):
         "byRep": pipeline_export.get("byRep", {}),
         "byField": pipeline_export.get("byField", {}),
         "byMonth": pipeline_export.get("byMonth", {}),
+        "source": pipeline_export.get("source", {}),
     }
 
 
