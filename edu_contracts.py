@@ -119,7 +119,7 @@ def is_training(title):
     return bool(TRAIN_RE.search(t)) and not NOT_RE.search(t)
 
 
-def jbe(status, years):
+def jbe(status, years, max_pages=10):
     host, path = "www.jbe.go.kr", "/open/edufine/eduCntrlist1.jbe"
     rp = robots(host)
     base = f"https://{host}{path}"
@@ -133,7 +133,7 @@ def jbe(status, years):
         per[vk] = 0
         for y in years:
             for kw in KEYWORDS:
-                for page in range(1, 11):
+                for page in range(1, max_pages + 1):
                     q = {"fscl_y": y, "cntr_mthd_div_nm": "1인수의", "cntr_mthd_div": "1", "cntr_nm": kw,
                          "menuCd": "DOM_000001003001009000", "contentsSid": "3099", "cpath": "/open", "pageIndex": page, **variant}
                     html = get(f"{base}?{urlencode(q)}")
@@ -170,7 +170,7 @@ def gne(status, pages=8):
     return rows
 
 
-def sen(status, years):
+def sen(status, years, max_pages=30):
     """서울: 열린 서울교육 계약정보(학교 포함). 목록에는 계약일자·상대자가 없어 회계연도만 남는다."""
     host, path = "open.sen.go.kr", "/fus/MI000000000000000539/cntr/list0010v.do"
     rp = robots(host)
@@ -182,7 +182,7 @@ def sen(status, years):
     rows, pages, heads = [], 0, None
     for y in years:
         for kw in ("연수", "역량"):
-            for page in range(1, 31):
+            for page in range(1, max_pages + 1):
                 html = get(base, data={"pageIndex": page, "fscl_y": y, "cntr_mthd_div": "1", "cntr_purp_objt_div": "",
                                        "inst_clss_div": "", "cntr_nm": kw, "cntr_inst_nm": "", "cntr_amt": ""})
                 pages += 1
@@ -241,14 +241,22 @@ def pen(status, months):
 
 
 def main():
-    out = Path(sys.argv[1] if len(sys.argv) > 1 else "live/edu_contracts.json")
+    out = Path(sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "live/edu_contracts.json")
     today = date.today()
-    status = {"date": today.isoformat()}
+    status = json.loads(STATUS.read_text(encoding="utf-8")) if STATUS.exists() else {}
+    status["date"] = today.isoformat()
     years = [today.year, today.year - 1]
     fetched = []
     have = {json.loads(l).get("src") for l in HIST.read_text(encoding="utf-8").splitlines() if l.strip()} if HIST.exists() else set()
-    for name, fn in (("jbe", lambda: jbe(status, years)), ("gne", lambda: gne(status)), ("sen", lambda: sen(status, years)),
-                     ("pen", lambda: pen(status, 2 if "pen" in have else 12))):  # 부산: 첫 회 12개월 백필, 이후 최근 2개월
+    # 첫 회는 백필(전년도 포함·여러 쪽), 이후 매일은 올해 최신 몇 쪽만 읽는다(요청 수·시간 절약)
+    only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
+    jobs = (("jbe", lambda: jbe(status, years if "jbe" not in have else years[:1], 10 if "jbe" not in have else 3)),
+            ("gne", lambda: gne(status)),
+            ("sen", lambda: sen(status, years if "sen" not in have else years[:1], 30 if "sen" not in have else 5)),
+            ("pen", lambda: pen(status, 12 if "pen" not in have else 2)))
+    for name, fn in jobs:
+        if only and name not in only:
+            continue
         try:
             fetched += fn()
         except Exception as e:
