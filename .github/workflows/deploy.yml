@@ -227,14 +227,15 @@ jobs:
       # Gemini로 '오늘의 AI 브리핑' 생성 후 대시보드를 한 번 더 조합(조합 결과를 입력으로 쓰기 때문)
       - name: 오늘의 AI 브리핑 (Gemini)
         if: steps.combine.outcome == 'success'
-        timeout-minutes: 8
+        timeout-minutes: 15
         continue-on-error: true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python ai_insights.py live/ai_insights.json || true   # 화면 맨 위라 먼저(무료 한도 소진 전에)
-          python ai_drafts.py live/ai_drafts.json || true
-          python exec_story.py live/exec_story.json || true   # 경영 종합 지표 스토리라인 해석
+          # 스크립트마다 시간 상한을 둬 한 곳의 과부하 재시도가 다른 해석을 막지 않게 한다(중요한 순서대로)
+          timeout 180 python ai_insights.py live/ai_insights.json || true
+          timeout 150 python exec_story.py live/exec_story.json || true   # 경영 종합 지표 스토리라인 해석
+          timeout 240 python ai_drafts.py live/ai_drafts.json || true
           if [ -f live/ai_insights.json ] || [ -f live/ai_drafts.json ] || [ -f live/exec_story.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
 
       - name: 주간 보고(최근 7일) 생성
