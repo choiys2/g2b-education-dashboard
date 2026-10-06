@@ -124,5 +124,92 @@ def main():
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and "--deep" not in __import__("sys").argv:
     main()
+
+
+# ---------------------------------------------------------------- 2차 진단(--deep)
+# 1) 수집 가능 교육청(부산·전북): 표 머리글·첫 3행(셀 40자)·페이지 이동 방식 표본 -> 파서 설계용
+# 2) 목록 미확인 교육청: 사이트맵 페이지를 따라가 '수의계약' 링크 탐색, 목록 페이지의 iframe·스크립트 속 계약 주소 수집
+# 3) 공공데이터포털 수의계약 파일데이터 카탈로그(이름·기관·파일 주소)
+DEEP_OUT = HERE / "history" / "edu_contract_probe_deep.json"
+DEEP_KNOWN = {"부산": KNOWN["부산"], "전북": ["https://www.jbe.go.kr/index.jbe?menuCd=DOM_000001003001009000"],
+              "경남": ["https://www.gne.go.kr/www/buseo17/contractinfo/contractinfo09.jsp"]}
+DATASETS = ["15150722", "15149551", "15139139", "15154073", "15145393", "15137244", "15159509", "15142662",
+            "15149295", "15154993", "15153637", "15146957", "15155026", "15153760", "15153862", "15147897", "15144993"]
+CELL = re.compile(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", re.S | re.I)
+ROW = re.compile(r"<tr\b[^>]*>(.*?)</tr>", re.S | re.I)
+
+
+def sample(html, final):
+    rows = []
+    for r in ROW.findall(html)[:5]:
+        rows.append([re.sub(r"\s+", " ", TAG.sub("", c)).strip()[:40] for c in CELL.findall(r)][:12])
+    pag = list(dict.fromkeys(re.findall(r'href=["\']([^"\']*(?:page|Page|pageIndex|pageNo|currPage)[^"\']*)["\']', html)))[:4]
+    js = list(dict.fromkeys(re.findall(r"(?:fn_|go|move)[A-Za-z_]*[Pp]age\w*\([^)]*\)", html)))[:3]
+    forms = [(a[:120], re.findall(r'name=["\'](\w+)["\']', b)[:15]) for a, b in
+             re.findall(r'<form\b[^>]*action=["\']([^"\']*)["\'][^>]*>(.*?)</form>', html, re.S | re.I)][:3]
+    frames = re.findall(r'<iframe\b[^>]*src=["\']([^"\']+)["\']', html, re.I)[:3]
+    ajax = list(dict.fromkeys(re.findall(r'["\']([^"\'\s]*(?:jaai|Jaai|cntr|Cntr|contract|Contract|sugye|edufine)[^"\'\s]*)["\']', html)))[:8]
+    total = re.search(r"(?:총|전체)\s*(?:게시물|건수)?\s*[:：]?\s*([\d,]+)\s*건", TAG.sub(" ", html))
+    return {"final": final, "rows": rows, "paging_links": pag, "paging_js": js, "forms": forms, "iframes": frames,
+            "contract_urls": ajax, "total": total.group(1) if total else None, "len": len(html)}
+
+
+def deep():
+    out = {"date": date.today().isoformat(), "samples": {}, "discover": {}, "datasets": {}}
+    first = json.loads(OUT.read_text(encoding="utf-8")).get("offices", {}) if OUT.exists() else {}
+    for region, home in OFFICES:
+        host = urlparse(home).netloc
+        rp = urllib.robotparser.RobotFileParser()
+        code, txt, _ = get(f"https://{host}/robots.txt")
+        rp.parse(txt.splitlines() if code == 200 else [])
+        allowed = lambda u: rp.can_fetch(UA, u) if code == 200 else True
+        try:
+            if region in DEEP_KNOWN:
+                for u in DEEP_KNOWN[region]:
+                    if allowed(u):
+                        time.sleep(1)
+                        c, html, final = get(u)
+                        out["samples"][region] = {"code": c, **sample(html, final)}
+                continue
+            if first.get(region, {}).get("verdict") != "목록 미확인":
+                continue
+            time.sleep(1)
+            c, html, final = get(home)
+            found, visited = links(html, final, re.compile(r"수의계약")), []
+            for t, u in links(html, final, re.compile(r"사이트\s?맵|sitemap", re.I))[:2]:
+                if found or not allowed(u):
+                    break
+                time.sleep(1)
+                c2, h2, f2 = get(u)
+                visited.append((u, c2))
+                found += links(h2, f2, re.compile(r"수의계약"))
+            res = {"home_code": c, "sitemap": visited, "found": found[:5], "checked": []}
+            for t, u in found[:2]:
+                if not allowed(u):
+                    res["checked"].append({"url": u, "robots_allowed": False})
+                    continue
+                time.sleep(1)
+                c3, h3, f3 = get(u)
+                res["checked"].append({"url": u, "robots_allowed": True, "code": c3, **sample(h3, f3)})
+            out["discover"][region] = res
+        except Exception as e:
+            out["discover"][region] = {"error": str(e)[:200]}
+        print(region, "ok")
+    for ds in DATASETS:
+        try:
+            c, txt, _ = get(f"https://www.data.go.kr/catalog/{ds}/fileData.json")
+            d = json.loads(txt) if c == 200 else {}
+            dist = d.get("distribution") or []
+            out["datasets"][ds] = {"code": c, "name": d.get("name"), "publisher": (d.get("publisher") or {}).get("name") if isinstance(d.get("publisher"), dict) else d.get("publisher"),
+                                   "modified": d.get("dateModified"), "keywords": d.get("keywords"),
+                                   "files": [{k: x.get(k) for k in ("name", "encodingFormat", "contentUrl", "url")} for x in dist[:3]] if isinstance(dist, list) else dist}
+        except Exception as e:
+            out["datasets"][ds] = {"error": str(e)[:160]}
+        time.sleep(0.5)
+    DEEP_OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+if __name__ == "__main__" and "--deep" in __import__("sys").argv:
+    deep()
