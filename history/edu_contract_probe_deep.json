@@ -48,6 +48,183 @@
      ""
     ]
    ],
+   "selects": {
+    "fscl_y": [
+     [
+      "2014",
+      "2014"
+     ],
+     [
+      "2015",
+      "2015"
+     ],
+     [
+      "2016",
+      "2016"
+     ],
+     [
+      "2017",
+      "2017"
+     ],
+     [
+      "2018",
+      "2018"
+     ],
+     [
+      "2019",
+      "2019"
+     ],
+     [
+      "2020",
+      "2020"
+     ],
+     [
+      "2021",
+      "2021"
+     ],
+     [
+      "2022",
+      "2022"
+     ],
+     [
+      "2023",
+      "2023"
+     ],
+     [
+      "2024",
+      "2024"
+     ],
+     [
+      "2025",
+      "2025"
+     ]
+    ],
+    "cntr_purp_objt_div": [
+     [
+      "",
+      "전체"
+     ],
+     [
+      "1",
+      "공사"
+     ],
+     [
+      "2",
+      "물품"
+     ],
+     [
+      "3",
+      "용역"
+     ]
+    ],
+    "inst_clss_div": [
+     [
+      "",
+      "전체"
+     ],
+     [
+      "2",
+      "시도교육청"
+     ],
+     [
+      "3",
+      "지역교육청"
+     ],
+     [
+      "4",
+      "직속기관"
+     ],
+     [
+      "5",
+      "학교"
+     ]
+    ],
+    "cntr_mthd_div": [
+     [
+      "",
+      "전체"
+     ],
+     [
+      "1",
+      "수의"
+     ],
+     [
+      "2",
+      "입찰"
+     ]
+    ],
+    "fSiteLink": [
+     [
+      "http://open.sen.go.kr/welcome.do",
+      "부서선택"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu01/index.do",
+      "대변인"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu02/index.do",
+      "감사관"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu03/index.do",
+      "총무과"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu04/index.do",
+      "정책·안전기획관"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu05/index.do",
+      "예산담당관"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu06/index.do",
+      "행정관리담당관"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu07/index.do",
+      "참여협력담당관"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu08/index.do",
+      "노사협력담당관"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu09/index.do",
+      "대외협력담당관"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu10/index.do",
+      "교육혁신과"
+     ],
+     [
+      "https://buseo.sen.go.kr/buseo/bu11/index.do",
+      "유아교육과"
+     ]
+    ]
+   },
+   "inputs": [
+    "pageIndex",
+    "cntr_targ_no",
+    "ordr_fscl_y",
+    "cntr_inst_nm",
+    "cntr_amt",
+    "cntr_nm",
+    "actionUrl"
+   ],
+   "fnames": [
+    "fncSearch"
+   ],
+   "fbodies": [
+    "\t// 검색\r\n\t$(\"#pageIndex\").val(pageIndex);\r\n\t$(\"#frm\").attr({\"action\": \"/fus/MI000000000000000539/cntr/list0010v.do\", \"method\": \"post\"}).submit(); \r"
+   ],
+   "pager": [
+    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://ns.eat.co.kr/goToCtpvPage.jsp?gTctpvCd=1",
+    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=1&amp;q_searchKeyTy=&amp;q_searchVal=",
+    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=2&amp;q_searchKeyTy=&amp;q_searchVal=",
+    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=14&amp;q_searchKeyTy=&amp;q_searchVal="
+   ],
    "paging_links": [
     "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://ns.eat.co.kr/goToCtpvPage.jsp?gTctpvCd=1",
     "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=1&amp;q_searchKeyTy=&amp;q_searchVal=",
@@ -114,6 +291,181 @@
      "주식회사 가가건축사사무소"
     ]
    ],
+   "selects": {
+    "searchaccnutY": [
+     [
+      "2026",
+      "2026"
+     ],
+     [
+      "2025",
+      "2025"
+     ],
+     [
+      "2024",
+      "2024"
+     ],
+     [
+      "2023",
+      "2023"
+     ],
+     [
+      "2022",
+      "2022"
+     ],
+     [
+      "2021",
+      "2021"
+     ],
+     [
+      "2020",
+      "2020"
+     ],
+     [
+      "2019",
+      "2019"
+     ],
+     [
+      "2018",
+      "2018"
+     ],
+     [
+      "2017",
+      "2017"
+     ],
+     [
+      "2016",
+      "2016"
+     ],
+     [
+      "2015",
+      "2015"
+     ]
+    ],
+    "searchinstClCd": [
+     [
+      "2",
+      "시도교육청"
+     ],
+     [
+      "3",
+      "지역교육청"
+     ],
+     [
+      "4",
+      "직속기관"
+     ],
+     [
+      "5",
+      "학교"
+     ]
+    ],
+    "searchfond": [
+     [
+      "",
+      "전체"
+     ],
+     [
+      "1",
+      "국립"
+     ],
+     [
+      "2",
+      "공립"
+     ],
+     [
+      "3",
+      "사립"
+     ]
+    ],
+    "searchscl": [
+     [
+      "",
+      "전체"
+     ],
+     [
+      "1",
+      "유치원"
+     ],
+     [
+      "2",
+      "초등학교"
+     ],
+     [
+      "3",
+      "중학교"
+     ],
+     [
+      "4",
+      "고등학교"
+     ],
+     [
+      "5",
+      "특수학교"
+     ]
+    ],
+    "searchCate": [
+     [
+      "srchCntrctNm",
+      "계약명"
+     ],
+     [
+      "srchEntrpsNm",
+      "계약대상자"
+     ]
+    ]
+   },
+   "inputs": [
+    "keyword",
+    "sysId",
+    "sysName",
+    "searchinpSrchwrdNm",
+    "searchinstClCdTy1",
+    "searchinstClCdTy2",
+    "searchTxt",
+    "searchinpAmt",
+    "bDt",
+    "eDt",
+    "cntrctTgtNo",
+    "ifEsbSeqNo",
+    "PrvcntrPaymtReqSeq",
+    "currPage",
+    "instClCd",
+    "inpSrchwrd",
+    "inpSrchwrdNm",
+    "inpSrchwrdPrNm",
+    "inpAmt",
+    "fond",
+    "scl",
+    "instClCdTy1",
+    "instClCdTy2",
+    "accnutYear",
+    "inpBdt",
+    "inpEdt",
+    "orgCode",
+    "inpSrchCate",
+    "statDiv",
+    "inpSrchTxt",
+    "xssChk",
+    "maxSn",
+    "pageIndex",
+    "mi",
+    "minSn",
+    "paramNm",
+    "paramVal"
+   ],
+   "fnames": [
+    "searchPrvcntr",
+    "searchPrvcntrList",
+    "searchinit",
+    "goParamPage"
+   ],
+   "fbodies": [
+    "\r\n\t$(\"#inpSrchCate\").val($(\"#searchCate\").val());\r\n\t$(\"#inpSrchTxt\").val($(\"#searchTxt\").val());\r\n\t$(\"#statDiv\").val($(\"#searchStatDiv\").val());\r\n\t\r\n\tvar beginDtVal = $(\"#bDt\").val();\r\n\tvar endDtVal = $(\"#eDt\").val();\r\n\tvar beginDt = new Date($(\"#bDt\").datepicker(\"getDate\"));\r\n\tvar endDt = new Date($(\"#eDt\").datepicker(\"getDate\"));\r\n\t\r\n\tif( beginDtVal == \"\" || endDtVal == \"\"){\r\n\t\talert('검색할 데이터 기간을 입력하세요.(최대 1개월)');\r\n\t\treturn;\r",
+    "\r\n\t$('#currPage').val(1);\r\n\t\r\n\tvar instClCd = $(\"#searchinstClCd option:selected\").val();\r\n\t$(\"#instClCd\").val(instClCd);\r\n\tvar inpSrchwrd = $(\"#searchinpSrchwrd\").val();\r\n\t$(\"#inpSrchwrd\").val(inpSrchwrd);\r\n\tvar searchinpSrchwrdNm = $(\"#searchinpSrchwrdNm\").val();\r\n\t$(\"#inpSrchwrdNm\").val(searchinpSrchwrdNm);\r\n\tvar inpAmt = $(\"#searchinpAmt\").val();\r\n\t$(\"#inpAmt\").val(inpAmt);\r\n\tvar scl = $(\"#searchscl option:selected\").val();\r\n\t$(\"#scl\").val(scl);\r\n\tvar fond = $(\"#searchfond option:selected\").",
+    "\r\n\t$(\"#orgCode\").val(\"\");\r\n\t$(\"#instClCd\").val(\"\");\r\n\t$(\"#instNm\").val(\"\");\r\n\t$(\"#accnutYr\").val(\"\");\r\n\t$(\"#inpAmt\").val(\"1000000\");\r\n\t$(\"#inpBdt\").val(\"\");\r\n\t$(\"#inpEdt\").val(\"\");\r\n\t$(\"#inpSrchCate\").val(\"\");\r\n\t$(\"#statDiv\").val(\"\");\r\n\t$(\"#inpSrchTxt\").val(\"\");\r\n\t$(\"#scl\").val(\"\");\r\n\t$(\"#fond\").val(\"\");\r\n\t$(\"#instClCdTy1\").val(\"\");\r\n\t$(\"#instClCdTy2\").val(\"\");\r\n\t$(\"#inpSrchwrd\").val(\"\");\r\n\t$(\"#inpSrchwrdNm\").val(\"\");\r\n\t$(\"#inpSrchwrdPrNm\").val(\"\");\r\n\tdataLoadingStart();\r\n\t$('#irListProm').attr("
+   ],
+   "pager": [],
    "paging_links": [],
    "paging_js": [
     "goParamPage( setVal, setNm, setUrl )"
@@ -163,6 +515,9 @@
   "광주": {
    "error": "The read operation timed out"
   },
+  "대전": {
+   "error": "<urlopen error timed out>"
+  },
   "울산": {
    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
   },
@@ -171,9 +526,6 @@
   },
   "전남": {
    "error": "<urlopen error timed out>"
-  },
-  "경북": {
-   "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
   }
  },
  "datasets": {}
