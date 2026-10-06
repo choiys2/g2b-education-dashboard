@@ -20,8 +20,25 @@
  "gne": {
   "skipped": "robots"
  },
- "fetched": 1362,
- "training": 744,
- "new": 342,
- "total": 342
+ "sen": {
+  "pages": 60,
+  "rows": 600,
+  "head": [
+   "회계년도",
+   "발주기관",
+   "계약명",
+   "계약금액",
+   "진행상태"
+  ]
+ },
+ "pen": {
+  "pages": 96,
+  "rows": 0,
+  "months": 12,
+  "head": []
+ },
+ "fetched": 1962,
+ "training": 984,
+ "new": 274,
+ "total": 575
 }
