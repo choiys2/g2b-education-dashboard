@@ -219,24 +219,21 @@ def pen(status, months):
         for inst in ("2", "3", "4", "5"):
             for kw in ("연수", "역량"):
                 for page in range(1, 6):
-                    q = {"mi": "31735", "accnutYear": bdt.year, "instClCd": inst, "inpBdt": bdt.isoformat(), "inpEdt": edt.isoformat(),
-                         "inpSrchCate": "srchCntrctNm", "inpSrchTxt": kw, "inpAmt": "1000000", "currPage": page, "pageIndex": page}
-                    html = get(base, data=q) if mode.get("post") else get(f"{base}?{urlencode(q)}")
+                    # 화면 폼(irListProm)과 같은 값: 날짜는 YYYY/MM/DD, 주소에 mi를 붙여 POST
+                    q = {"mi": "31735", "accnutYear": bdt.year, "instClCd": inst, "inpBdt": bdt.strftime("%Y/%m/%d"),
+                         "inpEdt": edt.strftime("%Y/%m/%d"), "inpSrchCate": "srchCntrctNm", "inpSrchTxt": kw, "inpAmt": "1000000",
+                         "inpSrchwrd": "", "inpSrchwrdNm": "", "fond": "", "scl": "", "instClCdTy1": "", "instClCdTy2": "",
+                         "orgCode": "", "statDiv": "", "xssChk": "N", "currPage": page, "pageIndex": page}
+                    html = get(base + "?mi=31735", data=q)
                     pages += 1
                     got, heads = parse_table(html)
-                    if pages == 1 and not got and not mode.get("post"):  # GET이 안 먹으면 POST로 전환(폼은 POST 제출)
-                        diag["get_text"] = re.sub(r"\s+", " ", TAG.sub(" ", html))[:300]
-                        mode["post"] = True
-                        html = get(base, data=q)
-                        got, heads = parse_table(html)
-                        diag["post_rows"] = len(got)
-                        if not got:
-                            diag["post_text"] = re.sub(r"\s+", " ", TAG.sub(" ", html))[-600:]
+                    if pages == 1 and not got:
+                        diag["first_text"] = re.sub(r"\s+", " ", TAG.sub(" ", html))[-500:]
                     rows += [{**r, "sido": "부산", "src": "pen"} for r in got]
                     time.sleep(0.6)
                     if len(got) < 10:
                         break
-    status["pen"] = {"pages": pages, "rows": len(rows), "months": months, "post": bool(mode.get("post")), "diag": diag, "head": heads}
+    status["pen"] = {"pages": pages, "rows": len(rows), "months": months, "diag": diag, "head": heads}
     return rows
 
 
