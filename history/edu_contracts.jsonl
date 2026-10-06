@@ -1,3 +1,4 @@
+{"sido": "부산", "org": "서감초등학교", "school": true, "title": "2026학년도 2학기 학부모 연수비 지출", "date": "2026-10-02", "amount": 1750000, "vendor": "기타", "src": "pen"}
 {"sido": "부산", "org": "세정고등학교", "school": true, "title": "[AI역량] 2026학년도 AI역량강화 사업 [세정FLIX] 운영비 지출(홍보지원부)", "date": "2026-10-01", "amount": 2002000, "vendor": "기타 법인", "src": "pen"}
 {"sido": "전북", "org": "전주만성초등학교", "school": true, "title": "2026학년도 전북미래학교 회복적 생활교육 교원 연수 프로그램 운영비 지급(9. 30.)", "date": "2026-09-30", "amount": 1153410, "vendor": "기타 법인", "src": "jbe"}
 {"sido": "전북", "org": "전북특별자치도전주교육지원청", "school": false, "title": "2026년 하반기 AI 디지털 교육혁신 원격직무연수 위탁 용역 계약", "date": "2026-09-29", "amount": 7000000, "vendor": "비바샘연수원", "src": "jbe"}
@@ -308,6 +309,13 @@
 {"sido": "서울", "org": "서울매그넷고등학교", "school": true, "title": "2026학년도 서울매그넷고 중기부 산학맞춤반 중소기업 이해연수 및 AI역량강화캠프 위탁 용역", "date": "2026", "amount": 11562000, "vendor": "", "src": "sen"}
 {"sido": "서울", "org": "경희여자고등학교", "school": true, "title": "2026학년도 학부모 역량강화 프로그램(가죽공예) 강사비 및 재료비 지급", "date": "2026", "amount": 1879000, "vendor": "", "src": "sen"}
 {"sido": "서울", "org": "수도전기공업고등학교", "school": true, "title": "취업역량강화 프로그램 컨설팅비 - 7월", "date": "2026", "amount": 2500000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시북부교육지원청", "school": false, "title": "[행정]일반직공무원 관계 증진 및 재충전을 위한 연수(1차) 운영 시설이용 용역 계약", "date": "2026", "amount": 5490000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시성북강북교육지원청", "school": false, "title": "[통합]2026년 교육공무직원 청렴힐링연수 용역 계약", "date": "2026", "amount": 3236000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시중부교육지원청", "school": false, "title": "[계약체결] 2026 생활교육 업무 담당자 힐링 연수 운영 위탁", "date": "2026", "amount": 3508250, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시성북강북교육지원청", "school": false, "title": "[통합]2026년 학교통합지원과장 역량강화 워크숍 위탁 용역", "date": "2026", "amount": 1247400, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울논현초등학교", "school": true, "title": "[카드] 2026학년도 교직원 문화예술 역량강화 관람비", "date": "2026", "amount": 4140000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시남부교육지원청", "school": false, "title": "2026 하반기 남부 학교폭력 전담조사관 역량강화 연수 위탁 용역", "date": "2026", "amount": 3406590, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울인공지능고등학교", "school": true, "title": "[2026재구조화] 2026학년도 AI콘텐츠디자인과 2학기 교원역량강화 연수비 지출", "date": "2026", "amount": 4838400, "vendor": "", "src": "sen"}
 {"sido": "전북", "org": "글로벌학산고등학교", "school": true, "title": "중소기업특성화고인력양성사업 1,2학년 중소기업이해연수 위탁교육비", "date": "2025-12-31", "amount": 7400000, "vendor": "기타 법인", "src": "jbe"}
 {"sido": "전북", "org": "글로벌학산고등학교", "school": true, "title": "2025년 특성화고 미래역량강화사업 정서케어 프로그램 졸업식 운영 포토부스 대여비", "date": "2025-12-31", "amount": 3300000, "vendor": "기타 법인", "src": "jbe"}
 {"sido": "전북", "org": "전북베이커리고등학교", "school": true, "title": "[미래역량]2025학년도 미래역량강화사업 취업역량강화교육 실시", "date": "2025-12-31", "amount": 2400000, "vendor": "기타 법인", "src": "jbe"}

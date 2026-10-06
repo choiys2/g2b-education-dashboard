@@ -33,7 +33,7 @@
  },
  "pen": {
   "pages": 16,
-  "rows": 3,
+  "rows": 4,
   "months": 2,
   "diag": {
    "first_text": "('data-nm'); var paramUrl = $(this).attr('data-url'); $(\"#paramVal\").val(paramVal); $(\"#paramNm\").val(paramNm); setTrimMenuId(); $(\"#mainMenuForm\").attr('action', paramUrl).submit(); }); }); //파라미터 페이지 이동 function goParamPage( setVal, setNm, setUrl ) { $(\"#paramNm\").val(setNm); $(\"#paramVal\").val(setVal); setTrimMenuId(); $(\"#mainMenuForm\").attr('action', setUrl).submit(); }; //메뉴 아이디 공백제거 function setTrimMenuId(){ var nowMenuId = $.trim($(\"#nowMenuId\").val()); $(\"nowMenuId\").val(nowMenuId); }; "
@@ -49,8 +49,8 @@
    "계약대상자"
   ]
  },
- "fetched": 334,
- "training": 170,
- "new": 0,
- "total": 597
+ "fetched": 335,
+ "training": 168,
+ "new": 8,
+ "total": 605
 }
