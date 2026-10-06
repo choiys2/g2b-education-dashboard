@@ -18,7 +18,7 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -39,15 +39,15 @@ jobs:
           python own_pipeline_export.py live/own_pipeline_export.json
           python pipeline_comms.py live/pipeline_comms.json
           python banner_market.py live/banner_market.json
-      - name: 교육청 수의계약 공개 게시판 수집 가능성 진단
+      - name: 학교·교육청 연수 수의계약 수집(첫 백필)
         continue-on-error: true
-        timeout-minutes: 6
-        run: python edu_contract_probe.py --deep
+        timeout-minutes: 8
+        run: python edu_contracts.py /tmp/edu_contracts.json
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for f in history/eduinfo_status.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json history/edu_contract_probe.json history/edu_contract_probe_deep.json; do if [ -f "$f" ]; then git add "$f"; fi; done
+          for f in history/eduinfo_status.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json history/edu_contract_probe.json history/edu_contract_probe_deep.json history/edu_contracts.jsonl history/edu_contracts_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done
           git diff --cached --quiet && exit 0
           git commit -m "chore: API 키 점검 결과 (eduinfo)"
           for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep 5; done
