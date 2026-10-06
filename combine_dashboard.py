@@ -438,6 +438,12 @@ def main():
                                    pipe=pipe, comms=pipe_comms, b2s_market=b2s_market, rfp=rfp, early=early,
                                    leading_n=len(leading_rows), new_courses=new_courses.get("rows"), tour=tour,
                                    weather=weather, ai_brief=ai_brief)
+    with open("live/_exec_inputs.json", "w", encoding="utf-8") as f:
+        json.dump(exec_data, f, ensure_ascii=False)
+    try:
+        exec_data["story"] = load("live/exec_story.json")
+    except FileNotFoundError:
+        exec_data["story"] = None
     pipe["missed_opportunities"] = build_missed_opportunities(ai_rows, pipeline_export.get("records", []))
 
     # ---------- 5) BETA (경쟁사 트렌드 + 파이프라인 모멘텀 + 낙찰가 추정 + 추세 예측, 전부 "베타" 표시) ----------

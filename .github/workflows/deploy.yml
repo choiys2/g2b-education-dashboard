@@ -234,7 +234,8 @@ jobs:
         run: |
           python ai_insights.py live/ai_insights.json || true   # 화면 맨 위라 먼저(무료 한도 소진 전에)
           python ai_drafts.py live/ai_drafts.json || true
-          if [ -f live/ai_insights.json ] || [ -f live/ai_drafts.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
+          python exec_story.py live/exec_story.json || true   # 경영 종합 지표 스토리라인 해석
+          if [ -f live/ai_insights.json ] || [ -f live/ai_drafts.json ] || [ -f live/exec_story.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
 
       - name: 주간 보고(최근 7일) 생성
         if: steps.combine.outcome == 'success'
@@ -262,7 +263,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
-          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json history/schoolinfo_market.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json history/eduinfo_status.json history/ai_insights_status.json history/ai_insights_last.json history/rfp_analysis.jsonl history/ai_drafts_cache.json history/news_ai.jsonl history/tour_venues.json history/tour_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
+          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json history/schoolinfo_market.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json history/eduinfo_status.json history/ai_insights_status.json history/ai_insights_last.json history/exec_story_last.json history/rfp_analysis.jsonl history/ai_drafts_cache.json history/news_ai.jsonl history/tour_venues.json history/tour_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(TZ=Asia/Seoul date +%F)"
           # 2026-09-27: 카탈로그 크롤링 커밋과 겹쳐 push가 거부돼 그날 지표가 유실됐다.
           # 서로 다른 파일만 건드리므로 rebase 후 올리면 충돌 없이 합쳐진다.
