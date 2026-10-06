@@ -434,6 +434,33 @@
   .fit-불가{background:color-mix(in srgb, var(--danger, #d64545) 18%, transparent);color:var(--danger, #d64545);}
   .rfp-card .why{font-size:12px;color:var(--muted);margin:4px 0 6px;}
   .rfp-card .pitch{background:color-mix(in srgb, var(--accent) 8%, var(--surface));border-radius:8px;padding:6px 10px;}
+  .ex-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;}
+  .ex-summary .card{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface-2);}
+  .ex-summary .card b{display:block;font-size:14px;margin-bottom:6px;color:var(--ink);}
+  .ex-summary .card p{margin:0;font-size:13px;line-height:1.6;color:var(--ink-2);}
+  .ex-diagram-wrap{overflow-x:auto;}
+  #exDiagram{width:100%;min-width:760px;height:auto;display:block;}
+  #exDiagram .nd rect{fill:var(--surface-2);stroke:var(--border);}
+  #exDiagram .nd.mod rect{fill:color-mix(in srgb, var(--accent) 10%, var(--surface));stroke:color-mix(in srgb, var(--accent) 45%, var(--border));}
+  #exDiagram .nd.tab rect{fill:var(--surface);stroke:var(--accent);}
+  #exDiagram .nd.tab{cursor:pointer;}
+  #exDiagram .nd.tab:hover rect{fill:color-mix(in srgb, var(--accent) 16%, var(--surface));}
+  #exDiagram .nd.off rect{opacity:.45;}
+  #exDiagram text{fill:var(--ink);font-size:12px;font-family:inherit;}
+  #exDiagram text.sub{fill:var(--muted);font-size:10.5px;}
+  #exDiagram .lk{fill:none;stroke:var(--border);stroke-width:1.4;}
+  #exDiagram .lk.hot{stroke:var(--accent);stroke-width:2;}
+  #exDiagram .colh{fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.04em;}
+  .ex-pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
+  .ex-pillars .pl{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface-2);font-size:13px;line-height:1.6;}
+  .ex-pillars .pl .no{font-size:11px;font-weight:800;color:var(--accent);}
+  .ex-pillars .pl h4{margin:2px 0 6px;font-size:15px;}
+  .ex-pillars .pl .ev{margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);color:var(--muted);font-size:12px;}
+  .ex-pillars .pl ul{margin:4px 0 0;padding-left:18px;}
+  .ex-road{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+  .ex-road .q{border-left:3px solid var(--accent);padding:6px 12px;background:var(--surface-2);border-radius:0 10px 10px 0;font-size:13px;line-height:1.55;}
+  .ex-road .q b{display:block;font-size:12px;color:var(--accent);margin-bottom:4px;}
+  .ex-road .q ul{margin:0;padding-left:16px;}
   .ai-brief{border:1px solid color-mix(in srgb, var(--accent) 35%, var(--border));background:color-mix(in srgb, var(--accent) 7%, var(--surface));border-radius:12px;padding:14px 16px;margin-bottom:14px;}
   .ai-brief .hd{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--accent);margin-bottom:6px;}
   .ai-brief .hd small{font-weight:600;color:var(--muted);}
@@ -682,7 +709,8 @@
   </header>
 
   <nav class="tabnav" role="tablist">
-    <button class="tabbtn active" role="tab" aria-selected="true" data-tab="g2bfull">나라장터 종합</button>
+    <button class="tabbtn active" role="tab" aria-selected="true" data-tab="exec">경영 종합</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2bfull">나라장터 종합</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="market">시장 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2b">AI·에듀테크 발주 리스트</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="school">학교단위 발주</button>
@@ -1267,7 +1295,53 @@
 
   </div><!-- /panel-leading -->
 
-  <div class="tabpanel active" id="panel-g2bfull">
+  <div class="tabpanel active" id="panel-exec">
+
+    <section class="panel">
+      <div class="panel-head"><div>
+        <p class="panel-title">2027 경영·판매 방향<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">대시보드 전체 데이터 연계 &middot; 수치는 매일 자동 갱신</span></p>
+        <p class="panel-desc" id="exDesc"></p>
+      </div></div>
+      <div class="ex-summary" id="exSummary"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div>
+        <p class="panel-title">데이터 연계 다이어그램</p>
+        <p class="panel-desc">왼쪽 데이터 소스가 가운데 분석을 거쳐 오른쪽 화면(탭)으로 이어집니다. 숫자는 이번 배포에서 읽은 건수이고, 회색은 수집 대기입니다. 화면 상자를 누르면 해당 탭으로 이동합니다.</p>
+      </div></div>
+      <div class="ex-diagram-wrap"><svg id="exDiagram" role="img" aria-label="데이터 소스-분석-화면 연계도"></svg></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">핵심 지표</p><p class="panel-desc">각 탭의 근거 수치를 한곳에 모았습니다.</p></div></div>
+      <div class="kpis" id="exKpis"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">2027 경영 방향 &middot; 4대 축</p><p class="panel-desc">목표: B2G 40% : B2C+B2S 60%(2027), 샘몰 2026 H2 출시, 3 Core(샘브릿지·샘크리에이티브·샘콜라보) 재설계. 근거 수치는 오늘 데이터입니다.</p></div></div>
+      <div class="ex-pillars" id="exPillars"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">채널별 판매 방향</p></div></div>
+      <div class="tbl-wrap"><table class="data" id="exChannels">
+        <thead><tr><th>채널</th><th>2027 역할</th><th>우선 타깃</th><th>핵심 상품·방식</th><th>근거(오늘 데이터)</th><th>담당 Core</th></tr></thead><tbody></tbody>
+      </table></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><p class="panel-title">실행 로드맵 &middot; KPI</p></div></div>
+      <div class="ex-road" id="exRoad"></div>
+      <div class="tbl-wrap" style="margin-top:14px;"><table class="data" id="exKpiTable">
+        <thead><tr><th>KPI</th><th class="num">현재(오늘 데이터)</th><th class="num">2027 목표</th><th>측정 위치</th></tr></thead><tbody></tbody>
+      </table></div>
+      <p class="tt-note" id="exRisk"></p>
+    </section>
+
+  </div><!-- /panel-exec -->
+
+  <div class="tabpanel" id="panel-g2bfull">
 
     <div class="callout">
       <div class="icon">i</div>
@@ -2334,6 +2408,7 @@ const B2S_BOARD = __B2S_BOARD_JSON__;
 const PIPE = __PIPE_JSON__;
 const PIPE_COMMS = __PIPE_COMMS_JSON__;
 const BANNER = __BANNER_JSON__;
+const EXEC = __EXEC_JSON__;
 const BETA = __BETA_JSON__;
 
 const fmt = n => n.toLocaleString('ko-KR');
@@ -4188,6 +4263,136 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   };
   sel.addEventListener('change', drawRecent);
   drawRecent();
+})();
+
+// 경영 종합(exec_summary.py): 연계 다이어그램 + 2027 경영·판매 방향(수치 자동, 전략 고정)
+(function renderExec(){
+  const E = EXEC || {};
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => (v == null || v === '' ? '-' : fmt(v));
+  const M = E.market || {}, C = E.contracts || {}, B = E.banner, P = E.pipeline || {}, CM = E.comms, S = E.b2s, R = E.rfp || {};
+  const own = C.own || {}, r1 = (C.rivals || [])[0] || {}, r2 = (C.rivals || [])[1] || {};
+  const top = (M.top_topics || [])[0] || {};
+  const won = v => v ? fmtWon(v) : '-';
+  document.getElementById('exDesc').textContent = '나라장터·조달청 계약·NEIS·학교알리미·경쟁사 카탈로그·구글시트(운영·소통·배너)·조간 브리핑·Gemini 분석을 엮어 2027 방향을 정리했습니다. 수치는 매 배포 자동 갱신되고, 전략 문장은 분기마다 갱신합니다.';
+
+  // ① 핵심 요약
+  const sum = [
+    ['B2G는 관계 영업 시장', !C.total_n ? '조달청 계약정보 수집 후 표시됩니다.' : `최근 1년 교원연수 계약 ${n(C.total_n)}건 중 <b>${C.sui_share ?? '-'}%가 수의계약</b>. 자사 ${n(own.n)}건·평균 ${won(own.avg)} vs ${h(r1.name)} ${n(r1.n)}건·평균 ${won(r1.avg)} — 건수보다 <b>단가·대형 사업</b>에서 밀린다.`],
+    ['수요는 AI·디지털에 집중', `최근 12개월 연수 입찰 ${n(M.bids_12m)}건 중 1위 주제 <b>${h(top.name || '-')}</b>(${n(top.n)}건, 추천 ${top.score ?? '-'}점). 주제 미지정 원격 콘텐츠 공고 ${n(M.generic_n)}건(${won(M.generic_amt)})은 자사 콘텐츠 직판 기회.`],
+    ['B2S는 아직 빈 시장', S ? `전국 ${n(S.schools)}개 학교·교원 ${n(S.teachers)}명, 교원 60명 이상 대규모 학교 ${n(S.large)}곳. 자사 계약이 없는 큰 시장: <b>${h((S.white_regions || []).join('·') || '-')}</b>.` : '학교알리미 전국 수집 후 표시됩니다.'],
+    ['자사 파이프라인·배너', `운영 사업 ${n(P.n)}건(구글시트)${CM ? `, 소통 기록 ${n(CM.rows)}건 중 '주의'(30일+ 무소통) ${n((CM.signals || {})['주의'] || 0)}건` : ''}${B ? `. 연수 배너 점유 자사 <b>${B.own_share}%</b> vs ${h(B.lead)} ${B.lead_share}%` : ''}.`],
+  ];
+  document.getElementById('exSummary').innerHTML = sum.map(([t, p]) => `<div class="card"><b>${h(t)}</b><p>${p}</p></div>`).join('');
+
+  // ② 연계 다이어그램
+  const SRC = E.sources || {};
+  const srcs = [
+    ['g2b', '나라장터 입찰·낙찰·사전규격', ['market', 'comp', 'ai']],
+    ['contracts', '조달청 계약정보(수의 포함)', ['comp']],
+    ['neis', 'NEIS·AI 중점·선도학교', ['school']],
+    ['schoolinfo', '학교알리미 교원·학생 수', ['school']],
+    ['catalog', '경쟁사 강좌 카탈로그', ['comp', 'product']],
+    ['sheet_ops', '구글시트 26운영DT', ['sales']],
+    ['sheet_comms', '구글시트 26영업소통DT', ['sales']],
+    ['sheet_banner', '구글시트 26타사DT(배너)', ['comp', 'product']],
+    ['tour', '관광공사·기상청', ['sales']],
+    ['news', '조간 브리핑(언론)', ['ai']],
+    ['gemini', 'Gemini(제안요청서·초안·요약)', ['ai', 'product']],
+  ];
+  const mods = [
+    ['market', '시장·발주 분석', ['g2bfull', 'market', 'g2b', 'school']],
+    ['comp', '경쟁 분석', ['competitor', 'g2bfull']],
+    ['school', '학교 수요 분석', ['leading', 'b2s']],
+    ['product', '상품·콘텐츠 기획', ['b2s', 'competitor', 'g2bfull']],
+    ['sales', '자사 영업·사업관리', ['pipeline']],
+    ['ai', 'AI 분석·인사이트', ['g2bfull', 'pipeline']],
+  ];
+  const tabs = [['g2bfull', '나라장터 종합'], ['market', '시장 분석'], ['g2b', 'AI·에듀테크 발주'], ['school', '학교단위 발주'], ['leading', 'AI 중점·선도학교'], ['competitor', '경쟁사 연수 분석'], ['pipeline', 'B2G영업'], ['b2s', 'B2S·샘몰 기획']];
+  const W = 980, nh = 34, gap = 9, top0 = 34, cx = [12, 380, 720], cw = [250, 210, 230];
+  const H = top0 + srcs.length * (nh + gap) + 10;
+  const ys = (k, cnt) => { const span = srcs.length * (nh + gap) - gap; const step = span / cnt; return top0 + step * k + (step - nh) / 2; };
+  const pos = {};
+  srcs.forEach(([id], i) => pos['s:' + id] = {x: cx[0], y: top0 + i * (nh + gap), w: cw[0]});
+  mods.forEach(([id], i) => pos['m:' + id] = {x: cx[1], y: ys(i, mods.length), w: cw[1]});
+  tabs.forEach(([id], i) => pos['t:' + id] = {x: cx[2], y: ys(i, tabs.length), w: cw[2]});
+  const edges = [];
+  srcs.forEach(([id, , to]) => to.forEach(m => edges.push(['s:' + id, 'm:' + m])));
+  mods.forEach(([id, , to]) => to.forEach(t => edges.push(['m:' + id, 't:' + t])));
+  const path = (a, b) => { const A = pos[a], Bp = pos[b]; const x1 = A.x + A.w, y1 = A.y + nh / 2, x2 = Bp.x, y2 = Bp.y + nh / 2, mx = (x1 + x2) / 2; return `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`; };
+  const node = (key, label, sub, cls, off) => { const p = pos[key]; return `<g class="nd ${cls}${off ? ' off' : ''}" data-k="${key}" ${cls === 'tab' ? `data-tab="${key.slice(2)}" tabindex="0" role="link"` : ''}><rect x="${p.x}" y="${p.y}" width="${p.w}" height="${nh}" rx="8"/><text x="${p.x + 10}" y="${p.y + (sub ? 14 : 21)}">${h(label)}</text>${sub ? `<text class="sub" x="${p.x + 10}" y="${p.y + 27}">${h(sub)}</text>` : ''}</g>`; };
+  const svg = document.getElementById('exDiagram');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = `<text class="colh" x="${cx[0]}" y="18">데이터 소스</text><text class="colh" x="${cx[1]}" y="18">분석</text><text class="colh" x="${cx[2]}" y="18">대시보드 화면(클릭 이동)</text>`
+    + edges.map(([a, b]) => `<path class="lk" data-a="${a}" data-b="${b}" d="${path(a, b)}"/>`).join('')
+    + srcs.map(([id, label]) => { const c = SRC[id] || (id === 'tour' ? SRC.weather : 0); return node('s:' + id, label, c ? `${fmt(c)}건` : '수집 대기', 'src', !c); }).join('')
+    + mods.map(([id, label]) => node('m:' + id, label, '', 'mod')).join('')
+    + tabs.map(([id, label]) => node('t:' + id, label, '', 'tab')).join('');
+  const hot = key => svg.querySelectorAll('.lk').forEach(l => {
+    const a = l.dataset.a, b = l.dataset.b;
+    const on = key && (a === key || b === key || (key.startsWith('s:') && edges.some(([x, y]) => x === key && y === a)) || (key.startsWith('t:') && edges.some(([x, y]) => y === key && x === b)));
+    l.classList.toggle('hot', !!on);
+  });
+  svg.querySelectorAll('.nd').forEach(g => {
+    g.addEventListener('mouseenter', () => hot(g.dataset.k));
+    g.addEventListener('mouseleave', () => hot(null));
+    if (g.dataset.tab) {
+      const go = () => { activateTab(g.dataset.tab); writeHashState({tab: g.dataset.tab}); window.scrollTo({top: 0, behavior: 'smooth'}); };
+      g.addEventListener('click', go);
+      g.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+    }
+  });
+
+  // ③ 핵심 지표
+  document.getElementById('exKpis').innerHTML = [
+    ['연수 입찰(12개월)', n(M.bids_12m) + '건', `현재 공고 ${n(M.open_bids)} · 조기경보 ${n(M.early)}`],
+    ['계약(1년, 수의 포함)', n(C.total_n) + '건', `수의계약 ${C.sui_share ?? '-'}% · ${won(C.total_amt)}`],
+    ['자사 계약 점유(금액)', own.share != null ? own.share + '%' : '-', `${n(own.n)}건 · 평균 ${won(own.avg)}`],
+    ['자사 배너 점유', B ? B.own_share + '%' : '-', B ? `1위 ${h(B.lead)} ${B.lead_share}%` : '시트 연동 대기'],
+    ['B2S 대상 교원', S ? n(S.teachers) + '명' : '-', S ? `${n(S.schools)}개 학교 · 대규모 ${n(S.large)}곳` : '수집 대기'],
+    ['자사 운영 사업', n(P.n) + '건', CM ? `30일+ 무소통 ${n((CM.signals || {})['주의'] || 0)}건` : ''],
+  ].map(t => `<div class="kpi"><div class="lbl">${t[0]}</div><div class="val num">${t[1]}</div><div class="sup">${t[2]}</div></div>`).join('');
+
+  // ④ 4대 축(전략 고정 + 근거 수치 자동)
+  const pillars = [
+    ['1', 'B2G 수성 + 고단가화', ['수의계약 시장(관계 영업)은 담당 교육청 소통 주기 30일 이내 유지', '1억 이상 협상계약 입찰에 연 4건 이상 참가(제안요청서 AI 분석·참가 가능 판정 활용)', '기본 원격연수 → 집합·블렌디드 패키지로 건당 단가 상향'],
+      `근거: 자사 평균 계약 ${won(own.avg)} vs ${h(r1.name)} ${won(r1.avg)} · 수의계약 ${C.sui_share ?? '-'}%`],
+    ['2', 'B2S 학교 단체연수 확장', ['교원 60명 이상 대규모 학교·AI 중점·선도학교부터 학교 단위 단체연수 제안', '소규모 학교는 교육지원청 묶음 상품', '자사 계약 0건인 대형 시도 우선 진입'],
+      S ? `근거: 대규모 학교 ${n(S.large)}곳 · 자사 미진출 대형 시도 ${h((S.white_regions || []).join('·'))} · AI 중점·선도 ${n(E.leading_n)}곳` : '근거: 학교알리미 수집 후 표시'],
+    ['3', 'B2C·샘몰 상품 재편', ['수요 1위 주제(AI·디지털)와 경쟁 대비 공백 주제의 개인 과정 우선 개발', '연수+도서/교구 결합상품을 샘몰 출시(2026 H2) 주력 구성으로', '주제 미지정 원격 콘텐츠 공고에 자사 콘텐츠 직판'],
+      `근거: 1위 주제 ${h(top.name || '-')} ${n(top.n)}건 · 자사 ${n(top.own)}개 vs 경쟁사 평균 ${n(top.comp)}개${B && B.gap_themes.length ? ` · 배너 공백 테마 ${h(B.gap_themes.slice(0, 3).join('·'))}` : ''}`],
+    ['4', 'AI·데이터 기반 운영', ['입찰 Go/No-Go·제안요청서 분석으로 제안 준비 시간 단축', '사업 진행 신호(주의·관심)로 주간 영업회의 안건 자동화', '경영 종합 대시보드를 월간 경영회의 기본 자료로'],
+      `근거: 제안요청서 분석 ${n(R.n)}건 · 소통 기록 ${CM ? n(CM.rows) : '-'}건 자동 집계`],
+  ];
+  document.getElementById('exPillars').innerHTML = pillars.map(([no, t, items, ev]) => `<div class="pl"><div class="no">축 ${no}</div><h4>${h(t)}</h4><ul>${items.map(x => `<li>${h(x)}</li>`).join('')}</ul><div class="ev">${ev}</div></div>`).join('');
+
+  // ⑤ 채널별 판매 방향
+  const ch = [
+    ['B2G (교육청·연수원)', '수성·고단가 — 매출 비중 40%로 관리', '수의계약 기존 고객 + 1억↑ 협상 입찰', '집합·블렌디드 위탁, 정책 연수(AI·수업·평가)', `계약 ${n(own.n)}건 · 점유 ${own.share ?? '-'}% · 수의 ${C.sui_share ?? '-'}%`, '샘브릿지'],
+    ['B2S (학교 단체)', '성장 엔진 — 단체연수·학교 컨설팅', '대규모 학교·AI 중점·선도학교·미진출 시도', '학교 단위 단체연수, 지원청 묶음', S ? `교원 ${n(S.teachers)}명 · 대규모 학교 ${n(S.large)}곳` : '-', '샘콜라보'],
+    ['B2C (개인·샘몰)', '성장 엔진 — 개인 과정·결합상품', '자율연수 교사, 신규·저경력 교사', 'AI·디지털 개인 과정, 연수+도서·교구 SET', B ? `배너 점유 ${B.own_share}% · 공백 테마 ${(B.gap_themes || []).length}개` : '-', '샘크리에이티브'],
+    ['콘텐츠 공급(B2B2G)', '보완 — 교육청 원격 콘텐츠 공고 대응', '주제 미지정 원격 콘텐츠 공고', '기존 콘텐츠 라이선스·패키지', `${n(M.generic_n)}건 · ${won(M.generic_amt)}`, '샘크리에이티브'],
+  ];
+  document.querySelector('#exChannels tbody').innerHTML = ch.map(r => `<tr>${r.map((c, i) => `<td${i === 4 ? ' style="font-size:12px;"' : ''}>${i === 0 ? `<b>${h(c)}</b>` : h(c)}</td>`).join('')}</tr>`).join('');
+
+  // ⑥ 로드맵·KPI·리스크
+  const road = [
+    ['2026 Q4', ['국감 후(10/26~) 교육청 2027 예산 반영 영업', '샘몰 출시 상품 구성 확정(결합상품)', 'B2S 대규모 학교 리스트 시범 제안']],
+    ['2027 Q1', ['신학기 B2S 단체연수 본격 판매', '협상계약 입찰 체계(Go/No-Go) 운영', 'AI·디지털 신규 개인 과정 출시']],
+    ['2027 Q2', ['미진출 대형 시도 B2G·B2S 동시 공략', '집합·블렌디드 패키지 단가 상향', '경영 종합 월간 리뷰 정례화']],
+    ['2027 H2', ['채널 비중 점검(B2G 40% 목표)', '2028 예산 시즌 선제 제안', '3 Core 성과 평가·재배치']],
+  ];
+  document.getElementById('exRoad').innerHTML = road.map(([q, xs]) => `<div class="q"><b>${q}</b><ul>${xs.map(x => `<li>${h(x)}</li>`).join('')}</ul></div>`).join('');
+  const kpi = [
+    ['B2G : B2C+B2S 매출 비중', '현재 약 80 : 20(전략 기준)', '40 : 60', '경영 종합'],
+    ['자사 계약 평균 단가', won(own.avg), `${h(r2.name || '경쟁사')} 수준(${won(r2.avg)}) 근접`, '경쟁사 연수 분석·계약'],
+    ['1억 이상 수주', '0건(최근 1년)', '2건 이상', '나라장터 종합'],
+    ['자사 연수 배너 점유', B ? B.own_share + '%' : '-', '+10%p', 'B2G영업 · 배너'],
+    ['30일+ 무소통 진행 사업', CM ? n((CM.signals || {})['주의'] || 0) + '건' : '-', '0건', 'B2G영업 · 사업 진행 분석'],
+    ['B2S 계약 학교 수', '집계 체계 구축 필요', '대규모 학교 우선 100곳', 'B2S·샘몰 기획'],
+  ];
+  document.querySelector('#exKpiTable tbody').innerHTML = kpi.map(r => `<tr><td><b>${h(r[0])}</b></td><td class="num">${r[1]}</td><td class="num">${r[2]}</td><td style="font-size:12px;">${h(r[3])}</td></tr>`).join('');
+  document.getElementById('exRisk').textContent = '리스크: ① 교부금 개편·국감으로 2027 교육청 예산 보수화 ② 경쟁사의 학교 업무 AI 서비스 확장(연수 외 접점) ③ 수의계약 의존 — 담당자 교체 시 이탈. 조직: 샘브릿지(B2G 관계·입찰), 샘콜라보(B2S 학교·지원청), 샘크리에이티브(B2C·샘몰 상품·콘텐츠)로 채널 책임을 나누고, 이 탭의 KPI를 월간 회의에서 점검합니다. 현재 매출 비중 80:20은 전략 기준값이며 실제 매출 연동 전입니다.';
 })();
 
 (function renderInsightList(){

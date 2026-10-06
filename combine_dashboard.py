@@ -433,6 +433,11 @@ def main():
     except FileNotFoundError:
         ai_school_status = {"status": []}
     pipe = build_pipe(pipeline_export, g2b_full, data_rows)
+    import exec_summary
+    exec_data = exec_summary.build(full_live=full_live, topics=training_topic_data, contracts=contracts, banner=banner_market,
+                                   pipe=pipe, comms=pipe_comms, b2s_market=b2s_market, rfp=rfp, early=early,
+                                   leading_n=len(leading_rows), new_courses=new_courses.get("rows"), tour=tour,
+                                   weather=weather, ai_brief=ai_brief)
     pipe["missed_opportunities"] = build_missed_opportunities(ai_rows, pipeline_export.get("records", []))
 
     # ---------- 5) BETA (경쟁사 트렌드 + 파이프라인 모멘텀 + 낙찰가 추정 + 추세 예측, 전부 "베타" 표시) ----------
@@ -450,7 +455,7 @@ def main():
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
-        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__B2S_MARKET_JSON__": b2s_market,
+        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": exec_data, "__B2S_MARKET_JSON__": b2s_market,
         "__B2S_BOARD_JSON__": b2s,
     }
     for token, value in subs.items():
