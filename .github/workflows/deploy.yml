@@ -196,7 +196,7 @@ jobs:
 
       # 교육청 수의계약 공개(K-에듀파인 연계, S2B 거래 포함) - robots 허용 교육청만. history/edu_contracts.jsonl 누적
       - name: 학교·교육청 연수 수의계약
-        timeout-minutes: 8
+        timeout-minutes: 12
         continue-on-error: true
         run: python edu_contracts.py live/edu_contracts.json
 
