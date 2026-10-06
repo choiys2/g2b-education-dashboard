@@ -79,10 +79,12 @@ def generate_json(prompt, files=None, temperature=0.3, retries=3, as_text=False)
                     continue
                 time.sleep(30)  # 분당 한도 - 잠시 쉬고 재시도
                 continue
-            if e.code in (500, 503) and attempt < retries:  # 일시 과부하 - 잠시 뒤 재시도, 마지막엔 다른 모델로
-                time.sleep(15 * (attempt + 1))
-                if attempt == retries - 1 and _fallbacks:
+            if e.code in (500, 503) and attempt < retries:  # 일시 과부하 - 바로 다른 모델로 넘기고, 없으면 잠시 뒤 재시도
+                if _fallbacks:
                     _model[0] = _fallbacks.pop(0)
+                    time.sleep(3)
+                else:
+                    time.sleep(10 * (attempt + 1))
                 continue
             raise RuntimeError(mask(f"HTTP {e.code}: {e.read()[:200]!r}"))
         except (KeyError, IndexError, json.JSONDecodeError) as e:
