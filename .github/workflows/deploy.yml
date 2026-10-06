@@ -194,6 +194,12 @@ jobs:
           EDUINFO_KEY: ${{ secrets.EDUINFO_KEY }}
         run: python eduinfo_export.py live/eduinfo_export.json
 
+      # 교육청 수의계약 공개(K-에듀파인 연계, S2B 거래 포함) - robots 허용 교육청만. history/edu_contracts.jsonl 누적
+      - name: 학교·교육청 연수 수의계약
+        timeout-minutes: 8
+        continue-on-error: true
+        run: python edu_contracts.py live/edu_contracts.json
+
       # 기상청 단기예보(공공데이터포털 계정 공용 키) - 대시보드 머리말 날씨
       - name: 주요 도시 날씨
         timeout-minutes: 5
@@ -265,7 +271,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add history/daily_stats.jsonl history/competitor_wins.jsonl history/competitor_content_snapshot.json
-          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json history/schoolinfo_market.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json history/eduinfo_status.json history/eduinfo_finance.json history/ai_insights_status.json history/ai_insights_last.json history/exec_story_last.json history/rfp_analysis.jsonl history/ai_drafts_cache.json history/news_ai.jsonl history/tour_venues.json history/tour_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
+          for f in history/training_bids.jsonl history/training_bids.rules history/order_plans.jsonl history/competitor_contracts.jsonl history/competitor_contracts_status.json history/schoolinfo_status.json history/schoolinfo_market.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json history/eduinfo_status.json history/eduinfo_finance.json history/edu_contracts.jsonl history/edu_contracts_status.json history/ai_insights_status.json history/ai_insights_last.json history/exec_story_last.json history/rfp_analysis.jsonl history/ai_drafts_cache.json history/news_ai.jsonl history/tour_venues.json history/tour_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done   # 수집 실패로 파일이 없어도 위 지표 커밋은 진행
           git diff --cached --quiet || git commit -m "chore: 일일 지표 누적 $(TZ=Asia/Seoul date +%F)"
           # 2026-09-27: 카탈로그 크롤링 커밋과 겹쳐 push가 거부돼 그날 지표가 유실됐다.
           # 서로 다른 파일만 건드리므로 rebase 후 올리면 충돌 없이 합쳐진다.
