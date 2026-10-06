@@ -21,8 +21,8 @@
   "skipped": "robots"
  },
  "sen": {
-  "pages": 60,
-  "rows": 600,
+  "pages": 10,
+  "rows": 100,
   "head": [
    "회계년도",
    "발주기관",
@@ -35,10 +35,16 @@
   "pages": 96,
   "rows": 0,
   "months": 12,
+  "post": true,
+  "diag": {
+   "get_text": " K-에듀파인(자동연계) var netRetUrl = \"https://www.pen.go.kr/main/index.do?netRetUrl=/main/main.do\"; var returnUrl = $(location).attr('href'); returnUrl = returnUrl.replace(\"https://www.pen.go.kr\",\"\"); //returnUrl = returnUrl.replace(\"http://localhost\",\"\"); netRetUrl = \"https://www.pen.go.kr/main/index.do?n",
+   "post_rows": 0,
+   "post_text": "책회의 결과 위원회 심의결과 입찰/계약정보 발주계획 공고 개찰결과 계약정보 계약체결현황 계약변경현황 감리감독검사현황 대가지급현황 수의계약(1백만원 이상) 물품관리전환소요조회 계약도움방 학교입찰정보 같이쓰장 부산교육 재정정보 예산규모 교육비특별회계 및 기금회계 자료실 교육청예산현황 교육청결산현황 중기교육재정계획 재정분석 재정투자심사 지방보조금 재정공시 수업료 및 입학금현황 학교회계 예결산서공개 본청소속 학교(공립) 본청소속 학교(사립) 서부교육지원청 학교 남부교육지원청 학교 북부교육지원청 학교 동래교육지원청 학교 해운대교육지원청 학교 학교회계자료실 세입·세출 운용현황 예산절감(낭비)사례 부산교육통계 통계차트 교육통계연보 교육통계자료실 교육법령 교육규제 규제개선제안 자치법규 교육부행정지침 부산교육청기록관 기록관이란 기록관 연혁 조직 및 주요업무 시설현황 이용안내 기록물자료실 학교교육계획(교육계획서) 관련법령/지침 기록관리 관련기관 발간간행물 목록 공공누리 K-에듀파인(자동연계) 인쇄 페이스북 공유 트위터 공유 네이버밴드 공유 URL 복사 URL 복사 HOME 정보공개 입찰/계약정보 수의계약(1백만원 이상) K-에듀파인(자동연계) K-에듀파인(자동연계) 수기공개 "
+  },
   "head": []
  },
- "fetched": 1962,
- "training": 984,
- "new": 274,
+ "fetched": 100,
+ "training": 52,
+ "new": 0,
  "total": 575
 }
