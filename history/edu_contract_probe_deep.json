@@ -1,254 +1,55 @@
 {
  "date": "2026-10-06",
  "samples": {
-  "서울": {
-   "code": 200,
-   "final": "https://open.sen.go.kr/fus/MI000000000000000539/cntr/list0010v.do",
-   "rows": [
-    [
-     "회계년도",
-     "발주기관",
-     "계약명",
-     "계약금액",
-     "진행상태"
-    ],
-    [
-     "2026",
-     "서울특별시서부교육지원청",
-     "[기금회계](장기1차)서울불광초 그린스마트 미래학교 증개축 관급자재(자동",
-     "30,200,000",
-     ""
-    ],
-    [
-     "2026",
-     "서울특별시남부교육지원청",
-     "[교특회계]서울금천초 교사동 2, 3층 발코니 방수공사",
-     "47,688,000",
-     ""
-    ],
-    [
-     "2026",
-     "서울특별시남부교육지원청",
-     "신도림중 창조관 비선형 내진성능평가용역",
-     "28,026,000",
-     "계약이행중"
-    ],
-    [
-     "2026",
-     "옥정중학교",
-     "본관동 장애인편의시설 설치 소방 및 기타공사 설계용역",
-     "3,550,000",
-     ""
-    ],
-    [
-     "2026",
-     "서울특별시강서양천교육지원청",
-     "서울영도초외 1교(목동중) 외부창호개선 및 도장공사 설계용역",
-     "39,252,600",
-     ""
-    ]
-   ],
-   "selects": {
-    "fscl_y": [
-     [
-      "2014",
-      "2014"
-     ],
-     [
-      "2015",
-      "2015"
-     ],
-     [
-      "2016",
-      "2016"
-     ],
-     [
-      "2017",
-      "2017"
-     ],
-     [
-      "2018",
-      "2018"
-     ],
-     [
-      "2019",
-      "2019"
-     ],
-     [
-      "2020",
-      "2020"
-     ],
-     [
-      "2021",
-      "2021"
-     ],
-     [
-      "2022",
-      "2022"
-     ],
-     [
-      "2023",
-      "2023"
-     ],
-     [
-      "2024",
-      "2024"
-     ],
-     [
-      "2025",
-      "2025"
-     ]
-    ],
-    "cntr_purp_objt_div": [
-     [
-      "",
-      "전체"
-     ],
-     [
-      "1",
-      "공사"
-     ],
-     [
-      "2",
-      "물품"
-     ],
-     [
-      "3",
-      "용역"
-     ]
-    ],
-    "inst_clss_div": [
-     [
-      "",
-      "전체"
-     ],
-     [
-      "2",
-      "시도교육청"
-     ],
-     [
-      "3",
-      "지역교육청"
-     ],
-     [
-      "4",
-      "직속기관"
-     ],
-     [
-      "5",
-      "학교"
-     ]
-    ],
-    "cntr_mthd_div": [
-     [
-      "",
-      "전체"
-     ],
-     [
-      "1",
-      "수의"
-     ],
-     [
-      "2",
-      "입찰"
-     ]
-    ],
-    "fSiteLink": [
-     [
-      "http://open.sen.go.kr/welcome.do",
-      "부서선택"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu01/index.do",
-      "대변인"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu02/index.do",
-      "감사관"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu03/index.do",
-      "총무과"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu04/index.do",
-      "정책·안전기획관"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu05/index.do",
-      "예산담당관"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu06/index.do",
-      "행정관리담당관"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu07/index.do",
-      "참여협력담당관"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu08/index.do",
-      "노사협력담당관"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu09/index.do",
-      "대외협력담당관"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu10/index.do",
-      "교육혁신과"
-     ],
-     [
-      "https://buseo.sen.go.kr/buseo/bu11/index.do",
-      "유아교육과"
-     ]
-    ]
-   },
-   "inputs": [
-    "pageIndex",
-    "cntr_targ_no",
-    "ordr_fscl_y",
-    "cntr_inst_nm",
-    "cntr_amt",
-    "cntr_nm",
-    "actionUrl"
-   ],
-   "fnames": [
-    "fncSearch"
-   ],
-   "fbodies": [
-    "\t// 검색\r\n\t$(\"#pageIndex\").val(pageIndex);\r\n\t$(\"#frm\").attr({\"action\": \"/fus/MI000000000000000539/cntr/list0010v.do\", \"method\": \"post\"}).submit(); \r"
-   ],
-   "pager": [
-    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://ns.eat.co.kr/goToCtpvPage.jsp?gTctpvCd=1",
-    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=1&amp;q_searchKeyTy=&amp;q_searchVal=",
-    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=2&amp;q_searchKeyTy=&amp;q_searchVal=",
-    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=14&amp;q_searchKeyTy=&amp;q_searchVal="
-   ],
-   "paging_links": [
-    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://ns.eat.co.kr/goToCtpvPage.jsp?gTctpvCd=1",
-    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=1&amp;q_searchKeyTy=&amp;q_searchVal=",
-    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=2&amp;q_searchKeyTy=&amp;q_searchVal=",
-    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=14&amp;q_searchKeyTy=&amp;q_searchVal="
-   ],
-   "paging_js": [],
-   "forms": [],
-   "iframes": [],
-   "contract_urls": [
-    "/fus/MI000000000000000539/cntr/list0010v.do",
-    "cntr_targ_no",
-    "cntr_purp_objt_div",
-    "cntr_inst_nm",
-    "cntr_mthd_div",
-    "cntr_amt",
-    "cntr_nm",
-    "#cntr_targ_no"
-   ],
-   "total": "157277",
-   "len": 103453
-  },
   "부산": {
    "code": 200,
+   "full_js": {
+    "searchPrvcntr": "function searchPrvcntr() {\r\n\t$(\"#inpSrchCate\").val($(\"#searchCate\").val());\r\n\t$(\"#inpSrchTxt\").val($(\"#searchTxt\").val());\r\n\t$(\"#statDiv\").val($(\"#searchStatDiv\").val());\r\n\t\r\n\tvar beginDtVal = $(\"#bDt\").val();\r\n\tvar endDtVal = $(\"#eDt\").val();\r\n\tvar beginDt = new Date($(\"#bDt\").datepicker(\"getDate\"));\r\n\tvar endDt = new Date($(\"#eDt\").datepicker(\"getDate\"));\r\n\t\r\n\tif( beginDtVal == \"\" || endDtVal == \"\"){\r\n\t\talert('검색할 데이터 기간을 입력하세요.(최대 1개월)');\r\n\t\treturn;\r\n\t}\r\n\t\r\n\t// 기간 체크\r\n\tif ( beginDt != \"\" && endDt != \"\") {\r\n\t\tif( endDt - beginDt < 0){\r\n\t\t\talert('기간이 옳바르지 않습니다.');\r\n\t\t\treturn;\r\n\t\t}\r\n\t}\r\n\t\r\n\tvar cal = (endDt - beginDt)/(24 * 3600 * 1000);\r\n\t\r\n\tif(cal > 31){\r\n\t\talert(\"최대 1개월간 자료를 검색 할 수 있습니다.\");\r\n\t\treturn;\r\n\t}\r\n\t\r\n\tsearchPrvcntrList();\r\n}",
+    "searchPrvcntrList": "function searchPrvcntrList() {\r\n\t$('#currPage').val(1);\r\n\t\r\n\tvar instClCd = $(\"#searchinstClCd option:selected\").val();\r\n\t$(\"#instClCd\").val(instClCd);\r\n\tvar inpSrchwrd = $(\"#searchinpSrchwrd\").val();\r\n\t$(\"#inpSrchwrd\").val(inpSrchwrd);\r\n\tvar searchinpSrchwrdNm = $(\"#searchinpSrchwrdNm\").val();\r\n\t$(\"#inpSrchwrdNm\").val(searchinpSrchwrdNm);\r\n\tvar inpAmt = $(\"#searchinpAmt\").val();\r\n\t$(\"#inpAmt\").val(inpAmt);\r\n\tvar scl = $(\"#searchscl option:selected\").val();\r\n\t$(\"#scl\").val(scl);\r\n\tvar fond = $(\"#searchfond option:selected\").val();\r\n\t$(\"#fond\").val(fond);\r\n\tvar instClCdTy1 = $('input:checkbox[id=\"searchinstClCdTy1\"]').is(\":checked\");\r\n\tif(instClCdTy1) {\r\n\t\t$(\"#instClCdTy1\").val(\"4\");\r\n\t} else {\r\n\t\t$(\"#instClCdTy1\").val(\"\");\t\r\n\t}\r\n\tvar instClCdTy2 = $('input:checkbox[id=\"searchinstClCdTy2\"]').is(\":checked\");\r\n\tif(instClCdTy2) {\r\n\t\t$(\"#instClCdTy2\").val(\"5\");\r\n\t} else {\r\n\t\t$(\"#instClCdTy2\").val(\"\");\t\r\n\t}\r\n\tvar accnutYear = $(\"#searchaccnutY option:selected\").val(); \r\n\t$(\"#accnutYear\").val(accnutYear);\r\n\t\r\n\tvar inpBdt = $(\"#bDt\").val();\r\n\t$(\"#inpBdt\").val(inpBdt);\r\n\tvar inpEdt = $(\"#eDt\").val();\r\n\t$(\"#inpEdt\").val(inpEdt);\r\n\t\r\n\tif($(\"#inpAmt\").val() < 1000000){\r\n\t\talert(\"100만원이상의 금액을 검색하세요.\");\r\n\t\treturn false;\r\n\t} else {\r\n\t\t\r\n\t\tdataLoadingStart();\r\n\t}\r\n\t\r\n\t$('#irListProm').attr('action', '/main/ir/selectPrvcntrInfoList.do?mi=31735').submit();\r\n}",
+    "goParamPage": "function goParamPage( setVal, setNm, setUrl ) {\r\n\t$(\"#paramNm\").val(setNm);\r\n\t$(\"#paramVal\").val(setVal);\r\n\tsetTrimMenuId();\r\n\t$(\"#mainMenuForm\").attr('action', setUrl).submit();\r\n}"
+   },
+   "hidden": [
+    "<input type=\"hidden\" id=\"seoutSysId\" value=\"main\">",
+    "<input type=\"hidden\" name=\"sysId\" value=\"edubusan\">",
+    "<input type=\"hidden\" name=\"sysName\" value=\"부산광역시교육청\">",
+    "<input type=\"hidden\" id=\"leftCurrMi\" value=\"31735\">",
+    "<input type=\"hidden\" id=\"tabBaseMi\" value=\"31734\">",
+    "<input type=\"hidden\" id=\"tabUpperMi\" value=\"31735\">",
+    "<input type=\"hidden\" id=\"snsHtmlTitle\" value=\"부산광역시교육청\">",
+    "<input type=\"hidden\" id=\"snsMenuTitle\" value=\"K-에듀파인(자동연계)\">",
+    "<input type=\"hidden\" id=\"snsCurrMenuId\" value=\"31735\">",
+    "<input type=\"hidden\" id=\"copyUrl\" value=\"\">",
+    "<input type=\"hidden\" name=\"cntrctTgtNo\" id=\"cntrctTgtNo\">",
+    "<input type=\"hidden\" name=\"ifEsbSeqNo\" id=\"ifEsbSeqNo\">",
+    "<input type=\"hidden\" name=\"PrvcntrPaymtReqSeq\" id=\"PrvcntrPaymtReqSeq\">",
+    "<input type=\"hidden\" name=\"currPage\" id=\"currPage\">",
+    "<input type=\"hidden\" name=\"instClCd\" id=\"instClCd\" value=\"2\">",
+    "<input type=\"hidden\" name=\"inpSrchwrd\" id=\"inpSrchwrd\" value=\"\">",
+    "<input type=\"hidden\" name=\"inpSrchwrdNm\" id=\"inpSrchwrdNm\" value=\"\">",
+    "<input type=\"hidden\" name=\"inpSrchwrdPrNm\" id=\"inpSrchwrdPrNm\" value=\"\">",
+    "<input type=\"hidden\" name=\"inpAmt\" id=\"inpAmt\" value=\"1000000\">",
+    "<input type=\"hidden\" name=\"fond\" id=\"fond\" value=\"\">",
+    "<input type=\"hidden\" name=\"scl\" id=\"scl\" value=\"\">",
+    "<input type=\"hidden\" name=\"instClCdTy1\" id=instClCdTy1 value=\"\">",
+    "<input type=\"hidden\" name=\"instClCdTy2\" id=\"instClCdTy2\" value=\"\">",
+    "<input type=\"hidden\" name=\"accnutYear\" id=\"accnutYear\" value=\"2026\">",
+    "<input type=\"hidden\" name=\"inpBdt\" id=\"inpBdt\" value=\"2026/09/06\">",
+    "<input type=\"hidden\" name=\"inpEdt\" id=\"inpEdt\" value=\"2026/10/06\">",
+    "<input type=\"hidden\" name=\"orgCode\" id=\"orgCode\" value=\"\">",
+    "<input type=\"hidden\" name=\"inpSrchCate\" id=\"inpSrchCate\" value=\"\">",
+    "<input type=\"hidden\" name=\"statDiv\" id=\"statDiv\" value=\"\">",
+    "<input type=\"hidden\" name=\"inpSrchTxt\" id=\"inpSrchTxt\" value=\"\">",
+    "<input type=\"hidden\" name=\"currPage\" value=\"1\" />",
+    "<input type=\"hidden\" name=\"xssChk\" value=\"N\" />",
+    "<input type=\"hidden\" name=\"maxSn\" value=\"15\" />",
+    "<input type=\"hidden\" name=\"inpAmt\" value=\"1000000\" />",
+    "<input type=\"hidden\" name=\"inpEdt\" value=\"2026/10/06\" />",
+    "<input type=\"hidden\" name=\"pageIndex\" value=\"15\" />",
+    "<input type=\"hidden\" name=\"instClCd\" value=\"2\" />",
+    "<input type=\"hidden\" name=\"inpBdt\" value=\"2026/09/06\" />",
+    "<input type=\"hidden\" name=\"accnutYear\" value=\"2026\" />",
+    "<input type=\"hidden\" name=\"mi\" value=\"31735\" />"
+   ],
    "final": "https://www.pen.go.kr/main/ir/selectPrvcntrInfoList.do?mi=31735",
    "rows": [
     [
@@ -514,9 +315,6 @@
  "discover": {
   "광주": {
    "error": "The read operation timed out"
-  },
-  "대전": {
-   "error": "<urlopen error timed out>"
   },
   "울산": {
    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
