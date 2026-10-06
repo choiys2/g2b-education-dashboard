@@ -134,9 +134,7 @@ if __name__ == "__main__" and "--deep" not in __import__("sys").argv:
 # 3) 공공데이터포털 수의계약 파일데이터 카탈로그(이름·기관·파일 주소)
 ONLY_KNOWN = True
 DEEP_OUT = HERE / "history" / "edu_contract_probe_deep.json"
-DEEP_KNOWN = {"서울": ["https://open.sen.go.kr/fus/MI000000000000000539/cntr/list0010v.do"],
-              "부산": ["https://www.pen.go.kr/main/ir/selectPrvcntrInfoList.do?mi=31735"],
-              "광주": ["https://www.gen.go.kr/opengen/kedu/index.php?mode=jaai001f_list"]}
+DEEP_KNOWN = {"부산": ["https://www.pen.go.kr/main/ir/selectPrvcntrInfoList.do?mi=31735"]}
 DATASETS = ["15150722", "15149551", "15139139", "15154073", "15145393", "15137244", "15159509", "15142662",
             "15149295", "15154993", "15153637", "15146957", "15155026", "15153760", "15153862", "15147897", "15144993"]
 CELL = re.compile(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", re.S | re.I)
@@ -160,7 +158,13 @@ def sample(html, final):
     fnames = list(dict.fromkeys(re.findall(r"function\s+(\w*(?:[Pp]age|[Ss]earch|[Ll]ist|[Ss]ubmit)\w*)\s*\(", html)))[:10]
     bodies = [m[:500] for m in re.findall(r"function\s+\w*(?:[Pp]age|[Ss]earch)\w*\s*\([^)]*\)\s*\{(.*?)\n\s*\}", html, re.S)][:3]
     pager = re.findall(r'<(?:a|button)\b[^>]*(?:onclick|href)=["\']([^"\']*(?:[Pp]age|currPage|pageIndex)[^"\']*)["\']', html)[:4]
-    return {"final": final, "rows": rows, "selects": selects, "inputs": inputs, "fnames": fnames, "fbodies": bodies, "pager": pager, "paging_links": pag, "paging_js": js, "forms": forms, "iframes": frames,
+    full_js = {}
+    for fn in ("searchPrvcntr", "searchPrvcntrList", "goParamPage"):
+        m = re.search(r"function\s+" + fn + r"\s*\(.*?\n\}", html, re.S)
+        if m:
+            full_js[fn] = m.group(0)[:2500]
+    hidden = re.findall(r'<input\b[^>]*type=["\']hidden["\'][^>]*>', html, re.I)[:40]
+    return {"full_js": full_js, "hidden": hidden, "final": final, "rows": rows, "selects": selects, "inputs": inputs, "fnames": fnames, "fbodies": bodies, "pager": pager, "paging_links": pag, "paging_js": js, "forms": forms, "iframes": frames,
             "contract_urls": ajax, "total": total.group(1) if total else None, "len": len(html)}
 
 
