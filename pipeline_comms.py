@@ -201,6 +201,90 @@ def signal(status, n, days, n30, prev30):
     return "정상"
 
 
+WONTYPE = re.compile(r"수의|입찰|협상|공모|위탁|자체|B2S|학교")
+
+
+def conversion(rows, records, today):
+    """소통 -> 수주 전환(기관 단위 집계, 숫자만). 수주 = 소통 기록의 수주여부 표시 또는 운영DT(수주 사업)에 같은 기관이 있음."""
+    rec_keys = {org_key(r.get("org")) for r in records if r.get("org")}
+    rec_keys.discard("")
+    orgs = defaultdict(lambda: {"n": 0, "flags": defaultdict(int), "won_row": False, "first_won": None,
+                                "dates": [], "region": ""})
+    for r in rows:
+        k = org_key(r["org"])
+        if len(k) < 2:
+            continue
+        o = orgs[k]
+        o["n"] += 1
+        o["region"] = o["region"] or r["region"]
+        for f in r.get("flags", []):
+            o["flags"][f] += 1
+        if r["date"]:
+            o["dates"].append(r["date"])
+        if r.get("won"):
+            o["won_row"] = True
+            if r["date"] and (not o["first_won"] or r["date"] < o["first_won"]):
+                o["first_won"] = r["date"]
+    if not orgs:
+        return {}
+    for k, o in orgs.items():
+        o["won"] = o["won_row"] or k in rec_keys
+
+    def rate(group):
+        g = list(group)
+        w = sum(1 for o in g if o["won"])
+        return {"orgs": len(g), "won": w, "rate": round(w / len(g) * 100, 1) if g else None}
+    allo = list(orgs.values())
+    buckets = [("1회", 1, 1), ("2~3회", 2, 3), ("4~9회", 4, 9), ("10~19회", 10, 19), ("20회+", 20, 10 ** 9)]
+    by_n = [{"label": lb, **rate(o for o in allo if lo <= o["n"] <= hi)} for lb, lo, hi in buckets]
+    by_flag = []
+    for f in FLAGS:
+        by_flag.append({"label": f, "yes": rate(o for o in allo if o["flags"].get(f)), "no": rate(o for o in allo if not o["flags"].get(f))})
+    combos = [("소통만(활동 체크 없음)", lambda o: not o["flags"]),
+              ("현장방문만", lambda o: o["flags"].get("현장방문") and not o["flags"].get("계획서전달")),
+              ("계획서전달만", lambda o: o["flags"].get("계획서전달") and not o["flags"].get("현장방문")),
+              ("현장방문+계획서전달", lambda o: o["flags"].get("현장방문") and o["flags"].get("계획서전달")),
+              ("현장방문 2회+ & 계획서전달", lambda o: o["flags"].get("현장방문", 0) >= 2 and o["flags"].get("계획서전달"))]
+    by_combo = [{"label": lb, **rate(o for o in allo if fn(o))} for lb, fn in combos]
+    reg = defaultdict(list)
+    for o in allo:
+        reg[o["region"] or "미정"].append(o)
+    by_region = sorted([{"region": k, **rate(v), "avg_n": round(sum(o["n"] for o in v) / len(v), 1)} for k, v in reg.items()],
+                       key=lambda x: -x["orgs"])
+    # 수주까지: 수주 표시가 있는 기관의 첫 소통 ~ 첫 수주 표시 사이 소통 횟수·일수
+    lead_n, lead_d = [], []
+    for o in allo:
+        if o["first_won"] and o["dates"]:
+            first = min(o["dates"])
+            lead_n.append(sum(1 for d in o["dates"] if d <= o["first_won"]))
+            lead_d.append((o["first_won"] - first).days)
+    med = lambda xs: sorted(xs)[len(xs) // 2] if xs else None
+    won_o, lost_o = [o for o in allo if o["won"]], [o for o in allo if not o["won"]]
+    avg = lambda g, fn: round(sum(fn(o) for o in g) / len(g), 1) if g else None
+    # 아직 수주 없는 기관 중 '수주 기관 평균 이상으로 소통한' 곳 = 전환 임박 후보(숫자만)
+    won_avg = avg(won_o, lambda o: o["n"]) or 0
+    hot = [o for o in lost_o if o["n"] >= won_avg and any((today - d).days <= 60 for d in o["dates"])]
+    return {"orgs": len(allo), "won_orgs": len(won_o), "rate": round(len(won_o) / len(allo) * 100, 1),
+            "by_n": by_n, "by_flag": by_flag, "by_combo": by_combo, "by_region": by_region,
+            "lead": {"n": len(lead_n), "median_contacts": med(lead_n), "median_days": med(lead_d)},
+            "won_avg": {"n": won_avg, "visit": avg(won_o, lambda o: o["flags"].get("현장방문", 0)),
+                        "plan": avg(won_o, lambda o: o["flags"].get("계획서전달", 0))},
+            "lost_avg": {"n": avg(lost_o, lambda o: o["n"]), "visit": avg(lost_o, lambda o: o["flags"].get("현장방문", 0)),
+                         "plan": avg(lost_o, lambda o: o["flags"].get("계획서전달", 0))},
+            "hot": {"count": len(hot), "by_region": dict(sorted(((r, sum(1 for o in hot if (o["region"] or "미정") == r))
+                                                                  for r in {o["region"] or "미정" for o in hot}), key=lambda x: -x[1]))},
+            "wontype": dict(sorted(((k, v) for k, v in _wontypes(rows).items()), key=lambda x: -x[1]))}
+
+
+def _wontypes(rows):
+    c = defaultdict(int)
+    for r in rows:
+        if r.get("won"):
+            m = WONTYPE.search(r.get("wontype") or "")
+            c[m.group(0) if m else "기타"] += 1
+    return c
+
+
 def main():
     out = Path(sys.argv[1] if len(sys.argv) > 1 else "live/pipeline_comms.json")
     status = {"date": date.today().isoformat(), "gid": COMMS_GID}
@@ -265,6 +349,12 @@ def main():
     for r in rows:
         for f in r.get("flags", []):
             flags_all[f] += 1
+    try:
+        conv = conversion(rows, records, today)
+        status["conversion"] = {"orgs": conv.get("orgs"), "won_orgs": conv.get("won_orgs")}
+    except Exception as e:
+        conv = {}
+        status["conversion"] = {"error": str(e)[:200]}
     months = defaultdict(int)
     for r in rows:
         if r["date"] and r["date"].year >= today.year - 1:
@@ -274,7 +364,8 @@ def main():
                                "per": per, "kinds": dict(kinds_all), "issues": dict(issues_all),
                                "flags": dict(flags_all), "won_rows": sum(1 for r in rows if r.get("won")),
                                "no_deal_orgs": no_deal,
-                               "issue_labels": [k for k, _ in ISSUES], "months": dict(sorted(months.items()))},
+                               "issue_labels": [k for k, _ in ISSUES], "months": dict(sorted(months.items())),
+                               "conversion": conv},
                               ensure_ascii=False), encoding="utf-8")
     STATUS_PATH.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"소통 분석: {len(rows)}건, 사업 연결 {len(linked)}개, 미연결 {unlinked}건")

@@ -444,6 +444,18 @@ def main():
         exec_data["story"] = load("live/exec_story.json")
     except FileNotFoundError:
         exec_data["story"] = None
+    # B2G영업 고도화: 예산 여력(A)·모집 경보(C)·재계약 캘린더(E)·집합연수 운영 지원(F) - ops_insights.py
+    import ops_insights
+    _c, _fin, _sch, _ven, _wx = ops_insights.load_inputs()
+    ops = ops_insights.build(pipeline_export.get("records", []), _c, _fin, _sch, tour if tour.get("regions") else _ven, weather)
+    try:
+        _copy = load("live/recruit_copy.json")
+        for it in (ops.get("recruit") or {}).get("items", []):
+            if it["course"] in _copy.get("items", {}):
+                it["copy"] = _copy["items"][it["course"]]
+        ops["recruit"]["copy_date"] = _copy.get("date")
+    except (FileNotFoundError, KeyError, TypeError):
+        pass
     pipe["missed_opportunities"] = build_missed_opportunities(ai_rows, pipeline_export.get("records", []))
 
     # ---------- 5) BETA (경쟁사 트렌드 + 파이프라인 모멘텀 + 낙찰가 추정 + 추세 예측, 전부 "베타" 표시) ----------
@@ -462,7 +474,7 @@ def main():
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
         "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": exec_data, "__B2S_MARKET_JSON__": b2s_market,
-        "__B2S_BOARD_JSON__": b2s,
+        "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops,
     }
     for token, value in subs.items():
         if token not in html:
