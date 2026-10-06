@@ -438,19 +438,18 @@
   .ex-summary .card{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface-2);}
   .ex-summary .card b{display:block;font-size:14px;margin-bottom:6px;color:var(--ink);}
   .ex-summary .card p{margin:0;font-size:13px;line-height:1.6;color:var(--ink-2);}
-  .ex-diagram-wrap{overflow-x:auto;}
-  #exDiagram{width:100%;min-width:760px;height:auto;display:block;}
-  #exDiagram .nd rect{fill:var(--surface-2);stroke:var(--border);}
-  #exDiagram .nd.mod rect{fill:color-mix(in srgb, var(--accent) 10%, var(--surface));stroke:color-mix(in srgb, var(--accent) 45%, var(--border));}
-  #exDiagram .nd.tab rect{fill:var(--surface);stroke:var(--accent);}
-  #exDiagram .nd.tab{cursor:pointer;}
-  #exDiagram .nd.tab:hover rect{fill:color-mix(in srgb, var(--accent) 16%, var(--surface));}
-  #exDiagram .nd.off rect{opacity:.45;}
-  #exDiagram text{fill:var(--ink);font-size:12px;font-family:inherit;}
-  #exDiagram text.sub{fill:var(--muted);font-size:10.5px;}
-  #exDiagram .lk{fill:none;stroke:var(--border);stroke-width:1.4;}
-  #exDiagram .lk.hot{stroke:var(--accent);stroke-width:2;}
-  #exDiagram .colh{fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.04em;}
+  .ex-bottom{border-radius:12px;padding:12px 16px;margin-bottom:12px;background:color-mix(in srgb, var(--accent) 12%, var(--surface));border:1px solid color-mix(in srgb, var(--accent) 40%, var(--border));font-weight:800;font-size:15px;}
+  .ex-story{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;}
+  @media (max-width:980px){.ex-story{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media (max-width:560px){.ex-story{grid-template-columns:1fr;}}
+  .ex-story .st{position:relative;border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface-2);display:flex;flex-direction:column;gap:6px;}
+  .ex-story .st:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:44px;font-weight:800;color:var(--accent);font-size:16px;}
+  @media (max-width:980px){.ex-story .st::after{display:none;}}
+  .ex-story .stg{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--accent);}
+  .ex-story .big{font-size:24px;font-weight:800;color:var(--ink);line-height:1.15;}
+  .ex-story .cap{font-size:12px;color:var(--muted);}
+  .ex-story .say{font-size:13px;line-height:1.6;color:var(--ink-2);}
+  .ex-story .so{font-size:13px;line-height:1.5;font-weight:700;color:var(--ink);border-top:1px dashed var(--border);padding-top:8px;margin-top:auto;}
   .ex-pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
   .ex-pillars .pl{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface-2);font-size:13px;line-height:1.6;}
   .ex-pillars .pl .no{font-size:11px;font-weight:800;color:var(--accent);}
@@ -1307,10 +1306,11 @@
 
     <section class="panel">
       <div class="panel-head"><div>
-        <p class="panel-title">데이터 연계 다이어그램</p>
-        <p class="panel-desc">왼쪽 데이터 소스가 가운데 분석을 거쳐 오른쪽 화면(탭)으로 이어집니다. 숫자는 이번 배포에서 읽은 건수이고, 회색은 수집 대기입니다. 화면 상자를 누르면 해당 탭으로 이동합니다.</p>
+        <p class="panel-title">지표가 말하는 것<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">시장 → 경쟁 → 자사 → 기회</span></p>
+        <p class="panel-desc" id="exStoryDesc"></p>
       </div></div>
-      <div class="ex-diagram-wrap"><svg id="exDiagram" role="img" aria-label="데이터 소스-분석-화면 연계도"></svg></div>
+      <div class="ex-bottom" id="exBottom" hidden></div>
+      <div class="ex-story" id="exStory"></div>
     </section>
 
     <section class="panel">
@@ -4285,63 +4285,32 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   ];
   document.getElementById('exSummary').innerHTML = sum.map(([t, p]) => `<div class="card"><b>${h(t)}</b><p>${p}</p></div>`).join('');
 
-  // ② 연계 다이어그램
-  const SRC = E.sources || {};
-  const srcs = [
-    ['g2b', '나라장터 입찰·낙찰·사전규격', ['market', 'comp', 'ai']],
-    ['contracts', '조달청 계약정보(수의 포함)', ['comp']],
-    ['neis', 'NEIS·AI 중점·선도학교', ['school']],
-    ['schoolinfo', '학교알리미 교원·학생 수', ['school']],
-    ['catalog', '경쟁사 강좌 카탈로그', ['comp', 'product']],
-    ['sheet_ops', '구글시트 26운영DT', ['sales']],
-    ['sheet_comms', '구글시트 26영업소통DT', ['sales']],
-    ['sheet_banner', '구글시트 26타사DT(배너)', ['comp', 'product']],
-    ['tour', '관광공사·기상청', ['sales']],
-    ['news', '조간 브리핑(언론)', ['ai']],
-    ['gemini', 'Gemini(제안요청서·초안·요약)', ['ai', 'product']],
+  // ② 지표 스토리라인(수치 자동 + Gemini 해석, 없으면 규칙 문장)
+  const ST = E.story || {};
+  const tTop = (M.top_topics || []).slice(0, 2).map(t => t.name).join('·');
+  const stages = [
+    ['market', '① 시장', `${n(M.bids_12m)}건`, `연수 입찰(12개월) · 1위 ${h(top.name || '-')} ${n(top.n)}건`,
+      `교원연수 입찰은 ${h(tTop || '-')} 주제에 몰려 있고, 주제 미지정 원격 콘텐츠 공고도 ${n(M.generic_n)}건 있다.`,
+      '수요 상위 주제 과정을 B2G 제안과 샘몰 상품에 동시에 배치한다.'],
+    ['competition', '② 경쟁', C.sui_share != null ? `수의 ${C.sui_share}%` : '-', `계약 ${n(C.total_n)}건 · 1위 ${h(r1.name || '-')} 평균 ${won(r1.avg)}`,
+      `계약 대부분이 수의계약이라 관계 영업이 승부를 가르고, 경쟁사는 건당 단가가 높다.`,
+      '기존 고객 소통 주기를 지키면서 고단가 패키지로 전환한다.'],
+    ['self', '③ 자사', own.share != null ? `점유 ${own.share}%` : `${n(P.n)}건`, `자사 계약 ${n(own.n)}건 · 평균 ${won(own.avg)}${B ? ` · 배너 ${B.own_share}%` : ''}`,
+      `자사는 건수에 비해 금액 점유가 낮고${CM ? `, 진행 사업 중 30일 넘게 소통이 끊긴 곳이 ${n((CM.signals || {})['주의'] || 0)}건 있다` : ''}.`,
+      '무소통 사업부터 접촉을 복구하고, 1억 이상 입찰에 참가한다.'],
+    ['opportunity', '④ 기회', S ? `${n(S.teachers)}명` : '-', S ? `B2S 대상 교원 · 미진출 대형 시도 ${h((S.white_regions || []).join('·') || '-')}` : 'B2S 데이터 수집 대기',
+      S ? `학교 단위 시장은 크지만 자사 계약이 없는 대형 시도가 남아 있다.` : '학교알리미 수집 후 표시됩니다.',
+      '대규모 학교·AI 중점·선도학교 대상 단체연수로 B2S 비중을 끌어올린다.'],
   ];
-  const mods = [
-    ['market', '시장·발주 분석', ['g2bfull', 'market', 'g2b', 'school']],
-    ['comp', '경쟁 분석', ['competitor', 'g2bfull']],
-    ['school', '학교 수요 분석', ['leading', 'b2s']],
-    ['product', '상품·콘텐츠 기획', ['b2s', 'competitor', 'g2bfull']],
-    ['sales', '자사 영업·사업관리', ['pipeline']],
-    ['ai', 'AI 분석·인사이트', ['g2bfull', 'pipeline']],
-  ];
-  const tabs = [['g2bfull', '나라장터 종합'], ['market', '시장 분석'], ['g2b', 'AI·에듀테크 발주'], ['school', '학교단위 발주'], ['leading', 'AI 중점·선도학교'], ['competitor', '경쟁사 연수 분석'], ['pipeline', 'B2G영업'], ['b2s', 'B2S·샘몰 기획']];
-  const W = 980, nh = 34, gap = 9, top0 = 34, cx = [12, 380, 720], cw = [250, 210, 230];
-  const H = top0 + srcs.length * (nh + gap) + 10;
-  const ys = (k, cnt) => { const span = srcs.length * (nh + gap) - gap; const step = span / cnt; return top0 + step * k + (step - nh) / 2; };
-  const pos = {};
-  srcs.forEach(([id], i) => pos['s:' + id] = {x: cx[0], y: top0 + i * (nh + gap), w: cw[0]});
-  mods.forEach(([id], i) => pos['m:' + id] = {x: cx[1], y: ys(i, mods.length), w: cw[1]});
-  tabs.forEach(([id], i) => pos['t:' + id] = {x: cx[2], y: ys(i, tabs.length), w: cw[2]});
-  const edges = [];
-  srcs.forEach(([id, , to]) => to.forEach(m => edges.push(['s:' + id, 'm:' + m])));
-  mods.forEach(([id, , to]) => to.forEach(t => edges.push(['m:' + id, 't:' + t])));
-  const path = (a, b) => { const A = pos[a], Bp = pos[b]; const x1 = A.x + A.w, y1 = A.y + nh / 2, x2 = Bp.x, y2 = Bp.y + nh / 2, mx = (x1 + x2) / 2; return `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`; };
-  const node = (key, label, sub, cls, off) => { const p = pos[key]; return `<g class="nd ${cls}${off ? ' off' : ''}" data-k="${key}" ${cls === 'tab' ? `data-tab="${key.slice(2)}" tabindex="0" role="link"` : ''}><rect x="${p.x}" y="${p.y}" width="${p.w}" height="${nh}" rx="8"/><text x="${p.x + 10}" y="${p.y + (sub ? 14 : 21)}">${h(label)}</text>${sub ? `<text class="sub" x="${p.x + 10}" y="${p.y + 27}">${h(sub)}</text>` : ''}</g>`; };
-  const svg = document.getElementById('exDiagram');
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  svg.innerHTML = `<text class="colh" x="${cx[0]}" y="18">데이터 소스</text><text class="colh" x="${cx[1]}" y="18">분석</text><text class="colh" x="${cx[2]}" y="18">대시보드 화면(클릭 이동)</text>`
-    + edges.map(([a, b]) => `<path class="lk" data-a="${a}" data-b="${b}" d="${path(a, b)}"/>`).join('')
-    + srcs.map(([id, label]) => { const c = SRC[id] || (id === 'tour' ? SRC.weather : 0); return node('s:' + id, label, c ? `${fmt(c)}건` : '수집 대기', 'src', !c); }).join('')
-    + mods.map(([id, label]) => node('m:' + id, label, '', 'mod')).join('')
-    + tabs.map(([id, label]) => node('t:' + id, label, '', 'tab')).join('');
-  const hot = key => svg.querySelectorAll('.lk').forEach(l => {
-    const a = l.dataset.a, b = l.dataset.b;
-    const on = key && (a === key || b === key || (key.startsWith('s:') && edges.some(([x, y]) => x === key && y === a)) || (key.startsWith('t:') && edges.some(([x, y]) => y === key && x === b)));
-    l.classList.toggle('hot', !!on);
-  });
-  svg.querySelectorAll('.nd').forEach(g => {
-    g.addEventListener('mouseenter', () => hot(g.dataset.k));
-    g.addEventListener('mouseleave', () => hot(null));
-    if (g.dataset.tab) {
-      const go = () => { activateTab(g.dataset.tab); writeHashState({tab: g.dataset.tab}); window.scrollTo({top: 0, behavior: 'smooth'}); };
-      g.addEventListener('click', go);
-      g.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-    }
-  });
+  document.getElementById('exStoryDesc').textContent = ST.date
+    ? `해석: ${ST.model || 'Gemini'} · ${ST.date}${ST.stale ? ' (오늘 생성 실패로 마지막 해석본)' : ''} · 수치는 오늘 데이터. 해석은 참고용이며 판단은 원자료로 확인하세요.`
+    : '해석: 규칙 기반 기본 문장(Gemini 해석은 다음 배포부터) · 수치는 오늘 데이터.';
+  if (ST.bottom_line) { const bt = document.getElementById('exBottom'); bt.hidden = false; bt.textContent = '한 줄 결론 · ' + ST.bottom_line; }
+  document.getElementById('exStory').innerHTML = stages.map(([k, lab, big, cap, say0, so0]) => {
+    const g = ST[k] || {};
+    return `<div class="st"><div class="stg">${lab}</div><div class="big num">${big}</div><div class="cap">${cap}</div>
+      <div class="say">${h(g.say || say0)}</div><div class="so">→ ${h(g.so || so0)}</div></div>`;
+  }).join('');
 
   // ③ 핵심 지표
   document.getElementById('exKpis').innerHTML = [
