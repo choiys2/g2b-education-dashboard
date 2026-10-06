@@ -42,7 +42,7 @@ jobs:
       - name: 학교·교육청 연수 수의계약 수집(첫 백필)
         continue-on-error: true
         timeout-minutes: 8
-        run: python edu_contracts.py /tmp/edu_contracts.json
+        run: python edu_contract_probe.py --deep
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
