@@ -42,8 +42,9 @@ ROW = re.compile(r"<tr\b[^>]*>(.*?)</tr>", re.S | re.I)
 CELL = re.compile(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", re.S | re.I)
 
 
-def get(url, timeout=25):
-    req = Request(url, headers={"User-Agent": UA, "Accept-Language": "ko"})
+def get(url, timeout=25, data=None):
+    req = Request(url, data=urlencode(data).encode() if data else None,
+                  headers={"User-Agent": UA, "Accept-Language": "ko", "Content-Type": "application/x-www-form-urlencoded"})
     with urlopen(req, timeout=timeout) as r:
         raw = r.read()
     for enc in ("utf-8", "euc-kr"):
@@ -71,7 +72,7 @@ def clean(s):
 def parse_table(html):
     """머리글로 열을 찾는 범용 표 파서 -> [{org,title,date,amount,vendor}]"""
     rows = [[clean(c) for c in CELL.findall(r)] for r in ROW.findall(html)]
-    hi = next((i for i, r in enumerate(rows) if any(re.search(r"계약명|사업명|건명", c) for c in r)
+    hi = next((i for i, r in enumerate(rows) if len(r) >= 4 and any(re.fullmatch(r"[^ ]*(계약명|사업명|건명)[^ ]*", c) for c in r)
                and any("금액" in c for c in r)), None)
     if hi is None:
         return [], []
@@ -80,22 +81,23 @@ def parse_table(html):
     def col(rx):
         return next((i for i, h in enumerate(head) if re.search(rx, h)), None)
     ci = {"org": col(r"계약기관|기관명|발주기관|학교명|부서"), "title": col(r"계약명|사업명|건명"),
-          "date": col(r"계약일|체결일"), "amount": col(r"계약금액|금액"), "vendor": col(r"상대자|업체|계약자")}
+          "date": col(r"계약일|체결일"), "amount": col(r"계약금액|금액"), "vendor": col(r"상대자|업체|계약자|계약대상자"), "year": col(r"회계\s?년도|회계연도")}
     out = []
     for r in rows[hi + 1:]:
         if len(r) < len(head) - 1:
             continue
-        g = lambda k: (r[ci[k]] if ci[k] is not None and ci[k] < len(r) else "")
+        g = lambda k: (r[ci[k]] if ci.get(k) is not None and ci[k] < len(r) else "")
         # 일부 게시판은 셀 앞에 머리글을 다시 붙여 둔다("사업명 2024학년도 ...")
-        val = lambda k: re.sub(r"^" + re.escape(head[ci[k]]) + r"\s*", "", g(k)) if ci[k] is not None else ""
+        val = lambda k: re.sub(r"^" + re.escape(head[ci[k]]) + r"\s*", "", g(k)) if ci.get(k) is not None else ""
         d = re.search(r"(20\d{2})[.\-/](\d{1,2})[.\-/](\d{1,2})", val("date"))
         amt = re.sub(r"[^\d]", "", val("amount"))
-        if not (val("title") and d and amt):
+        y = re.search(r"20\d{2}", r[ci["year"]]) if ci.get("year") is not None and ci["year"] < len(r) else None
+        if not (val("title") and (d or (ci["date"] is None and y)) and amt):
             continue
         title = val("title")
         if val("org") and title.startswith(val("org")):  # 전북: 계약명 앞에 계약기관명이 붙어 나온다
             title = title[len(val("org")):].strip()
-        out.append({"org": val("org"), "title": title, "date": f"{d.group(1)}-{int(d.group(2)):02d}-{int(d.group(3)):02d}",
+        out.append({"org": val("org"), "title": title, "date": f"{d.group(1)}-{int(d.group(2)):02d}-{int(d.group(3)):02d}" if d else y.group(0),
                     "amount": int(amt), "vendor_raw": val("vendor")})
     return out, head
 
@@ -163,13 +165,76 @@ def gne(status, pages=8):
     return rows
 
 
+def sen(status, years):
+    """서울: 열린 서울교육 계약정보(학교 포함). 목록에는 계약일자·상대자가 없어 회계연도만 남는다."""
+    host, path = "open.sen.go.kr", "/fus/MI000000000000000539/cntr/list0010v.do"
+    rp = robots(host)
+    base = f"https://{host}{path}"
+    if not rp.can_fetch(UA, base):
+        status["sen"] = {"skipped": "robots"}
+        return []
+    get(base)  # 세션 쿠키가 필요한 경우 대비(무해)
+    rows, pages, heads = [], 0, None
+    for y in years:
+        for kw in ("연수", "역량"):
+            for page in range(1, 16):
+                html = get(base, data={"pageIndex": page, "fscl_y": y, "cntr_mthd_div": "1", "cntr_purp_objt_div": "",
+                                       "inst_clss_div": "", "cntr_nm": kw, "cntr_inst_nm": "", "cntr_amt": ""})
+                pages += 1
+                got, heads = parse_table(html)
+                rows += [{**r, "sido": "서울", "src": "sen"} for r in got]
+                time.sleep(0.8)
+                if len(got) < 10:
+                    break
+    status["sen"] = {"pages": pages, "rows": len(rows), "head": heads}
+    return rows
+
+
+def pen(status, months):
+    """부산: K-에듀파인 자동연계 수의계약(1백만원 이상). 1개월 단위 기간 조회 + 계약명 검색."""
+    host, path = "www.pen.go.kr", "/main/ir/selectPrvcntrInfoList.do"
+    rp = robots(host)
+    base = f"https://{host}{path}"
+    if not rp.can_fetch(UA, base + "?mi=31735"):
+        status["pen"] = {"skipped": "robots"}
+        return []
+    from datetime import timedelta
+    today = date.today()
+    rows, pages, heads = [], 0, None
+    for m in range(months):
+        end = (today.replace(day=1) - timedelta(days=1)).replace(day=1) if m else today
+        if m:
+            first = today.replace(day=1)
+            for _ in range(m):
+                first = (first - timedelta(days=1)).replace(day=1)
+            bdt, edt = first, (first.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+        else:
+            bdt, edt = today.replace(day=1), today
+        for inst in ("2", "3", "4", "5"):
+            for kw in ("연수", "역량"):
+                for page in range(1, 6):
+                    q = {"mi": "31735", "accnutYear": bdt.year, "instClCd": inst, "inpBdt": bdt.isoformat(), "inpEdt": edt.isoformat(),
+                         "inpSrchCate": "srchCntrctNm", "inpSrchTxt": kw, "inpAmt": "1000000", "currPage": page, "pageIndex": page}
+                    html = get(f"{base}?{urlencode(q)}")
+                    pages += 1
+                    got, heads = parse_table(html)
+                    rows += [{**r, "sido": "부산", "src": "pen"} for r in got]
+                    time.sleep(0.6)
+                    if len(got) < 10:
+                        break
+    status["pen"] = {"pages": pages, "rows": len(rows), "months": months, "head": heads}
+    return rows
+
+
 def main():
     out = Path(sys.argv[1] if len(sys.argv) > 1 else "live/edu_contracts.json")
     today = date.today()
     status = {"date": today.isoformat()}
     years = [today.year, today.year - 1]
     fetched = []
-    for name, fn in (("jbe", lambda: jbe(status, years)), ("gne", lambda: gne(status))):
+    have = {json.loads(l).get("src") for l in HIST.read_text(encoding="utf-8").splitlines() if l.strip()} if HIST.exists() else set()
+    for name, fn in (("jbe", lambda: jbe(status, years)), ("gne", lambda: gne(status)), ("sen", lambda: sen(status, years)),
+                     ("pen", lambda: pen(status, 2 if "pen" in have else 12))):  # 부산: 첫 회 12개월 백필, 이후 최근 2개월
         try:
             fetched += fn()
         except Exception as e:
@@ -189,7 +254,7 @@ def main():
                     "title": r["title"][:120], "date": r["date"], "amount": r["amount"],
                     "vendor": vendor_label(r.get("vendor_raw")), "src": r["src"]})
         new += 1
-    old.sort(key=lambda r: r["date"], reverse=True)
+    old.sort(key=lambda r: r["date"] if len(r["date"]) > 4 else r["date"] + "-00", reverse=True)
     HIST.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in old), encoding="utf-8")
     status.update({"fetched": len(fetched), "training": sum(1 for r in fetched if is_training(r["title"])), "new": new, "total": len(old)})
     STATUS.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -215,12 +280,14 @@ def build(rows=None):
         s["n"] += 1
         s["amt"] += r["amount"]
         s["school"] += r["school"]
-        by_m[r["date"][:7]] += 1
+        if len(r["date"]) >= 7:
+            by_m[r["date"][:7]] += 1
     st = json.loads(STATUS.read_text(encoding="utf-8")) if STATUS.exists() else {}
     return {"available": True, "rows": rows[:400], "total": len(rows), "amount": sum(r["amount"] for r in rows),
             "school": sum(1 for r in rows if r["school"]), "by_vendor": dict(by_v), "by_sido": dict(by_s),
-            "months": dict(sorted(by_m.items())[-12:]), "span": [rows[-1]["date"], rows[0]["date"]],
-            "updated": st.get("date"), "sources": {k: v for k, v in (("전북", "전북교육청 1인 수의계약현황"), ("경남", "경남교육청 수의계약 정보")) if k in by_s}}
+            "months": dict(sorted(by_m.items())[-12:]), "span": [min(r["date"] for r in rows), max(r["date"] for r in rows)],
+            "updated": st.get("date"), "sources": {k: v for k, v in (("전북", "전북교육청 1인 수의계약현황"), ("경남", "경남교육청 수의계약 정보"),
+                                          ("서울", "열린 서울교육 계약정보"), ("부산", "부산교육청 K-에듀파인 수의계약")) if k in by_s}}
 
 
 if __name__ == "__main__":
