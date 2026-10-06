@@ -355,16 +355,18 @@ def main():
     except Exception as e:
         conv = {}
         status["conversion"] = {"error": str(e)[:200]}
-    months = defaultdict(int)
+    months, won_months = defaultdict(int), defaultdict(int)
     for r in rows:
         if r["date"] and r["date"].year >= today.year - 1:
             months[r["date"].strftime("%Y-%m")] += 1
+            if r.get("won"):
+                won_months[r["date"].strftime("%Y-%m")] += 1
     out.write_text(json.dumps({"available": True, "tab": tab, "rows": len(rows), "linked": len(linked), "unlinked": unlinked,
                                "fetched": (datetime.utcnow() + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M"),
                                "per": per, "kinds": dict(kinds_all), "issues": dict(issues_all),
                                "flags": dict(flags_all), "won_rows": sum(1 for r in rows if r.get("won")),
                                "no_deal_orgs": no_deal,
-                               "issue_labels": [k for k, _ in ISSUES], "months": dict(sorted(months.items())),
+                               "issue_labels": [k for k, _ in ISSUES], "months": dict(sorted(months.items())), "won_months": dict(sorted(won_months.items())),
                                "conversion": conv},
                               ensure_ascii=False), encoding="utf-8")
     STATUS_PATH.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")

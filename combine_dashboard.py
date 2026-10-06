@@ -474,7 +474,7 @@ def main():
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
         "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": exec_data, "__B2S_MARKET_JSON__": b2s_market,
-        "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops,
+        "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops, "__VIZ_JSON__": __import__("viz_data").build(pipeline_export.get("records", [])),
         "__EDU_CNTR_JSON__": __import__("edu_contracts").build(),
     }
     for token, value in subs.items():
