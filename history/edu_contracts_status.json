@@ -1,11 +1,11 @@
 {
  "date": "2026-10-06",
  "jbe": {
-  "pages": 139,
-  "rows": 1362,
+  "pages": 24,
+  "rows": 231,
   "per_variant": {
-   "base": 720,
-   "school": 642
+   "base": 120,
+   "school": 111
   },
   "head": [
    "No.",
@@ -32,9 +32,9 @@
   ]
  },
  "pen": {
-  "pages": 96,
-  "rows": 39,
-  "months": 12,
+  "pages": 16,
+  "rows": 3,
+  "months": 2,
   "diag": {
    "first_text": "('data-nm'); var paramUrl = $(this).attr('data-url'); $(\"#paramVal\").val(paramVal); $(\"#paramNm\").val(paramNm); setTrimMenuId(); $(\"#mainMenuForm\").attr('action', paramUrl).submit(); }); }); //파라미터 페이지 이동 function goParamPage( setVal, setNm, setUrl ) { $(\"#paramNm\").val(setNm); $(\"#paramVal\").val(setVal); setTrimMenuId(); $(\"#mainMenuForm\").attr('action', setUrl).submit(); }; //메뉴 아이디 공백제거 function setTrimMenuId(){ var nowMenuId = $.trim($(\"#nowMenuId\").val()); $(\"nowMenuId\").val(nowMenuId); }; "
   },
@@ -49,8 +49,8 @@
    "계약대상자"
   ]
  },
- "fetched": 39,
- "training": 23,
- "new": 22,
+ "fetched": 334,
+ "training": 170,
+ "new": 0,
  "total": 597
 }
