@@ -132,9 +132,11 @@ if __name__ == "__main__" and "--deep" not in __import__("sys").argv:
 # 1) 수집 가능 교육청(부산·전북): 표 머리글·첫 3행(셀 40자)·페이지 이동 방식 표본 -> 파서 설계용
 # 2) 목록 미확인 교육청: 사이트맵 페이지를 따라가 '수의계약' 링크 탐색, 목록 페이지의 iframe·스크립트 속 계약 주소 수집
 # 3) 공공데이터포털 수의계약 파일데이터 카탈로그(이름·기관·파일 주소)
+ONLY_KNOWN = True
 DEEP_OUT = HERE / "history" / "edu_contract_probe_deep.json"
-DEEP_KNOWN = {"부산": KNOWN["부산"], "전북": ["https://www.jbe.go.kr/index.jbe?menuCd=DOM_000001003001009000"],
-              "경남": ["https://www.gne.go.kr/www/buseo17/contractinfo/contractinfo09.jsp"]}
+DEEP_KNOWN = {"서울": ["https://open.sen.go.kr/fus/MI000000000000000539/cntr/list0010v.do"],
+              "부산": ["https://www.pen.go.kr/main/ir/selectPrvcntrInfoList.do?mi=31735"],
+              "광주": ["https://www.gen.go.kr/opengen/kedu/index.php?mode=jaai001f_list"]}
 DATASETS = ["15150722", "15149551", "15139139", "15154073", "15145393", "15137244", "15159509", "15142662",
             "15149295", "15154993", "15153637", "15146957", "15155026", "15153760", "15153862", "15147897", "15144993"]
 CELL = re.compile(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", re.S | re.I)
@@ -143,11 +145,11 @@ ROW = re.compile(r"<tr\b[^>]*>(.*?)</tr>", re.S | re.I)
 
 def sample(html, final):
     rows = []
-    for r in ROW.findall(html)[:5]:
+    for r in ROW.findall(html)[:6]:
         rows.append([re.sub(r"\s+", " ", TAG.sub("", c)).strip()[:40] for c in CELL.findall(r)][:12])
     pag = list(dict.fromkeys(re.findall(r'href=["\']([^"\']*(?:page|Page|pageIndex|pageNo|currPage)[^"\']*)["\']', html)))[:4]
     js = list(dict.fromkeys(re.findall(r"(?:fn_|go|move)[A-Za-z_]*[Pp]age\w*\([^)]*\)", html)))[:3]
-    forms = [(a[:120], re.findall(r'name=["\'](\w+)["\']', b)[:15]) for a, b in
+    forms = [(a[:120], re.findall(r'name=["\'](\w+)["\']', b)[:30]) for a, b in
              re.findall(r'<form\b[^>]*action=["\']([^"\']*)["\'][^>]*>(.*?)</form>', html, re.S | re.I)][:3]
     frames = re.findall(r'<iframe\b[^>]*src=["\']([^"\']+)["\']', html, re.I)[:3]
     ajax = list(dict.fromkeys(re.findall(r'["\']([^"\'\s]*(?:jaai|Jaai|cntr|Cntr|contract|Contract|sugye|edufine)[^"\'\s]*)["\']', html)))[:8]
@@ -173,7 +175,7 @@ def deep():
                         c, html, final = get(u)
                         out["samples"][region] = {"code": c, **sample(html, final)}
                 continue
-            if first.get(region, {}).get("verdict") != "목록 미확인":
+            if first.get(region, {}).get("verdict") != "목록 미확인" or ONLY_KNOWN:
                 continue
             time.sleep(1)
             c, html, final = get(home)
@@ -197,7 +199,7 @@ def deep():
         except Exception as e:
             out["discover"][region] = {"error": str(e)[:200]}
         print(region, "ok")
-    for ds in DATASETS:
+    for ds in ([] if ONLY_KNOWN else DATASETS):
         try:
             c, txt, _ = get(f"https://www.data.go.kr/catalog/{ds}/fileData.json")
             d = json.loads(txt) if c == 200 else {}
