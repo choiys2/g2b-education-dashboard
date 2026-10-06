@@ -1073,7 +1073,7 @@
       <div class="tbl-wrap" style="max-height:520px;overflow:auto;"><table class="data" id="ecTable">
         <thead><tr><th>계약일</th><th>시도</th><th>계약기관</th><th>계약명</th><th class="num">금액</th><th>상대(구분)</th></tr></thead><tbody></tbody>
       </table></div>
-      <p class="tt-note">학교·교육청이 체결한 1백만원 이상 수의계약은 K-에듀파인과 연계돼 교육청 홈페이지에 공개됩니다(학교장터 S2B 거래 포함). 학교장터(s2b.kr)는 자동 접근을 금지해 직접 읽지 않고, 자동 수집을 허용한 교육청 공개 목록만 매일 읽습니다(현재 전북·경남 — 제주·대전은 금지, 광주·울산·세종·전남·경북은 해외 서버 접속 차단, 나머지는 공개 목록 주소 확인 중). 계약명에 연수·역량강화·직무·컨설팅 등이 있고 공사·구입·임차·차량 등이 아닌 건만 남깁니다. 계약 상대가 개인(강사 등)일 수 있어 상대자 이름은 싣지 않고 경쟁사·자사 / 기타 법인 / 기타로만 표시합니다.</p>
+      <p class="tt-note">학교·교육청이 체결한 1백만원 이상 수의계약은 K-에듀파인과 연계돼 교육청 홈페이지에 공개됩니다(학교장터 S2B 거래 포함). 학교장터(s2b.kr)는 자동 접근을 금지해 직접 읽지 않고, 자동 수집을 허용한 교육청 공개 목록만 매일 읽습니다(현재 전북 — 경남·제주·대전은 robots 금지, 광주·울산·세종·전남·경북은 해외 서버 접속 차단, 나머지는 공개 목록 주소 확인 중). 계약명에 연수·역량강화·직무·컨설팅 등이 있고 공사·구입·임차·차량 등이 아닌 건만 남깁니다. 계약 상대가 개인(강사 등)일 수 있어 상대자 이름은 싣지 않고 경쟁사·자사 / 기타 법인 / 기타로만 표시합니다.</p>
     </section>
 
     <section class="panel">
@@ -4476,7 +4476,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   const st = {f: '', q: ''};
   const list = () => (E.rows || []).filter(r => (!st.f || (st.f === 'school' ? r.school : COMP.includes(r.vendor))) && (!st.q || (r.title + r.org).includes(st.q)));
   const draw = () => {
-    document.querySelector('#ecTable tbody').innerHTML = list().slice(0, 300).map(r => `<tr><td style="white-space:nowrap;">${h(r.date)}</td><td>${h(r.sido)}</td><td style="font-size:12.5px;">${h(r.org)}</td><td><b>${h(r.title)}</b>${r.school ? ' <span class="fit" style="background:var(--surface);border:1px solid var(--border);color:var(--ink-2);">학교</span>' : ''}</td><td class="num" style="white-space:nowrap;">${fmtWon(r.amount)}</td><td style="white-space:nowrap;font-weight:${COMP.includes(r.vendor) ? 700 : 400};">${h(r.vendor || '-')}</td></tr>`).join('') || '<tr><td colspan="6" style="color:var(--muted);">해당 계약이 없습니다.</td></tr>';
+    document.querySelector('#ecTable tbody').innerHTML = list().slice(0, 300).map(r => `<tr><td style="white-space:nowrap;">${h(r.date)}</td><td style="white-space:nowrap;">${h(r.sido)}</td><td style="font-size:12.5px;">${h(r.org)}</td><td><b>${h(r.title)}</b>${r.school ? ' <span class="fit" style="background:var(--surface);border:1px solid var(--border);color:var(--ink-2);">학교</span>' : ''}</td><td class="num" style="white-space:nowrap;">${fmtWon(r.amount)}</td><td style="white-space:nowrap;font-weight:${COMP.includes(r.vendor) ? 700 : 400};">${h(r.vendor || '-')}</td></tr>`).join('') || '<tr><td colspan="6" style="color:var(--muted);">해당 계약이 없습니다.</td></tr>';
   };
   document.getElementById('ecFilter').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; st.f = b.dataset.f; e.currentTarget.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
   document.getElementById('ecQ').addEventListener('input', e => { st.q = e.target.value.trim(); draw(); });

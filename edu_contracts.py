@@ -32,7 +32,8 @@ UA = "Mozilla/5.0 (compatible; g2b-education-dashboard)"
 KEYWORDS = ["연수", "역량강화", "직무", "원격"]
 TRAIN_RE = re.compile(r"연수|역량\s?강화|직무|원격\s?(교육|강의)|컨설팅|워크숍|워크샵|교육\s?프로그램|강사")
 NOT_RE = re.compile(r"공사|수선|구입|구매|임차|설치|급식|청소|경비|세탁|버스|차량|숙박|식비|식대|여행|관광|해외|국외|"
-                    r"어학\s?연수|보험|인쇄|현수막|물품|기념품|간식|도시락|안전\s?점검|건설\s?재해|소독|방역")
+                    r"어학\s?연수|보험|인쇄|현수막|물품|기념품|간식|도시락|안전\s?점검|건설\s?재해|소독|방역|"
+                    r"대관|작업|현장\s?실습|체험비|학생|동아리|간담회|진로\s?탐색")
 VENDORS = {"아이스크림": r"아이스크림|시공미디어", "티처빌": r"테크빌|티처빌", "비바샘연수원": r"비상교육|비바샘",
            "한교원": r"한국교원연수원"}
 CORP = re.compile(r"주식회사|\(주\)|㈜|\(유\)|유한회사|재단|협회|조합|연구소|연구원|대학교|산학협력단|센터|학회|㈔|\(사\)|사단법인")
@@ -107,7 +108,8 @@ def vendor_label(v):
 
 
 def is_training(title):
-    return bool(TRAIN_RE.search(title or "")) and not NOT_RE.search(title or "")
+    t = re.sub(r"연수원", "", title or "")  # '교육연수원 ○○ 작업' 같은 기관명 속 '연수'는 제외
+    return bool(TRAIN_RE.search(t)) and not NOT_RE.search(t)
 
 
 def jbe(status, years):
@@ -173,6 +175,7 @@ def main():
         except Exception as e:
             status[name] = {"error": str(e)[:200]}
     old = [json.loads(l) for l in HIST.read_text(encoding="utf-8").splitlines() if l.strip()] if HIST.exists() else []
+    old = [r for r in old if is_training(r["title"])]  # 필터 규칙이 바뀌면 누적분에도 다시 적용
     seen = {(r["sido"], r["org"], r["title"], r["date"], r["amount"]) for r in old}
     new = 0
     for r in fetched:
@@ -182,7 +185,7 @@ def main():
         if k in seen:
             continue
         seen.add(k)
-        old.append({"sido": r["sido"], "org": r["org"][:40], "school": bool(re.search(r"학교|유치원", r["org"] + r["title"][:30])),
+        old.append({"sido": r["sido"], "org": r["org"][:40], "school": bool(re.search(r"학교$|유치원$", r["org"])),
                     "title": r["title"][:120], "date": r["date"], "amount": r["amount"],
                     "vendor": vendor_label(r.get("vendor_raw")), "src": r["src"]})
         new += 1
@@ -200,6 +203,8 @@ def build(rows=None):
         rows = [json.loads(l) for l in HIST.read_text(encoding="utf-8").splitlines() if l.strip()] if HIST.exists() else []
     if not rows:
         return {"available": False}
+    for r in rows:
+        r["school"] = bool(re.search(r"학교$|유치원$", r["org"]))
     from collections import defaultdict
     by_v, by_s, by_m = defaultdict(lambda: {"n": 0, "amt": 0}), defaultdict(lambda: {"n": 0, "amt": 0, "school": 0}), defaultdict(int)
     for r in rows:
@@ -214,8 +219,8 @@ def build(rows=None):
     st = json.loads(STATUS.read_text(encoding="utf-8")) if STATUS.exists() else {}
     return {"available": True, "rows": rows[:400], "total": len(rows), "amount": sum(r["amount"] for r in rows),
             "school": sum(1 for r in rows if r["school"]), "by_vendor": dict(by_v), "by_sido": dict(by_s),
-            "months": dict(sorted(by_m.items())[-18:]), "span": [rows[-1]["date"], rows[0]["date"]],
-            "updated": st.get("date"), "sources": {"전북": "전북교육청 1인 수의계약현황", "경남": "경남교육청 수의계약 정보"}}
+            "months": dict(sorted(by_m.items())[-12:]), "span": [rows[-1]["date"], rows[0]["date"]],
+            "updated": st.get("date"), "sources": {k: v for k, v in (("전북", "전북교육청 1인 수의계약현황"), ("경남", "경남교육청 수의계약 정보")) if k in by_s}}
 
 
 if __name__ == "__main__":
