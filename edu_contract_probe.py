@@ -162,10 +162,10 @@ def deep():
     for region, home in OFFICES:
         host = urlparse(home).netloc
         rp = urllib.robotparser.RobotFileParser()
-        code, txt, _ = get(f"https://{host}/robots.txt")
-        rp.parse(txt.splitlines() if code == 200 else [])
-        allowed = lambda u: rp.can_fetch(UA, u) if code == 200 else True
         try:
+            code, txt, _ = get(f"https://{host}/robots.txt")
+            rp.parse(txt.splitlines() if code == 200 else [])
+            allowed = lambda u, rp=rp, code=code: rp.can_fetch(UA, u) if code == 200 else True
             if region in DEEP_KNOWN:
                 for u in DEEP_KNOWN[region]:
                     if allowed(u):
