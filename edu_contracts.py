@@ -42,10 +42,15 @@ ROW = re.compile(r"<tr\b[^>]*>(.*?)</tr>", re.S | re.I)
 CELL = re.compile(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", re.S | re.I)
 
 
+import http.cookiejar
+from urllib.request import HTTPCookieProcessor, build_opener
+_OPENER = build_opener(HTTPCookieProcessor(http.cookiejar.CookieJar()))
+
+
 def get(url, timeout=25, data=None):
     req = Request(url, data=urlencode(data).encode() if data else None,
                   headers={"User-Agent": UA, "Accept-Language": "ko", "Content-Type": "application/x-www-form-urlencoded"})
-    with urlopen(req, timeout=timeout) as r:
+    with _OPENER.open(req, timeout=timeout) as r:
         raw = r.read()
     for enc in ("utf-8", "euc-kr"):
         try:
@@ -177,7 +182,7 @@ def sen(status, years):
     rows, pages, heads = [], 0, None
     for y in years:
         for kw in ("연수", "역량"):
-            for page in range(1, 16):
+            for page in range(1, 31):
                 html = get(base, data={"pageIndex": page, "fscl_y": y, "cntr_mthd_div": "1", "cntr_purp_objt_div": "",
                                        "inst_clss_div": "", "cntr_nm": kw, "cntr_inst_nm": "", "cntr_amt": ""})
                 pages += 1
@@ -200,7 +205,8 @@ def pen(status, months):
         return []
     from datetime import timedelta
     today = date.today()
-    rows, pages, heads = [], 0, None
+    rows, pages, heads, mode, diag = [], 0, None, {}, {}
+    get(base + "?mi=31735")  # 세션 쿠키
     for m in range(months):
         end = (today.replace(day=1) - timedelta(days=1)).replace(day=1) if m else today
         if m:
@@ -215,14 +221,22 @@ def pen(status, months):
                 for page in range(1, 6):
                     q = {"mi": "31735", "accnutYear": bdt.year, "instClCd": inst, "inpBdt": bdt.isoformat(), "inpEdt": edt.isoformat(),
                          "inpSrchCate": "srchCntrctNm", "inpSrchTxt": kw, "inpAmt": "1000000", "currPage": page, "pageIndex": page}
-                    html = get(f"{base}?{urlencode(q)}")
+                    html = get(base, data=q) if mode.get("post") else get(f"{base}?{urlencode(q)}")
                     pages += 1
                     got, heads = parse_table(html)
+                    if pages == 1 and not got and not mode.get("post"):  # GET이 안 먹으면 POST로 전환(폼은 POST 제출)
+                        diag["get_text"] = re.sub(r"\s+", " ", TAG.sub(" ", html))[:300]
+                        mode["post"] = True
+                        html = get(base, data=q)
+                        got, heads = parse_table(html)
+                        diag["post_rows"] = len(got)
+                        if not got:
+                            diag["post_text"] = re.sub(r"\s+", " ", TAG.sub(" ", html))[-600:]
                     rows += [{**r, "sido": "부산", "src": "pen"} for r in got]
                     time.sleep(0.6)
                     if len(got) < 10:
                         break
-    status["pen"] = {"pages": pages, "rows": len(rows), "months": months, "head": heads}
+    status["pen"] = {"pages": pages, "rows": len(rows), "months": months, "post": bool(mode.get("post")), "diag": diag, "head": heads}
     return rows
 
 
