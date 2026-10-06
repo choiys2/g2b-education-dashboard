@@ -1,64 +1,120 @@
 {
  "date": "2026-10-06",
  "samples": {
-  "부산": {
+  "서울": {
    "code": 200,
-   "final": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?mi=31736&bbsId=2261",
+   "final": "https://open.sen.go.kr/fus/MI000000000000000539/cntr/list0010v.do",
    "rows": [
     [
-     "번호",
-     "기관명",
-     "등록일",
-     "사업명",
-     "계약금액(B)",
-     "계약일자",
-     "예정가격(예정금액)(A)",
-     "계약율(%)(B/A)"
+     "회계년도",
+     "발주기관",
+     "계약명",
+     "계약금액",
+     "진행상태"
     ],
     [
-     "265136",
-     "제목 초연중학교",
-     "등록일 2024.05.01",
-     "사업명 2024학년도 기술가정과 수행평가 및 실습재료 구입",
-     "계약금액(B) 1275550",
-     "계약일자 2024-04-17",
-     "예정가격(예정금액)(A) 1275550",
-     "계약율(%)(B/A) 100.0"
+     "2026",
+     "서울특별시서부교육지원청",
+     "[기금회계](장기1차)서울불광초 그린스마트 미래학교 증개축 관급자재(자동",
+     "30,200,000",
+     ""
     ],
     [
-     "265135",
-     "제목 대저초등학교",
-     "등록일 2024.05.01",
-     "사업명 교원용 PC 구입",
-     "계약금액(B) 1427000",
-     "계약일자 2024-04-05",
-     "예정가격(예정금액)(A) 1427000",
-     "계약율(%)(B/A) 100.0"
+     "2026",
+     "서울특별시남부교육지원청",
+     "[교특회계]서울금천초 교사동 2, 3층 발코니 방수공사",
+     "47,688,000",
+     ""
     ],
     [
-     "265134",
-     "제목 동래고등학교",
-     "등록일 2024.05.01",
-     "사업명 2024학년도 신학년 함께 준비하는 달 집중 운영기간 식비",
-     "계약금액(B) 1400000",
-     "계약일자 2024-02-13",
-     "예정가격(예정금액)(A) 1400000",
-     "계약율(%)(B/A) 100.0"
+     "2026",
+     "서울특별시남부교육지원청",
+     "신도림중 창조관 비선형 내진성능평가용역",
+     "28,026,000",
+     "계약이행중"
     ],
     [
-     "265133",
-     "제목 동래고등학교",
-     "등록일 2024.05.01",
-     "사업명 체육교육과정 특성화학교 스포츠체험프로그램 이용",
-     "계약금액(B) 1120000",
-     "계약일자 2024-01-01",
-     "예정가격(예정금액)(A) 1120000",
-     "계약율(%)(B/A) 100.0"
+     "2026",
+     "옥정중학교",
+     "본관동 장애인편의시설 설치 소방 및 기타공사 설계용역",
+     "3,550,000",
+     ""
+    ],
+    [
+     "2026",
+     "서울특별시강서양천교육지원청",
+     "서울영도초외 1교(목동중) 외부창호개선 및 도장공사 설계용역",
+     "39,252,600",
+     ""
     ]
    ],
    "paging_links": [
-    "https://ns.eat.co.kr/goToCtpvPage.jsp?gTctpvCd=2"
+    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://ns.eat.co.kr/goToCtpvPage.jsp?gTctpvCd=1",
+    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=1&amp;q_searchKeyTy=&amp;q_searchVal=",
+    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=2&amp;q_searchKeyTy=&amp;q_searchVal=",
+    "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\thttps://www.sen.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=10&amp;q_currPage=1&amp;q_sortName=&amp;q_sortOrder=&amp;q_searchKeyTy2=1005&amp;q_searchStartDt=&amp;q_searchEndDt=&amp;q_bbsSn=1060&amp;q_bbsDocNo=&amp;q_clsfNo=14&amp;q_searchKeyTy=&amp;q_searchVal="
    ],
+   "paging_js": [],
+   "forms": [],
+   "iframes": [],
+   "contract_urls": [
+    "/fus/MI000000000000000539/cntr/list0010v.do",
+    "cntr_targ_no",
+    "cntr_purp_objt_div",
+    "cntr_inst_nm",
+    "cntr_mthd_div",
+    "cntr_amt",
+    "cntr_nm",
+    "#cntr_targ_no"
+   ],
+   "total": "157277",
+   "len": 103453
+  },
+  "부산": {
+   "code": 200,
+   "final": "https://www.pen.go.kr/main/ir/selectPrvcntrInfoList.do?mi=31735",
+   "rows": [
+    [
+     "본 자료는 자료량이 많아 1개월 단위로 조회가 가능합니다."
+    ],
+    [
+     "회계년도",
+     "2026 2025 2024 2023 2022 2021 2020 2019 ",
+     "기관",
+     "시도교육청 지역교육청 직속기관 학교 관할기관포함 학교포함 전체 국립 공립"
+    ],
+    [
+     "카테고리",
+     "계약명 계약대상자",
+     "계약금액",
+     "이상"
+    ],
+    [
+     "계약일자",
+     "~&nbsp;"
+    ],
+    [
+     "번호",
+     "회계년도",
+     "계약기관",
+     "계약방법구분",
+     "계약명",
+     "계약일자",
+     "계약금액",
+     "계약대상자"
+    ],
+    [
+     "3",
+     "2026",
+     "부산광역시교육청",
+     "1인수의",
+     "(가칭)명지3고등학교 교사신축 건축설계공모 포상금 지급",
+     "2026-09-29",
+     "80,000,000",
+     "주식회사 가가건축사사무소"
+    ]
+   ],
+   "paging_links": [],
    "paging_js": [
     "goParamPage( setVal, setNm, setUrl )"
    ],
@@ -72,189 +128,40 @@
      ]
     ],
     [
-     "/main/na/ntt/selectNttList.do",
+     "/main/ir/selectPrvcntrInfoList.do",
      [
       "currPage",
-      "listUseAt",
-      "manageAt",
-      "replyAt",
       "xssChk",
-      "cvplAt",
-      "confmUseAt",
-      "sysId",
-      "bbsTy",
-      "customId",
-      "newHour",
       "maxSn",
-      "pstSortSeNm",
-      "noticeAt",
-      "rsvtRegUseYn"
-     ]
-    ]
-   ],
-   "iframes": [],
-   "contract_urls": [
-    "Prvcntr"
-   ],
-   "total": "265,136",
-   "len": 160263
-  },
-  "전북": {
-   "code": 200,
-   "final": "https://www.jbe.go.kr/open/edufine/eduCntrlist1.jbe?fscl_y=2026&cntr_mthd_div_nm=1%EC%9D%B8%EC%88%98%EC%9D%98&menuCd=DOM_000001003001009000&contentsSid=3099&cpath=%2Fopen",
-   "rows": [
-    [
-     "No.",
-     "회계연도",
-     "계약기관",
-     "계약기관계약명",
-     "계약일자",
-     "계약금액",
-     "상대자"
-    ],
-    [
-     "5420",
-     "2026",
-     "전북특별자치도군산교육지원청",
-     "전북특별자치도군산교육지원청2026년 군산진로직업특수교육지원센터 진로탐색 ",
-     "2026-10-06",
-     "1,400,000 원",
-     "(유)나성관광여행사"
-    ],
-    [
-     "5419",
-     "2026",
-     "전북특별자치도장수교육지원청",
-     "전북특별자치도장수교육지원청장수중학교 화장실 수선공사 외 1건 건설재해예방",
-     "2026-10-02",
-     "2,194,200 원",
-     "전라안전 지도사 사무소"
-    ],
-    [
-     "5418",
-     "2026",
-     "전북특별자치도장수교육지원청",
-     "전북특별자치도장수교육지원청장수교육지원청 다목적회의실 수선 전기공사",
-     "2026-10-02",
-     "12,688,000 원",
-     "주식회사 희앤정"
-    ],
-    [
-     "5417",
-     "2026",
-     "전북특별자치도장수교육지원청",
-     "전북특별자치도장수교육지원청장계중학교 외 1교 외벽수선 및 기타공사 건설재",
-     "2026-10-02",
-     "1,097,100 원",
-     "유탑건설안전기술원(주)"
-    ]
-   ],
-   "paging_links": [
-    "/open/edufine/eduCntrView1.jbe?cntr_mthd_div_nm=1인수의&amp;cntr_mthd_div=1&amp;cm_seq_no=104950561&amp;fscl_y=2026&amp;estb_div=&amp;cntr_nm=&amp;cntr_inst_nm=&amp;inst_clss_div=&amp;cntr_prtnr_nm=&amp;cntr_inst_cd=&amp;schoolIn=N&amp;eduIn=N&amp;startDate=&amp;endDate=&amp;cntr_amt=0&amp;menuCd=DOM_000001003001009000&amp;pageIndex=1",
-    "/open/edufine/eduCntrView1.jbe?cntr_mthd_div_nm=1인수의&amp;cntr_mthd_div=1&amp;cm_seq_no=104950026&amp;fscl_y=2026&amp;estb_div=&amp;cntr_nm=&amp;cntr_inst_nm=&amp;inst_clss_div=&amp;cntr_prtnr_nm=&amp;cntr_inst_cd=&amp;schoolIn=N&amp;eduIn=N&amp;startDate=&amp;endDate=&amp;cntr_amt=0&amp;menuCd=DOM_000001003001009000&amp;pageIndex=1",
-    "/open/edufine/eduCntrView1.jbe?cntr_mthd_div_nm=1인수의&amp;cntr_mthd_div=1&amp;cm_seq_no=104950024&amp;fscl_y=2026&amp;estb_div=&amp;cntr_nm=&amp;cntr_inst_nm=&amp;inst_clss_div=&amp;cntr_prtnr_nm=&amp;cntr_inst_cd=&amp;schoolIn=N&amp;eduIn=N&amp;startDate=&amp;endDate=&amp;cntr_amt=0&amp;menuCd=DOM_000001003001009000&amp;pageIndex=1",
-    "/open/edufine/eduCntrView1.jbe?cntr_mthd_div_nm=1인수의&amp;cntr_mthd_div=1&amp;cm_seq_no=104943696&amp;fscl_y=2026&amp;estb_div=&amp;cntr_nm=&amp;cntr_inst_nm=&amp;inst_clss_div=&amp;cntr_prtnr_nm=&amp;cntr_inst_cd=&amp;schoolIn=N&amp;eduIn=N&amp;startDate=&amp;endDate=&amp;cntr_amt=0&amp;menuCd=DOM_000001003001009000&amp;pageIndex=1"
-   ],
-   "paging_js": [],
-   "forms": [
-    [
-     "/open/edufine/eduCntrlist1.jbe?menuCd=DOM_000001003001009000",
-     [
-      "menuCd",
+      "inpAmt",
+      "inpEdt",
       "pageIndex",
-      "orderField",
-      "eduIn",
-      "inst_clss_div",
-      "cntr_mthd_div_nm",
-      "fscl_y",
-      "inst_clss_div",
-      "estb_div",
-      "cntr_inst_nm",
-      "cntr_nm",
-      "cntr_prtnr_nm",
-      "schoolIn",
-      "_schoolIn",
-      "startDate"
+      "instClCd",
+      "inpBdt",
+      "accnutYear",
+      "mi",
+      "minSn"
      ]
     ]
    ],
    "iframes": [],
    "contract_urls": [
-    "/index.jbe?loginMode=login&amp;returnUrl=https%3A%2F%2Fwww.jbe.go.kr%2Fopen%2Fedufine%2FeduCntrlist1.jbe%3Ffscl_y%3D2026%26cntr_mthd_div_nm%3D1%EC%9D%B8%EC%88%98%EC%9D%98%26menuCd%3DDOM_000001003001009000%26contentsSid%3D3099%26cpath%3D%2Fopen",
-    "/dwr/interface/selectCntrInstNmListDwr.js",
-    "/open/edufine/eduCntrlist1.jbe?menuCd=DOM_000001003001009000",
-    "cntr_mthd_div_nm",
-    "cntr_inst_nm",
-    "cntr_nm",
-    "cntr_prtnr_nm",
-    "cntr_amt"
+    "srchCntrctNm",
+    "javascript:searchPrvcntr();",
+    "cntrctTgtNo",
+    "PrvcntrPaymtReqSeq",
+    "/main/ir/selectPrvcntrInfoList.do",
+    "/main/ir/selectPrvcntrInfoList.do?mi=31735",
+    "#cntrctTgtNo",
+    "/main/ir/selectPrvcntrInfoView.do?mi=31735"
    ],
-   "total": "5420",
-   "len": 78309
-  },
-  "경남": {
-   "code": 200,
-   "final": "https://www.gne.go.kr/www/buseo17/contractinfo/contractinfo09.jsp",
-   "rows": [],
-   "paging_links": [
-    "https://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000404&menuCd=DOM_000000138002003003&startPage=1&&searchTypeEtc2=TMP_FIELD19&keywordEtc2=2002254",
-    "https://www.moe.go.kr/sub/infoRenewal.do?m=011508&page=011508&gubun=V2&s=moe&t=02"
-   ],
-   "paging_js": [],
-   "forms": [
-    [
-     "https://search.gne.go.kr/home/front/Search.jsp",
-     [
-      "divId",
-      "menu",
-      "qt"
-     ]
-    ]
-   ],
-   "iframes": [
-    "https://www.g2b.go.kr:8341/bp/bidPblancUrlSearchList.do?topCode=9010000&amp;cssStyle=3&amp;upmugubun=0"
-   ],
-   "contract_urls": [
-    "/www/buseo17/contractinfo/contractinfo01.jsp",
-    "/www/buseo17/contractinfo/contractinfo09.jsp",
-    "/user/cntr/BD_cntrInfoList.do",
-    "/user/cntr/BD_cntrInfoSuiList.do",
-    "/user/cntr/BD_cntrChgInfoList.do",
-    "/user/cntr/BD_cntrConstInfoList.do",
-    "/user/cntr/BD_cntrBillPaymentInfoList.do",
-    "/user/cntr/BD_subConstCntrInfoList.do"
-   ],
-   "total": null,
-   "len": 137747
+   "total": "3",
+   "len": 116766
   }
  },
  "discover": {
-  "서울": {
-   "home_code": 200,
-   "sitemap": [],
-   "found": [],
-   "checked": []
-  },
-  "대구": {
-   "home_code": 200,
-   "sitemap": [],
-   "found": [],
-   "checked": []
-  },
-  "인천": {
-   "home_code": 200,
-   "sitemap": [],
-   "found": [],
-   "checked": []
-  },
   "광주": {
    "error": "The read operation timed out"
-  },
-  "대전": {
-   "home_code": 200,
-   "sitemap": [],
-   "found": [],
-   "checked": []
   },
   "울산": {
    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
@@ -262,161 +169,12 @@
   "세종": {
    "error": "<urlopen error timed out>"
   },
-  "경기": {
-   "home_code": 200,
-   "sitemap": [],
-   "found": [],
-   "checked": []
-  },
-  "강원": {
-   "error": "<urlopen error timed out>"
-  },
-  "충북": {
-   "error": "<urlopen error timed out>"
-  },
-  "충남": {
-   "error": "<urlopen error timed out>"
-  },
   "전남": {
    "error": "<urlopen error timed out>"
+  },
+  "경북": {
+   "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
   }
  },
- "datasets": {
-  "15150722": {
-   "code": 200,
-   "name": "전남광주통합특별시교육청_수의계약정보",
-   "publisher": null,
-   "modified": "2025-11-10",
-   "keywords": "전남교육,홈페이지운영,홈페이지시스템,에듀파인연계,수의계약",
-   "files": []
-  },
-  "15149551": {
-   "code": 200,
-   "name": "경기도 부천시_공사수의계약현황",
-   "publisher": null,
-   "modified": "2025-09-19",
-   "keywords": "계약,상하수도,수의계약,수도행정,공사수의",
-   "files": []
-  },
-  "15139139": {
-   "code": 200,
-   "name": "경기도 양평군_수의계약 현황",
-   "publisher": null,
-   "modified": "2025-12-09",
-   "keywords": "계약,수의계약,공사,물품,용역,계약금액 및 한",
-   "files": []
-  },
-  "15154073": {
-   "code": 200,
-   "name": "부산광역시 남구_계약목록",
-   "publisher": null,
-   "modified": "2025-12-02",
-   "keywords": "공공계약,계약정보,조달집행,예산정보,계약관리,수의계약,사업현황,행정데이터",
-   "files": []
-  },
-  "15145393": {
-   "code": 200,
-   "name": "전북특별자치도교육청_통합홈페이지_정보공개",
-   "publisher": null,
-   "modified": "2026-08-19",
-   "keywords": "재정공개,계약정보,발주정보,체결현황,목록",
-   "files": []
-  },
-  "15137244": {
-   "code": 200,
-   "name": "전남광주통합특별시_계약정보공개",
-   "publisher": null,
-   "modified": "2025-12-03",
-   "keywords": "계약,정보,공개,법령,변경계약",
-   "files": []
-  },
-  "15159509": {
-   "code": 200,
-   "name": "제주관광공사_기관홈페이지 수의계약정보",
-   "publisher": null,
-   "modified": "2026-05-14",
-   "keywords": "수의계약,계약정보,계약공개,행정투명성,공공조달",
-   "files": []
-  },
-  "15142662": {
-   "code": 200,
-   "name": "인천광역시_종합건설본부 공사 수의계약 현황",
-   "publisher": null,
-   "modified": "2026-07-22",
-   "keywords": "공사,수의,계약,건설,계약금액",
-   "files": []
-  },
-  "15149295": {
-   "code": 200,
-   "name": "울산시설공단_공사 수의계약 현황",
-   "publisher": null,
-   "modified": "2026-08-11",
-   "keywords": "공사,수의계약,계약,거래처,공사계약,계약금액",
-   "files": []
-  },
-  "15154993": {
-   "code": 200,
-   "name": "충청북도 제천시_수의계약현황",
-   "publisher": null,
-   "modified": "2025-11-28",
-   "keywords": "계약,수의예약,계약현황,공사,용역,물품,계약금액,나라장",
-   "files": []
-  },
-  "15153637": {
-   "code": 200,
-   "name": "한국보건산업진흥원_입찰 및 수의계약 정보",
-   "publisher": null,
-   "modified": "2026-09-28",
-   "keywords": "입찰계약정보,수의계약정보,입찰공고,낙찰업체,입찰품의",
-   "files": []
-  },
-  "15146957": {
-   "code": 200,
-   "name": "충청북도 옥천군_수의계약 현황",
-   "publisher": null,
-   "modified": "2026-09-07",
-   "keywords": "수의계약,계약현황,용역,물품,공사,지방자치단체,계약상대자,계약부서",
-   "files": []
-  },
-  "15155026": {
-   "code": 200,
-   "name": "충청북도 제천시_준공검사현황",
-   "publisher": null,
-   "modified": "2025-11-27",
-   "keywords": "계약명,계약금액,계약일,준공일,착공일,검수일,용역,공사",
-   "files": []
-  },
-  "15153760": {
-   "code": 200,
-   "name": "충청북도_e기업사랑_용역입찰 정보",
-   "publisher": null,
-   "modified": "2025-11-24",
-   "keywords": "용역,입찰,나라장터,나라장터링크,지역별입찰정보",
-   "files": []
-  },
-  "15153862": {
-   "code": 200,
-   "name": "충청남도교육청 충청남도보령교육지원청_사전공표목록",
-   "publisher": null,
-   "modified": "2025-11-25",
-   "keywords": "충남교육청,보령시,교육행정,정보공개,홈페이지",
-   "files": []
-  },
-  "15147897": {
-   "code": 200,
-   "name": "경기도 과천시_학교현황 통계",
-   "publisher": null,
-   "modified": "2026-09-22",
-   "keywords": "학교,유치원,학생수,중고등,대학",
-   "files": []
-  },
-  "15144993": {
-   "code": 200,
-   "name": "경기도 가평군_계약정보공개시스템 계약사업현황",
-   "publisher": null,
-   "modified": "2026-05-22",
-   "keywords": "계약정보,공공계약,예산집행,거래,계약",
-   "files": []
-  }
- }
+ "datasets": {}
 }
