@@ -24,7 +24,10 @@ BASE = "http://openapi.eduinfo.go.kr/openApi.do"
 DOC_PAGES = ["https://www.eduinfo.go.kr/portal/open/openData/openApiPage.do",
              "https://www.eduinfo.go.kr/portal/open/openData/openApiInfo.do",
              "http://openapi.eduinfo.go.kr/portal/open/openData/openApiPage.do"]  # https 는 인증서 이름 불일치
-SERVICES = []  # 1단계 진단 후 채운다. 예: [("서비스명", "설명")]
+SERVICES = []  # 교원연수 세부 세출 서비스가 확인되면 채운다. 예: [("서비스명", "설명")]
+# 시도교육청 세입·세출·차액 총계(2026-10-06 확인: opclTotal 759행). 시도별 '예산 여력' 계산(ops_insights.py)에 쓴다.
+TOTAL_SVC = "opclTotal"
+FINANCE_HISTORY = HERE / "history" / "eduinfo_finance.json"  # 공개 재정 통계 - API 실패 시 직전 값 사용
 TRAIN_RE = re.compile(r"연수|역량\s?강화|직무")
 STATUS = HERE / "history" / "eduinfo_status.json"
 
@@ -88,13 +91,42 @@ def fetch(key, service):
     return rows
 
 
+def build_finance(rows):
+    """opclTotal 행 -> {시도: {연도: {"in": 세입, "out": 세출, "diff": 차액}}} (원 단위)"""
+    fin = {}
+    key = {"세입총계": "in", "세출총계": "out", "차액": "diff"}
+    for r in rows:
+        k = key.get(str(r.get("ITEM_CD2", "")).strip())
+        sido, y = str(r.get("ITEM_CD1", "")).strip(), str(r.get("YMQ", "")).strip()[:4]
+        if not (k and sido and y.isdigit()):
+            continue
+        try:
+            fin.setdefault(sido, {}).setdefault(y, {})[k] = int(float(r.get("AMT") or 0))
+        except (TypeError, ValueError):
+            continue
+    return fin
+
+
 def main():
     key = os.environ.get("EDUINFO_KEY")
     out = Path(sys.argv[1] if len(sys.argv) > 1 else "live/eduinfo_export.json")
     found, errors = discover()
     status = {"date": date.today().isoformat(), "doc_errors": errors,
               "services_found": dict(sorted(found.items())[:300]), "fetched": {}}
-    result = {"rows": [], "services": []}
+    result = {"rows": [], "services": [], "finance": {}}
+    if key:
+        try:
+            fin = build_finance(fetch(key, TOTAL_SVC))
+            if fin:
+                result["finance"] = fin
+                FINANCE_HISTORY.write_text(json.dumps({"date": date.today().isoformat(), "finance": fin},
+                                                      ensure_ascii=False, indent=0), encoding="utf-8")
+            status["finance"] = {"sido": len(fin), "years": sorted({y for v in fin.values() for y in v})}
+        except Exception as e:
+            status["finance"] = {"error": str(e)[:200].replace(key, "***")}
+    if not result["finance"] and FINANCE_HISTORY.exists():
+        result["finance"] = json.loads(FINANCE_HISTORY.read_text(encoding="utf-8")).get("finance", {})
+        status.setdefault("finance", {})["fallback"] = True
     if key:
         for svc, label in SERVICES:
             try:
@@ -123,7 +155,7 @@ def main():
     STATUS.write_text(json.dumps(status, ensure_ascii=False, indent=1), encoding="utf-8")
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
-    print(f"eduinfo: 서비스 후보 {len(found)}개, 문서 오류 {len(errors)}건, 수집 {len(result['rows'])}행")
+    print(f"eduinfo: 서비스 후보 {len(found)}개, 문서 오류 {len(errors)}건, 수집 {len(result['rows'])}행, 재정 총계 {len(result['finance'])}개 시도")
 
 
 if __name__ == "__main__":

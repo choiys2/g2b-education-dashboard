@@ -66,17 +66,19 @@ def main():
     base = now if now.hour >= 3 else now - timedelta(days=1)  # 02시 발표분은 02:10 이후 제공
     bd = base.strftime("%Y%m%d")
     today, tomorrow = now.strftime("%Y%m%d"), (now + timedelta(days=1)).strftime("%Y%m%d")
+    d2 = (now + timedelta(days=2)).strftime("%Y%m%d")  # 모레 - 집합연수 운영 지원(ops_insights.py)용
     cities, errors = [], []
     for name, nx, ny in CITIES:
         try:
             items = fetch(key, nx, ny, bd)
-            cities.append({"city": name, "today": summarize(items, today), "tomorrow": summarize(items, tomorrow)})
+            cities.append({"city": name, "today": summarize(items, today), "tomorrow": summarize(items, tomorrow),
+                           "d2": summarize(items, d2)})
         except Exception as e:
             errors.append(f"{name}: {str(e)[:120]}")
         time.sleep(0.1)
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps({"generated": now.strftime("%Y-%m-%d %H:%M"), "base": f"{bd[4:6]}/{bd[6:]} 02시 발표",
-                               "cities": cities, "errors": errors}, ensure_ascii=False), encoding="utf-8")
+                               "dates": [today, tomorrow, d2], "cities": cities, "errors": errors}, ensure_ascii=False), encoding="utf-8")
     print(f"weather: {len(cities)}개 도시, 오류 {len(errors)}건 {errors[:2]}")
 
 
