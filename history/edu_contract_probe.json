@@ -1,0 +1,262 @@
+{
+ "date": "2026-10-06",
+ "offices": {
+  "서울": {
+   "home": "https://www.sen.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: *\r\nAllow: /\r\nAllow: /sen/\r\nAllow: /www/minwon/minwoninfo/minwonservice/\r\nAllow: /www/minwon/callcenter/\r\nAllow: /www/minwon/singocenter/\r\nAllow: /www/minwon/discussion/\r\nAllow: /www/minwon/proposal/\r\nAllow: /www/minwon/active/\r\nAllow: /user/bbs/BD_selectBbsList.do?q_bbsSn=1073\r\nAllow: /user/bbs/BD_selectBbsList.do?q_bbsSn=1074\r\nAllow: /user/bbs/BD_selectBbsList.do?q_bbsSn=1075\r\nAllow: /user/bbs/BD_selectBbsList.do?q_bbsSn=1076\r\nAllow: /user/bbs/BD_selectBbsList.do?q_bbsSn=1077\r\nAllow: /user/bbs/BD_selectBbsList.do?q_bbsSn=1078\r\nAllow: /user/bbs/BD_selectBbsList.do?q_bbsSn=1073\r\nAll",
+   "home_code": 200,
+   "candidates": [],
+   "verdict": "목록 미확인"
+  },
+  "부산": {
+   "home": "https://www.pen.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: Googlebot\r\nDisallow: /search/search.do\r\nDisallow: /bbs/\r\n\r\nUser-Agent: * \r\nDisallow: /excel/\r\nDisallow: /editor/\r\nDisallow: /kcase/\r\nDisallow: /key/\r\nDisallow: /raonkupload/\r\nDisallow: /synap/\r\nDisallow: /naver/\r\nDisallow: /onepass/\r\nDisallow: /*/lo/login/\r\nDisallow: /main/ad/ct/view/selectCtCotcherList.do\r\nDisallow: /search/\r\nDisallow: /search/search.do\r\nDisallow: /bbs/\r\nDisallow: /*도박*\r\nDisallow: /*토토*\r\nDisallow: /*바카라*\r\nDisallow: /*카지노*\r\nDisallow: /*슬롯*\r\nDisallow: /*홀덤*\r\nDisallow: /*먹튀*\r\nDisallow: /*사설*\r\nDisallow: /*스포츠중계*\r\nDisallow: /*에볼루션*\r\nDisallow: /*파워볼*\r\nDisallow: /*로또조작*\r",
+   "candidates": [
+    {
+     "text": "검색 확인",
+     "url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?mi=31736&bbsId=2261",
+     "robots_allowed": true,
+     "code": 200,
+     "final": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?mi=31736&bbsId=2261",
+     "tr": 11,
+     "th": [
+      "번호",
+      "기관명",
+      "등록일",
+      "사업명",
+      "계약금액(B)",
+      "계약일자",
+      "예정가격(예정금액)(A",
+      "계약율(%)(B/A)"
+     ],
+     "has_amount": true,
+     "has_vendor": true,
+     "school": true
+    }
+   ],
+   "verdict": "수집 가능"
+  },
+  "대구": {
+   "home": "https://www.dge.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: Googlebot\nDisallow: /*/na/ntt\nDisallow: /search/front/Search.jsp\n\nUser-agent: *\nDisallow: /audio/\nDisallow: /check/\nDisallow: /dge_webviewer/\nDisallow: /excel/\nDisallow: /editor/\nDisallow: /ezpdfwebviewer/\nDisallow: /kcase/\nDisallow: /raonkupload/\nDisallow: /upload/\nDisallow: /uploadad/\nDisallow: /video/\nDisallow: /help/\nDisallow: /co/lo/\nDisallow: /*/lo/login/",
+   "home_code": 200,
+   "candidates": [],
+   "verdict": "목록 미확인"
+  },
+  "인천": {
+   "home": "https://www.ice.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "<meta http-equiv=\"refresh\" content=\"0;url=https://www.ice.go.kr/law/main.do\">",
+   "candidates": [
+    {
+     "text": "검색 확인",
+     "url": "https://www.ice.go.kr/contract/ir/selectCntrInfoList.do?mi=11307",
+     "robots_allowed": true,
+     "code": 200,
+     "final": "https://www.ice.go.kr/contract/ir/selectCntrInfoList.do?mi=11307",
+     "tr": 0,
+     "th": [],
+     "has_amount": false,
+     "has_vendor": false,
+     "school": false
+    }
+   ],
+   "verdict": "목록 미확인"
+  },
+  "광주": {
+   "home": "https://www.gen.go.kr/",
+   "error": "The read operation timed out",
+   "verdict": "접속 실패"
+  },
+  "대전": {
+   "home": "https://www.dje.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: * \r\nDisallow: /\r\nDisallow: /search/\r\nAllow: /main.do\r\nAllow: /eduhealingnew/main.do\r\n",
+   "home_code": 200,
+   "candidates": [],
+   "verdict": "목록 미확인"
+  },
+  "울산": {
+   "home": "https://use.go.kr/",
+   "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>",
+   "verdict": "접속 실패"
+  },
+  "세종": {
+   "home": "https://www.sje.go.kr/",
+   "error": "<urlopen error timed out>",
+   "verdict": "접속 실패"
+  },
+  "경기": {
+   "home": "https://www.goe.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: *\r\nDisallow: /search/\r\nDisallow: /search",
+   "home_code": 200,
+   "candidates": [],
+   "verdict": "목록 미확인"
+  },
+  "강원": {
+   "home": "https://www.gwe.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: *\r\nDisallow: /nurizip/search/",
+   "candidates": [
+    {
+     "text": "검색 확인",
+     "url": "https://www.gwe.go.kr/open/bbs/list.do?key=m2305310768003",
+     "robots_allowed": true,
+     "code": 200,
+     "final": "https://www.gwe.go.kr/open/bbs/list.do?key=m2305310768003",
+     "tr": 11,
+     "th": [
+      "번호",
+      "제목",
+      "작성자",
+      "작성일",
+      "조회",
+      "파일"
+     ],
+     "has_amount": false,
+     "has_vendor": false,
+     "school": true
+    }
+   ],
+   "verdict": "수집 가능"
+  },
+  "충북": {
+   "home": "https://www.cbe.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: *\r\nAllow: /\r\n\r\nDisallow: /common/\r\nDisallow: /comm/\r\nDisallow: /apple/\r\nDisallow: /js/\r\nDisallow: /images/\r\nDisallow: /css/\r\nDisallow: /upload/\r\nDisallow: /log/\r\nDisallow: /comm/\r\nDisallow: /nice/\r\nDisallow: /editor/\r\nDisallow: /onepass/\r\nDisallow: /search/\r\nDisallow: /webfilter/\r\nDisallow: /WEB-INF/classes/\r\nDisallow: /WEB-INF/config/\r\nDisallow: /WEB-INF/lib/\r\nDisallow: /WEB-INF/spconfig/\r\n\r\nUser-agent : Googlebot\r\nDisallow : /cbe/search.do",
+   "home_code": 200,
+   "candidates": [],
+   "verdict": "목록 미확인"
+  },
+  "충남": {
+   "home": "https://www.cne.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: Yeti\r\nDisallow: /\r\n\r\nAllow: /human/\r\nAllow: /news/main.do\r\nAllow: /shec/main.do\r\n\r\nUser-agent: barossam.com\r\nDisallow: /\r\nAllow: /boardCnts/\r\n\r\nUser-agent: *\r\nDisallow: /",
+   "home_code": 200,
+   "candidates": [],
+   "verdict": "목록 미확인"
+  },
+  "전북": {
+   "home": "https://www.jbe.go.kr/",
+   "requests": 5,
+   "robots_code": 200,
+   "robots": "User-agent : Googlebot\nDisallow : /\n\nUser-agent : Bingbot\nDisallow : /\n\nUser-agent : bingbot\nDisallow : /\n\nUser-agent : *\nAllow : /\n",
+   "home_code": 200,
+   "candidates": [
+    {
+     "text": "1인 수의계약현황",
+     "url": "https://www.jbe.go.kr/index.jbe?menuCd=DOM_000001003001009000",
+     "robots_allowed": true,
+     "code": 200,
+     "final": "https://www.jbe.go.kr/open/edufine/eduCntrlist1.jbe?fscl_y=2026&cntr_mthd_div_nm=1%EC%9D%B8%EC%88%98%EC%9D%98&menuCd=DOM_000001003001009000&contentsSid=3099&cpath=%2Fopen",
+     "tr": 11,
+     "th": [
+      "No.",
+      "회계연도",
+      "계약기관",
+      "계약기관계약명",
+      "계약일자",
+      "계약금액",
+      "상대자"
+     ],
+     "has_amount": true,
+     "has_vendor": true,
+     "school": true
+    },
+    {
+     "text": "1인 수의계약현황새창열림",
+     "url": "https://www.jbe.go.kr/index.jbe?menuCd=DOM_000000113002000000",
+     "robots_allowed": true,
+     "code": 200,
+     "final": "https://www.jbe.go.kr/open/edufine/eduCntrlist1.jbe?fscl_y=2026&cntr_mthd_div_nm=1%EC%9D%B8%EC%88%98%EC%9D%98&menuCd=DOM_000001003001009000&contentsSid=3099&cpath=%2Fopen",
+     "tr": 11,
+     "th": [
+      "No.",
+      "회계연도",
+      "계약기관",
+      "계약기관계약명",
+      "계약일자",
+      "계약금액",
+      "상대자"
+     ],
+     "has_amount": true,
+     "has_vendor": true,
+     "school": true
+    },
+    {
+     "text": "1인 수의계약현황 새창열림",
+     "url": "https://www.jbe.go.kr/index.jbe?menuCd=DOM_000000104013000000",
+     "robots_allowed": true,
+     "code": 200,
+     "final": "https://www.jbe.go.kr/open/edufine/eduCntrlist1.jbe?fscl_y=2026&cntr_mthd_div_nm=1%EC%9D%B8%EC%88%98%EC%9D%98&menuCd=DOM_000001003001009000&contentsSid=3099&cpath=%2Fopen&cpath=",
+     "tr": 11,
+     "th": [
+      "No.",
+      "회계연도",
+      "계약기관",
+      "계약기관계약명",
+      "계약일자",
+      "계약금액",
+      "상대자"
+     ],
+     "has_amount": true,
+     "has_vendor": true,
+     "school": true
+    }
+   ],
+   "verdict": "수집 가능"
+  },
+  "전남": {
+   "home": "https://www.jne.go.kr/",
+   "error": "<urlopen error timed out>",
+   "verdict": "접속 실패"
+  },
+  "경북": {
+   "home": "https://www.gbe.kr/",
+   "error": "<urlopen error _ssl.c:993: The handshake operation timed out>",
+   "verdict": "접속 실패"
+  },
+  "경남": {
+   "home": "https://www.gne.go.kr/",
+   "requests": 2,
+   "robots_code": 404,
+   "robots": "",
+   "home_code": 200,
+   "candidates": [],
+   "verdict": "목록 미확인"
+  },
+  "제주": {
+   "home": "https://www.jje.go.kr/",
+   "requests": 2,
+   "robots_code": 200,
+   "robots": "User-agent: *\nAllow: /BBS_0000507\nAllow: /BBS_0000985\nDisallow: /\n\nUser-agent: Yeti\nAllow: /\nDisallow: /wisenut/\nDisallow: /board/download\nDisallow: /upload_data\n\nUser-agent: Daum\nAllow: /\nDisallow: /wisenut/\nDisallow: /board/download\nDisallow: /upload_data\n\nUser-agent: Googlebot\nAllow: /\nDisallow: /wisenut/\nDisallow: /BBS_0000084\nDisallow: /board/download\nDisallow: /upload_data\n\nUser-agent: Bingbot\nAllow: /\nDisallow: /wisenut/\nDisallow: /board/download\nDisallow: /upload_data",
+   "home_code": 200,
+   "candidates": [
+    {
+     "text": "수의계약내역",
+     "url": "https://www.jje.go.kr/index.jje?menuCd=DOM_000000105003009000",
+     "robots_allowed": false
+    },
+    {
+     "text": "2026학년도 서귀포산업과학고등학교 말산업전문인력양성기",
+     "url": "https://www.jje.go.kr/board/view.jje?boardId=BBS_0000087&menuCd=DOM_000000105003002001&orderBy=REGISTER_DATE%20DESC&paging=ok&startPage=1&dataSid=1482850",
+     "robots_allowed": false
+    }
+   ],
+   "verdict": "robots 금지"
+  }
+ }
+}

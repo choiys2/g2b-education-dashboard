@@ -47,5 +47,9 @@
  "rows": 4007,
  "dated": 3998,
  "linked_courses": 77,
- "unlinked_rows": 1987
+ "unlinked_rows": 1987,
+ "conversion": {
+  "orgs": 299,
+  "won_orgs": 40
+ }
 }
