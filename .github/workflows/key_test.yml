@@ -18,7 +18,7 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 22
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -41,8 +41,8 @@ jobs:
           python banner_market.py live/banner_market.json
       - name: 학교·교육청 연수 수의계약 수집(첫 백필)
         continue-on-error: true
-        timeout-minutes: 8
-        run: python edu_contract_probe.py --deep
+        timeout-minutes: 14
+        run: python edu_contracts.py /tmp/edu_contracts.json
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
