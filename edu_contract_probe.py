@@ -154,7 +154,13 @@ def sample(html, final):
     frames = re.findall(r'<iframe\b[^>]*src=["\']([^"\']+)["\']', html, re.I)[:3]
     ajax = list(dict.fromkeys(re.findall(r'["\']([^"\'\s]*(?:jaai|Jaai|cntr|Cntr|contract|Contract|sugye|edufine)[^"\'\s]*)["\']', html)))[:8]
     total = re.search(r"(?:총|전체)\s*(?:게시물|건수)?\s*[:：]?\s*([\d,]+)\s*건", TAG.sub(" ", html))
-    return {"final": final, "rows": rows, "paging_links": pag, "paging_js": js, "forms": forms, "iframes": frames,
+    selects = {n: re.findall(r'<option\b[^>]*value=["\']([^"\']*)["\'][^>]*>([^<]{0,20})', b)[:12]
+               for n, b in re.findall(r'<select\b[^>]*name=["\'](\w+)["\'][^>]*>(.*?)</select>', html, re.S | re.I)}
+    inputs = list(dict.fromkeys(re.findall(r'<input\b[^>]*name=["\'](\w+)["\'][^>]*>', html, re.I)))[:40]
+    fnames = list(dict.fromkeys(re.findall(r"function\s+(\w*(?:[Pp]age|[Ss]earch|[Ll]ist|[Ss]ubmit)\w*)\s*\(", html)))[:10]
+    bodies = [m[:500] for m in re.findall(r"function\s+\w*(?:[Pp]age|[Ss]earch)\w*\s*\([^)]*\)\s*\{(.*?)\n\s*\}", html, re.S)][:3]
+    pager = re.findall(r'<(?:a|button)\b[^>]*(?:onclick|href)=["\']([^"\']*(?:[Pp]age|currPage|pageIndex)[^"\']*)["\']', html)[:4]
+    return {"final": final, "rows": rows, "selects": selects, "inputs": inputs, "fnames": fnames, "fbodies": bodies, "pager": pager, "paging_links": pag, "paging_js": js, "forms": forms, "iframes": frames,
             "contract_urls": ajax, "total": total.group(1) if total else None, "len": len(html)}
 
 
