@@ -720,6 +720,7 @@
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="search" hidden>통합검색</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">관계망</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="beta">베타 기능</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="admin">관리 🔒</button>
   </nav>
 
   <div class="tabpanel" id="panel-market">
@@ -2301,6 +2302,22 @@
 
   </div><!-- /panel-network -->
 
+  <!-- 관리: 로직 구조·실행 상태(admin_structure.py). 내용은 별도 비밀번호(GitHub Secret ADMIN_PASSWORD)로 암호화돼 실린다 -->
+  <div class="tabpanel" id="panel-admin">
+    <section class="panel" id="adminGate">
+      <div class="panel-head"><div>
+        <p class="panel-title">관리 — 로직 구조 · 실행 상태</p>
+        <p class="panel-desc" id="adminDesc">관리자 전용입니다. 대시보드 비밀번호와 다른 관리 비밀번호가 필요합니다.</p>
+      </div></div>
+      <form id="adminForm" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;" autocomplete="off">
+        <input id="adminPw" type="password" inputmode="numeric" placeholder="관리 비밀번호" aria-label="관리 비밀번호" style="font:inherit;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);width:180px;">
+        <button type="submit" class="btn-csv" id="adminGo" style="margin:0;">열기</button>
+        <span id="adminErr" role="alert" style="color:var(--danger, #d64545);font-size:13px;"></span>
+      </form>
+    </section>
+    <div id="adminBody"></div>
+  </div><!-- /panel-admin -->
+
   <div class="tabpanel" id="panel-beta">
 
     <div class="callout">
@@ -2501,6 +2518,7 @@ const EXEC = __EXEC_JSON__;
 const OPS = __OPS_JSON__;
 const EDU_CNTR = __EDU_CNTR_JSON__;
 const VIZ = __VIZ_JSON__;
+const ADMIN = __ADMIN_JSON__;
 const BETA = __BETA_JSON__;
 
 const fmt = n => n.toLocaleString('ko-KR');
@@ -4927,6 +4945,31 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       ${[mnY, (mnY + mxY) / 2, mxY].map(v => `<text x="${P - 6}" y="${y(v) + 4}" text-anchor="end" font-size="10" fill="var(--muted)">${Math.round(v)}</text>`).join('')}
       <text x="${x(X)}" y="${y(a + b * X) - 8}" text-anchor="end" font-size="11" fill="var(--ink-2)">14일 뒤 ${Math.round(a + b * X)}건 (±${Math.round(1.64 * sd)})</text>
     </svg>${so('띠(90% 범위)가 넓을수록 예측을 믿기 어렵습니다. 실제 값이 띠 밖으로 나가면 시장에 구조적 변화가 생긴 것이니 원인을 확인하세요.')}`;
+  });
+})();
+
+// 관리 탭: 별도 비밀번호로 암호화된 로직 구조를 브라우저에서만 복호화(저장하지 않음)
+(function adminGate(){
+  const form = document.getElementById('adminForm');
+  if (!form) return;
+  if (!ADMIN) { document.getElementById('adminDesc').textContent = '관리 비밀번호(GitHub Secret ADMIN_PASSWORD)가 아직 설정되지 않아 내용을 싣지 않았습니다.'; form.hidden = true; return; }
+  const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const pw = document.getElementById('adminPw').value.trim(), err = document.getElementById('adminErr'), go = document.getElementById('adminGo');
+    if (!pw) return;
+    go.disabled = true; err.textContent = '';
+    try {
+      const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+      const key = await crypto.subtle.deriveKey({name: 'PBKDF2', salt: b64(ADMIN.s), iterations: ADMIN.n, hash: 'SHA-256'}, base, {name: 'AES-GCM', length: 256}, false, ['decrypt']);
+      const plain = await crypto.subtle.decrypt({name: 'AES-GCM', iv: b64(ADMIN.i)}, key, b64(ADMIN.c));
+      const body = document.getElementById('adminBody');
+      body.innerHTML = new TextDecoder().decode(plain);
+      body.querySelectorAll('[data-goto]').forEach(g => g.addEventListener('click', () => activateTab(g.getAttribute('data-goto'))));
+      document.getElementById('adminGate').hidden = true;
+    } catch (ex) {
+      err.textContent = '비밀번호가 맞지 않습니다.';
+    } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
   });
 })();
 
