@@ -228,6 +228,8 @@ jobs:
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}   # 관리 탭 별도 암호화(값은 시크릿에만)
         run: python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html
 
       # Gemini로 '오늘의 AI 브리핑' 생성 후 대시보드를 한 번 더 조합(조합 결과를 입력으로 쓰기 때문)
@@ -237,6 +239,7 @@ jobs:
         continue-on-error: true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
         run: |
           # 스크립트마다 시간 상한을 둬 한 곳의 과부하 재시도가 다른 해석을 막지 않게 한다(중요한 순서대로)
           timeout 180 python ai_insights.py live/ai_insights.json || true
