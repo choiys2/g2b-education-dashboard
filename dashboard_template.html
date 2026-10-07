@@ -2519,6 +2519,7 @@ const OPS = __OPS_JSON__;
 const EDU_CNTR = __EDU_CNTR_JSON__;
 const VIZ = __VIZ_JSON__;
 const ADMIN = __ADMIN_JSON__;
+const WF_BADGES = __WF_BADGES_JSON__;
 const BETA = __BETA_JSON__;
 
 const fmt = n => n.toLocaleString('ko-KR');
@@ -4527,6 +4528,8 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   function panel(tab, after, title, sub){
     const sec = document.createElement('section');
     sec.className = 'panel viz-panel';
+    const vn = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕'.indexOf(title[0]);
+    if (vn >= 0) sec.id = 'viz' + (vn + 1);  // 업무 플로우 연계(workflows.py)가 가리키는 id
     sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">${title}${sub ? `<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">${sub}</span>` : ''}</p></div></div><div class="viz-body"></div>`;
     const anchor = after && document.getElementById(after);
     const host = anchor ? (anchor.closest('section.panel') || anchor) : document.getElementById('panel-' + tab);
@@ -4965,11 +4968,31 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       const plain = await crypto.subtle.decrypt({name: 'AES-GCM', iv: b64(ADMIN.i)}, key, b64(ADMIN.c));
       const body = document.getElementById('adminBody');
       body.innerHTML = new TextDecoder().decode(plain);
-      body.querySelectorAll('[data-goto]').forEach(g => g.addEventListener('click', () => activateTab(g.getAttribute('data-goto'))));
+      body.querySelectorAll('[data-goto]').forEach(g => g.addEventListener('click', () => {
+        activateTab(g.getAttribute('data-goto'));
+        const a = g.getAttribute('data-anchor'), t = a && document.getElementById(a);
+        if (t) setTimeout(() => (t.closest('section.panel') || t).scrollIntoView({behavior: 'smooth', block: 'start'}), 80);
+      }));
       document.getElementById('adminGate').hidden = true;
     } catch (ex) {
       err.textContent = '비밀번호가 맞지 않습니다.';
     } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
+  });
+})();
+
+// 업무 플로우 배지: 패널 제목 옆에 '이 화면을 쓰는 업무 단계' 표시(workflows.py 연계표)
+(function workflowBadges(){
+  const M = (typeof WF_BADGES !== 'undefined' && WF_BADGES) || {};
+  Object.entries(M).forEach(([id, v]) => {
+    const el = document.getElementById(id); if (!el) return;
+    const sec = el.closest('section.panel') || el, t = sec.querySelector('.panel-title');
+    if (!t || t.querySelector('.wf-badge')) return;
+    const b = document.createElement('span');
+    b.className = 'wf-badge';
+    b.textContent = '업무 ' + v.steps.length;
+    b.title = '이 화면을 쓰는 업무 단계\n' + v.steps.join('\n');
+    b.style.cssText = 'margin-left:8px;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:color-mix(in srgb,#f59e0b 18%,transparent);color:var(--ink-2);border:1px solid #f59e0b;vertical-align:2px;cursor:help;';
+    t.appendChild(b);
   });
 })();
 
