@@ -231,6 +231,8 @@ def build_html(exec_sources=None):
     return (css + '<div class="adm">'
             + sec("데이터 연계 다이어그램 (상세)", f"소스 → 수집 스크립트(저장 위치) → 분석 모듈 → 화면. 소스 테두리 색 = 마지막 실행 상태(초록 정상·주황 주의·회색 대기). 상자에 마우스를 올리면 스크립트·저장 파일·키 이름이 보이고, 오른쪽 탭을 누르면 이동합니다. 생성 {now} KST",
                   f'<div style="overflow-x:auto;">{diagram(st)}</div>')
+            + sec("업무 플로우 × 시스템 연계", "연수개발 · B2G 판매 · B2C·학교 판매 · 오프라인 연수 4개 업무 플로우를 단계별로 옮기고, 각 단계에서 쓰는 대시보드 화면과 아직 시스템 밖인 부분(갭)을 붙였습니다. 화면 쪽 패널 제목 옆 '업무' 배지도 같은 연계표에서 나옵니다.",
+                  __import__("workflows").render())
             + sec("소스별 실행 상태", "마지막 수집일·건수·상태. 키는 GitHub Secret 이름만 표시합니다.",
                   f"<div class='tbl-wrap'><table><thead><tr><th>소스</th><th>키(시크릿 이름)</th><th class='num'>건수</th><th>마지막</th><th>상태</th><th>메모</th></tr></thead><tbody>{src_rows}</tbody></table></div>")
             + sec("배포 파이프라인 실행 순서", "deploy.yml 을 그대로 읽은 결과입니다(코드가 바뀌면 이 표도 자동으로 바뀝니다). '계속' = 실패해도 다음 단계 진행, '중단' = 실패 시 배포 중단.",
