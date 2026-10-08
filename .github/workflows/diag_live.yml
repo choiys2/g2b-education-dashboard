@@ -12,7 +12,9 @@ jobs:
       - run: |
           mkdir -p diag
           curl -sSL -D diag/gh_headers.txt "https://choiys2.github.io/g2b-education-dashboard/" -o diag/gh_index.html || true
-          curl -sSL -D diag/cf_headers.txt "https://vs-insight.pages.dev/" -o diag/cf_index.html || true
+          curl -sSL -D diag/full_headers.txt "https://choiys2.github.io/g2b-education-dashboard/full/" -o diag/full_index.html || true
+          curl -sSL -v -D diag/cf_headers.txt "https://vs-insight.pages.dev/" -o diag/cf_index.html 2> diag/cf_verbose.txt || true
+          nslookup vs-insight.pages.dev > diag/cf_dns.txt 2>&1 || true
           ls -la diag
           git config user.name "github-actions[bot]"; git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add diag && git commit -m "diag: live fetch" && git push
+          git add -f diag && git commit -m "diag: live fetch 2" && git push
