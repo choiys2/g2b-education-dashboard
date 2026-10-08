@@ -39,6 +39,7 @@ jobs:
           python own_pipeline_export.py live/own_pipeline_export.json
           python pipeline_comms.py live/pipeline_comms.json
           python banner_market.py live/banner_market.json
+          python sheet_probe.py
       - name: 학교·교육청 연수 수의계약 수집
         continue-on-error: true
         timeout-minutes: 14
@@ -47,7 +48,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for f in history/eduinfo_status.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json history/edu_contract_probe.json history/edu_contract_probe_deep.json history/edu_contracts.jsonl history/edu_contracts_status.json; do if [ -f "$f" ]; then git add "$f"; fi; done
+          for f in history/eduinfo_status.json history/pipeline_status.json history/pipeline_comms_status.json history/banner_market_status.json history/edu_contract_probe.json history/edu_contract_probe_deep.json history/edu_contracts.jsonl history/edu_contracts_status.json history/sheet_probe.json; do if [ -f "$f" ]; then git add "$f"; fi; done
           git diff --cached --quiet && exit 0
           git commit -m "chore: API 키 점검 결과 (eduinfo)"
           for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep 5; done
