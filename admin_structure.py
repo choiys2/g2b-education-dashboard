@@ -229,6 +229,27 @@ def live_board():
     return rows + f'<p class="tt-note">{note}. 빨간 테두리는 조치가 필요한 칸입니다. 단계 정의는 아래 업무 플로우 표와 같습니다.</p>'
 
 
+def quick_links():
+    """관리 탭 바로가기: GitHub Secret ADMIN_LINKS 에서만 읽는다(공개 저장소에 주소를 남기지 않기 위해).
+    형식: 한 줄에 하나, '이름|주소' 또는 주소만."""
+    rows = []
+    for line in os.environ.get("ADMIN_LINKS", "").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        name, _, url = line.rpartition("|") if "|" in line else ("", "", line)
+        url = url.strip()
+        if re.match(r"^https://", url):
+            rows.append((name.strip() or url, url))
+    if not rows:
+        return ""
+    items = "".join(f'<a href="{E(u)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 14px;border-radius:8px;'
+                    f'border:1px solid var(--border);background:var(--surface-2);font-weight:800;text-decoration:none;">{E(n)} ↗</a>' for n, u in rows)
+    return ('<section class="panel"><div class="panel-head"><div><p class="panel-title">바로가기</p>'
+            '<p class="panel-desc">관리자 전용 외부 화면(새 창으로 열림)</p></div></div>'
+            f'<div style="display:flex;gap:10px;flex-wrap:wrap;">{items}</div></section>')
+
+
 def build_html(exec_sources=None):
     st = source_status(exec_sources)
     steps, cron = parse_workflow()
@@ -270,7 +291,7 @@ def build_html(exec_sources=None):
     go = lambda t, lab: f"""<a href="javascript:void 0" onclick="document.getElementById('{t}').scrollIntoView({{behavior:'smooth'}})" style="font-weight:800;">{lab}</a>"""
     nav = ("<div style='display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;'>" + go("admPlan", "2027 경영계획")
            + "<span style='color:var(--muted);'>·</span>" + go("admSys", "시스템 구조·실행 상태") + "</div>")
-    return (css + '<div class="adm">' + nav + f'<div id="admPlan">{plan_html}</div>'
+    return (css + '<div class="adm">' + nav + quick_links() + f'<div id="admPlan">{plan_html}</div>'
             + "<h3 id='admSys' style='margin:22px 0 10px;'>시스템 구조 · 실행 상태</h3>"
             + sec("데이터 연계 다이어그램 (상세)", f"소스 → 수집 스크립트(저장 위치) → 분석 모듈 → 화면. 소스 테두리 색 = 마지막 실행 상태(초록 정상·주황 주의·회색 대기). 상자에 마우스를 올리면 스크립트·저장 파일·키 이름이 보이고, 오른쪽 탭을 누르면 이동합니다. 생성 {now} KST",
                   f'<div style="overflow-x:auto;">{diagram(st)}</div>')
