@@ -2,7 +2,7 @@
 # Cloudflare Pages 배포(로그인 관문 Cloudflare Access 뒤에 둘 사본).
 # 시크릿 CLOUDFLARE_API_TOKEN · CLOUDFLARE_ACCOUNT_ID 가 없으면 아무것도 하지 않는다(기존 GitHub Pages 배포는 그대로).
 # 프로젝트 이름은 저장소 변수 CF_PAGES_PROJECT(없으면 기본값). 토큰 값은 출력하지 않는다.
-set -u
+set -u -o pipefail
 DIR="${1:-_site}"
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
   echo "Cloudflare 시크릿 없음 - Cloudflare Pages 배포 건너뜀"
