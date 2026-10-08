@@ -1,0 +1,125 @@
+{
+ "date": "2026-10-08",
+ "bids": {
+  "tab_gid": "435501388",
+  "header_row": 1,
+  "roles": [
+   "budget",
+   "field",
+   "join",
+   "open",
+   "org",
+   "posted",
+   "region",
+   "title",
+   "winner",
+   "won",
+   "won_amt"
+  ],
+  "rows": 124,
+  "vocab_join": {
+   "-": 14
+  },
+  "vocab_won": {
+   "수주성공": 8,
+   "수주실패": 4,
+   "4학점 필수": 3,
+   "티처빌수주": 2,
+   "-": 1,
+   "한교원수주": 1,
+   "수주소식 받음": 1,
+   "개발이라 아웃": 1,
+   "비바샘 과정수주": 1,
+   "공고 미확인": 1
+  }
+ },
+ "contents": {
+  "tab_gid": "310577977",
+  "header_row": 1,
+  "roles": [
+   "cert",
+   "credit",
+   "field",
+   "kind",
+   "service",
+   "submit",
+   "topic",
+   "total"
+  ],
+  "rows": 170,
+  "months": [
+   5,
+   6,
+   7
+  ],
+  "vocab_cert": {
+   "CP": 7,
+   "개발방식": 1
+  },
+  "vocab_service": {
+   "2026": 39,
+   "2024": 37,
+   "2025": 33,
+   "2023": 32,
+   "2022": 28
+  }
+ },
+ "settle": {
+  "tab_gid": "2146936103",
+  "header_row": 1,
+  "roles": [
+   "budget",
+   "claim",
+   "contract",
+   "course",
+   "end",
+   "invoice",
+   "month",
+   "org",
+   "rate",
+   "region",
+   "slip",
+   "state"
+  ],
+  "rows": 85,
+  "vocab_invoice": {
+   "-": 2
+  }
+ },
+ "blended": {
+  "tab_gid": "1755198334",
+  "header_row": 2,
+  "roles": [
+   "applied",
+   "budget",
+   "contract",
+   "course",
+   "field",
+   "kind",
+   "lecturer",
+   "meal",
+   "org",
+   "people",
+   "prep",
+   "recruit",
+   "region",
+   "schedule",
+   "sms",
+   "snack",
+   "target",
+   "venue",
+   "venue_name"
+  ],
+  "rows": 22,
+  "vocab_checks": {
+   "장소": {},
+   "강사": {},
+   "홍보문자": {
+    "5/13": 1
+   },
+   "운영준비": {},
+   "식사": {},
+   "다과": {}
+  }
+ }
+}
