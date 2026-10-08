@@ -332,6 +332,19 @@ def build_new_courses(days=180):
     }
 
 
+def _sheets_ops():
+    """sheets_ops.py 결과 + 결과보고 초안(report_drafts.py)"""
+    try:
+        d = load("live/sheets_ops.json")
+    except FileNotFoundError:
+        d = {"available": False}
+    try:
+        d["reports"] = load("live/report_drafts.json")
+    except FileNotFoundError:
+        d["reports"] = None
+    return d
+
+
 def main():
     template_path = sys.argv[1] if len(sys.argv) > 1 else "dashboard_template.html"
     out_path = sys.argv[2] if len(sys.argv) > 2 else "live/neis_dashboard_full.html"
@@ -475,6 +488,7 @@ def main():
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
         "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": exec_data, "__B2S_MARKET_JSON__": b2s_market,
         "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops, "__VIZ_JSON__": __import__("viz_data").build(pipeline_export.get("records", [])),
+        "__SHEETS_OPS_JSON__": _sheets_ops(),
         "__WF_BADGES_JSON__": __import__("workflows").badge_map(),
         "__ADMIN_JSON__": __import__("admin_structure").encrypted_blob((exec_data or {}).get("sources")),
         "__EDU_CNTR_JSON__": __import__("edu_contracts").build(),
