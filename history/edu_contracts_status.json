@@ -1,7 +1,21 @@
 {
  "date": "2026-10-08",
  "jbe": {
-  "error": "<urlopen error timed out>"
+  "pages": 24,
+  "rows": 231,
+  "per_variant": {
+   "base": 120,
+   "school": 111
+  },
+  "head": [
+   "No.",
+   "회계연도",
+   "계약기관",
+   "계약기관계약명",
+   "계약일자",
+   "계약금액",
+   "상대자"
+  ]
  },
  "gne": {
   "skipped": "robots"
@@ -35,8 +49,8 @@
    "계약대상자"
   ]
  },
- "fetched": 104,
- "training": 52,
+ "fetched": 335,
+ "training": 169,
  "new": 0,
  "total": 614
 }
