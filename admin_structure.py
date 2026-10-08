@@ -257,11 +257,21 @@ def build_html(exec_sources=None):
               ("AI 장애 대비", "gemini_client: 503이면 대체 모델 즉시 전환, 429는 모델 교체, 스크립트별 시간 상한, 실패 시 마지막 성공본"),
               ("개인정보", "시트는 화이트리스트 열만 읽음, 영업자 익명화, 소통은 숫자만, 수의계약 상대자 이름 미저장"),
               ("키 보호", "API 키는 GitHub Secret 에만, 로그 마스킹, 코드·history 에 미기록"),
+              ("계획 수치", "2027 경영계획은 Secret PLAN_2027_JSON 에서만 읽어 이 관리 탭 암호문 안에만 실음(history·브리핑·공개 화면 미기록)"),
               ("접근 통제", "검색 차단(noindex) + 대시보드 비밀번호(AES-256-GCM) + 관리 탭 별도 비밀번호"),
               ("외부 사이트 예절", "robots.txt 확인 후 허용 경로만, 요청 간 0.6~1초 간격, S2B 는 자동 수집 안 함")]
     css = "<style>.adm table{width:100%;border-collapse:collapse;font-size:13px;} .adm th,.adm td{padding:7px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;} .adm th{color:var(--muted);font-weight:700;font-size:12px;} .adm .num{text-align:right;font-variant-numeric:tabular-nums;} .adm h4{margin:22px 0 8px;font-size:15px;} .adm code{font-size:11.5px;}</style>"
     sec = lambda t, d, body: f'<section class="panel"><div class="panel-head"><div><p class="panel-title">{t}</p><p class="panel-desc">{d}</p></div></div>{body}</section>'
-    return (css + '<div class="adm">'
+    try:
+        plan_html = __import__("plan2027").build_html(sec)
+    except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        plan_html = ""
+    go = lambda t, lab: f"""<a href="javascript:void 0" onclick="document.getElementById('{t}').scrollIntoView({{behavior:'smooth'}})" style="font-weight:800;">{lab}</a>"""
+    nav = ("<div style='display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;'>" + go("admPlan", "2027 경영계획")
+           + "<span style='color:var(--muted);'>·</span>" + go("admSys", "시스템 구조·실행 상태") + "</div>")
+    return (css + '<div class="adm">' + nav + f'<div id="admPlan">{plan_html}</div>'
+            + "<h3 id='admSys' style='margin:22px 0 10px;'>시스템 구조 · 실행 상태</h3>"
             + sec("데이터 연계 다이어그램 (상세)", f"소스 → 수집 스크립트(저장 위치) → 분석 모듈 → 화면. 소스 테두리 색 = 마지막 실행 상태(초록 정상·주황 주의·회색 대기). 상자에 마우스를 올리면 스크립트·저장 파일·키 이름이 보이고, 오른쪽 탭을 누르면 이동합니다. 생성 {now} KST",
                   f'<div style="overflow-x:auto;">{diagram(st)}</div>')
             + sec("업무 플로우 실시간 현황", "지금 각 업무 단계에 몇 건이 있는지(콘텐츠DT·입찰DT·정산관리·26운영(블렌디드)·운영DT·영업소통DT).", live_board())
