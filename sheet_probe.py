@@ -32,13 +32,16 @@ def main():
         p = s.get("properties", {})
         t = p.get("title", "")
         item = {"title": t, "gid": p.get("sheetId"), "rows": (p.get("gridProperties") or {}).get("rowCount")}
-        if re.search(r"콘텐츠|입찰|매출|정산|SME|강사|만족|결과|계약|제작|개발|이수|운영|B2C|학교", t, re.I):
+        # 머리글을 남기는 탭은 업무 데이터 탭으로 한정(소통·학교 명단 탭은 머리글 추정 줄에 실명이 섞일 수 있어 제외)
+        if re.search(r"콘텐츠|입찰|매출|정산|운영|이수", t) and not re.search(r"소통|학교|채택|지원청", t):
             try:
                 rng = urllib.parse.quote(f"'{t}'!A1:AN6", safe="")
                 vals = ope._sheets_api_get(f"https://sheets.googleapis.com/v4/spreadsheets/{ope.SHEET_ID}/values/{rng}", tok).get("values", [])
                 rng2 = urllib.parse.quote(f"'{t}'!A:A", safe="")
                 col = ope._sheets_api_get(f"https://sheets.googleapis.com/v4/spreadsheets/{ope.SHEET_ID}/values/{rng2}", tok).get("values", [])
-                item["header_row"], item["header"] = header_of(vals)
+                hr, hd = header_of(vals)
+                if hr and hr <= 2:  # 1~2행이 아닌 줄을 머리글로 고르면 데이터 행일 수 있어 남기지 않는다
+                    item["header_row"], item["header"] = hr, hd
                 item["filled_rows"] = len([r for r in col if r and r[0].strip()])
             except Exception as e:
                 item["error"] = str(e)[:120]
