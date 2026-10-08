@@ -96,13 +96,17 @@ def bids(status):
         g = lambda k: (r[ix[k]] if k in ix and ix[k] < len(r) else "") or ""
         if not g("title").strip():
             continue
-        joined = bool(g("join").strip()) and not re.search(r"^(x|n|no|미참여|불참|포기|-)$", g("join").strip(), re.I)
         wv = g("won").strip()
-        won = bool(re.search(r"수주|낙찰|o|y|성공", wv, re.I)) and not re.search(r"미|실패|x|n|탈락|유찰", wv, re.I)
+        # 실제 입력(2026-10-08 진단): 수주성공 / 수주실패 / 티처빌수주 / 한교원수주 / 비바샘 과정수주 / 개발이라 아웃 / 공고 미확인 …
+        won = bool(re.search(r"수주\s?성공|비바샘|자사|^o$|^y$", wv, re.I))
+        comp_won = re.search(r"(티처빌|아이스크림|한교원|테크빌|[가-힣A-Za-z]+)\s?수주$", wv) if not won else None
+        lost = bool(re.search(r"실패|탈락|낙찰\s?실패", wv)) or bool(comp_won)
+        jv = g("join").strip()
+        joined = won or lost or (bool(jv) and not re.search(r"^(x|n|no|미참여|불참|포기|-)$", jv, re.I))
         rows.append({"region": g("region").strip()[:4], "org": g("org").strip()[:30], "title": g("title").strip()[:80],
                      "field": g("field").strip()[:12], "posted": (pdate(g("posted")) or pdate(g("open")) or "") and (pdate(g("posted")) or pdate(g("open"))).isoformat(),
                      "budget": num(g("budget")), "joined": joined, "won": won, "result": wv[:8],
-                     "won_amt": num(g("won_amt")), "winner": g("winner").strip()[:20]})
+                     "won_amt": num(g("won_amt")), "winner": (g("winner").strip() or (comp_won.group(1) if comp_won else ""))[:20]})
     status["bids"] = {"tab_gid": gid, "header_row": hi + 1, "roles": sorted(ix), "rows": len(rows),
                       "vocab_join": vocab([(r[ix["join"]] if "join" in ix and ix["join"] < len(r) else "") for r in m[hi + 1:]]),
                       "vocab_won": vocab([(r[ix["won"]] if "won" in ix and ix["won"] < len(r) else "") for r in m[hi + 1:]])}
@@ -145,7 +149,7 @@ def contents(status):
                      "credit": g("credit").strip()[:6], "cert": g("cert").strip()[:10],
                      "submit": (pdate(g("submit")) or "") and pdate(g("submit")).isoformat(),
                      "service": (pdate(g("service")) or "") and pdate(g("service")).isoformat(),
-                     "service_raw": g("service").strip()[:10] if not pdate(g("service")) else "",
+                     "service_year": (re.search(r"20\d{2}", g("service")) or [None])[0] if g("service") else None,
                      "total": num(g("total")) or sum(sales.values()), "sales": sales})
     status["contents"] = {"tab_gid": gid, "header_row": hi + 1, "roles": sorted(k for k in ix if not k.startswith("_")), "rows": len(rows),
                           "months": [mo for _, mo in months], "vocab_cert": vocab([(r[ix["cert"]] if "cert" in ix and ix["cert"] < len(r) else "") for r in m[hi + 1:]]),
@@ -153,9 +157,10 @@ def contents(status):
     today = date.today()
 
     def stage(r):
-        if r["service"] and r["service"] <= today.isoformat():
+        # '서비스' 열은 서비스 시작 연도(2022~2026)로 입력돼 있다
+        if (r["service"] and r["service"] <= today.isoformat()) or (r["service_year"] and int(r["service_year"]) <= today.year):
             return "서비스 중"
-        if r["service"]:
+        if r["service"] or r["service_year"]:
             return "오픈 예정"
         if re.search(r"완료|합격|인증|o|y", r["cert"], re.I) and not re.search(r"미|불|x", r["cert"], re.I):
             return "인증 완료"
@@ -168,7 +173,8 @@ def contents(status):
     for r in rows:
         for mo, v in r["sales"].items():
             mfield[r["field"] or "미분류"][mo] += v
-    return {"n": len(rows), "stages": dict(Counter(r["stage"] for r in rows)), "rows": rows,
+    years = Counter(r["service_year"] for r in rows if r["service_year"])
+    return {"n": len(rows), "stages": dict(Counter(r["stage"] for r in rows)), "rows": rows, "by_year": dict(sorted(years.items())),
             "months": [mo for _, mo in months], "by_field_month": {k: dict(v) for k, v in mfield.items()},
             "total": sum(r["total"] or 0 for r in rows), "inst_by_field": {k: len(v) for k, v in inst.items()}}
 
@@ -226,7 +232,8 @@ def blended(status):
         for k, lab in checks:
             if k in ix:
                 v = g(k).strip()
-                st[lab] = "완료" if re.search(r"완료|확정|o|y|✓|발송|섭외됨|예약", v, re.I) and not re.search(r"미|x|예정|중", v, re.I) else ("진행" if v else "미착수")
+                # 실제 입력은 날짜·장소·이름을 적는 방식 → 값이 있으면 완료, '미정·예정·검토·요청·중'이면 진행(값 자체는 저장 안 함)
+                st[lab] = "미착수" if not v or v in ("-", "x", "X") else ("진행" if re.search(r"미정|예정|검토|요청|진행|중$|\?", v) else "완료")
         tgt, app = num(g("target")), num(g("applied")) or num(g("people"))
         rows.append({"course": g("course").strip()[:60], "org": g("org").strip()[:30], "region": g("region").strip()[:4],
                      "field": g("field").strip()[:12], "venue_name": g("venue_name").strip()[:30], "schedule": g("schedule").strip()[:30],

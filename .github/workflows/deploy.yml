@@ -254,7 +254,8 @@ jobs:
           timeout 150 python exec_story.py live/exec_story.json || true   # 경영 종합 지표 스토리라인 해석
           timeout 240 python ai_drafts.py live/ai_drafts.json || true
           timeout 90 python recruit_copy.py live/recruit_copy.json || true   # 모집 경보 사업 홍보 문구 초안
-          if [ -f live/ai_insights.json ] || [ -f live/ai_drafts.json ] || [ -f live/exec_story.json ] || [ -f live/recruit_copy.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
+          timeout 90 python report_drafts.py live/report_drafts.json || true  # 최근 종료 사업 결과보고서 초안
+          if [ -f live/ai_insights.json ] || [ -f live/ai_drafts.json ] || [ -f live/exec_story.json ] || [ -f live/recruit_copy.json ] || [ -f live/report_drafts.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
 
       - name: 주간 보고(최근 7일) 생성
         if: steps.combine.outcome == 'success'
