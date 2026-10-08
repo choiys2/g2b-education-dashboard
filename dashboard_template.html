@@ -5199,11 +5199,46 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
         if (t) setTimeout(() => (t.closest('section.panel') || t).scrollIntoView({behavior: 'smooth', block: 'start'}), 80);
       }));
       document.getElementById('adminGate').hidden = true;
+      planSimInit(body);
     } catch (ex) {
       err.textContent = '비밀번호가 맞지 않습니다.';
     } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
   });
 })();
+
+// 관리 탭 '흑자전환 계산기': 계수·계획값은 암호화된 관리 탭 안(data-p)에만 있고, 여기에는 계산식만 둔다
+function planSimInit(root){
+  const el = root.querySelector('#planSim'); if (!el) return;
+  let P; try { P = JSON.parse(el.dataset.p); } catch (e) { return; }
+  const keys = ['b2c', 'b2s', 'b2g', 'etc', 'ad', 'prod', 'heads'];
+  const inputs = {}; el.querySelectorAll('input[data-k]').forEach(i => inputs[i.dataset.k] = i);
+  const eok = v => (v / 1e8).toFixed(2) + '억';
+  const reset = () => keys.forEach(k => { if (inputs[k]) inputs[k].value = P[k]; });
+  const calc = x => {
+    const online = x.b2c + x.b2s, rev = online + x.b2g + x.etc;
+    const cogs = x.b2g * P.r_b2g + x.etc * P.r_etc;
+    const sga = x.heads * P.labor_ph + x.ad + online * P.r_var + x.b2c * P.r_card + x.prod * (1 + P.r_sme) + P.fixed;
+    return {rev, gp: rev - cogs, sga, op: rev - cogs - sga, online};
+  };
+  const draw = () => {
+    const x = {}; keys.forEach(k => x[k] = Number(inputs[k] ? inputs[k].value : P[k]));
+    el.querySelectorAll('[data-out]').forEach(o => { const k = o.dataset.out; o.textContent = k === 'heads' ? x[k] + '명' : eok(x[k]); });
+    const r = calc(x), base = calc(Object.fromEntries(keys.map(k => [k, P[k]])));
+    const need = r.op < 0 ? -r.op / (1 - P.r_var) : 0, roas = x.ad ? (x.b2c - P.b2c_prev) / x.ad : 0;
+    const row = (l, v, b, warn) => `<tr><td>${l}</td><td class="num" style="font-weight:800;${warn ? 'color:#ef4444;' : ''}">${v}</td><td class="num" style="color:var(--muted);">${b}</td></tr>`;
+    el.querySelector('[data-sim-out]').innerHTML = '<table><thead><tr><th>결과</th><th class="num">시나리오</th><th class="num">계획</th></tr></thead><tbody>'
+      + row('매출', eok(r.rev), eok(base.rev)) + row('매출총이익률', (r.gp / r.rev * 100 || 0).toFixed(1) + '%', (base.gp / base.rev * 100).toFixed(1) + '%')
+      + row('판관비', eok(r.sga), eok(base.sga)) + row('영업이익', eok(r.op), eok(base.op), r.op < 0)
+      + row('B2G 비중', (x.b2g / r.rev * 100 || 0).toFixed(0) + '%', (P.b2g / base.rev * 100).toFixed(0) + '%', x.b2g / r.rev > 0.4)
+      + row('1인당 매출', eok(r.rev / Math.max(x.heads, 1)), eok(base.rev / P.heads))
+      + row('필요 ROAS(B2C 증분 ÷ 광고비)', roas.toFixed(1) + '배', ((P.b2c - P.b2c_prev) / P.ad).toFixed(1) + '배')
+      + '</tbody></table><p style="margin:10px 0 0;font-size:13px;"><b>그래서</b> '
+      + (r.op >= 0 ? `이 조합이면 흑자(${eok(r.op)})입니다.` : `흑자까지 온라인 매출이 약 ${eok(need)} 더 필요합니다(온라인 1억당 이익 ${eok(1e8 * (1 - P.r_var))}, B2G 1억당 ${eok(1e8 * (1 - P.r_b2g))}).`) + '</p>';
+  };
+  Object.values(inputs).forEach(i => i.addEventListener('input', draw));
+  const rb = el.querySelector('[data-reset]'); if (rb) rb.addEventListener('click', () => { reset(); draw(); });
+  reset(); draw();
+}
 
 // 업무 플로우 배지: 패널 제목 옆에 '이 화면을 쓰는 업무 단계' 표시(workflows.py 연계표)
 (function workflowBadges(){
