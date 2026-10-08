@@ -158,13 +158,101 @@ def channel_mix(records):
             "baseline": 80, "target": 40}
 
 
+# ---------------------------------------------------------------- 실행 추적 보강(2026-10-08)
+def lifecycle(today):
+    """시도별 영업 생애주기: 개척(자사 0건) · 첫 수주(1건) · 재계약(같은 기관 2건+) · 확대(자사 기관 3곳+)"""
+    cs = _jsonl("history/competitor_contracts.jsonl")
+    REG = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
+    out = {}
+    for r in REG:
+        own = [c for c in cs if c.get("region") == r and c.get("competitor") == SELF]
+        comp = [c for c in cs if c.get("region") == r and c.get("competitor") != SELF]
+        orgs = Counter(c.get("org") for c in own)
+        stage = "확대" if len(orgs) >= 3 else "재계약" if any(v >= 2 for v in orgs.values()) else "첫 수주" if own else "개척"
+        out[r] = {"stage": stage, "own": len(own), "orgs": len(orgs), "comp": len(comp),
+                  "own_amt": sum(c.get("amount") or 0 for c in own), "comp_amt": sum(c.get("amount") or 0 for c in comp)}
+    return out
+
+
+def sales_calendar(today, pipeline_records):
+    """연간 영업 캘린더(12개월): 연수 입찰 계절성 · 재계약 예상 · 자사 연수 시작 · 교육청 예산 일정(고정)"""
+    import training_topics as tt
+    months = [((today.replace(day=1) + timedelta(days=32 * i)).replace(day=1)).strftime("%Y-%m") for i in range(12)]
+    season = Counter()
+    for r in _jsonl("history/training_bids.jsonl"):
+        if tt.is_training_bid(r.get("t"), r.get("o")) and r.get("d"):
+            season[int(r["d"][5:7])] += 1
+    renew = Counter()
+    for c in _jsonl("history/competitor_contracts.jsonl"):
+        if c.get("date"):
+            renew[int(c["date"][5:7])] += 1
+    start = Counter()
+    for r in pipeline_records or []:
+        d = str(r.get("trainStart") or "")
+        m = re.search(r"(20\d{2})\D(\d{1,2})", d) or re.search(r"^(\d{1,2})[./월]", d)
+        if m:
+            start[int(m.group(2) if m.lastindex == 2 else m.group(1))] += 1
+    budget = {1: "신학년 계획·예산 배정", 3: "1차 추경 준비", 4: "추경 편성", 5: "추경 집행", 6: "상반기 정산",
+              8: "2학기 연수 발주", 9: "본예산 요구", 10: "본예산 편성·국감", 11: "연말 집행(불용 방지)", 12: "연말 집행·이월 확정"}
+    rows = []
+    for m in months:
+        mo = int(m[5:])
+        rows.append({"m": m, "season": season.get(mo, 0), "renew": renew.get(mo, 0), "start": start.get(mo, 0), "budget": budget.get(mo, "")})
+    return {"months": rows}
+
+
+def pipe_views(pipeline_records, today):
+    """운영DT 기반: 상태 칸반·영업자 성과(익명)·리드타임(계약→연수 시작→종료)"""
+    import own_pipeline_export as ope
+    from ops_insights import parse_date
+    recs = pipeline_records or []
+    kan = defaultdict(list)
+    for r in recs:
+        kan[(r.get("status") or "미정").strip()[:8]].append({"c": (r.get("courseName") or "")[:40], "o": (r.get("org") or "")[:20],
+                                                            "r": r.get("region", ""), "a": ope.to_num(r.get("targetAmount"))})
+    reps = defaultdict(lambda: {"n": 0, "amt": 0, "rate": []})
+    lead = {"contract_to_start": [], "start_to_end": [], "recruit_len": []}
+    for r in recs:
+        rp = reps[r.get("salesRep") or "(미정)"]
+        rp["n"] += 1
+        rp["amt"] += ope.to_num(r.get("targetAmount"))
+        t, a = ope.to_num(r.get("targetCount")), ope.to_num(r.get("appliedCount"))
+        if t:
+            rp["rate"].append(min(200, a / t * 100))
+        cd, ts, te, rs, re_ = (parse_date(r.get(k)) for k in ("contractDate", "trainStart", "trainEnd", "recruitStart", "recruitEnd"))
+        if cd and ts and 0 <= (ts - cd).days <= 365:
+            lead["contract_to_start"].append((ts - cd).days)
+        if ts and te and 0 <= (te - ts).days <= 365:
+            lead["start_to_end"].append((te - ts).days)
+        if rs and re_ and 0 <= (re_ - rs).days <= 180:
+            lead["recruit_len"].append((re_ - rs).days)
+    reps_out = [{"rep": k, "n": v["n"], "amt": v["amt"], "rate": round(sum(v["rate"]) / len(v["rate"]), 1) if v["rate"] else None}
+                for k, v in reps.items()]
+    return {"kanban": {k: v for k, v in sorted(kan.items(), key=lambda x: -len(x[1]))}, "reps": reps_out, "lead": lead}
+
+
+def quote_guide():
+    """학교 견적 가이드: 학교·교육청 연수 수의계약 금액 분포(사분위)"""
+    rows = _jsonl("history/edu_contracts.jsonl")
+    def q(a):
+        a = sorted(a)
+        return {"n": len(a), "p25": a[len(a) // 4], "median": a[len(a) // 2], "p75": a[3 * len(a) // 4]} if len(a) >= 4 else None
+    sch = [r["amount"] for r in rows if re.search(r"학교$|유치원$", r.get("org", ""))]
+    off = [r["amount"] for r in rows if not re.search(r"학교$|유치원$", r.get("org", ""))]
+    remote = [r["amount"] for r in rows if re.search(r"원격", r.get("title", ""))]
+    group = [r["amount"] for r in rows if re.search(r"집합|워크숍|연수회|캠프|실습", r.get("title", ""))]
+    return {"school": q(sch), "office": q(off), "remote": q(remote), "group": q(group), "n": len(rows)}
+
+
 def build(pipeline_records=None, today=None):
     today = today or date.today()
     out = {"generated": today.isoformat()}
     for k, fn in (("topic_month", lambda: topic_month(today)), ("rfp_funnel", lambda: rfp_funnel(today)),
                   ("contracts", lambda: contracts_views(today)), ("org_bubble", lambda: org_bubble(today)),
                   ("courses", course_timeline), ("kpi", lambda: kpi_series(today)), ("tags", brief_tags),
-                  ("channel", lambda: channel_mix(pipeline_records))):
+                  ("channel", lambda: channel_mix(pipeline_records)), ("lifecycle", lambda: lifecycle(today)),
+                  ("calendar", lambda: sales_calendar(today, pipeline_records)), ("pipe", lambda: pipe_views(pipeline_records, today)),
+                  ("quote", quote_guide)):
         try:
             out[k] = fn()
         except Exception as e:

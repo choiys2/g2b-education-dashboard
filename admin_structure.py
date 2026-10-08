@@ -196,6 +196,39 @@ def diagram(st):
     return "".join(out)
 
 
+def live_board():
+    """V1 업무 플로우 실시간 현황: 지금 각 단계에 있는 일의 수(시트·운영DT 기준)"""
+    so = _j("live/sheets_ops.json", {}) or {}
+    pipe = (_j("live/own_pipeline_export.json", {}) or {}).get("records", [])
+    comms = _j("live/pipeline_comms.json", {}) or {}
+    conv = comms.get("conversion") or {}
+    c, b, st, bl = so.get("contents") or {}, so.get("bids") or {}, so.get("settle") or {}, so.get("blended") or {}
+    stc = (c.get("stages") or {})
+    status = {}
+    for r in pipe:
+        k = str(r.get("status") or "미정").strip()[:8]
+        status[k] = status.get(k, 0) + 1
+    run = sum(v for k, v in status.items() if re.search(r"진행|운영|모집|확정|계약", k))
+    done = sum(v for k, v in status.items() if re.search(r"완료|종료", k))
+    flags = st.get("flags") or {}
+    low = sum(1 for r in bl.get("rows", []) if (r.get("ready") or 0) < 50)
+    lanes = [
+        ("연수(콘텐츠) 개발", [("제작·준비", stc.get("제작·준비")), ("심사 중", stc.get("심사 중")), ("인증 완료", stc.get("인증 완료")),
+                           ("오픈 예정", stc.get("오픈 예정")), ("서비스 중", stc.get("서비스 중"))]),
+        ("B2G 판매", [("소통 기관", conv.get("orgs")), ("입찰 검토", b.get("n")), ("입찰 참여", b.get("joined")), ("수주", b.get("won")),
+                    ("운영 중", run), ("종료", done), ("정산 경보", sum(flags.values()) if flags else 0)]),
+        ("오프라인 연수", [("준비 사업", bl.get("n")), ("준비율 50% 미만", low)]),
+        ("B2C·학교 판매", [("매출 과정", len([r for r in c.get("rows", []) if (r.get("total") or 0) > 0]) or None)]),
+    ]
+    cell = lambda lab, v, warn=False: (f'<div style="flex:1;min-width:110px;padding:8px 10px;border-radius:8px;border:1px solid {"#ef4444" if warn and v else "var(--border)"};'
+                                       f'background:var(--surface-2);"><div style="font-size:11.5px;color:var(--muted);">{E(lab)}</div>'
+                                       f'<div class="num" style="font-size:20px;font-weight:800;">{"-" if v in (None, "") else f"{v:,}"}</div></div>')
+    rows = "".join(f'<div style="display:flex;gap:8px;align-items:stretch;margin:8px 0;flex-wrap:wrap;"><div style="width:130px;font-weight:800;font-size:13px;padding-top:8px;">{E(n)}</div>'
+                   + '<span style="color:var(--muted);align-self:center;">→</span>'.join(cell(l, v, "경보" in l or "미만" in l) for l, v in cells) + "</div>" for n, cells in lanes)
+    note = f"기준: 시트 {E(so.get('fetched') or '-')} 조회 · 운영DT {len(pipe)}건"
+    return rows + f'<p class="tt-note">{note}. 빨간 테두리는 조치가 필요한 칸입니다. 단계 정의는 아래 업무 플로우 표와 같습니다.</p>'
+
+
 def build_html(exec_sources=None):
     st = source_status(exec_sources)
     steps, cron = parse_workflow()
@@ -231,6 +264,7 @@ def build_html(exec_sources=None):
     return (css + '<div class="adm">'
             + sec("데이터 연계 다이어그램 (상세)", f"소스 → 수집 스크립트(저장 위치) → 분석 모듈 → 화면. 소스 테두리 색 = 마지막 실행 상태(초록 정상·주황 주의·회색 대기). 상자에 마우스를 올리면 스크립트·저장 파일·키 이름이 보이고, 오른쪽 탭을 누르면 이동합니다. 생성 {now} KST",
                   f'<div style="overflow-x:auto;">{diagram(st)}</div>')
+            + sec("업무 플로우 실시간 현황", "지금 각 업무 단계에 몇 건이 있는지(콘텐츠DT·입찰DT·정산관리·26운영(블렌디드)·운영DT·영업소통DT).", live_board())
             + sec("업무 플로우 × 시스템 연계", "연수개발 · B2G 판매 · B2C·학교 판매 · 오프라인 연수 4개 업무 플로우를 단계별로 옮기고, 각 단계에서 쓰는 대시보드 화면과 아직 시스템 밖인 부분(갭)을 붙였습니다. 화면 쪽 패널 제목 옆 '업무' 배지도 같은 연계표에서 나옵니다.",
                   __import__("workflows").render())
             + sec("소스별 실행 상태", "마지막 수집일·건수·상태. 키는 GitHub Secret 이름만 표시합니다.",
