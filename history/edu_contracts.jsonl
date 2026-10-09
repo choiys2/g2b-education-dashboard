@@ -325,6 +325,11 @@
 {"sido": "서울", "org": "휘문고등학교", "school": true, "title": "교직원 백두산 교육 연수 책자 제작비(추경후 산출내역 경정)", "date": "2026", "amount": 2556000, "vendor": "", "src": "sen"}
 {"sido": "서울", "org": "서울성수초등학교", "school": true, "title": "2026학년도 적정규모 교직원 업무역량강화를 위한 문화예술 현장연수비 지출", "date": "2026", "amount": 7220000, "vendor": "", "src": "sen"}
 {"sido": "서울", "org": "서울특별시교육청", "school": false, "title": "2026 하반기 생태환경교육팀 역량강화 워크숍 용역 계약", "date": "2026", "amount": 6000000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시교육청", "school": false, "title": "『2026 수업·평가 연구 전문가 부스터 캠프』 직무연수", "date": "2026", "amount": 51000000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시성동광진교육지원청", "school": false, "title": "[초등] AI 기반 미래학교 리더십 함양을 위한 교(원)장·감 연수 용역", "date": "2026", "amount": 18112000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시교육청학생교육원", "school": false, "title": "(카드) 2026학년도 「자전거·클라이밍 교육」직무연수 실시에 따른 자전거 수리비 지출", "date": "2026", "amount": 1465000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울청룡초등학교", "school": true, "title": "(카드)2026학년도 (동작관악5조)방과후·돌봄 협의체 체험 연수비 지출", "date": "2026", "amount": 2221800, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "가산중학교", "school": true, "title": "2026학년도 교직원 문화예술활동 연수비", "date": "2026", "amount": 4741000, "vendor": "", "src": "sen"}
 {"sido": "전북", "org": "글로벌학산고등학교", "school": true, "title": "중소기업특성화고인력양성사업 1,2학년 중소기업이해연수 위탁교육비", "date": "2025-12-31", "amount": 7400000, "vendor": "기타 법인", "src": "jbe"}
 {"sido": "전북", "org": "글로벌학산고등학교", "school": true, "title": "2025년 특성화고 미래역량강화사업 정서케어 프로그램 졸업식 운영 포토부스 대여비", "date": "2025-12-31", "amount": 3300000, "vendor": "기타 법인", "src": "jbe"}
 {"sido": "전북", "org": "전북베이커리고등학교", "school": true, "title": "[미래역량]2025학년도 미래역량강화사업 취업역량강화교육 실시", "date": "2025-12-31", "amount": 2400000, "vendor": "기타 법인", "src": "jbe"}
