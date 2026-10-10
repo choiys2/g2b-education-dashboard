@@ -2539,6 +2539,7 @@ const ADMIN = __ADMIN_JSON__;
 const WF_BADGES = __WF_BADGES_JSON__;
 const SHEETS_OPS = __SHEETS_OPS_JSON__;
 const REV26 = __REV26_JSON__;
+const DAILY = __DAILY_JSON__;
 const BETA = __BETA_JSON__;
 
 const fmt = n => n.toLocaleString('ko-KR');
@@ -4563,7 +4564,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   function panel(tab, after, title, sub){
     const sec = document.createElement('section');
     sec.className = 'panel viz-panel';
-    const vn = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚㉛㉜㉝㉞㉟㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼'.indexOf(title[0]);
+    const vn = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚㉛㉜㉝㉞㉟㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼㊽㊾㊿'.indexOf(title[0]);
     if (vn >= 0) sec.id = 'viz' + (vn + 1);  // 업무 플로우 연계(workflows.py)가 가리키는 id
     sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">${title}${sub ? `<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">${sub}</span>` : ''}</p></div></div><div class="viz-body"></div>`;
     const anchor = after && document.getElementById(after);
@@ -5225,6 +5226,115 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       + grid2(`<div>${hbars(Object.entries(byF).sort((p, q) => q[1] - p[1]).slice(0, 10).map(([k, v]) => ({k, v, label: v + '개', c: '#d64545'})), {lw: 110, vw: 50})}</div>`,
         `<div style="max-height:260px;overflow:auto;font-size:12px;">${rows.slice(0, 60).map(r => `<div style="padding:3px 0;border-bottom:1px solid var(--border);">${h(r.title)} <span style="color:var(--muted);">· ${h(r.field || '-')} · ${h(r.service_year || '')}</span></div>`).join('')}</div>`)
       + so('휴면 과정은 KERIS 인증 유지·운영 비용만 듭니다. 분기마다 통합·개편·종료를 결정하고, 인기 분야의 휴면 과정은 제목·썸네일·배너 노출부터 바꿔 보세요.');
+  });
+
+  /* ---- 고도화 Top 5: 할 일 보드 · KPI 추이 · 시도 타일 지도 · 착지 예측 · 승패 흐름 ---- */
+  const goto = (tab, anchor) => `data-goto-tab="${tab}" data-goto-anchor="${anchor || ''}"`;
+  document.addEventListener('click', e => {
+    const g = e.target.closest && e.target.closest('[data-goto-tab]'); if (!g) return;
+    activateTab(g.dataset.gotoTab); writeHashState({tab: g.dataset.gotoTab});
+    const t = g.dataset.gotoAnchor && document.getElementById(g.dataset.gotoAnchor);
+    if (t) setTimeout(() => (t.closest('section.panel') || t).scrollIntoView({behavior: 'smooth', block: 'start'}), 80);
+  });
+  const today0 = new Date(new Date().toISOString().slice(0, 10)), dOf = s => { const d = new Date(String(s || '').slice(0, 10)); return isNaN(d) ? null : Math.round((d - today0) / 864e5); };
+  safe('actionBoard', () => {
+    const items = [], O = (typeof OPS !== 'undefined' && OPS) || {};
+    ((O.recruit || {}).items || []).filter(x => (x.level === '경보' || x.level === '주의') && x.days_left >= 0).forEach(x => items.push({d: x.days_left, k: '모집 ' + x.level, c: x.level === '경보' ? '#d64545' : '#f59e0b', t: x.course, s: `${x.org || ''} · 신청률 ${x.rate}% · 부족 ${x.short}명`, tab: 'pipeline', a: 'recruitPanel'}));
+    ((O.recontract || {}).items || []).filter(x => !x.renewed).forEach(x => { const d = dOf(x.contact); if (d != null && d >= -7 && d <= 30) items.push({d, k: x.kind === '방어' ? '재계약 방어' : '재계약 탈환', c: x.kind === '방어' ? '#10b981' : '#4f8cff', t: x.course, s: `${x.org || ''} · 예상 재발주 ${x.ann} · ${fmtWon(x.amount)}`, tab: 'pipeline', a: 'recontractPanel'}); });
+    ((S.settle || {}).rows || []).filter(r => r.flag).forEach(r => items.push({d: 0, k: r.flag, c: '#d64545', t: r.course || r.org, s: `${r.org || ''} · 청구 ${fmtWon(r.claim || 0)}`, tab: 'pipeline', a: 'pipeTable'}));
+    ((S.bids || {}).recent || []).filter(r => !/수주|실패|탈락|아웃|포기/.test(r.result || '')).forEach(r => { const d = dOf(r.posted); if (d != null && d >= -30) items.push({d: 1, k: '입찰 결과 미기재', c: '#94a3b8', t: r.title, s: `${r.region || ''} · ${r.org || ''} · 공고 ${r.posted}`, tab: 'pipeline', a: 'recontractPanel'}); });
+    ((S.blended || {}).rows || []).filter(r => (r.ready ?? 100) < 50).forEach(r => { const d = dOf(r.first_date); if (d == null || d <= 30) items.push({d: d ?? 15, k: '집합연수 준비', c: '#f59e0b', t: r.course, s: `${r.org || ''} · 준비율 ${r.ready}% · ${r.schedule || ''}`, tab: 'pipeline', a: 'opsPlanPanel'}); });
+    const el = panel('exec', null, '이번 주 할 일', '모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 · 집합연수 준비를 마감 순으로 · 누르면 해당 화면으로');
+    if (!el) return;
+    const sec = el.closest('section'), host = document.getElementById('panel-exec'); host.insertBefore(sec, host.firstElementChild);
+    if (!items.length) { el.innerHTML = empty('오늘 처리할 경보가 없습니다.'); return; }
+    items.sort((a, b) => a.d - b.d);
+    const cnt = {}; items.forEach(x => { cnt[x.k] = (cnt[x.k] || 0) + 1; });
+    el.innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">${Object.entries(cnt).map(([k, v]) => `<span style="font-size:12px;padding:2px 9px;border-radius:999px;background:var(--surface-2);">${h(k)} <b>${v}</b></span>`).join('')}</div>
+      <div style="max-height:360px;overflow:auto;">${items.slice(0, 40).map(x => `<div ${goto(x.tab, x.a)} style="cursor:pointer;display:grid;grid-template-columns:62px 118px 1fr;gap:10px;align-items:center;padding:7px 4px;border-bottom:1px solid var(--border);">
+        <span class="num" style="font-weight:800;color:${x.d <= 3 ? '#d64545' : 'var(--ink-2)'};">${x.d <= 0 ? '오늘' : 'D-' + x.d}</span>
+        <span style="font-size:11.5px;font-weight:700;color:${x.c};">${h(x.k)}</span>
+        <span style="min-width:0;"><span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;font-size:13px;">${h(x.t || '-')}</span><span style="font-size:11.5px;color:var(--muted);">${h(x.s)}</span></span></div>`).join('')}</div>`
+      + so(`처리할 일 ${items.length}건. 붉은 D-3 이내부터 처리하고, 재계약 접촉은 예상 재발주 60일 전에 시작하세요.`);
+  });
+  safe('kpiTrend', () => {
+    const D = (typeof DAILY !== 'undefined' && DAILY) || [];
+    if (D.length < 3) return;
+    const el = panel('exec', null, '㊽ 핵심 지표 30일 추이', 'history/daily_stats 누적 · 매일 06시 기록');
+    if (!el) return;
+    { const sec = el.closest('section'), host = document.getElementById('panel-exec'); host.insertBefore(sec, host.children[1] || null); }
+    const L = D.slice(-30), M = [['나라장터 교육청·연수원 발주(누적)', 'g2b_total_detail', v => fmt(v) + '건'], ['AI·에듀테크 발주 건수', 'ai_rows_count', v => fmt(v) + '건'], ['AI·에듀테크 발주액', 'ai_rows_amount_sum', v => fmtWon(v)], ['자사 파이프라인 사업', 'own_pipeline_total', v => fmt(v) + '건'], ['자사 파이프라인 목표금액', 'own_pipeline_target', v => fmtWon(v)]];
+    const spark = (vals) => { const mn = Math.min(...vals), mx = Math.max(...vals), W = 160, H = 36; const y = v => mx === mn ? H / 2 : H - 3 - (v - mn) / (mx - mn) * (H - 6); return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;"><polyline points="${vals.map((v, i) => `${i / Math.max(1, vals.length - 1) * W},${y(v)}`).join(' ')}" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="${W}" cy="${y(vals[vals.length - 1])}" r="3" fill="var(--accent)"/></svg>`; };
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">${M.map(([lab, k, f]) => {
+      const vals = L.map(r => +r[k] || 0), last = vals[vals.length - 1], wk = vals.length > 7 ? vals[vals.length - 8] : vals[0], dlt = last - wk;
+      return `<div style="padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);" ${tipAttr(`${lab}<br>${L[0].date} ~ ${L[L.length - 1].date}`)}><div style="font-size:11.5px;color:var(--muted);">${h(lab)}</div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;"><b class="num" style="font-size:18px;">${h(f(last))}</b><span class="num" style="font-size:11.5px;font-weight:700;color:${dlt > 0 ? '#10b981' : dlt < 0 ? '#d64545' : 'var(--muted)'};">${dlt > 0 ? '▲' : dlt < 0 ? '▼' : '–'} ${h(f(Math.abs(dlt)))} (7일)</span></div>${spark(vals)}</div>`; }).join('')}</div>`
+      + so('7일 대비 화살표가 반대로 꺾인 지표부터 원인을 확인하세요. 발주 건수가 정체된 주는 제안서 재활용보다 신규 기관 접촉에 시간을 쓰는 편이 낫습니다.');
+  });
+  safe('tileMap', () => {
+    if (typeof PIPE === 'undefined') return;
+    const G = [['인천', '서울', '경기', '강원'], ['충남', '세종', '충북', '경북'], ['전북', '대전', '대구', '울산'], ['광주', '전남', '경남', '부산'], ['제주', '', '', '']];
+    const P = {}; (PIPE.byRegion || []).forEach(r => { P[r.region] = r; });
+    const B = {}; (((typeof OPS !== 'undefined' && OPS) || {}).budget || {}).rows?.forEach(r => { B[r.region] = r; });
+    const CP = {}; ((COMPETITOR_TRAINING || {}).g2b || {}).region_matrix?.forEach(r => { CP[r.region] = r.total; });
+    const LC = V.lifecycle || {}, SC = {'개척': '#94a3b8', '첫 수주': '#93c5fd', '재계약': '#4f8cff', '확대': '#10b981'};
+    const sc = Object.values(P).map(p => p.opportunity_score || 0), mx = Math.max(1, ...sc), mn = Math.min(...sc, 0);
+    const el = panel('pipeline', 'tier1Grid', '㊾ 17개 시도 타일 지도', '색 = 기회점수 · 테두리 = 영업 단계 · 붉은 점 = 경쟁사 낙찰 이력 · ★ Tier1');
+    if (!el) return;
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(4,minmax(70px,120px));gap:6px;">${G.flat().map(r => {
+      if (!r) return '<div></div>';
+      const p = P[r] || {}, s = p.opportunity_score ?? 0, st = (LC[r] || {}).stage || '', b = B[r] || {};
+      return `<div ${tipAttr(`<div class='tt-title'>${r}</div>기회점수 ${s} · ${st || '-'}<br>시장 ${fmtWon(p.market_amount || 0)} · 자사 ${p.own_count || 0}건<br>예산 여력 ${b.diff != null ? fmtWon(b.diff) : '-'} · ${b.flag || ''}<br>경쟁사 낙찰 ${CP[r] || 0}건`)} ${goto('pipeline', 'tier1Grid')}
+        style="cursor:pointer;position:relative;aspect-ratio:1.3;border-radius:10px;background:${seq((s - mn) / Math.max(1, mx - mn))};border:3px solid ${SC[st] || 'var(--border)'};display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink);">
+        <b style="font-size:14px;">${['경기', '강원', '경남', '전북'].includes(r) ? '★' : ''}${r}</b><span class="num" style="font-size:12px;">${s}</span>
+        ${CP[r] ? `<span style="position:absolute;top:5px;right:6px;width:8px;height:8px;border-radius:50%;background:#d64545;"></span>` : ''}${p.own_count ? `<span style="position:absolute;bottom:4px;font-size:10px;color:var(--ink-2);">자사 ${p.own_count}</span>` : ''}</div>`; }).join('')}</div>
+      ${legend(Object.entries(SC).map(([k, c]) => ['테두리 ' + k, c]))}${so('진한 칸(기회점수 높음)인데 테두리가 회색(개척)이고 붉은 점(경쟁사 진입)이 있는 시도가 가장 급한 공략 대상입니다.')}`;
+  });
+  safe('landing', () => {
+    const recs = (typeof PIPE !== 'undefined' && PIPE.records) || [];
+    if (!recs.length) return;
+    const R = (typeof REV26 !== 'undefined' && REV26) || {}, Y = new Date().getFullYear();
+    const prob = r => { const s = `${r.status || ''} ${r.contractProgress || ''}`; return /완료|종료|정산|운영|진행 ?중|확정|계약 ?완료/.test(s) ? 1 : /계약/.test(s) ? .8 : /제안|협의|검토|견적/.test(s) ? .3 : /취소|무산|실패|보류/.test(s) ? 0 : .1; };
+    const mOf = r => { const s = String(r.expectedRevenueMonth || r.trainEnd || ''); const m = s.match(/(20\d{2})\D{1,2}(\d{1,2})/); if (m) return +m[1] === Y ? +m[2] : 0; const k = s.match(/(\d{1,2})\s*월/); return k ? +k[1] : 0; };
+    const sure = Array(12).fill(0), wtd = Array(12).fill(0), cand = [];
+    recs.forEach(r => { const a = +r.targetAmount || 0, m = mOf(r), p = prob(r); if (!a || !m) return; if (p >= 1) sure[m - 1] += a; else { wtd[m - 1] += a * p; if (p > 0) cand.push({t: r.courseName, o: r.org, a, p, m, s: r.status}); } });
+    if (!sure.some(Boolean) && !wtd.some(Boolean)) return;
+    const el = panel('pipeline', 'pipeTable', '㊿ 연말 매출 착지 예측', '운영DT 총예산 × 단계별 확률(가정치) · 예상매출월 기준');
+    if (!el) return;
+    let cs = 0, cw = 0; const C1 = sure.map(v => (cs += v)), C2 = wtd.map((v, i) => C1[i] + (cw += v));
+    const tgt = R.b2g || 0, mx = Math.max(C2[11], tgt, 1), W = 720, H = 230, P0 = 50, x = i => P0 + i * (W - P0 - 14) / 11, y = v => H - 26 - v / mx * (H - 46);
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;">
+      ${[0, .5, 1].map(t => `<line x1="${P0}" x2="${W - 10}" y1="${y(mx * t)}" y2="${y(mx * t)}" stroke="var(--border)"/><text x="${P0 - 6}" y="${y(mx * t) + 4}" font-size="10" text-anchor="end" fill="var(--muted)">${h(fmtWon(Math.round(mx * t)))}</text>`).join('')}
+      <polygon points="${C1.map((v, i) => `${x(i)},${y(v)}`).join(' ')} ${C2.map((v, i) => `${x(11 - i)},${y(C2[11 - i])}`).join(' ')}" fill="var(--accent)" fill-opacity=".18"/>
+      <polyline points="${C1.map((v, i) => `${x(i)},${y(v)}`).join(' ')}" fill="none" stroke="#10b981" stroke-width="2.5"/>
+      <polyline points="${C2.map((v, i) => `${x(i)},${y(v)}`).join(' ')}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+      ${tgt ? `<line x1="${P0}" x2="${W - 10}" y1="${y(tgt)}" y2="${y(tgt)}" stroke="#f59e0b" stroke-dasharray="3 3"/><text x="${W - 12}" y="${y(tgt) - 4}" font-size="10.5" text-anchor="end" fill="#f59e0b">'26 B2G 예상 ${h(fmtWon(tgt))}</text>` : ''}
+      ${C2.map((v, i) => `<rect x="${x(i) - 14}" y="20" width="28" height="${H - 46}" fill="transparent" ${tipAttr(`${i + 1}월 누계<br>확정 ${fmtWon(C1[i])} · 확률 가중 포함 ${fmtWon(v)}`)}/><text x="${x(i)}" y="${H - 8}" font-size="10" text-anchor="middle" fill="var(--muted)">${i + 1}월</text>`).join('')}</svg>
+      ${legend([['확정(운영·완료)', '#10b981'], ['확률 가중 포함', 'var(--accent)'], ["'26 예상", '#f59e0b']])}
+      ${cand.length ? `<p style="font-weight:800;margin:12px 0 4px;">착지를 좌우할 미확정 사업 (금액 × 확률 순)</p>${hbars(cand.sort((a, b) => b.a * (1 - b.p) - a.a * (1 - a.p)).slice(0, 8).map(c => ({k: c.t || c.o, v: c.a, label: fmtWon(c.a) + ` · ${Math.round(c.p * 100)}%`, tip: `${c.t}<br>${c.o || ''} · ${c.m}월 · 상태 ${c.s || '-'}`})), {lw: 220, vw: 120})}` : ''}
+      ${so(`연말 확정 누계 ${fmtWon(C1[11])}, 확률 가중 착지 ${fmtWon(C2[11])}${tgt ? ` — '26 예상 대비 ${C2[11] >= tgt ? '+' : '-'}${fmtWon(Math.abs(C2[11] - tgt))}` : ''}. 확률은 상태값 기준 가정치(계약 80%·제안 30%·기타 10%)이며 분기마다 실제 수주율로 보정합니다.`)}`;
+  });
+  safe('winSankey', () => {
+    const b = S.bids || {};
+    if (!b.n) return;
+    const el = panel('pipeline', 'recontractPanel', '입찰 승패 흐름', '26입찰DT · 공고 → 참여 → 수주·실패·타사 낙찰 · 두께 = 건수');
+    if (!el) return;
+    const lost = Object.entries(b.lost_to || {}).sort((p, q) => q[1] - p[1]), lostN = lost.reduce((a, [, v]) => a + v, 0);
+    const fail = Math.max(0, (b.joined || 0) - (b.won || 0) - lostN), notJ = Math.max(0, b.n - (b.joined || 0));
+    const W = 720, H = 300, sc = (H - 40) / Math.max(1, b.n), C = {won: '#10b981', fail: '#94a3b8', not: '#cbd5e1'};
+    const L2 = [['수주', b.won || 0, C.won], ...lost.slice(0, 5).map(([k, v]) => [k + ' 낙찰', v, '#d64545']), ['실패·미기재', fail + lost.slice(5).reduce((a, [, v]) => a + v, 0), C.fail]].filter(r => r[1]);
+    const node = (xx, yy, hh, c, lab, v) => `<rect x="${xx}" y="${yy}" width="14" height="${Math.max(2, hh)}" fill="${c}"/><text x="${xx + 20}" y="${yy + Math.max(2, hh) / 2 + 4}" font-size="11.5" fill="var(--ink)">${h(lab)} ${v}</text>`;
+    const link = (xa, ya, xb, yb, hh, c) => `<path d="M${xa},${ya} C${(xa + xb) / 2},${ya} ${(xa + xb) / 2},${yb} ${xb},${yb} L${xb},${yb + hh} C${(xa + xb) / 2},${yb + hh} ${(xa + xb) / 2},${ya + hh} ${xa},${ya + hh} Z" fill="${c}" fill-opacity=".28"/>`;
+    const J = (b.joined || 0) * sc, yNot = 20 + J + 12;
+    let svg = node(30, 20, b.n * sc, 'var(--ink-2)', '공고', b.n);
+    svg += link(44, 20, 300, 20, J, 'var(--accent)') + node(300, 20, J, 'var(--accent)', '참여', b.joined || 0);
+    if (notJ) svg += link(44, 20 + J, 300, yNot, notJ * sc, C.not) + node(300, yNot, notJ * sc, C.not, '미참여', notJ);
+    let y3 = 20, yj = 20;
+    L2.forEach(([k, v, c]) => { svg += link(314, yj, 560, y3, v * sc, c) + node(560, y3, v * sc, c, k, v); yj += v * sc; y3 += v * sc + 8; });
+    const BF = Object.entries(b.by_field || {}).filter(([, f]) => f.join).sort((p, q) => q[1].join - p[1].join).slice(0, 8);
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${Math.max(H, y3 + 10)}" style="width:100%;max-width:${W}px;">${svg}</svg>`
+      + (BF.length ? `<p style="font-weight:800;margin:10px 0 4px;">분야별 승률 (참여 대비 수주)</p>${hbars(BF.map(([k, f]) => ({k, v: f.won / f.join * 100, label: `${f.won}/${f.join} · ${Math.round(f.won / f.join * 100)}%`, c: f.won / f.join >= .4 ? '#10b981' : f.won / f.join < .2 ? '#d64545' : 'var(--accent)'})), {lw: 120, vw: 110})}` : '')
+      + so(`참여 ${b.joined || 0}건 중 수주 ${b.won || 0}건(${b.joined ? Math.round((b.won || 0) / b.joined * 100) : 0}%). ${lost[0] ? `가장 많이 진 상대는 ${h(lost[0][0])}(${lost[0][1]}건)입니다 — 해당 업체가 강한 분야·지역은 단가보다 차별 요소(강사·사후관리)로 제안하세요.` : ''} 승률 20% 미만 분야는 참여 기준을 높이세요.`);
   });
 
   /* ---- B2S 견적 가이드 · 시장 생애주기 · 경영 캘린더 ---- */

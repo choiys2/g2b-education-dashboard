@@ -332,6 +332,16 @@ def build_new_courses(days=180):
     }
 
 
+def _daily(n=45):
+    """경영 종합 KPI 추이용 history/daily_stats.jsonl 최근 n일(숫자 지표만)"""
+    keys = ("date", "g2b_total_detail", "ai_rows_count", "ai_rows_amount_sum", "own_pipeline_total", "own_pipeline_target")
+    try:
+        rows = [json.loads(l) for l in open("history/daily_stats.jsonl", encoding="utf-8") if l.strip()]
+    except FileNotFoundError:
+        return []
+    return [{k: r.get(k) for k in keys} for r in rows[-n:]]
+
+
 def _rev26():
     """콘텐츠·매출 탭용 2026 연간 예상(채널 4개 합계만). 경영계획 시크릿이 없으면 None — '27 계획은 싣지 않는다(관리 탭 전용)."""
     try:
@@ -503,6 +513,7 @@ def main():
         "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops, "__VIZ_JSON__": __import__("viz_data").build(pipeline_export.get("records", [])),
         "__SHEETS_OPS_JSON__": _sheets_ops(),
         "__REV26_JSON__": _rev26(),
+        "__DAILY_JSON__": _daily(),
         "__WF_BADGES_JSON__": __import__("workflows").badge_map(),
         "__ADMIN_JSON__": __import__("admin_structure").encrypted_blob((exec_data or {}).get("sources")),
         "__EDU_CNTR_JSON__": __import__("edu_contracts").build(),
