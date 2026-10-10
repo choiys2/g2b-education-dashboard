@@ -5244,10 +5244,9 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     ((S.settle || {}).rows || []).filter(r => r.flag).forEach(r => items.push({d: 0, k: r.flag, c: '#d64545', t: r.course || r.org, s: `${r.org || ''} · 청구 ${fmtWon(r.claim || 0)}`, tab: 'pipeline', a: 'pipeTable'}));
     ((S.bids || {}).recent || []).filter(r => !/수주|실패|탈락|아웃|포기/.test(r.result || '')).forEach(r => { const d = dOf(r.posted); if (d != null && d >= -30) items.push({d: 1, k: '입찰 결과 미기재', c: '#94a3b8', t: r.title, s: `${r.region || ''} · ${r.org || ''} · 공고 ${r.posted}`, tab: 'pipeline', a: 'recontractPanel'}); });
     ((S.blended || {}).rows || []).filter(r => (r.ready ?? 100) < 50).forEach(r => { const d = dOf(r.first_date); if (d == null || d <= 30) items.push({d: d ?? 15, k: '집합연수 준비', c: '#f59e0b', t: r.course, s: `${r.org || ''} · 준비율 ${r.ready}% · ${r.schedule || ''}`, tab: 'pipeline', a: 'opsPlanPanel'}); });
-    const el = panel('exec', null, '이번 주 할 일', '모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 · 집합연수 준비를 마감 순으로 · 누르면 해당 화면으로');
-    if (!el) return;
-    const sec = el.closest('section'), host = document.getElementById('panel-exec'); host.insertBefore(sec, host.firstElementChild);
-    if (!items.length) { el.innerHTML = empty('오늘 처리할 경보가 없습니다.'); return; }
+    // 관리 탭(별도 비밀번호) 안에서만 그린다: 관리 탭을 연 뒤 adminGate 가 window.renderAdminActions(el) 호출
+    window.renderAdminActions = el => {
+      if (!items.length) { el.innerHTML = empty('오늘 처리할 경보가 없습니다.'); return; }
     items.sort((a, b) => a.d - b.d);
     const cnt = {}; items.forEach(x => { cnt[x.k] = (cnt[x.k] || 0) + 1; });
     el.innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">${Object.entries(cnt).map(([k, v]) => `<span style="font-size:12px;padding:2px 9px;border-radius:999px;background:var(--surface-2);">${h(k)} <b>${v}</b></span>`).join('')}</div>
@@ -5256,6 +5255,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
         <span style="font-size:11.5px;font-weight:700;color:${x.c};">${h(x.k)}</span>
         <span style="min-width:0;"><span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;font-size:13px;">${h(x.t || '-')}</span><span style="font-size:11.5px;color:var(--muted);">${h(x.s)}</span></span></div>`).join('')}</div>`
       + so(`처리할 일 ${items.length}건. 붉은 D-3 이내부터 처리하고, 재계약 접촉은 예상 재발주 60일 전에 시작하세요.`);
+    };
   });
   safe('kpiTrend', () => {
     const D = (typeof DAILY !== 'undefined' && DAILY) || [];
@@ -5427,6 +5427,8 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
       }));
       document.getElementById('adminGate').hidden = true;
       planSimInit(body);
+      const act = body.querySelector('#admActions');
+      if (act && window.renderAdminActions) { try { window.renderAdminActions(act); } catch (e) { console.warn('admin actions', e); } }
     } catch (ex) {
       err.textContent = '비밀번호가 맞지 않습니다.';
     } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
