@@ -1,11 +1,11 @@
 {
- "at": "2026-10-10 10:13",
- "places": 362,
+ "at": "2026-10-10 23:17",
+ "places": 361,
  "by_region": {
   "서울": 31,
   "부산": 31,
   "대구": 10,
-  "인천": 14,
+  "인천": 13,
   "광주": 7,
   "대전": 10,
   "울산": 5,
@@ -21,6 +21,6 @@
   "제주": 31
  },
  "errors": [
-  "충북 컨벤션: <urlopen error _ssl.c:993: The handshake operation timed out>"
+  "인천 수련원: <urlopen error _ssl.c:993: The handshake operation timed out>"
  ]
 }
