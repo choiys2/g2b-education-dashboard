@@ -332,6 +332,19 @@ def build_new_courses(days=180):
     }
 
 
+def _rev26():
+    """콘텐츠·매출 탭용 2026 연간 예상(채널 4개 합계만). 경영계획 시크릿이 없으면 None — '27 계획은 싣지 않는다(관리 탭 전용)."""
+    try:
+        import plan2027
+        plan = plan2027.load_plan()
+        if not plan:
+            return None
+        return {k: v["prev"] for k, v in plan2027.chan(plan).items()}
+    except Exception as e:
+        print(f"[경고] REV26 실패: {str(e)[:100]}")
+        return None
+
+
 def _sheets_ops():
     """sheets_ops.py 결과 + 결과보고 초안(report_drafts.py)"""
     try:
@@ -489,6 +502,7 @@ def main():
         "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": exec_data, "__B2S_MARKET_JSON__": b2s_market,
         "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops, "__VIZ_JSON__": __import__("viz_data").build(pipeline_export.get("records", [])),
         "__SHEETS_OPS_JSON__": _sheets_ops(),
+        "__REV26_JSON__": _rev26(),
         "__WF_BADGES_JSON__": __import__("workflows").badge_map(),
         "__ADMIN_JSON__": __import__("admin_structure").encrypted_blob((exec_data or {}).get("sources")),
         "__EDU_CNTR_JSON__": __import__("edu_contracts").build(),

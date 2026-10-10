@@ -1613,11 +1613,20 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <p class="panel-title">Tier1 우선지역 요약 — 경기 · 강원 · 경남 · 전북</p>
-          <p class="panel-desc">2026 하반기 영업전략상 최우선 4개 지역만 골라 시장·AI에듀테크·학교회계·자사 파이프라인·경쟁사 신호를 한 화면에 모았습니다. 아래 17개 지역 전체 표에서 매번 찾을 필요 없이 여기서 바로 확인하세요.</p>
+          <p class="panel-title">17개 시도교육청 영업 요약<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">시장 · AI에듀테크 · 학교회계 · 예산 여력 · 자사 실적 · 경쟁 · 생애주기</span></p>
+          <p class="panel-desc">17개 시도 전체를 같은 기준의 카드로 보여줍니다. ★ = 2026 하반기 Tier1 우선지역(경기·강원·경남·전북). 정렬·필터로 원하는 시도부터 보세요.</p>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          <select id="t17Sort" aria-label="정렬" style="font:inherit;font-size:12.5px;padding:5px 8px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);">
+            <option value="score">기회점수순</option><option value="market">시장 예산순</option><option value="room">예산 여력순</option><option value="own">자사 실적순</option><option value="comp">경쟁 낙찰순</option><option value="ai">AI·에듀테크순</option>
+          </select>
+          <span class="view-toggle" id="t17Filter" role="group" aria-label="필터">
+            <button type="button" data-f="all" aria-pressed="true">전체 17</button><button type="button" data-f="tier1" aria-pressed="false">★ Tier1</button><button type="button" data-f="attack" aria-pressed="false">공략 우선</button><button type="button" data-f="none" aria-pressed="false">자사 0건</button>
+          </span>
         </div>
       </div>
-      <div id="tier1Grid" class="segment-grid"></div>
+      <div id="t17Summary" style="font-size:12.5px;color:var(--muted);margin:0 0 8px;"></div>
+      <div id="tier1Grid" class="segment-grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));"></div>
     </section>
 
     <section class="panel">
@@ -2529,6 +2538,7 @@ const VIZ = __VIZ_JSON__;
 const ADMIN = __ADMIN_JSON__;
 const WF_BADGES = __WF_BADGES_JSON__;
 const SHEETS_OPS = __SHEETS_OPS_JSON__;
+const REV26 = __REV26_JSON__;
 const BETA = __BETA_JSON__;
 
 const fmt = n => n.toLocaleString('ko-KR');
@@ -3397,39 +3407,55 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   const el = document.getElementById('tier1Grid');
   if (!el || typeof PIPE === 'undefined') return;
   const TIER1 = ['경기', '강원', '경남', '전북'];
+  const REGIONS = Object.keys(REGION_SHORT2FULL);
   const byRegion = {};
   (PIPE.byRegion || []).forEach(r => { byRegion[r.region] = r; });
   const aiByRegion = {};
   (typeof AI_ROWS !== 'undefined' ? AI_ROWS : []).forEach(r => { aiByRegion[r.region] = (aiByRegion[r.region] || 0) + (r.amount || 0); });
   const schoolByRegion = {};
   if (typeof SCHOOL_CONTRACT_2025 !== 'undefined') {
-    SCHOOL_CONTRACT_2025.by_sido.forEach(r => {
-      const short = REGION_FULL2SHORT[r.sido];
-      if (short) schoolByRegion[short] = r;
-    });
+    SCHOOL_CONTRACT_2025.by_sido.forEach(r => { const short = REGION_FULL2SHORT[r.sido]; if (short) schoolByRegion[short] = r; });
   }
   const compByRegion = {};
   if (typeof COMPETITOR_TRAINING !== 'undefined' && COMPETITOR_TRAINING.g2b && COMPETITOR_TRAINING.g2b.region_matrix) {
     COMPETITOR_TRAINING.g2b.region_matrix.forEach(r => { compByRegion[r.region] = r.total; });
   }
-
-  el.innerHTML = TIER1.map(region => {
-    const p = byRegion[region] || {};
-    const sc = schoolByRegion[region] || {};
-    const compCount = compByRegion[region] || 0;
-    return `
-      <div class="segment-card">
-        <div class="seg-title">${region} <span style="font-size:11px;color:var(--muted);font-weight:400;">(${REGION_SHORT2FULL[region] || ''})</span></div>
-        <div class="seg-range">기회점수 <b style="color:var(--accent);">${p.opportunity_score != null ? p.opportunity_score : '-'}</b></div>
-        <div class="seg-strategy" style="display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--border);padding-top:8px;">
-          <span>시장 예산(전체) <b>${fmtWon(p.market_amount || 0)}</b></span>
-          <span>AI·에듀테크 발주액 <b>${fmtWon(aiByRegion[region] || 0)}</b></span>
-          <span>학교회계 계약액 <b>${fmtWon(sc.amt || 0)}</b>${sc.n ? ` (${fmt(sc.n)}교)` : ''}</span>
-          <span>자사 파이프라인 <b>${fmt(p.own_count || 0)}건</b> · ${fmtWon(p.own_amount || 0)}</span>
-          <span>경쟁사 낙찰 이력 <b style="color:${compCount > 0 ? 'var(--critical)' : 'inherit'};">${fmt(compCount)}건</b></span>
+  const budByRegion = {};
+  ((typeof OPS !== 'undefined' && OPS && OPS.budget && OPS.budget.rows) || []).forEach(r => { budByRegion[r.region] = r; });
+  const LC = (typeof VIZ !== 'undefined' && VIZ && VIZ.lifecycle) || {};
+  const SC = {'개척': '#94a3b8', '첫 수주': '#93c5fd', '재계약': '#4f8cff', '확대': '#10b981'};
+  const D = REGIONS.map(region => {
+    const p = byRegion[region] || {}, sc = schoolByRegion[region] || {}, b = budByRegion[region] || {}, lc = LC[region] || {};
+    return {region, tier1: TIER1.includes(region), score: p.opportunity_score, market: p.market_amount || 0, ai: aiByRegion[region] || 0,
+            school: sc.amt || 0, schoolN: sc.n || 0, own: p.own_count || 0, ownAmt: p.own_amount || 0, comp: compByRegion[region] || 0,
+            room: b.diff, share: b.share, flag: b.flag || '', teachers: b.teachers, stage: lc.stage || ''};
+  });
+  const st = {sort: 'score', f: 'all'};
+  const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const key = {score: d => d.score ?? -1, market: d => d.market, room: d => d.room ?? -Infinity, own: d => d.ownAmt, comp: d => d.comp, ai: d => d.ai};
+  function draw(){
+    const L = D.filter(d => st.f === 'all' || (st.f === 'tier1' && d.tier1) || (st.f === 'attack' && d.flag === '공략 우선') || (st.f === 'none' && !d.own)).sort((a, b) => key[st.sort](b) - key[st.sort](a));
+    const mxM = Math.max(1, ...D.map(d => d.market));
+    document.getElementById('t17Summary').textContent = `${L.length}개 시도 · 자사 사업 있는 시도 ${D.filter(d => d.own).length}/17 · 경쟁사 낙찰 이력 시도 ${D.filter(d => d.comp).length}/17 · 공략 우선 ${D.filter(d => d.flag === '공략 우선').map(d => d.region).join('·') || '-'}`;
+    el.innerHTML = L.map(d => `
+      <div class="segment-card" style="${d.tier1 ? 'border-color:var(--accent);' : ''}">
+        <div class="seg-title" style="display:flex;justify-content:space-between;gap:6px;align-items:baseline;"><span>${d.tier1 ? '★ ' : ''}${esc(d.region)} <span style="font-size:11px;color:var(--muted);font-weight:400;">(${esc(REGION_SHORT2FULL[d.region] || '')})</span></span>
+          ${d.stage ? `<span style="font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:999px;background:color-mix(in srgb, ${SC[d.stage] || '#94a3b8'} 22%, transparent);color:var(--ink-2);white-space:nowrap;">${esc(d.stage)}</span>` : ''}</div>
+        <div class="seg-range">기회점수 <b style="color:var(--accent);">${d.score != null ? d.score : '-'}</b>${d.flag ? ` <span style="font-size:11px;font-weight:700;color:${d.flag === '여력 감소' ? 'var(--critical)' : d.flag === '수성' ? '#10b981' : '#f59e0b'};">· ${esc(d.flag)}</span>` : ''}</div>
+        <div style="height:6px;background:var(--surface-2);border-radius:3px;margin:4px 0 6px;" data-tip="${esc(`시장 예산 ${fmtWon(d.market)} (17개 시도 중 최대 대비)`)}"><span style="display:block;height:100%;width:${Math.max(1, d.market / mxM * 100)}%;background:var(--accent);border-radius:3px;"></span></div>
+        <div class="seg-strategy" style="display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--border);padding-top:8px;font-size:12.5px;">
+          <span>시장 예산(전체) <b>${fmtWon(d.market)}</b></span>
+          <span>AI·에듀테크 발주액 <b>${fmtWon(d.ai)}</b></span>
+          <span>학교회계 계약액 <b>${fmtWon(d.school)}</b>${d.schoolN ? ` (${fmt(d.schoolN)}교)` : ''}</span>
+          <span>예산 여력(세입−세출) <b>${d.room != null ? fmtWon(d.room) : '-'}</b>${d.teachers ? ` · 교원 ${fmt(d.teachers)}명` : ''}</span>
+          <span>자사 파이프라인 <b>${fmt(d.own)}건</b> · ${fmtWon(d.ownAmt)}${d.share != null ? ` · 점유 ${d.share}%` : ''}</span>
+          <span>경쟁사 낙찰 이력 <b style="color:${d.comp > 0 ? 'var(--critical)' : 'inherit'};">${fmt(d.comp)}건</b></span>
         </div>
-      </div>`;
-  }).join('');
+      </div>`).join('') || '<div style="color:var(--muted);font-size:13px;">조건에 맞는 시도가 없습니다.</div>';
+  }
+  document.getElementById('t17Sort').addEventListener('change', e => { st.sort = e.target.value; draw(); });
+  document.getElementById('t17Filter').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; st.f = b.dataset.f; e.currentTarget.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+  draw();
 })();
 
 (function renderCombinedScore(){
@@ -4537,7 +4563,7 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
   function panel(tab, after, title, sub){
     const sec = document.createElement('section');
     sec.className = 'panel viz-panel';
-    const vn = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚㉛㉜㉝㉞㉟㊱㊲㊳㊴㊵㊶'.indexOf(title[0]);
+    const vn = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚㉛㉜㉝㉞㉟㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼'.indexOf(title[0]);
     if (vn >= 0) sec.id = 'viz' + (vn + 1);  // 업무 플로우 연계(workflows.py)가 가리키는 id
     sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">${title}${sub ? `<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">${sub}</span>` : ''}</p></div></div><div class="viz-body"></div>`;
     const anchor = after && document.getElementById(after);
@@ -5108,6 +5134,97 @@ const hasProg = (r, p) => (r.사업 || []).includes(p);
     const b2g = (Vc.b2g || 0) + (Vc.b2s || 0), b2c = C.total, t = b2g + b2c || 1;
     el.innerHTML = `<div style="display:flex;height:28px;gap:2px;border-radius:8px;overflow:hidden;max-width:760px;"><span style="flex:${b2g};background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;">B2G ${Math.round(b2g / t * 100)}%</span><span style="flex:${b2c};background:#10b981;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;">B2C·콘텐츠 ${Math.round(b2c / t * 100)}%</span></div>
       <div style="font-size:12.5px;color:var(--muted);margin-top:6px;">B2G ${fmtWon(b2g)} · B2C ${fmtWon(b2c)} · 목표 2027 B2G 40%</div>${so('두 시트의 기준(총예산 vs 실매출)이 달라 참고 비교입니다. 정산관리 청구금액이 쌓이면 B2G도 실매출 기준으로 바꿉니다.')}`;
+  });
+
+  /* ---- 콘텐츠·매출: 2026 매출 기반 보강(㊷~㊼) ---- */
+  const monthOf = s => { const m = String(s || '').match(/20\d{2}\D{1,2}(\d{1,2})/) || String(s || '').match(/(\d{1,2})\s*월/) || String(s || '').match(/^\s*(\d{1,2})\s*$/); const n = m ? +m[1] : 0; return n >= 1 && n <= 12 ? n : 0; };
+  safe('rev26', () => {
+    const R = (typeof REV26 !== 'undefined' && REV26) || null, C = S.contents || {}, ST = (S.settle || {}).rows || [];
+    const el = panel('content', null, '㊷ 2026 매출 현황', "채널 구성('26 연간 예상) · 시트 실적 누계 · 진척");
+    if (!el) return;
+    const b2gAct = ST.reduce((a, r) => a + (r.claim || 0), 0), onAct = C.total || 0;
+    if (!R) { el.innerHTML = `<div style="font-size:13px;">시트 실적: B2G 청구 누계 <b>${won(b2gAct)}</b> · 콘텐츠 누적 매출 <b>${won(onAct)}</b></div>` + empty("채널별 '26 연간 예상은 경영계획 시크릿(PLAN_2027_JSON) 등록 시 표시됩니다."); return; }
+    const CH = [['B2G 위탁', 'b2g', '#f59e0b'], ['B2S 단체', 'b2s', '#4f8cff'], ['B2C 개인', 'b2c', '#10b981'], ['제품·기타', 'etc', '#94a3b8']];
+    const tot = CH.reduce((a, [, k]) => a + (R[k] || 0), 0) || 1;
+    const prog = (lab, act, exp, c) => `<div style="margin:8px 0;" ${tipAttr(`${lab}: 실적 ${won(act)} / 예상 ${won(exp)}`)}><div style="display:flex;justify-content:space-between;font-size:12.5px;"><span>${h(lab)}</span><span class="num"><b>${won(act)}</b> / ${won(exp)} · ${exp ? Math.round(act / exp * 100) : 0}%</span></div>
+      <div style="height:12px;background:var(--surface-2);border-radius:6px;overflow:hidden;"><span style="display:block;height:100%;width:${Math.min(100, exp ? act / exp * 100 : 0)}%;background:${c};"></span></div></div>`;
+    const mNow = new Date().getMonth() + 1;
+    el.innerHTML = grid2(
+      `<div><p style="font-weight:800;margin:0 0 6px;">채널 구성 · '26 연간 예상 ${won(tot)}</p><div style="display:flex;height:34px;gap:2px;border-radius:8px;overflow:hidden;">${CH.map(([lab, k, c]) => R[k] ? `<span ${tipAttr(`${lab}: ${won(R[k])} (${Math.round(R[k] / tot * 100)}%)`)} style="flex:${R[k]};background:${c};color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;">${R[k] / tot > .09 ? `${Math.round(R[k] / tot * 100)}%` : ''}</span>` : '').join('')}</div>${legend(CH.map(([lab, , c]) => [lab, c]))}
+        <div style="font-size:12.5px;color:var(--muted);margin-top:8px;">B2G 비중 <b style="color:var(--ink);">${Math.round((R.b2g || 0) / tot * 100)}%</b> · 비B2G ${100 - Math.round((R.b2g || 0) / tot * 100)}%</div></div>`,
+      `<div><p style="font-weight:800;margin:0 0 6px;">시트 실적 누계 vs '26 예상 (${mNow}월 기준, 연 경과 ${Math.round(mNow / 12 * 100)}%)</p>
+        ${prog('B2G 위탁 — 정산관리 청구금액', b2gAct, R.b2g || 0, '#f59e0b')}
+        ${prog('온라인(B2C+B2S) — 콘텐츠DT 누적 매출', onAct, (R.b2c || 0) + (R.b2s || 0), '#10b981')}</div>`)
+      + so(`B2G는 청구가 연말에 몰리는 구조라 진척률이 연 경과율(${Math.round(mNow / 12 * 100)}%)보다 낮아도 정상일 수 있습니다. 11~12월 청구 예정분을 더해 11.19 매출계획의 '26 예상을 확정하세요.`);
+  });
+  safe('b2gMonthly', () => {
+    const ST = (S.settle || {}).rows || [], R = (typeof REV26 !== 'undefined' && REV26) || {};
+    const m = Array(12).fill(0); ST.forEach(r => { const k = monthOf(r.month) || monthOf(r.end); if (k && r.claim) m[k - 1] += r.claim; });
+    if (!m.some(Boolean)) return;
+    const el = panel('content', null, '㊸ B2G 월별 청구 누계', '정산관리 청구월 기준 · 점선 = 26 연간 예상');
+    if (!el) return;
+    let cum = 0; const cs = m.map(v => (cum += v)), mx = Math.max(cs[11], R.b2g || 0, 1), W = 720, H = 220, P = 46, x = i => P + i * (W - P - 14) / 11, y = v => H - 26 - v / mx * (H - 46);
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;">
+      ${[0, .5, 1].map(t => `<line x1="${P}" x2="${W - 10}" y1="${y(mx * t)}" y2="${y(mx * t)}" stroke="var(--border)"/><text x="${P - 6}" y="${y(mx * t) + 4}" font-size="10" text-anchor="end" fill="var(--muted)">${h(fmtWon(Math.round(mx * t)))}</text>`).join('')}
+      ${m.map((v, i) => v ? `<rect x="${x(i) - 9}" y="${y(v)}" width="18" height="${H - 26 - y(v)}" rx="3" fill="#f59e0b" fill-opacity=".45" ${tipAttr(`${i + 1}월 청구 ${fmtWon(v)}`)}/>` : '').join('')}
+      <polyline points="${cs.map((v, i) => `${x(i)},${y(v)}`).join(' ')}" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+      ${R.b2g ? `<line x1="${P}" x2="${W - 10}" y1="${y(R.b2g)}" y2="${y(R.b2g)}" stroke="var(--ink-2)" stroke-dasharray="5 4"/><text x="${W - 12}" y="${y(R.b2g) - 4}" font-size="10.5" text-anchor="end" fill="var(--ink-2)">'26 예상 ${h(fmtWon(R.b2g))}</text>` : ''}
+      ${m.map((v, i) => `<text x="${x(i)}" y="${H - 8}" font-size="10" text-anchor="middle" fill="var(--muted)">${i + 1}월</text>`).join('')}</svg>
+      ${so(`청구 누계 ${fmtWon(cs[11])}${R.b2g ? ` · 예상까지 ${fmtWon(Math.max(0, R.b2g - cs[11]))} 남음` : ''}. 막대가 빈 달은 청구월 미기재일 수 있으니 정산관리 시트를 확인하세요.`)}`;
+  });
+  safe('portfolio', () => {
+    const rows = ((S.contents || {}).rows || []).filter(r => r.stage === '서비스 중');
+    if (rows.length < 5) return;
+    const el = panel('content', null, '㊹ 분야 포트폴리오', 'x 과정 수 · y 과정당 누적 매출 · 원 = 분야 총매출');
+    if (!el) return;
+    const F = {}; rows.forEach(r => { const k = r.field || '미분류'; F[k] = F[k] || {n: 0, t: 0, z: 0}; F[k].n++; F[k].t += r.total || 0; if (!(r.total > 0)) F[k].z++; });
+    const L = Object.entries(F).map(([k, v]) => ({k, n: v.n, t: v.t, a: v.t / v.n, z: v.z})).filter(d => d.n > 0);
+    const mxN = Math.max(...L.map(d => d.n)), mxA = Math.max(1, ...L.map(d => d.a)), mxT = Math.max(1, ...L.map(d => d.t));
+    const mN = L.reduce((s, d) => s + d.n, 0) / L.length, mA = L.reduce((s, d) => s + d.a, 0) / L.length;
+    const W = 720, H = 320, P = 50, x = n => P + n / mxN * (W - P - 30), y = a => H - 30 - a / mxA * (H - 60);
+    const quad = d => d.n >= mN ? (d.a >= mA ? '주력' : '라인업 정리') : (d.a >= mA ? '확장 후보' : '관망');
+    const QC = {'주력': '#10b981', '확장 후보': '#4f8cff', '라인업 정리': '#f59e0b', '관망': '#94a3b8'};
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;">
+      <line x1="${x(mN)}" x2="${x(mN)}" y1="20" y2="${H - 30}" stroke="var(--border)" stroke-dasharray="4 4"/><line x1="${P}" x2="${W - 20}" y1="${y(mA)}" y2="${y(mA)}" stroke="var(--border)" stroke-dasharray="4 4"/>
+      <text x="${W - 22}" y="30" text-anchor="end" font-size="11" fill="#10b981">주력</text><text x="${P + 4}" y="30" font-size="11" fill="#4f8cff">확장 후보</text><text x="${W - 22}" y="${H - 36}" text-anchor="end" font-size="11" fill="#f59e0b">라인업 정리</text>
+      ${L.map(d => `<g ${tipAttr(`<div class='tt-title'>${h(d.k)}</div>과정 ${d.n}개 · 총 ${h(fmtWon(d.t))}<br>과정당 ${h(fmtWon(Math.round(d.a)))} · 매출 0 과정 ${d.z}개<br>${quad(d)}`)}><circle cx="${x(d.n)}" cy="${y(d.a)}" r="${6 + Math.sqrt(d.t / mxT) * 22}" fill="${QC[quad(d)]}" fill-opacity=".55" stroke="${QC[quad(d)]}"/><text x="${x(d.n)}" y="${y(d.a) + 4}" font-size="10.5" text-anchor="middle" fill="var(--ink)">${h(d.k.slice(0, 6))}</text></g>`).join('')}
+      <text x="${(W + P) / 2}" y="${H - 6}" font-size="10.5" text-anchor="middle" fill="var(--muted)">서비스 중 과정 수 →</text></svg>
+      ${legend(Object.entries(QC))}${so(`'확장 후보'(과정은 적은데 과정당 매출이 높은 분야)에 신규 제작비를 먼저 배정하고, '라인업 정리'(과정은 많은데 과정당 매출이 낮은 분야)는 통합·개편으로 운영비를 줄이세요.`)}`;
+  });
+  safe('cohort', () => {
+    const rows = ((S.contents || {}).rows || []).filter(r => r.service_year && r.total != null);
+    if (rows.length < 5) return;
+    const el = panel('content', null, '㊺ 오픈 연도별 과정 매출력', '서비스 시작 연도(코호트)별 과정당 누적 매출 · 매출 0 과정 비율');
+    if (!el) return;
+    const Y = {}; rows.forEach(r => { const k = r.service_year; Y[k] = Y[k] || {n: 0, t: 0, z: 0}; Y[k].n++; Y[k].t += r.total || 0; if (!(r.total > 0)) Y[k].z++; });
+    const L = Object.entries(Y).sort((a, b) => a[0].localeCompare(b[0]));
+    el.innerHTML = hbars(L.map(([y, v]) => ({k: `${y}년 오픈 (${v.n}개)`, v: v.t / v.n, label: fmtWon(Math.round(v.t / v.n)), tip: `${y}년 오픈 ${v.n}개 · 총 ${fmtWon(v.t)} · 과정당 ${fmtWon(Math.round(v.t / v.n))} · 매출 0 ${v.z}개(${Math.round(v.z / v.n * 100)}%)`, c: v.z / v.n > .4 ? '#f59e0b' : 'var(--accent)'})), {lw: 130, vw: 110})
+      + so('최근 오픈 과정의 과정당 매출이 이전 코호트보다 낮으면 신규 과정의 홍보·패키징이 부족하다는 신호입니다. 주황 막대는 매출 0 과정이 40%를 넘는 연도입니다.');
+  });
+  safe('momentum', () => {
+    const C = S.contents || {}, ms = (C.months || []).slice().sort((a, b) => a - b);
+    if (ms.length < 2) return;
+    const a = ms[0], b = ms[ms.length - 1];
+    const rows = (C.rows || []).map(r => ({t: r.title, f: r.field, d: ((r.sales || {})[b] || 0) - ((r.sales || {})[a] || 0), x: (r.sales || {})[a] || 0, y: (r.sales || {})[b] || 0})).filter(r => r.x || r.y);
+    if (!rows.length) return;
+    const el = panel('content', null, `㊻ ${a}월 → ${b}월 매출 모멘텀`, '과정별 증감 상위·하위');
+    if (!el) return;
+    const up = rows.slice().sort((p, q) => q.d - p.d).slice(0, 8).filter(r => r.d > 0), dn = rows.slice().sort((p, q) => p.d - q.d).slice(0, 8).filter(r => r.d < 0);
+    const bars = (L, c) => L.length ? hbars(L.map(r => ({k: r.t, v: Math.abs(r.d), label: (r.d > 0 ? '+' : '-') + fmtWon(Math.abs(r.d)), tip: `${r.t} (${r.f || '-'})<br>${a}월 ${fmtWon(r.x)} → ${b}월 ${fmtWon(r.y)}`, c})), {lw: 200, vw: 100}) : empty('해당 없음');
+    el.innerHTML = grid2(`<div><p style="font-weight:800;margin:0 0 4px;color:#10b981;">상승</p>${bars(up, '#10b981')}</div>`, `<div><p style="font-weight:800;margin:0 0 4px;color:#d64545;">하락</p>${bars(dn, '#d64545')}</div>`)
+      + so('상승 과정은 배너·SMS 노출을 늘려 흐름을 키우고, 하락 과정은 시즌 요인(방학·학기초)인지 경쟁 과정 출시 영향인지 확인하세요.');
+  });
+  safe('dormant', () => {
+    const rows = ((S.contents || {}).rows || []).filter(r => r.stage === '서비스 중' && !(r.total > 0));
+    const all = ((S.contents || {}).rows || []).filter(r => r.stage === '서비스 중');
+    if (!all.length) return;
+    const el = panel('content', null, '㊼ 휴면 과정', '서비스 중인데 누적 매출 0인 과정 · 정리·개편 후보');
+    if (!el) return;
+    const byF = {}; rows.forEach(r => { byF[r.field || '미분류'] = (byF[r.field || '미분류'] || 0) + 1; });
+    el.innerHTML = `<div style="font-size:13px;margin-bottom:8px;">서비스 중 ${all.length}개 중 <b style="color:#d64545;">${rows.length}개(${Math.round(rows.length / all.length * 100)}%)</b>가 매출 0</div>`
+      + grid2(`<div>${hbars(Object.entries(byF).sort((p, q) => q[1] - p[1]).slice(0, 10).map(([k, v]) => ({k, v, label: v + '개', c: '#d64545'})), {lw: 110, vw: 50})}</div>`,
+        `<div style="max-height:260px;overflow:auto;font-size:12px;">${rows.slice(0, 60).map(r => `<div style="padding:3px 0;border-bottom:1px solid var(--border);">${h(r.title)} <span style="color:var(--muted);">· ${h(r.field || '-')} · ${h(r.service_year || '')}</span></div>`).join('')}</div>`)
+      + so('휴면 과정은 KERIS 인증 유지·운영 비용만 듭니다. 분기마다 통합·개편·종료를 결정하고, 인기 분야의 휴면 과정은 제목·썸네일·배너 노출부터 바꿔 보세요.');
   });
 
   /* ---- B2S 견적 가이드 · 시장 생애주기 · 경영 캘린더 ---- */
