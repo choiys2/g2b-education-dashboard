@@ -1,5 +1,5 @@
 {
- "at": "2026-10-09 10:29",
+ "at": "2026-10-10 10:13",
  "places": 362,
  "by_region": {
   "서울": 31,
@@ -20,5 +20,7 @@
   "경남": 25,
   "제주": 31
  },
- "errors": []
+ "errors": [
+  "충북 컨벤션: <urlopen error _ssl.c:993: The handshake operation timed out>"
+ ]
 }
