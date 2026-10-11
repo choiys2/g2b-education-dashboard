@@ -17,6 +17,7 @@ on:
     # (2026-08-16: news.yml #4~#7 전부 cancelled)
     paths-ignore:
       - "briefings/**"
+      - ".github/workflows/smoke.yml"   # 점검 워크플로만 바뀐 푸시는 재배포하지 않음
 
 permissions:
   contents: write

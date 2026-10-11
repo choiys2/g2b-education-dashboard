@@ -1,0 +1,51 @@
+name: 배포 후 점검 (주소별 동작 확인)
+
+# 대시보드·브리핑 배포가 끝날 때마다 실제 주소를 열어 확인한다(읽기만, 배포 안 함).
+# - GitHub 공개 주소: 대시보드가 없고 안내 페이지만 / 뉴스 API·위젯·캘린더는 정상
+# - Cloudflare 주소: 로그인(Access) 없이 내용이 보이지 않음
+on:
+  workflow_run:
+    workflows: ["나라장터 대시보드 자동 갱신·배포", "조간 브리핑 지면 갱신·배포"]
+    types: [completed]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 주소별 점검
+        env:
+          GH: https://choiys2.github.io/g2b-education-dashboard
+          CF: https://${{ vars.CF_PAGES_PROJECT || 'vs-insight' }}.pages.dev
+        run: |
+          set -u
+          sleep 60   # Pages 반영 대기
+          fail=0
+          ok(){ echo "✅ $1"; }
+          bad(){ echo "::error::❌ $1"; fail=1; }
+          get(){ curl -sS -o body -w '%{http_code} %{redirect_url}' --max-time 30 "$1" || echo "000"; }
+
+          for p in "/" "/full/" "/full/weekly.html"; do
+            r=$(get "$GH$p")
+            if [ "${r%% *}" = 200 ] && grep -q "pages.dev/full/" body && ! grep -q 'data-gate="v1"' body; then ok "GitHub $p → 이전 안내"; else bad "GitHub $p 에 대시보드 또는 이상 응답($r)"; fi
+          done
+          for p in "/full/report.pdf" "/full/ai_schools_2026.xlsx" "/full/b2s_schools.csv" "/full/weekly_mail.txt"; do
+            r=$(get "$GH$p"); [ "${r%% *}" = 404 ] && ok "GitHub $p 내려감" || bad "GitHub $p 가 아직 공개($r)"
+          done
+          r=$(get "$GH/api/news/latest.json")
+          if [ "${r%% *}" = 200 ] && python3 -c "import json;d=json.load(open('body'));print('  최신 호:', d.get('date') or d.get('issue',{}).get('date') or list(d)[:5])"; then ok "뉴스 API"; else bad "뉴스 API($r)"; fi
+          r=$(get "$GH/widget/news-widget.js"); [ "${r%% *}" = 200 ] && ok "뉴스 위젯" || bad "뉴스 위젯($r)"
+          r=$(get "$GH/news/"); [ "${r%% *}" = 200 ] && ok "조간 지면" || bad "조간 지면($r)"
+          r=$(get "$GH/full/calendar.ics")
+          if [ "${r%% *}" = 200 ] && head -c 15 body | grep -q BEGIN:VCALENDAR; then ok "캘린더 구독 ($(grep -c BEGIN:VEVENT body)건)"; else bad "캘린더($r)"; fi
+
+          for p in "/" "/full/" "/summary/" "/full/report.pdf"; do
+            r=$(get "$CF$p"); code=${r%% *}
+            if grep -q 'data-gate="v1"\|나라장터\|대시보드' body 2>/dev/null && [ "$code" = 200 ]; then bad "Cloudflare $p 가 로그인 없이 열림"
+            elif echo "$r" | grep -q "cloudflareaccess.com" || [ "$code" = 302 ] || [ "$code" = 403 ] || [ "$code" = 401 ]; then ok "Cloudflare $p 로그인 필요($code)"
+            else bad "Cloudflare $p 이상 응답($r)"; fi
+          done
+          exit $fail
