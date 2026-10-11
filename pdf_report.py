@@ -179,7 +179,7 @@ def build_pdf(out_path="live/weekly_report.pdf"):
 
     story.append(Spacer(1, 14))
     story.append(Paragraph(
-        "자동 생성 리포트 · 전체 데이터는 대시보드(choiys2.github.io/g2b-education-dashboard/full/)에서 확인하세요.",
+        "자동 생성 리포트 · 전체 데이터는 대시보드(vs-insight.pages.dev/full/)에서 확인하세요.",
         small_style))
 
     doc.build(story)

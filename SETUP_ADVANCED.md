@@ -95,8 +95,8 @@ git push
 
 ## 배포 후 접속 주소
 
-- 기존 나라장터 단독 대시보드: `https://choiys2.github.io/g2b-education-dashboard/` (변화 없음)
-- **새 통합 대시보드**: `https://choiys2.github.io/g2b-education-dashboard/full/`
+- **통합 대시보드(회사 이메일 로그인)**: `https://vs-insight.pages.dev/full/` · 나라장터 요약: `https://vs-insight.pages.dev/summary/`
+- GitHub 주소(`choiys2.github.io/g2b-education-dashboard`)에는 대시보드를 두지 않는다. 조간 지면(news/)·뉴스 API(api/news)·위젯(widget/)·입찰 마감 캘린더(full/calendar.ics)만 공개로 남는다.
 
 ## 알아두실 점
 

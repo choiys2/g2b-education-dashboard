@@ -332,11 +332,7 @@ jobs:
           python add_noindex.py _site   # 검색엔진 비노출(링크 받은 사람만)
           python encrypt_pages.py _site   # 처음 열 때 비밀번호(DASHBOARD_PASSWORD 시크릿)
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-      # 로그인 관문(Cloudflare Access) 뒤 사본: 누가 언제 열었는지 이메일 단위로 기록된다
+      # 대시보드 본체는 이메일 로그인(Cloudflare Access) 뒤에만 둔다: 누가 언제 열었는지 이메일 단위로 기록된다
       - name: Cloudflare Pages 배포 (Access 로그인)
         if: steps.healthcheck.outputs.healthy == 'true'
         timeout-minutes: 6
@@ -346,6 +342,19 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
         run: bash cf_pages_deploy.sh _site
+
+      # 공개 GitHub 주소에는 외부 연동용 자료(조간 지면·뉴스 API·위젯·입찰 마감 캘린더)만 남기고
+      # 대시보드 주소는 로그인 주소로 넘기는 안내 페이지로 바꾼다
+      - name: GitHub 공개 사이트(대시보드 제외) 조립
+        env:
+          CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
+        run: |
+          python gh_public_site.py _gh _site/news _site/api _site/widget _site/full/calendar.ics
+          python add_noindex.py _gh
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _gh
 
   deploy:
     needs: build

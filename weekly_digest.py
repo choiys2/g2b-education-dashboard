@@ -71,7 +71,7 @@ def main():
         lines.append(f"■ {title}")
         lines += [f"  - {t}" for t, _ in items] or ["  - 해당 없음"]
         lines.append("")
-    lines.append("대시보드: https://choiys2.github.io/g2b-education-dashboard/full/")
+    lines.append("대시보드(회사 이메일 로그인): https://vs-insight.pages.dev/full/")
     OUT_TXT.write_text("\n".join(lines), encoding="utf-8")
 
     e = html.escape

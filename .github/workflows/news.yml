@@ -52,56 +52,31 @@ jobs:
       - uses: actions/configure-pages@v5
         id: pages
 
-      # Pages는 저장소당 배포본이 하나라, 여기서 _site를 통째로 새로 올리면
-      # 대시보드가 사라진다. 이 워크플로는 대시보드를 만들 수 없으므로(=API 미호출)
-      # 지금 떠 있는 배포본을 그대로 내려받아 news/ 만 갈아끼운 뒤 다시 올린다.
-      # 대시보드 회수에 실패하면 배포를 건너뛴다 — 빈 사이트로 덮어쓰는 사고 방지.
-      - name: 현재 배포본 회수 + news/ 교체
+      # 공개 GitHub 주소에는 대시보드를 두지 않는다(대시보드는 이메일 로그인 뒤 Cloudflare 에만).
+      # 여기서는 조간 지면·뉴스 API·위젯과, 지금 떠 있는 입찰 마감 캘린더(calendar.ics)만 다시 올린다.
+      # 캘린더 회수에 실패하면 배포를 건너뛴다 — 구독 중인 캘린더가 비는 사고 방지(06:00 정기 배포가 반영).
+      # Cloudflare 사본은 통째로 교체되는 구조라 여기서 올리지 않는다(대시보드 안 뉴스 위젯은 GitHub 뉴스 API를 읽음).
+      - name: 공개 사이트 조립 (뉴스·API·위젯·캘린더)
         id: assemble
         env:
           SITE: ${{ steps.pages.outputs.base_url }}
+          CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
         run: |
           set -u
-          mkdir -p _site/full
-          curl -fsSL --retry 3 --retry-delay 2 "$SITE/"              -o _site/index.html      || true
-          curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/"         -o _site/full/index.html || true
-          curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/calendar.ics" -o _site/full/calendar.ics || true
-          curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/report.pdf"   -o _site/full/report.pdf   || true
-          cp static_data/ai_schools_2026.xlsx _site/full/ai_schools_2026.xlsx 2>/dev/null || true
-          curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/weekly.html"      -o _site/full/weekly.html      || true
-          curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/weekly_mail.txt"  -o _site/full/weekly_mail.txt  || true
-          curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/b2s_schools.csv"  -o _site/full/b2s_schools.csv  || true
-          find _site -type f -empty -delete
-
-          if [ ! -s _site/index.html ]; then
-            echo "::warning::기존 대시보드($SITE)를 회수하지 못해 배포를 건너뜁니다. 다음 06:00 정기 배포에서 함께 반영됩니다."
+          curl -fsSL --retry 3 --retry-delay 2 "$SITE/full/calendar.ics" -o calendar.ics || true
+          if [ ! -s calendar.ics ]; then
+            echo "::warning::기존 캘린더($SITE/full/calendar.ics)를 회수하지 못해 배포를 건너뜁니다. 다음 06:00 정기 배포에서 함께 반영됩니다."
             echo "deployable=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-
-          cp -r live/news _site/news
-          # 대시보드 배포본에 이미 있던 api/ 는 회수하지 않고 여기서 새로 만든 뉴스 API로 채운다
-          # (api/ 에는 현재 뉴스만 있으므로 브리핑 원본에서 재생성하면 동일하다).
-          cp -r live/api _site/api
-          cp -r widget _site/widget
-          python add_noindex.py _site   # 검색엔진 비노출(링크 받은 사람만)
+          python gh_public_site.py _site live/news live/api widget calendar.ics
+          python add_noindex.py _site   # 검색엔진 비노출
           echo "deployable=true" >> "$GITHUB_OUTPUT"
-          echo "회수한 파일:"; find _site -type f | sort
 
       - uses: actions/upload-pages-artifact@v3
         if: steps.assemble.outputs.deployable == 'true'
         with:
           path: _site
-
-      - name: Cloudflare Pages 배포 (Access 로그인)
-        if: steps.assemble.outputs.deployable == 'true'
-        timeout-minutes: 6
-        continue-on-error: true
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
-        run: bash cf_pages_deploy.sh _site
 
   deploy:
     needs: build
