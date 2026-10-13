@@ -1,5 +1,5 @@
 {
- "date": "2026-10-12",
+ "date": "2026-10-13",
  "bids": {
   "tab_gid": "435501388",
   "header_row": 1,
@@ -96,30 +96,18 @@
    "course",
    "field",
    "kind",
-   "lecturer",
-   "meal",
    "org",
    "people",
-   "prep",
-   "recruit",
    "region",
    "schedule",
    "sms",
-   "snack",
-   "target",
-   "venue",
    "venue_name"
   ],
   "rows": 22,
   "vocab_checks": {
-   "장소": {},
-   "강사": {},
    "홍보문자": {
     "5/13": 1
-   },
-   "운영준비": {},
-   "식사": {},
-   "다과": {}
+   }
   }
  }
 }
