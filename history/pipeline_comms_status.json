@@ -1,5 +1,5 @@
 {
- "date": "2026-10-13",
+ "date": "2026-10-14",
  "gid": "1083489926",
  "tab": "26영업소통 DT",
  "header_row": 1,
@@ -46,10 +46,10 @@
  ],
  "rows": 4007,
  "dated": 3998,
- "linked_courses": 78,
- "unlinked_rows": 1987,
+ "linked_courses": 79,
+ "unlinked_rows": 1969,
  "conversion": {
   "orgs": 299,
-  "won_orgs": 40
+  "won_orgs": 41
  }
 }
