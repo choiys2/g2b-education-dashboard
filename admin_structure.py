@@ -278,6 +278,7 @@ def build_html(exec_sources=None):
               ("AI 장애 대비", "gemini_client: 503이면 대체 모델 즉시 전환, 429는 모델 교체, 스크립트별 시간 상한, 실패 시 마지막 성공본"),
               ("개인정보", "시트는 화이트리스트 열만 읽음, 영업자 익명화, 소통은 숫자만, 수의계약 상대자 이름 미저장"),
               ("키 보호", "API 키는 GitHub Secret 에만, 로그 마스킹, 코드·history 에 미기록"),
+              ("대표 전용", "경영 종합·AI 해석·초안·경쟁사 변화 감지 데이터는 관리 비밀번호 암호문(OWNER)에만 실음 — 직원 화면 소스에도 없음"),
               ("계획 수치", "2027 경영계획은 Secret PLAN_2027_JSON 에서만 읽어 이 관리 탭 암호문 안에만 실음(history·브리핑·공개 화면 미기록)"),
               ("접근 통제", "검색 차단(noindex) + 대시보드 비밀번호(AES-256-GCM) + 관리 탭 별도 비밀번호"),
               ("외부 사이트 예절", "robots.txt 확인 후 허용 경로만, 요청 간 0.6~1초 간격, S2B 는 자동 수집 안 함")]
@@ -289,12 +290,16 @@ def build_html(exec_sources=None):
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
     go = lambda t, lab: f"""<a href="javascript:void 0" onclick="document.getElementById('{t}').scrollIntoView({{behavior:'smooth'}})" style="font-weight:800;">{lab}</a>"""
-    nav = ("<div style='display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;'>" + go("admPlan", "2027 경영계획")
+    nav = ("<div style='display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;'>"
+           + "<a href='javascript:void 0' data-goto='exec' style='font-weight:800;'>경영 종합 열기 →</a><span style='color:var(--muted);'>·</span>"
+           + go("admComp", "경쟁사 변화") + "<span style='color:var(--muted);'>·</span>" + go("admPlan", "2027 경영계획")
            + "<span style='color:var(--muted);'>·</span>" + go("admSys", "시스템 구조·실행 상태") + "</div>")
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
                '<div id="admActions"></div></section>')
-    return (css + '<div class="adm">' + nav + actions + quick_links() + f'<div id="admPlan">{plan_html}</div>'
+    comp = sec("경쟁사 변화 감지 (대표 전용)", "경쟁사 홈페이지 이벤트·신규 과정·나라장터 계약을 매일 비교해 새로 생긴 것만 모았습니다. 신호별 대응안을 함께 붙였습니다.",
+               '<div id="admComp"><p style="color:var(--muted);font-size:13px;">데이터를 불러오는 중이거나 아직 수집 전입니다.</p></div>')
+    return (css + '<div class="adm">' + nav + actions + comp + quick_links() + f'<div id="admPlan">{plan_html}</div>'
             + "<h3 id='admSys' style='margin:22px 0 10px;'>시스템 구조 · 실행 상태</h3>"
             + sec("데이터 연계 다이어그램 (상세)", f"소스 → 수집 스크립트(저장 위치) → 분석 모듈 → 화면. 소스 테두리 색 = 마지막 실행 상태(초록 정상·주황 주의·회색 대기). 상자에 마우스를 올리면 스크립트·저장 파일·키 이름이 보이고, 오른쪽 탭을 누르면 이동합니다. 생성 {now} KST",
                   f'<div style="overflow-x:auto;">{diagram(st)}</div>')
@@ -323,6 +328,18 @@ def encrypted_blob(exec_sources=None):
         return _encrypt(build_html(exec_sources), pw)
     except Exception as e:  # 암호화 실패가 대시보드 조합 전체를 막지 않게(내용은 싣지 않음)
         print(f"[경고] 관리 탭 암호화 실패: {str(e)[:120]}")
+        return None
+
+
+def encrypted_json(obj):
+    """대표 전용 데이터(경영 종합·AI 해석·경쟁사 감지)를 관리 비밀번호로 암호화. 비밀번호가 없으면 None(미게시)."""
+    pw = os.environ.get("ADMIN_PASSWORD", "").strip()
+    if not pw:
+        return None
+    try:
+        return _encrypt(json.dumps(obj, ensure_ascii=False, default=str), pw)
+    except Exception as e:
+        print(f"[경고] 대표 전용 데이터 암호화 실패: {str(e)[:120]}")
         return None
 
 

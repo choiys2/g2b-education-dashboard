@@ -498,6 +498,24 @@ def main():
     win_a = an.enrich_win_region(full_live["analytics"]["낙찰정보"], full_live["analytics"]["입찰공고"])
     beta = bf.build_beta(win_a, pipeline_export.get("records", []), open_bids=full_live["analytics"]["입찰공고"])
 
+    # ---------- 대표 전용(관리 비밀번호 암호문 안에만): 경영 종합 · AI 해석·초안 · 경쟁사 변화 감지 ----------
+    # 직원 화면(대시보드 비밀번호)에는 싣지 않는다 - 화면만 숨기면 페이지 소스로 보이므로 데이터 자체를 뺀다.
+    sheets_ops = _sheets_ops()
+    recruit_copy = {}
+    for it in (ops.get("recruit") or {}).get("items", []):
+        if it.get("copy"):
+            recruit_copy[it["course"]] = it.pop("copy")
+    copy_date = (ops.get("recruit") or {}).pop("copy_date", None)
+    try:
+        comp_watch = __import__("competitor_watch").build()
+    except Exception as e:
+        print(f"[경고] 경쟁사 변화 감지 실패: {str(e)[:120]}")
+        comp_watch = None
+    owner = {"exec": exec_data, "daily": _daily(), "ai_brief": ai_brief, "ai_drafts": ai_drafts,
+             "reports": sheets_ops.pop("reports", None), "recruit_copy": recruit_copy, "copy_date": copy_date,
+             "comp": comp_watch}
+    owner_blob = __import__("admin_structure").encrypted_json(owner)
+
     html = open(template_path, encoding="utf-8").read()
     subs = {
         "__DATA_JSON__": data_rows, "__TOTALS_JSON__": totals, "__AI_ROWS_JSON__": ai_rows,
@@ -508,12 +526,13 @@ def main():
         "__TRAINING_TOPICS_JSON__": training_topic_data,
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
-        "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": ai_brief,
-        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": ai_drafts, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": exec_data, "__B2S_MARKET_JSON__": b2s_market,
+        "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": None,
+        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": {}, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": None, "__B2S_MARKET_JSON__": b2s_market,
         "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops, "__VIZ_JSON__": __import__("viz_data").build(pipeline_export.get("records", [])),
-        "__SHEETS_OPS_JSON__": _sheets_ops(),
+        "__SHEETS_OPS_JSON__": sheets_ops,
         "__REV26_JSON__": _rev26(),
-        "__DAILY_JSON__": _daily(),
+        "__DAILY_JSON__": [],
+        "__OWNER_JSON__": owner_blob,
         "__WF_BADGES_JSON__": __import__("workflows").badge_map(),
         "__ADMIN_JSON__": __import__("admin_structure").encrypted_blob((exec_data or {}).get("sources")),
         "__EDU_CNTR_JSON__": __import__("edu_contracts").build(),
