@@ -1,6 +1,6 @@
 {
  "date": "2026-10-14",
- "sheet_tab": "26운영DT(10/14)",
+ "sheet_tab": "26운영DT(10/15)",
  "gid": "274729463",
  "header_row": 1,
  "matched_headers": [
@@ -24,15 +24,15 @@
   "신청현황"
  ],
  "missing_headers": [],
- "rows": 86,
+ "rows": 87,
  "via": "서비스계정",
  "error": null,
  "tried": [
   {
    "gid": "274729463",
-   "tab": "26운영DT(10/14)",
+   "tab": "26운영DT(10/15)",
    "matched": 18,
-   "rows": 86
+   "rows": 87
   }
  ]
 }

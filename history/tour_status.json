@@ -1,6 +1,6 @@
 {
- "at": "2026-10-14 09:48",
- "places": 360,
+ "at": "2026-10-15 09:22",
+ "places": 328,
  "by_region": {
   "서울": 31,
   "부산": 31,
@@ -11,16 +11,16 @@
   "울산": 5,
   "세종": 2,
   "경기": 31,
-  "강원": 28,
-  "충북": 14,
+  "강원": 27,
+  "충북": 13,
   "충남": 32,
   "전북": 30,
   "전남": 28,
   "경북": 31,
   "경남": 25,
-  "제주": 31
+  "제주": 1
  },
  "errors": [
-  "충남 교육원: <urlopen error _ssl.c:993: The handshake operation timed out>"
+  "제주 숙박: <urlopen error _ssl.c:993: The handshake operation timed out>"
  ]
 }
