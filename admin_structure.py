@@ -289,18 +289,17 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    go = lambda t, lab: f"""<a href="javascript:void 0" onclick="document.getElementById('{t}').scrollIntoView({{behavior:'smooth'}})" style="font-weight:800;">{lab}</a>"""
-    nav = ("<div style='display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;'>"
-           + "<a href='javascript:void 0' data-goto='exec' style='font-weight:800;'>경영 종합 열기 →</a><span style='color:var(--muted);'>·</span>"
-           + go("admComp", "경쟁사 변화") + "<span style='color:var(--muted);'>·</span>" + go("admPlan", "2027 경영계획")
-           + "<span style='color:var(--muted);'>·</span>" + go("admSys", "시스템 구조·실행 상태") + "</div>")
+    panes = [("exec", "경영 종합"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
+           + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
+           + "</div>")
+    pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
                '<div id="admActions"></div></section>')
     comp = sec("경쟁사 변화 감지 (대표 전용)", "경쟁사 홈페이지 이벤트·신규 과정·나라장터 계약을 매일 비교해 새로 생긴 것만 모았습니다. 신호별 대응안을 함께 붙였습니다.",
                '<div id="admComp"><p style="color:var(--muted);font-size:13px;">데이터를 불러오는 중이거나 아직 수집 전입니다.</p></div>')
-    return (css + '<div class="adm">' + nav + actions + comp + quick_links() + f'<div id="admPlan">{plan_html}</div>'
-            + "<h3 id='admSys' style='margin:22px 0 10px;'>시스템 구조 · 실행 상태</h3>"
+    sys_html = (""
             + sec("데이터 연계 다이어그램 (상세)", f"소스 → 수집 스크립트(저장 위치) → 분석 모듈 → 화면. 소스 테두리 색 = 마지막 실행 상태(초록 정상·주황 주의·회색 대기). 상자에 마우스를 올리면 스크립트·저장 파일·키 이름이 보이고, 오른쪽 탭을 누르면 이동합니다. 생성 {now} KST",
                   f'<div style="overflow-x:auto;">{diagram(st)}</div>')
             + sec("업무 플로우 실시간 현황", "지금 각 업무 단계에 몇 건이 있는지(콘텐츠DT·입찰DT·정산관리·26운영(블렌디드)·운영DT·영업소통DT).", live_board())
@@ -315,7 +314,13 @@ def build_html(exec_sources=None):
             + sec("실행 일정 · 안전장치", "",
                   "<div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px;'>"
                   + "<div><h4>일정</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in sched) + "</tbody></table></div>"
-                  + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>")
+                  + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
+    return (css + '<div class="adm">' + nav
+            + pane("exec", '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
+            + pane("actions", actions + quick_links())
+            + pane("comp", comp)
+            + pane("plan", f'<div id="admPlan">{plan_html}</div>')
+            + pane("sys", f"<div id='admSys'></div>{sys_html}")
             + "</div>")
 
 

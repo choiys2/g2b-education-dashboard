@@ -709,7 +709,6 @@
 
   <nav class="tabnav" role="tablist">
     <button class="tabbtn active" role="tab" aria-selected="true" data-tab="market">시장 분석</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="exec" hidden>경영 종합 🔒</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2bfull">나라장터 종합</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2b">AI·에듀테크 발주 리스트</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="school">학교단위 발주</button>
@@ -2608,7 +2607,7 @@ function writeHashState(patch){
   history.replaceState(null, '', parts.length ? '#' + parts.join('&') : location.pathname + location.search);
 }
 function activateTab(tabName){
-  if (tabName === 'exec' && !window.__ownerOpen) tabName = 'admin';  // 경영 종합은 관리 비밀번호로 연 뒤에만
+  if (tabName === 'exec') { tabName = 'admin'; if (window.admPane) setTimeout(() => window.admPane('exec'), 0); }  // 경영 종합은 관리 탭 안(관리 비밀번호)
   const btn = document.querySelector(`.tabbtn[data-tab="${tabName}"]`);
   const panel = document.getElementById('panel-' + tabName);
   if (!btn || !panel) return false;
@@ -5417,12 +5416,18 @@ function openOwner(O, adminBody){
   if (typeof SHEETS_OPS === 'object' && SHEETS_OPS) SHEETS_OPS.reports = O.reports || null;
   const RC = (OPS || {}).recruit;
   if (RC && RC.items) { RC.items.forEach(it => { if ((O.recruit_copy || {})[it.course]) it.copy = O.recruit_copy[it.course]; }); RC.copy_date = O.copy_date; if (window.__rcRedraw) try { window.__rcRedraw(); } catch (e) {} }
-  const btn = document.querySelector('.tabbtn[data-tab="exec"]'); if (btn) btn.hidden = false;
+  const ex = document.getElementById('panel-exec'), slot = adminBody.querySelector('#admExec');  // 경영 종합을 관리 탭 안 '경영 종합' 칸으로 옮긴다
+  if (ex && slot) { ex.classList.remove('tabpanel'); slot.replaceChildren(ex); }
   (window.__ownerQ || []).forEach(f => { try { f(); } catch (e) { console.warn('owner render', e); } });
   window.__ownerQ = [];
   const host = adminBody.querySelector('#admComp');
   if (host && O.comp) renderCompWatch(host, O.comp);
 }
+// 관리 탭 안의 분야별 칸(경영 종합 · 이번 주 할 일 · 경쟁사 변화 · 2027 경영계획 · 시스템 구조)
+window.admPane = function(k){
+  document.querySelectorAll('#adminBody .adm-pane').forEach(p => p.hidden = p.dataset.pane !== k);
+  document.querySelectorAll('#adminBody .adm-tabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.pane === k));
+};
 // 경쟁사 변화 감지(competitor_watch.py) - 대표 전용
 function renderCompWatch(el, C){
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
