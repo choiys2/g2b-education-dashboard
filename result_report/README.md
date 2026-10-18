@@ -71,3 +71,19 @@ GG2504-15 실제 결과보고본과 원본을 대조해 역산한 규칙이다. 
 - 청구서 셀 위치: `rr_invoice.py`의 `CELLS`, `FIRST_LINE_ROW`, `TEMPLATE_LINES`
 - 분석양식 시트명: `rr_xlsx_template.py`의 `DATA_SHEET`, `SURVEY_SHEET`
 - 한글 보고서 문구·목차: `rr_hwpx.py`의 `build()`
+
+## 웹 버전 (`web/`)
+
+같은 규칙을 브라우저 안에서 돌리는 단일 페이지. 원본·개인정보는 서버로 가지 않고 브라우저에서만 처리된다.
+
+- `web/app.html` — 화면과 로직(정리·집계·청구·HWPX/xlsx 양식 채우기). 양식은 빌드 때 삽입
+- `web/build_web.py` — 담당자 PC의 원본 양식(결과보고서 hwpx, 청구서 xls, 이수자분석양식 xlsx)을
+  변환·비식별화해 `app.html`에 넣고 배포용 HTML 하나를 만든다
+
+```bash
+python result_report/web/build_web.py --report-hwpx 결과보고서양식.hwpx \
+  --invoice-xls 청구서양식.xls --analysis-xlsx 이수자분석양식.xlsx --out dist/결과보고_자동화.html
+```
+
+한글 결과보고서는 양식의 표·문장·차트 값만 바꾸고(고친 문단의 줄배치 캐시만 삭제) 나머지 서식은 그대로 둔다.
+과정 수·기수 수·직급 수에 맞춰 표 줄을 늘리거나 줄인다.
