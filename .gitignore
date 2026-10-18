@@ -5,3 +5,8 @@ live/
 _site/
 history/pipeline_comms_ai.json
 plan_2027.local.json
+result_report/work/
+result_report/**/*.xls
+result_report/**/*.xlsx
+result_report/**/*.hwpx
+result_report/**/*.hwp
