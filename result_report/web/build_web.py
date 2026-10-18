@@ -15,6 +15,7 @@
 
 import argparse
 import base64
+import json
 import os
 import re
 import shutil
@@ -32,24 +33,56 @@ PERSONAL_FIELDS = ("성명", "생년월일", "나이스식별번호", "휴대폰
 NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 
 
+LABELS = {"사업명": "사 업 명", "수신처": "수 신 처", "청구일자": "청 구 일 자", "등록번호": "등 록 번 호",
+          "공급자 주소": "주        소", "공급자 전화": "전 화 번 호", "공급자 이메일": "E-mail", "대표자명": "대표자명"}
+
+
+def _norm(t):
+    return "".join(str(t).split())
+
+
 def invoice_xlsx(xls_path, out_path):
+    """청구서 xls → xlsx. 라벨('사 업 명', '순', '교육기부' 등)로 칸을 찾아 양식이 한두 줄 밀려도 동작.
+    과정 줄을 INVOICE_LINES로 늘리고, 브라우저가 쓸 좌표(layout)를 돌려준다."""
     import rr_invoice as ri
     with ri.office() as desk:
         doc = desk.loadComponentFromURL(ri._url(xls_path), "_blank", 0, ri._props(Hidden=True))
         try:
             sh = doc.Sheets.getByIndex(0)
             rng = sh.getCellRangeByName
-            first, tpl_last = ri.FIRST_LINE_ROW, ri.FIRST_LINE_ROW + ri.TEMPLATE_LINES - 1
-            for ref in (f"C{first}:C{tpl_last}", f"L{first}:M{tpl_last}"):
+            txt = lambda c, r: sh.getCellByPosition(c, r).getString()
+            grid = {(c, r): _norm(txt(c, r)) for r in range(80) for c in range(16)}
+            find = lambda label, col=None: next((rc for rc, v in sorted(grid.items(), key=lambda x: (x[0][1], x[0][0]))
+                                                  if v == _norm(label) and (col is None or rc[0] == col)), None)
+            head = find("순", 1)
+            don = find("교육기부", 1)
+            if not head or not don:
+                raise SystemExit("청구서 양식에서 '순' 머리글이나 '교육기부' 줄을 찾지 못했습니다")
+            first, last_tpl = head[1] + 3, don[1]          # 1-based: 머리글 2줄 다음부터 교육기부 앞까지
+            n_tpl = last_tpl - first + 1
+            for ref in (f"C{first}:C{last_tpl}", f"L{first}:M{last_tpl}"):
                 rng(ref).merge(False)
-            sh.Rows.insertByIndex(tpl_last - 1, INVOICE_LINES - ri.TEMPLATE_LINES)
+            if INVOICE_LINES > n_tpl:
+                sh.Rows.insertByIndex(last_tpl - 1, INVOICE_LINES - n_tpl)
             last = first + INVOICE_LINES - 1
             for r in range(first, last + 1):
                 for a, b in ri.ROW_MERGES:
                     rng(f"{a}{r}:{b}{r}").merge(False)
                     rng(f"{a}{r}:{b}{r}").merge(True)
             rng(f"B{first}:O{last}").clearContents(1 | 2 | 4 | 16)
+            layout = {"FIRST": first, "LINES": INVOICE_LINES, "DON": last + 1, "TOTAL": last + 2, "NOTE": last + 3}
+            for key, label in LABELS.items():
+                rc = find(label)
+                if rc:
+                    col = "G" if rc[0] < 6 else "M"
+                    layout[key] = f"{col}{rc[1] + 1}"
+            dams = sorted((rc for rc, v in grid.items() if v == _norm("담 당 자")), key=lambda x: (x[1], x[0]))
+            if dams:
+                layout["수신 담당자"] = f"G{dams[0][1] + 1}"
+            if len(dams) > 1:
+                layout["공급자 담당자"] = f"M{dams[1][1] + 1}"
             doc.storeToURL(ri._url(out_path), ri._props(FilterName="Calc MS Excel 2007 XML", Overwrite=True))
+            return layout
         finally:
             doc.close(True)
 
@@ -134,13 +167,15 @@ def main():
         inv = os.path.join(tmp, "invoice.xlsx")
         ana = os.path.join(tmp, "analysis.xlsx")
         lst = os.path.join(tmp, "list.xlsx")
-        invoice_xlsx(a.invoice_xls, inv)
+        layout = invoice_xlsx(a.invoice_xls, inv)
+        print("청구서 좌표:", layout)
         sanitize_analysis(a.analysis_xlsx, ana)
         list_template(lst)
         b64 = lambda p: base64.b64encode(open(p, "rb").read()).decode()
         blob = {"report": b64(a.report_hwpx), "invoice": b64(inv), "analysis": b64(ana), "list": b64(lst)}
         html = open(os.path.join(HERE, "app.html"), encoding="utf-8").read()
-        js = "const TEMPLATES = {" + ",".join(f'{k}:"{v}"' for k, v in blob.items()) + "};"
+        js = ("const TEMPLATES = {" + ",".join(f'{k}:"{v}"' for k, v in blob.items()) + "};\n"
+              + "const INVOICE_LAYOUT = " + json.dumps(layout, ensure_ascii=False) + ";")
         html = html.replace("/*__TEMPLATES__*/", js, 1)
         os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
         with open(a.out, "w", encoding="utf-8") as f:
