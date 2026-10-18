@@ -121,6 +121,11 @@ footer ul{margin:0;padding-left:18px}
         <h2><span class="n">2</span>사업 정보</h2>
         <p class="hint">영업 최종 예산(초기 견적가)과 학점별 단가로 청구 금액을 계산합니다. 입력값은 이 브라우저에 기억됩니다.</p>
         <div class="form" id="form"></div>
+        <div class="form" id="listFmt">
+          <label class="f"><span>붙임2 명단 형식</span><select id="f_listFmt"></select></label>
+          <label class="f"><span>지난 명단에서 형식 가져오기</span><input type="file" id="listFmtFile" accept=".xlsx,.xls"></label>
+          <label class="f" style="align-content:end"><span><input type="checkbox" id="f_listAll" style="width:auto;margin-right:6px">미이수자도 명단에 포함</span></label>
+        </div>
         <details>
           <summary>결과보고서 세부 문구</summary>
           <div class="form" id="form2" style="margin-top:12px"></div>
@@ -152,13 +157,14 @@ footer ul{margin:0;padding-left:18px}
         <button class="btn main" id="dlAll">제출 서류 한 번에 받기 (ZIP)</button>
         <div class="row">
           <button class="btn ghost small" data-dl="invoice">청구서 .xlsx</button>
-          <button class="btn ghost small" data-dl="list">이수자명단 .xlsx</button>
+          <button class="btn ghost small" data-dl="list">수강자명단 .xlsx</button>
           <button class="btn ghost small" data-dl="analysis">이수자분석 .xlsx</button>
           <button class="btn ghost small" data-dl="check">데이터점검 .xlsx</button>
         </div>
-        <p class="hint">한글 결과보고서(.hwpx)는 ZIP 안에 들어 있습니다. 분석양식은 엑셀로 열면 피벗·그래프가 새로고침됩니다.</p>
+        <p class="hint">ZIP에는 붙임1 결과보고서(.hwpx)·붙임2 명단·붙임3 청구서·붙임4·5 고정 서류와 내부용 분석 파일이 들어 있습니다.</p>
         <div class="banner" id="outMsg" hidden></div>
-            <div class="card">
+      </div>
+      <div class="card">
         <h3>제출 전 점검</h3>
         <div class="checks" id="checks"></div>
       </div>
@@ -166,7 +172,11 @@ footer ul{margin:0;padding-left:18px}
         <h3>청구 내역</h3>
         <div class="tbl"><table id="inv"></table></div>
       </div>
-</div>
+      <div class="card">
+        <h3>붙임4·5 고정 서류</h3>
+        <p class="hint">사업자등록증·통장사본 PDF를 한 번 올려두면 ZIP에 붙임4·5로 자동으로 들어갑니다. 이 페이지를 공유받은 사람만 내려받을 수 있습니다.</p>
+        <div class="checks" id="att"></div>
+      </div>
     </aside>
   </div>
 
@@ -187,8 +197,9 @@ footer ul{margin:0;padding-left:18px}
 </script>
 <script>
 "use strict";
-const VERSION = "v1.0 · 2026-10-18";
+const VERSION = "v1.1 · 2026-10-18";
 const CHANGELOG = [
+  "v1.1 (2026-10-18) 세종 자료로 검증: 수강자명단처럼 열 이름이 다른 파일도 입력 가능, 붙임2 명단 형식(용인형·세종형·지난 명단에서 가져오기), 붙임4·5 고정 서류 등록, 붙임1~5 번호 붙은 제출 패키지, 청구서 비용산정 문구·과정 순서·공급자 전화, 2학점 평가 기준 줄 자동 추가",
   "v1.0 (2026-10-18) 첫 배포: 원본 정리·점검, 한글 결과보고서·청구서·이수자명단·분석양식 자동 생성",
 ];
 
@@ -217,25 +228,31 @@ function normPosition(raw){
   return ["기타",`${p}→기타`];
 }
 
+// 시스템 원본(3.결과보고 자료) 외에 교육청 제출용 명단처럼 열 이름이 다른 파일도 받는다
+const ALIASES = {"기수":["기수","기수명","기수코드"],"나이스식별번호":["나이스식별번호","나이스개인번호","나이스번호","NEIS"],
+  "휴대폰번호":["휴대폰번호","휴대폰","연락처","휴대전화"],"시도교육청":["시도교육청","시도"],"점수":["점수","이수여부","결과"]};
+const REQUIRED = ["기수","구분","과정명","연수시간","연수기간","성명","생년월일","학교명","점수"];
 function readRaw(buf){
   const wb = XLSX.read(buf,{type:"array",raw:false});
   const ws = wb.Sheets[wb.SheetNames[0]];
   const aoa = XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:""});
   const head = (aoa[0]||[]).map(S);
-  const miss = COLUMNS.filter(c=>!head.includes(c));
-  if(miss.length) throw new Error(`필수 열이 없습니다: ${miss.join(", ")} — '3.결과보고 자료' 파일인지 확인하세요.`);
-  const idx = Object.fromEntries(COLUMNS.map(c=>[c,head.indexOf(c)]));
-  return aoa.slice(1).filter(r=>r.some(v=>S(v)!=="")).map(r=>Object.fromEntries(COLUMNS.map(c=>[c,r[idx[c]]])));
+  const idx = Object.fromEntries(COLUMNS.map(c=>[c,(ALIASES[c]||[c]).map(a=>head.indexOf(a)).find(i=>i>=0)??-1]));
+  const miss = REQUIRED.filter(c=>idx[c]<0);
+  if(miss.length) throw new Error(`필수 열이 없습니다: ${miss.join(", ")} — RMS '3.결과보고 자료' 원본이나 수강자 명단인지 확인하세요.`);
+  const rows = aoa.slice(1).filter(r=>r.some(v=>S(v)!=="")).map(r=>Object.fromEntries(COLUMNS.map(c=>[c,idx[c]<0?"":r[idx[c]]])));
+  rows.missing = COLUMNS.filter(c=>idx[c]<0);
+  return rows;
 }
 
 function clean(raw, office){
-  const out=[], log=[];
+  const out=[], log=[], noPos=(raw.missing||[]).includes("직위");
   raw.forEach((src,i)=>{
     const r = Object.fromEntries(COLUMNS.map(c=>[c,S(src[c])]));
     r["과정명"] = src["과정명"]==null ? "" : String(src["과정명"]);   // 시스템 과정명 그대로(끝 공백 포함)
     r._row = i+2;
     if(office && r["관할교육청"]!==office){ log.push([r._row,r["성명"],"관할교육청",r["관할교육청"],office]); r["관할교육청"]=office; }
-    const [pos,why] = normPosition(r["직위"]);
+    const [pos,why] = noPos&&r["구분"]==="교육청" ? ["장학사","직위 열 없음·교육청 소속→장학사"] : normPosition(r["직위"]);
     if(why){ log.push([r._row,r["성명"],"직위",r["직위"],pos]); r["직위"]=pos; }
     if(!r["학교구분"]){ const v=r["구분"]==="교육청"?"기타":"공립"; log.push([r._row,r["성명"],"학교구분","",v]); r["학교구분"]=v; }
     else if(!SCHOOL_TYPES.includes(r["학교구분"])){ log.push([r._row,r["성명"],"학교구분",r["학교구분"],"기타"]); r["학교구분"]="기타"; }
@@ -245,8 +262,8 @@ function clean(raw, office){
   return {rows:done.concat(rest), log};
 }
 
-function checks(rows){
-  const issues=[], cert={};
+function checks(rows, missing=[]){
+  const issues=[], cert={}, has=c=>!missing.includes(c);
   rows.forEach(r=>{ if(r["이수번호"]) cert[r["이수번호"]]=(cert[r["이수번호"]]||0)+1; });
   for(const r of rows){
     const done = r["점수"]==="이수";
@@ -255,7 +272,7 @@ function checks(rows){
     if(done && !r["이수번호"]) issues.push(["필수",r,"이수자인데 이수번호 없음 — RMS 성적관리 재확인"]);
     if(r["이수번호"] && cert[r["이수번호"]]>1) issues.push(["확인",r,`이수번호 중복(${r["이수번호"]})`]);
     if(!/^(19|20)\d{6}$/.test(r["생년월일"])) issues.push(["확인",r,"생년월일 형식 이상"]);
-    if(done && !/^01[016789]-?\d{3,4}-?\d{4}$/.test(r["휴대폰번호"])) issues.push(["확인",r,"휴대폰번호 형식 이상"]);
+    if(has("휴대폰번호") && done && !/^01[016789]-?\d{3,4}-?\d{4}$/.test(r["휴대폰번호"])) issues.push(["확인",r,"휴대폰번호 형식 이상"]);
     if(!r["학교명"]) issues.push(["확인",r,"학교명 공란"]);
   }
   return issues;
@@ -273,7 +290,7 @@ function summarize(rows){
   s.학점=Object.fromEntries([1,2].map(c=>[`${c}학점`,cnt(rows.filter(r=>creditOf(r["연수시간"])===c))]));
   s.직위=Object.fromEntries(POSITIONS.map(k=>[k,cnt(rows.filter(r=>r["직위"]===k))]));
   s.과정=[...groupBy(rows,r=>r["과정명"])].map(([name,rs])=>({...cnt(rs),과정명:name,학점:creditOf(rs[0]["연수시간"]),시간:hoursOf(rs[0]["연수시간"]),연수시간:rs[0]["연수시간"]}))
-    .sort((a,b)=>b.이수-a.이수||b.참여-a.참여||(a.과정명<b.과정명?-1:a.과정명>b.과정명?1:0));
+    .sort((a,b)=>a.학점-b.학점||b.이수-a.이수||b.참여-a.참여||(a.과정명<b.과정명?-1:a.과정명>b.과정명?1:0));
   s.학교=[...groupBy(rows,r=>r["구분"]+"\u0000"+r["학교명"])].map(([k,rs])=>({...cnt(rs),구분:k.split("\u0000")[0],학교명:k.split("\u0000")[1]}))
     .sort((a,b)=>b.이수-a.이수||b.참여-a.참여);
   const ppl=new Set(rows.map(r=>r["성명"]+"|"+r["생년월일"])), dppl=new Set(rows.filter(r=>r["점수"]==="이수").map(r=>r["성명"]+"|"+r["생년월일"]));
@@ -293,16 +310,17 @@ function survey(counts, n){
   return {조사인원:n,항목:items,종합:{점수:avg(i=>i.점수),백분율:avg(i=>i.백분율),만족비율:avg(i=>i.만족비율),비율:[0,1,2,3,4].map(j=>avg(i=>i.비율[j]))}};
 }
 
-function invoice(courses, price, budget){
-  const lines=courses.filter(c=>c.이수>0).slice().sort((a,b)=>a.학점-b.학점||(a.과정명<b.과정명?-1:a.과정명>b.과정명?1:0))
+function invoice(courses, price, budget, order="count"){
+  const byName=(a,b)=>a.과정명<b.과정명?-1:a.과정명>b.과정명?1:0;
+  const lines=courses.filter(c=>c.이수>0).slice().sort((a,b)=>a.학점-b.학점||(order==="name"?byName(a,b):(b.이수-a.이수||b.참여-a.참여||byName(a,b))))
     .map(c=>({학점:c.학점,과정명:c.과정명,인원:c.이수,단가:+price[c.학점]||0,금액:c.이수*(+price[c.학점]||0)}));
   const gross=lines.reduce((a,l)=>a+l.금액,0);
   const donation=budget?Math.min(0,+budget-gross):0;
   return {내역:lines,산정금액:gross,교육기부:donation,청구금액:gross+donation,총이수:lines.reduce((a,l)=>a+l.인원,0),예산:+budget||0};
 }
 
-const JUNK=/^(없|x$|n+$|감사|수고|고생|좋|굿|\W+$|\.+$|-+$)/i;
-const IMPROVE=/(아쉽|아쉬|실망|어렵|어려|개선|부족|불편|있었으면|더 다양|추가|오류|느리|힘들|바랍니다|좋겠|좋을 것|면 좋|다소|중복|적어|한정적|많았)/;
+const JUNK=/^(없|x$|n+$|감사|수고|고생|좋|굿)|^[\s\p{P}\p{S}]+$/iu;   // \W 는 한글도 잡으므로 쓰지 않음
+const IMPROVE=/(아쉽|아쉬|실망|어렵|어려|개선|부족|불편|있었으면|더 다양|추가|오류|느리|힘들|바랍니다|좋겠|좋을 것|면 좋|다소|중복|적어|한정적|많았|주세요|해주시면|희망|기대했|바람)/;
 const GOOD=["현장","수업","활용","적용","실용","도움","유익","학생","바로","쉽","구체","사례","에듀테크","AI"];
 function classifyReviews(text){
   const seen=new Set(), out=[];
@@ -387,6 +405,9 @@ class XBook{
     this.zip.file("xl/workbook.xml",ser(this.wbDoc)); return this.zip.generateAsync({type:"blob",compression:"DEFLATE"}); }
 }
 
+const manwon=v=>v%10000===0?`${v/10000}만원`:(v%1000===0?`${v/10000}만원`:`${v.toLocaleString()}원`);
+function priceNote(inv){ const m=new Map(); inv.내역.forEach(l=>m.set(l.학점,l.단가)); const cs=[...m.keys()].sort();
+  const vals=new Set(m.values()); return vals.size===1?`${cs.map(c=>c+"학점").join(", ")} ${manwon([...vals][0])}`:cs.map(c=>`${c}학점 ${manwon(m.get(c))}`).join(", "); }
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 const excelDate=d=>Math.round((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(1899,11,30))/864e5);
 
@@ -396,7 +417,7 @@ async function buildInvoice(cfg, inv){
   const put=(ref,v)=>{ if(v!==""&&v!=null) sh.set(ref,v); };
   put("G7",cfg.사업명); put("G9",cfg.수신처); put("G10",cfg.수신담당자);
   if(cfg.청구일자) sh.set("G11",excelDate(new Date(cfg.청구일자)));
-  put("M15",cfg.공급자담당자); put("M18",cfg.공급자이메일);
+  put("M15",cfg.공급자담당자); put("M18",cfg.공급자이메일); put("G18",cfg.공급자전화);
   const lines=inv.내역; if(lines.length>LINES) throw new Error(`과정이 ${lines.length}개라 청구서 양식(${LINES}줄)을 넘습니다.`);
   sh.removeMerges(ref=>{ const [a,b2]=ref.split(":"); const [c1,r1]=splitRef(a); return (c1==="C"||c1==="L")&&r1>=FIRST&&r1<FIRST+LINES; });
   const gs={};
@@ -414,7 +435,7 @@ async function buildInvoice(cfg, inv){
     sh.addMerge(`L${s}:M${e}`); if(e>s) sh.addMerge(`C${s}:C${e}`); });
   sh.set(`N${DON}`,inv.교육기부);
   sh.set(`N${TOTAL}`,null,{formula:`SUM(N${FIRST}:O${DON})`,cached:inv.청구금액});
-  sh.set(`B${NOTE}`,[" ※ 이수정보",` - 총 이수 : ${inv.총이수.toLocaleString()}건`].concat(inv.교육기부<0?[" - 초과비용 기부처리"]:[]).join("\n"));
+  sh.set(`B${NOTE}`,[" ※ 이수정보",` - 총 이수 : ${inv.총이수.toLocaleString()}건`,` - 비용산정 : ${priceNote(inv)} 적용`].concat(inv.교육기부<0?["   (초과비용 기부처리)"]:[]).join("\n"));
   b.fullCalc(); return b.save();
 }
 
@@ -436,13 +457,51 @@ async function buildAnalysis(rows, sv, sentence){
   b.fullCalc(); await b.dropCalcChain(); return b.save();
 }
 
-async function buildList(rows, sheetName){
+const LIST_FORMATS={
+  yongin:{name:"용인형 · 15열 · 이수자만",sheet:"이수자 명단",cols:LIST_COLUMNS,all:false,fill:"FF00B0F0"},
+  sejong:{name:"세종형 · 13열 · 미이수 포함",sheet:"이수자",cols:["순","기수명","관할교육청","구분","과정명","연수시간","연수기간","성명","생년월일","나이스개인번호","이수번호","학교명","점수"],all:true,fill:"FFFFC000"},
+};
+const COL_W={순:6,기수:11,기수명:11,시도교육청:9,관할교육청:22,구분:10,과정명:52,연수시간:13,연수기간:24,성명:8,생년월일:10,나이스식별번호:14,나이스개인번호:14,휴대폰번호:14,이수번호:30,학교명:20,직위:10,점수:8,학교구분:10};
+const canon=h=>COLUMNS.find(c=>c===h||(ALIASES[c]||[]).includes(h));
+function listFormats(){ return {...LIST_FORMATS,...(store.get("listFormats")||{})}; }
+
+// 지난 명단 파일에서 열 순서·시트명·머리글 색·열 너비·미이수 포함 여부를 읽어 형식으로 저장
+async function importListFormat(file){
+  const buf=new Uint8Array(await file.arrayBuffer());
+  const wb=XLSX.read(buf,{type:"array"}); const name=wb.SheetNames[0], ws=wb.Sheets[name];
+  const aoa=XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:""}); const cols=(aoa[0]||[]).map(S).filter(Boolean);
+  if(!cols.length) throw new Error("첫 줄에 열 이름이 없습니다");
+  const unknown=cols.filter(h=>h!=="순"&&!canon(h));
+  const all=aoa.slice(1).some(r=>r.some(v=>S(v)==="미이수"));
+  const widths=Object.fromEntries(cols.map((h,i)=>[h,(ws["!cols"]||[])[i]&&((ws["!cols"][i].wch)||(ws["!cols"][i].width))||COL_W[canon(h)]||12]));
+  let fill="FF00B0F0";
+  try{ const z=await JSZip.loadAsync(buf), st=parseXml(await z.file("xl/styles.xml").async("string"));
+    const b=await XBook.open(buf), sh=await b.sheet(b.firstSheetName()), sid=+(sh.styleOf("A1")||0);
+    const xf=[...st.getElementsByTagNameNS(XNS,"cellXfs")[0].children][sid], fid=+(xf.getAttribute("fillId")||0);
+    const fg=[...st.getElementsByTagNameNS(XNS,"fills")[0].children][fid].getElementsByTagNameNS(XNS,"fgColor")[0];
+    if(fg&&fg.getAttribute("rgb")) fill=fg.getAttribute("rgb"); }catch(e){}
+  const key="custom_"+Date.now().toString(36);
+  const fmt={name:`${file.name.replace(/\.xlsx?$/i,"").slice(0,24)} · ${cols.length}열${all?" · 미이수 포함":""}`,sheet:name,cols,all,fill,widths};
+  const saved=store.get("listFormats")||{}; saved[key]=fmt; store.set("listFormats",saved);
+  return {key,fmt,unknown};
+}
+
+async function buildList(rows, fmt, sheetName, includeAll){
   const b=await XBook.open(b64(TEMPLATES.list)); const name=b.firstSheetName(); const sh=await b.sheet(name);
-  const styles=LIST_COLUMNS.map((_,j)=>sh.styleOf(`${colName(j+1)}2`));
-  const done=rows.filter(r=>r["점수"]==="이수");
-  done.forEach((r,i)=>LIST_COLUMNS.forEach((h,j)=>sh.set(`${colName(j+1)}${i+2}`,r[h]===""?null:r[h],{style:styles[j]})));
-  const af=sh.doc.getElementsByTagNameNS(XNS,"autoFilter")[0]; if(af) af.setAttribute("ref",`A1:${colName(LIST_COLUMNS.length)}${done.length+1}`);
-  const nm=(sheetName||"이수자 명단").replace(/[\\/?*[\]:]/g," ").slice(0,31); if(nm!==name) b.renameSheet(name,nm);
+  const head=sh.styleOf("A1"), body=sh.styleOf("A2");
+  sh.clearCols("A","Z",1);
+  fmt.cols.forEach((h,j)=>sh.set(`${colName(j+1)}1`,h,{style:head}));
+  const out=rows.filter(r=>includeAll||r["점수"]==="이수");
+  out.forEach((r,i)=>fmt.cols.forEach((h,j)=>{ const c=canon(h); const v=h==="순"?i+1:(c?r[c]:"");
+    sh.set(`${colName(j+1)}${i+2}`,v===""?null:v,{style:body}); }));
+  const cols=sh.doc.getElementsByTagNameNS(XNS,"cols")[0];
+  if(cols){ while(cols.firstChild) cols.removeChild(cols.firstChild);
+    fmt.cols.forEach((h,j)=>{ const c=sh.doc.createElementNS(XNS,"col"); c.setAttribute("min",j+1); c.setAttribute("max",j+1);
+      c.setAttribute("width",(fmt.widths&&fmt.widths[h])||COL_W[canon(h)]||COL_W[h]||12); c.setAttribute("customWidth","1"); cols.appendChild(c); }); }
+  const af=sh.doc.getElementsByTagNameNS(XNS,"autoFilter")[0]; if(af) af.setAttribute("ref",`A1:${colName(fmt.cols.length)}${out.length+1}`);
+  const stx=await b.zip.file("xl/styles.xml").async("string");
+  b.zip.file("xl/styles.xml",stx.replace(/rgb="(FF|00)00B0F0"/g,`rgb="${fmt.fill||"FF00B0F0"}"`));
+  const nm=(sheetName||fmt.sheet||"이수자 명단").replace(/[\\/?*[\]:]/g," ").slice(0,31); if(nm!==name) b.renameSheet(name,nm);
   return b.save();
 }
 
@@ -535,7 +594,7 @@ async function buildReport(cfg, st, sv, inv, rv){
   const credits=[...new Map(s.과정.map(c=>[c.학점,c.시간])).entries()].sort((a,b)=>a[0]-b[0]);
   const ov=findTable(doc,t=>t.includes("구분")&&t.includes("비고")&&t.includes("내용"));
   setCell(ov,1,2,course); setCell(ov,2,2,`${cfg.연수종별||"직무연수"} / ${credits.map(([c,h])=>`${c}학점(${h}시간)`).join(", ")}`);
-  setCell(ov,3,2,cfg.연수대상||D.대상); setCell(ov,4,2,s.연수기간.join(", ")); setCell(ov,5,2,`${tot.참여.toLocaleString()}명`); setCell(ov,6,2,`${tot.이수.toLocaleString()}명`);
+  setCell(ov,3,2,cfg.연수대상||D.대상); setCell(ov,4,2,cfg.기간표기||s.연수기간.join(", ")); setCell(ov,5,2,`${tot.참여.toLocaleString()}명`); setCell(ov,6,2,`${tot.이수.toLocaleString()}명`);
 
   // 3) 연수 구성
   const comp=findTable(doc,t=>t.startsWith("주제시간과정명"));
@@ -549,9 +608,15 @@ async function buildReport(cfg, st, sv, inv, rv){
     s.기수.forEach((k,i)=>{ const rs=st.rows.filter(r=>r["기수"]===k); setCell(sch,1+i,0,String(i+1)); setCell(sch,1+i,1,k);
       setCell(sch,1+i,2,cfg.신청기간||D.신청기간); setCell(sch,1+i,3,rs[0]?rs[0]["연수기간"]:""); setCell(sch,1+i,4,cfg.발급일||D.발급일); }); }
 
+  // 2-3) 평가 방법: 학점별 줄(2학점 과정이 있으면 줄 추가)
+  const ev=findTable(doc,t=>t.startsWith("구분진도율"));
+  if(ev){ const cr=credits.map(c=>c[0]); resizeRows(ev,1,rowsOf(ev).length-1,cr.length);
+    cr.forEach((c,i)=>{ setCell(ev,1+i,0,[`${c}학점`,`(${c*15}차시)`]); }); }
+
   // 3-1) 연수 관리
   const mg=findTable(doc,t=>t.startsWith("구분내용목표결과평가"));
-  if(mg){ setCell(mg,1,2,`${tot.참여.toLocaleString()}명`); setCell(mg,1,3,`${tot.이수.toLocaleString()}명`);
+  if(mg){ if(cfg.목표인원){ setCell(mg,1,2,`${(+cfg.목표인원).toLocaleString()}명`); setCell(mg,1,3,`${tot.참여.toLocaleString()}명`); }
+    else { setCell(mg,1,2,`${tot.참여.toLocaleString()}명`); setCell(mg,1,3,`${tot.이수.toLocaleString()}명`); }
     setCell(mg,2,3,`${cfg.반응1}%`); setCell(mg,3,3,`${cfg.반응2}%`); setCell(mg,4,3,`${cfg.반응3}%`);
     if(cfg.독려&&cfg.독려!==D.독려.trim()) setCell(mg,7,3,cfg.독려.split("\n"));   // 바꾼 경우에만(양식 줄바꿈 보존)
     setCell(mg,8,3,pct(tot.이수율,2)); setCell(mg,9,3,`${sv.항목[5].점수.toFixed(1)}점(5점 만점)`); setCell(mg,10,3,`${sv.종합.점수.toFixed(1)}점(5점 만점)`); }
@@ -635,6 +700,8 @@ const FIELDS=[
   ["청구일자","청구일자",true,"","date"],
   ["공급자담당자","공급자 담당자",false,""],
   ["공급자이메일","공급자 이메일",false,""],
+  ["공급자전화","공급자 전화",false,"02-6970-6204"],
+  ["청구순서","청구서 과정 순서",false,"count","select:count=이수 많은 순|name=가나다순"],
   ["명단시트","이수자명단 시트명",false,"이수자 명단"],
 ];
 const FIELDS2=[
@@ -642,6 +709,8 @@ const FIELDS2=[
   ["신청기간","신청기간",false,""],["발급일","이수증 발급일",false,""],
   ["반응1","정확한 전달과 이해 결과(%)",false,"","num"],["반응2","다양한 내용 결과(%)",false,"","num"],["반응3","최신의 자료 결과(%)",false,"","num"],
   ["후기인원","후기 조사 인원(명)",false,"","num"],
+  ["목표인원","연수 신청 목표(명) — 넣으면 목표/결과 = 목표/신청",false,"","num"],
+  ["기간표기","연수기간 표기(비우면 원본 기간)",false,""],
   ["독려","추가 독려안내 결과",false,"","area"],["총평","총평",false,"","area"],
 ];
 let TPL_DEFAULTS=null, ST=null, REVIEWS=[], SAMPLE=true;
@@ -652,9 +721,11 @@ function renderForm(){
   const mk=(host,list)=>{ host.innerHTML=""; list.forEach(([k,label,req,def,kind])=>{
     const w=document.createElement("label"); w.className="f"+(kind==="wide"||kind==="area"?" wide":"");
     w.innerHTML=`<span>${label}${req?" <b>*</b>":""}</span>`;
-    const el=document.createElement(kind==="area"?"textarea":"input"); el.id="f_"+k;
-    if(kind==="num"){el.type="number";el.min="0";} else if(kind==="date") el.type="date"; else if(kind!=="area") el.type="text";
-    el.value=saved[k]!=null?saved[k]:def; el.addEventListener("input",onChange); w.appendChild(el); host.appendChild(w); }); };
+    const sel=kind&&kind.startsWith("select:");
+    const el=document.createElement(kind==="area"?"textarea":sel?"select":"input"); el.id="f_"+k;
+    if(sel) kind.slice(7).split("|").forEach(o=>{ const [v,l]=o.split("="); const op=document.createElement("option"); op.value=v; op.textContent=l; el.appendChild(op); });
+    if(kind==="num"){el.type="number";el.min="0";} else if(kind==="date") el.type="date"; else if(kind!=="area"&&!sel) el.type="text";
+    el.value=saved[k]!=null?saved[k]:def; el.addEventListener("input",onChange); el.addEventListener("change",onChange); w.appendChild(el); host.appendChild(w); }); };
   mk(document.getElementById("form"),FIELDS); mk(document.getElementById("form2"),FIELDS2);
 }
 function cfg(){ const o={}; [...FIELDS,...FIELDS2].forEach(([k])=>o[k]=document.getElementById("f_"+k).value.trim()); return o; }
@@ -685,9 +756,9 @@ function renderReviews(){
 const fmt=n=>Number(n).toLocaleString("ko-KR");
 function recompute(){
   if(!ST) return; const c=cfg();
-  const {rows,log}=clean(ST.raw,c.관할청); const issues=checks(rows); const s=summarize(rows);
+  const {rows,log}=clean(ST.raw,c.관할청); const missing=ST.raw.missing||[]; const issues=checks(rows,missing); const s=summarize(rows);
   const sin=surveyInput(); const sv=survey(sin.c,sin.resp);
-  const inv=invoice(s.과정,{1:c.단가1,2:c.단가2},c.예산);
+  const inv=invoice(s.과정,{1:c.단가1,2:c.단가2},c.예산,c.청구순서);
   ST={...ST,rows,log,issues,s,sv,inv};
   ["반응1","반응2","반응3"].forEach((k,j)=>{ const el=document.getElementById("f_"+k); if(!el.value) el.placeholder=String(Math.round(sv.항목[[0,2,3][j]].만족비율*100)); });
 
@@ -702,6 +773,8 @@ function recompute(){
   if(sms.length) sms.forEach(([,r])=>line("bad","문자요청",`${r["성명"]} · ${r["학교명"]} — 이수자 나이스번호 누락(문자 문구는 데이터점검 파일)`)); else line("good","완료","이수자 나이스번호 모두 있음");
   must.forEach(([,r,w])=>line("bad","필수",`${r["성명"]} — ${w}`));
   chk.slice(0,6).forEach(([,r,w])=>line("warn","확인",`${r["성명"]} — ${w}`)); if(chk.length>6) line("warn","확인",`외 ${chk.length-6}건(데이터점검 파일)`);
+  const lack=missing.filter(m=>["휴대폰번호","직위","학교구분","시도교육청","관할교육청","이수번호","나이스식별번호"].includes(m));
+  if(lack.length) line("warn","원본",`올린 파일에 ${lack.join("·")} 열이 없습니다 — 직위는 교사, 학교구분은 공립으로 가정. 시스템 원본(3.결과보고 자료)이면 정확해집니다`);
   line("good","정리",`원본 보정 ${fmt(log.length)}건(관할청·직위·학교구분) — 변경내역 시트`);
   const miss=[]; const cc=cfg(); FIELDS.filter(f=>f[2]).forEach(([key,label])=>{ if(!cc[key]) miss.push(label); });
   if(s.과정.some(x=>x.학점===2&&x.이수)&&!cc.단가2) miss.push("2학점 단가");
@@ -724,14 +797,22 @@ async function makeAll(){
   const cfgR={...c,반응1:c.반응1||Math.round(sv.항목[0].만족비율*100),반응2:c.반응2||Math.round(sv.항목[2].만족비율*100),반응3:c.반응3||Math.round(sv.항목[3].만족비율*100)};
   const sentence=`▣ 학습자는 본 연수를 내용 전문성과 현장 적용성이 높아 추천할 만한 강의로 인식했으며 연수 운영 전체적인 만족도를 보면 ${(sv.종합.만족비율*100).toFixed(1)}%가 '만족'한다고 답했음. 5점 만점 기준으로 ${sv.종합.점수.toFixed(2)}점의 높은 연수 만족도를 보임`;
   const k=s.기수.join("_")||"결과보고";
+  const fmtKey=document.getElementById("f_listFmt").value, lf=listFormats()[fmtKey]||LIST_FORMATS.yongin;
   return {k,
     report: await buildReport(cfgR,st,sv,inv,REVIEWS),
     invoice: await buildInvoice(c,inv),
-    list: await buildList(st.rows,c.명단시트),
+    list: await buildList(st.rows,lf,c.명단시트,document.getElementById("f_listAll").checked),
     analysis: await buildAnalysis(st.rows,sv,sentence),
     check: buildCheck(st)};
 }
-const NAMES={report:k=>`결과보고서_${k}.hwpx`,invoice:k=>`붙임_청구서_${k}.xlsx`,list:k=>`붙임_이수자명단_${k}.xlsx`,analysis:k=>`이수자분석_${k}.xlsx`,check:k=>`0_데이터점검_${k}.xlsx`};
+const NAMES={
+  report:(k,c)=>`붙임1. 운영결과보고서(비바샘연수원).hwpx`,
+  list:(k,c)=>`붙임2. ${c.수신처||""} 수강자명단.xlsx`.replace(/\s+/g," "),
+  invoice:(k,c)=>`붙임3. ${c.수신처||""} 최종 청구서.xlsx`.replace(/\s+/g," "),
+  analysis:(k)=>`내부용/이수자분석_${k}.xlsx`,
+  check:(k)=>`내부용/데이터점검_${k}.xlsx`};
+const ATT={biz:{no:4,label:"사업자등록증"},bank:{no:5,label:"통장사본"}};
+let ATT_STATE={}, ATT_LOCAL={}, ASSETS=null, DB=null;
 
 async function offer(filename,blob){
   const msg=document.getElementById("outMsg");
@@ -745,14 +826,63 @@ function guard(){ const c=cfg(); const miss=FIELDS.filter(f=>f[2]&&!c[f[0]]).map
   if(ST.s.과정.some(x=>x.학점===2&&x.이수)&&!c.단가2) miss.push("2학점 단가");
   if(miss.length){ const m=document.getElementById("outMsg"); m.hidden=false; m.className="banner err"; m.textContent=`먼저 입력하세요: ${miss.join(", ")}`; return false; } return true; }
 
+async function attachmentBlob(key){
+  if(ATT_LOCAL[key]) return ATT_LOCAL[key];
+  const a=ATT_STATE[key]; if(!a||!a.id) return null;
+  try{ const r=await fetch("/_blob/"+a.id); if(!r.ok) return null; return await r.blob(); }catch{ return null; }
+}
 async function onDownload(which, btn){
   if(!ST||!guard()) return; btn.disabled=true; const old=btn.textContent; btn.textContent="만드는 중…";
-  try{ const out=await makeAll();
-    if(which==="all"){ const z=new JSZip(); for(const key of Object.keys(NAMES)) z.file(NAMES[key](out.k),await out[key].arrayBuffer());
-      await offer(`결과보고_제출서류_${out.k}${SAMPLE?"_예시":""}.zip`,await z.generateAsync({type:"blob"})); }
-    else await offer(NAMES[which](out.k),out[which]);
+  try{ const out=await makeAll(); const c=cfg();
+    if(which==="all"){ const z=new JSZip(); const miss=[];
+      for(const key of Object.keys(NAMES)) z.file(NAMES[key](out.k,c),await out[key].arrayBuffer());
+      for(const [key,{no,label}] of Object.entries(ATT)){ const blob=await attachmentBlob(key);
+        if(blob) z.file(`붙임${no}. ${label}_(주)비상교육.pdf`,await blob.arrayBuffer()); else miss.push(label); }
+      await offer(`결과보고_제출서류_${out.k}${SAMPLE?"_예시":""}.zip`,await z.generateAsync({type:"blob"}));
+      if(miss.length){ const m=document.getElementById("outMsg"); m.hidden=false; m.className="banner"; m.textContent+=` (붙임4·5 중 ${miss.join("·")} 없음 — 아래에서 올려두세요)`; } }
+    else await offer(NAMES[which](out.k,c).replace("내부용/",""),out[which]);
   }catch(e){ console.error(e); const m=document.getElementById("outMsg"); m.hidden=false; m.className="banner err"; m.textContent=`만들지 못했습니다: ${e.message}`; }
   finally{ btn.disabled=false; btn.textContent=old; }
+}
+
+function renderAtt(){
+  const host=document.getElementById("att"); host.innerHTML="";
+  for(const [key,{no,label}] of Object.entries(ATT)){
+    const a=ATT_STATE[key], local=ATT_LOCAL[key];
+    const d=document.createElement("div"); d.className="row"; d.style.alignItems="center";
+    const has=!!(a&&a.id)||!!local;
+    d.innerHTML=`<span class="pill ${has?"good":"warn"}">붙임${no}</span>`;
+    const t=document.createElement("span"); t.style.flex="1";
+    t.textContent=has?`${label} — ${(a&&a.name)||(local&&local.name)||""}${a&&a.at?` (${a.at.slice(0,10)} 등록)`:local?" (이번 창에서만)":""}`:`${label} — 아직 없음`;
+    d.appendChild(t);
+    const lab=document.createElement("label"); lab.className="btn ghost small"; lab.textContent=has?"교체":"올리기";
+    const inp=document.createElement("input"); inp.type="file"; inp.accept="application/pdf,.pdf"; inp.hidden=true;
+    inp.addEventListener("change",()=>inp.files[0]&&saveAtt(key,inp.files[0]));
+    lab.appendChild(inp); d.appendChild(lab); host.appendChild(d);
+  }
+}
+async function saveAtt(key,file){
+  const msg=document.getElementById("outMsg");
+  if(ASSETS&&DB){ try{
+      const r=await ASSETS.upload(file,{type:"application/pdf"});
+      ATT_STATE={...ATT_STATE,[key]:{id:r.id,name:file.name,at:new Date().toISOString()}};
+      await DB.doc("settings/attachments").set(ATT_STATE); renderAtt(); return;
+    }catch(e){ msg.hidden=false; msg.className="banner err"; msg.textContent=`올리지 못했습니다(${e&&e.code||"오류"}). 이번 창에서만 사용합니다.`; } }
+  ATT_LOCAL[key]=file; renderAtt();
+}
+async function initAtt(){
+  if(window.claude){
+    [ASSETS,DB]=await Promise.all([window.claude.use("assets").catch(()=>null),window.claude.use("db").catch(()=>null)]);
+    if(DB){ try{ const d=await DB.doc("settings/attachments").get(); if(d.exists) ATT_STATE=d.data()||{}; }catch(e){} }
+  }
+  renderAtt();
+}
+
+function renderListFmt(selectKey){
+  const sel=document.getElementById("f_listFmt"), f=listFormats(); sel.innerHTML="";
+  Object.entries(f).forEach(([k,v])=>{ const o=document.createElement("option"); o.value=k; o.textContent=v.name; sel.appendChild(o); });
+  sel.value=selectKey||store.get("listFmt")||"yongin"; if(!sel.value) sel.value="yongin";
+  document.getElementById("f_listAll").checked=!!(f[sel.value]&&f[sel.value].all);
 }
 
 function sampleRaw(){
@@ -786,6 +916,13 @@ async function init(){
   ta.addEventListener("input",()=>{ REVIEWS=classifyReviews(ta.value); renderReviews(); store.set("reviews",ta.value); });
   REVIEWS=classifyReviews(ta.value); renderReviews();
   ST={raw:sampleRaw()}; recompute();
+  renderListFmt();
+  document.getElementById("f_listFmt").addEventListener("change",e=>{ store.set("listFmt",e.target.value); const f=listFormats()[e.target.value]; document.getElementById("f_listAll").checked=!!(f&&f.all); });
+  document.getElementById("listFmtFile").addEventListener("change",async e=>{ const f=e.target.files[0]; if(!f) return; const m=document.getElementById("outMsg");
+    try{ const {key,fmt,unknown}=await importListFormat(f); store.set("listFmt",key); renderListFmt(key);
+      m.hidden=false; m.className="banner ok"; m.textContent=`명단 형식을 저장했습니다: ${fmt.cols.join(" · ")}${unknown.length?` (모르는 열 ${unknown.join("·")}은 빈칸)`:""}`; }
+    catch(err){ m.hidden=false; m.className="banner err"; m.textContent=`명단 형식을 읽지 못했습니다: ${err.message}`; } });
+  initAtt();
 
   const inp=document.getElementById("raw"), drop=document.getElementById("drop");
   inp.addEventListener("change",()=>inp.files[0]&&loadFile(inp.files[0]));
@@ -800,6 +937,6 @@ async function init(){
   if(!comments) fb.hidden=true;
   else fb.addEventListener("click",async()=>{ try{ await comments.openComposer({element:document.querySelector("footer")}); }catch(e){ fb.hidden=true; } });
 }
-window.__rr={makeAll,loadRaw:buf=>{ST={raw:readRaw(buf)};SAMPLE=false;recompute();return ST;},setReviews:t=>{const ta=document.getElementById("reviewsRaw");ta.value=t;REVIEWS=classifyReviews(t);renderReviews();},state:()=>ST};
+window.__rr={makeAll,setListFmt:(k,all)=>{document.getElementById("f_listFmt").value=k;document.getElementById("f_listAll").checked=all;},loadRaw:buf=>{ST={raw:readRaw(buf)};SAMPLE=false;recompute();return ST;},setReviews:t=>{const ta=document.getElementById("reviewsRaw");ta.value=t;REVIEWS=classifyReviews(t);renderReviews();},state:()=>ST};
 init();
 </script>
