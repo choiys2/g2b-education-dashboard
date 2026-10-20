@@ -5,12 +5,14 @@
 - 실적 수치: GitHub Secret MGMT_JSON(경영실적·이수자 명단의 연도별 합계, 개인 정보 없음)에서만 읽는다.
   로컬 시험은 mgmt.local.json(gitignore). 없으면 해당 칸은 '미등록'으로 두고 나머지는 그대로 그린다.
 - 결과 HTML 은 admin_structure.build_html 에 붙어 ADMIN_PASSWORD 로 암호화된다. history/·live/·브리핑(공개)에는 쓰지 않는다.
-- 정산 현황은 이미 걸러진 sheets_ops 결과(기관·연수명·금액)만 쓴다.
+- 정산 현황은 운영DT(own_pipeline_export.py 가 화이트리스트로 거른 결과: 기관·연수명·날짜·금액)만 쓴다.
 """
 import html
 import json
 import os
+import re
 from collections import Counter, defaultdict
+from datetime import date
 from pathlib import Path
 
 from plan2027 import legend, so_line, stack_svg, table, tile, tiles
@@ -240,39 +242,113 @@ def build_comp3(sec, M=None):
     return sec("주요 3사 비교 (대표 전용)", "매출·영업이익 4개년, 같은 기간 공공 수주 건수, 공공 계약 점유율, 공개 과정 수", body)
 
 
-# ---------------------------------------------------------------- 이번 주 할 일 칸: 연수 정산 현황
-def build_settle(sec, so=None):
-    if so is None:
+# ---------------------------------------------------------------- 이번 주 할 일 칸: 교육청 연수 종료·정산
+# 루틴앱 '교육청 연수 종료·정산' 카드와 같은 원본(사업현황공유 › 26운영DT)·같은 단계.
+# 늦음 기준 = 올해 그 단계를 마친 건들의 실제 소요일 75% 지점(5건 미만이면 기본값).
+STAGES = [("run", "진행 중"), ("notice", "이수통보"), ("report", "결과보고"), ("bill", "계산서"), ("pay", "수금"), ("done", "완료")]
+LIM_DEFAULT = {"notice": 14, "report": 30, "bill": 21, "pay": 30}
+
+
+def _d(s):
+    m = re.search(r"(20\d\d)\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})", str(s or ""))
+    try:
+        return date(int(m[1]), int(m[2]), int(m[3])) if m else None
+    except ValueError:
+        return None
+
+
+def _won(s):
+    t = re.sub(r"[^\d]", "", str(s or ""))
+    return int(t) if t else 0
+
+
+def _p75(xs):
+    if len(xs) < 5:
+        return None
+    s = sorted(xs)
+    return max(0, s[min(len(s) - 1, -(-len(s) * 3 // 4) - 1)])
+
+
+def settle_units(recs, today=None):
+    today = today or date.today()
+    out, lags = [], {k: [] for k in LIM_DEFAULT}
+    for r in recs:
+        org = str(r.get("org") or "").strip()
+        end = _d(r.get("trainEnd"))
+        if not org or not end:
+            continue
+        rep_raw = str(r.get("reportDate") or "").strip()
+        rp, bl, py = _d(rep_raw), _d(r.get("billDate")), _d(r.get("payDate"))
+        nt = bool(str(r.get("notice") or "").strip())
+        merged = bool(re.search(r"합산|집합|^x$|^-$", rep_raw, re.I))
+        if rp and rp >= end:
+            lags["report"].append((rp - end).days)
+        if rp and bl and bl >= rp:
+            lags["bill"].append((bl - rp).days)
+        if bl and py and py >= bl:
+            lags["pay"].append((py - bl).days)
+        if end > today:
+            st, since = "run", None
+        elif py or (merged and bl):
+            st, since = "done", None
+        elif not nt and not rp:
+            st, since = "notice", end
+        elif not rp and not merged:
+            st, since = "report", end
+        elif not bl:
+            st, since = "bill", rp or end
+        else:
+            st, since = "pay", bl
+        out.append({"org": org, "course": str(r.get("courseName") or "").strip(), "region": str(r.get("region") or "").strip(),
+                    "end": end, "st": st, "since": since, "amt": _won(r.get("claimAmount")) or _won(r.get("targetAmount")),
+                    "g2b": "나라장터" in str(r.get("contractProgress") or ""), "status": str(r.get("status") or "")})
+    lim = {k: (_p75(v) if _p75(v) is not None else LIM_DEFAULT[k]) for k, v in lags.items()}
+    lim["notice"] = LIM_DEFAULT["notice"]
+    for u in out:
+        u["wait"] = max(0, (today - u["since"]).days) if u["since"] else None
+        u["late"] = u["st"] in lim and u["wait"] is not None and u["wait"] > lim[u["st"]]
+    return out, lim, {k: len(v) for k, v in lags.items()}
+
+
+def build_settle(sec, pipe=None, today=None):
+    if pipe is None:
         try:
-            so = json.loads((HERE / "live/sheets_ops.json").read_text(encoding="utf-8"))
+            pipe = json.loads((HERE / "live/own_pipeline_export.json").read_text(encoding="utf-8"))
         except Exception:
-            so = {}
-    st = (so or {}).get("settle") or {}
-    rows = st.get("rows") or []
-    if not rows:
-        return sec("교육청 연수 정산 현황", "구글시트 '정산관리' 탭 기준", "<p class='tt-note'>정산관리 시트 데이터가 아직 없습니다(다음 자동 배포 후 채워짐).</p>")
-    won = lambda v: f"{(v or 0) / 1e8:,.2f}억"
-    ended = [r for r in rows if r.get("days") is not None and r["days"] >= 0]
-    claimed = [r for r in rows if r.get("claim")]
-    inv = [r for r in rows if r.get("invoice")]
-    slip = [r for r in rows if r.get("slip")]
-    steps = [("연수 종료", len(ended), sum(r.get("budget") or 0 for r in ended)), ("청구", len(claimed), sum(r["claim"] for r in claimed)),
-             ("계산서 발행", len(inv), sum(r.get("claim") or 0 for r in inv)), ("매출 전표", len(slip), sum(r.get("claim") or 0 for r in slip))]
+            pipe = {}
+    recs = (pipe or {}).get("records") or []
+    title, src = "교육청 연수 종료·정산", "사업현황공유 › 26운영DT (루틴앱 '교육청 연수 종료·정산' 카드와 같은 원본)"
+    if not recs or not any(r.get("reportDate") or r.get("billDate") or r.get("payDate") or r.get("notice") for r in recs):
+        return sec(title, src, "<p class='tt-note'>운영DT의 정산 열(이수통보·결과보고·계산서발행·수금전표)이 아직 들어오지 않았습니다. 다음 자동 배포 후 채워집니다.</p>")
+    today = today or date.today()
+    units, lim, n = settle_units(recs, today)
+    won = lambda v: f"{v / 1e8:,.2f}억" if v >= 1e7 else f"{v / 1e4:,.0f}만원"
+    cnt = Counter(u["st"] for u in units)
+    amt = defaultdict(int)
+    for u in units:
+        amt[u["st"]] += u["amt"]
+    late = Counter(u["st"] for u in units if u["late"])
     flow = '<span style="color:var(--muted);align-self:center;">→</span>'.join(
-        f'<div style="flex:1;min-width:120px;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);">'
-        f'<div style="font-size:11.5px;color:var(--muted);">{E(n)}</div><div class="num" style="font-size:20px;font-weight:800;">{c:,}건</div>'
-        f'<div class="num" style="font-size:11.5px;color:var(--muted);">{won(a)}</div></div>' for n, c, a in steps)
-    fl = Counter(r["flag"] for r in rows if r.get("flag"))
-    late = sorted([r for r in rows if r.get("flag")], key=lambda r: -(r.get("days") or 0))[:15]
-    lt = table(["구분", "지역", "기관", "연수명", "종료 후", "청구액"],
-               [[f"<b style='color:#ef4444;'>{E(r['flag'])}</b>", E(r.get("region") or ""), E(r.get("org") or ""), E(r.get("course") or ""),
-                 f"{r['days']}일" if r.get("days") is not None else "-", won(r.get("claim"))] for r in late], (4, 5)) if late else "<p class='tt-note'>처리할 정산 경보가 없습니다.</p>"
-    mo = defaultdict(float)
-    for r in claimed:
-        mo[r.get("month") or "미정"] += r["claim"]
-    mos = "".join(f"<span class='fit' style='margin:2px 6px 2px 0;'>{E(k)} {won(v)}</span>" for k, v in sorted(mo.items()))
-    chips = " ".join(f"<span class='fit fit-불가'>{E(k)} {v}건</span>" for k, v in fl.items()) or "<span class='fit fit-가능'>경보 없음</span>"
-    return sec("교육청 연수 정산 현황", f"구글시트 '정산관리' {len(rows)}건 · 연수 종료 → 청구 → 계산서 → 전표 단계별 건수·금액 · 조회 {E(str(so.get('fetched') or '-'))}",
-               f"<div style='display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 10px;'>{flow}</div><p style='margin:0 0 6px;font-size:13px;'>{chips}</p>{lt}"
-               + (f"<p style='font-weight:800;margin:12px 0 4px;'>청구월별 청구액</p><div>{mos}</div>" if mos else "")
-               + so_line("종료 후 30일이 지나도 청구 전인 건, 청구했는데 14일 넘게 계산서가 없는 건부터 처리하세요. 정산이 늦으면 매출 인식 달이 밀려 월 실적과 연말 착지가 함께 흔들립니다."))
+        f'<div style="flex:1;min-width:104px;padding:8px 10px;border-radius:8px;border:1px solid {"#ef4444" if late.get(k) else "var(--border)"};background:var(--surface-2);">'
+        f'<div style="font-size:11.5px;color:var(--muted);">{E(lab)}{" 대기" if k not in ("run", "done") else ""}</div>'
+        f'<div class="num" style="font-size:20px;font-weight:800;">{cnt.get(k, 0):,}건</div>'
+        f'<div class="num" style="font-size:11.5px;color:{"#ef4444" if late.get(k) else "var(--muted)"};">{won(amt[k])}{f" · 늦음 {late[k]}" if late.get(k) else ""}</div></div>'
+        for k, lab in STAGES)
+    lab = dict(STAGES)
+    todo = sorted([u for u in units if u["st"] not in ("run", "done")], key=lambda u: (not u["late"], -(u["wait"] or 0)))
+    rows = [[f"<b style='color:{'#ef4444' if u['late'] else 'var(--ink-2)'};'>{E(lab[u['st']])} 대기</b>" + (" <span class='fit fit-불가'>나라장터</span>" if u["g2b"] else ""),
+             E(u["region"]), E(u["org"][:24]), E(u["course"][:40]), u["end"].strftime("%m.%d"),
+             f"<b style='color:#ef4444;'>{u['wait']}일</b>" if u["late"] else f"{u['wait']}일", won(u["amt"]) if u["amt"] else "-"] for u in todo[:20]]
+    unpaid = sum(amt[k] for k in ("notice", "report", "bill", "pay"))
+    late_amt = sum(u["amt"] for u in units if u["late"])
+    limtxt = " · ".join(f"{lab[k]} {lim[k]}일" + ("" if n.get(k, 0) >= 5 or k == "notice" else "(기본값)") for k in ("notice", "report", "bill", "pay"))
+    wk = [u for u in units if u["st"] == "run" and (u["end"] - today).days <= 7]
+    body = (f"<div style='display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px;'>{flow}</div>"
+            + table(["단계", "지역", "기관", "연수명", "종료", "대기", "금액"], rows, (5, 6))
+            + (f"<p class='tt-note'>대기 {len(todo)}건 중 20건만 표시(늦은 건·오래 기다린 건 순).</p>" if len(todo) > 20 else "")
+            + (f"<p style='margin:10px 0 0;font-size:13px;'>이번 주 끝나는 연수 <b>{len(wk)}건</b>: " + ", ".join(E(f"{u['org'][:14]} {u['end']:%m.%d}") for u in wk[:8]) + "</p>" if wk else "")
+            + f"<p class='tt-note'>늦음 기준(올해 그 단계를 마친 건의 소요일 75% 지점): {limtxt}. 대기일 = 앞 단계가 끝난 날부터 오늘까지. "
+              "금액은 청구금액, 없으면 총예산. 다기수 묶음 정산은 루틴앱 카드에서 기수별로 확인하세요.</p>"
+            + so_line(f"정산이 남은 금액은 {won(unpaid)}이고, 그중 기준보다 늦은 건이 {sum(late.values())}건 {won(late_amt)}입니다. "
+                      "결과보고가 밀리면 계산서·수금과 매출 인식 달이 함께 밀리므로, 붉은 칸(늦음)부터 담당자와 이번 주 처리일을 정하세요."))
+    return sec(title, f"{src} · 조회 {E(str((pipe.get('source') or {}).get('fetched') or '-'))}", body)
