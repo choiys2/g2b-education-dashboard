@@ -46,6 +46,22 @@ SAFE_FIELDS = {
     "목표인원": "targetCount", "신청현황": "appliedCount",
     "예상매출": "expectedRevenueMonth", "총예산": "targetAmount",
 }
+# 정산 단계 열(루틴앱 '교육청 연수 종료·정산' 카드와 같은 기준). 날짜·금액·메모만 있고 개인정보 없음.
+# 앞의 넷은 공백을 뺀 머리글이 정확히 같을 때, 뒤의 넷은 그 글자로 시작할 때(예: '청구금액(VAT포함)') 읽는다.
+SETTLE_FIELDS = {"이수통보": "notice", "결과보고": "reportDate", "계산서발행": "billDate", "총이수인원": "doneCount"}
+SETTLE_PREFIX = {"청구금액": "claimAmount", "수금전표": "payDate", "검수요청": "inspectDate", "대금청구": "claimDate"}
+
+
+def field_of(h):
+    h = (h or "").strip()
+    if h in SAFE_FIELDS:
+        return SAFE_FIELDS[h]
+    n = re.sub(r"\s+", "", h)
+    if n in SETTLE_FIELDS:
+        return SETTLE_FIELDS[n]
+    return next((f for k, f in SETTLE_PREFIX.items() if n.startswith(k)), None)
+
+
 REGIONS = ["서울","부산","대구","인천","광주","대전","울산","세종","경기","강원",
            "충북","충남","전북","전남","경북","경남","제주"]
 
@@ -63,7 +79,7 @@ def rows_from_gviz(payload):
     col_field = []
     for c in cols:
         label = (c.get("label") or "").strip()
-        col_field.append(SAFE_FIELDS.get(label))  # None이면 그 컬럼은 버림(화이트리스트 밖)
+        col_field.append(field_of(label))  # None이면 그 컬럼은 버림(화이트리스트 밖)
 
     records = []
     for row in payload["table"]["rows"]:
@@ -149,8 +165,9 @@ def rows_from_matrix(matrix):
     STATUS["header_row"] = best + 1
     STATUS["matched_headers"] = [h.strip() for h in header if SAFE_FIELDS.get((h or "").strip())]
     STATUS["missing_headers"] = [h for h in SAFE_FIELDS if h not in STATUS["matched_headers"]]
+    col_field = [field_of(h) for h in header]
+    STATUS["settle_fields"] = sorted({f for f in col_field if f in set(SETTLE_FIELDS.values()) | set(SETTLE_PREFIX.values())})
     matrix = matrix[best:]
-    col_field = [SAFE_FIELDS.get((h or "").strip()) for h in header]
 
     records = []
     for row in matrix[1:]:
