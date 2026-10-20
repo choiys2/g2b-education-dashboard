@@ -229,9 +229,9 @@ def live_board():
     return rows + f'<p class="tt-note">{note}. 빨간 테두리는 조치가 필요한 칸입니다. 단계 정의는 아래 업무 플로우 표와 같습니다.</p>'
 
 
-def quick_links():
+def quick_links(plan=False):
     """관리 탭 바로가기: GitHub Secret ADMIN_LINKS 에서만 읽는다(공개 저장소에 주소를 남기지 않기 위해).
-    형식: 한 줄에 하나, '이름|주소' 또는 주소만."""
+    형식: 한 줄에 하나, '이름|주소' 또는 주소만. 이름에 '2027'·'경영계획'이 들어간 링크(공동 편집 앱)는 2027 경영계획 칸(plan=True)에 둔다."""
     rows = []
     for line in os.environ.get("ADMIN_LINKS", "").splitlines():
         line = line.strip()
@@ -239,14 +239,14 @@ def quick_links():
             continue
         name, _, url = line.rpartition("|") if "|" in line else ("", "", line)
         url = url.strip()
-        if re.match(r"^https://", url):
+        if re.match(r"^https://", url) and bool(re.search(r"2027|경영\s?계획", name)) == plan:
             rows.append((name.strip() or url, url))
     if not rows:
         return ""
     items = "".join(f'<a href="{E(u)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 14px;border-radius:8px;'
                     f'border:1px solid var(--border);background:var(--surface-2);font-weight:800;text-decoration:none;">{E(n)} ↗</a>' for n, u in rows)
-    return ('<section class="panel"><div class="panel-head"><div><p class="panel-title">바로가기</p>'
-            '<p class="panel-desc">관리자 전용 외부 화면(새 창으로 열림)</p></div></div>'
+    return ('<section class="panel"><div class="panel-head"><div><p class="panel-title">' + ("2027 경영계획 공동 편집" if plan else "바로가기") + '</p>'
+            '<p class="panel-desc">' + ("계획 수치를 함께 고치는 화면(새 창으로 열림, 링크가 있는 사람만 접근)" if plan else "관리자 전용 외부 화면(새 창으로 열림)") + '</p></div></div>'
             f'<div style="display:flex;gap:10px;flex-wrap:wrap;">{items}</div></section>')
 
 
@@ -280,6 +280,7 @@ def build_html(exec_sources=None):
               ("키 보호", "API 키는 GitHub Secret 에만, 로그 마스킹, 코드·history 에 미기록"),
               ("대표 전용", "경영 종합·AI 해석·초안·경쟁사 변화 감지 데이터는 관리 비밀번호 암호문(OWNER)에만 실음 — 직원 화면 소스에도 없음"),
               ("계획 수치", "2027 경영계획은 Secret PLAN_2027_JSON 에서만 읽어 이 관리 탭 암호문 안에만 실음(history·브리핑·공개 화면 미기록)"),
+              ("경영 실적", "손익·이수자 합계는 Secret MGMT_JSON 에서만 읽어 이 관리 탭 암호문 안에만 실음(개인 정보 없음, 공개 화면 미기록)"),
               ("접근 통제", "검색 차단(noindex) + 대시보드 비밀번호(AES-256-GCM) + 관리 탭 별도 비밀번호"),
               ("외부 사이트 예절", "robots.txt 확인 후 허용 경로만, 요청 간 0.6~1초 간격, S2B 는 자동 수집 안 함")]
     css = "<style>.adm table{width:100%;border-collapse:collapse;font-size:13px;} .adm th,.adm td{padding:7px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;} .adm th{color:var(--muted);font-weight:700;font-size:12px;} .adm .num{text-align:right;font-variant-numeric:tabular-nums;} .adm h4{margin:22px 0 8px;font-size:15px;} .adm code{font-size:11.5px;}</style>"
@@ -293,6 +294,13 @@ def build_html(exec_sources=None):
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
+    try:
+        mg = __import__("mgmt_owner")
+        M = mg.load()
+        mg_exec, mg_comp, mg_settle = mg.build_exec(sec, M), mg.build_comp3(sec, M), mg.build_settle(sec)
+    except Exception as e:  # 경영 실적 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 경영 실적 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        mg_exec = mg_comp = mg_settle = ""
     pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
@@ -316,10 +324,10 @@ def build_html(exec_sources=None):
                   + "<div><h4>일정</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in sched) + "</tbody></table></div>"
                   + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
     return (css + '<div class="adm">' + nav
-            + pane("exec", '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
-            + pane("actions", actions + quick_links())
-            + pane("comp", comp)
-            + pane("plan", f'<div id="admPlan">{plan_html}</div>')
+            + pane("exec", mg_exec + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
+            + pane("actions", actions + mg_settle + quick_links())
+            + pane("comp", mg_comp + comp)
+            + pane("plan", quick_links(plan=True) + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{sys_html}")
             + "</div>")
 
