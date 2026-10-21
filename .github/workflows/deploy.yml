@@ -123,6 +123,7 @@ jobs:
         run: python pipeline_comms.py live/pipeline_comms.json
 
       - name: KOSIS 시도교육청 교육재정 규모 export
+        timeout-minutes: 8   # 2026-10-21: KOSIS 응답 없음으로 90분 멈춰 전체 작업이 시간 초과로 취소됨 - 멈추면 건너뛴다
         continue-on-error: true
         run: python kosis_edu_finance.py "${{ secrets.KOSIS_KEY }}" live/kosis_edu_finance.json
 
@@ -151,6 +152,7 @@ jobs:
       # 금융위원회 공시 재무정보(GetFinaStatInfoService_V2) - 상장/외감대상 법인만 조회됨.
       # 법인등록번호(crno)는 스크립트에 고정값으로 미리 조회해뒀음(회사명 매칭에 매일 의존하지 않음).
       - name: 경쟁사 재무정보 export (금융위원회 공시)
+        timeout-minutes: 8
         continue-on-error: true
         env:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
