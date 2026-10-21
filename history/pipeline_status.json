@@ -1,6 +1,6 @@
 {
- "date": "2026-10-20",
- "sheet_tab": "26운영DT(10/20)",
+ "date": "2026-10-21",
+ "sheet_tab": "26운영DT(10/21)",
  "gid": "274729463",
  "header_row": 1,
  "matched_headers": [
@@ -30,9 +30,17 @@
  "tried": [
   {
    "gid": "274729463",
-   "tab": "26운영DT(10/20)",
+   "tab": "26운영DT(10/21)",
    "matched": 18,
    "rows": 87
   }
+ ],
+ "settle_fields": [
+  "billDate",
+  "claimAmount",
+  "doneCount",
+  "notice",
+  "payDate",
+  "reportDate"
  ]
 }
