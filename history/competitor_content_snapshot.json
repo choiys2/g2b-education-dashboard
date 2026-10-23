@@ -1,5 +1,5 @@
 {
-  "captured_date": "2026-10-22",
+  "captured_date": "2026-10-23",
   "companies": {
     "티처빌": {
       "url": "https://www.teacherville.co.kr",
@@ -118,6 +118,10 @@
     "비바샘연수원": {
       "url": "https://t.vivasam.com",
       "events": [
+        {
+          "title": "🖥️결합상품 <바이브 코딩 연수X포터블 모니터> 20건 한정 판매!",
+          "period": "2026-10-22 ~ 2026-11-21"
+        },
         {
           "title": "🎯찾아가는 바이브 코딩! 온·오프라인 맞춤형 실습 강의!",
           "period": "2026-09-21 ~ 2026-10-31"
