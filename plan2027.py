@@ -18,7 +18,9 @@ from pathlib import Path
 HERE = Path(__file__).parent
 E = html.escape
 REG = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
-CH = [("b2c", "B2C 개인", "#10b981"), ("b2s", "B2S 단체", "#4f8cff"), ("b2g", "B2G 위탁", "#f59e0b"), ("etc", "제품·상품·기타", "#94a3b8")]
+# 2027 경영계획(2026.10.25) 공식 기준: B2G = 교육청 단체(b2s) + 위탁 용역(b2g), B2C+B2S = 개인(학교 단체구매 포함) + 제품·상품·기타
+CH = [("b2c", "개인·학교(B2C·B2S)", "#10b981"), ("b2s", "교육청 단체(B2G)", "#4f8cff"), ("b2g", "위탁 용역(B2G)", "#f59e0b"), ("etc", "제품·상품·기타", "#94a3b8")]
+B2G_KEYS = ("b2s", "b2g")
 ETC_COST = 0.35         # 제품·상품·기타 매출원가율 기본값(계획 JSON 의 r_etc 가 있으면 그 값)
 B2G_GM_MIN = 10_000_000  # B2G 건당 최소 이익 기여(가정: 운영 인력 1인 2개월분 수준)
 
@@ -216,8 +218,8 @@ def s_plan_vs_actual(plan, act):
     if five.get("years"):
         f_chart = ("<h4>5개년 매출 구성과 영업이익(빨간 선)</h4>" + stack_svg(
             [(n, col, five.get(k) or [0] * 6) for k, n, col in CH], [f"'{str(y)[2:]}" for y in five["years"]], h=190, neg=five.get("op")))
-        sh = [round(b / r * 100) if r else 0 for b, r in zip(five.get("b2g", []), five.get("rev", []))]
-        f_chart += f"<p class='tt-note'>B2G 비중: " + " → ".join(f"'{str(y)[2:]} {s}%" for y, s in zip(five["years"], sh)) + "</p>"
+        sh = [round((a + b) / r * 100) if r else 0 for a, b, r in zip(five.get("b2s", []), five.get("b2g", []), five.get("rev", []))]
+        f_chart += f"<p class='tt-note'>B2G 비중(단체+위탁, 엑셀 5개년): " + " → ".join(f"'{str(y)[2:]} {s}%" for y, s in zip(five["years"], sh)) + "</p>"
     b2g_gap = c["b2g"]["prev"] - act["b2g"]
     return (table(["채널", "'26 예상(계획서)", "비중", "'26 시트 실적(누계)", "'27 계획", "비중", "증감"], rows, (1, 2, 3, 4, 5, 6))
             + "<h4>'27 월별 매출 계획</h4>" + legend([(n, col) for _, n, col in CH]) + chart + f_chart
@@ -231,15 +233,16 @@ def s_basis(plan, act):
     if plan:
         c = chan(plan)
         prev = sum(v["prev"] for v in c.values())
-        rows.append(["A. 순매출(경영계획 양식, 회계 기준)", f"{eok(c['b2g']['prev'])} / {eok(prev)}", pct(c["b2g"]["prev"], prev), "<b>공식 보고·KPI 권장</b> - 손익계획·K-IFRS 와 같은 숫자"])
+        g_prev, g_plan, plan_t = c["b2s"]["prev"] + c["b2g"]["prev"], c["b2s"]["plan"] + c["b2g"]["plan"], sum(v["plan"] for v in c.values())
+        rows.append(["A. 단체+위탁 순매출 <b>(2027 경영계획 공식)</b>", f"{eok(g_prev)} / {eok(prev)}", pct(g_prev, prev), "<b>공식 보고·KPI</b> — '27 계획 " + pct(g_plan, plan_t)])
+        rows.append(["A-1. 위탁(용역)만", f"{eok(c['b2g']['prev'])} / {eok(prev)}", pct(c["b2g"]["prev"], prev), "참고 — 정책 위탁 의존도"])
         if act["b2g_budget"]:
             on = c["b2c"]["prev"] + c["b2s"]["prev"] + c["etc"]["prev"]
             rows.append(["B. 위탁 총액(정산관리 총예산 합)", f"{eok(act['b2g_budget'])} / {eok(act['b2g_budget'] + on)}", pct(act["b2g_budget"], act["b2g_budget"] + on),
                          "영업 규모·수주 실적 설명용(강사료·운영비 등 원가 포함 총액)"])
-        rows.append(["C. '27 계획(순매출)", f"{eok(c['b2g']['plan'])} / {eok(sum(v['plan'] for v in c.values()))}", pct(c["b2g"]["plan"], sum(v["plan"] for v in c.values())), "'27 목표 비중"])
-    rows.append(["D. 기존 관리 기준(사업 전체 추세)", "-", "기존 보고 수치", "산정 범위·기준 확인 필요(위탁 총액 또는 사업부 전체 기준으로 추정)"])
+        rows.append(["C. '27 계획(단체+위탁)", f"{eok(g_plan)} / {eok(plan_t)}", pct(g_plan, plan_t), "'27 목표 비중"])
     return (table(["기준", "B2G / 전체", "B2G 비중", "쓰임"], rows, (1, 2))
-            + so_line("같은 사업도 기준에 따라 B2G 비중이 크게 달라집니다. 대외 보고와 KPI 는 A(순매출) 하나로 고정하고, 영업 규모를 말할 때만 B(총액)를 괄호로 함께 적는 것을 권장합니다."))
+            + so_line("2027 경영계획(10.25)에서 공식 기준을 'B2G = 교육청 단체 + 위탁'으로 정했습니다. 대외 보고·KPI 는 A 하나로 쓰고, 위탁 의존도는 A-1, 영업 규모는 B(총액)로만 보조 설명합니다."))
 
 
 def s_pl(plan):
@@ -287,8 +290,8 @@ def s_sim(plan):
     sl = lambda k, lab, mx, st: (f'<label style="display:block;margin:6px 0;font-size:13px;">{E(lab)} <b class="num" data-out="{k}"></b>'
                                  f'<input type="range" data-k="{k}" min="0" max="{mx}" step="{st}" style="width:100%;"></label>')
     return (f'<div id="planSim" data-p="{data}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;">'
-            "<div>" + sl("b2c", "B2C 개인 매출", 1_000_000_000, 10_000_000) + sl("b2s", "B2S 단체 매출", 1_000_000_000, 10_000_000)
-            + sl("b2g", "B2G 위탁 매출", 800_000_000, 10_000_000) + sl("etc", "제품·상품·기타", 300_000_000, 5_000_000)
+            "<div>" + sl("b2c", "개인·학교 매출", 1_000_000_000, 10_000_000) + sl("b2s", "교육청 단체 매출(B2G)", 1_000_000_000, 10_000_000)
+            + sl("b2g", "위탁 용역 매출(B2G)", 800_000_000, 10_000_000) + sl("etc", "제품·상품·기타", 300_000_000, 5_000_000)
             + sl("ad", "광고선전비", 200_000_000, 5_000_000) + sl("prod", "콘텐츠 제작비", 400_000_000, 10_000_000)
             + sl("heads", "인원(명)", 20, 1)
             + '<button type="button" data-reset style="margin-top:6px;">계획값으로 되돌리기</button></div>'
@@ -381,6 +384,13 @@ def s_content(plan, so):
         for tid in tt.classify_topics(f"{c.get('title', '')} {c.get('field', '')}"):
             sup[tid] += 1
             sales[tid] += c.get("total") or 0
+    devp = Counter()
+    try:
+        for d in ((__import__("mgmt_owner").load() or {}).get("plan27") or {}).get("dev", []):
+            for tid in tt.classify_topics(d[1]):
+                devp[tid] += 1
+    except Exception:
+        pass
     dt, st = sum(dem.values()) or 1, sum(sup.values()) or 1
     prod = 0
     if plan:
@@ -392,9 +402,12 @@ def s_content(plan, so):
         gap = dem[t] / dt - sup[t] / st
         rows.append([E(names[t]), f"{dem[t]:,}", f"{dem[t] / dt * 100:.0f}%", f"{sup[t]:,}", f"{sup[t] / st * 100:.0f}%",
                      f"<b style='color:{'#ef4444' if gap > 0.03 else '#10b981' if gap < -0.03 else 'var(--muted)'};'>{gap * 100:+.0f}%p</b>",
-                     eok(sales[t] / sup[t], 3) if sup[t] else "-", eok(prod * w[t] / ws, 2) if prod else "-"])
+                     eok(sales[t] / sup[t], 3) if sup[t] else "-", eok(prod * w[t] / ws, 2) if prod else "-",
+                     (f"<b>{devp[t]}</b>" if devp[t] else ("<span style='color:#ef4444;'>0</span>" if gap > 0.03 else "0"))])
     top = [names[t] for t in sorted(names, key=lambda t: -(dem[t] / dt - sup[t] / st))[:3]]
-    return (table(["주제", "발주 수요(12개월)", "수요 비중", "보유 과정", "보유 비중", "수요-보유", "과정당 누적 매출", "권장 제작비"], rows, (1, 2, 3, 4, 5, 6, 7))
+    miss = [names[t] for t in names if dem[t] / dt - sup[t] / st > 0.03 and not devp[t]]
+    return (table(["주제", "발주 수요(12개월)", "수요 비중", "보유 과정", "보유 비중", "수요-보유", "과정당 누적 매출", "권장 제작비", "'27 개발 계획"], rows, (1, 2, 3, 4, 5, 6, 7, 8))
+            + (f"<p style='margin:8px 0 0;font-size:13px;'><b>'27 개발 37과정이 비어 있는 수요 부족 주제:</b> {E(', '.join(miss))} — 제휴·CP 슬롯이나 하반기 미정 과정에 우선 배정 검토</p>" if miss else "")
             + f"<p class='tt-note'>수요 = 나라장터 연수 입찰 제목 주제 분류(최근 12개월), 보유 = 26 콘텐츠DT 과정명·분야 같은 분류. 권장 제작비 = '27 제작비 {eok(prod, 2) if prod else '(계획 미등록)'} × 수요 비중(보유가 수요보다 많은 주제는 절반 가중).</p>"
             + so_line(f"수요 대비 보유가 가장 모자란 주제는 {', '.join(top)}입니다. 제작비를 줄이는 해에는 이 주제부터 신규·개편을 배정하고, 보유 비중이 큰 주제는 개편 주기를 늘리세요."))
 

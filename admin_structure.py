@@ -300,7 +300,17 @@ def build_html(exec_sources=None):
         mg_exec, mg_comp, mg_settle = mg.build_exec(sec, M), mg.build_comp3(sec, M), mg.build_settle(sec)
     except Exception as e:  # 경영 실적 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 경영 실적 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        mg, M = None, None
         mg_exec = mg_comp = mg_settle = ""
+    extra = {"weekly": "", "budget": "", "roles": "", "plan27": "", "long": ""}
+    if mg:
+        pipe = _j("live/own_pipeline_export.json", {}) or {}
+        for k, fn in (("weekly", lambda: mg.build_weekly(sec, M, pipe)), ("budget", lambda: mg.build_budget_map(sec)),
+                      ("roles", lambda: mg.build_roles(sec, M, pipe)), ("plan27", lambda: mg.build_plan27(sec, M)), ("long", lambda: mg.build_longterm(sec, M))):
+            try:
+                extra[k] = fn()
+            except Exception as e:  # 한 섹션 오류가 나머지를 막지 않게
+                print(f"[경고] 관리 탭 {k} 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
     pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
@@ -324,10 +334,10 @@ def build_html(exec_sources=None):
                   + "<div><h4>일정</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in sched) + "</tbody></table></div>"
                   + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
     return (css + '<div class="adm">' + nav
-            + pane("exec", mg_exec + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
-            + pane("actions", actions + mg_settle + quick_links())
+            + pane("exec", mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
+            + pane("actions", actions + extra["roles"] + mg_settle + quick_links())
             + pane("comp", mg_comp + comp)
-            + pane("plan", quick_links(plan=True) + f'<div id="admPlan">{plan_html}</div>')
+            + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{sys_html}")
             + "</div>")
 

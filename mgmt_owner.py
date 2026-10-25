@@ -19,7 +19,14 @@ from plan2027 import legend, so_line, stack_svg, table, tile, tiles
 
 HERE = Path(__file__).parent
 E = html.escape
-CH = [("b2c", "개인(B2C)", "#10b981"), ("b2s", "단체(B2S)", "#4f8cff"), ("b2g", "위탁(B2G)", "#f59e0b")]
+# 2027 경영계획(2026.10.25) 공식 기준: B2G = 교육청 단체 + 위탁 용역
+CH = [("b2c", "개인·학교(B2C·B2S)", "#10b981"), ("b2s", "교육청 단체(B2G)", "#4f8cff"), ("b2g", "위탁 용역(B2G)", "#f59e0b")]
+DEF = "B2G = 교육청 단체(온라인 단체수강) + 위탁(오프라인 용역) · B2C+B2S = 개인(학교 단체구매 포함) + 제품·상품·기타 — 2027 경영계획(2026.10.25) 공식 기준"
+
+
+def g_share(r):
+    """B2G 비중(%) = (교육청 단체 + 위탁) ÷ 총매출"""
+    return (r["b2s"] + r["b2g"]) / r["tot"] * 100 if r.get("tot") else 0
 CO = {"비바샘": "var(--accent)", "티처빌": "#f59e0b", "아이스크림": "#ec4899", "한국교원": "#94a3b8"}
 NOMG = '<p class="tt-note">실적 미등록: GitHub Secret <code>MGMT_JSON</code> 에 실적 합계 JSON 을 넣으면 채워집니다.</p>'
 
@@ -112,11 +119,13 @@ def s_kpi(M):
     ytd = sum(sum(c["m"][k][:fc - 1]) for k in ("b2c", "b2s", "b2g")) if c and c.get("m") else None
     L = {r["y"]: r for r in M.get("learn") or []}
     ly = max(L) if L else None
-    b2g_sh = c["b2g"] / c["tot"] * 100 if c and c["tot"] else 0
+    b2g_sh = g_share(c) if c else 0
+    tgt = ((M.get("plan27") or {}).get("path") or {}).get("target") or []
+    t27 = tgt[2] if len(tgt) > 2 and tgt[2] else M["target"]["b2g"]
     ts = [tile("2026 매출(예상)", eok(c["tot"]), f"전년 {eok(p['tot'])} 대비 {pct(c['tot'], p['tot'])}", c["tot"] < p["tot"]),
           tile("영업이익(공통비 배분 전)", eok(c["op"]), f"배분 후 {eok(c.get('op_after'))} · 전년 {eok(p['op'])}", c["op"] < 0),
           tile(f"1~{fc - 1}월 실적", eok(ytd), f"연간 예상의 {ytd / c['tot'] * 100:.0f}% · 남은 {13 - fc}개월 {eok(c['tot'] - ytd)} 필요" if ytd else "", bool(ytd and ytd / c["tot"] < 0.6)),
-          tile("위탁(B2G) 비중", f"{b2g_sh:.0f}%", f"2027 목표 {M['target']['b2g']}% 이하", b2g_sh > M["target"]["b2g"])]
+          tile("B2G 비중(단체+위탁)", f"{b2g_sh:.0f}%", f"2027 계획 {t27}% · 2030 목표 {M['target']['b2g']}%", b2g_sh > t27)]
     if ly:
         f0 = L[min(L)]
         ts.append(tile(f"이수 교사({ly})", f"{L[ly]['u']:,}명", f"{min(L)}년 {f0['u']:,}명 대비 {pct(L[ly]['u'], f0['u'])}", True))
@@ -177,24 +186,30 @@ def s_learn(M):
 
 
 def s_target(M):
+    """B2G 비중(단체+위탁) 실적 → '27 계획 → 2030 목표 경로(+엑셀 5개년 경로)"""
     t = M["target"]
-    rows = []
-    for r in M["years"]:
-        g = r["b2g"] / r["tot"] * 100 if r["tot"] else 0
-        g2 = (r["b2g"] + r["b2s"]) / r["tot"] * 100 if r["tot"] else 0
-        rows.append((f"{r['y']}{'E' if r['y'] == 2026 else ''}", g, g2, r))
-    bar = lambda lab, g, g2: (f'<div style="display:grid;grid-template-columns:56px 1fr 190px;gap:8px;align-items:center;margin:5px 0;font-size:12.5px;">'
-                              f'<b>{lab}</b><span style="position:relative;display:flex;height:18px;border-radius:4px;overflow:hidden;background:var(--surface-2);">'
-                              f'<i style="width:{100 - g:.1f}%;background:#10b981;"></i><i style="width:{g:.1f}%;background:#f59e0b;"></i>'
-                              f'<i style="position:absolute;left:{100 - t["b2g"]}%;top:-2px;bottom:-2px;border-left:2px dashed var(--ink);"></i></span>'
-                              f'<span class="num">위탁 {g:.0f}% · 교육청 포함 {g2:.0f}%</span></div>')
-    c = rows[-1][3]
-    need_on = c["b2g"] * t["b2cs"] / t["b2g"]
-    return (legend([("개인+단체(B2C+B2S)", "#10b981"), ("위탁(B2G)", "#f59e0b"), (f"{t['y']} 목표선(B2G {t['b2g']}%)", "var(--ink)")])
-            + "".join(bar(a, g, g2) for a, g, g2, _ in rows)
-            + f"<p class='tt-note'>구분: {E(M.get('def') or '')}. '교육청 포함'은 교육청 단체 원격연수까지 B2G로 본 비중입니다(보고 기준을 하나로 정해야 함 → 2027 경영계획 ② 참고).</p>"
-            + so_line(f"2026년 예상 위탁 {eok(c['b2g'])}을 그대로 두면 목표 비중({t['b2g']}:{t['b2cs']})을 맞추는 데 개인+단체 매출이 {eok(need_on)} 필요합니다"
-                      f"(현재 {eok(c['b2c'] + c['b2s'])}, {pct(need_on, c['b2c'] + c['b2s'])}). 비중은 위탁이 줄어서도 맞춰지므로, 비중보다 '개인+단체 금액'을 KPI로 따로 보세요."))
+    P = (M.get("plan27") or {}).get("path") or {}
+    rows = [(f"{r['y']}{'E' if r['y'] == 2026 else ''}", g_share(r), r["b2g"] / r["tot"] * 100 if r["tot"] else 0, False) for r in M["years"] if r["y"] >= 2022]
+    for y, a, x in zip(P.get("years", []), P.get("target", []), P.get("excel", [])):
+        if y >= 2027 and a is not None:
+            rows.append((f"{y}{'' if y == 2027 else 'E'}", a, x, True))
+    bar = lambda lab, g, sub, plan: (f'<div style="display:grid;grid-template-columns:56px 1fr 210px;gap:8px;align-items:center;margin:5px 0;font-size:12.5px;">'
+                                     f'<b>{lab}</b><span style="position:relative;display:flex;height:18px;border-radius:4px;overflow:hidden;background:var(--surface-2);{"opacity:.7;" if plan else ""}">'
+                                     f'<i style="width:{100 - g:.1f}%;background:#10b981;{"background-image:repeating-linear-gradient(45deg,transparent 0 4px,rgba(255,255,255,.35) 4px 7px);" if plan else ""}"></i>'
+                                     f'<i style="width:{g:.1f}%;background:#4f8cff;{"background-image:repeating-linear-gradient(45deg,transparent 0 4px,rgba(255,255,255,.35) 4px 7px);" if plan else ""}"></i>'
+                                     f'<i style="position:absolute;left:{100 - t["b2g"]}%;top:-2px;bottom:-2px;border-left:2px dashed var(--ink);"></i></span>'
+                                     f'<span class="num">B2G {g:.0f}% · {("엑셀 5개년 " + str(sub) + "%") if plan else f"위탁만 {sub:.0f}%"}</span></div>')
+    c = M["years"][-1]
+    lev = (M.get("plan27") or {}).get("levers2030") or []
+    lv = table(["성장 레버", "'27 계획", "2030", "핵심 수단"], [[E(a), eok(b), eok(c_), E(d)] for a, b, c_, d in lev], (1, 2)) if lev else ""
+    l27, l30 = sum(x[1] for x in lev), sum(x[2] for x in lev)
+    cagr = ((l30 / l27) ** (1 / 3) - 1) * 100 if l27 else 0
+    return (legend([("B2C+B2S(개인·학교·상품·기타)", "#10b981"), ("B2G(교육청 단체+위탁)", "#4f8cff"), ("빗금 = 계획·목표 경로", "var(--muted)"), (f"2030 목표선 B2G {t['b2g']}%", "var(--ink)")])
+            + "".join(bar(*r) for r in rows)
+            + f"<p class='tt-note'>구분: {E(DEF)}. '27은 경영계획 확정치, '28~'30은 목표 경로(가정)이고 오른쪽 '엑셀 5개년'은 8.5개년계획 시트의 완만한 경로입니다.</p>"
+            + (f"<p style='font-weight:800;margin:12px 0 4px;'>2030 B2G {t['b2g']}% 달성 레버 (B2C+B2S {eok(l27)} → {eok(l30)}, 연 {cagr:+.0f}%)</p>{lv}" if lv else "")
+            + so_line(f"2026년 예상 B2G 비중은 {g_share(c):.0f}%입니다. '27 계획은 B2G 금액을 방어하고 B2C+B2S를 키워 비중을 낮추는 '희석' 전략이라, "
+                      + (f"비중보다 'B2C+B2S 금액'('27 {eok(l27)} → '30 {eok(l30)})을 분기 KPI로 따로 보세요." if lev else "비중보다 'B2C+B2S 금액'을 분기 KPI로 따로 보세요.")))
 
 
 def build_exec(sec, M=None):
@@ -352,3 +367,228 @@ def build_settle(sec, pipe=None, today=None):
             + so_line(f"정산이 남은 금액은 {won(unpaid)}이고, 그중 기준보다 늦은 건이 {sum(late.values())}건 {won(late_amt)}입니다. "
                       "결과보고가 밀리면 계산서·수금과 매출 인식 달이 함께 밀리므로, 붉은 칸(늦음)부터 담당자와 이번 주 처리일을 정하세요."))
     return sec(title, f"{src} · 조회 {E(str((pipe.get('source') or {}).get('fetched') or '-'))}", body)
+
+
+# ---------------------------------------------------------------- 2027 경영계획 확정안(2026.10.25) — 2027 경영계획 칸 맨 위
+def _hist(name):
+    p = HERE / "history" / name
+    if not p.exists():
+        return []
+    out = []
+    for line in p.read_text(encoding="utf-8").splitlines():
+        try:
+            out.append(json.loads(line))
+        except Exception:
+            pass
+    return out
+
+
+def build_plan27(sec, M=None):
+    M = M if M is not None else load()
+    P = (M or {}).get("plan27")
+    if not P:
+        return sec("2027 경영계획 확정안", "", NOMG)
+    ch = P["channels"]
+    p_t, v_t = sum(c["p"] for c in ch), sum(c["v"] for c in ch)
+    p_off = next((r["tot"] for r in M.get("years", []) if r["y"] == 2026), None)  # '26E 공식 합계(항목 반올림 합과 0.02억 차이)
+    g_p, g_v = sum(c["p"] for c in ch if c["b2g"]), sum(c["v"] for c in ch if c["b2g"])
+    dev = P.get("dev") or []
+    head = tiles([tile("2027 연수 매출 계획", eok(v_t), f"'26E {eok(p_off or p_t)} 대비 {pct(v_t, p_off or p_t)}"),
+                  tile("B2G 비중(단체+위탁)", f"{g_v / v_t * 100:.0f}%", f"'26E {g_p / p_t * 100:.0f}% → 2030 목표 {M['target']['b2g']}%"),
+                  tile("인건비 전 기여이익", eok(P["cost"]["contrib_v"]), f"'26E {eok(P['cost']['contrib_p'])} · 직접·변동비 {eok(sum(P['cost']['v']))}"),
+                  tile("2027 개발", f"{len(dev)}과정 · {P.get('dev_total', 0):.1f}억", "자체·샘크 30 + 제휴·CP 7"),
+                  tile("5개년 매출", f"{P['five']['rev'][-1]:.1f}억('31)", f"영업이익 {P['five']['op'][0]:+.1f} → {P['five']['op'][-1]:+.1f}억")])
+    rows = [[E(c["k"]), c["cell"], "B2G" if c["b2g"] else "B2C·B2S", eok(c["p"]), eok(c["v"]), pct(c["v"], c["p"]) if c["p"] else "-"] for c in ch]
+    rows.append(["<b>합계</b>", "", "", f"<b>{eok(p_off or p_t)}</b>", f"<b>{eok(v_t)}</b>", pct(v_t, p_off or p_t)])
+    mo = P.get("monthly") or {}
+    mon = [f"{i + 1}월" for i in range(12)]
+    chart = stack_svg([("개인·학교", "#10b981", [v * 1e8 for v in mo.get("ind", [0] * 12)]), ("연수원 몰 상품", "#8b5cf6", [v * 1e8 for v in mo.get("mall", [0] * 12)]),
+                       ("제품·기타", "#94a3b8", [v * 1e8 for v in mo.get("etc", [0] * 12)]), ("교육청 단체", "#4f8cff", [v * 1e8 for v in mo.get("grp", [0] * 12)]),
+                       ("위탁 용역", "#f59e0b", [v * 1e8 for v in mo.get("svc", [0] * 12)])], mon, h=200)
+    h2 = sum(sum(mo.get(k, [0] * 12)[6:]) for k in ("grp", "svc")) / max(sum(sum(mo.get(k, [0] * 12)) for k in ("grp", "svc")), 0.01) * 100
+    # KPI 판: 2026 기준값을 옆에 둔다(2027 실적은 1월부터 같은 칸에 쌓임)
+    Y = {r["y"]: r for r in M.get("years", [])}
+    c26 = Y.get(2026) or {}
+    base = {"rev": eok(c26.get("tot")), "b2g_share": f"{g_share(c26):.0f}%" if c26 else "-", "grp": eok(c26.get("b2s")), "svc": eok(c26.get("b2g")),
+            "ind": eok(c26.get("b2c")), "dev": "0 / 37 (1월 착수)"}
+    kp = table(["셀", "KPI", "2027 목표", "산식·근거", "담당(역할)", "유형", "'26 기준값"],
+               [[k[0], E(k[1]), f"<b>{E(k[2])}</b>", E(k[3]), E(k[4]), k[5], base.get(k[6], "1분기 첫 측정")] for k in P["kpis"]])
+    cost = table(["비용 그룹", "'26E", "'27", "'27 매출 대비"], [[E(n), eok(a), eok(b), f"{b / v_t * 100:.1f}%"] for n, a, b in zip(P["cost"]["items"], P["cost"]["p"], P["cost"]["v"])], (1, 2, 3))
+    road = "".join(f"<div style='flex:1;min-width:150px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);'><b style='font-size:12.5px;'>{E(a)}</b>"
+                   f"<div style='font-size:12px;color:var(--ink-2);margin-top:4px;line-height:1.5;'>{E(b)}</div></div>" for a, b in P["roadmap"])
+    risk = table(["핵심 리스크", "영향", "대응"], [[E(a), E(b), E(c)] for a, b, c in P["risks"]])
+    conf = "".join(f"<li>{E(x)}</li>" for x in P["confirmed"])
+    svc = Counter(d[3] for d in dev if d[3] != "-")
+    dv = table(["#", "구분", "과정(주제)", "착수", "서비스", "'27 신규 투입"], [[i + 1, E(d[0]), E(d[1]), d[2], d[3], f"{d[4]:.1f}백만" if d[4] else "-"] for i, d in enumerate(dev)], (5,))
+    sched = " · ".join(f"{k[3:]}월 {v}" for k, v in sorted(svc.items()))
+    body = (head + f"<p style='margin:0 0 10px;font-size:13.5px;'><b>{E(P['headline'])}</b></p>"
+            + "<h4>① 채널별 매출 '26E → '27</h4>" + table(["항목", "셀", "구분", "'26E", "'27 계획", "증감"], rows, (3, 4, 5))
+            + "<h4>② '27 월별 매출 계획(채널별)</h4>" + legend([("개인·학교", "#10b981"), ("연수원 몰 상품", "#8b5cf6"), ("제품·기타", "#94a3b8"), ("교육청 단체", "#4f8cff"), ("위탁 용역", "#f59e0b")]) + chart
+            + f"<p class='tt-note'>B2G(단체+위탁) 매출의 {h2:.0f}%가 하반기(7~12월)에 몰립니다. 용역은 4·9·12월 인식, 단체 피크는 8월입니다.</p>"
+            + "<h4>③ KPI 체계 (후행 → 선행 분해, 월간 관리)</h4>" + kp
+            + "<p class='tt-note'>담당은 역할명만 표시합니다(실명 미저장). 기준값이 없는 전환율·이수 건수 지표는 1분기에 처음 측정해 기준값으로 삼습니다.</p>"
+            + "<h4>④ 비용 구조 (인건비·공통비 배분 전)</h4>" + cost
+            + "<h4>⑤ 실행 로드맵</h4><div style='display:flex;gap:8px;flex-wrap:wrap;'>" + road + "</div>"
+            + "<h4>⑥ 핵심 리스크와 확정 사항</h4>" + risk + f"<ul style='margin:8px 0 0 18px;font-size:13px;line-height:1.7;'>{conf}</ul>"
+            + f"<h4>⑦ 2027 개발 {len(dev)}과정 (월별 서비스 개시: {sched})</h4>"
+            + f"<details><summary style='cursor:pointer;font-size:13px;'>과정 목록 펼치기</summary>{dv}</details>"
+            + so_line(f"'27 계획의 성패는 상반기 선행 지표입니다. 1분기 신규 12과정 착수와 교육청 제안·계약 파이프라인이 늦으면 하반기 집중({h2:.0f}%) 구조상 연말에 만회하기 어렵습니다. "
+                      "매월 KPI 판의 선행 지표(수주·샘스쿨·과정 출시)부터 확인하세요."))
+    return sec("2027 경영계획 확정안 (대표 전용)", f"{E(P['src'])} · 작성 {E(P['asof'])}", body)
+
+
+def build_longterm(sec, M=None):
+    """2027·2030 중장기 사업관리 방향(2026.10.25 기준) — 자체 개선 아이디어의 기준점"""
+    M = M if M is not None else load()
+    P = (M or {}).get("plan27")
+    if not P:
+        return ""
+    ph = "".join(f"<div style='flex:1;min-width:220px;padding:12px 14px;border:1px solid var(--border);border-radius:8px;'><b>{E(a)}</b>"
+                 f"<div style='font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.6;'>{E(b)}</div></div>" for a, b in P["v2030"])
+    pos = table(["포지션", "역할", "2027 씨앗"], [[f"<b>{E(a)}</b>", E(b), E(c)] for a, b, c in P["positions"]])
+    dod = "".join(f"<li>{E(x)}</li>" for x in P["dod2028"])
+    five = P["five"]
+    ft = table(["", *[str(y) for y in five["years"]]], [["매출(억)", *[f"{v:.1f}" for v in five["rev"]]], ["영업이익(억, K-IFRS)", *[f"{v:+.1f}" for v in five["op"]]],
+                                                       ["인원(명)", *[str(v) for v in five["heads"]]]], tuple(range(1, 6)))
+    body = ("<div style='display:flex;gap:10px;flex-wrap:wrap;'>" + ph + "</div>"
+            + f"<h4>2028 완성 기준(Definition of Done)</h4><ul style='margin:4px 0 0 18px;font-size:13px;line-height:1.7;'>{dod}</ul>"
+            + "<h4>중장기 참고 방향 — 교사 성장 생태계 4포지션</h4>" + pos
+            + "<p class='tt-note'>연수원은 '지식을 전달하는 기관'에서 '교사의 지식이 성장하고 확산되는 생태계'로: 교사 지식 → 콘텐츠 → 브랜드 → 새 연수·서비스·수익. 27 목표에는 미반영(참고 방향).</p>"
+            + "<h4>5개년 재무 경로(엑셀 8.5개년계획)</h4>" + ft
+            + so_line("대시보드 고도화도 이 방향에 맞춥니다: 2027은 '발굴'(수요·공백 스코어링, 협업 과정 성과), 2028은 '연결·시스템'(LMS 이수통보·교육청 매출 자동 산출, 1ID 이용 조회, 통합 대시보드 자동화)."))
+    return sec("중장기 사업관리 방향 — V2030 (2026.10.25 기준)", "발굴 → 연결 → 시스템 · 2028 완성 · 2030 B2G 40 : B2C+B2S 60", body)
+
+
+# ---------------------------------------------------------------- ② 시도별 예산 위험·기회 지도
+def build_budget_map(sec, today=None):
+    today = today or date.today()
+    y1 = date(today.year - 1, today.month, min(today.day, 28)).isoformat()
+    REG = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
+    try:
+        fin = json.loads((HERE / "history/eduinfo_finance.json").read_text(encoding="utf-8")).get("finance") or {}
+    except Exception:
+        fin = {}
+    try:
+        sch = json.loads((HERE / "history/schoolinfo_market.json").read_text(encoding="utf-8")).get("schools") or []
+    except Exception:
+        sch = []
+    bids, plans, own, tot = Counter(), Counter(), Counter(), Counter()
+    for r in _hist("training_bids.jsonl"):
+        if (r.get("d") or "") >= y1:
+            bids[r.get("r")] += r.get("a") or 0
+    for r in _hist("order_plans.jsonl"):
+        plans[r.get("r")] += r.get("a") or 0
+    for r in _hist("competitor_contracts.jsonl"):
+        if (r.get("date") or "") >= y1:
+            tot[r.get("region")] += r.get("amount") or 0
+            if r.get("competitor") == "비바샘연수원":
+                own[r.get("region")] += r.get("amount") or 0
+    teach = Counter()
+    for s_ in sch:
+        teach[s_.get("s")] += s_.get("t") or 0
+    own_all = sum(own.values()) or 1
+    dem_all = sum(bids[g] + plans[g] for g in REG) or 1
+    rows = []
+    for g in REG:
+        f = fin.get(g) or {}
+        ys = sorted(f)
+        chg = (f[ys[-1]]["out"] / f[ys[-2]]["out"] - 1) * 100 if len(ys) >= 2 and f[ys[-2]].get("out") else None
+        dem = (bids[g] + plans[g]) / dem_all
+        shr = own[g] / tot[g] if tot[g] else 0
+        dep = own[g] / own_all
+        opp = dem * (1 - shr) * 100
+        risk = dep * 100 * (1.5 if chg is not None and chg < 0 else 1.0)
+        kind = ("방어" if dep >= 0.15 else "공략" if dem >= 0.06 and shr < 0.1 else "확대" if shr > 0 and dem >= 0.03 else "관망")
+        rows.append((g, dem, shr, dep, chg, teach[g], opp, risk, kind))
+    rows.sort(key=lambda r: -(r[6] + r[7]))
+    KC = {"공략": "#1F5FD1", "방어": "#B91C1C", "확대": "#15803D", "관망": "var(--muted)"}
+    ACT = {"공략": "수요 크고 자사 점유 낮음 → 11~2월 사전 영업, 맞춤형 차시·샘스쿨 제안", "방어": "자사 매출 의존 큼 → 재계약 시점 관리, 예산 축소 대비 '예산 효율형' 패키지",
+           "확대": "이미 진입 → 지원청 단위로 횡전개, 학교단체 풀패키지 연결", "관망": "수요·관계 모두 작음 → 공고 모니터링만"}
+    tb = table(["시도", "구분", "수요 비중(공고+발주계획)", "자사 점유(계약액)", "자사 매출 중 비중", "교육 세출 증감(최근 결산)", "교원 수", "권장 행동"],
+               [[f"<b style='white-space:nowrap;'>{g}</b>", f"<b style='color:{KC[k]};white-space:nowrap;'>{k}</b>", f"{d * 100:.1f}%", f"{s_ * 100:.0f}%", f"{dp * 100:.0f}%",
+                 "-" if c is None else f"<span style='color:{'#B91C1C' if c < 0 else 'inherit'};'>{c:+.1f}%</span>", f"{t:,}" if t else "-", E(ACT[k])]
+                for g, d, s_, dp, c, t, o, rk, k in rows], (2, 3, 4, 5, 6))
+    cnt = Counter(r[8] for r in rows)
+    top = [r[0] for r in rows if r[8] == "공략"][:4]
+    dfd = [r[0] for r in rows if r[8] == "방어"]
+    return sec("시도별 예산 위험·기회 지도 (대표 전용)", "나라장터 연수 공고(12개월)+발주계획 · 공공 연수 계약 점유 · 지방교육재정 세출 추이 · 교원 수를 시도별로 묶어 영업 우선순위를 냅니다.",
+               "<p style='margin:0 0 8px;font-size:13px;'>" + " · ".join(f"<b style='color:{KC[k]};'>{k}</b> {v}곳" for k, v in cnt.items()) + "</p>" + tb
+               + "<p class='tt-note'>공략 = 수요 비중 6% 이상·자사 점유 10% 미만, 방어 = 자사 계약액의 15% 이상이 몰린 시도, 확대 = 이미 진입·수요 3% 이상. 세출 증감은 지방교육재정알리미 최근 결산 연도 기준이며, 2027 교부금 개편에 따른 미편성 우려(10.20 국감 보도)는 반영 전입니다.</p>"
+               + so_line(f"다음 분기 사전 영업 1순위는 {', '.join(top) or '-'}입니다. "
+                         + (f"{', '.join(dfd)}은 자사 매출이 몰린 '방어' 시도라 재계약 시점과 예산 편성 동향을 매달 확인하세요." if dfd else "")))
+
+
+# ---------------------------------------------------------------- ③ 주간 경영보고 자동 초안
+def build_weekly(sec, M=None, pipe=None, today=None):
+    M = M if M is not None else load()
+    today = today or date.today()
+    L = []
+    if M:
+        Y = {r["y"]: r for r in M["years"]}
+        c = Y.get(2026)
+        fc = int((M.get("fc_from") or {}).get("2026", 13))
+        ytd = sum(sum(c["m"][k][:fc - 1]) for k in ("b2c", "b2s", "b2g")) if c and c.get("m") else 0
+        L.append(f"1. 실적: 2026 연수 매출 예상 {eok(c['tot'])}(전년 대비 {pct(c['tot'], Y[2025]['tot'])}), 1~{fc - 1}월 누계 {eok(ytd)}(연간 예상의 {ytd / c['tot'] * 100:.0f}%). 영업이익(배분 전) 예상 {eok(c['op'])}.")
+        P = M.get("plan27")
+        if P:
+            v = sum(x["v"] for x in P["channels"]); g = sum(x["v"] for x in P["channels"] if x["b2g"])
+            L.append(f"2. 2027 계획: 매출 {eok(v)}, B2G 비중 {g / v * 100:.0f}%, 기여이익 {eok(P['cost']['contrib_v'])}. 1분기 착수 과정 {sum(1 for d in P['dev'] if d[2].startswith('27.0') and int(d[2][3:]) <= 3)}개.")
+    ds = _hist("daily_stats.jsonl")
+    if len(ds) >= 8:
+        a, b = ds[-1], ds[-8]
+        L.append(f"3. 시장(최근 7일): 교육청·연수원 발주 누적 {b.get('g2b_total_detail', 0):,} → {a.get('g2b_total_detail', 0):,}건, AI·에듀테크 발주 {a.get('ai_rows_count', 0):,}건({(a.get('ai_rows_amount_sum') or 0) / 1e8:,.1f}억).")
+    try:
+        cw = __import__("competitor_watch").build(today)
+        L.append(f"4. 경쟁사: 최근 30일 변화 {cw['total']}건(7일 {cw['week']}건) — " + (cw["signals"][0]["t"] if cw.get("signals") else "특이사항 없음") + ".")
+    except Exception:
+        pass
+    recs = (pipe or {}).get("records") or []
+    if recs:
+        units, lim, _ = settle_units(recs, today)
+        late = [u for u in units if u["late"]]
+        todo = [u for u in units if u["st"] not in ("run", "done")]
+        L.append(f"5. 교육청 연수 정산: 정산 대기 {len(todo)}건 {sum(u['amt'] for u in todo) / 1e8:,.2f}억, 기준보다 늦은 건 {len(late)}건 {sum(u['amt'] for u in late) / 1e8:,.2f}억.")
+        wk = [u for u in units if u["st"] == "run" and 0 <= (u["end"] - today).days <= 7]
+        if wk:
+            L.append(f"6. 이번 주 종료 연수 {len(wk)}건 — 이수통보·결과보고 일정 사전 점검.")
+    L.append("7. 이번 주 결정 필요: (작성자가 채움)")
+    txt = f"[교원연수 Core 주간 경영보고 초안 · {today:%Y-%m-%d}]\n\n" + "\n".join(L)
+    tid = "wkRep"
+    return sec("주간 경영보고 자동 초안 (대표 전용)", "대시보드·경영실적·정산·경쟁사 데이터로 매 배포 때 다시 씁니다. 복사해 보고 양식에 붙여 넣고 7번만 채우세요.",
+               f"<textarea id='{tid}' readonly style='width:100%;min-height:220px;font:13px/1.7 inherit;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--ink);'>{E(txt)}</textarea>"
+               f"<button type='button' onclick=\"navigator.clipboard.writeText(document.getElementById('{tid}').value);this.textContent='복사됨';\" "
+               "style='margin-top:8px;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-weight:700;'>초안 복사</button>"
+               "<p class='tt-note'>보고 양식 파일(Word·한글)을 주시면 그 양식 그대로 채운 파일을 내려받게 바꿀 수 있습니다.</p>")
+
+
+# ---------------------------------------------------------------- ①⑤ 재수강 전환 · 역할별 실행 알림
+def build_roles(sec, M=None, pipe=None, today=None):
+    M = M if M is not None else load()
+    today = today or date.today()
+    recs = (pipe or {}).get("records") or []
+    ROLE = {"notice": "2셀 운영", "report": "2셀 운영", "bill": "정산 담당", "pay": "정산 담당", "run": "2셀 운영"}
+    acts = defaultdict(list)
+    if recs:
+        units, lim, _ = settle_units(recs, today)
+        lab = dict(STAGES)
+        for u in units:
+            if u["late"]:
+                acts[ROLE[u["st"]]].append(f"{lab[u['st']]} 지연 {u['wait']}일 — {u['org'][:16]} · {u['course'][:24]}")
+            elif u["st"] == "run" and 0 <= (u["end"] - today).days <= 7:
+                acts[ROLE["run"]].append(f"이번 주 종료 {u['end']:%m.%d} — {u['org'][:16]} 이수통보 준비")
+        for r in recs:  # 모집 경보: 신청 기간 중 신청률 낮은 사업
+            rs, re_ = _d(r.get("recruitStart")), _d(r.get("recruitEnd"))
+            tgt, app = _won(r.get("targetCount")), _won(r.get("appliedCount"))
+            if rs and re_ and rs <= today <= re_ and tgt:
+                el = max((today - rs).days, 0) / max((re_ - rs).days, 1)
+                if app / tgt < el * 0.7:
+                    acts["2셀 영업"].append(f"모집 부진 {app}/{tgt}명(기간 {el * 100:.0f}% 경과) — {str(r.get('org') or '')[:16]}")
+    box = "".join(f"<div style='flex:1;min-width:260px;border:1px solid var(--border);border-radius:8px;padding:10px 12px;'><b>{E(k)}</b> <span class='fit'>{len(v)}건</span>"
+                  f"<ul style='margin:6px 0 0 16px;padding:0;font-size:12.5px;line-height:1.6;'>{''.join(f'<li>{E(x)}</li>' for x in v[:6])}</ul></div>" for k, v in acts.items()) \
+        or "<p class='tt-note'>이번 주 역할별로 처리할 경보가 없습니다.</p>"
+    Lr = [r for r in (M or {}).get("learn", []) if r.get("ret")]
+    ret = " → ".join(f"{r['y']} {r['ret'] * 100:.0f}%" for r in Lr)
+    conv = (f"<h4>① 단체연수 → 개인 재수강 전환</h4><p style='font-size:13px;margin:4px 0;'>재수강률(최소치): {ret or '-'} </p>"
+            "<p class='tt-note'>전환율(단체 이수 교사 중 다음 해 개인 결제 비율)은 학사 이수 명단(월 1회, 개인정보 가림)을 받으면 이 칸에 자동 계산됩니다. 연동 전까지는 연도별 재수강률만 표시합니다.</p>")
+    return sec("역할별 이번 주 실행 알림 · 재수강 전환 (대표 전용)", "정산 지연·이번 주 종료·모집 부진을 역할별로 묶었습니다. 담당자 실명·메일은 저장하지 않으며, 대응표를 주시면 메일 초안으로 만들 수 있습니다.",
+               "<div style='display:flex;gap:10px;flex-wrap:wrap;'>" + box + "</div>" + conv)
