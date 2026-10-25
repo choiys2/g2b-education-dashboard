@@ -558,7 +558,7 @@ def build_weekly(sec, M=None, pipe=None, today=None):
                f"<textarea id='{tid}' readonly style='width:100%;min-height:220px;font:13px/1.7 inherit;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--ink);'>{E(txt)}</textarea>"
                f"<button type='button' onclick=\"navigator.clipboard.writeText(document.getElementById('{tid}').value);this.textContent='복사됨';\" "
                "style='margin-top:8px;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-weight:700;'>초안 복사</button>"
-               "<p class='tt-note'>보고 양식 파일(Word·한글)을 주시면 그 양식 그대로 채운 파일을 내려받게 바꿀 수 있습니다.</p>")
+               "<p class='tt-note'>주간보고(코워크) 형식에 맞춰 항목 순서를 조정할 수 있습니다.</p>")
 
 
 # ---------------------------------------------------------------- ①⑤ 재수강 전환 · 역할별 실행 알림
@@ -590,5 +590,5 @@ def build_roles(sec, M=None, pipe=None, today=None):
     ret = " → ".join(f"{r['y']} {r['ret'] * 100:.0f}%" for r in Lr)
     conv = (f"<h4>① 단체연수 → 개인 재수강 전환</h4><p style='font-size:13px;margin:4px 0;'>재수강률(최소치): {ret or '-'} </p>"
             "<p class='tt-note'>전환율(단체 이수 교사 중 다음 해 개인 결제 비율)은 학사 이수 명단(월 1회, 개인정보 가림)을 받으면 이 칸에 자동 계산됩니다. 연동 전까지는 연도별 재수강률만 표시합니다.</p>")
-    return sec("역할별 이번 주 실행 알림 · 재수강 전환 (대표 전용)", "정산 지연·이번 주 종료·모집 부진을 역할별로 묶었습니다. 담당자 실명·메일은 저장하지 않으며, 대응표를 주시면 메일 초안으로 만들 수 있습니다.",
+    return sec("역할별 이번 주 실행 알림 · 재수강 전환 (대표 전용)", "정산 지연·이번 주 종료·모집 부진을 역할별로 묶었습니다. 담당자 실명은 저장하지 않습니다.",
                "<div style='display:flex;gap:10px;flex-wrap:wrap;'>" + box + "</div>" + conv)
