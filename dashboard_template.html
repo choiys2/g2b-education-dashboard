@@ -5509,7 +5509,7 @@ function planSimInit(root){
     el.querySelector('[data-sim-out]').innerHTML = '<table><thead><tr><th>결과</th><th class="num">시나리오</th><th class="num">계획</th></tr></thead><tbody>'
       + row('매출', eok(r.rev), eok(base.rev)) + row('매출총이익률', (r.gp / r.rev * 100 || 0).toFixed(1) + '%', (base.gp / base.rev * 100).toFixed(1) + '%')
       + row('판관비', eok(r.sga), eok(base.sga)) + row('영업이익', eok(r.op), eok(base.op), r.op < 0)
-      + row('B2G 비중', (x.b2g / r.rev * 100 || 0).toFixed(0) + '%', (P.b2g / base.rev * 100).toFixed(0) + '%', x.b2g / r.rev > 0.4)
+      + row('B2G 비중(단체+위탁)', ((x.b2s + x.b2g) / r.rev * 100 || 0).toFixed(0) + '%', ((P.b2s + P.b2g) / base.rev * 100).toFixed(0) + '%', (x.b2s + x.b2g) / r.rev > (P.b2s + P.b2g) / base.rev + 0.005)
       + row('1인당 매출', eok(r.rev / Math.max(x.heads, 1)), eok(base.rev / P.heads))
       + row('필요 ROAS(B2C 증분 ÷ 광고비)', roas.toFixed(1) + '배', ((P.b2c - P.b2c_prev) / P.ad).toFixed(1) + '배')
       + '</tbody></table><p style="margin:10px 0 0;font-size:13px;"><b>그래서</b> '
