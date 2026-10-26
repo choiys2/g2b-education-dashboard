@@ -1,0 +1,22 @@
+name: 몰 구조 점검(일회성)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["mall_probe.py", ".github/workflows/mall_probe.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - run: python mall_probe.py
