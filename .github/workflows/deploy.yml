@@ -18,6 +18,8 @@ on:
     paths-ignore:
       - "briefings/**"
       - ".github/workflows/smoke.yml"   # 점검 워크플로만 바뀐 푸시는 재배포하지 않음
+      - ".github/workflows/mall_probe.yml"
+      - "mall_probe.py"
 
 permissions:
   contents: write
