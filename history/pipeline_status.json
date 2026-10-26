@@ -1,6 +1,6 @@
 {
  "date": "2026-10-25",
- "sheet_tab": "26운영DT(10/23)",
+ "sheet_tab": "26운영DT(10/26)",
  "gid": "274729463",
  "header_row": 1,
  "matched_headers": [
@@ -30,7 +30,7 @@
  "tried": [
   {
    "gid": "274729463",
-   "tab": "26운영DT(10/23)",
+   "tab": "26운영DT(10/26)",
    "matched": 18,
    "rows": 87
   }

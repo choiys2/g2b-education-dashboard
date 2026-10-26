@@ -1,5 +1,5 @@
 {
- "at": "2026-10-26 06:31",
+ "at": "2026-10-26 08:50",
  "places": 323,
  "by_region": {
   "서울": 30,
@@ -20,7 +20,5 @@
   "경남": 25,
   "제주": 22
  },
- "errors": [
-  "서울 수련원: <urlopen error _ssl.c:993: The handshake operation timed out>"
- ]
+ "errors": []
 }
