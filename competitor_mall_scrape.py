@@ -133,7 +133,7 @@ def scrape_teachermall(page):
     links = page.eval_on_selector_all("a[href]", "els => els.map(a => [a.innerText.trim().replace(/\\s+/g,' '), a.href])")
     # 상단 추천 검색어(학교폭력·독서활동 등): 앞쪽 짧은 링크 중 검색·기획전으로 가는 것
     for t, hr in links[:80]:
-        if 1 < len(t) <= 12 and ("search_text=" in hr or "event_view" in hr) and t not in res["keywords"]:
+        if 1 < len(t) <= 12 and not t.isdigit() and ("search_text=" in hr or "event_view" in hr) and t not in res["keywords"]:
             res["keywords"].append(t)
     cats = {}
     for t, hr in links:

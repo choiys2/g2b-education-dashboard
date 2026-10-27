@@ -401,6 +401,8 @@ def main():
         "content_gap": content_gap.build(new_courses["courses"], new_courses["rows"], "비바샘연수원"),
         # 아이스크림·티처빌 결합상품(연수+도서·교구·이용권·상품)
         "bundles": __import__("bundle_products").build(),
+        # 교사몰(티처몰) 카테고리·베스트·신상품·세트 + 자사 과정 ↔ 인기 상품 짝짓기
+        "mall": __import__("mall_trends").build(new_courses["courses"].get("비바샘연수원", [])),
     }
 
     # 입찰공고 최근 12개월 -> 초·중·고 연수 주제 수요와 2027 개발 추천(나라장터 종합 탭)
