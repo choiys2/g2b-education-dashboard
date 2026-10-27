@@ -1,0 +1,3194 @@
+{
+ "captured_date": "2026-10-27",
+ "malls": {
+  "teachermall": {
+   "name": "티처몰",
+   "operator": "테크빌교육",
+   "url": "https://shop.teacherville.co.kr",
+   "status": "ok",
+   "best": [
+    {
+     "no": "983882",
+     "name": "[티처몰ONLY] 랄라설쌤의 편견지우개",
+     "price": 500,
+     "orig": 700,
+     "rank": 1,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1179872",
+     "name": "[티처몰ONLY] 점자블록 지우개",
+     "price": 1500,
+     "orig": null,
+     "rank": 2,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge04",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1210424",
+     "name": "[티처몰ONLY] AI NFC DIY CD키링만들기(1개입)",
+     "price": 1900,
+     "orig": 3800,
+     "rank": 3,
+     "score": null,
+     "badges": [
+      "badge04"
+     ]
+    },
+    {
+     "no": "1109973",
+     "name": "어린이 간식상자 선물 초콜릿 과자 세트 인기과자",
+     "price": 3000,
+     "orig": 4220,
+     "rank": 4,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1202850",
+     "name": "행사용 미니간식 소포장 학교 단체 간식 꾸러미 선물",
+     "price": 990,
+     "orig": 1300,
+     "rank": 5,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1122432",
+     "name": "[티처몰ONLY] 디지털 미디어 생활 (디지털 리터러시 교육 노트 1종)",
+     "price": 2000,
+     "orig": 2500,
+     "rank": 6,
+     "score": null,
+     "badges": [
+      "badge04",
+      "badge05"
+     ]
+    },
+    {
+     "no": "1210428",
+     "name": "[티처몰ONLY] AI NFC 미니북 키링 만들기(NFC 스티커 포함) ★ 바로 배송 ★",
+     "price": 2500,
+     "orig": 3200,
+     "rank": 7,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "921310",
+     "name": "[티처몰ONLY] 나의 아바타 만들기",
+     "price": 1500,
+     "orig": 2200,
+     "rank": 8,
+     "score": null,
+     "badges": [
+      "badge03",
+      "badge05"
+     ]
+    },
+    {
+     "no": "1093007",
+     "name": "[주문제작] 네임 컴퓨터용 사인펜 (문구인쇄 행사선물)",
+     "price": 600,
+     "orig": 1000,
+     "rank": 9,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1202853",
+     "name": "개별포장간식 예방교육 간식 구디백 답례품 과자선물 포장",
+     "price": 1080,
+     "orig": 1600,
+     "rank": 10,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1223413",
+     "name": "★기간한정 10% 할인★ 백설기 1구 키캡 클리커 만들기",
+     "price": 2700,
+     "orig": 3000,
+     "rank": 11,
+     "score": null,
+     "badges": [
+      "badge04",
+      "badge05"
+     ]
+    },
+    {
+     "no": "1169982",
+     "name": "어린이간식포장 생일 잔치 답례품 과자 구디백",
+     "price": 2740,
+     "orig": 3850,
+     "rank": 12,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1041457",
+     "name": "애플데이 사과모양 엽서 [ 특별한사과카드 ] 친구사랑주간 편지쓰기",
+     "price": 500,
+     "orig": 800,
+     "rank": 13,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1065961",
+     "name": "[티처몰ONLY] 편견가방",
+     "price": 700,
+     "orig": null,
+     "rank": 14,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1065945",
+     "name": "[티처몰ONLY] 마음 챙김 노트",
+     "price": 1800,
+     "orig": 2500,
+     "rank": 15,
+     "score": null,
+     "badges": [
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1099275",
+     "name": "하회탈 스티커",
+     "price": 2500,
+     "orig": null,
+     "rank": 16,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1097640",
+     "name": "[티처몰ONLY] 점자책갈피 세트(5종-옵션선택)",
+     "price": 1800,
+     "orig": 2500,
+     "rank": 17,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1097018",
+     "name": "[주문제작] 독도 네임 지우개 (문구인쇄 행사선물)",
+     "price": 800,
+     "orig": 1000,
+     "rank": 18,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1070781",
+     "name": "애플데이 사과그림 행사엽서 [ 구름카드 ] 학교행사 편지쓰기 친구사랑주간",
+     "price": 250,
+     "orig": 500,
+     "rank": 19,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1002047",
+     "name": "[학생선물]파스텔 볼펜 독일산 펜심 + 원하는 문구 인쇄 (30자루 부터 인쇄 됩니다.)",
+     "price": 900,
+     "orig": 1000,
+     "rank": 20,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1190582",
+     "name": "참잘했어요 주문제작 볼펜_무료인쇄(12개이상 구매시)",
+     "price": 690,
+     "orig": 1000,
+     "rank": 21,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1210427",
+     "name": "[티처몰ONLY] AI NFC 카세트 테이프 키링(1개입) / NFC 스티커 포함",
+     "price": 3800,
+     "orig": 4000,
+     "rank": 22,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1092521",
+     "name": "단체간식 선물 어린이날 운동회 학교행사 [ 한별간식 ] 중학생 고등학생 시험응원선물",
+     "price": 1100,
+     "orig": 1375,
+     "rank": 23,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1041072",
+     "name": "친구사랑주간 학폭예방 애플데이 사과데이 기념 [ 애플데이 맛있는사과볼펜 ]",
+     "price": 800,
+     "orig": 1300,
+     "rank": 24,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1215732",
+     "name": "★기간한정 10% 할인★ 마음 키캡 클리커 만들기",
+     "price": 3600,
+     "orig": 4000,
+     "rank": 25,
+     "score": null,
+     "badges": [
+      "badge04",
+      "badge05"
+     ]
+    },
+    {
+     "no": "916189",
+     "name": "[티처몰ONLY] 나만의 다용도 가림막[독서/집중/평가/설문/코로나예방 등]",
+     "price": 1600,
+     "orig": 2000,
+     "rank": 26,
+     "score": null,
+     "badges": [
+      "badge03",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1164296",
+     "name": "[티처몰ONLY] 반짝반짝 수어 키링 만들기",
+     "price": 2500,
+     "orig": null,
+     "rank": 27,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge04",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1064135",
+     "name": "중학교 고등학교 단체선물 [수정테이프] 학교행사 애플데이 크리스마스 졸업 시험 등 디자인선택",
+     "price": 1700,
+     "orig": 2200,
+     "rank": 28,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1124205",
+     "name": "[우리아이선물용품] 위클래스 친구 사랑 주간 학교 행사 간식 선물1호 [E01][무료라벨,선물포장]",
+     "price": 1000,
+     "orig": 1200,
+     "rank": 29,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1002054",
+     "name": "[학생선물] 뉴라바 3색볼펜 니들심+ 원하는 문구 인쇄 (소량 30자루부터 구매/인쇄 가능)",
+     "price": 1700,
+     "orig": 3000,
+     "rank": 30,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "919826",
+     "name": "[티처몰ONLY] 제이커스 종이 평화의 소녀상",
+     "price": 1800,
+     "orig": 2600,
+     "rank": 31,
+     "score": null,
+     "badges": [
+      "badge03",
+      "badge05"
+     ]
+    },
+    {
+     "no": "986788",
+     "name": "[티처몰ONLY] 배움 공책",
+     "price": 1800,
+     "orig": 2500,
+     "rank": 32,
+     "score": null,
+     "badges": [
+      "badge05"
+     ]
+    },
+    {
+     "no": "1079497",
+     "name": "[티처몰ONLY] 플로깅 교구",
+     "price": 6000,
+     "orig": 8500,
+     "rank": 33,
+     "score": null,
+     "badges": [
+      "badge04",
+      "badge06",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1215733",
+     "name": "★기간한정 10% 할인★ 대왕 무지 키캡 클리커 만들기",
+     "price": 5400,
+     "orig": 6000,
+     "rank": 34,
+     "score": null,
+     "badges": [
+      "badge04",
+      "badge05"
+     ]
+    },
+    {
+     "no": "1124199",
+     "name": "[우리아이선물용품]단체 간식 행사 한입 간식 선물6호 [E06][무료라벨,선물포장]",
+     "price": 1500,
+     "orig": 1700,
+     "rank": 35,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "929992",
+     "name": "[티처몰ONLY] 제이커스 DIY 종이 독립영웅 만들기",
+     "price": 2400,
+     "orig": 3400,
+     "rank": 36,
+     "score": null,
+     "badges": [
+      "badge03",
+      "badge05"
+     ]
+    },
+    {
+     "no": "1191172",
+     "name": "투명 스티커 압화 엽서 만들기(도안 제공)",
+     "price": 1500,
+     "orig": null,
+     "rank": 37,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1094839",
+     "name": "내 마음대로 자석 이름표 (8종 택1)",
+     "price": 1000,
+     "orig": null,
+     "rank": 38,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1184339",
+     "name": "과자선물세트 어린이 미니 간식 세트 단체 선물",
+     "price": 1800,
+     "orig": 2100,
+     "rank": 39,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1101739",
+     "name": "인기 간식 선물 과자 선생님 학급 칭찬 간식 구디백 세트",
+     "price": 3270,
+     "orig": 3700,
+     "rank": 40,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1041542",
+     "name": "파티콘 애플데이 사과데이 친구사랑 엽서 사과별빛카드 i159",
+     "price": 300,
+     "orig": 400,
+     "rank": 41,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1002049",
+     "name": "[학생선물] 심플 3색볼펜 니들심 + 원하는 문구 인쇄 (소량 30자루부터 구매/인쇄 가능)",
+     "price": 1800,
+     "orig": 3000,
+     "rank": 42,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1141530",
+     "name": "따뜻한 수어 한마디 스티커",
+     "price": 1000,
+     "orig": null,
+     "rank": 43,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1222248",
+     "name": "★기간한정 10% 할인★ 초성 키캡 클리커 만들기",
+     "price": 4500,
+     "orig": 5000,
+     "rank": 44,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1113923",
+     "name": "[훈민정화] 한글 초성 색칠하기 엽서 세트",
+     "price": 2000,
+     "orig": 3500,
+     "rank": 45,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1102282",
+     "name": "[티처몰ONLY] 내가 그리는 스마트톡",
+     "price": 1000,
+     "orig": null,
+     "rank": 46,
+     "score": null,
+     "badges": [
+      "badge03"
+     ]
+    },
+    {
+     "no": "898042",
+     "name": "[티처몰ONLY] 제이커스 DIY 전통제본 노트 만들기",
+     "price": 2200,
+     "orig": 3000,
+     "rank": 47,
+     "score": null,
+     "badges": [
+      "badge03",
+      "badge04",
+      "badge05"
+     ]
+    },
+    {
+     "no": "1225928",
+     "name": "환경교육 반려식물 이오난사 테라리움 만들기 (교육자료 제공)",
+     "price": 4900,
+     "orig": 5700,
+     "rank": 48,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1112876",
+     "name": "[아트필드] 기획 필기구 필통세트 (문구세트) - 30334",
+     "price": 4200,
+     "orig": 7000,
+     "rank": 49,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1132182",
+     "name": "[슈퍼쌤]동시집 만들기 스크랩북 (무코팅, 5P)",
+     "price": 1600,
+     "orig": 1800,
+     "rank": 50,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1087454",
+     "name": "[삼원] 칼라 멀티 테이프 (18mm/25mm/40mm 택1) - 40706",
+     "price": 1800,
+     "orig": 2300,
+     "rank": 51,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1033176",
+     "name": "[티처몰ONLY] 글똥누기 수첩",
+     "price": 1700,
+     "orig": 2000,
+     "rank": 52,
+     "score": null,
+     "badges": [
+      "badge05"
+     ]
+    },
+    {
+     "no": "1215731",
+     "name": "★기간한정 10% 할인★ MBTI 키캡 클리커 만들기",
+     "price": 4050,
+     "orig": 4500,
+     "rank": 53,
+     "score": null,
+     "badges": [
+      "badge04",
+      "badge05"
+     ]
+    },
+    {
+     "no": "983108",
+     "name": "[티처몰ONLY] 책과 놀아요 노트 (독서록/독서노트)",
+     "price": 2000,
+     "orig": 2500,
+     "rank": 54,
+     "score": null,
+     "badges": [
+      "badge05"
+     ]
+    },
+    {
+     "no": "1216345",
+     "name": "[티처몰ONLY] 함께 행복한 모두의 마을",
+     "price": 2000,
+     "orig": 2500,
+     "rank": 55,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge04",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "966086",
+     "name": "[펠트친구] 독도팔찌 만들기",
+     "price": 1500,
+     "orig": null,
+     "rank": 56,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1108523",
+     "name": "[아이비스] 영어노트",
+     "price": 710,
+     "orig": 1000,
+     "rank": 57,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1246114",
+     "name": "[슈퍼쌤x픽미쌤] 독도 계기교육 보석십자수 4종",
+     "price": 2800,
+     "orig": 3500,
+     "rank": 58,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1198644",
+     "name": "[티처몰ONLY] 신호등 4색볼펜",
+     "price": 2000,
+     "orig": 2500,
+     "rank": 59,
+     "score": null,
+     "badges": [
+      "badge07"
+     ]
+    },
+    {
+     "no": "1110733",
+     "name": "[유니] 제트스트림 SXN-150-05 유성볼펜 / 0.5mm",
+     "price": 1490,
+     "orig": 1800,
+     "rank": 60,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1167962",
+     "name": "[하하당] 독도 보석십자수 키링 (3종 택1)",
+     "price": 1900,
+     "orig": 3000,
+     "rank": 61,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1210426",
+     "name": "[티처몰ONLY] AI NFC LP 키링 ★ 바로 배송 ★",
+     "price": 2600,
+     "orig": 3000,
+     "rank": 62,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1215425",
+     "name": "1500 미니 캡슐 수정테이프 1개 랜덤 - 알약형태 그립감 깔끔 학교 학원 달란트 마켓데이",
+     "price": 900,
+     "orig": 1500,
+     "rank": 63,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1212337",
+     "name": "국산과자로만 단체 간식 선물세트2 (라벨무료/선물포장/오예스 마가렛트 마이쮸 약과 6종)",
+     "price": 2500,
+     "orig": 3000,
+     "rank": 64,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1199678",
+     "name": "[하하당] 손으로 말해요 수어 파우치",
+     "price": 2200,
+     "orig": 4000,
+     "rank": 65,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1165507",
+     "name": "[티처몰ONLY] 반짝반짝 수어 스마트톡 만들기",
+     "price": 2500,
+     "orig": null,
+     "rank": 66,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge04",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1091241",
+     "name": "[아모스] 유니스 수정테이프 (수정테이프/리필 택1) - 40938",
+     "price": 1700,
+     "orig": 2500,
+     "rank": 67,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "879679",
+     "name": "[모나미] 트윈 컴퓨터용펜 예감적중 A+ ( 볼펜 + 마킹펜 ) ( 수량 선택 )",
+     "price": 560,
+     "orig": 700,
+     "rank": 68,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1191579",
+     "name": "[티처몰ONLY] 인공지능윤리탐구카드",
+     "price": 9500,
+     "orig": 10000,
+     "rank": 69,
+     "score": null,
+     "badges": [
+      "badge05"
+     ]
+    },
+    {
+     "no": "1166272",
+     "name": "독도사랑 보석십자수 키링",
+     "price": 2800,
+     "orig": null,
+     "rank": 70,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1002207",
+     "name": "[펠트친구] 독도사랑 가방장식고리 만들기",
+     "price": 2800,
+     "orig": null,
+     "rank": 71,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1108375",
+     "name": "[모나미] 바우하우스 연필 (삼각&육각지우개연필/삼각연필) - 46629",
+     "price": 4100,
+     "orig": 5900,
+     "rank": 72,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1117499",
+     "name": "롤링페이퍼 L홀더(3종택1)",
+     "price": 900,
+     "orig": null,
+     "rank": 73,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "973158",
+     "name": "DIY 창의 달력 만들기",
+     "price": 2000,
+     "orig": 2500,
+     "rank": 74,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1033145",
+     "name": "[티처몰ONLY]택교수의 단어통장 공책 (저학년용,고학년용)",
+     "price": 2700,
+     "orig": 3000,
+     "rank": 75,
+     "score": null,
+     "badges": [
+      "badge05"
+     ]
+    },
+    {
+     "no": "1181010",
+     "name": "매직포켓 실과 준비물 연습용 천 기초바느질 연습세트",
+     "price": 1600,
+     "orig": 2100,
+     "rank": 76,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1154760",
+     "name": "[아이디몬] PVC 부채 타원 소 - 56605",
+     "price": 500,
+     "orig": 1000,
+     "rank": 77,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "991623",
+     "name": "간식 중고생 시험 단체행사 [ 봄봄간식선물 ] 간식포장 선물",
+     "price": 1700,
+     "orig": 2125,
+     "rank": 78,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "734305",
+     "name": "[학생선물] 뉴라바 3색볼펜 니들심 + 원하는 문구 인쇄 (소량 30자루부터 구매/인쇄 가능)",
+     "price": 1700,
+     "orig": 3000,
+     "rank": 79,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "981703",
+     "name": "[티처몰ONLY] 알파벳 노트 ABCyo / 영어공책",
+     "price": 1000,
+     "orig": 1400,
+     "rank": 80,
+     "score": null,
+     "badges": [
+      "badge05"
+     ]
+    },
+    {
+     "no": "938128",
+     "name": "[티처몰ONLY] 매일매일 배움노트",
+     "price": 1800,
+     "orig": 2500,
+     "rank": 81,
+     "score": null,
+     "badges": [
+      "badge05"
+     ]
+    },
+    {
+     "no": "1134517",
+     "name": "사랑과 감사의 어버이날 스마트톡(2인용)",
+     "price": 1700,
+     "orig": null,
+     "rank": 82,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1142679",
+     "name": "친구사랑 L홀더",
+     "price": 900,
+     "orig": null,
+     "rank": 83,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1124006",
+     "name": "[하하당] 전통 자개 노리개 (6종 택1)",
+     "price": 1700,
+     "orig": 2800,
+     "rank": 84,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1079793",
+     "name": "애플데이 행사 친구사랑주간 엽서 카드 [ 사과카드 ] 봉투포함 . 학교이름인쇄",
+     "price": 300,
+     "orig": 500,
+     "rank": 85,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1114880",
+     "name": "[수학사랑]데카르트 좌표평면(점착메모지)",
+     "price": 2000,
+     "orig": null,
+     "rank": 86,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1075437",
+     "name": "수원화성엽서2매세트_정조,정약용,팔달문_수원#041",
+     "price": 2000,
+     "orig": null,
+     "rank": 87,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1064240",
+     "name": "내마음대로 삼각조명등",
+     "price": 2500,
+     "orig": null,
+     "rank": 88,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1161664",
+     "name": "[아이비스] 한문노트 (색상선택)",
+     "price": 800,
+     "orig": 1000,
+     "rank": 89,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1199418",
+     "name": "[티처몰ONLY] 판정개입금지, 그럴 수 있어 피구공",
+     "price": 26000,
+     "orig": null,
+     "rank": 90,
+     "score": null,
+     "badges": [
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1241204",
+     "name": "2027년 투명 전체 달력 만들기",
+     "price": 2000,
+     "orig": 2500,
+     "rank": 91,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1223073",
+     "name": "[매직북스] 마약 약물중독 예방 흡연예방 4컷 만화 메시지 연필 세트",
+     "price": 1000,
+     "orig": null,
+     "rank": 92,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1222133",
+     "name": "자존감 아크릴 키링 만들기 (인성, 긍정)",
+     "price": 1200,
+     "orig": null,
+     "rank": 93,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1198339",
+     "name": "[꼬삔샵] 단체선물 러블리 점착메모지 (학교행사.체육대회.독서.애플데이)",
+     "price": 1200,
+     "orig": 2000,
+     "rank": 94,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1180308",
+     "name": "과자파티 학교 간식 선물 세트 소포장 과자 구디백",
+     "price": 2850,
+     "orig": 3820,
+     "rank": 95,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1178084",
+     "name": "[하하당] 전통 자개 스트랩 키링",
+     "price": 1400,
+     "orig": 2200,
+     "rank": 96,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1135983",
+     "name": "학교 학급 중학교 단체 행사 간식 과자 선물 꾸러미",
+     "price": 3600,
+     "orig": 4800,
+     "rank": 97,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1132920",
+     "name": "위클래스 애플데이 친구사랑주간 행사 [노랑사과볼펜]",
+     "price": 800,
+     "orig": 1300,
+     "rank": 98,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1114659",
+     "name": "[슈퍼쌤] 애플데이 친구사랑카드",
+     "price": 400,
+     "orig": 1000,
+     "rank": 99,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1112004",
+     "name": "[티처몰ONLY]학교폭력 예방 지우개",
+     "price": 500,
+     "orig": 700,
+     "rank": 100,
+     "score": null,
+     "badges": [
+      "badge05",
+      "badge07"
+     ]
+    }
+   ],
+   "categories": [
+    {
+     "code": "00010001",
+     "name": "과목별교구",
+     "count": 9807,
+     "top": [
+      {
+       "no": "1199418",
+       "name": "[티처몰ONLY] 판정개입금지, 그럴 수 있어 피구공",
+       "price": 26000,
+       "orig": null,
+       "rank": null,
+       "score": 90.0309,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1124123",
+       "name": "[티처몰ONLY] 마음챙김 만들기 노트",
+       "price": 3500,
+       "orig": null,
+       "rank": null,
+       "score": 86.878044,
+       "badges": [
+        "badge03",
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1142619",
+       "name": "[티처몰ONLY] 편의점에 간 구구단 (곱셈구구 카드)",
+       "price": 14000,
+       "orig": 18000,
+       "rank": null,
+       "score": 86.87532,
+       "badges": [
+        "badge04",
+        "badge05"
+       ]
+      },
+      {
+       "no": "983882",
+       "name": "[티처몰ONLY] 랄라설쌤의 편견지우개",
+       "price": 500,
+       "orig": 700,
+       "rank": null,
+       "score": 86.8646,
+       "badges": [
+        "badge02",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1114681",
+       "name": "[설민석의 오감한국사 x 티처몰ONLY] 인간 안중근과 태극기 만들기 세트(2차시 분량, 30명 세트)",
+       "price": 49000,
+       "orig": 120000,
+       "rank": null,
+       "score": 86.69906,
+       "badges": [
+        "badge01",
+        "badge03",
+        "badge04"
+       ]
+      },
+      {
+       "no": "921310",
+       "name": "[티처몰ONLY] 나의 아바타 만들기",
+       "price": 1500,
+       "orig": 2200,
+       "rank": null,
+       "score": 86.637184,
+       "badges": [
+        "badge03",
+        "badge05"
+       ]
+      },
+      {
+       "no": "965474",
+       "name": "[티처몰ONLY] 종이 독도모형 만들기",
+       "price": 3800,
+       "orig": 5500,
+       "rank": null,
+       "score": 86.55697,
+       "badges": [
+        "badge03",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "919826",
+       "name": "[티처몰ONLY] 제이커스 종이 평화의 소녀상",
+       "price": 1800,
+       "orig": 2600,
+       "rank": null,
+       "score": 86.546165,
+       "badges": [
+        "badge03",
+        "badge05"
+       ]
+      },
+      {
+       "no": "1112811",
+       "name": "[티처몰ONLY]독도마블 보드게임(강치를 찾아라!)",
+       "price": 25000,
+       "orig": 30000,
+       "rank": null,
+       "score": 86.47996,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1137841",
+       "name": "[티처몰ONLY]임신과 출산 성교육 보드게임",
+       "price": 25000,
+       "orig": null,
+       "rank": null,
+       "score": 86.398445,
+       "badges": [
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1144521",
+       "name": "[티처몰ONLY]제2외국어 날짜 변경 도장 (중국어, 일본어)",
+       "price": 23000,
+       "orig": 25000,
+       "rank": null,
+       "score": 86.17647,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "916189",
+       "name": "[티처몰ONLY] 나만의 다용도 가림막[독서/집중/평가/설문/코로나예방 등]",
+       "price": 1600,
+       "orig": 2000,
+       "rank": null,
+       "score": 85.88362,
+       "badges": [
+        "badge03",
+        "badge05",
+        "badge07"
+       ]
+      }
+     ]
+    },
+    {
+     "code": "00010002",
+     "name": "코딩/VR",
+     "count": 592,
+     "top": [
+      {
+       "no": "1167993",
+       "name": "[티처몰ONLY] VR수업 퍼펙트 패키지 [실속형]",
+       "price": 850000,
+       "orig": 900000,
+       "rank": null,
+       "score": 86.69901,
+       "badges": [
+        "badge04",
+        "badge05"
+       ]
+      },
+      {
+       "no": "948908",
+       "name": "[1인][메이크랩] 종이회로 메이커키트",
+       "price": 3500,
+       "orig": 11200,
+       "rank": null,
+       "score": 83.89575,
+       "badges": [
+        "badge03"
+       ]
+      },
+      {
+       "no": "948907",
+       "name": "[1인][메이크랩] 웜기어 메이커키트",
+       "price": 4500,
+       "orig": 16800,
+       "rank": null,
+       "score": 83.80794,
+       "badges": [
+        "badge03"
+       ]
+      },
+      {
+       "no": "982190",
+       "name": "[1인][메이크랩] 캐터펄트 투석기 메이커키트",
+       "price": 3500,
+       "orig": 11200,
+       "rank": null,
+       "score": 83.69161,
+       "badges": [
+        "badge03"
+       ]
+      },
+      {
+       "no": "998794",
+       "name": "[티처몰ONLY] AI 마블 히스토리 스테이션",
+       "price": 33000,
+       "orig": 63000,
+       "rank": null,
+       "score": 83.374016,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "992265",
+       "name": "[1인][메이크랩] 지켜라 패키지(교과연계메이커키트)",
+       "price": 9000,
+       "orig": 33600,
+       "rank": null,
+       "score": 83.35044,
+       "badges": [
+        "badge03"
+       ]
+      },
+      {
+       "no": "1051134",
+       "name": "[1인][메이크랩] 풍속측정기 / 해킹스템메이커키트",
+       "price": 5500,
+       "orig": 8500,
+       "rank": null,
+       "score": 83.23452,
+       "badges": [
+        "badge03"
+       ]
+      },
+      {
+       "no": "978627",
+       "name": "[1인][메이크랩] 스틱맨마리오네트 메이커키트",
+       "price": 3500,
+       "orig": 14000,
+       "rank": null,
+       "score": 83.212456,
+       "badges": [
+        "badge03"
+       ]
+      },
+      {
+       "no": "1051133",
+       "name": "[1인][메이크랩] 지진측정기 / 해킹스템메이커키트",
+       "price": 4000,
+       "orig": 11500,
+       "rank": null,
+       "score": 83.187805,
+       "badges": [
+        "badge03"
+       ]
+      },
+      {
+       "no": "934916",
+       "name": "마비로이드",
+       "price": 11000,
+       "orig": 22000,
+       "rank": null,
+       "score": 83.03383,
+       "badges": [
+        "badge03"
+       ]
+      },
+      {
+       "no": "1197761",
+       "name": "[티처몰플러스] 디지털 보조도구 보관가방(휴대폰 수납 가방)",
+       "price": 36000,
+       "orig": 45000,
+       "rank": null,
+       "score": 82.98273,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "919722",
+       "name": "메이크코드&마인크래프트 에듀케이션 에디션 입문편",
+       "price": 8550,
+       "orig": 19000,
+       "rank": null,
+       "score": 82.97359,
+       "badges": []
+      }
+     ]
+    },
+    {
+     "code": "00010003",
+     "name": "학급운영",
+     "count": 29426,
+     "top": [
+      {
+       "no": "1199418",
+       "name": "[티처몰ONLY] 판정개입금지, 그럴 수 있어 피구공",
+       "price": 26000,
+       "orig": null,
+       "rank": null,
+       "score": 90.0309,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1210356",
+       "name": "[티처몰ONLY] 마음이 머무는 손그림 현수막 12종",
+       "price": 6500,
+       "orig": null,
+       "rank": null,
+       "score": 87.69898,
+       "badges": []
+      },
+      {
+       "no": "1213004",
+       "name": "[티처몰ONLY] [교크협x티처몰] 선생님이 고른 우리 반 현수막 16종",
+       "price": 6500,
+       "orig": null,
+       "rank": null,
+       "score": 87.698975,
+       "badges": []
+      },
+      {
+       "no": "1213730",
+       "name": "[티처몰ONLY] [몽당분필x티처몰] 환경미화 올인원 현수막 7종",
+       "price": 6500,
+       "orig": null,
+       "rank": null,
+       "score": 87.698975,
+       "badges": []
+      },
+      {
+       "no": "1124123",
+       "name": "[티처몰ONLY] 마음챙김 만들기 노트",
+       "price": 3500,
+       "orig": null,
+       "rank": null,
+       "score": 86.878044,
+       "badges": [
+        "badge03",
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1142619",
+       "name": "[티처몰ONLY] 편의점에 간 구구단 (곱셈구구 카드)",
+       "price": 14000,
+       "orig": 18000,
+       "rank": null,
+       "score": 86.87532,
+       "badges": [
+        "badge04",
+        "badge05"
+       ]
+      },
+      {
+       "no": "983882",
+       "name": "[티처몰ONLY] 랄라설쌤의 편견지우개",
+       "price": 500,
+       "orig": 700,
+       "rank": null,
+       "score": 86.8646,
+       "badges": [
+        "badge02",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1114681",
+       "name": "[설민석의 오감한국사 x 티처몰ONLY] 인간 안중근과 태극기 만들기 세트(2차시 분량, 30명 세트)",
+       "price": 49000,
+       "orig": 120000,
+       "rank": null,
+       "score": 86.69906,
+       "badges": [
+        "badge01",
+        "badge03",
+        "badge04"
+       ]
+      },
+      {
+       "no": "1079497",
+       "name": "[티처몰ONLY] 플로깅 교구",
+       "price": 6000,
+       "orig": 8500,
+       "rank": null,
+       "score": 86.43592,
+       "badges": [
+        "badge04",
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1137438",
+       "name": "[티처몰PLUS] 북극곰이 위험해! 주문제작 지우개(대)",
+       "price": 1000,
+       "orig": 1250,
+       "rank": null,
+       "score": 86.40273,
+       "badges": [
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1137444",
+       "name": "[티처몰PLUS] 북극곰이 위험해! 주문제작 지우개(소)",
+       "price": 900,
+       "orig": 1125,
+       "rank": null,
+       "score": 86.39954,
+       "badges": [
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1144521",
+       "name": "[티처몰ONLY]제2외국어 날짜 변경 도장 (중국어, 일본어)",
+       "price": 23000,
+       "orig": 25000,
+       "rank": null,
+       "score": 86.17647,
+       "badges": [
+        "badge05"
+       ]
+      }
+     ]
+    },
+    {
+     "code": "00010004",
+     "name": "창의만들기",
+     "count": 18970,
+     "top": [
+      {
+       "no": "921310",
+       "name": "[티처몰ONLY] 나의 아바타 만들기",
+       "price": 1500,
+       "orig": 2200,
+       "rank": null,
+       "score": 86.637184,
+       "badges": [
+        "badge03",
+        "badge05"
+       ]
+      },
+      {
+       "no": "965474",
+       "name": "[티처몰ONLY] 종이 독도모형 만들기",
+       "price": 3800,
+       "orig": 5500,
+       "rank": null,
+       "score": 86.55697,
+       "badges": [
+        "badge03",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "919826",
+       "name": "[티처몰ONLY] 제이커스 종이 평화의 소녀상",
+       "price": 1800,
+       "orig": 2600,
+       "rank": null,
+       "score": 86.546165,
+       "badges": [
+        "badge03",
+        "badge05"
+       ]
+      },
+      {
+       "no": "898042",
+       "name": "[티처몰ONLY] 제이커스 DIY 전통제본 노트 만들기",
+       "price": 2200,
+       "orig": 3000,
+       "rank": null,
+       "score": 85.849174,
+       "badges": [
+        "badge03",
+        "badge04",
+        "badge05"
+       ]
+      },
+      {
+       "no": "929992",
+       "name": "[티처몰ONLY] 제이커스 DIY 종이 독립영웅 만들기",
+       "price": 2400,
+       "orig": 3400,
+       "rank": null,
+       "score": 85.22855,
+       "badges": [
+        "badge03",
+        "badge05"
+       ]
+      },
+      {
+       "no": "1164296",
+       "name": "[티처몰ONLY] 반짝반짝 수어 키링 만들기",
+       "price": 2500,
+       "orig": null,
+       "rank": null,
+       "score": 84.62697,
+       "badges": [
+        "badge02",
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1165507",
+       "name": "[티처몰ONLY] 반짝반짝 수어 스마트톡 만들기",
+       "price": 2500,
+       "orig": null,
+       "rank": null,
+       "score": 84.245415,
+       "badges": [
+        "badge02",
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1176579",
+       "name": "[티처몰ONLY] 어서와, 바느질은 처음이지? (기초바느질교구)",
+       "price": 3500,
+       "orig": 4000,
+       "rank": null,
+       "score": 83.78469,
+       "badges": [
+        "badge03",
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1171687",
+       "name": "[티처몰ONLY] 픽미쌤의 겨울 협동화",
+       "price": 7500,
+       "orig": 8000,
+       "rank": null,
+       "score": 83.62695,
+       "badges": [
+        "badge04",
+        "badge05"
+       ]
+      },
+      {
+       "no": "1064523",
+       "name": "[티처몰ONLY]우리반 필수템 만들기 키트 \"림키트\" 시리즈 8종(설명지&활동지)",
+       "price": 1750,
+       "orig": 4500,
+       "rank": null,
+       "score": 83.40841,
+       "badges": [
+        "badge03",
+        "badge05"
+       ]
+      },
+      {
+       "no": "1180895",
+       "name": "[티처몰ONLY] 픽미쌤의 사계절 협동화",
+       "price": 30000,
+       "orig": null,
+       "rank": null,
+       "score": 83.02979,
+       "badges": [
+        "badge04",
+        "badge05"
+       ]
+      },
+      {
+       "no": "973158",
+       "name": "DIY 창의 달력 만들기",
+       "price": 2000,
+       "orig": 2500,
+       "rank": null,
+       "score": 5.370561,
+       "badges": []
+      }
+     ]
+    },
+    {
+     "code": "00010005",
+     "name": "보드게임",
+     "count": 1643,
+     "top": [
+      {
+       "no": "1112811",
+       "name": "[티처몰ONLY]독도마블 보드게임(강치를 찾아라!)",
+       "price": 25000,
+       "orig": 30000,
+       "rank": null,
+       "score": 86.47996,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1137841",
+       "name": "[티처몰ONLY]임신과 출산 성교육 보드게임",
+       "price": 25000,
+       "orig": null,
+       "rank": null,
+       "score": 86.398445,
+       "badges": [
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1179257",
+       "name": "[티처몰ONLY] 스피드딩동 SDGs",
+       "price": 18000,
+       "orig": 20000,
+       "rank": null,
+       "score": 85.702,
+       "badges": [
+        "badge07"
+       ]
+      },
+      {
+       "no": "930128",
+       "name": "[티처몰ONLY] 품사칠래말래 / 공모전대상작",
+       "price": 18000,
+       "orig": 25200,
+       "rank": null,
+       "score": 85.016495,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "986390",
+       "name": "[티처몰ONLY] 북한말 맞히기 놀이감 보드게임",
+       "price": 13000,
+       "orig": null,
+       "rank": null,
+       "score": 84.34303,
+       "badges": [
+        "badge07"
+       ]
+      },
+      {
+       "no": "922272",
+       "name": "[티처몰ONLY] 체인지메이커 프로젝트 설계카드",
+       "price": 16800,
+       "orig": 24000,
+       "rank": null,
+       "score": 84.32245,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1080295",
+       "name": "[티처몰ONLY] 아트마블(미술사) 보드게임",
+       "price": 30000,
+       "orig": 38000,
+       "rank": null,
+       "score": 84.24603,
+       "badges": [
+        "badge04",
+        "badge05"
+       ]
+      },
+      {
+       "no": "1074417",
+       "name": "[티처몰ONLY] 나란히 나란히 문장성분 보드게임",
+       "price": 35000,
+       "orig": 45000,
+       "rank": null,
+       "score": 84.23707,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "930672",
+       "name": "[티처몰ONLY] [보드게임] 탑빙고 / 공모전최우수상작",
+       "price": 24000,
+       "orig": 29000,
+       "rank": null,
+       "score": 84.19496,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "761125",
+       "name": "진로교육 보드게임 드림스텝",
+       "price": 29800,
+       "orig": 45000,
+       "rank": null,
+       "score": 84.10894,
+       "badges": []
+      },
+      {
+       "no": "1102159",
+       "name": "[티처몰ONLY] 통통투어(통일로 통하는 투어_윷놀이 보드게임)",
+       "price": 20000,
+       "orig": 25000,
+       "rank": null,
+       "score": 84.069336,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1173974",
+       "name": "[티처몰ONLY] 장애이해 메모리카드",
+       "price": 9000,
+       "orig": 10000,
+       "rank": null,
+       "score": 83.94057,
+       "badges": [
+        "badge02",
+        "badge05",
+        "badge07"
+       ]
+      }
+     ]
+    },
+    {
+     "code": "00010007",
+     "name": "문구/사무",
+     "count": 30744,
+     "top": [
+      {
+       "no": "1199418",
+       "name": "[티처몰ONLY] 판정개입금지, 그럴 수 있어 피구공",
+       "price": 26000,
+       "orig": null,
+       "rank": null,
+       "score": 90.0309,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1172954",
+       "name": "[티처몰ONLY] 바른글씨 교정 워크북",
+       "price": 2000,
+       "orig": null,
+       "rank": null,
+       "score": 86.90959,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1124123",
+       "name": "[티처몰ONLY] 마음챙김 만들기 노트",
+       "price": 3500,
+       "orig": null,
+       "rank": null,
+       "score": 86.878044,
+       "badges": [
+        "badge03",
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "983882",
+       "name": "[티처몰ONLY] 랄라설쌤의 편견지우개",
+       "price": 500,
+       "orig": 700,
+       "rank": null,
+       "score": 86.8646,
+       "badges": [
+        "badge02",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1114681",
+       "name": "[설민석의 오감한국사 x 티처몰ONLY] 인간 안중근과 태극기 만들기 세트(2차시 분량, 30명 세트)",
+       "price": 49000,
+       "orig": 120000,
+       "rank": null,
+       "score": 86.69906,
+       "badges": [
+        "badge01",
+        "badge03",
+        "badge04"
+       ]
+      },
+      {
+       "no": "1243605",
+       "name": "★예약판매 - [티처몰ONLY] 하루 5분 사회정서 성장노트",
+       "price": 2500,
+       "orig": null,
+       "rank": null,
+       "score": 86.69898,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "986788",
+       "name": "[티처몰ONLY] 배움 공책",
+       "price": 1800,
+       "orig": 2500,
+       "rank": null,
+       "score": 85.91126,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "980097",
+       "name": "[티처몰ONLY] 다했어요 노트",
+       "price": 1800,
+       "orig": 2500,
+       "rank": null,
+       "score": 85.85669,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "983108",
+       "name": "[티처몰ONLY] 책과 놀아요 노트 (독서록/독서노트)",
+       "price": 2000,
+       "orig": 2500,
+       "rank": null,
+       "score": 85.806526,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1179872",
+       "name": "[티처몰ONLY] 점자블록 지우개",
+       "price": 1500,
+       "orig": null,
+       "rank": null,
+       "score": 85.64563,
+       "badges": [
+        "badge02",
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1065945",
+       "name": "[티처몰ONLY] 마음 챙김 노트",
+       "price": 1800,
+       "orig": 2500,
+       "rank": null,
+       "score": 85.48102,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1033176",
+       "name": "[티처몰ONLY] 글똥누기 수첩",
+       "price": 1700,
+       "orig": 2000,
+       "rank": null,
+       "score": 85.35472,
+       "badges": [
+        "badge05"
+       ]
+      }
+     ]
+    },
+    {
+     "code": "00010081",
+     "name": "쌤특가",
+     "count": 5790,
+     "top": [
+      {
+       "no": "1056637",
+       "name": "먹지 말고 손에 양보하는 핫팩",
+       "price": null,
+       "orig": 450,
+       "rank": null,
+       "score": 3.7814682,
+       "badges": []
+      },
+      {
+       "no": "1037806",
+       "name": "스마트 온도계 텀블러 500ml",
+       "price": 7800,
+       "orig": 24000,
+       "rank": null,
+       "score": 3.7131543,
+       "badges": []
+      },
+      {
+       "no": "994833",
+       "name": "[티처몰/키즈몰] ★이벤트★ 1+1 에이미래빗 텀블러 320mL",
+       "price": null,
+       "orig": 19800,
+       "rank": null,
+       "score": 3.2229764,
+       "badges": []
+      },
+      {
+       "no": "1171491",
+       "name": "국내 생산 마이 프렌즈 대용량 포켓 핫팩 손난로 100g",
+       "price": null,
+       "orig": 600,
+       "rank": null,
+       "score": 3.2203696,
+       "badges": []
+      },
+      {
+       "no": "1171492",
+       "name": "국내 생산 솔저 프렌즈 대용량 군용 포켓 핫팩 손난로 150g",
+       "price": null,
+       "orig": 790,
+       "rank": null,
+       "score": 3.1541195,
+       "badges": []
+      },
+      {
+       "no": "1170715",
+       "name": "일우 핸들러 LED 휴대용 전기 손난로 보조배터리 충전식 10000mAh 양면발열",
+       "price": null,
+       "orig": 50000,
+       "rank": null,
+       "score": 2.952308,
+       "badges": []
+      },
+      {
+       "no": "1184471",
+       "name": "커네틱 C타입 이어폰 CDE-711 갤럭시 아이폰 이어폰",
+       "price": null,
+       "orig": 19900,
+       "rank": null,
+       "score": 2.9299295,
+       "badges": []
+      },
+      {
+       "no": "1048814",
+       "name": "[맞춤제작] 내맘대로 주문 제작 스마트 온도계 텀블러 500ml",
+       "price": 9800,
+       "orig": 22000,
+       "rank": null,
+       "score": 2.8842287,
+       "badges": []
+      },
+      {
+       "no": "1203914",
+       "name": "[꼬삔샵] 애플데이 애벌레 사과 카드 (친구사랑주간.학교행사)",
+       "price": 700,
+       "orig": 1000,
+       "rank": null,
+       "score": 2.8169038,
+       "badges": []
+      },
+      {
+       "no": "1121345",
+       "name": "더페이스샵 fmgt.N프로살롱큐티클정리기",
+       "price": 1100,
+       "orig": 1500,
+       "rank": null,
+       "score": 2.813581,
+       "badges": []
+      },
+      {
+       "no": "1171496",
+       "name": "국내 생산 프렌즈 슈즈 깔창 핫팩 발난로 발핫팩 여성용",
+       "price": null,
+       "orig": 900,
+       "rank": null,
+       "score": 2.7641761,
+       "badges": []
+      },
+      {
+       "no": "1065326",
+       "name": "카시오페이아 딥보이스 어학 헤드셋 ST-UDY400",
+       "price": null,
+       "orig": 29670,
+       "rank": null,
+       "score": 2.7041504,
+       "badges": []
+      }
+     ]
+    },
+    {
+     "code": "00010084",
+     "name": "간식/선물",
+     "count": 23810,
+     "top": [
+      {
+       "no": "983882",
+       "name": "[티처몰ONLY] 랄라설쌤의 편견지우개",
+       "price": 500,
+       "orig": 700,
+       "rank": null,
+       "score": 86.8646,
+       "badges": [
+        "badge02",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1137438",
+       "name": "[티처몰PLUS] 북극곰이 위험해! 주문제작 지우개(대)",
+       "price": 1000,
+       "orig": 1250,
+       "rank": null,
+       "score": 86.40273,
+       "badges": [
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1137444",
+       "name": "[티처몰PLUS] 북극곰이 위험해! 주문제작 지우개(소)",
+       "price": 900,
+       "orig": 1125,
+       "rank": null,
+       "score": 86.39954,
+       "badges": [
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1121840",
+       "name": "[티처몰PLUS]마음을 담은 스탬프♡",
+       "price": 13250,
+       "orig": 19000,
+       "rank": null,
+       "score": 85.181076,
+       "badges": []
+      },
+      {
+       "no": "1040004",
+       "name": "[티처몰 ONLY] 랄라설쌤의 편견을 싹둑싹둑 편견가위",
+       "price": 3000,
+       "orig": 4200,
+       "rank": null,
+       "score": 84.963745,
+       "badges": [
+        "badge02",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1112004",
+       "name": "[티처몰ONLY]학교폭력 예방 지우개",
+       "price": 500,
+       "orig": 700,
+       "rank": null,
+       "score": 84.84099,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "931611",
+       "name": "[티처몰ONLY] 하리쌤의 동물칭찬도장",
+       "price": 7500,
+       "orig": 10000,
+       "rank": null,
+       "score": 84.67625,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1063902",
+       "name": "[티처몰 ONLY] 편견이 사라지는 문구세트",
+       "price": 7200,
+       "orig": null,
+       "rank": null,
+       "score": 84.65683,
+       "badges": [
+        "badge02",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1132097",
+       "name": "친환경 폐플라스틱 업사이클 하트 키링(학교폭력예방)",
+       "price": 7000,
+       "orig": null,
+       "rank": null,
+       "score": 84.6157,
+       "badges": [
+        "badge04",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1103537",
+       "name": "[티처몰ONLY] 생각 지우개 (재난 재해, 기후 위기, 학교 폭력)",
+       "price": 500,
+       "orig": 700,
+       "rank": null,
+       "score": 84.60316,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "930127",
+       "name": "[티처몰ONLY] 티처몰 큐티 날짜변경 확인도장 R-532D",
+       "price": 23000,
+       "orig": 25000,
+       "rank": null,
+       "score": 84.43967,
+       "badges": []
+      },
+      {
+       "no": "1065961",
+       "name": "[티처몰ONLY] 편견가방",
+       "price": 700,
+       "orig": null,
+       "rank": null,
+       "score": 84.25686,
+       "badges": [
+        "badge02",
+        "badge07"
+       ]
+      }
+     ]
+    },
+    {
+     "code": "00010093",
+     "name": "생태전환교육",
+     "count": 831,
+     "top": [
+      {
+       "no": "1079497",
+       "name": "[티처몰ONLY] 플로깅 교구",
+       "price": 6000,
+       "orig": 8500,
+       "rank": null,
+       "score": 86.43592,
+       "badges": [
+        "badge04",
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1137438",
+       "name": "[티처몰PLUS] 북극곰이 위험해! 주문제작 지우개(대)",
+       "price": 1000,
+       "orig": 1250,
+       "rank": null,
+       "score": 86.40273,
+       "badges": [
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1137444",
+       "name": "[티처몰PLUS] 북극곰이 위험해! 주문제작 지우개(소)",
+       "price": 900,
+       "orig": 1125,
+       "rank": null,
+       "score": 86.39954,
+       "badges": [
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1179257",
+       "name": "[티처몰ONLY] 스피드딩동 SDGs",
+       "price": 18000,
+       "orig": 20000,
+       "rank": null,
+       "score": 85.702,
+       "badges": [
+        "badge07"
+       ]
+      },
+      {
+       "no": "1132097",
+       "name": "친환경 폐플라스틱 업사이클 하트 키링(학교폭력예방)",
+       "price": 7000,
+       "orig": null,
+       "rank": null,
+       "score": 84.6157,
+       "badges": [
+        "badge04",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1140530",
+       "name": "[티처몰ONLY] 지구를 구하는 공책(초등 전학년용)",
+       "price": 1800,
+       "orig": 2200,
+       "rank": null,
+       "score": 84.23328,
+       "badges": [
+        "badge01",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1184170",
+       "name": "[티처몰ONLY] '구해줘 어스' 기후위기 보드게임 (SDGs)",
+       "price": 45000,
+       "orig": 50000,
+       "rank": null,
+       "score": 83.93455,
+       "badges": [
+        "badge04",
+        "badge05",
+        "badge06",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1131954",
+       "name": "친환경 폐플라스틱 업사이클 하트 북마크(학교폭력예방)",
+       "price": 5000,
+       "orig": null,
+       "rank": null,
+       "score": 83.68043,
+       "badges": [
+        "badge04",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1103809",
+       "name": "[티처몰ONLY] 환경의날 환경 보호 캠페인 어깨띠",
+       "price": 16000,
+       "orig": 25000,
+       "rank": null,
+       "score": 83.42177,
+       "badges": [
+        "badge06"
+       ]
+      },
+      {
+       "no": "1103807",
+       "name": "[티처몰ONLY] 환경의날 환경 보호 캠페인 피켓",
+       "price": 32000,
+       "orig": 42000,
+       "rank": null,
+       "score": 83.07225,
+       "badges": [
+        "badge06"
+       ]
+      },
+      {
+       "no": "1103745",
+       "name": "[티처몰ONLY] 환경의날 환경 보호 캠페인 현수막",
+       "price": 36000,
+       "orig": 46000,
+       "rank": null,
+       "score": 82.35411,
+       "badges": [
+        "badge06"
+       ]
+      },
+      {
+       "no": "1215036",
+       "name": "[티처몰ONLY] ★SEL 생명존중보드게임★ '생명이를 구해라'",
+       "price": 30000,
+       "orig": null,
+       "rank": null,
+       "score": 81.85126,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      }
+     ]
+    },
+    {
+     "code": "00010098",
+     "name": "교과서 준비물",
+     "count": null,
+     "top": []
+    },
+    {
+     "code": "00010108",
+     "name": "AI교구",
+     "count": null,
+     "top": []
+    },
+    {
+     "code": "00010109",
+     "name": "체험 프로그램",
+     "count": 225,
+     "top": [
+      {
+       "no": "1214992",
+       "name": "[찾아가는 교실체험] 만능 AI 크리에이터 과정 (+강사파견포함)",
+       "price": 27000,
+       "orig": 27500,
+       "rank": null,
+       "score": 4.03866,
+       "badges": []
+      },
+      {
+       "no": "1210034",
+       "name": "교실에서 직접 경험하는 융합과학체험 (전문 과학인 참여)",
+       "price": 350000,
+       "orig": 500000,
+       "rank": null,
+       "score": 3.6990569,
+       "badges": []
+      },
+      {
+       "no": "1210033",
+       "name": "교실에서 직접 경험하는 진로직업체험 (전문 직업인 강사 수업 진행)",
+       "price": 350000,
+       "orig": 500000,
+       "rank": null,
+       "score": 3.653309,
+       "badges": []
+      },
+      {
+       "no": "1225259",
+       "name": "자개 레진 반지(전문 강사 파견)",
+       "price": 35000,
+       "orig": null,
+       "rank": null,
+       "score": 3.0004342,
+       "badges": []
+      },
+      {
+       "no": "1223709",
+       "name": "나만의 스탬프 만들기(전문 강사 파견)",
+       "price": 10000,
+       "orig": null,
+       "rank": null,
+       "score": 2.87564,
+       "badges": []
+      },
+      {
+       "no": "1225420",
+       "name": "김치 담그기 (+전문강사파견)",
+       "price": 23000,
+       "orig": null,
+       "rank": null,
+       "score": 2.87564,
+       "badges": []
+      },
+      {
+       "no": "1225549",
+       "name": "곰돌이 카드지갑 (어린이용) 공예전문가 체험교실 (+전문강사파견)",
+       "price": 18000,
+       "orig": null,
+       "rank": null,
+       "score": 2.87564,
+       "badges": []
+      },
+      {
+       "no": "1224641",
+       "name": "3D펜 아트(전문 강사 파견)",
+       "price": 30000,
+       "orig": null,
+       "rank": null,
+       "score": 2.6998377,
+       "badges": []
+      },
+      {
+       "no": "1225372",
+       "name": "샌드아트 체험(+전문강사파견)",
+       "price": 14000,
+       "orig": null,
+       "rank": null,
+       "score": 2.6998377,
+       "badges": []
+      },
+      {
+       "no": "1225080",
+       "name": "갓 모양 자개키링 만들기 (+전문강사파견)",
+       "price": 20000,
+       "orig": null,
+       "rank": null,
+       "score": 2.6998377,
+       "badges": []
+      },
+      {
+       "no": "1215647",
+       "name": "[어나더컴퍼니] 시뮬레이션 진로캠프_수상한 스튜디오 (*전문강사파견)",
+       "price": 450000,
+       "orig": null,
+       "rank": null,
+       "score": 2.6998377,
+       "badges": []
+      },
+      {
+       "no": "1223711",
+       "name": "슈링클스 공예(전문 강사 파견)",
+       "price": 10000,
+       "orig": null,
+       "rank": null,
+       "score": 2.6998377,
+       "badges": []
+      }
+     ]
+    },
+    {
+     "code": "00010110",
+     "name": "사회정서학습",
+     "count": 367,
+     "top": [
+      {
+       "no": "1124123",
+       "name": "[티처몰ONLY] 마음챙김 만들기 노트",
+       "price": 3500,
+       "orig": null,
+       "rank": null,
+       "score": 228111480000000.0,
+       "badges": [
+        "badge03",
+        "badge04",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1243605",
+       "name": "★예약판매 - [티처몰ONLY] 하루 5분 사회정서 성장노트",
+       "price": 2500,
+       "orig": null,
+       "rank": null,
+       "score": 100005600000000.0,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1065945",
+       "name": "[티처몰ONLY] 마음 챙김 노트",
+       "price": 1800,
+       "orig": 2500,
+       "rank": null,
+       "score": 366521250000.0,
+       "badges": [
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "981759",
+       "name": "[티처몰ONLY] 제이커스 성장일기 /매일매일 성찰, 배움, 감사 일기장",
+       "price": 5500,
+       "orig": 7700,
+       "rank": null,
+       "score": 179420020000.0,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1094984",
+       "name": "[티처몰ONLY] 학생자치공책",
+       "price": 1800,
+       "orig": 2200,
+       "rank": null,
+       "score": 33025792000.0,
+       "badges": [
+        "badge01",
+        "badge05"
+       ]
+      },
+      {
+       "no": "1051203",
+       "name": "[티처몰ONLY] 영근쌤의 스스로 하는 토론공책",
+       "price": 1800,
+       "orig": 2500,
+       "rank": null,
+       "score": 27872303000.0,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1041457",
+       "name": "애플데이 사과모양 엽서 [ 특별한사과카드 ] 친구사랑주간 편지쓰기",
+       "price": 500,
+       "orig": 800,
+       "rank": null,
+       "score": 25510478000.0,
+       "badges": []
+      },
+      {
+       "no": "1008096",
+       "name": "친구사랑 캘리엽서(4종 택1)",
+       "price": 1500,
+       "orig": null,
+       "rank": null,
+       "score": 9204484000.0,
+       "badges": []
+      },
+      {
+       "no": "1117499",
+       "name": "롤링페이퍼 L홀더(3종택1)",
+       "price": 900,
+       "orig": null,
+       "rank": null,
+       "score": 8981352000.0,
+       "badges": []
+      },
+      {
+       "no": "1167964",
+       "name": "신개념 롤링페이퍼",
+       "price": 1500,
+       "orig": null,
+       "rank": null,
+       "score": 7359924000.0,
+       "badges": []
+      },
+      {
+       "no": "1142679",
+       "name": "친구사랑 L홀더",
+       "price": 900,
+       "orig": null,
+       "rank": null,
+       "score": 6336160000.0,
+       "badges": []
+      },
+      {
+       "no": "1173906",
+       "name": "[티처몰ONLY] 친구관계 갈등해결 워크북(학교폭력예방)",
+       "price": 1800,
+       "orig": 2000,
+       "rank": null,
+       "score": 6313892000.0,
+       "badges": [
+        "badge03",
+        "badge05",
+        "badge07"
+       ]
+      }
+     ]
+    },
+    {
+     "code": "00010111",
+     "name": "도서",
+     "count": 506279,
+     "top": [
+      {
+       "no": "983108",
+       "name": "[티처몰ONLY] 책과 놀아요 노트 (독서록/독서노트)",
+       "price": 2000,
+       "orig": 2500,
+       "rank": null,
+       "score": 85.806526,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1097640",
+       "name": "[티처몰ONLY] 점자책갈피 세트(5종-옵션선택)",
+       "price": 1800,
+       "orig": 2500,
+       "rank": null,
+       "score": 85.50216,
+       "badges": [
+        "badge02",
+        "badge05",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1089840",
+       "name": "[티처몰ONLY] 독서 영수증 노트 2종 (기본편, 심화편)",
+       "price": 2500,
+       "orig": 3000,
+       "rank": null,
+       "score": 85.08986,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1131954",
+       "name": "친환경 폐플라스틱 업사이클 하트 북마크(학교폭력예방)",
+       "price": 5000,
+       "orig": null,
+       "rank": null,
+       "score": 83.68043,
+       "badges": [
+        "badge04",
+        "badge07"
+       ]
+      },
+      {
+       "no": "1110665",
+       "name": "[티처몰ONLY]독서달리기 게시판 현수막",
+       "price": 8000,
+       "orig": null,
+       "rank": null,
+       "score": 82.29226,
+       "badges": [
+        "badge05"
+       ]
+      },
+      {
+       "no": "1224575",
+       "name": "[티처몰ONLY] 독서 글쓰기 패키지",
+       "price": 52000,
+       "orig": 66500,
+       "rank": null,
+       "score": 80.0,
+       "badges": []
+      },
+      {
+       "no": "1063010",
+       "name": "스티커책갈피만들기(6종 택1)",
+       "price": 1500,
+       "orig": null,
+       "rank": null,
+       "score": 5.0496287,
+       "badges": []
+      },
+      {
+       "no": "1049818",
+       "name": "[단품] 글입다 읽으면서 기록하는 독서기록장, 독중감 라이트 4종",
+       "price": 3200,
+       "orig": 4000,
+       "rank": null,
+       "score": 4.757176,
+       "badges": []
+      },
+      {
+       "no": "1102972",
+       "name": "압화스티커 책갈피 만들기",
+       "price": 1800,
+       "orig": null,
+       "rank": null,
+       "score": 4.7446136,
+       "badges": []
+      },
+      {
+       "no": "1131952",
+       "name": "친환경 폐플라스틱 업사이클 하트 북마크(환경보호)",
+       "price": 5000,
+       "orig": null,
+       "rank": null,
+       "score": 4.596608,
+       "badges": [
+        "badge04"
+       ]
+      },
+      {
+       "no": "978474",
+       "name": "독서질문카드",
+       "price": 22000,
+       "orig": null,
+       "rank": null,
+       "score": 4.5304685,
+       "badges": []
+      },
+      {
+       "no": "984812",
+       "name": "[펠트친구] 책만들기 무지 화이트 스크랩북 [1762]",
+       "price": 1250,
+       "orig": null,
+       "rank": null,
+       "score": 4.4771357,
+       "badges": []
+      }
+     ]
+    }
+   ],
+   "new_menu": [],
+   "sets": [
+    {
+     "no": "1114681",
+     "name": "[설민석의 오감한국사 x 티처몰ONLY] 인간 안중근과 태극기 만들기 세트(2차시 분량, 30명 세트)",
+     "price": 49000,
+     "orig": 120000,
+     "rank": null,
+     "score": 86.69906,
+     "badges": [
+      "badge01",
+      "badge03",
+      "badge04"
+     ]
+    },
+    {
+     "no": "1167993",
+     "name": "[티처몰ONLY] VR수업 퍼펙트 패키지 [실속형]",
+     "price": 850000,
+     "orig": 900000,
+     "rank": null,
+     "score": 86.69901,
+     "badges": [
+      "badge04",
+      "badge05"
+     ]
+    },
+    {
+     "no": "948908",
+     "name": "[1인][메이크랩] 종이회로 메이커키트",
+     "price": 3500,
+     "orig": 11200,
+     "rank": null,
+     "score": 83.89575,
+     "badges": [
+      "badge03"
+     ]
+    },
+    {
+     "no": "948907",
+     "name": "[1인][메이크랩] 웜기어 메이커키트",
+     "price": 4500,
+     "orig": 16800,
+     "rank": null,
+     "score": 83.80794,
+     "badges": [
+      "badge03"
+     ]
+    },
+    {
+     "no": "982190",
+     "name": "[1인][메이크랩] 캐터펄트 투석기 메이커키트",
+     "price": 3500,
+     "orig": 11200,
+     "rank": null,
+     "score": 83.69161,
+     "badges": [
+      "badge03"
+     ]
+    },
+    {
+     "no": "992265",
+     "name": "[1인][메이크랩] 지켜라 패키지(교과연계메이커키트)",
+     "price": 9000,
+     "orig": 33600,
+     "rank": null,
+     "score": 83.35044,
+     "badges": [
+      "badge03"
+     ]
+    },
+    {
+     "no": "1051134",
+     "name": "[1인][메이크랩] 풍속측정기 / 해킹스템메이커키트",
+     "price": 5500,
+     "orig": 8500,
+     "rank": null,
+     "score": 83.23452,
+     "badges": [
+      "badge03"
+     ]
+    },
+    {
+     "no": "978627",
+     "name": "[1인][메이크랩] 스틱맨마리오네트 메이커키트",
+     "price": 3500,
+     "orig": 14000,
+     "rank": null,
+     "score": 83.212456,
+     "badges": [
+      "badge03"
+     ]
+    },
+    {
+     "no": "1051133",
+     "name": "[1인][메이크랩] 지진측정기 / 해킹스템메이커키트",
+     "price": 4000,
+     "orig": 11500,
+     "rank": null,
+     "score": 83.187805,
+     "badges": [
+      "badge03"
+     ]
+    },
+    {
+     "no": "1064523",
+     "name": "[티처몰ONLY]우리반 필수템 만들기 키트 \"림키트\" 시리즈 8종(설명지&활동지)",
+     "price": 1750,
+     "orig": 4500,
+     "rank": null,
+     "score": 83.40841,
+     "badges": [
+      "badge03",
+      "badge05"
+     ]
+    },
+    {
+     "no": "1063902",
+     "name": "[티처몰 ONLY] 편견이 사라지는 문구세트",
+     "price": 7200,
+     "orig": null,
+     "rank": null,
+     "score": 84.65683,
+     "badges": [
+      "badge02",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1097640",
+     "name": "[티처몰ONLY] 점자책갈피 세트(5종-옵션선택)",
+     "price": 1800,
+     "orig": 2500,
+     "rank": 17,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge05",
+      "badge07"
+     ]
+    },
+    {
+     "no": "1224575",
+     "name": "[티처몰ONLY] 독서 글쓰기 패키지",
+     "price": 52000,
+     "orig": 66500,
+     "rank": null,
+     "score": 80.0,
+     "badges": []
+    },
+    {
+     "no": "1109973",
+     "name": "어린이 간식상자 선물 초콜릿 과자 세트 인기과자",
+     "price": 3000,
+     "orig": 4220,
+     "rank": 4,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1202850",
+     "name": "행사용 미니간식 소포장 학교 단체 간식 꾸러미 선물",
+     "price": 990,
+     "orig": 1300,
+     "rank": 5,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1210427",
+     "name": "[티처몰ONLY] AI NFC 카세트 테이프 키링(1개입) / NFC 스티커 포함",
+     "price": 3800,
+     "orig": 4000,
+     "rank": 22,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1184339",
+     "name": "과자선물세트 어린이 미니 간식 세트 단체 선물",
+     "price": 1800,
+     "orig": 2100,
+     "rank": 39,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1101739",
+     "name": "인기 간식 선물 과자 선생님 학급 칭찬 간식 구디백 세트",
+     "price": 3270,
+     "orig": 3700,
+     "rank": 40,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1113923",
+     "name": "[훈민정화] 한글 초성 색칠하기 엽서 세트",
+     "price": 2000,
+     "orig": 3500,
+     "rank": 45,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1112876",
+     "name": "[아트필드] 기획 필기구 필통세트 (문구세트) - 30334",
+     "price": 4200,
+     "orig": 7000,
+     "rank": 49,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1212337",
+     "name": "국산과자로만 단체 간식 선물세트2 (라벨무료/선물포장/오예스 마가렛트 마이쮸 약과 6종)",
+     "price": 2500,
+     "orig": 3000,
+     "rank": 64,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1181010",
+     "name": "매직포켓 실과 준비물 연습용 천 기초바느질 연습세트",
+     "price": 1600,
+     "orig": 2100,
+     "rank": 76,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1075437",
+     "name": "수원화성엽서2매세트_정조,정약용,팔달문_수원#041",
+     "price": 2000,
+     "orig": null,
+     "rank": 87,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1223073",
+     "name": "[매직북스] 마약 약물중독 예방 흡연예방 4컷 만화 메시지 연필 세트",
+     "price": 1000,
+     "orig": null,
+     "rank": 92,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1180308",
+     "name": "과자파티 학교 간식 선물 세트 소포장 과자 구디백",
+     "price": 2850,
+     "orig": 3820,
+     "rank": 95,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1135983",
+     "name": "학교 학급 중학교 단체 행사 간식 과자 선물 꾸러미",
+     "price": 3600,
+     "orig": 4800,
+     "rank": 97,
+     "score": null,
+     "badges": []
+    }
+   ],
+   "keywords": [
+    "학교폭력",
+    "독서활동",
+    "기초학력",
+    "nfc",
+    "도장",
+    "키캡",
+    "왁스",
+    "1193082"
+   ]
+  },
+  "iscream": {
+   "name": "아이스크림몰",
+   "operator": "아이스크림미디어",
+   "url": "https://i-screammall.co.kr/",
+   "status": "수집 불가",
+   "note": "해외 서버 접속 차단(ERR_CONNECTION_RESET at https://i-scream)"
+  }
+ },
+ "seen": {
+  "1199418": "2026-10-27",
+  "1124123": "2026-10-27",
+  "1142619": "2026-10-27",
+  "983882": "2026-10-27",
+  "1114681": "2026-10-27",
+  "921310": "2026-10-27",
+  "965474": "2026-10-27",
+  "919826": "2026-10-27",
+  "1112811": "2026-10-27",
+  "1137841": "2026-10-27",
+  "1144521": "2026-10-27",
+  "916189": "2026-10-27",
+  "1167993": "2026-10-27",
+  "948908": "2026-10-27",
+  "948907": "2026-10-27",
+  "982190": "2026-10-27",
+  "998794": "2026-10-27",
+  "992265": "2026-10-27",
+  "1051134": "2026-10-27",
+  "978627": "2026-10-27",
+  "1051133": "2026-10-27",
+  "934916": "2026-10-27",
+  "1197761": "2026-10-27",
+  "919722": "2026-10-27",
+  "1210356": "2026-10-27",
+  "1213004": "2026-10-27",
+  "1213730": "2026-10-27",
+  "1079497": "2026-10-27",
+  "1137438": "2026-10-27",
+  "1137444": "2026-10-27",
+  "898042": "2026-10-27",
+  "929992": "2026-10-27",
+  "1164296": "2026-10-27",
+  "1165507": "2026-10-27",
+  "1176579": "2026-10-27",
+  "1171687": "2026-10-27",
+  "1064523": "2026-10-27",
+  "1180895": "2026-10-27",
+  "973158": "2026-10-27",
+  "1179257": "2026-10-27",
+  "930128": "2026-10-27",
+  "986390": "2026-10-27",
+  "922272": "2026-10-27",
+  "1080295": "2026-10-27",
+  "1074417": "2026-10-27",
+  "930672": "2026-10-27",
+  "761125": "2026-10-27",
+  "1102159": "2026-10-27",
+  "1173974": "2026-10-27",
+  "1172954": "2026-10-27",
+  "1243605": "2026-10-27",
+  "986788": "2026-10-27",
+  "980097": "2026-10-27",
+  "983108": "2026-10-27",
+  "1179872": "2026-10-27",
+  "1065945": "2026-10-27",
+  "1033176": "2026-10-27",
+  "1056637": "2026-10-27",
+  "1037806": "2026-10-27",
+  "994833": "2026-10-27",
+  "1171491": "2026-10-27",
+  "1171492": "2026-10-27",
+  "1170715": "2026-10-27",
+  "1184471": "2026-10-27",
+  "1048814": "2026-10-27",
+  "1203914": "2026-10-27",
+  "1121345": "2026-10-27",
+  "1171496": "2026-10-27",
+  "1065326": "2026-10-27",
+  "1121840": "2026-10-27",
+  "1040004": "2026-10-27",
+  "1112004": "2026-10-27",
+  "931611": "2026-10-27",
+  "1063902": "2026-10-27",
+  "1132097": "2026-10-27",
+  "1103537": "2026-10-27",
+  "930127": "2026-10-27",
+  "1065961": "2026-10-27",
+  "1140530": "2026-10-27",
+  "1184170": "2026-10-27",
+  "1131954": "2026-10-27",
+  "1103809": "2026-10-27",
+  "1103807": "2026-10-27",
+  "1103745": "2026-10-27",
+  "1215036": "2026-10-27",
+  "1214992": "2026-10-27",
+  "1210034": "2026-10-27",
+  "1210033": "2026-10-27",
+  "1225259": "2026-10-27",
+  "1223709": "2026-10-27",
+  "1225420": "2026-10-27",
+  "1225549": "2026-10-27",
+  "1224641": "2026-10-27",
+  "1225372": "2026-10-27",
+  "1225080": "2026-10-27",
+  "1215647": "2026-10-27",
+  "1223711": "2026-10-27",
+  "981759": "2026-10-27",
+  "1094984": "2026-10-27",
+  "1051203": "2026-10-27",
+  "1041457": "2026-10-27",
+  "1008096": "2026-10-27",
+  "1117499": "2026-10-27",
+  "1167964": "2026-10-27",
+  "1142679": "2026-10-27",
+  "1173906": "2026-10-27",
+  "1097640": "2026-10-27",
+  "1089840": "2026-10-27",
+  "1110665": "2026-10-27",
+  "1224575": "2026-10-27",
+  "1063010": "2026-10-27",
+  "1049818": "2026-10-27",
+  "1102972": "2026-10-27",
+  "1131952": "2026-10-27",
+  "978474": "2026-10-27",
+  "984812": "2026-10-27",
+  "1210424": "2026-10-27",
+  "1109973": "2026-10-27",
+  "1202850": "2026-10-27",
+  "1122432": "2026-10-27",
+  "1210428": "2026-10-27",
+  "1093007": "2026-10-27",
+  "1202853": "2026-10-27",
+  "1223413": "2026-10-27",
+  "1169982": "2026-10-27",
+  "1099275": "2026-10-27",
+  "1097018": "2026-10-27",
+  "1070781": "2026-10-27",
+  "1002047": "2026-10-27",
+  "1190582": "2026-10-27",
+  "1210427": "2026-10-27",
+  "1092521": "2026-10-27",
+  "1041072": "2026-10-27",
+  "1215732": "2026-10-27",
+  "1064135": "2026-10-27",
+  "1124205": "2026-10-27",
+  "1002054": "2026-10-27",
+  "1215733": "2026-10-27",
+  "1124199": "2026-10-27",
+  "1191172": "2026-10-27",
+  "1094839": "2026-10-27",
+  "1184339": "2026-10-27",
+  "1101739": "2026-10-27",
+  "1041542": "2026-10-27",
+  "1002049": "2026-10-27",
+  "1141530": "2026-10-27",
+  "1222248": "2026-10-27",
+  "1113923": "2026-10-27",
+  "1102282": "2026-10-27",
+  "1225928": "2026-10-27",
+  "1112876": "2026-10-27",
+  "1132182": "2026-10-27",
+  "1087454": "2026-10-27",
+  "1215731": "2026-10-27",
+  "1216345": "2026-10-27",
+  "966086": "2026-10-27",
+  "1108523": "2026-10-27",
+  "1246114": "2026-10-27",
+  "1198644": "2026-10-27",
+  "1110733": "2026-10-27",
+  "1167962": "2026-10-27",
+  "1210426": "2026-10-27",
+  "1215425": "2026-10-27",
+  "1212337": "2026-10-27",
+  "1199678": "2026-10-27",
+  "1091241": "2026-10-27",
+  "879679": "2026-10-27",
+  "1191579": "2026-10-27",
+  "1166272": "2026-10-27",
+  "1002207": "2026-10-27",
+  "1108375": "2026-10-27",
+  "1033145": "2026-10-27",
+  "1181010": "2026-10-27",
+  "1154760": "2026-10-27",
+  "991623": "2026-10-27",
+  "734305": "2026-10-27",
+  "981703": "2026-10-27",
+  "938128": "2026-10-27",
+  "1134517": "2026-10-27",
+  "1124006": "2026-10-27",
+  "1079793": "2026-10-27",
+  "1114880": "2026-10-27",
+  "1075437": "2026-10-27",
+  "1064240": "2026-10-27",
+  "1161664": "2026-10-27",
+  "1241204": "2026-10-27",
+  "1223073": "2026-10-27",
+  "1222133": "2026-10-27",
+  "1198339": "2026-10-27",
+  "1180308": "2026-10-27",
+  "1178084": "2026-10-27",
+  "1135983": "2026-10-27",
+  "1132920": "2026-10-27",
+  "1114659": "2026-10-27"
+ }
+}
