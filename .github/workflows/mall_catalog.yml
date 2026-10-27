@@ -1,0 +1,32 @@
+name: 교사몰 상품 동향 수집
+
+on:
+  schedule:
+    - cron: "30 20 * * 0"   # 매주 월요일 05:30 KST - 06:00 대시보드 배포 전에 끝나도록
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      # 공개 목록만, robots.txt 허용 경로만 연다(스크립트가 실행 때마다 재확인).
+      - name: 티처몰 상품 동향 수집(아이스크림몰은 접속 상태만 기록)
+        run: python competitor_mall_scrape.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          touch history/competitor_mall_new.jsonl
+          git add history/competitor_mall_catalog.json history/competitor_mall_new.jsonl
+          git diff --cached --quiet || git commit -m "chore: 교사몰 상품 동향 수집 $(date -u +%F)"
+          git pull --rebase origin main
+          git push
