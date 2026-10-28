@@ -3,7 +3,8 @@
 양식은 개인정보·거래처 정보가 있어 저장소에 넣지 않는다. 담당자 PC의 원본 양식으로 빌드:
   python result_report/web/build_web.py \
       --report-hwpx 결과보고서양식.hwpx --invoice-xls 청구서양식.xls \
-      --analysis-xlsx 이수자분석양식.xlsx --out dist/결과보고_자동화.html
+      --analysis-xlsx 이수자분석양식.xlsx --letter-pdf 결과보고공문.pdf \
+      --attach4 사업자등록증.pdf --attach5 통장사본.pdf --out dist/결과보고_자동화.html
 
 빌드가 하는 일
   - 청구서 xls → xlsx 변환(LibreOffice), 과정 줄 30칸으로 확장(브라우저에서 쓰지 않는 줄은 숨김)
@@ -27,6 +28,7 @@ from lxml import etree
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
+sys.path.insert(0, HERE)
 
 INVOICE_LINES = 30
 PERSONAL_FIELDS = ("성명", "생년월일", "나이스식별번호", "휴대폰번호", "이수번호")
@@ -159,6 +161,9 @@ def main():
     ap.add_argument("--report-hwpx", required=True)
     ap.add_argument("--invoice-xls", required=True)
     ap.add_argument("--analysis-xlsx", required=True)
+    ap.add_argument("--letter-pdf", help="그룹웨어 결과보고 공문 PDF(머리 배너·직인 그림을 뽑아 공문 양식 생성)")
+    ap.add_argument("--attach4", help="붙임4 사업자등록증 PDF(ZIP에 기본 포함)")
+    ap.add_argument("--attach5", help="붙임5 통장사본 PDF(ZIP에 기본 포함)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
 
@@ -173,6 +178,14 @@ def main():
         list_template(lst)
         b64 = lambda p: base64.b64encode(open(p, "rb").read()).decode()
         blob = {"report": b64(a.report_hwpx), "invoice": b64(inv), "analysis": b64(ana), "list": b64(lst)}
+        if a.letter_pdf:
+            import make_letter_tpl
+            letter = os.path.join(tmp, "letter.hwpx")
+            make_letter_tpl.build(a.letter_pdf, letter)
+            blob["letter"] = b64(letter)
+        for key, path in (("att4", a.attach4), ("att5", a.attach5)):
+            if path:
+                blob[key] = b64(path)
         html = open(os.path.join(HERE, "app.html"), encoding="utf-8").read()
         js = ("const TEMPLATES = {" + ",".join(f'{k}:"{v}"' for k, v in blob.items()) + "};\n"
               + "const INVOICE_LAYOUT = " + json.dumps(layout, ensure_ascii=False) + ";")

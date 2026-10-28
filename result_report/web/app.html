@@ -3,7 +3,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* 레이아웃: 왼쪽은 입력 3단계(원본 → 사업정보 → 만족도·후기), 오른쪽은 결과 요약과 서류 받기(넓은 화면에서 고정) */
+/* 레이아웃: 위쪽 단계 표시줄(1 원본 → 2 사업·청구 → 3 공문 → 4 만족도·후기 → 5 검증·받기), 왼쪽 단계별 입력, 오른쪽 요약·할 일.
+   색: 팔레트(data-palette)마다 강조색만 바꾸고, 밝음/어두움은 보는 사람의 테마를 따른다. */
 :root{
   --bg:#f3f5f4; --panel:#ffffff; --ink:#17201d; --muted:#5d6b66; --line:#d9e0dd;
   --accent:#1d5c4d; --accent-ink:#ffffff; --accent-soft:#e3efeb;
@@ -11,48 +12,85 @@
   --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
 }
+:root[data-palette="visang"]{--accent:#0079a8;--accent-soft:#e0f2f9;--bg:#f2f6f8}
+:root[data-palette="navy"]{--accent:#24427a;--accent-soft:#e5ebf6;--bg:#f3f4f7}
+:root[data-palette="plum"]{--accent:#6b3a78;--accent-soft:#f1e8f4;--bg:#f6f3f7}
+:root[data-palette="clay"]{--accent:#9a4a22;--accent-soft:#f7e9e0;--bg:#f8f4f1}
+:root[data-palette="graphite"]{--accent:#2f3640;--accent-soft:#e8eaed;--bg:#f4f4f5}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#111715; --panel:#18201d; --ink:#e4ebe8; --muted:#9aa9a3; --line:#2b3632;
   --accent:#7cc2ad; --accent-ink:#0d1714; --accent-soft:#1f302a;
-  --warn:#e3b25e; --warn-soft:#33291a; --bad:#ef8c8f; --bad-soft:#3a2122; --good:#86d29f; --good-soft:#1c3324; color-scheme:dark}}
+  --warn:#e3b25e; --warn-soft:#33291a; --bad:#ef8c8f; --bad-soft:#3a2122; --good:#86d29f; --good-soft:#1c3324; color-scheme:dark}
+  :root[data-palette="visang"]:not([data-theme="light"]){--accent:#6cc8ec;--accent-soft:#14303b;--bg:#0f1619}
+  :root[data-palette="navy"]:not([data-theme="light"]){--accent:#9db6ea;--accent-soft:#1b2438;--bg:#10131a}
+  :root[data-palette="plum"]:not([data-theme="light"]){--accent:#d3a6e0;--accent-soft:#2c1f31;--bg:#141016}
+  :root[data-palette="clay"]:not([data-theme="light"]){--accent:#eeac86;--accent-soft:#33241b;--bg:#16120f}
+  :root[data-palette="graphite"]:not([data-theme="light"]){--accent:#d6dbe2;--accent-ink:#15181c;--accent-soft:#262a30;--bg:#121315}}
 :root[data-theme="dark"]{
   --bg:#111715; --panel:#18201d; --ink:#e4ebe8; --muted:#9aa9a3; --line:#2b3632;
   --accent:#7cc2ad; --accent-ink:#0d1714; --accent-soft:#1f302a;
   --warn:#e3b25e; --warn-soft:#33291a; --bad:#ef8c8f; --bad-soft:#3a2122; --good:#86d29f; --good-soft:#1c3324; color-scheme:dark}
+:root[data-theme="dark"][data-palette="visang"]{--accent:#6cc8ec;--accent-soft:#14303b;--bg:#0f1619}
+:root[data-theme="dark"][data-palette="navy"]{--accent:#9db6ea;--accent-soft:#1b2438;--bg:#10131a}
+:root[data-theme="dark"][data-palette="plum"]{--accent:#d3a6e0;--accent-soft:#2c1f31;--bg:#141016}
+:root[data-theme="dark"][data-palette="clay"]{--accent:#eeac86;--accent-soft:#33241b;--bg:#16120f}
+:root[data-theme="dark"][data-palette="graphite"]{--accent:#d6dbe2;--accent-ink:#15181c;--accent-soft:#262a30;--bg:#121315}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
-.wrap{max-width:1240px;margin:0 auto;display:grid;gap:20px}
-header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.wrap{max-width:1240px;margin:0 auto;display:grid;gap:18px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
 h1{font-size:26px;line-height:1.2;margin:0;letter-spacing:-.01em;text-wrap:balance}
 .sub{color:var(--muted);margin:4px 0 0;font-size:14px}
-.chips{display:flex;gap:8px;flex-wrap:wrap}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .chip{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:600;letter-spacing:.02em}
 .chip.ver{background:transparent;border:1px solid var(--line);color:var(--muted);font-family:var(--mono);font-weight:400}
-.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:20px;align-items:start}
+.pal{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--muted)}
+.pal button{width:22px;height:22px;border-radius:50%;border:2px solid var(--panel);outline:1px solid var(--line);cursor:pointer;padding:0}
+.pal button[aria-pressed="true"]{outline:2px solid var(--ink)}
+
+/* 단계 표시줄 */
+nav.steps{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;border-bottom:2px solid var(--ink)}
+nav.steps ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+nav.steps a{display:flex;gap:8px;align-items:center;text-decoration:none;color:var(--ink);padding:7px 10px;border-radius:8px;background:var(--panel);border:1px solid var(--line);min-width:0}
+nav.steps a:hover{border-color:var(--accent)}
+nav.steps .no{font-family:var(--mono);font-size:12px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--line);color:var(--ink)}
+nav.steps .t{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav.steps .st{font-size:11px;color:var(--muted);display:block;font-weight:400}
+nav.steps [data-state="done"] .no{background:var(--good);color:var(--panel)}
+nav.steps [data-state="warn"] .no{background:var(--warn);color:var(--panel)}
+nav.steps [data-state="bad"] .no{background:var(--bad);color:var(--panel)}
+@media (max-width:760px){ nav.steps ol{grid-template-columns:repeat(5,minmax(52px,1fr))} nav.steps .t span.lbl{display:none} nav.steps a{justify-content:center;padding:6px} nav.steps .st{display:none} }
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:18px;align-items:start}
 @media (max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
 .col{display:grid;gap:16px;min-width:0}
-section.step{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px 18px 20px;display:grid;gap:14px;min-width:0}
-.step h2{display:flex;align-items:baseline;gap:10px;margin:0;font-size:17px}
-.step h2 .n{font-family:var(--mono);font-size:13px;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:0 6px}
+section.step{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 18px 20px;display:grid;gap:14px;min-width:0;scroll-margin-top:84px}
+.step > h2{display:flex;align-items:center;gap:10px;margin:0;font-size:18px}
+.step > h2 .n{font-family:var(--mono);font-size:13px;color:var(--accent-ink);background:var(--accent);border-radius:6px;padding:1px 8px}
+.step > h2 .badge{margin-left:auto}
 .hint{color:var(--muted);font-size:13px;margin:0}
-.drop{border:1.5px dashed var(--line);border-radius:8px;padding:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--bg)}
+fieldset{border:1px solid var(--line);border-radius:8px;padding:12px 14px 14px;margin:0;display:grid;gap:10px;min-width:0}
+legend{font-size:13px;font-weight:700;padding:0 6px;color:var(--accent)}
+.drop{border:1.5px dashed var(--line);border-radius:10px;padding:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--bg)}
 .drop.over{border-color:var(--accent);background:var(--accent-soft)}
 .drop strong{display:block}
-.btn{font:inherit;font-weight:600;font-size:14px;border-radius:6px;padding:9px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn{font:inherit;font-weight:600;font-size:14px;border-radius:6px;padding:9px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn.ghost{background:transparent;color:var(--accent)}
 .btn.small{padding:5px 10px;font-size:13px}
+.btn.big{padding:13px 16px;font-size:16px;width:100%}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,nav.steps a:focus-visible,.pal button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .banner{font-size:13px;padding:8px 12px;border-radius:6px;background:var(--warn-soft);color:var(--warn)}
 .banner.ok{background:var(--good-soft);color:var(--good)}
 .banner.err{background:var(--bad-soft);color:var(--bad)}
-.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 14px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 12px}
 .form .wide{grid-column:1/-1}
 label.f{display:grid;gap:4px;font-size:13px;color:var(--muted);min-width:0}
 label.f span b{color:var(--bad);font-weight:600}
 input,select,textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:100%;min-width:0}
 input[type=number]{font-family:var(--mono)}
+input.miss{border-color:var(--bad);background:var(--bad-soft)}
 textarea{min-height:110px;resize:vertical;line-height:1.5}
 details{border-top:1px solid var(--line);padding-top:10px}
 summary{cursor:pointer;font-weight:600;font-size:14px}
@@ -61,23 +99,24 @@ table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:ta
 th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
 th{background:var(--bg);font-weight:600;color:var(--muted);font-size:12px}
 td.l,th.l{text-align:left;white-space:normal;min-width:180px}
+#neisTbl td.l,#neisTbl th.l{min-width:0}
 tr.total td{font-weight:700;background:var(--accent-soft)}
 .svy input{width:72px;padding:5px 6px;text-align:right}
-.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .kpi{background:var(--panel);padding:12px 14px;display:grid;gap:2px}
 .kpi .k{font-size:12px;color:var(--muted);letter-spacing:.02em}
 .kpi .v{font-family:var(--mono);font-size:22px;font-weight:500;line-height:1.2}
 .kpi .v small{font-size:13px;color:var(--muted);font-family:var(--sans)}
 .kpi.hl .v{color:var(--accent)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:12px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:12px;min-width:0}
 .card h3{margin:0;font-size:15px}
 .pill{display:inline-block;white-space:nowrap;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;letter-spacing:.02em}
-.pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.good{background:var(--good-soft);color:var(--good)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.good{background:var(--good-soft);color:var(--good)} .pill.info{background:var(--accent-soft);color:var(--accent)}
 .checks{display:grid;gap:6px;font-size:13px}
 .checks .row{display:flex;gap:8px;align-items:flex-start}
-.out{display:grid;gap:8px}
-.out .main{width:100%;padding:12px;font-size:15px}
-.out .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.todo{display:grid;gap:8px;font-size:13px;margin:0;padding:0;list-style:none}
+.todo li{display:flex;gap:8px;align-items:flex-start}
+.todo a{color:var(--accent)}
 .rv{display:grid;gap:6px;max-height:340px;overflow:auto;padding-right:4px}
 .rv .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;font-size:13px;border-bottom:1px solid var(--line);padding-bottom:6px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
@@ -85,104 +124,152 @@ tr.total td{font-weight:700;background:var(--accent-soft)}
 .seg button.on[data-v="pos"]{background:var(--good-soft);color:var(--good);font-weight:700}
 .seg button.on[data-v="neg"]{background:var(--warn-soft);color:var(--warn);font-weight:700}
 .seg button.on[data-v="off"]{background:var(--bg);color:var(--ink);font-weight:700}
+.vgrp{display:grid;gap:6px}
+.vgrp h4{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.vsum{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.row3{display:flex;gap:8px;flex-wrap:wrap}
 .mono{font-family:var(--mono)}
-.muted{color:var(--muted)}
 footer{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:16px;font-size:13px;color:var(--muted)}
 footer ul{margin:0;padding-left:18px}
-@media (prefers-reduced-motion:no-preference){.btn{transition:filter .15s}.btn:hover:not(:disabled){filter:brightness(1.08)}}
+@media (prefers-reduced-motion:no-preference){.btn{transition:filter .15s}.btn:hover:not(:disabled){filter:brightness(1.08)} html{scroll-behavior:smooth}}
 </style>
 
 <div class="wrap">
   <header class="top">
     <div>
       <h1>교육청 결과보고 자동화</h1>
-      <p class="sub">RMS 원본 엑셀 하나로 결과보고서(한글)·청구서·이수자명단·분석양식을 한 번에 만듭니다.</p>
+      <p class="sub">원본 엑셀 하나로 공문·결과보고서(한글)·명단·청구서·붙임4·5를 한 번에 만듭니다. 파일은 이 브라우저 안에서만 처리됩니다.</p>
     </div>
-    <div class="chips">
-      <span class="chip">파일은 이 브라우저 안에서만 처리</span>
+    <div class="tools">
+      <div class="pal" role="group" aria-label="색 테마">색
+        <button type="button" data-p="forest" title="숲" aria-label="숲" style="background:#1d5c4d"></button>
+        <button type="button" data-p="visang" title="비상 블루" aria-label="비상 블루" style="background:#0079a8"></button>
+        <button type="button" data-p="navy" title="네이비" aria-label="네이비" style="background:#24427a"></button>
+        <button type="button" data-p="plum" title="자두" aria-label="자두" style="background:#6b3a78"></button>
+        <button type="button" data-p="clay" title="흙" aria-label="흙" style="background:#9a4a22"></button>
+        <button type="button" data-p="graphite" title="먹" aria-label="먹" style="background:#2f3640"></button>
+      </div>
       <span class="chip ver" id="ver"></span>
     </div>
   </header>
+
+  <nav class="steps" aria-label="진행 단계">
+    <ol>
+      <li><a href="#s1" data-step="1"><span class="no">1</span><span class="t"><span class="lbl">원본</span><span class="st" id="st1"></span></span></a></li>
+      <li><a href="#s2" data-step="2"><span class="no">2</span><span class="t"><span class="lbl">사업·청구</span><span class="st" id="st2"></span></span></a></li>
+      <li><a href="#s3" data-step="3"><span class="no">3</span><span class="t"><span class="lbl">공문</span><span class="st" id="st3"></span></span></a></li>
+      <li><a href="#s4" data-step="4"><span class="no">4</span><span class="t"><span class="lbl">만족도·후기</span><span class="st" id="st4"></span></span></a></li>
+      <li><a href="#s5" data-step="5"><span class="no">5</span><span class="t"><span class="lbl">검증·받기</span><span class="st" id="st5"></span></span></a></li>
+    </ol>
+  </nav>
 
   <div class="grid">
     <div class="col">
       <section class="step" id="s1">
         <h2><span class="n">1</span>원본 올리기</h2>
-        <p class="hint">RMS 관리자 → 성적산출관리 → 이수결과관리 → 기수찾기 → <b>3.결과보고 자료 다운</b> 파일을 그대로 올리세요.</p>
+        <p class="hint">RMS 관리자 → 성적산출관리 → 이수결과관리 → 기수찾기 → <b>3.결과보고 자료 다운</b> 파일(또는 교육청 수강자명단)을 그대로 올리세요.</p>
         <div class="drop" id="drop">
           <div><strong id="fileName">파일을 여기로 끌어오거나 선택하세요</strong><span class="hint" id="fileInfo">xlsx · xls</span></div>
           <label class="btn" for="raw">원본 선택</label>
           <input type="file" id="raw" accept=".xlsx,.xls" hidden>
         </div>
         <div class="banner" id="sampleBanner">지금 보이는 숫자는 <b>예시 데이터</b>입니다(가상 인원 60건). 원본을 올리면 바로 바뀝니다.</div>
+        <div class="checks" id="rawInfo"></div>
+        <details open>
+          <summary>과정별 이수 현황 · 과정 정보(대상·시간)</summary>
+          <p class="hint" style="margin-top:8px">대상·시간은 결과보고서 '연수 구성' 표에 들어갑니다. 고치면 팀 전체가 다음에도 같은 값을 씁니다.</p>
+          <div class="tbl"><table id="courses"></table></div>
+        </details>
       </section>
 
       <section class="step" id="s2">
-        <h2><span class="n">2</span>사업 정보</h2>
-        <p class="hint">영업 최종 예산(초기 견적가)과 학점별 단가로 청구 금액을 계산합니다. 입력값은 이 브라우저에 기억됩니다.</p>
-        <div class="form" id="form"></div>
-        <div class="form" id="listFmt">
-          <label class="f"><span>붙임2 명단 형식</span><select id="f_listFmt"></select></label>
-          <label class="f"><span>지난 명단에서 형식 가져오기</span><input type="file" id="listFmtFile" accept=".xlsx,.xls"></label>
-          <label class="f" style="align-content:end"><span><input type="checkbox" id="f_listAll" style="width:auto;margin-right:6px">미이수자도 명단에 포함</span></label>
-        </div>
+        <h2><span class="n">2</span>사업 정보 · 청구 금액</h2>
+        <p class="hint">빨간 칸이 필수입니다. 영업 최종 예산(초기 견적가)을 넘는 금액은 청구서에서 '교육기부'로 빠집니다. 입력값은 이 브라우저에 기억됩니다.</p>
+        <fieldset><legend>사업 · 수신</legend><div class="form" id="formA"></div></fieldset>
+        <fieldset><legend>금액</legend><div class="form" id="formB"></div>
+          <div class="tbl"><table id="inv"></table></div></fieldset>
+        <fieldset><legend>공급자(청구서)</legend><div class="form" id="formC"></div></fieldset>
+        <fieldset><legend>붙임2 명단 형식</legend>
+          <div class="form">
+            <label class="f"><span>형식</span><select id="f_listFmt"></select></label>
+            <label class="f"><span>지난 명단에서 형식 가져오기</span><input type="file" id="listFmtFile" accept=".xlsx,.xls"></label>
+            <label class="f" style="align-content:end"><span><input type="checkbox" id="f_listAll" style="width:auto;margin-right:6px">미이수자도 명단에 포함</span></label>
+          </div>
+          <div class="form" id="formD"></div>
+        </fieldset>
         <details>
-          <summary>결과보고서 세부 문구</summary>
+          <summary>결과보고서 세부 문구(선택)</summary>
           <div class="form" id="form2" style="margin-top:12px"></div>
         </details>
       </section>
 
       <section class="step" id="s3">
-        <h2><span class="n">3</span>만족도 · 연수 후기</h2>
+        <h2><span class="n">3</span>결과보고 공문</h2>
+        <p class="hint">그룹웨어 공문 내용을 아래에 붙여넣으면 문서번호·발행일자·결재라인 등을 자동으로 채웁니다. ZIP에 공문 한글 파일(.hwpx)로 들어갑니다.</p>
+        <label class="f"><span>그룹웨어 공문 붙여넣기(선택)</span><textarea id="letterPaste" style="min-height:90px" placeholder="문 서 번 호 : VS-2026-965&#10;발 행 일 자 : 2026-10-27&#10;수 신 : …"></textarea></label>
+        <div class="row3"><button class="btn ghost small" id="parseLetter" type="button">붙여넣은 내용으로 채우기</button><span class="hint" id="parseMsg"></span></div>
+        <div class="form" id="formL"></div>
+        <details>
+          <summary>공문 본문 미리보기(텍스트)</summary>
+          <div class="row3" style="margin-top:8px"><button class="btn ghost small" id="copyLetter" type="button">본문 복사</button></div>
+          <textarea id="letter" readonly style="min-height:300px;font-size:13px;margin-top:8px"></textarea>
+        </details>
+      </section>
+
+      <section class="step" id="s4">
+        <h2><span class="n">4</span>만족도 · 연수 후기</h2>
         <p class="hint">RMS 평가관리 → 강의평가 → 기수코드 → <b>통계</b>의 문항별 응답 수를 넣으세요. 추천 지수는 보기 3개라 1·2·3번 응답을 '매우 그렇다·그렇다·보통'에 넣습니다.</p>
         <label class="f" style="max-width:220px"><span>조사 인원(응답자 수)</span><input type="number" id="resp" min="0"></label>
         <div class="tbl svy"><table id="svy"></table></div>
         <label class="f"><span>연수 후기 원문 (통계 8번 자유의견을 통째로 붙여넣기)</span><textarea id="reviewsRaw" placeholder="한 줄에 한 의견"></textarea></label>
-        <div>
-          <p class="hint" id="rvHint"></p>
-          <div class="rv" id="rv"></div>
+        <div><p class="hint" id="rvHint"></p><div class="rv" id="rv"></div></div>
+      </section>
+
+      <section class="step" id="s5">
+        <h2><span class="n">5</span>검증 · 서류 받기</h2>
+        <p class="hint">검증은 실제로 서류를 만들어 다시 읽어 보고, 숫자가 서로 맞는지(청구서·결과보고서·공문·명단), 빠진 입력이나 남은 예전 문구가 없는지 확인합니다.</p>
+        <button class="btn big" id="runVerify" type="button">검증 실행</button>
+        <div id="verify" class="vgrp"></div>
+        <div class="card" style="background:var(--bg)">
+          <h3>서류 받기</h3>
+          <button class="btn big" id="dlAll" type="button">제출 서류 한 번에 받기 (ZIP)</button>
+          <div class="row2">
+            <button class="btn ghost small" data-dl="letterHwpx" type="button">공문 .hwpx</button>
+            <button class="btn ghost small" data-dl="invoice" type="button">청구서 .xlsx</button>
+            <button class="btn ghost small" data-dl="list" type="button">수강자명단 .xlsx</button>
+            <button class="btn ghost small" data-dl="check" type="button">데이터점검 .xlsx</button>
+          </div>
+          <p class="hint">ZIP: 공문(.hwpx) · 붙임1 결과보고서(.hwpx) · 붙임2 명단 · 붙임3 청구서 · 붙임4 사업자등록증 · 붙임5 통장사본 · 내부용(분석·점검·검증결과). 공문·결과보고서는 ZIP 안에서만 받을 수 있습니다(브라우저가 .hwpx 단독 저장을 허용하지 않음).</p>
+          <div class="banner" id="outMsg" hidden></div>
         </div>
-      </section>
-
-      <section class="card">
-        <h3>과정별 이수 현황</h3>
-        <p class="hint">대상·시간은 결과보고서 '연수 구성' 표에 들어갑니다. 한 번 고치면 팀 전체가 다음에도 같은 값을 씁니다.</p>
-        <div class="tbl"><table id="courses"></table></div>
-      </section>
-
-      <section class="card">
-        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between"><h3>공문 본문</h3><button class="btn ghost small" id="copyLetter" type="button">복사</button></div>
-        <p class="hint">그룹웨어 공문에 붙여넣을 본문입니다. 문서번호·발행일자는 결재 때 붙습니다. ZIP에도 텍스트 파일로 들어갑니다.</p>
-        <textarea id="letter" readonly style="min-height:300px;font-size:13px"></textarea>
+        <div class="card" style="background:var(--bg)">
+          <h3>붙임4·5 고정 서류</h3>
+          <div class="checks" id="att"></div>
+        </div>
       </section>
     </div>
 
-    <aside class="col side">
+    <aside class="col">
       <div class="kpis" id="kpis"></div>
-      <div class="card out">
-        <h3>서류 받기</h3>
-        <button class="btn main" id="dlAll">제출 서류 한 번에 받기 (ZIP)</button>
-        <div class="row">
-          <button class="btn ghost small" data-dl="invoice">청구서 .xlsx</button>
-          <button class="btn ghost small" data-dl="list">수강자명단 .xlsx</button>
-          <button class="btn ghost small" data-dl="analysis">이수자분석 .xlsx</button>
-          <button class="btn ghost small" data-dl="check">데이터점검 .xlsx</button>
+      <div class="card">
+        <h3>할 일</h3>
+        <ul class="todo" id="todo"></ul>
+      </div>
+      <div class="card" id="neisCard">
+        <h3>나이스번호 누락자 연락</h3>
+        <p class="hint" id="neisHint"></p>
+        <div class="tbl" style="max-height:220px;overflow:auto"><table id="neisTbl"></table></div>
+        <div class="row3">
+          <button class="btn ghost small" id="copyPhones" type="button">전화번호 일괄 복사</button>
+          <button class="btn ghost small" id="copyPairs" type="button">이름·번호 목록 복사</button>
         </div>
-        <p class="hint">ZIP에는 붙임1 결과보고서(.hwpx)·붙임2 명단·붙임3 청구서·붙임4·5 고정 서류와 내부용 분석 파일이 들어 있습니다.</p>
-        <div class="banner" id="outMsg" hidden></div>
+        <label class="f"><span>문자 초안(고쳐 쓸 수 있음)</span><textarea id="smsDraft" style="min-height:150px;font-size:13px"></textarea></label>
+        <div class="row3"><button class="btn small" id="copySms" type="button">문자 복사</button><button class="btn ghost small" id="resetSms" type="button">기본 문구로</button></div>
       </div>
       <div class="card">
         <h3>제출 전 점검</h3>
         <div class="checks" id="checks"></div>
-      </div>
-      <div class="card">
-        <h3>청구 내역</h3>
-        <div class="tbl"><table id="inv"></table></div>
-      </div>
-      <div class="card">
-        <h3>붙임4·5 고정 서류</h3>
-        <p class="hint">사업자등록증·통장사본 PDF를 한 번 올려두면 ZIP에 붙임4·5로 자동으로 들어갑니다. 이 페이지를 공유받은 사람만 내려받을 수 있습니다.</p>
-        <div class="checks" id="att"></div>
       </div>
     </aside>
   </div>
@@ -190,7 +277,7 @@ footer ul{margin:0;padding-left:18px}
   <footer>
     <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
       <strong style="color:var(--ink)">개선 요청</strong>
-      <button class="btn ghost small" id="fb">이 화면에 의견 남기기</button>
+      <button class="btn ghost small" id="fb" type="button">이 화면에 의견 남기기</button>
     </div>
     <p style="margin:0">양식이 바뀌었거나 숫자가 다르면 해당 위치에 의견을 남겨 주세요. 다음 버전에 반영해 같은 주소로 갱신합니다.</p>
     <ul id="changelog"></ul>
@@ -204,8 +291,9 @@ footer ul{margin:0;padding-left:18px}
 </script>
 <script>
 "use strict";
-const VERSION = "v1.2 · 2026-10-18";
+const VERSION = "v1.3 · 2026-10-28";
 const CHANGELOG = [
+  "v1.3 (2026-10-28) 결과보고 공문(VS-2026-965 형식) 한글 파일 자동 생성·그룹웨어 공문 붙여넣기로 칸 채우기, 붙임4·5 기본 내장(ZIP 자동 포함), 검증 버튼(서류를 다시 읽어 금액·수치·명단·첨부 교차 확인), 나이스번호 누락자 휴대폰 일괄 복사·문자 초안, 색 테마 6종, 5단계 화면 구성·할 일 목록",
   "v1.2 (2026-10-18) 완주 자료 기준: 표준 결과보고서를 최신 완주 양식으로 교체(직급 2분류·Top5 그래프·그래프 그림 자동 생성), 1학점 미만 과정과 단가, 과정 정보표(대상·시간) 팀 공유, 공문 본문 자동 작성, 청구서 양식 칸을 라벨로 찾기",
   "v1.1 (2026-10-18) 세종 자료로 검증: 수강자명단처럼 열 이름이 다른 파일도 입력 가능, 붙임2 명단 형식(용인형·세종형·지난 명단에서 가져오기), 붙임4·5 고정 서류 등록, 붙임1~5 번호 붙은 제출 패키지, 청구서 비용산정 문구·과정 순서·공급자 전화, 2학점 평가 기준 줄 자동 추가",
   "v1.0 (2026-10-18) 첫 배포: 원본 정리·점검, 한글 결과보고서·청구서·이수자명단·분석양식 자동 생성",
@@ -768,24 +856,31 @@ async function buildReport(cfg, st, sv, inv, rv){
 }
 
 /* ───────────────────────── 화면 ───────────────────────── */
+// [키, 이름, 필수, 기본값, 종류, 묶음]
 const FIELDS=[
-  ["사업명","사업명(청구서)",true,"2026. ○○교육지원청 에듀테크 역량강화 직무연수(예시)","wide"],
-  ["연수명","연수명(결과보고서 표지·개요)",true,""],
-  ["수신처","수신처(교육청)",true,"○○교육지원청"],
-  ["수신담당자","수신 담당자",false,"○○○ 장학사님"],
-  ["보고서기관명","보고서 표지 기관명(비우면 수신처)",false,""],
-  ["관할청","관할교육청 통일값(원본 정리)",false,""],
-  ["연수대상","연수대상",false,""],
-  ["예산","계약예산(초기 견적가, 원)",true,"","num"],
-  ["단가1","1학점 단가(원)",true,"30000","num"],
-  ["단가2","2학점 단가(원)",false,"","num"],
-  ["단가0","1학점 미만 단가(원)",false,"","num"],
-  ["청구일자","청구일자",true,"","date"],
-  ["공급자담당자","공급자 담당자",false,""],
-  ["공급자이메일","공급자 이메일",false,""],
-  ["공급자전화","공급자 전화",false,"02-6970-6204"],
-  ["청구순서","청구서 과정 순서",false,"count","select:count=이수 많은 순|name=가나다순"],
-  ["명단시트","이수자명단 시트명",false,"이수자 명단"],
+  ["사업명","사업명(청구서·공문)",true,"2026. ○○교육지원청 에듀테크 역량강화 직무연수(예시)","wide","A"],
+  ["연수명","연수명(결과보고서 표지·개요)",true,"","","A"],
+  ["수신처","수신처(교육청)",true,"○○교육지원청","","A"],
+  ["수신담당자","수신 담당자",false,"○○○ 장학사님","","A"],
+  ["보고서기관명","보고서 표지 기관명(비우면 수신처)",false,"","","A"],
+  ["관할청","관할교육청 통일값(원본 정리)",false,"","","A"],
+  ["연수대상","연수대상",false,"","wide","A"],
+  ["예산","계약예산(초기 견적가, 원)",true,"","num","B"],
+  ["단가1","1학점 단가(원)",true,"30000","num","B"],
+  ["단가2","2학점 단가(원)",false,"","num","B"],
+  ["단가0","1학점 미만 단가(원)",false,"","num","B"],
+  ["청구일자","청구일자",true,"","date","B"],
+  ["청구순서","청구서 과정 순서",false,"count","select:count=이수 많은 순|name=가나다순","B"],
+  ["공급자담당자","담당자",false,"","","C"],
+  ["공급자이메일","이메일",false,"","","C"],
+  ["공급자전화","전화",false,"02-6970-6204","","C"],
+  ["명단시트","명단 시트명",false,"이수자 명단","","D"],
+  ["문서번호","문서번호",false,"","","L"],
+  ["발행일자","발행일자(비우면 청구일자)",false,"","date","L"],
+  ["참조","참조",false,"","","L"],
+  ["공문제목","제목(비우면 '[비바샘연수원] 연수명 결과보고')",false,"","wide","L"],
+  ["주관부서","주관부서",false,"연수콘텐츠기획1 Cell","","L"],
+  ["결재라인","결재라인",false,"CP 김다희    Core 리더 최영선    Cell 리더 유정규","wide","L"],
 ];
 const FIELDS2=[
   ["연수종별","연수종별",false,"직무연수"],["주제","연수 구성 주제(줄바꿈은 /)",false,""],
@@ -796,8 +891,9 @@ const FIELDS2=[
   ["기간표기","연수기간 표기(비우면 원본 기간)",false,""],
   ["독려","추가 독려안내 결과",false,"","area"],["총평","총평",false,"","area"],
 ];
-let TPL_DEFAULTS=null, ST=null, REVIEWS=[], SAMPLE=true;
+let TPL_DEFAULTS=null, ST=null, REVIEWS=[], SAMPLE=true, VERIFY=null;
 const store={get(k){try{return JSON.parse(localStorage.getItem("rr:"+k));}catch{return null;}},set(k,v){try{localStorage.setItem("rr:"+k,JSON.stringify(v));}catch{}}};
+const $=id=>document.getElementById(id);
 
 function renderForm(){
   const saved=store.get("cfg")||{};
@@ -805,158 +901,337 @@ function renderForm(){
     const w=document.createElement("label"); w.className="f"+(kind==="wide"||kind==="area"?" wide":"");
     w.innerHTML=`<span>${label}${req?" <b>*</b>":""}</span>`;
     const sel=kind&&kind.startsWith("select:");
-    const el=document.createElement(kind==="area"?"textarea":sel?"select":"input"); el.id="f_"+k;
+    const el=document.createElement(kind==="area"?"textarea":sel?"select":"input"); el.id="f_"+k; if(req) el.dataset.req="1";
     if(sel) kind.slice(7).split("|").forEach(o=>{ const [v,l]=o.split("="); const op=document.createElement("option"); op.value=v; op.textContent=l; el.appendChild(op); });
     if(kind==="num"){el.type="number";el.min="0";} else if(kind==="date") el.type="date"; else if(kind!=="area"&&!sel) el.type="text";
     el.value=saved[k]!=null?saved[k]:def; el.addEventListener("input",onChange); el.addEventListener("change",onChange); w.appendChild(el); host.appendChild(w); }); };
-  mk(document.getElementById("form"),FIELDS); mk(document.getElementById("form2"),FIELDS2);
+  for(const g of ["A","B","C","D","L"]) mk($("form"+g),FIELDS.filter(f=>f[5]===g));
+  mk($("form2"),FIELDS2);
 }
-function cfg(){ const o={}; [...FIELDS,...FIELDS2].forEach(([k])=>o[k]=document.getElementById("f_"+k).value.trim()); return o; }
+function cfg(){ const o={}; [...FIELDS,...FIELDS2].forEach(([k])=>o[k]=$("f_"+k).value.trim()); return o; }
 
 function renderSurvey(){
-  const t=document.getElementById("svy"), saved=store.get("svy");
-  t.innerHTML=`<tr><th class="l">항목</th><th>매우 그렇다</th><th>그렇다</th><th>보통</th><th>그렇지 않다</th><th>매우 그렇지 않다</th></tr>`+
-    SURVEY_ITEMS.map(([n],i)=>`<tr><td class="l">${n}</td>${[0,1,2,3,4].map(j=>`<td><input type="number" min="0" id="sv_${i}_${j}" aria-label="${n} ${j+1}번 응답 수"></td>`).join("")}</tr>`).join("");
+  const t=$("svy"), saved=store.get("svy");
+  t.innerHTML=`<tr><th class="l">항목</th><th>매우 그렇다</th><th>그렇다</th><th>보통</th><th>그렇지 않다</th><th>매우 그렇지 않다</th><th>합계</th></tr>`+
+    SURVEY_ITEMS.map(([n],i)=>`<tr><td class="l">${n}</td>${[0,1,2,3,4].map(j=>`<td><input type="number" min="0" id="sv_${i}_${j}" aria-label="${n} ${j+1}번 응답 수"></td>`).join("")}<td id="svs_${i}" class="mono"></td></tr>`).join("");
   const def=saved||{resp:253,c:[[179,61,13,0,0],[172,67,14,0,0],[181,56,16,0,0],[185,56,12,0,0],[184,56,13,0,0],[155,92,6,0,0]]};
-  document.getElementById("resp").value=def.resp;
-  SURVEY_ITEMS.forEach((_,i)=>[0,1,2,3,4].forEach(j=>{ const el=document.getElementById(`sv_${i}_${j}`); el.value=def.c[i][j]; el.addEventListener("input",onChange); }));
-  document.getElementById("resp").addEventListener("input",onChange);
+  $("resp").value=def.resp;
+  SURVEY_ITEMS.forEach((_,i)=>[0,1,2,3,4].forEach(j=>{ const el=$(`sv_${i}_${j}`); el.value=def.c[i][j]; el.addEventListener("input",onChange); }));
+  $("resp").addEventListener("input",onChange);
 }
-function surveyInput(){ return {resp:+document.getElementById("resp").value||0,c:SURVEY_ITEMS.map((_,i)=>[0,1,2,3,4].map(j=>+document.getElementById(`sv_${i}_${j}`).value||0))}; }
+function surveyInput(){ return {resp:+$("resp").value||0,c:SURVEY_ITEMS.map((_,i)=>[0,1,2,3,4].map(j=>+$(`sv_${i}_${j}`).value||0))}; }
 
 function renderReviews(){
-  const host=document.getElementById("rv"); host.innerHTML="";
+  const host=$("rv"); host.innerHTML="";
   const np=REVIEWS.filter(r=>r.sel==="pos").length, nn=REVIEWS.filter(r=>r.sel==="neg").length;
-  document.getElementById("rvHint").textContent=REVIEWS.length?`의미 있는 의견 ${REVIEWS.length}건 중 긍정 ${np}건 · 개선 ${nn}건이 보고서에 들어갑니다. 버튼으로 바꿀 수 있습니다.`:"붙여넣으면 짧은 인사·'없음' 같은 응답은 빼고 보고서에 넣을 의견을 골라 둡니다.";
+  $("rvHint").textContent=REVIEWS.length?`의미 있는 의견 ${REVIEWS.length}건 중 긍정 ${np}건 · 개선 ${nn}건이 보고서에 들어갑니다. 버튼으로 바꿀 수 있습니다.`:"붙여넣으면 짧은 인사·'없음' 같은 응답은 빼고 보고서에 넣을 의견을 골라 둡니다.";
   REVIEWS.forEach((r,i)=>{ const d=document.createElement("div"); d.className="it";
     const sp=document.createElement("span"); sp.textContent=r.text; d.appendChild(sp);
     const seg=document.createElement("div"); seg.className="seg";
     [["pos","긍정"],["neg","개선"],["off","제외"]].forEach(([v,l])=>{ const b=document.createElement("button"); b.type="button"; b.dataset.v=v; b.textContent=l; if(r.sel===v) b.className="on";
-      b.addEventListener("click",()=>{ REVIEWS[i].sel=v; renderReviews(); }); seg.appendChild(b); });
+      b.addEventListener("click",()=>{ REVIEWS[i].sel=v; renderReviews(); updateSteps(); }); seg.appendChild(b); });
     d.appendChild(seg); host.appendChild(d); });
 }
 
 const fmt=n=>Number(n).toLocaleString("ko-KR");
+const esc=t=>String(t).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+function missingInputs(c){
+  const miss=FIELDS.filter(f=>f[2]&&!c[f[0]]).map(f=>f[1].replace(/\(.*\)/,""));
+  if(ST&&ST.s){ if(ST.s.과정.some(x=>x.학점===2&&x.이수)&&!c.단가2) miss.push("2학점 단가");
+    if(ST.s.과정.some(x=>x.학점===0&&x.이수)&&!c.단가0) miss.push("1학점 미만 단가"); }
+  return miss;
+}
+function neisPeople(st){
+  return [...new Map(st.issues.filter(x=>x[0]==="문자요청").map(([,r])=>[r["성명"]+"|"+r["생년월일"],r])).values()]
+    .map(r=>({이름:r["성명"],학교:r["학교명"],전화:r["휴대폰번호"],과정:st.rows.filter(x=>x["성명"]===r["성명"]&&x["생년월일"]===r["생년월일"]&&x["점수"]==="이수").map(x=>x["과정명"].trim())}));
+}
+
 function recompute(){
   if(!ST) return; const c=cfg();
   const {rows,log}=clean(ST.raw,c.관할청); const missing=ST.raw.missing||[]; const issues=checks(rows,missing); const s=summarize(rows);
   const sin=surveyInput(); const sv=survey(sin.c,sin.resp);
   const inv=invoice(s.과정,{0:c.단가0,1:c.단가1,2:c.단가2},c.예산,c.청구순서);
   ST={...ST,rows,log,issues,s,sv,inv};
-  ["반응1","반응2","반응3"].forEach((k,j)=>{ const el=document.getElementById("f_"+k); if(!el.value) el.placeholder=String(Math.round(sv.항목[[0,2,3][j]].만족비율*100)); });
+  ["반응1","반응2","반응3"].forEach((k,j)=>{ const el=$("f_"+k); if(!el.value) el.placeholder=String(Math.round(sv.항목[[0,2,3][j]].만족비율*100)); });
+  SURVEY_ITEMS.forEach((_,i)=>{ const sum=sin.c[i].reduce((a,b)=>a+b,0), el=$(`svs_${i}`); el.textContent=fmt(sum); el.style.color=sin.resp&&sum!==sin.resp?"var(--bad)":""; });
+  document.querySelectorAll("[data-req]").forEach(el=>el.classList.toggle("miss",!el.value.trim()));
 
-  const k=document.getElementById("kpis");
-  k.innerHTML=[["참여",`${fmt(s.총.참여)}<small> 건</small>`],["이수",`${fmt(s.총.이수)}<small> 건</small>`],["이수율",pct(s.총.이수율)],
+  $("kpis").innerHTML=[["참여",`${fmt(s.총.참여)}<small> 건</small>`],["이수",`${fmt(s.총.이수)}<small> 건</small>`],["이수율",pct(s.총.이수율)],
     ["만족도",`${sv.종합.점수.toFixed(2)}<small> / 5</small>`],["청구 금액",`${fmt(inv.청구금액)}<small> 원</small>`,true],
     ["교육기부",`${fmt(inv.교육기부)}<small> 원</small>`]].map(([a,b,hl])=>`<div class="kpi${hl?" hl":""}"><span class="k">${a}</span><span class="v">${b}</span></div>`).join("");
 
-  const sms=issues.filter(x=>x[0]==="문자요청"), must=issues.filter(x=>x[0]==="필수"), chk=issues.filter(x=>x[0]==="확인");
-  const ch=document.getElementById("checks"); ch.innerHTML="";
-  const line=(cls,label,text)=>{ const d=document.createElement("div"); d.className="row"; d.innerHTML=`<span class="pill ${cls}">${label}</span>`; const t=document.createElement("span"); t.textContent=text; d.appendChild(t); ch.appendChild(d); };
-  const smsP=[...new Map(sms.map(([,r])=>[r["성명"]+"|"+r["생년월일"],r])).values()];
-  if(smsP.length){ smsP.slice(0,8).forEach(r=>line("bad","문자요청",`${r["성명"]} · ${r["학교명"]} — 이수자 나이스번호 누락`));
-    if(smsP.length>8) line("bad","문자요청",`외 ${smsP.length-8}명 — 총 ${smsP.length}명(문자 문구는 데이터점검 파일)`); }
-  else line("good","완료","이수자 나이스번호 모두 있음");
-  must.forEach(([,r,w])=>line("bad","필수",`${r["성명"]} — ${w}`));
-  chk.slice(0,6).forEach(([,r,w])=>line("warn","확인",`${r["성명"]} — ${w}`)); if(chk.length>6) line("warn","확인",`외 ${chk.length-6}건(데이터점검 파일)`);
+  // 원본 상태
+  const ri=$("rawInfo"); ri.innerHTML="";
+  const addLine=(host,cls,label,text)=>{ const d=document.createElement("div"); d.className="row"; d.innerHTML=`<span class="pill ${cls}">${label}</span>`; const t=document.createElement("span"); t.textContent=text; d.appendChild(t); host.appendChild(d); };
+  addLine(ri,"info","읽음",`${fmt(rows.length)}건 · 기수 ${s.기수.join(", ")} · 과정 ${s.과정.length}개 · 실인원 ${fmt(s.인원.신청인원)}명`);
   const lack=missing.filter(m=>["휴대폰번호","직위","학교구분","시도교육청","관할교육청","이수번호","나이스식별번호"].includes(m));
-  if(lack.length) line("warn","원본",`올린 파일에 ${lack.join("·")} 열이 없습니다 — 직위는 교사, 학교구분은 공립으로 가정. 시스템 원본(3.결과보고 자료)이면 정확해집니다`);
-  line("good","정리",`원본 보정 ${fmt(log.length)}건(관할청·직위·학교구분) — 변경내역 시트`);
-  const miss=[]; const cc=cfg(); FIELDS.filter(f=>f[2]).forEach(([key,label])=>{ if(!cc[key]) miss.push(label); });
-  if(s.과정.some(x=>x.학점===2&&x.이수)&&!cc.단가2) miss.push("2학점 단가");
-  if(s.과정.some(x=>x.학점===0&&x.이수)&&!cc.단가0) miss.push("1학점 미만 단가");
-  if(miss.length) line("warn","입력",`비어 있음: ${miss.join(", ")}`);
+  if(lack.length) addLine(ri,"warn","원본",`${lack.join("·")} 열이 없습니다 — 직위는 교사, 학교구분은 공립으로 가정. 시스템 원본(3.결과보고 자료)이면 정확해집니다`);
+  addLine(ri,"good","정리",`자동 보정 ${fmt(log.length)}건(관할청·직위·학교구분·나이스 대소문자) — 데이터점검 파일 '변경내역'`);
 
-  document.getElementById("courses").innerHTML=`<tr><th class="l">과정명</th><th>대상</th><th>시간</th><th>학점</th><th>참여</th><th>이수</th><th>미이수</th><th>이수율</th></tr>`+
+  // 제출 전 점검
+  const sms=issues.filter(x=>x[0]==="문자요청"), must=issues.filter(x=>x[0]==="필수"), chk=issues.filter(x=>x[0]==="확인");
+  const ch=$("checks"); ch.innerHTML="";
+  const people=neisPeople(ST);
+  if(people.length) addLine(ch,"bad","나이스",`이수자 나이스번호 누락 ${people.length}명(${sms.length}건) — '나이스번호 누락자 연락' 카드`); else addLine(ch,"good","나이스","이수자 나이스번호 모두 있음");
+  must.forEach(([,r,w])=>addLine(ch,"bad","필수",`${r["성명"]} — ${w}`));
+  chk.slice(0,6).forEach(([,r,w])=>addLine(ch,"warn","확인",`${r["성명"]} — ${w}`)); if(chk.length>6) addLine(ch,"warn","확인",`외 ${chk.length-6}건(데이터점검 파일)`);
+
+  // 과정 표
+  $("courses").innerHTML=`<tr><th class="l">과정명</th><th>대상</th><th>시간</th><th>학점</th><th>참여</th><th>이수</th><th>미이수</th><th>이수율</th></tr>`+
     s.과정.map(x=>{ const m=catalogOf(x.과정명), k=catKey(x.과정명);
       return `<tr><td class="l">${esc(x.과정명)}</td><td><input class="cat" data-k="${k}" data-f="대상" value="${esc(m.대상||"")}" placeholder="공통" aria-label="대상" style="width:72px"></td>`+
       `<td><input class="cat" data-k="${k}" data-f="차시" value="${esc(m.차시||"")}" placeholder="${x.시간}" aria-label="시간" style="width:52px"></td>`+
       `<td>${x.학점===0?"미만":x.학점}</td><td>${fmt(x.참여)}</td><td>${fmt(x.이수)}</td><td>${fmt(x.미이수)}</td><td>${pct(x.이수율)}</td></tr>`; }).join("")+
     `<tr class="total"><td class="l">계 (${s.과정.length}개 과정 · 실인원 ${fmt(s.인원.신청인원)}명)</td><td></td><td></td><td></td><td>${fmt(s.총.참여)}</td><td>${fmt(s.총.이수)}</td><td>${fmt(s.총.미이수)}</td><td>${pct(s.총.이수율)}</td></tr>`;
   document.querySelectorAll("#courses input.cat").forEach(el=>el.addEventListener("change",()=>saveCatalog(el.dataset.k,el.dataset.f,el.value.trim(),el.closest("tr").firstChild.textContent)));
-  document.getElementById("letter").value=buildLetter(c,ST);
-  document.getElementById("inv").innerHTML=`<tr><th class="l">과정</th><th>인원</th><th>단가</th><th>금액</th></tr>`+
-    inv.내역.map(l=>`<tr><td class="l">${l.학점}학점 · ${esc(l.과정명)}</td><td>${fmt(l.인원)}</td><td>${fmt(l.단가)}</td><td>${fmt(l.금액)}</td></tr>`).join("")+
+
+  // 청구 표
+  $("inv").innerHTML=`<tr><th class="l">과정</th><th>인원</th><th>단가</th><th>금액</th></tr>`+
+    inv.내역.map(l=>`<tr><td class="l">${creditLabel(l.학점)} · ${esc(l.과정명)}</td><td>${fmt(l.인원)}</td><td>${fmt(l.단가)}</td><td>${fmt(l.금액)}</td></tr>`).join("")+
     `<tr><td class="l">산정 금액</td><td>${fmt(inv.총이수)}</td><td></td><td>${fmt(inv.산정금액)}</td></tr>`+
     `<tr><td class="l">교육기부(계약 ${fmt(inv.예산)}원 초과분)</td><td></td><td></td><td>${fmt(inv.교육기부)}</td></tr>`+
     `<tr class="total"><td class="l">청구 금액</td><td></td><td></td><td>${fmt(inv.청구금액)}</td></tr>`;
+
+  $("letter").value=buildLetter(c,ST);
+  renderNeis(people);
+  VERIFY=null; renderVerify();
+  updateSteps();
 }
-const esc=t=>String(t).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 let saveT; function onChange(){ clearTimeout(saveT); saveT=setTimeout(()=>{ store.set("cfg",cfg()); store.set("svy",surveyInput()); },300); recompute(); }
 
+/* ── 단계 상태·할 일 ── */
+function updateSteps(){
+  if(!ST||!ST.s) return; const c=cfg(), miss=missingInputs(c), people=neisPeople(ST);
+  const set=(n,state,text)=>{ const a=document.querySelector(`nav.steps a[data-step="${n}"]`); a.dataset.state=state; $("st"+n).textContent=text; };
+  set(1,SAMPLE?"warn":"done",SAMPLE?"예시 데이터":`${fmt(ST.s.총.참여)}건`);
+  set(2,miss.length?"bad":"done",miss.length?`필수 ${miss.length}개 남음`:"완료");
+  set(3,c.문서번호&&c.결재라인?"done":"warn",c.문서번호?"완료":"문서번호 없음");
+  const sin=surveyInput(), off=SURVEY_ITEMS.some((_,i)=>sin.resp&&sin.c[i].reduce((a,b)=>a+b,0)!==sin.resp);
+  set(4,!sin.resp?"bad":off||!REVIEWS.some(r=>r.sel!=="off")?"warn":"done",!sin.resp?"조사 인원 없음":off?"응답 합계 확인":!REVIEWS.some(r=>r.sel!=="off")?"후기 없음":"완료");
+  const v=VERIFY; set(5,!v?"":v.bad?"bad":v.warn?"warn":"done",!v?"검증 전":v.bad?`오류 ${v.bad}건`:v.warn?`확인 ${v.warn}건`:"통과");
+  const todo=[];
+  if(SAMPLE) todo.push(["warn","원본을 올리세요","#s1"]);
+  if(miss.length) todo.push(["bad",`필수 입력: ${miss.join(", ")}`,"#s2"]);
+  if(!c.문서번호) todo.push(["warn","공문 문서번호 입력(그룹웨어 공문 붙여넣기로 자동 입력)","#s3"]);
+  if(off) todo.push(["warn","만족도 응답 합계가 조사 인원과 다른 문항이 있습니다","#s4"]);
+  if(people.length) todo.push(["bad",`나이스번호 누락 ${people.length}명에게 문자 보내기`,"#neisCard"]);
+  if(!v) todo.push(["info","검증 실행 후 서류 받기","#s5"]); else if(v.bad) todo.push(["bad",`검증 오류 ${v.bad}건 해결`,"#s5"]);
+  $("todo").innerHTML=todo.length?todo.map(([cls,t,h])=>`<li><span class="pill ${cls}">${cls==="bad"?"필수":cls==="warn"?"확인":"다음"}</span><a href="${h}">${esc(t)}</a></li>`).join(""):`<li><span class="pill good">완료</span>제출 준비가 끝났습니다. 5단계에서 ZIP을 받으세요.</li>`;
+}
+
+/* ── 나이스번호 누락자 연락 ── */
+function defaultSms(c){
+  return `[비바샘 원격교육연수원] 선생님, 안녕하세요.
+'${c.연수명||c.사업명||"연수"}' 이수를 축하드립니다.
+교육청 이수 보고에 필요한 나이스(NEIS) 개인번호가 회원정보에 없어 안내드립니다.
+
+▶ 입력 방법: 비바샘연수원(t.vivasam.com) 로그인 → 마이페이지 → 개인정보 수정 → 나이스 개인번호 입력
+  (영문 1자리 + 숫자 9자리, 예: J101234567 / 업무포털·나이스 개인정보에서 확인)
+
+빠른 시일 내 입력해 주셔야 이수 실적이 누락 없이 반영됩니다.
+문의: 비바샘연수원 고객센터 1544-9044`;
+}
+function renderNeis(people){
+  const has=people.some(p=>p.전화);
+  $("neisHint").textContent=people.length?`이수했지만 나이스번호가 없는 ${people.length}명입니다.${has?" 번호를 복사해 VENS 대량전송에 붙여넣으세요.":" 올린 파일에 휴대폰번호가 없습니다 — 시스템 원본(3.결과보고 자료)을 올리면 번호가 함께 나옵니다."}`:"누락자가 없습니다.";
+  $("neisTbl").innerHTML=people.length?`<tr><th class="l">이름</th><th class="l">학교</th><th>휴대폰</th></tr>`+people.map(p=>`<tr><td class="l" style="white-space:nowrap">${esc(p.이름)}</td><td class="l" style="max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(p.학교)}">${esc(p.학교)}</td><td class="mono" style="white-space:nowrap">${esc(p.전화||"없음")}</td></tr>`).join(""):"";
+  const ta=$("smsDraft"); if(!store.get("smsDraft")) ta.value=defaultSms(cfg());
+}
+async function copyText(t,btn){ const old=btn.textContent; try{ await navigator.clipboard.writeText(t); btn.textContent="복사됨"; }catch{ btn.textContent="복사 안 됨 — 직접 선택"; } setTimeout(()=>btn.textContent=old,1500); }
+
+/* ── 결과보고 공문(HWPX) ── */
+function letterValues(c,st){
+  const s=st.s, tot=s.총, inv=st.inv, sv=st.sv;
+  const cr=[...new Set(s.과정.map(x=>x.학점))].sort();
+  const top=s.과정.slice().sort((a,b)=>b.이수-a.이수)[0];
+  const course=c.연수명||c.사업명||"";
+  const d=c.발행일자||c.청구일자||"";
+  return {문서번호:c.문서번호||"결재 시 자동생성",발행일자:d||"결재 시 자동생성",수신:c.수신처||"",참조:c.참조||"",
+    제목:c.공문제목||`[비바샘연수원] ${course} 결과보고`,사업명:c.사업명||course,연수기간:c.기간표기||s.연수기간.join(", ").replace(/\s*~\s*/g,"~"),
+    연수종별:`${c.연수종별||"직무연수"} / ${cr.map(x=>x===0?"1학점 미만":`${x}학점(${x*15}차시)`).join(", ")}`,연수대상:c.연수대상||"",
+    대표과정:`${top?top.과정명.trim():""}${s.과정.length>1?" 외":""}`,신청인원:`${fmt(tot.참여)}명`,이수인원:`${fmt(tot.이수)}명`,
+    이수율:pct(tot.이수율,2),만족도:pct(sv.종합.백분율),청구금액:`${fmt(inv.청구금액)}원`,
+    주관부서:c.주관부서||"",담당자:c.공급자담당자||"",이메일:c.공급자이메일||"",전화:c.공급자전화||"",결재라인:c.결재라인||""};
+}
+function buildLetter(c,st){
+  if(!st||!st.s) return ""; const v=letterValues(c,st);
+  return [`문 서 번 호 : ${v.문서번호}`,`발 행 일 자 : ${v.발행일자}`,`수     신 : ${v.수신}`,`참     조 : ${v.참조}`,`제     목 : ${v.제목}`,``,
+    `1. 귀 기관의 무궁한 발전을 기원합니다.`,
+    `2. ㈜비상교육은 「교원 등의 연수에 관한 규정」 제2조에 의거, 인가번호 제02-9호 비바샘 원격교육연수원을 인가 받아 교원직무연수를 실시하고 있습니다.`,
+    `3. 추진하신 위탁사업에 관한 결과를 아래와 같이 보고 드립니다.`,``,
+    `  가. 사 업 명 : ${v.사업명}`,`  나. 연수기간 : ${v.연수기간}`,`  다. 연수종별 : ${v.연수종별}`,`  라. 연수대상 : ${v.연수대상}`,`  마. 연수결과 및 청구금액`,``,
+    `  순 | 연수과정 | 신청인원 | 이수인원 | 이수율 | 만족도 | 청구금액`,
+    `  1 | ${v.대표과정} | ${v.신청인원} | ${v.이수인원} | ${v.이수율} | ${v.만족도} | ${v.청구금액}`,``,
+    `  붙임) 1. 결과보고서`,`        2. 이수자 명단`,`        3. 청구서`,`        4. 사업자등록증`,`        5. 통장사본`,``,
+    `주관부서 : ${v.주관부서}   담당자 : ${v.담당자}   E-mail : ${v.이메일}   Tel : ${v.전화}`,`결재라인 : ${v.결재라인}`].join("\n");
+}
+async function repackHwpx(zip){
+  const out=new JSZip(); out.file("mimetype",await zip.file("mimetype").async("string"),{compression:"STORE"});
+  for(const name of Object.keys(zip.files)){ const f=zip.files[name]; if(name==="mimetype"||f.dir) continue; out.file(name,await f.async("uint8array")); }
+  return out.generateAsync({type:"blob",compression:"DEFLATE",mimeType:"application/hwp+zip"});
+}
+async function buildLetterHwpx(c,st){
+  if(typeof TEMPLATES==="undefined"||!TEMPLATES.letter) return null;
+  const zip=await JSZip.loadAsync(b64(TEMPLATES.letter)); const doc=parseXml(await zip.file("Contents/section0.xml").async("string"));
+  for(const [k,v] of Object.entries(letterValues(c,st))) replaceEverywhere(doc,`【${k}】`,v||" ");
+  zip.file("Contents/section0.xml",'<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>'+new XMLSerializer().serializeToString(doc.documentElement));
+  return repackHwpx(zip);
+}
+// 그룹웨어 공문 텍스트에서 값 뽑기
+function parseLetter(text){
+  const t=String(text||"").replace(/\r/g,""), one=re=>{ const m=re.exec(t); return m?m[1].trim():""; }, got={};
+  const map={문서번호:/문\s*서\s*번\s*호\s*:[ \t]*(\S+)/,발행일자:/발\s*행\s*일\s*자\s*:[ \t]*(\d{4}[-.]\d{1,2}[-.]\d{1,2})/,
+    수신처:/^[ \t]*수\s*신\s*:[ \t]*(.+)$/m,참조:/^[ \t]*참\s*조\s*:[ \t]*(.*)$/m,공문제목:/^[ \t]*제\s*목\s*:[ \t]*(.+)$/m,
+    사업명:/사\s*업\s*명\s*:[ \t]*(.+)$/m,기간표기:/연수기간\s*:[ \t]*(.+)$/m,연수대상:/연수대상\s*:[ \t]*(.+)$/m,
+    공급자담당자:/담당자\s*:[ \t]*(\S+)/,공급자이메일:/E-?mail\s*:[ \t]*(\S+)/i,공급자전화:/Tel\s*:[ \t]*([\d-]+)/i,결재라인:/결재라인\s*:[ \t]*(.+)$/m};
+  for(const [k,re] of Object.entries(map)){ let v=one(re); if(!v) continue;
+    if(k==="발행일자") v=v.replace(/\./g,"-").replace(/-(\d)(?!\d)/g,"-0$1");
+    if(k==="결재라인") v=v.replace(/\s{2,}/g,"    ");
+    got[k]=v; }
+  const dept=/주관부서\s*:\s*([^\n]*?)(?:\s{2,}|담당자|$)/.exec(t); if(dept){ let d=dept[1].trim(); const tail=/\n\s*(획\S*\s*\S*Cell)/.exec(t); if(tail&&/기$/.test(d)) d+=tail[1].replace(/\s+/," "); got.주관부서=d.replace(/(기)(획)/,"$1$2"); }
+  return got;
+}
+
+/* ── 검증: 실제로 만든 서류를 다시 읽어 서로 맞는지 확인 ── */
+function cellVal(sh,ref){ const c=sh.cell(ref,false); if(!c) return null; const v=c.getElementsByTagNameNS(XNS,"v")[0]; if(v) return v.textContent; const t=c.getElementsByTagNameNS(XNS,"t")[0]; return t?t.textContent:null; }
+async function hwpxText(blob){ const z=await JSZip.loadAsync(await blob.arrayBuffer()); const d=parseXml(await z.file("Contents/section0.xml").async("string")); return allT(d).map(t=>t.textContent).join("\n"); }
+async function runVerify(){
+  const btn=$("runVerify"); btn.disabled=true; btn.textContent="검증 중…";
+  const G={입력:[],데이터:[],금액:[],문서:[],첨부:[]}; const add=(g,lv,t)=>G[g].push([lv,t]);
+  try{
+    const c=cfg(), st=ST, s=st.s, tot=s.총, inv=st.inv, sv=st.sv, D=TPL_DEFAULTS;
+    // 입력
+    const miss=missingInputs(c); miss.length?add("입력","bad",`필수 입력이 비어 있음: ${miss.join(", ")}`):add("입력","ok","필수 입력 모두 있음");
+    const sin=surveyInput(); if(!sin.resp) add("입력","bad","만족도 조사 인원이 0입니다");
+    SURVEY_ITEMS.forEach(([n],i)=>{ const sum=sin.c[i].reduce((a,b)=>a+b,0); if(sin.resp&&sum!==sin.resp) add("입력","warn",`만족도 '${n}' 응답 합계 ${sum}명 ≠ 조사 인원 ${sin.resp}명`); });
+    const end=(s.연수기간[0]||"").split("~").pop().trim(); if(c.청구일자&&end&&c.청구일자<end) add("입력","warn",`청구일자(${c.청구일자})가 연수 종료일(${end})보다 앞섭니다`);
+    if(!c.문서번호) add("입력","warn","공문 문서번호가 비어 있어 '결재 시 자동생성'으로 들어갑니다");
+    // 데이터
+    const people=neisPeople(st); people.length?add("데이터","warn",`이수자 나이스번호 누락 ${people.length}명 — 문자 요청 필요`):add("데이터","ok","이수자 나이스번호 모두 있음");
+    const noCert=st.issues.filter(x=>x[0]==="필수"); if(noCert.length) add("데이터","bad",`이수자인데 이수번호 없음 ${noCert.length}건`);
+    const dup=new Map(); st.rows.forEach(r=>{ const k=r["성명"]+"|"+r["생년월일"]+"|"+r["과정명"]; dup.set(k,(dup.get(k)||0)+1); });
+    const dups=[...dup.values()].filter(v=>v>1).length; dups?add("데이터","warn",`같은 사람·같은 과정 중복 ${dups}건`):add("데이터","ok","중복 수강 행 없음");
+    const fmtBad=st.issues.filter(x=>x[0]==="확인").length; if(fmtBad) add("데이터","warn",`형식 확인 필요 ${fmtBad}건(나이스·생년월일·휴대폰 등) — 데이터점검 파일`);
+    // 실제 서류 만들어 다시 읽기
+    const out=await makeAll();
+    const L=typeof INVOICE_LAYOUT!=="undefined"?INVOICE_LAYOUT:{FIRST:22,LINES:30,DON:52,TOTAL:53};
+    const ib=await XBook.open(new Uint8Array(await out.invoice.arrayBuffer())), ish=await ib.sheet(ib.firstSheetName());
+    let nSum=0,jSum=0,lines=0; for(let i=0;i<L.LINES;i++){ const r=L.FIRST+i; if(ish.row(r).getAttribute("hidden")==="1") continue; lines++; jSum+=+(cellVal(ish,`J${r}`)||0); nSum+=+(cellVal(ish,`N${r}`)||0); }
+    const total=+(cellVal(ish,`N${L.TOTAL}`)||0), don=+(cellVal(ish,`N${L.DON}`)||0);
+    add("금액",lines===inv.내역.length?"ok":"bad",`청구서 과정 줄 ${lines}개 / 계산 ${inv.내역.length}개`);
+    add("금액",jSum===tot.이수?"ok":"bad",`청구서 인원 합계 ${fmt(jSum)}명 / 이수 ${fmt(tot.이수)}건`);
+    add("금액",nSum===inv.산정금액?"ok":"bad",`청구서 금액 합계 ${fmt(nSum)}원 / 산정 ${fmt(inv.산정금액)}원`);
+    add("금액",nSum+don===total&&total===inv.청구금액?"ok":"bad",`청구 금액 ${fmt(total)}원 = 산정 ${fmt(nSum)} + 교육기부 ${fmt(don)}`);
+    if(inv.예산&&inv.산정금액<inv.예산) add("금액","warn",`산정 금액이 계약예산보다 ${fmt(inv.예산-inv.산정금액)}원 적습니다(교육기부 없음)`);
+    // 결과보고서
+    const rt=await hwpxText(out.report), org=c.보고서기관명||c.수신처, course=c.연수명;
+    const needR=[[`${fmt(tot.참여)}명`,"모집인원"],[`${fmt(tot.이수)}명`,"이수인원"],[pct(tot.이수율,2),"이수율"],[`${sv.종합.점수.toFixed(1)}`,"만족도 점수"],[`${sv.조사인원}명`,"조사 인원"]];
+    const lackR=needR.filter(([v])=>!rt.includes(v)).map(([,k])=>k);
+    add("문서",lackR.length?"bad":"ok",lackR.length?`결과보고서에 ${lackR.join("·")} 값이 없습니다`:"결과보고서 주요 수치(모집·이수·이수율·만족도·조사 인원) 일치");
+    if(D.org&&org&&D.org!==org&&rt.includes(D.org)) add("문서","bad",`결과보고서에 예전 기관명 '${D.org}'이 남아 있습니다`); else add("문서","ok","결과보고서에 예전 기관명 없음");
+    if(D.course&&course&&D.course.trim()!==course.trim()&&rt.includes(D.course.trim())) add("문서","bad",`결과보고서에 예전 연수명이 남아 있습니다`);
+    const missCourse=s.과정.filter(x=>!rt.includes(x.과정명.trim())).length; add("문서",missCourse?"bad":"ok",missCourse?`결과보고서에 빠진 과정 ${missCourse}개`:`결과보고서에 ${s.과정.length}개 과정 모두 있음`);
+    // 공문
+    if(out.letterHwpx){ const lt=await hwpxText(out.letterHwpx);
+      add("문서",/【/.test(lt)?"bad":"ok",/【/.test(lt)?"공문에 채워지지 않은 칸이 있습니다":"공문 칸 모두 채움");
+      add("문서",lt.includes(`${fmt(inv.청구금액)}원`)&&lt.includes(pct(tot.이수율,2))?"ok":"bad",`공문 청구금액·이수율이 청구서·보고서와 ${lt.includes(`${fmt(inv.청구금액)}원`)?"일치":"다름"}`); }
+    else add("문서","warn","공문 양식이 없어 공문 한글 파일을 만들지 않습니다");
+    // 명단
+    const lb=await XBook.open(new Uint8Array(await out.list.arrayBuffer())), lsh=await lb.sheet(lb.firstSheetName());
+    const nList=[...lsh.rows.entries()].filter(([r,el])=>r>1&&[...el.children].some(c=>c.textContent.trim())).length;
+    const expect=$("f_listAll").checked?st.rows.length:tot.이수; add("문서",nList===expect?"ok":"bad",`붙임2 명단 ${fmt(nList)}행 / 기대 ${fmt(expect)}행`);
+    // 첨부
+    for(const [key,{no,label}] of Object.entries(ATT)) (await attachmentBlob(key))?add("첨부","ok",`붙임${no} ${label} 준비됨`):add("첨부","warn",`붙임${no} ${label} 없음`);
+  }catch(e){ console.error(e); add("문서","bad",`서류를 만드는 중 오류: ${e.message}`); }
+  const all=Object.values(G).flat(); VERIFY={G,bad:all.filter(x=>x[0]==="bad").length,warn:all.filter(x=>x[0]==="warn").length,ok:all.filter(x=>x[0]==="ok").length,at:new Date()};
+  renderVerify(); updateSteps(); btn.disabled=false; btn.textContent="다시 검증";
+  return VERIFY;
+}
+function renderVerify(){
+  const host=$("verify"); if(!host) return;
+  if(!VERIFY){ host.innerHTML=`<p class="hint">아직 검증하지 않았습니다.</p>`; $("runVerify").textContent="검증 실행"; return; }
+  const v=VERIFY, sym={ok:["good","통과"],warn:["warn","확인"],bad:["bad","오류"]};
+  host.innerHTML=`<div class="vsum"><span class="pill ${v.bad?"bad":v.warn?"warn":"good"}">${v.bad?"오류 있음":v.warn?"확인 필요":"모두 통과"}</span><span class="hint">통과 ${v.ok} · 확인 ${v.warn} · 오류 ${v.bad} · ${v.at.toLocaleTimeString("ko-KR")}</span></div>`+
+    Object.entries(v.G).filter(([,a])=>a.length).map(([g,a])=>`<h4>${g}</h4>`+a.map(([lv,t])=>`<div class="checks"><div class="row"><span class="pill ${sym[lv][0]}">${sym[lv][1]}</span><span>${esc(t)}</span></div></div>`).join("")).join("");
+}
+function verifyText(){ if(!VERIFY) return "검증하지 않음"; const m={ok:"통과",warn:"확인",bad:"오류"};
+  return [`검증 ${VERIFY.at.toLocaleString("ko-KR")} — 통과 ${VERIFY.ok} · 확인 ${VERIFY.warn} · 오류 ${VERIFY.bad}`,""].concat(Object.entries(VERIFY.G).flatMap(([g,a])=>a.length?[`[${g}]`,...a.map(([lv,t])=>` ${m[lv]}  ${t}`),""]:[])).join("\n"); }
+
+/* ── 서류 만들기·받기 ── */
 async function makeAll(){
   const c=cfg(); const st=ST, s=st.s, sv=st.sv, inv=st.inv;
   const cfgR={...c,반응1:c.반응1||Math.round(sv.항목[0].만족비율*100),반응2:c.반응2||Math.round(sv.항목[2].만족비율*100),반응3:c.반응3||Math.round(sv.항목[3].만족비율*100)};
   const sentence=`▣ 학습자는 본 연수를 내용 전문성과 현장 적용성이 높아 추천할 만한 강의로 인식했으며 연수 운영 전체적인 만족도를 보면 ${(sv.종합.만족비율*100).toFixed(1)}%가 '만족'한다고 답했음. 5점 만점 기준으로 ${sv.종합.점수.toFixed(2)}점의 높은 연수 만족도를 보임`;
   const k=s.기수.join("_")||"결과보고";
-  const fmtKey=document.getElementById("f_listFmt").value, lf=listFormats()[fmtKey]||LIST_FORMATS.yongin;
+  const lf=listFormats()[$("f_listFmt").value]||LIST_FORMATS.yongin;
   return {k,
+    letterHwpx: await buildLetterHwpx(c,st),
     report: await buildReport(cfgR,st,sv,inv,REVIEWS),
     invoice: await buildInvoice(c,inv),
-    list: await buildList(st.rows,lf,c.명단시트,document.getElementById("f_listAll").checked),
+    list: await buildList(st.rows,lf,c.명단시트,$("f_listAll").checked),
     analysis: await buildAnalysis(st.rows,sv,sentence),
     check: buildCheck(st)};
 }
 const NAMES={
-  report:(k,c)=>`붙임1. 운영결과보고서(비바샘연수원).hwpx`,
+  letterHwpx:(k,c)=>`결과보고 공문_${(c.수신처||"").replace(/\s+/g,"")}.hwpx`,
+  report:()=>`붙임1. 운영결과보고서(비바샘연수원).hwpx`,
   list:(k,c)=>`붙임2. ${c.수신처||""} 수강자명단.xlsx`.replace(/\s+/g," "),
   invoice:(k,c)=>`붙임3. ${c.수신처||""} 최종 청구서.xlsx`.replace(/\s+/g," "),
   analysis:(k)=>`내부용/이수자분석_${k}.xlsx`,
   check:(k)=>`내부용/데이터점검_${k}.xlsx`};
-const ATT={biz:{no:4,label:"사업자등록증"},bank:{no:5,label:"통장사본"}};
+const ATT={biz:{no:4,label:"사업자등록증",tpl:"att4"},bank:{no:5,label:"통장사본",tpl:"att5"}};
 let ATT_STATE={}, ATT_LOCAL={}, ASSETS=null, DB=null;
 
 async function offer(filename,blob){
-  const msg=document.getElementById("outMsg");
+  const msg=$("outMsg");
   const dl=window.claude?await window.claude.use("downloads").catch(()=>null):null;
   if(dl){ try{ await dl.save({filename,data:blob}); msg.className="banner ok"; msg.textContent=`${filename} 저장을 요청했습니다.`; }
     catch(e){ msg.className="banner"+(e&&e.code==="declined"?"":" err"); msg.textContent=e&&e.code==="declined"?"저장을 취소했습니다.":`저장하지 못했습니다(${e&&e.code||"오류"}).`; }
   } else { const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); a.remove(); msg.className="banner ok"; msg.textContent=`${filename} 을(를) 내려받았습니다.`; }
   msg.hidden=false;
 }
-function guard(){ const c=cfg(); const miss=FIELDS.filter(f=>f[2]&&!c[f[0]]).map(f=>f[1]);
-  if(ST.s.과정.some(x=>x.학점===2&&x.이수)&&!c.단가2) miss.push("2학점 단가");
-  if(ST.s.과정.some(x=>x.학점===0&&x.이수)&&!c.단가0) miss.push("1학점 미만 단가");
-  if(miss.length){ const m=document.getElementById("outMsg"); m.hidden=false; m.className="banner err"; m.textContent=`먼저 입력하세요: ${miss.join(", ")}`; return false; } return true; }
+function guard(){ const miss=missingInputs(cfg());
+  if(miss.length){ const m=$("outMsg"); m.hidden=false; m.className="banner err"; m.textContent=`먼저 입력하세요: ${miss.join(", ")}`; location.hash="#s2"; return false; } return true; }
 
 async function attachmentBlob(key){
   if(ATT_LOCAL[key]) return ATT_LOCAL[key];
-  const a=ATT_STATE[key]; if(!a||!a.id) return null;
-  try{ const r=await fetch("/_blob/"+a.id); if(!r.ok) return null; return await r.blob(); }catch{ return null; }
+  const a=ATT_STATE[key]; if(a&&a.id){ try{ const r=await fetch("/_blob/"+a.id); if(r.ok) return await r.blob(); }catch{} }
+  const t=ATT[key].tpl; if(typeof TEMPLATES!=="undefined"&&TEMPLATES[t]) return new Blob([b64(TEMPLATES[t])],{type:"application/pdf"});
+  return null;
 }
 async function onDownload(which, btn){
   if(!ST||!guard()) return; btn.disabled=true; const old=btn.textContent; btn.textContent="만드는 중…";
-  try{ const out=await makeAll(); const c=cfg();
+  try{ if(!VERIFY) await runVerify();
+    const out=await makeAll(); const c=cfg();
     if(which==="all"){ const z=new JSZip(); const miss=[];
-      for(const key of Object.keys(NAMES)) z.file(NAMES[key](out.k,c),await out[key].arrayBuffer());
-      z.file("공문_본문.txt",buildLetter(c,ST));
+      for(const key of Object.keys(NAMES)) if(out[key]) z.file(NAMES[key](out.k,c),await out[key].arrayBuffer());
       for(const [key,{no,label}] of Object.entries(ATT)){ const blob=await attachmentBlob(key);
         if(blob) z.file(`붙임${no}. ${label}_(주)비상교육.pdf`,await blob.arrayBuffer()); else miss.push(label); }
+      z.file("내부용/공문_본문.txt",buildLetter(c,ST)); z.file("내부용/검증결과.txt",verifyText());
       await offer(`결과보고_제출서류_${out.k}${SAMPLE?"_예시":""}.zip`,await z.generateAsync({type:"blob"}));
-      if(miss.length){ const m=document.getElementById("outMsg"); m.hidden=false; m.className="banner"; m.textContent+=` (붙임4·5 중 ${miss.join("·")} 없음 — 아래에서 올려두세요)`; } }
+      if(VERIFY&&VERIFY.bad){ const m=$("outMsg"); m.className="banner err"; m.textContent+=` 검증 오류 ${VERIFY.bad}건이 있습니다 — 내용을 확인하세요.`; }
+      if(miss.length){ const m=$("outMsg"); m.textContent+=` (붙임 ${miss.join("·")} 없음)`; } }
     else await offer(NAMES[which](out.k,c).replace("내부용/",""),out[which]);
-  }catch(e){ console.error(e); const m=document.getElementById("outMsg"); m.hidden=false; m.className="banner err"; m.textContent=`만들지 못했습니다: ${e.message}`; }
+  }catch(e){ console.error(e); const m=$("outMsg"); m.hidden=false; m.className="banner err"; m.textContent=`만들지 못했습니다: ${e.message}`; }
   finally{ btn.disabled=false; btn.textContent=old; }
 }
 
 function renderAtt(){
-  const host=document.getElementById("att"); host.innerHTML="";
-  for(const [key,{no,label}] of Object.entries(ATT)){
-    const a=ATT_STATE[key], local=ATT_LOCAL[key];
+  const host=$("att"); host.innerHTML="";
+  for(const [key,{no,label,tpl}] of Object.entries(ATT)){
+    const a=ATT_STATE[key], local=ATT_LOCAL[key], builtIn=typeof TEMPLATES!=="undefined"&&!!TEMPLATES[tpl];
     const d=document.createElement("div"); d.className="row"; d.style.alignItems="center";
-    const has=!!(a&&a.id)||!!local;
-    d.innerHTML=`<span class="pill ${has?"good":"warn"}">붙임${no}</span>`;
-    const t=document.createElement("span"); t.style.flex="1";
-    t.textContent=has?`${label} — ${(a&&a.name)||(local&&local.name)||""}${a&&a.at?` (${a.at.slice(0,10)} 등록)`:local?" (이번 창에서만)":""}`:`${label} — 아직 없음`;
-    d.appendChild(t);
-    const lab=document.createElement("label"); lab.className="btn ghost small"; lab.textContent=has?"교체":"올리기";
+    const src=local?`이번 창에서 올린 파일(${local.name})`:a&&a.id?`팀 등록본(${a.name}, ${String(a.at||"").slice(0,10)})`:builtIn?"기본 내장본(자동 포함)":"없음";
+    d.innerHTML=`<span class="pill ${src==="없음"?"warn":"good"}">붙임${no}</span>`;
+    const t=document.createElement("span"); t.style.flex="1"; t.textContent=`${label} — ${src}`; d.appendChild(t);
+    const lab=document.createElement("label"); lab.className="btn ghost small"; lab.textContent="교체";
     const inp=document.createElement("input"); inp.type="file"; inp.accept="application/pdf,.pdf"; inp.hidden=true;
     inp.addEventListener("change",()=>inp.files[0]&&saveAtt(key,inp.files[0]));
     lab.appendChild(inp); d.appendChild(lab); host.appendChild(d);
   }
 }
 async function saveAtt(key,file){
-  const msg=document.getElementById("outMsg");
+  const msg=$("outMsg");
   if(ASSETS&&DB){ try{
       const r=await ASSETS.upload(file,{type:"application/pdf"});
       ATT_STATE={...ATT_STATE,[key]:{id:r.id,name:file.name,at:new Date().toISOString()}};
@@ -974,7 +1249,6 @@ async function initAtt(){
 }
 
 // 과정 정보표(대상·시간): db 'courses' 컬렉션에 팀 공유, 없으면 이 브라우저에만
-// 완주·세종 결과보고서의 연수 구성 표에서 뽑은 기본값(과정명·대상·시간)
 const CATALOG_SEED={"cf7dad8b8": {"name": "AI 시대, 코딩하는 교사가 미래를 바꾼다! 바이브 코딩 기반 학생 맞춤형 수업", "대상": "초,중등", "차시": "15"}, "c18036fb4": {"name": "AI로 설계하는 에듀테크 수업 디자인", "대상": "초등", "차시": "8"}, "c309671fa": {"name": "비바샘으로 에듀테크 200% 활용하기", "대상": "초등", "차시": "15"}, "c547f129a": {"name": "BRISK와 함께하는 개념기반 탐구학습 실천하기!", "대상": "초,중등", "차시": "15"}, "c5fe25a35": {"name": "6차시 완성! 캔바로 수업·디자인 한번에", "대상": "공통", "차시": "6"}, "cfd27bcd5": {"name": "생성형 AI를 활용한 교사 업무 자동화 실전 비법!", "대상": "공통", "차시": "4"}, "ce19dfa61": {"name": "구글 시트로 쉽게 배우는 학교생활기록부 효율화 비법!", "대상": "중등", "차시": "3"}, "c9dc66d79": {"name": "수업이 새로워지는 디지털 · AI 첫걸음: 인프라 × 에듀테크", "대상": "공통", "차시": "10"}, "c007b090e": {"name": "디지털 교실의 완성! 구글 워크스페이스 완전 정복", "대상": "초,중등", "차시": "15"}, "c1562e7dc": {"name": "ChatGPT와 함께 일하는 법: 기획력, 질문력, 보고의 기술", "대상": "공통", "차시": "15"}, "c2f9728b4": {"name": "일 잘하는 교사의 비밀, 노션으로 정리! 캔바로 디자인!", "대상": "공통", "차시": "15"}, "c1997e2a4": {"name": "수업 및 업무 효율 UP! AI와 ChatGPT 200% 활용법", "대상": "초,중등", "차시": "15"}, "c656a3c24": {"name": "칼퇴하자! 파워포인트 활용노트", "대상": "공통", "차시": "15"}, "c712c3887": {"name": "누구나 쉽게! 에듀테크와 AI로 완성하는 배움중심수업", "대상": "초등", "차시": "15"}, "c72705ad8": {"name": "AI로 여는 미래교실! 에듀테크 수업 노하우 – 초등", "대상": "초등", "차시": "15"}, "cba908265": {"name": "AI로 여는 미래교실! 에듀테크 수업 노하우 – 중등", "대상": "중등", "차시": "15"}, "c2958bfad": {"name": "혼자 해도 프로 선생님처럼 잘 만드는 학교 수업 자료 with 캔바", "대상": "공통", "차시": "15"}, "ccf6716d1": {"name": "디지털 교육의 씨앗을 심다! 모두를 위한 AI 에듀테크", "대상": "초등", "차시": "15"}, "c9caa7b35": {"name": "교과 융합 AI 에듀테크 수업 한방에 끝내기", "대상": "초등", "차시": "15"}, "cd732d875": {"name": "칼퇴하자! 엑셀 활용노트", "대상": "공통", "차시": "30"}, "c0008c7aa": {"name": "수학 불안 Zero! 기초학력 Up! 교실에서 바로 쓰는 초등 수학", "대상": "초등", "차시": "15"}, "cca861416": {"name": "기초학력 마스터클래스", "대상": "초등", "차시": "15"}, "c9cedabdb": {"name": "수학이 쑥쑥 늘어나는 기초학력 향상 프로젝트, 수리수리 수리력!", "대상": "초등", "차시": "15"}, "cb679b9a3": {"name": "학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 – 초등 실천편", "대상": "초등", "차시": "15"}, "c991f763f": {"name": "수학 불안 Zero! 기초학력 Up! 교실에서 바로 쓰는 중등 수학", "대상": "중등", "차시": "15"}, "c2af0d6e8": {"name": "학력 저하 해소! 학생의 전인적 성장! 미래 역량 함양! 과정 중심 평가와 피드백 – 중등 실천편", "대상": "중등", "차시": "15"}, "c000830f2": {"name": "학생맞춤통합지원 A to Z – 관찰에서 지원까지, 학업·기초학력· 사회정서·돌봄·안전·경제·생활 지원 등을 잇는 학교의 변화", "대상": "초,중등", "차시": "15"}, "c0095720f": {"name": "기초학력 향상 프로젝트, 조병영의 문해력 특강", "대상": "초,중등", "차시": "15"}, "c7b62db8f": {"name": "정서적 격차 해소! 기초학력 향상! 사회성감성교육, 마음트리", "대상": "초,중등", "차시": "30"}, "ce82ed7d4": {"name": "학습격차 해소를 위한 교실 속 학습코칭", "대상": "초,중등", "차시": "30"}};
 let CATALOG={...CATALOG_SEED,...(store.get("catalog")||{})};
 const catNorm=n=>String(n||"").replace(/\(.*?개설.*?\)/g,"").replace(/[\s·∙\-–—!?,.:()'"“”~]/g,"").toLowerCase();
@@ -990,45 +1264,11 @@ async function loadCatalog(){
   try{ const q=await DB.collection("courses").limit(1000).get(); q.docs.forEach(d=>{ CATALOG[d.id]={...CATALOG[d.id],...d.data()}; }); store.set("catalog",CATALOG); }catch(e){}
 }
 
-// 공문 본문(그룹웨어 붙여넣기용)
-function buildLetter(c,st){
-  if(!st||!st.s) return "";
-  const s=st.s, tot=s.총, inv=st.inv, sv=st.sv;
-  const cr=[...new Set(s.과정.map(x=>x.학점))].sort();
-  const kind=`${c.연수종별||"직무연수"} / ${cr.map(x=>x===0?"1학점 미만":`${x}학점(${x*15}차시)`).join(", ")}`;
-  const top=s.과정.slice().sort((a,b)=>b.이수-a.이수)[0];
-  const course=c.연수명||c.사업명||"";
-  return [
-    `수     신 : ${c.수신처||""}`,
-    `참     조 : `,
-    `제     목 : [비바샘연수원] ${course} 결과보고`,
-    ``,
-    `1. 귀 기관의 무궁한 발전을 기원합니다.`,
-    `2. ㈜비상교육은 「교원 등의 연수에 관한 규정」 제2조에 의거, 인가번호 제02-9호 비바샘 원격교육연수원을 인가 받아 교원직무연수를 실시하고 있습니다.`,
-    `3. 추진하신 위탁사업에 관한 결과를 아래와 같이 보고 드립니다.`,
-    ``,
-    `  가. 사 업 명 : ${c.사업명||course}`,
-    `  나. 연수기간 : ${c.기간표기||s.연수기간.join(", ")}`,
-    `  다. 연수종별 : ${kind}`,
-    `  라. 연수대상 : ${c.연수대상||""}`,
-    `  마. 연수결과 및 청구금액`,
-    ``,
-    `  순 | 연수과정 | 신청인원 | 이수인원 | 이수율 | 만족도 | 청구금액`,
-    `  1 | ${top?top.과정명.trim():""}${s.과정.length>1?" 외":""} | ${fmt(tot.참여)}명 | ${fmt(tot.이수)}명 | ${pct(tot.이수율,2)} | ${pct(sv.종합.백분율)} | ${fmt(inv.청구금액)}원`,
-    ``,
-    `  붙임) 1. 결과보고서`,
-    `        2. 이수자 명단`,
-    `        3. 청구서`,
-    `        4. 사업자등록증`,
-    `        5. 통장사본`,
-  ].join("\n");
-}
-
 function renderListFmt(selectKey){
-  const sel=document.getElementById("f_listFmt"), f=listFormats(); sel.innerHTML="";
+  const sel=$("f_listFmt"), f=listFormats(); sel.innerHTML="";
   Object.entries(f).forEach(([k,v])=>{ const o=document.createElement("option"); o.value=k; o.textContent=v.name; sel.appendChild(o); });
   sel.value=selectKey||store.get("listFmt")||"yongin"; if(!sel.value) sel.value="yongin";
-  document.getElementById("f_listAll").checked=!!(f[sel.value]&&f[sel.value].all);
+  $("f_listAll").checked=!!(f[sel.value]&&f[sel.value].all);
 }
 
 function sampleRaw(){
@@ -1038,53 +1278,67 @@ function sampleRaw(){
   const pos=["교사","","기간제교사","교사","수석교사","교감","장학사"];
   const out=[]; for(let i=0;i<60;i++){ const c=courses[(i*7)%4], sc=schools[i%5], done=(i%5)!==3;
     out.push({"기수":"XX2604-01","시도교육청":"예시","구분":sc[0],"과정명":c[0],"연수시간":c[1],"연수기간":"2026-04-20 ~ 2026-07-15","성명":`예시교사${String(i+1).padStart(2,"0")}`,
-      "생년월일":`198${i%10}0${1+i%9}1${i%10}`,"나이스식별번호":i===17?"":`J10000${String(1000+i).slice(-4)}`,"휴대폰번호":`010-0000-${String(1000+i)}`,
+      "생년월일":`198${i%10}0${1+i%9}1${i%10}`,"나이스식별번호":i===17||i===22?"":`J10000${String(1000+i).slice(-4)}`,"휴대폰번호":`010-0000-${String(1000+i)}`,
       "이수번호":done?`예시-${String(i+1).padStart(4,"0")}`:"","관할교육청":"○○교육지원청","학교명":sc[1],"직위":pos[i%7],"점수":done?"이수":"미이수","학교구분":i%11===0?"":"공립"}); }
   return out;
 }
 
 async function loadFile(f){
-  const info=document.getElementById("fileInfo"), name=document.getElementById("fileName");
   try{ const raw=readRaw(new Uint8Array(await f.arrayBuffer()));
-    ST={raw}; SAMPLE=false; document.getElementById("sampleBanner").hidden=true;
-    name.textContent=f.name; info.textContent=`${fmt(raw.length)}건 읽음`; recompute();
-  }catch(e){ name.textContent="읽지 못했습니다"; info.textContent=e.message; }
+    ST={raw}; SAMPLE=false; $("sampleBanner").hidden=true;
+    $("fileName").textContent=f.name; $("fileInfo").textContent=`${fmt(raw.length)}건 읽음`; recompute();
+  }catch(e){ $("fileName").textContent="읽지 못했습니다"; $("fileInfo").textContent=e.message; }
 }
 
+function setPalette(p){ if(p&&p!=="forest") document.documentElement.dataset.palette=p; else delete document.documentElement.dataset.palette;
+  document.querySelectorAll(".pal button").forEach(b=>b.setAttribute("aria-pressed",String((b.dataset.p)===(p||"forest")))); store.set("palette",p||"forest"); }
+
 async function init(){
-  document.getElementById("ver").textContent=VERSION;
-  document.getElementById("changelog").innerHTML=CHANGELOG.map(x=>`<li>${esc(x)}</li>`).join("");
-  renderForm(); renderSurvey();
+  setPalette(store.get("palette")||"forest");
+  document.querySelectorAll(".pal button").forEach(b=>b.addEventListener("click",()=>setPalette(b.dataset.p)));
+  $("ver").textContent=VERSION;
+  $("changelog").innerHTML=CHANGELOG.map(x=>`<li>${esc(x)}</li>`).join("");
+  renderForm(); renderSurvey(); renderListFmt();
   try{ TPL_DEFAULTS=await readTemplateDefaults(); }catch(e){ console.error(e); TPL_DEFAULTS={org:"",course:"",대상:"",주제:"",총평:"",신청기간:"",발급일:"",독려:""}; }
-  [["f_연수대상","대상"],["f_주제","주제"],["f_총평","총평"],["f_신청기간","신청기간"],["f_발급일","발급일"],["f_독려","독려"]].forEach(([id,k])=>{ const el=document.getElementById(id); if(!el.value) el.placeholder=TPL_DEFAULTS[k]||""; if(!el.value&&(k==="총평"||k==="독려")) el.value=TPL_DEFAULTS[k]||""; });
-  if(!document.getElementById("f_청구일자").value) document.getElementById("f_청구일자").value=new Date().toISOString().slice(0,10);
-  const ta=document.getElementById("reviewsRaw"); ta.value=store.get("reviews")||"";
-  ta.addEventListener("input",()=>{ REVIEWS=classifyReviews(ta.value); renderReviews(); store.set("reviews",ta.value); });
+  [["f_연수대상","대상"],["f_주제","주제"],["f_총평","총평"],["f_신청기간","신청기간"],["f_발급일","발급일"],["f_독려","독려"]].forEach(([id,k])=>{ const el=$(id); if(!el.value) el.placeholder=TPL_DEFAULTS[k]||""; if(!el.value&&(k==="총평"||k==="독려")) el.value=TPL_DEFAULTS[k]||""; });
+  if(!$("f_청구일자").value) $("f_청구일자").value=new Date().toISOString().slice(0,10);
+  const ta=$("reviewsRaw"); ta.value=store.get("reviews")||"";
+  ta.addEventListener("input",()=>{ REVIEWS=classifyReviews(ta.value); renderReviews(); store.set("reviews",ta.value); updateSteps(); });
   REVIEWS=classifyReviews(ta.value); renderReviews();
+  const sd=store.get("smsDraft"); if(sd) $("smsDraft").value=sd;
   ST={raw:sampleRaw()}; recompute();
-  renderListFmt();
-  document.getElementById("f_listFmt").addEventListener("change",e=>{ store.set("listFmt",e.target.value); const f=listFormats()[e.target.value]; document.getElementById("f_listAll").checked=!!(f&&f.all); });
-  document.getElementById("listFmtFile").addEventListener("change",async e=>{ const f=e.target.files[0]; if(!f) return; const m=document.getElementById("outMsg");
-    try{ const {key,fmt,unknown}=await importListFormat(f); store.set("listFmt",key); renderListFmt(key);
-      m.hidden=false; m.className="banner ok"; m.textContent=`명단 형식을 저장했습니다: ${fmt.cols.join(" · ")}${unknown.length?` (모르는 열 ${unknown.join("·")}은 빈칸)`:""}`; }
+  $("f_listFmt").addEventListener("change",e=>{ store.set("listFmt",e.target.value); const f=listFormats()[e.target.value]; $("f_listAll").checked=!!(f&&f.all); });
+  $("listFmtFile").addEventListener("change",async e=>{ const f=e.target.files[0]; if(!f) return; const m=$("outMsg");
+    try{ const {key,fmt:lf,unknown}=await importListFormat(f); store.set("listFmt",key); renderListFmt(key);
+      m.hidden=false; m.className="banner ok"; m.textContent=`명단 형식을 저장했습니다: ${lf.cols.join(" · ")}${unknown.length?` (모르는 열 ${unknown.join("·")}은 빈칸)`:""}`; }
     catch(err){ m.hidden=false; m.className="banner err"; m.textContent=`명단 형식을 읽지 못했습니다: ${err.message}`; } });
   initAtt();
-  document.getElementById("copyLetter").addEventListener("click",async()=>{ const ta=document.getElementById("letter");
-    try{ await navigator.clipboard.writeText(ta.value); }catch{ ta.select(); } });
+  $("copyLetter").addEventListener("click",e=>copyText($("letter").value,e.currentTarget));
+  $("parseLetter").addEventListener("click",()=>{ const got=parseLetter($("letterPaste").value), keys=Object.keys(got);
+    keys.forEach(k=>{ const el=$("f_"+k); if(el) el.value=got[k]; });
+    $("parseMsg").textContent=keys.length?`${keys.length}개 칸을 채웠습니다: ${keys.map(k=>(FIELDS.find(f=>f[0]===k)||FIELDS2.find(f=>f[0]===k)||[k,k])[1].replace(/\(.*\)/,"")).join(", ")}`:"찾은 값이 없습니다 — '문 서 번 호 :' 같은 줄이 있는지 확인하세요";
+    onChange(); });
+  $("copyPhones").addEventListener("click",e=>copyText([...new Set(neisPeople(ST).map(p=>p.전화).filter(Boolean))].join("\n"),e.currentTarget));
+  $("copyPairs").addEventListener("click",e=>copyText(neisPeople(ST).map(p=>[p.이름,p.전화||"",p.학교,p.과정.join(" / ")].join("\t")).join("\n"),e.currentTarget));
+  $("copySms").addEventListener("click",e=>copyText($("smsDraft").value,e.currentTarget));
+  $("smsDraft").addEventListener("input",e=>store.set("smsDraft",e.target.value));
+  $("resetSms").addEventListener("click",()=>{ store.set("smsDraft",null); $("smsDraft").value=defaultSms(cfg()); });
+  $("runVerify").addEventListener("click",runVerify);
 
-  const inp=document.getElementById("raw"), drop=document.getElementById("drop");
+  const inp=$("raw"), drop=$("drop");
   inp.addEventListener("change",()=>inp.files[0]&&loadFile(inp.files[0]));
   ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over");}));
   ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
   drop.addEventListener("drop",e=>{ const f=e.dataTransfer.files[0]; if(f) loadFile(f); });
-  document.getElementById("dlAll").addEventListener("click",e=>onDownload("all",e.currentTarget));
+  $("dlAll").addEventListener("click",e=>onDownload("all",e.currentTarget));
   document.querySelectorAll("[data-dl]").forEach(b=>b.addEventListener("click",e=>onDownload(b.dataset.dl,e.currentTarget)));
 
-  const fb=document.getElementById("fb");
+  const fb=$("fb");
   const comments=window.claude?await window.claude.use("comments").catch(()=>null):null;
   if(!comments) fb.hidden=true;
   else fb.addEventListener("click",async()=>{ try{ await comments.openComposer({element:document.querySelector("footer")}); }catch(e){ fb.hidden=true; } });
 }
-window.__rr={makeAll,letter:()=>buildLetter(cfg(),ST),setListFmt:(k,all)=>{document.getElementById("f_listFmt").value=k;document.getElementById("f_listAll").checked=all;},loadRaw:buf=>{ST={raw:readRaw(buf)};SAMPLE=false;recompute();return ST;},setReviews:t=>{const ta=document.getElementById("reviewsRaw");ta.value=t;REVIEWS=classifyReviews(t);renderReviews();},state:()=>ST};
+window.__rr={makeAll,runVerify,verifyText,parseLetter,letter:()=>buildLetter(cfg(),ST),setListFmt:(k,all)=>{$("f_listFmt").value=k;$("f_listAll").checked=all;},loadRaw:buf=>{ST={raw:readRaw(buf)};SAMPLE=false;recompute();return ST;},setReviews:t=>{const ta=$("reviewsRaw");ta.value=t;REVIEWS=classifyReviews(t);renderReviews();},state:()=>ST,neis:()=>neisPeople(ST),sms:()=>$("smsDraft").value};
 init();
 </script>
+

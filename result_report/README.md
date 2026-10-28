@@ -79,11 +79,19 @@ GG2504-15 실제 결과보고본과 원본을 대조해 역산한 규칙이다. 
 - `web/app.html` — 화면과 로직(정리·집계·청구·HWPX/xlsx 양식 채우기). 양식은 빌드 때 삽입
 - `web/build_web.py` — 담당자 PC의 원본 양식(결과보고서 hwpx, 청구서 xls, 이수자분석양식 xlsx)을
   변환·비식별화해 `app.html`에 넣고 배포용 HTML 하나를 만든다
+- `web/make_letter_tpl.py` — 그룹웨어 결과보고 공문 PDF(VS-2026-965 형식)에서 머리 배너·직인 그림을 뽑아
+  【문서번호】 같은 자리표시가 있는 공문 HWPX 양식을 만든다(`--letter-pdf`로 빌드에 포함)
 
 ```bash
 python result_report/web/build_web.py --report-hwpx 결과보고서양식.hwpx \
-  --invoice-xls 청구서양식.xls --analysis-xlsx 이수자분석양식.xlsx --out dist/결과보고_자동화.html
+  --invoice-xls 청구서양식.xls --analysis-xlsx 이수자분석양식.xlsx \
+  --letter-pdf 결과보고공문.pdf --attach4 사업자등록증.pdf --attach5 통장사본.pdf \
+  --out dist/결과보고_자동화.html
 ```
+
+화면은 5단계(원본 → 사업·청구 → 공문 → 만족도·후기 → 검증·받기)로 나뉘고, 각 단계의 상태와 남은 할 일을 위에 보여 준다.
+'검증'은 서류를 실제로 만든 뒤 다시 읽어 청구서 줄·인원·금액·교육기부, 결과보고서 주요 수치와 예전 기관명,
+공문 빈칸과 금액, 명단 행 수, 붙임4·5를 서로 맞춰 보고, 결과를 ZIP의 `내부용/검증결과.txt`에도 넣는다.
 
 한글 결과보고서는 양식의 표·문장·차트 값만 바꾸고(고친 문단의 줄배치 캐시만 삭제) 나머지 서식은 그대로 둔다.
 과정 수·기수 수·직급 수에 맞춰 표 줄을 늘리거나 줄인다.
