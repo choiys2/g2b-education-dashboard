@@ -20,6 +20,7 @@ on:
       - ".github/workflows/smoke.yml"   # 점검 워크플로만 바뀐 푸시는 재배포하지 않음
       - ".github/workflows/mall_catalog.yml"
       - "competitor_mall_scrape.py"
+      - "teacher_creator_trends.py"
 
 permissions:
   contents: write

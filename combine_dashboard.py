@@ -403,6 +403,8 @@ def main():
         "bundles": __import__("bundle_products").build(),
         # 교사몰(티처몰) 카테고리·베스트·신상품·세트 + 자사 과정 ↔ 인기 상품 짝짓기
         "mall": __import__("mall_trends").build(new_courses["courses"].get("비바샘연수원", [])),
+        # 유튜브 교사 크리에이터·교사 도서 트렌드(주제 열기 vs 자사 과정 수)
+        "teacher_trends": __import__("teacher_trends_view").build(new_courses["courses"].get("비바샘연수원", [])),
     }
 
     # 입찰공고 최근 12개월 -> 초·중·고 연수 주제 수요와 2027 개발 추천(나라장터 종합 탭)

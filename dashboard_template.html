@@ -4860,6 +4860,35 @@ window.__ownerQ.push(function renderAiBrief(){
     </tbody></table></div>${so(`상위 3개 주제(${P.slice(0, 3).map(p => p.name).join(' · ')})는 교사 구매가 이미 일어나는 영역입니다. <b>SET 기획 후보</b>는 자사 과정에 1행 인기 상품을 실습 키트로 붙인 샘몰 묶음 상품으로, <b>과정 개발 후보</b>는 상품 수요는 있는데 자사 과정이 없는 주제로 2027 개발 목록에 올려 검토하세요.`)}`;
   });
 
+  /* 교사 트렌드: 유튜브 교사 크리에이터 · 교사 도서(주 1회 · YouTube Data API / 알라딘 Open API) */
+  const TT = (COMPETITOR_TRAINING || {}).teacher_trends || {};
+  const nfmt = v => v >= 1e4 ? (v / 1e4).toFixed(v >= 1e5 ? 0 : 1) + '만' : (v || 0).toLocaleString();
+  safe('teacherCreators', () => {
+    const el = panel('competitor', null, '교사 크리에이터 시장(유튜브)', `구독자 상위 교사 채널 · 최근 영상 5개 기준${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
+    if (!el) return;
+    const C = TT.channels || [];
+    if (!C.length) { el.innerHTML = empty('YouTube API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
+    el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>채널</th><th style="text-align:right;">구독자</th><th style="text-align:right;">4주 증감</th><th style="text-align:right;">최근 영상 평균 조회</th><th>주력 주제</th><th>최근 인기 영상</th><th>인스타(채널 소개)</th></tr></thead><tbody>
+      ${C.map(c => `<tr><td style="white-space:nowrap;"><a href="https://www.youtube.com/${c.h ? h(c.h) : 'channel/' + h(c.id)}" target="_blank" rel="noopener">${h(c.t)}</a></td>
+        <td class="num">${nfmt(c.subs)}</td><td class="num" style="color:${c.g4 > 0 ? '#10b981' : 'var(--muted)'};">${c.g4 == null ? '-' : (c.g4 > 0 ? '+' : '') + nfmt(c.g4)}</td>
+        <td class="num">${nfmt(c.avg)}</td><td style="white-space:nowrap;">${h(c.topic || '-')}</td>
+        <td style="max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.top ? `<a href="https://www.youtube.com/watch?v=${h(c.top.id)}" target="_blank" rel="noopener">${h(c.top.t)}</a> <span style="color:var(--muted);">${nfmt(c.top.v)}</span>` : '-'}</td>
+        <td style="white-space:nowrap;">${c.insta ? `<a href="https://www.instagram.com/${h(c.insta)}/" target="_blank" rel="noopener">@${h(c.insta)}</a>` : '-'}</td></tr>`).join('')}
+    </tbody></table></div>${so(`교사 채널 ${TT.n_channels || C.length}개 중 상위 ${C.length}개입니다. 구독자 증가(4주)가 큰 채널의 주력 주제가 지금 교사들이 찾는 콘텐츠입니다 — <b>강사 섭외·공동 기획 후보</b>로 보고, 자사 과정 홍보 채널로 협업(리뷰·라이브) 가능성을 검토하세요.`)}`;
+  });
+  safe('teacherTopicHeat', () => {
+    const el = panel('competitor', null, '교사 트렌드 주제 열기 · 교사 도서', `유튜브 최근 영상 조회 비중 + 도서 판매지수 비중 vs 자사 과정 수${TT.book_date ? ' · 도서 수집 ' + TT.book_date : ''}`);
+    if (!el) return;
+    if (!TT.available) { el.innerHTML = empty('YouTube·알라딘 API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
+    const H = (TT.heat || []).slice(0, 10), mx = Math.max(1, ...H.map(r => r.heat));
+    const heatTbl = `<div><p style="font-weight:800;margin:0 0 6px;">주제 열기</p><div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><thead><tr><th>주제</th><th style="width:34%;">열기</th><th style="width:16%;text-align:right;">자사 과정</th></tr></thead><tbody>
+      ${H.map(r => `<tr ${tipAttr(`${r.topic} — 유튜브 ${r.yt}% · 도서 ${r.book}% · 자사 과정 ${r.own}개`)}><td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(r.topic)}${r.own <= 2 && r.heat >= 8 ? ' ' + mChip('공백', 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))') : ''}</td>
+        <td><div style="height:9px;background:var(--surface-2);border-radius:4px;"><div style="height:100%;width:${r.heat / mx * 100}%;background:var(--accent);border-radius:4px;"></div></div><span class="num" style="font-size:11px;color:var(--muted);">${r.heat}%</span></td><td class="num" style="text-align:right;">${r.own}개</td></tr>`).join('')}</tbody></table></div></div>`;
+    const bl = (rows, title, date) => `<p style="font-weight:800;margin:10px 0 6px;">${title}</p>${rows.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><tbody>${rows.map(b => `<tr><td><div style="display:flex;gap:8px;align-items:baseline;min-width:0;"><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><a href="${h(b.link)}" target="_blank" rel="noopener">${h(b.t)}</a></span><span style="color:var(--muted);white-space:nowrap;font-size:11px;">${date ? h(b.d.slice(2).replace(/-/g, '.')) : '판매지수 ' + b.sp.toLocaleString()}</span></div><div style="color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(b.a)} · ${h(b.cat)}${(b.topics || []).length ? ' · ' + h(b.topics.join(', ')) : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('알라딘 API 키 등록 대기')}`;
+    el.innerHTML = grid2(heatTbl, `<div>${bl((TT.books_best || []).slice(0, 8), '교사 도서 판매 상위', false)}${bl((TT.books_new || []).slice(0, 5), '최근 6개월 신간', true)}</div>`)
+      + so('<b>공백</b> 표시는 교사 관심(조회·판매)은 큰데 자사 과정이 2개 이하인 주제입니다. 판매 상위 도서의 저자는 검증된 강사 후보이고, 도서+연수 결합(교재 SET)은 경쟁사가 이미 쓰는 방식이니 2027 개발 목록과 샘몰 SET 기획에 함께 올리세요.');
+  });
+
   /* ============ B2G영업 ============ */
   safe('funnel', () => {
     const Vc = (PIPE_COMMS || {}).conversion || {};

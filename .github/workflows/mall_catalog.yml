@@ -1,4 +1,4 @@
-name: 교사몰 상품 동향 수집
+name: 교사몰 상품·교사 트렌드 수집
 
 on:
   schedule:
@@ -21,12 +21,20 @@ jobs:
       # 공개 목록만, robots.txt 허용 경로만 연다(스크립트가 실행 때마다 재확인).
       - name: 티처몰 상품 동향 수집(아이스크림몰은 접속 상태만 기록)
         run: python competitor_mall_scrape.py
+      # 키가 없으면 해당 출처만 건너뛴다(Secrets: YOUTUBE_API_KEY, ALADIN_TTB_KEY).
+      - name: 교사 트렌드 수집(유튜브 교사 채널·교사 도서)
+        continue-on-error: true
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          ALADIN_TTB_KEY: ${{ secrets.ALADIN_TTB_KEY }}
+        run: python teacher_creator_trends.py
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           touch history/competitor_mall_new.jsonl
           git add history/competitor_mall_catalog.json history/competitor_mall_new.jsonl
+          [ -f history/teacher_creator_trends.json ] && git add history/teacher_creator_trends.json
           git diff --cached --quiet || git commit -m "chore: 교사몰 상품 동향 수집 $(date -u +%F)"
           git pull --rebase origin main
           git push
