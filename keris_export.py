@@ -136,7 +136,7 @@ def main():
     prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     bids, opens, awards, parts = (prev.get(k, {}) for k in ("bids", "opening", "awards", "participants"))
     st = prev.get("status", {})
-    covered = st.get("covered_days", 0)  # 지금까지 거슬러 올라간 일수(백필 진행도)
+    covered = st.get("covered_days", st.get("days", 0))  # 지금까지 거슬러 올라간 일수(백필 진행도, 첫 버전은 days)
     diag, fields = [], st.get("fields", {})
 
     def save(note=""):
