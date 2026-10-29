@@ -710,6 +710,7 @@
   <nav class="tabnav" role="tablist">
     <button class="tabbtn active" role="tab" aria-selected="true" data-tab="market">시장 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2bfull">나라장터 종합</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="neti">교원연수 이수 현황</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2b">AI·에듀테크 발주 리스트</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="school">학교단위 발주</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 중점·선도학교</button>
@@ -1584,6 +1585,16 @@
     </section>
 
   </div><!-- /panel-g2bfull -->
+
+  <div class="tabpanel" id="panel-neti">
+    <div class="callout">
+      <div class="icon">i</div>
+      <div>
+        <h3>통합교육연수시스템(중앙교육연수원 운영) 이수 현황 — 전국 교원연수 시장의 실제 수강 규모</h3>
+        <p>공동활용기관(시도 교육연수원·중앙교육연수원 등) 단위 <b>승인·이수 인원 집계</b>(2017~2026.6.30)입니다. 개인정보는 없습니다. <b>상시</b>=상시 운영 원격연수(연중 수강), <b>정기</b>=기수제 원격연수, <b>집합</b>=대면, <b>혼합</b>=대면+원격. 기관명이 바뀐 곳은 현재 이름으로 묶었습니다(예: 경기도교육연수원 → 경기도교육청남부연수원). 2026 연간 값은 상반기 실적을 과거 상반기 비중으로 나눈 <b>추정치</b>입니다.</p>
+      </div>
+    </div>
+  </div>
 
   <div class="tabpanel" id="panel-pipeline">
 
@@ -2513,6 +2524,7 @@ const NATIONAL_SCHOOL_COUNTS = [{"grade":"초","total":6369,"active":6158,"rate"
 const SCHOOL_CONTRACT_TREND = {"years":["2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025"],"series":{"강원":[6157972369,188172428196,193231757664,184483641751,157228370637,117398013763,118998584407,117825090472,131952619731,132216938225,154200062083,193390272731,272943593798,269310223778,289437455103,349680407311,368536853618],"경기":[41214710032,1177544960703,1319872008582,1212981505974,1028207466092,873314370497,841489258435,812614330280,853903398517,847042549194,962993612190,1337590623638,1636328527090,1996924065865,2388830848887,2785217989683,2827435419128],"경남":[10119143263,477077962459,443024976953,405804156238,326068198257,264152165755,256313550193,274038532143,298310490496,307242125847,403191426840,468661679157,536895596656,605427697347,727735262509,769696861136,783870171014],"경북":[4375272617,374405259765,409614805772,412383313756,327956735226,259811920924,256787995823,250596717543,283183391436,283812897536,332510400570,336914419817,446095258393,523802130969,589839551481,644777270742,642963537457],"광주":[5746015521,187169466681,196791341359,208986754463,175092060540,130494764364,125773288299,123634383701,126787356491,127817895965,143167334897,170546139490,208202510590,252659655943,283345715469,318337469996,301784640304],"대구":[3759357599,295039565037,340018302341,333028011027,270605858406,213887106573,186810749074,198363436823,226054376928,238081871886,246316282134,207754553223,292913510894,342664315740,356531848579,417625190212,418730580126],"대전":[3895513950,192052706808,208384910984,178167077274,139254923517,108953420712,113263050835,116409635362,124074787685,115576017160,124374391415,139641677560,170820980781,187213367494,222166468296,220109217123,198515303439],"부산":[6274479772,294851376617,343376419013,329213149738,251580297649,185308230005,167636901581,166588656011,180905919079,165066350594,203941746436,23244999205247,419907959814,456447530508,525065682603,585044969076,582520035129],"서울":[12835919817,810396173602,995280439641,1010015395813,872879835616,694069806267,750888229994,774020104962,838161734917,821850171373,897861651195,826959438555,1043420059972,1367928025486,1509318587825,1671623422317,1578578348862],"울산":[5683550923,140815863739,131822351688,129251247094,111993445704,93779075422,97736930223,108094727603,120559083446,109737329996,121982578413,144310929207,192011797847,256538277677,217094481993,241426818170,237045904297],"인천":[5236958439,247168302139,255866147887,229202692801,191891609373,143527306587,153328944310,160672457064,200762899298,195017203683,223108374583,221297561397,283034626839,395257365692,449659454359,500654092717,464817800776],"전남":[8498824554,252813212887,295326988353,282424073853,240106443501,191975053936,192318830185,197288165685,219501066968,259874559830,249226407168,325670072661,392977625248,443029264381,517114439187,601412013513,577943480319],"전북":[6905104920,256988017714,285974255116,262379683469,205864039487,158429995748,168184930905,171182525382,181792345361,183352486443,192030515699,17592078210364,333432468272,369207877015,460513394552,529161207918,511735934803],"제주":[5007597854,90511604735,78455049885,69094098767,56254854679,53279942273,57913745149,53462805602,65654279690,68594005122,82446289333,137065321681,147060114520,176486209373,199185973551,209388105162,205525924689],"충남":[8071152300,348114701973,370672070036,364747568942,294724987413,235082346913,258372232618,245533801883,249055243658,258788113903,281083252705,275336938029,340204234675,381364021793,452128627710,498843386216,454836758158],"충북":[6387593829,223982993828,246728481105,230269075433,214165144496,178780796412,170628514244,174789023917,189264330963,210778296071,237767608063,214574854619,263881302161,273402684955,333548751146,382211207612,402140710043],"세종":[0,0,0,0,18467299285,19485960739,33608250007,37548932328,44666999494,47719494624,54687583326,57198787665,63876326007,76292939808,107234197089,113707172621,124926920280]},"school_counts":{"강원":[17,637,638,640,651,649,651,656,661,660,656,658,660,661,661,660,662],"경기":[63,2166,2215,2256,2283,2321,2366,2401,2441,2472,2503,2563,2618,2653,2676,2692,2729],"경남":[21,951,958,973,976,979,989,991,997,995,999,1002,1013,1019,1024,1027,1031],"경북":[21,979,978,972,960,960,961,951,936,941,937,947,948,947,949,939,939],"광주":[11,411,419,310,313,317,323,326,325,325,327,329,328,328,329,333,334],"대구":[12,430,435,440,442,447,449,464,473,478,479,479,484,487,485,498,497],"대전":[8,293,298,303,305,306,309,309,312,314,315,314,316,319,319,320,322],"부산":[16,619,616,624,635,639,644,649,655,652,652,654,658,661,665,663,665],"서울":[28,1402,1428,1462,1480,1496,1508,1512,1527,1542,1567,1597,1617,1637,1641,1635,1638],"울산":[8,237,239,239,240,244,245,245,248,248,250,255,259,257,257,257,260],"인천":[12,470,489,499,506,506,517,524,530,530,536,538,550,558,562,568,571],"전남":[19,836,843,850,848,841,842,844,850,850,853,855,859,857,851,847,846],"전북":[26,1109,1113,775,777,780,785,787,791,790,792,798,799,801,801,799,793],"제주":[8,172,177,180,181,182,184,184,184,185,185,185,185,186,186,186,188],"충남":[19,754,758,760,733,734,735,733,741,744,746,749,753,756,760,761,763],"충북":[17,488,487,498,492,498,497,498,500,500,502,503,507,504,508,509,512],"세종":[0,0,0,0,42,55,86,92,113,125,129,133,140,143,145,147,151]}};
 const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
 const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
+const NETI = __NETI_JSON__;
 const LEADING_ROWS = __LEADING_ROWS_JSON__;
 const LEADING_BY_REGION = __LEADING_BY_REGION_JSON__;
 const LEADING_ENRICHED = LEADING_ROWS;  // 같은 데이터 - 두 번 싣지 않는다
@@ -4909,6 +4921,83 @@ window.__ownerQ.push(function renderAiBrief(){
     const shop = S.length ? `<p style="font-weight:800;margin:14px 0 6px;">교사몰 상품군 쇼핑 클릭 추이(네이버 쇼핑인사이트)</p><div style="display:flex;flex-wrap:wrap;gap:10px;">${S.map(x => `<div style="border:1px solid var(--border);border-radius:10px;padding:8px 12px;min-width:170px;"><div style="font-size:12px;font-weight:700;">${h(x.k)}</div><div>${spark(x.spark, 140, 26)}</div><div style="font-size:11.5px;color:var(--muted);">최근 4주 ${x.idx} · 12주 대비 ${mom(x.mom)}</div></div>`).join('')}</div>` : '';
     const up = R.filter(r => r.signal.includes('상승')).map(r => r.topic), gap = R.filter(r => r.signal.includes('공백')).map(r => r.topic);
     el.innerHTML = tbl + shop + so(`${up.length ? `검색 관심이 12주 전보다 15% 이상 오른 주제: <b>${h(up.join(' · '))}</b>. ` : ''}${gap.length ? `관심은 중간 이상인데 자사 과정이 2개 이하인 주제: <b>${h(gap.join(' · '))}</b> — 2027 개발 목록 우선 검토. ` : ''}상승 주제는 <b>과정 노출 순서와 교육청 제안서 첫 장</b>에 먼저 반영하고, 몇 주 누적되면 검색 상승과 실제 신청 증가의 시차를 확인해 기준을 조정하세요.`);
+  });
+
+  /* ============ 교원연수 이수 현황(통합교육연수시스템) ============ */
+  const NT = (typeof NETI !== 'undefined' && NETI) || {};
+  const NTC = {'집합': '#f59e0b', '혼합': '#a78bfa', '정기': '#94a3b8', '상시': '#4f8cff'};
+  const man = v => v == null ? '-' : v >= 1e4 ? (v / 1e4).toFixed(v >= 1e6 ? 0 : 1) + '만' : v.toLocaleString();
+  const pctS = v => v == null ? '-' : `<span style="color:${v > 0 ? '#10b981' : v < 0 ? 'var(--danger, #d64545)' : 'var(--muted)'};">${v > 0 ? '+' : ''}${v}%</span>`;
+  safe('netiKpi', () => {
+    const el = panel('neti', null, '한눈에 보기', `${NT.source || ''} · 기준 ${NT.as_of || ''}`);
+    if (!el) return;
+    if (!NT.available) { el.innerHTML = empty('데이터 없음'); return; }
+    const K = NT.kpi, E = K.est || {};
+    const tile = (lab, val, sub) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:12px;padding:12px 14px;"><div style="font-size:12px;color:var(--muted);">${lab}</div><div style="font-size:24px;font-weight:800;margin:4px 0;">${val}</div><div style="font-size:11.5px;color:var(--ink-2);">${sub}</div></div>`;
+    el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:10px;">
+      ${tile(`${K.last}년 이수`, man(K.done) + '명', `승인 ${man(K.appr)} · 이수율 ${K.rate}%`)}
+      ${tile('5년 연평균 성장', (K.cagr5 > 0 ? '+' : '') + K.cagr5 + '%', `${+K.last - 5}→${K.last} 이수 기준`)}
+      ${tile('상시 원격 비중', K.sangsi_share + '%', `${K.last}년 이수 중 상시(연중 원격)`)}
+      ${E.all ? tile(`${E.year} 연간 추정`, man(E.all) + '명', `상반기 ${man(E.h1)} ÷ 상반기 비중 ${Math.round(E.ratio * 100)}% · 전년 대비 ${E.yoy > 0 ? '+' : ''}${E.yoy}%`) : ''}
+    </div>${so(`교원연수 이수는 ${K.last}년 ${man(K.done)}명, 그중 <b>${K.sangsi_share}%가 상시 원격</b>입니다. 시장의 중심은 연중 상시 원격이며, ${E.all ? `올해도 약 ${E.yoy > 0 ? '+' : ''}${E.yoy}% 성장이 예상(추정)됩니다.` : ''} 자사 B2G 제안은 '상시 원격 위탁' 규모가 큰 기관부터 보는 것이 효율적입니다(아래 '시도별 시장 × 자사 B2G 위치').`)}`;
+  });
+  safe('netiYears', () => {
+    const el = panel('neti', null, '연도·유형별 이수 추이', '막대 = 유형별 이수 인원 · 마지막 막대 = 올해 연간 추정(옅은 색)');
+    if (!el || !NT.available) return;
+    const S = NT.series, E = NT.kpi.est, T = NT.types;
+    const cols = S.map(r => ({label: r.y.slice(2) + '년', v: r.done, tot: r.all, est: false}));
+    if (E && E.all) cols.push({label: E.year.slice(2) + '년E', v: E.types, tot: E.all, est: true, h1: E.h1});
+    const mx = Math.max(...cols.map(c => c.tot)), H = 170;
+    const bars = `<div style="display:flex;align-items:flex-end;gap:8px;height:${H + 40}px;">${cols.map(c => `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;" ${tipAttr(`<div class='tt-title'>${h(c.label)}${c.est ? ' (추정)' : ''}</div>` + T.map(t => `<div class='tt-row'><span>${t}</span><b>${(c.v[t] || 0).toLocaleString()}</b></div>`).join('') + `<div class='tt-row'><span>합계</span><b>${c.tot.toLocaleString()}</b></div>` + (c.est ? `<div class='tt-row'><span>상반기 실적</span><b>${c.h1.toLocaleString()}</b></div>` : ''))}>
+        <span style="font-size:10.5px;color:var(--ink-2);white-space:nowrap;">${man(c.tot)}</span>
+        <div style="width:100%;height:${c.tot / mx * H}px;display:flex;flex-direction:column-reverse;gap:1px;${c.est ? 'opacity:.45;outline:1.5px dashed var(--ink-2);outline-offset:1px;' : ''}">${T.filter(t => c.v[t]).map((t, i, a) => `<span style="flex:${c.v[t]};background:${NTC[t]};${i === a.length - 1 ? 'border-radius:4px 4px 0 0;' : ''}"></span>`).join('')}</div>
+        <span style="font-size:10.5px;color:var(--muted);white-space:nowrap;">${h(c.label)}</span></div>`).join('')}</div>`;
+    const tbl = `<div class="tbl-wrap" style="margin-top:10px;"><table class="data" style="font-size:12px;"><thead><tr><th>유형</th>${S.map(r => `<th style="text-align:right;">${r.y}</th>`).join('')}${E ? `<th style="text-align:right;">${E.year} 상반기</th>` : ''}</tr></thead><tbody>
+      ${T.map(t => `<tr><td><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${NTC[t]};margin-right:5px;"></span>${t}</td>${S.map(r => `<td class="num">${man(r.done[t])}</td>`).join('')}${E ? `<td class="num">${man(E.h1_types[t])}</td>` : ''}</tr>`).join('')}
+      <tr><td><b>이수율</b></td>${S.map(r => `<td class="num">${r.rate}%</td>`).join('')}${E ? '<td></td>' : ''}</tr></tbody></table></div>`;
+    const s20 = S.find(r => r.y === '2019'), s21 = S.find(r => r.y === '2021');
+    el.innerHTML = bars + legend(T.map(t => [t, NTC[t]])) + tbl + so(`${s20 && s21 ? `2019년 ${man(s20.all)}명에서 2021년 ${man(s21.all)}명으로 <b>코로나 이후 상시 원격으로 시장이 3배</b> 커졌고, 이후에도 매년 늘고 있습니다. ` : ''}집합(대면)도 ${S[S.length - 1].y}년 ${man(S[S.length - 1].done['집합'])}명으로 회복 중이라, 원격 위탁과 함께 <b>집합·혼합 운영 대행</b>도 별도 수요로 보세요.`);
+  });
+  safe('netiInst', () => {
+    const el = panel('neti', null, '기관별 규모·성장', `${NT.kpi ? NT.kpi.last : ''}년 이수 순 · ${NT.base}→${NT.kpi ? NT.kpi.last : ''} 연평균 성장 · 올해 추정`);
+    if (!el || !NT.available) return;
+    const R = NT.institutions, mx = Math.max(...R.map(r => r.done));
+    const sp = a => { const m = Math.max(...a) || 1; return `<svg viewBox="0 0 90 22" style="width:90px;height:22px;vertical-align:middle;"><polyline fill="none" stroke="var(--accent)" stroke-width="1.6" points="${a.map((v, i) => `${(i / (a.length - 1) * 90).toFixed(1)},${(20 - v / m * 18).toFixed(1)}`).join(' ')}"/></svg>`; };
+    const row = r => `<tr><td style="white-space:nowrap;">${h(r.name)}</td><td style="color:var(--muted);">${h(r.region)}</td>
+      <td><div style="display:flex;align-items:center;gap:6px;"><span style="flex:1;min-width:60px;height:9px;background:var(--surface-2);border-radius:4px;"><span style="display:block;height:100%;width:${r.done / mx * 100}%;background:var(--accent);border-radius:4px;"></span></span><span class="num" style="width:52px;text-align:right;">${man(r.done)}</span></div></td>
+      <td class="num">${r.done ? Math.round(r.sangsi / r.done * 100) + '%' : '-'}</td><td class="num">${r.rate == null ? '-' : r.rate + '%'}</td><td class="num">${pctS(r.cagr3)}</td><td>${sp(r.trend)}</td><td class="num">${man(r.est)}</td><td class="num">${pctS(r.yoy)}</td></tr>`;
+    const head = `<thead><tr><th>기관</th><th>시도</th><th style="min-width:160px;">이수(${NT.kpi.last})</th><th style="text-align:right;">상시 비중</th><th style="text-align:right;">이수율</th><th style="text-align:right;">연평균 성장</th><th>추이(2017~)</th><th style="text-align:right;">올해 추정</th><th style="text-align:right;">전년 대비</th></tr></thead>`;
+    const top = R.slice(0, 15), rest = R.slice(15);
+    const fast = R.filter(r => r.done >= 50000 && r.cagr3 != null).sort((a, b) => b.cagr3 - a.cagr3).slice(0, 3);
+    el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;">${head}<tbody>${top.map(row).join('')}</tbody></table></div>
+      ${rest.length ? `<details style="margin-top:8px;"><summary style="cursor:pointer;font-size:12.5px;color:var(--accent);">나머지 ${rest.length}개 기관 보기</summary><div class="tbl-wrap" style="margin-top:6px;"><table class="data" style="font-size:12px;">${head}<tbody>${rest.map(row).join('')}</tbody></table></div></details>` : ''}
+      ${so(`중앙교육연수원이 전체의 약 ${Math.round(R[0].done / NT.kpi.done * 100)}%로 가장 크지만 성장은 정체(${R[0].cagr3}%)입니다. 5만 명 이상 기관 중 성장이 빠른 곳은 <b>${fast.map(r => `${r.name}(${r.cagr3 > 0 ? '+' : ''}${r.cagr3}%)`).join(' · ')}</b> — 수요가 늘어나는 연수원부터 위탁 과정 공급을 제안하세요. 올해 추정은 상반기 실적 기반이라 하반기 집중 기관은 낮게 나올 수 있습니다.`)}`;
+  });
+  safe('netiH1', () => {
+    const el = panel('neti', null, '2026 상반기 진도', '기관별 올해 연간 추정 vs 2025 실적(추정치) · 5만 명 이상 기관');
+    if (!el || !NT.available) return;
+    const R = NT.institutions.filter(r => r.done >= 50000 && r.yoy != null).sort((a, b) => b.yoy - a.yoy);
+    if (!R.length) { el.innerHTML = empty('상반기 자료 없음'); return; }
+    const mx = Math.max(...R.map(r => Math.abs(r.yoy)), 1);
+    el.innerHTML = R.map(r => `<div style="display:grid;grid-template-columns:200px 1fr 1fr 70px;gap:8px;align-items:center;margin:4px 0;font-size:12.5px;" ${tipAttr(`${r.name}: 2025 ${r.done.toLocaleString()}명 → 2026 추정 ${(r.est || 0).toLocaleString()}명 (상반기 ${r.h1.toLocaleString()}명${r.own_ratio ? ', 기관 자체 상반기 비중 적용' : ', 시스템 평균 비중 적용'})`)}>
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${h(r.name)}</span>
+      <span style="display:flex;justify-content:flex-end;">${r.yoy < 0 ? `<span style="height:12px;width:${-r.yoy / mx * 100}%;background:var(--danger, #d64545);opacity:.7;border-radius:4px 0 0 4px;"></span>` : ''}</span>
+      <span>${r.yoy > 0 ? `<span style="display:block;height:12px;width:${r.yoy / mx * 100}%;background:#10b981;opacity:.8;border-radius:0 4px 4px 0;"></span>` : ''}</span>
+      <span class="num" style="text-align:right;">${pctS(r.yoy)}</span></div>`).join('')
+      + so('초록은 올해 수강이 늘 것으로 보이는 기관, 빨강은 줄어드는 기관입니다(상반기 실적 기반 추정). 늘어나는 기관은 <b>하반기 추가 위탁·과정 확대 수요</b>가 생기기 쉬우니 B2G 영업 접촉 순서에 반영하세요.');
+  });
+  safe('netiB2g', () => {
+    const el = panel('neti', null, '시도별 시장 × 자사 B2G 위치', `상시 원격 이수 규모(${NT.kpi ? NT.kpi.last : ''}) × 최근 12개월 나라장터 연수 계약(${NT.contract_since || ''}~)`);
+    if (!el || !NT.available) return;
+    const G = NT.regions.filter(g => g.region !== '국립·전국'), mx = Math.max(...G.map(g => g.sangsi));
+    const LC = {'방어': '#10b981', '확대': 'var(--accent)', '공략': 'var(--warning)', '탐색': 'var(--muted)'};
+    const ACT = {'방어': '재계약 유지 + 과정 확대', '확대': '경쟁사 대비 금액 열세 — 추가 과정 제안', '공략': '자사 계약 0 — 첫 수주 우선 공략', '탐색': '나라장터 연수 계약 없음 — 발주 방식 확인'};
+    el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>시도</th><th style="min-width:170px;">상시 원격 이수</th><th style="text-align:right;">전체 이수</th><th style="text-align:right;">자사 계약</th><th style="text-align:right;">경쟁사 계약</th><th>경쟁 주도</th><th>위치</th><th>제안</th></tr></thead><tbody>
+      ${G.map(g => `<tr><td><b>${h(g.region)}</b></td>
+        <td><div style="display:flex;align-items:center;gap:6px;"><span style="flex:1;min-width:60px;height:9px;background:var(--surface-2);border-radius:4px;"><span style="display:block;height:100%;width:${g.sangsi / mx * 100}%;background:#4f8cff;border-radius:4px;"></span></span><span class="num" style="width:52px;text-align:right;">${man(g.sangsi)}</span></div></td>
+        <td class="num">${man(g.done)}</td><td class="num">${g.own_n ? `${g.own_n}건 ${fmtWon(g.own_amt)}` : '-'}</td><td class="num">${g.comp_n ? `${g.comp_n}건 ${fmtWon(g.comp_amt)}` : '-'}</td>
+        <td>${h(g.leader || '-')}</td><td>${mChip(g.label, `color-mix(in srgb, ${LC[g.label]} 22%, var(--surface-2))`)}</td><td style="color:var(--ink-2);white-space:nowrap;">${h(ACT[g.label] || '')}</td></tr>`).join('')}
+    </tbody></table></div>${(() => { const att = G.filter(g => g.label === '공략').slice(0, 4); return so(`상시 원격 수요가 큰데 자사 계약이 없는 <b>${att.map(g => `${g.region}(${man(g.sangsi)})`).join(' · ')}</b>가 우선 공략 대상입니다. 위치는 최근 12개월 나라장터 연수 계약(수의계약 포함) 기준이라, 교육청 자체 운영·학교 단위 계약 등 나라장터 밖 거래는 반영되지 않습니다.`); })()}`;
   });
 
   /* ============ B2G영업 ============ */

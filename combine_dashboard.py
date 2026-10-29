@@ -540,6 +540,7 @@ def main():
         "__WF_BADGES_JSON__": __import__("workflows").badge_map(),
         "__ADMIN_JSON__": __import__("admin_structure").encrypted_blob((exec_data or {}).get("sources")),
         "__EDU_CNTR_JSON__": __import__("edu_contracts").build(),
+        "__NETI_JSON__": __import__("neti_view").build(),
     }
     for token, value in subs.items():
         if token not in html:
