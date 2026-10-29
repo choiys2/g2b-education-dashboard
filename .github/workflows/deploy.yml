@@ -22,6 +22,8 @@ on:
       - "competitor_mall_scrape.py"
       - "teacher_creator_trends.py"
       - "teacher_interest_trends.py"
+      - ".github/workflows/keris.yml"
+      - "keris_export.py"
 
 permissions:
   contents: write

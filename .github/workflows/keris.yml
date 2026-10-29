@@ -1,0 +1,36 @@
+name: KERIS 조달(입찰·개찰·낙찰) 수집
+
+on:
+  schedule:
+    - cron: "10 20 * * *"   # 매일 05:10 KST - 06:00 대시보드 배포 전에 끝나도록
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: keris
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # 처음 실행은 3년 백필, 이후 매일 최근 60일 재조회(키: G2B_SERVICE_KEY)
+      - name: KERIS 나라장터 조달 수집
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python keris_export.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          [ -f history/keris_procurement.json ] && git add history/keris_procurement.json
+          git diff --cached --quiet || git commit -m "chore: KERIS 조달 수집 $(date -u +%F)"
+          git pull --rebase origin main
+          git push
