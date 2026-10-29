@@ -21,10 +21,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      # 처음 실행은 3년 백필, 이후 매일 최근 60일 재조회(키: G2B_SERVICE_KEY)
+      # 매 실행: 최근 60일 재조회 + 과거 1년씩 백필(3년 목표, 키: G2B_SERVICE_KEY)
       - name: 설정 파일 준비(키는 환경변수로 덮어씀)
         run: cp g2b_config.example.json g2b_config.json
+      # 시간이 넘쳐도 단계별로 저장된 결과는 커밋되도록(다음 실행이 이어서 백필)
       - name: KERIS 나라장터 조달 수집
+        timeout-minutes: 18
+        continue-on-error: true
         env:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
         run: python keris_export.py

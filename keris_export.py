@@ -53,7 +53,7 @@ def is_keris(it):
     return INST_NM in (first(it, "ntceInsttNm") + first(it, "dminsttNm"))
 
 
-def months(days):
+def _unused_months(days):
     end = datetime.now()
     cur = end - timedelta(days=days)
     while cur < end:
@@ -62,36 +62,48 @@ def months(days):
         cur = nxt
 
 
-def query(cfg, base, op, begin, end, diag):
-    """기관 필터를 코드 -> 이름 순으로 시도. 서버가 무시해 결과가 과도하면(필터 미동작) 다음 방식으로."""
-    out, code_ok = [], False
-    for flt in ({"ntceInsttCd": INST_CD}, {"dminsttCd": INST_CD}, {"ntceInsttNm": INST_NM}, {"dminsttNm": INST_NM}):
-        if code_ok and "ntceInsttNm" in flt or code_ok and "dminsttNm" in flt:
-            break  # 기관코드 필터가 동작하면 이름 필터는 생략
-        page, total, got = 1, None, []
+FILTERS = [{"ntceInsttCd": INST_CD}, {"dminsttCd": INST_CD}, {"ntceInsttNm": INST_NM}, {"dminsttNm": INST_NM}]
+
+
+def probe(cfg, base, op, diag):
+    """최근 4주로 필터를 하나씩 시험해 서버에서 실제로 걸러지는 것만 고른다(오류·과다 결과는 제외)."""
+    end, begin = datetime.now(), datetime.now() - timedelta(days=28)
+    ok = []
+    for flt in FILTERS:
+        p = {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 10, "inqryDiv": 1, "type": "json",
+             "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": end.strftime("%Y%m%d2359"), **flt}
+        try:
+            _, total = call_api(base, op, p, timeout=20, retries=1)
+        except Exception as e:
+            msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:160]  # 키는 기록하지 않는다
+            diag.append(f"{op}/{list(flt)[0]}: {msg}")
+            continue
+        if total > 3000:  # 4주에 KERIS 단독 3천 건은 불가능 -> 서버가 필터를 무시
+            diag.append(f"{op}/{list(flt)[0]}: 필터 미동작(total {total})")
+            continue
+        ok.append(flt)
+        print(f"  {op}: {list(flt)[0]} 사용(최근 4주 {total}건)", flush=True)
+    codes = [f for f in ok if "InsttCd" in list(f)[0]]
+    return codes or ok[:2]  # 기관코드 필터가 되면 이름 필터는 생략
+
+
+def query(cfg, base, op, flts, begin, end, diag):
+    out = []
+    for flt in flts:
+        page, total = 1, None
         while total is None or (page - 1) * 999 < total:
             p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 999, "inqryDiv": 1, "type": "json",
                  "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": end.strftime("%Y%m%d2359"), **flt}
             try:
-                items, total = call_api(base, op, p)
+                items, total = call_api(base, op, p, timeout=25, retries=1)
             except Exception as e:
-                msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:160]  # 키는 기록하지 않는다
-                diag.append(f"{op}/{list(flt)[0]}: {msg}")
-                got = None
+                diag.append(f"{op}/{list(flt)[0]} {begin:%Y-%m}: {re.sub(r'serviceKey=[^&]+', 'serviceKey=***', str(e))[:120]}")
                 break
-            if total > 3000:  # 4주에 KERIS 단독 3천 건은 불가능 -> 필터가 서버에서 무시된 것
-                diag.append(f"{op}/{list(flt)[0]}: 필터 미동작(total {total})")
-                got = None
-                break
-            got.extend(items)
+            out.extend(i for i in items if is_keris(i))
             if not items or page >= 5:
                 break
             page += 1
             time.sleep(cfg.get("request_interval_sec", 0.15))
-        if got is not None and "Cd" in list(flt)[0]:
-            code_ok = True
-        if got:
-            out.extend(i for i in got if is_keris(i))
     return out
 
 
@@ -123,40 +135,83 @@ def main():
         return 0
     prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     bids, opens, awards, parts = (prev.get(k, {}) for k in ("bids", "opening", "awards", "participants"))
-    days = a.days if bids else a.backfill_days
-    diag, fields = [], {}
+    st = prev.get("status", {})
+    covered = st.get("covered_days", 0)  # 지금까지 거슬러 올라간 일수(백필 진행도)
+    diag, fields = [], st.get("fields", {})
+
+    def save(note=""):
+        OUT.write_text(json.dumps({"updated": date.today().isoformat(), "inst": INST_NM, "bids": bids, "opening": opens,
+                                   "awards": awards, "participants": parts,
+                                   "status": {"covered_days": covered, "target_days": a.backfill_days, "diag": sorted(set(diag))[:40],
+                                              "fields": fields, "note": note}}, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    # 이번 실행 창: 최근 a.days(갱신) + 아직 안 본 과거 1년(백필, 목표 3년까지)
+    windows = [(datetime.now() - timedelta(days=a.days), datetime.now())]
+    if covered < a.backfill_days:
+        back_end = datetime.now() - timedelta(days=max(covered, a.days))
+        back_days = min(365, a.backfill_days - max(covered, a.days))
+        windows.append((back_end - timedelta(days=back_days), back_end))
+    ops = {}
     for kind, sfx in KINDS.items():
-        for begin, end in months(days):
-            for it in query(cfg, BID, f"getBidPblancListInfo{sfx}PPSSrch", begin, end, diag):
-                fields.setdefault("bid", sorted(it))
-                k = f"{first(it, 'bidNtceNo')}-{first(it, 'bidNtceOrd') or '00'}"
-                t = first(it, "bidNtceNm")
-                bids[k] = {"no": first(it, "bidNtceNo"), "ord": first(it, "bidNtceOrd"), "t": t, "kind": kind, "cat": classify(t),
-                           "rel": bool(RELEVANT_RE.search(t)), "ntce": first(it, "ntceInsttNm"), "dmnd": first(it, "dminsttNm"),
-                           "d": str(first(it, "bidNtceDt", "rgstDt"))[:10], "close": str(first(it, "bidClseDt"))[:16],
-                           "open": str(first(it, "opengDt"))[:16], "budget": num(first(it, "asignBdgtAmt")),
-                           "est": num(first(it, "presmptPrce")), "method": first(it, "cntrctCnclsMthdNm", "bidMethdNm"),
-                           "award": first(it, "sucsfbidMthdNm"), "url": first(it, "bidNtceDtlUrl", "bidNtceUrl")}
-            for it in query(cfg, SCS, f"getOpengResultListInfo{sfx}PPSSrch", begin, end, diag):
-                fields.setdefault("opening", sorted(it))
-                k = f"{first(it, 'bidNtceNo')}-{first(it, 'bidNtceOrd') or '00'}"
-                corp = str(first(it, "opengCorpInfo")).split("^")
-                opens[k] = {"t": first(it, "bidNtceNm"), "kind": kind, "d": str(first(it, "opengDt"))[:10],
-                            "n": num(first(it, "prtcptCnum")), "status": first(it, "progrsDivCdNm"),
-                            "first": corp[0] if corp and corp[0] else "", "first_amt": num(corp[3]) if len(corp) > 3 else None,
-                            "first_rate": corp[4] if len(corp) > 4 else ""}
-            for it in query(cfg, SCS, f"getScsbidListSttus{sfx}PPSSrch", begin, end, diag):
-                fields.setdefault("award", sorted(it))
-                k = f"{first(it, 'bidNtceNo')}-{first(it, 'bidNtceOrd') or '00'}"
-                awards[k] = {"t": first(it, "bidNtceNm"), "kind": kind, "d": str(first(it, "rlOpengDt", "fnlSucsfDate"))[:10],
-                             "winner": first(it, "bidwinnrNm"), "amt": num(first(it, "sucsfbidAmt")),
-                             "rate": first(it, "sucsfbidRate"), "n": num(first(it, "prtcptCnum"))}
+        for key, base, op in (("bid", BID, f"getBidPblancListInfo{sfx}PPSSrch"), ("opening", SCS, f"getOpengResultListInfo{sfx}PPSSrch"),
+                              ("award", SCS, f"getScsbidListSttus{sfx}PPSSrch")):
+            ops[(kind, key)] = (base, op, probe(cfg, base, op, diag))
+    for w_begin, w_end in windows:
+        chunks = []
+        cur = w_begin
+        while cur < w_end:
+            nxt = min(cur + timedelta(days=28), w_end)
+            chunks.append((cur, nxt))
+            cur = nxt
+        for kind, sfx in KINDS.items():
+            base, op, flts = ops[(kind, "bid")]
+            for begin, end in chunks if flts else []:
+                for it in query(cfg, base, op, flts, begin, end, diag):
+                    fields.setdefault("bid", sorted(it))
+                    k = f"{first(it, 'bidNtceNo')}-{first(it, 'bidNtceOrd') or '00'}"
+                    t = first(it, "bidNtceNm")
+                    bids[k] = {"no": first(it, "bidNtceNo"), "ord": first(it, "bidNtceOrd"), "t": t, "kind": kind, "cat": classify(t),
+                               "rel": bool(RELEVANT_RE.search(t)), "ntce": first(it, "ntceInsttNm"), "dmnd": first(it, "dminsttNm"),
+                               "d": str(first(it, "bidNtceDt", "rgstDt"))[:10], "close": str(first(it, "bidClseDt"))[:16],
+                               "open": str(first(it, "opengDt"))[:16], "budget": num(first(it, "asignBdgtAmt")),
+                               "est": num(first(it, "presmptPrce")), "method": first(it, "cntrctCnclsMthdNm", "bidMethdNm"),
+                               "award": first(it, "sucsfbidMthdNm"), "url": first(it, "bidNtceDtlUrl", "bidNtceUrl")}
+            save("공고")
+            base, op, flts = ops[(kind, "opening")]
+            for begin, end in chunks if flts else []:
+                for it in query(cfg, base, op, flts, begin, end, diag):
+                    fields.setdefault("opening", sorted(it))
+                    k = f"{first(it, 'bidNtceNo')}-{first(it, 'bidNtceOrd') or '00'}"
+                    corp = str(first(it, "opengCorpInfo")).split("^")
+                    opens[k] = {"t": first(it, "bidNtceNm"), "kind": kind, "d": str(first(it, "opengDt"))[:10],
+                                "n": num(first(it, "prtcptCnum")), "status": first(it, "progrsDivCdNm"),
+                                "first": corp[0] if corp and corp[0] else "", "first_amt": num(corp[3]) if len(corp) > 3 else None,
+                                "first_rate": corp[4] if len(corp) > 4 else ""}
+            save("개찰")
+            base, op, flts = ops[(kind, "award")]
+            for begin, end in chunks if flts else []:
+                for it in query(cfg, base, op, flts, begin, end, diag):
+                    fields.setdefault("award", sorted(it))
+                    k = f"{first(it, 'bidNtceNo')}-{first(it, 'bidNtceOrd') or '00'}"
+                    awards[k] = {"t": first(it, "bidNtceNm"), "kind": kind, "d": str(first(it, "rlOpengDt", "fnlSucsfDate"))[:10],
+                                 "winner": first(it, "bidwinnrNm"), "amt": num(first(it, "sucsfbidAmt")),
+                                 "rate": first(it, "sucsfbidRate"), "n": num(first(it, "prtcptCnum"))}
+            save("낙찰")
+        print(f"  창 {w_begin:%Y-%m-%d}~{w_end:%Y-%m-%d}: 공고 {len(bids)} · 개찰 {len(opens)} · 낙찰 {len(awards)}", flush=True)
+    if len(windows) > 1:
+        covered = max(covered, a.days) + (windows[1][1] - windows[1][0]).days
+    elif not covered:
+        covered = a.days
     # 관련 분야 개찰 건: 참가업체 전체(자사·경쟁사 참여 이력)
-    for k, o in opens.items():
+    n_calls = 0
+    for k, o in sorted(opens.items(), key=lambda x: x[1].get("d") or "", reverse=True):
         b = bids.get(k, {})
+        if n_calls >= 150:
+            break
         if k in parts or not (b.get("rel") or RELEVANT_RE.search(o.get("t", ""))):
             continue
         no, ord_ = k.rsplit("-", 1)
+        n_calls += 1
         try:
             items, _ = call_api(SCS, "getOpengResultListInfoOpengCompt",
                                 {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 100, "type": "json",
@@ -172,10 +227,7 @@ def main():
                 break
     for v in awards.values():
         v["co"] = company_of(v.get("winner"))
-    OUT.write_text(json.dumps({"updated": date.today().isoformat(), "inst": INST_NM, "bids": bids, "opening": opens,
-                               "awards": awards, "participants": parts,
-                               "status": {"days": days, "diag": sorted(set(diag))[:40], "fields": fields}},
-                              ensure_ascii=False, indent=1), encoding="utf-8")
+    save("완료")
     print(f"KERIS 공고 {len(bids)} · 개찰 {len(opens)} · 낙찰 {len(awards)} · 참가목록 {len(parts)} · 진단 {len(set(diag))}건")
     for d in sorted(set(diag))[:15]:
         print("  ", d)
