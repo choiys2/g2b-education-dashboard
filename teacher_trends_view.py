@@ -14,6 +14,56 @@ from pathlib import Path
 from mall_trends import TOPIC_NAME, topics_of
 
 SRC = Path(__file__).parent / "history" / "teacher_creator_trends.json"
+INTEREST = Path(__file__).parent / "history" / "teacher_interest_trends.json"
+
+
+def _trend(series):
+    """[[주, 지수]] -> 최근 4주 평균, 그 앞 12주 대비 변화율(%), 최근 26주 스파크라인"""
+    v = [x[1] for x in series or []]
+    if len(v) < 8:
+        return None
+    last, prev = sum(v[-4:]) / 4, v[-16:-4]
+    base = sum(prev) / len(prev) if prev else 0
+    return {"idx": round(last, 1), "mom": round((last / base - 1) * 100) if base else None, "spark": [round(x, 1) for x in v[-26:]]}
+
+
+def interest(own):
+    """네이버 데이터랩·쇼핑인사이트·블로그/카페 글 수 -> 주제별 관심 지표"""
+    try:
+        src = json.loads(INTEREST.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"available": False}
+    dl = (src.get("datalab") or {}).get("topics", {})
+    hist = src.get("buzz_hist", {})
+    days = sorted(hist)
+    cur, prev = (hist[days[-1]] if days else {}), (hist[days[-2]] if len(days) > 1 else None)
+    gap_days = (date.fromisoformat(days[-1]) - date.fromisoformat(days[-2])).days if prev else 0
+    rows = []
+    for t in set(dl) | set(cur):
+        tr = _trend(dl.get(t))
+        c = cur.get(t, {})
+        total = sum(v for v in c.values() if v)
+        weekly = None
+        if prev and gap_days:
+            p = prev.get(t, {})
+            weekly = round(sum((c.get(k) or 0) - (p.get(k) or 0) for k in c if c.get(k) and p.get(k)) / gap_days * 7)
+        rows.append({"id": t, "topic": TOPIC_NAME.get(t, t), "idx": tr and tr["idx"], "mom": tr and tr["mom"],
+                     "spark": tr["spark"] if tr else [], "posts": total, "weekly": weekly, "own": own.get(t, 0),
+                     "titles": (src.get("buzz_titles") or {}).get(t, [])[:3]})
+    idxs = sorted(r["idx"] for r in rows if r["idx"] is not None)
+    med = idxs[len(idxs) // 2] if idxs else 0
+    for r in rows:
+        sig = []
+        if r["mom"] is not None and r["mom"] >= 15:
+            sig.append("상승")
+        if r["own"] <= 2 and (r["idx"] or 0) >= med:
+            sig.append("공백")
+        r["signal"] = sig
+    rows.sort(key=lambda r: -(r["idx"] or 0))
+    shop = [{"k": k, **(_trend(v) or {"idx": None, "mom": None, "spark": []})}
+            for k, v in ((src.get("shopping") or {}).get("keywords") or {}).items()]
+    return {"available": bool(rows), "dl_date": (src.get("datalab") or {}).get("captured_date"), "ages": (src.get("datalab") or {}).get("ages", ""),
+            "buzz_date": src.get("buzz_date"), "has_weekly": bool(prev), "rows": rows, "shop": shop}
 
 
 def _growth(hist, cid, weeks=4):
@@ -64,6 +114,7 @@ def build(own_courses):
     for c in own_courses or []:
         for t in topics_of(c.get("title", "")):
             own[t] = own.get(t, 0) + 1
+    out["interest"] = interest(own)
     tot = sum(heat.values()) or 1
     out["heat"] = sorted(({"topic": TOPIC_NAME.get(t, t), "heat": round(v / tot * 100, 1), "own": own.get(t, 0)}
                           for t, v in heat.items()), key=lambda r: -r["heat"])

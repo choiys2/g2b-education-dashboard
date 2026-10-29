@@ -4890,6 +4890,27 @@ window.__ownerQ.push(function renderAiBrief(){
       + so('<b>공백</b> 표시는 교사 채널 관심은 큰데 자사 과정이 2개 이하인 주제입니다. 인기 영상의 주제·형식(브이로그·꿀팁·실습)은 과정 기획과 홍보 콘텐츠 형식에 그대로 참고하고, 2027 개발 목록과 샘몰 SET 기획에 함께 올리세요.');
   });
 
+  safe('teacherInterest', () => {
+    const I = TT.interest || {};
+    const el = panel('competitor', null, '교사 관심사 레이더(검색·쇼핑·커뮤니티)', `네이버 데이터랩 검색 지수('교사' 검색=100${I.ages ? ', ' + I.ages : ''}) · 블로그·카페 글 · 쇼핑 클릭${I.dl_date ? ' · 수집 ' + I.dl_date : ''}`);
+    if (!el) return;
+    if (!I.available) { el.innerHTML = empty('네이버·카카오 API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
+    const spark = (a, w = 110, hgt = 24) => { if (!a || a.length < 2) return ''; const mx = Math.max(...a), mn = Math.min(...a), r = mx - mn || 1;
+      return `<svg viewBox="0 0 ${w} ${hgt}" style="width:${w}px;height:${hgt}px;vertical-align:middle;"><polyline fill="none" stroke="var(--accent)" stroke-width="1.6" points="${a.map((v, i) => `${(i / (a.length - 1) * w).toFixed(1)},${(hgt - 2 - (v - mn) / r * (hgt - 4)).toFixed(1)}`).join(' ')}"/></svg>`; };
+    const mom = m => m == null ? '-' : `<span style="color:${m >= 15 ? '#10b981' : m <= -15 ? 'var(--danger, #d64545)' : 'var(--muted)'};">${m > 0 ? '+' : ''}${m}%</span>`;
+    const R = I.rows || [];
+    const tbl = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>주제</th><th style="text-align:right;">검색 지수</th><th>26주 추이</th><th style="text-align:right;">12주 대비</th><th style="text-align:right;">${I.has_weekly ? '주간 새 글' : '누적 글(블로그·카페)'}</th><th style="text-align:right;">자사 과정</th><th>신호</th><th>최근 글</th></tr></thead><tbody>
+      ${R.map(r => `<tr><td style="white-space:nowrap;"><b>${h(r.topic)}</b></td><td class="num">${r.idx == null ? '-' : r.idx}</td><td>${spark(r.spark)}</td><td class="num">${mom(r.mom)}</td>
+        <td class="num">${I.has_weekly ? (r.weekly == null ? '-' : nfmt(r.weekly)) : nfmt(r.posts)}</td><td class="num">${r.own}개</td>
+        <td style="white-space:nowrap;">${r.signal.map(x => mChip(x, x === '상승' ? 'color-mix(in srgb, #10b981 22%, var(--surface-2))' : 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))')).join('') || '-'}</td>
+        <td style="max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted);">${h(r.titles[0] || '')}</td></tr>`).join('')}
+    </tbody></table></div>`;
+    const S = (I.shop || []).filter(x => x.idx != null);
+    const shop = S.length ? `<p style="font-weight:800;margin:14px 0 6px;">교사몰 상품군 쇼핑 클릭 추이(네이버 쇼핑인사이트)</p><div style="display:flex;flex-wrap:wrap;gap:10px;">${S.map(x => `<div style="border:1px solid var(--border);border-radius:10px;padding:8px 12px;min-width:170px;"><div style="font-size:12px;font-weight:700;">${h(x.k)}</div><div>${spark(x.spark, 140, 26)}</div><div style="font-size:11.5px;color:var(--muted);">최근 4주 ${x.idx} · 12주 대비 ${mom(x.mom)}</div></div>`).join('')}</div>` : '';
+    const up = R.filter(r => r.signal.includes('상승')).map(r => r.topic), gap = R.filter(r => r.signal.includes('공백')).map(r => r.topic);
+    el.innerHTML = tbl + shop + so(`${up.length ? `검색 관심이 12주 전보다 15% 이상 오른 주제: <b>${h(up.join(' · '))}</b>. ` : ''}${gap.length ? `관심은 중간 이상인데 자사 과정이 2개 이하인 주제: <b>${h(gap.join(' · '))}</b> — 2027 개발 목록 우선 검토. ` : ''}상승 주제는 <b>과정 노출 순서와 교육청 제안서 첫 장</b>에 먼저 반영하고, 몇 주 누적되면 검색 상승과 실제 신청 증가의 시차를 확인해 기준을 조정하세요.`);
+  });
+
   /* ============ B2G영업 ============ */
   safe('funnel', () => {
     const Vc = (PIPE_COMMS || {}).conversion || {};

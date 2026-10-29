@@ -27,6 +27,14 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python teacher_creator_trends.py
+      # 키가 없으면 해당 출처만 건너뛴다(Secrets: NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, KAKAO_REST_KEY).
+      - name: 교사 관심사 수집(네이버 데이터랩·쇼핑인사이트·블로그/카페, 다음 블로그/카페)
+        continue-on-error: true
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
+        run: python teacher_interest_trends.py
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
@@ -34,6 +42,7 @@ jobs:
           touch history/competitor_mall_new.jsonl
           git add history/competitor_mall_catalog.json history/competitor_mall_new.jsonl
           [ -f history/teacher_creator_trends.json ] && git add history/teacher_creator_trends.json
+          [ -f history/teacher_interest_trends.json ] && git add history/teacher_interest_trends.json
           git diff --cached --quiet || git commit -m "chore: 교사몰 상품 동향 수집 $(date -u +%F)"
           git pull --rebase origin main
           git push
