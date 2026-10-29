@@ -856,23 +856,11 @@
      ]
     },
     {
-     "no": "1112004",
-     "name": "[티처몰ONLY]학교폭력 예방 지우개",
-     "price": 500,
-     "orig": 700,
-     "rank": 85,
-     "score": null,
-     "badges": [
-      "badge05",
-      "badge07"
-     ]
-    },
-    {
      "no": "1210429",
      "name": "[티처몰ONLY] AI NFC 명함 만들기(진로교육) ★ 바로 배송 ★",
      "price": 2500,
      "orig": 3000,
-     "rank": 86,
+     "rank": 85,
      "score": null,
      "badges": []
     },
@@ -881,7 +869,7 @@
      "name": "사랑과 감사의 어버이날 스마트톡(2인용)",
      "price": 1700,
      "orig": null,
-     "rank": 87,
+     "rank": 86,
      "score": null,
      "badges": []
     },
@@ -890,7 +878,7 @@
      "name": "친구사랑 L홀더",
      "price": 900,
      "orig": null,
-     "rank": 88,
+     "rank": 87,
      "score": null,
      "badges": []
     },
@@ -899,7 +887,7 @@
      "name": "[온교육] 캐스트퍼즐",
      "price": 5580,
      "orig": 6200,
-     "rank": 89,
+     "rank": 88,
      "score": null,
      "badges": []
     },
@@ -908,7 +896,7 @@
      "name": "흡연예방 투명키링(2종택1)",
      "price": 2500,
      "orig": null,
-     "rank": 90,
+     "rank": 89,
      "score": null,
      "badges": []
     },
@@ -917,7 +905,7 @@
      "name": "[펠트친구]별사탕필통만들기(바이어스처리됨)",
      "price": 7700,
      "orig": null,
-     "rank": 91,
+     "rank": 90,
      "score": null,
      "badges": []
     },
@@ -926,7 +914,7 @@
      "name": "애플데이 행사 친구사랑주간 엽서 카드 [ 사과카드 ] 봉투포함 . 학교이름인쇄",
      "price": 300,
      "orig": 500,
-     "rank": 92,
+     "rank": 91,
      "score": null,
      "badges": []
     },
@@ -935,7 +923,7 @@
      "name": "[티처몰ONLY] 판정개입금지, 그럴 수 있어 피구공",
      "price": 26000,
      "orig": null,
-     "rank": 93,
+     "rank": 92,
      "score": null,
      "badges": [
       "badge05",
@@ -947,7 +935,7 @@
      "name": "애플데이 단체간식 위클래스 행사 [애플데이 삼각 간식]",
      "price": 2300,
      "orig": 2875,
-     "rank": 94,
+     "rank": 93,
      "score": null,
      "badges": []
     },
@@ -956,7 +944,7 @@
      "name": "[펠트친구] 독도팔찌 만들기",
      "price": 1500,
      "orig": null,
-     "rank": 95,
+     "rank": 94,
      "score": null,
      "badges": []
     },
@@ -965,7 +953,7 @@
      "name": "[매직북스] 합격기원 선물 컴퓨터용 싸인펜 문구 선물세트(무료인쇄)",
      "price": 1000,
      "orig": null,
-     "rank": 96,
+     "rank": 95,
      "score": null,
      "badges": []
     },
@@ -974,7 +962,7 @@
      "name": "[티처몰ONLY] 하루 5분 사회정서 성장노트",
      "price": 2500,
      "orig": null,
-     "rank": 97,
+     "rank": 96,
      "score": null,
      "badges": [
       "badge05",
@@ -986,7 +974,7 @@
      "name": "2027년 투명 전체 달력 만들기",
      "price": 2000,
      "orig": 2500,
-     "rank": 98,
+     "rank": 97,
      "score": null,
      "badges": []
     },
@@ -995,7 +983,7 @@
      "name": "[매직북스] 마약 약물중독 예방 흡연예방 4컷 만화 메시지 연필 세트",
      "price": 1000,
      "orig": null,
-     "rank": 99,
+     "rank": 98,
      "score": null,
      "badges": []
     },
@@ -1004,6 +992,15 @@
      "name": "자존감 아크릴 키링 만들기 (인성, 긍정)",
      "price": 1200,
      "orig": null,
+     "rank": 99,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1198339",
+     "name": "[꼬삔샵] 단체선물 러블리 점착메모지 (학교행사.체육대회.독서.애플데이)",
+     "price": 1200,
+     "orig": 2000,
      "rank": 100,
      "score": null,
      "badges": []
@@ -1013,7 +1010,7 @@
     {
      "code": "00010001",
      "name": "과목별교구",
-     "count": 9825,
+     "count": 9826,
      "top": [
       {
        "no": "1199418",
@@ -1309,7 +1306,7 @@
     {
      "code": "00010003",
      "name": "학급운영",
-     "count": 29411,
+     "count": 29367,
      "top": [
       {
        "no": "1199418",
@@ -1453,7 +1450,7 @@
     {
      "code": "00010004",
      "name": "창의만들기",
-     "count": 19312,
+     "count": 19331,
      "top": [
       {
        "no": "921310",
@@ -1753,7 +1750,7 @@
     {
      "code": "00010007",
      "name": "문구/사무",
-     "count": 30697,
+     "count": 30692,
      "top": [
       {
        "no": "1199418",
@@ -2018,7 +2015,7 @@
     {
      "code": "00010084",
      "name": "간식/선물",
-     "count": 23811,
+     "count": 23800,
      "top": [
       {
        "no": "983882",
@@ -2165,7 +2162,7 @@
     {
      "code": "00010093",
      "name": "생태전환교육",
-     "count": 841,
+     "count": 842,
      "top": [
       {
        "no": "1079497",
@@ -2443,7 +2440,7 @@
     {
      "code": "00010110",
      "name": "사회정서학습",
-     "count": 371,
+     "count": 372,
      "top": [
       {
        "no": "1124123",
@@ -2941,7 +2938,7 @@
      "name": "[매직북스] 합격기원 선물 컴퓨터용 싸인펜 문구 선물세트(무료인쇄)",
      "price": 1000,
      "orig": null,
-     "rank": 96,
+     "rank": 95,
      "score": null,
      "badges": []
     },
@@ -2950,7 +2947,7 @@
      "name": "[매직북스] 마약 약물중독 예방 흡연예방 4컷 만화 메시지 연필 세트",
      "price": 1000,
      "orig": null,
-     "rank": 99,
+     "rank": 98,
      "score": null,
      "badges": []
     }
