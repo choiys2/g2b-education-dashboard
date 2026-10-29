@@ -13,6 +13,8 @@ from collections import Counter, defaultdict
 from datetime import date, datetime
 from pathlib import Path
 
+from keris_export import classify
+
 SRC = Path(__file__).parent / "history" / "keris_procurement.json"
 
 
@@ -40,6 +42,8 @@ def build():
     today = date.today()
 
     # 진행 중 공고: 마감일시가 지금 이후(재공고 차수는 최신만)
+    for b in bids.values():
+        b["cat"] = classify(b.get("t", ""))  # 분류 규칙이 바뀌어도 재수집 없이 반영
     latest = {}
     for k, b in bids.items():
         no = b.get("no") or k.rsplit("-", 1)[0]
@@ -93,7 +97,7 @@ def build():
         w["rel"] += 1 if rel else 0
         w["co"] = a.get("co", "")
         r = _rate(a.get("rate"))
-        if r and 50 <= r <= 110:
+        if r and 50 <= r <= 110 and (a.get("n") or 0) >= 2:  # 1개사 수의시담(100%)은 낙찰률 분포에서 제외
             rates.append({"r": r, "rel": rel, "n": a.get("n"), "t": a.get("t"), "amt": a.get("amt")})
     top = sorted(wins.values(), key=lambda w: -w["amt"])[:15]
     rel_rates = [x["r"] for x in rates if x["rel"]]
@@ -122,6 +126,7 @@ def build():
                     "live": len(live), "awards": len(awards), "avg_n": round(sum(o["n"] for o in opens.values() if o.get("n")) /
                                                                           max(1, sum(1 for o in opens.values() if o.get("n"))), 1),
                     "rate_med": sorted(x["r"] for x in rates)[len(rates) // 2] if rates else None,
+                    "solo": sum(1 for a in awards.values() if (a.get("n") or 0) == 1), "comp_n": len(rates),
                     "rel_rate_med": sorted(rel_rates)[len(rel_rates) // 2] if rel_rates else None,
                     "since": min((b.get("d") or "9") for b in latest.values()) if latest else ""},
             "live": live[:40], "months": [{"m": m, **by_month[m]} for m in months],

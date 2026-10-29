@@ -709,6 +709,7 @@
 
   <nav class="tabnav" role="tablist">
     <button class="tabbtn active" role="tab" aria-selected="true" data-tab="market">시장 분석</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="keris">KERIS 조달</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2bfull">나라장터 종합</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="neti">교원연수 이수 현황</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="g2b">AI·에듀테크 발주 리스트</button>
@@ -817,6 +818,16 @@
   <script src="../widget/news-widget.js" defer></script>
 
   </div><!-- /panel-market -->
+
+  <div class="tabpanel" id="panel-keris">
+    <div class="callout">
+      <div class="icon">i</div>
+      <div>
+        <h3>한국교육학술정보원(KERIS) 나라장터 조달 — 입찰공고·개찰·낙찰</h3>
+        <p>나라장터 공식 API로 KERIS가 공고하거나 수요기관인 건(용역·물품)을 최근 3년치 모아 매일 06시 전에 갱신합니다. 연수·콘텐츠·AI/에듀테크 등 <b>자사 관련 분야</b>는 개찰 참가업체까지 상세히 봅니다. 원문은 <a href="https://www.keris.or.kr/main/tender/view/selectTenderList.do" target="_blank" rel="noopener" style="color:var(--accent);">KERIS 입찰공고</a>·나라장터에서 확인하세요.</p>
+      </div>
+    </div>
+  </div>
 
   <div class="tabpanel" id="panel-g2b">
 
@@ -2525,6 +2536,7 @@ const SCHOOL_CONTRACT_TREND = {"years":["2009","2010","2011","2012","2013","2014
 const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
 const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
 const NETI = __NETI_JSON__;
+const KERIS = __KERIS_JSON__;
 const LEADING_ROWS = __LEADING_ROWS_JSON__;
 const LEADING_BY_REGION = __LEADING_BY_REGION_JSON__;
 const LEADING_ENRICHED = LEADING_ROWS;  // 같은 데이터 - 두 번 싣지 않는다
@@ -4921,6 +4933,73 @@ window.__ownerQ.push(function renderAiBrief(){
     const shop = S.length ? `<p style="font-weight:800;margin:14px 0 6px;">교사몰 상품군 쇼핑 클릭 추이(네이버 쇼핑인사이트)</p><div style="display:flex;flex-wrap:wrap;gap:10px;">${S.map(x => `<div style="border:1px solid var(--border);border-radius:10px;padding:8px 12px;min-width:170px;"><div style="font-size:12px;font-weight:700;">${h(x.k)}</div><div>${spark(x.spark, 140, 26)}</div><div style="font-size:11.5px;color:var(--muted);">최근 4주 ${x.idx} · 12주 대비 ${mom(x.mom)}</div></div>`).join('')}</div>` : '';
     const up = R.filter(r => r.signal.includes('상승')).map(r => r.topic), gap = R.filter(r => r.signal.includes('공백')).map(r => r.topic);
     el.innerHTML = tbl + shop + so(`${up.length ? `검색 관심이 12주 전보다 15% 이상 오른 주제: <b>${h(up.join(' · '))}</b>. ` : ''}${gap.length ? `관심은 중간 이상인데 자사 과정이 2개 이하인 주제: <b>${h(gap.join(' · '))}</b> — 2027 개발 목록 우선 검토. ` : ''}상승 주제는 <b>과정 노출 순서와 교육청 제안서 첫 장</b>에 먼저 반영하고, 몇 주 누적되면 검색 상승과 실제 신청 증가의 시차를 확인해 기준을 조정하세요.`);
+  });
+
+  /* ============ KERIS 조달 ============ */
+  const KR = (typeof KERIS !== 'undefined' && KERIS) || {};
+  const krRel = 'color-mix(in srgb, #10b981 22%, var(--surface-2))';
+  safe('kerisKpi', () => {
+    const el = panel('keris', null, '한눈에 보기', `${KR.kpi ? KR.kpi.since + ' 이후' : ''}${KR.updated ? ' · 갱신 ' + KR.updated : ''}`);
+    if (!el) return;
+    if (!KR.available) { el.innerHTML = empty('KERIS 조달 수집 대기(매일 05:10 자동 수집)'); return; }
+    const K = KR.kpi;
+    const tile = (lab, val, sub) => `<div style="flex:1;min-width:140px;border:1px solid var(--border);border-radius:12px;padding:12px 14px;"><div style="font-size:12px;color:var(--muted);">${lab}</div><div style="font-size:22px;font-weight:800;margin:4px 0;">${val}</div><div style="font-size:11.5px;color:var(--ink-2);">${sub}</div></div>`;
+    el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:10px;">
+      ${tile('입찰공고', fmt(K.bids) + '건', `배정예산 합계 ${fmtWon(K.amt)}`)}
+      ${tile('자사 관련 분야', fmt(K.rel) + '건', '연수·콘텐츠·AI/에듀테크 등')}
+      ${tile('진행 중 공고', fmt(K.live) + '건', '마감 전')}
+      ${tile('평균 참가업체', K.avg_n + '개사', `낙찰 ${fmt(K.awards)}건`)}
+      ${tile('경쟁입찰 낙찰률', K.rate_med == null ? '-' : K.rate_med + '%', `2개사 이상 ${fmt(K.comp_n)}건 중앙값 · 관련 분야 ${K.rel_rate_med == null ? '-' : K.rel_rate_med + '%'} · 단독 ${fmt(K.solo)}건 제외`)}
+    </div>`;
+  });
+  safe('kerisLive', () => {
+    const el = panel('keris', null, '진행 중 공고', '마감 전 · 자사 관련 분야 먼저 · D-day 순');
+    if (!el || !KR.available) return;
+    const L = KR.live || [];
+    if (!L.length) { el.innerHTML = empty('현재 마감 전 공고가 없습니다.'); return; }
+    el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>D-day</th><th>공고명</th><th>분야</th><th style="text-align:right;">배정예산</th><th>계약방식</th><th>마감</th><th>개찰</th></tr></thead><tbody>
+      ${L.map(b => `<tr><td class="num" style="white-space:nowrap;color:${b.dday != null && b.dday <= 3 ? 'var(--danger, #d64545)' : 'var(--ink)'};"><b>${b.dday == null ? '-' : 'D-' + b.dday}</b></td>
+        <td style="max-width:420px;">${b.rel ? mChip('관련', krRel) : ''}${b.url ? `<a href="${h(b.url)}" target="_blank" rel="noopener">${h(b.t)}</a>` : h(b.t)}<div style="color:var(--muted);font-size:11px;">${h(b.kind)} · ${h(b.ntce === b.dmnd ? b.ntce : `${b.ntce} → ${b.dmnd}`)}</div></td>
+        <td style="white-space:nowrap;">${h(b.cat)}</td><td class="num">${b.budget || b.est ? fmtWon(b.budget || b.est) : '-'}</td><td style="white-space:nowrap;">${h(b.method || '-')}</td>
+        <td style="white-space:nowrap;">${h((b.close || '').slice(5))}</td><td style="white-space:nowrap;">${h((b.open || '').slice(5))}</td></tr>`).join('')}
+    </tbody></table></div>`;
+  });
+  safe('kerisTrend', () => {
+    const el = panel('keris', null, '발주 추이·분야', '월별 공고 건수(막대) · 관련 분야 비중 · 분야별 건수·예산 · 계약방식');
+    if (!el || !KR.available) return;
+    const M = KR.months || [], mx = Math.max(1, ...M.map(m => m.n));
+    const bars = `<div style="display:flex;align-items:flex-end;gap:3px;height:150px;">${M.map(m => `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0;" ${tipAttr(`${m.m}: 공고 ${m.n}건(관련 ${m.rel}건) · 예산 ${fmtWon(m.amt)}`)}>
+      <div style="width:100%;height:${m.n / mx * 125}px;display:flex;flex-direction:column-reverse;"><span style="flex:${m.rel};background:#10b981;"></span><span style="flex:${m.n - m.rel};background:var(--accent);opacity:.55;border-radius:3px 3px 0 0;"></span></div>
+      <span style="font-size:9.5px;color:var(--muted);white-space:nowrap;">${['01', '04', '07', '10'].includes(m.m.slice(5)) ? (m.m.slice(5) === '01' ? m.m.slice(2, 4) + '.' : '') + m.m.slice(5) : '&nbsp;'}</span></div>`).join('')}</div>${legend([['관련 분야', '#10b981'], ['기타', 'var(--accent)']])}`;
+    const C = KR.cats || [];
+    const cats = `<p style="font-weight:800;margin:0 0 6px;">분야별</p>${hbars(C.map(c => ({k: c.cat, v: c.n, label: `${c.n}건 · ${fmtWon(c.amt)}`, c: /연수|콘텐츠|AI/.test(c.cat) ? '#10b981' : 'var(--accent)'})), {lw: 90, vw: 120})}
+      <p style="font-weight:800;margin:12px 0 6px;">계약방식</p>${(KR.methods || []).map(([k, n]) => mChip(`${k} ${n}`)).join('')}`;
+    el.innerHTML = grid2(`<div>${bars}</div>`, `<div>${cats}</div>`) + so('KERIS 발주의 대부분은 시스템·SW와 연구 용역입니다. 연수·콘텐츠·AI 분야(초록) 발주가 몰리는 달을 미리 보고, <b>컨소시엄 파트너 구성과 제안 인력 배치</b>를 그 2~3개월 전에 준비하세요.');
+  });
+  safe('kerisAward', () => {
+    const el = panel('keris', null, '개찰·낙찰 분석', '참가업체 수 분포 · 낙찰률 분포 · 낙찰업체 순위(금액)');
+    if (!el || !KR.available) return;
+    const N = KR.n_dist || [], nmx = Math.max(1, ...N.map(x => x[1]));
+    const R = (KR.rates || []).map(x => x.r), bins = [[80, 85], [85, 87], [87, 88], [88, 89], [89, 90], [90, 92], [92, 95], [95, 100], [100, 111]];
+    const bc = bins.map(([a, b]) => R.filter(r => r >= a && r < b).length), bmx = Math.max(1, ...bc);
+    const left = `<p style="font-weight:800;margin:0 0 6px;">건당 참가업체 수</p>${hbars(N.map(([k, n]) => ({k, v: n, label: n + '건', c: k === '1개사' ? 'var(--warning)' : 'var(--accent)'})), {lw: 80, vw: 60})}
+      <p style="font-weight:800;margin:14px 0 6px;">경쟁입찰 낙찰률 분포(2개사 이상, %)</p><div style="display:flex;align-items:flex-end;gap:4px;height:110px;">${bins.map(([a, b], i) => `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" ${tipAttr(`${a}~${b}%: ${bc[i]}건`)}><span style="font-size:10px;color:var(--muted);">${bc[i] || ''}</span><span style="width:100%;height:${bc[i] / bmx * 80}px;background:var(--accent);border-radius:3px 3px 0 0;"></span><span style="font-size:9.5px;color:var(--muted);">${a}</span></div>`).join('')}</div>`;
+    const W = KR.winners || [];
+    const right = `<p style="font-weight:800;margin:0 0 6px;">낙찰업체 순위(금액)</p><div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><thead><tr><th style="width:40px;">#</th><th>업체</th><th style="width:60px;text-align:right;">건수</th><th style="width:90px;text-align:right;">금액</th></tr></thead><tbody>
+      ${W.map((w, i) => `<tr><td class="num">${i + 1}</td><td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${w.co ? mChip(w.co, krRel) : ''}${h(w.name)}${w.rel ? ` <span style="color:var(--muted);font-size:11px;">관련 ${w.rel}</span>` : ''}</td><td class="num">${w.n}</td><td class="num">${fmtWon(w.amt)}</td></tr>`).join('')}</tbody></table></div>`;
+    const one = (N.find(x => x[0] === '1개사') || [0, 0])[1], all = N.reduce((a, x) => a + x[1], 0);
+    el.innerHTML = grid2(`<div>${left}</div>`, `<div>${right}</div>`) + so(`${all ? `개찰 ${all}건 중 <b>${Math.round(one / all * 100)}%가 1개사 단독 참가</b>입니다 — 단독 응찰이 잦은 분야는 진입 장벽이 낮다는 뜻이니 관련 분야 공고는 적극 검토하세요. ` : ''}낙찰률 분포는 투찰가 설정 기준으로 쓰세요(관련 분야 중앙값 ${KR.kpi.rel_rate_med == null ? '-' : KR.kpi.rel_rate_med + '%'}).`);
+  });
+  safe('kerisCompanies', () => {
+    const el = panel('keris', null, '자사·경쟁사 참여 이력', '자사 관련 분야 개찰 참가업체 목록 기준 · 최근 낙찰(관련 분야)');
+    if (!el || !KR.available) return;
+    const C = KR.companies || {}, names = Object.keys(C);
+    const cards = names.length ? `<div style="display:flex;flex-wrap:wrap;gap:10px;">${names.map(n => `<div style="flex:1;min-width:230px;border:1px solid var(--border);border-radius:12px;padding:10px 12px;"><div style="font-weight:800;">${h(n)} <span style="font-weight:600;font-size:12px;color:var(--muted);">참가 ${C[n].bid} · 1순위 ${C[n].win}</span></div>
+      ${C[n].items.map(x => `<div style="font-size:11.5px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${h(x.t)}">${x.rank === 1 ? '🥇' : `${x.rank || '-'}위`} ${h(x.t)} <span style="color:var(--muted);">${h((x.d || '').slice(2))} · ${x.n}개사</span></div>`).join('')}</div>`).join('')}</div>` : empty('관련 분야 개찰에서 자사·주요 경쟁사 참여가 아직 확인되지 않았습니다.');
+    const A = KR.rel_awards || [];
+    const list = A.length ? `<p style="font-weight:800;margin:14px 0 6px;">관련 분야 최근 낙찰</p><div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>개찰일</th><th>공고명</th><th>낙찰업체</th><th style="text-align:right;">낙찰금액</th><th style="text-align:right;">낙찰률</th><th style="text-align:right;">참가</th></tr></thead><tbody>
+      ${A.map(a => `<tr><td style="white-space:nowrap;">${h(a.d || '')}</td><td style="max-width:380px;">${h(a.t)}</td><td style="white-space:nowrap;">${a.co ? mChip(a.co, krRel) : ''}${h(a.winner || '')}</td><td class="num">${a.amt ? fmtWon(a.amt) : '-'}</td><td class="num">${h(a.rate || '-')}</td><td class="num">${a.n || '-'}</td></tr>`).join('')}</tbody></table></div>` : '';
+    el.innerHTML = cards + list + so((C['비상교육(자사)'] ? '' : '자사(비상교육)는 최근 3년 KERIS 관련 분야 개찰 참가 이력이 확인되지 않습니다 — AI교육 담당교원 연수처럼 경쟁사가 수주하는 연수 운영 공고부터 참여를 검토하세요. ') + '관련 분야를 자주 따는 업체는 KERIS 컨소시엄의 <b>파트너 후보이자 경쟁자</b>입니다. 자사 참여가 없는 분야에서 반복 낙찰하는 업체는 협력 제안 대상으로, 자사와 자주 겹치는 업체는 투찰 전략 비교 대상으로 보세요.');
   });
 
   /* ============ 교원연수 이수 현황(통합교육연수시스템) ============ */
