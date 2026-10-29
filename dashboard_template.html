@@ -4877,17 +4877,17 @@ window.__ownerQ.push(function renderAiBrief(){
     </tbody></table></div>${so(`교사 채널 ${TT.n_channels || C.length}개 중 상위 ${C.length}개입니다. 구독자 증가(4주)가 큰 채널의 주력 주제가 지금 교사들이 찾는 콘텐츠입니다 — <b>강사 섭외·공동 기획 후보</b>로 보고, 자사 과정 홍보 채널로 협업(리뷰·라이브) 가능성을 검토하세요.`)}`;
   });
   safe('teacherTopicHeat', () => {
-    const el = panel('competitor', null, '교사 트렌드 주제 열기', `교사 채널 최근 영상 조회 비중 vs 자사 과정 수${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
+    const el = panel('competitor', null, '교사 트렌드 주제 열기', `교사 채널별 최근 영상 주제 비중(채널 규모 가중) vs 자사 과정 수${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
     if (!el) return;
     if (!TT.available) { el.innerHTML = empty('YouTube API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
     const H = (TT.heat || []).slice(0, 10), mx = Math.max(1, ...H.map(r => r.heat));
-    const heatTbl = `<div><p style="font-weight:800;margin:0 0 6px;">주제 열기</p><div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><thead><tr><th>주제</th><th style="width:34%;">조회 비중</th><th style="width:16%;text-align:right;">자사 과정</th></tr></thead><tbody>
-      ${H.map(r => `<tr ${tipAttr(`${r.topic} — 최근 영상 조회 ${nfmt(r.views)}회(${r.heat}%) · 자사 과정 ${r.own}개`)}><td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(r.topic)}${r.own <= 2 && r.heat >= 8 ? ' ' + mChip('공백', 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))') : ''}</td>
+    const heatTbl = `<div><p style="font-weight:800;margin:0 0 6px;">주제 열기</p><div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><thead><tr><th>주제</th><th style="width:34%;">관심 비중</th><th style="width:16%;text-align:right;">자사 과정</th></tr></thead><tbody>
+      ${H.map(r => `<tr ${tipAttr(`${r.topic} — 교사 채널 관심 비중 ${r.heat}% · 자사 과정 ${r.own}개`)}><td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(r.topic)}${r.own <= 2 && r.heat >= 8 ? ' ' + mChip('공백', 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))') : ''}</td>
         <td><div style="height:9px;background:var(--surface-2);border-radius:4px;"><div style="height:100%;width:${r.heat / mx * 100}%;background:var(--accent);border-radius:4px;"></div></div><span class="num" style="font-size:11px;color:var(--muted);">${r.heat}%</span></td><td class="num" style="text-align:right;">${r.own}개</td></tr>`).join('')}</tbody></table></div></div>`;
     const V = TT.videos || [];
     const vids = `<div><p style="font-weight:800;margin:0 0 6px;">최근 60일 인기 영상</p>${V.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><tbody>${V.map(v => `<tr><td><div style="display:flex;gap:8px;align-items:baseline;min-width:0;"><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><a href="https://www.youtube.com/watch?v=${h(v.id)}" target="_blank" rel="noopener">${h(v.t)}</a></span><span class="num" style="color:var(--muted);white-space:nowrap;">${nfmt(v.v)}회</span></div><div style="color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(v.ch)} · ${h(v.d.slice(5).replace('-', '/'))}${v.topics.length ? ' · ' + h(v.topics.join(', ')) : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('최근 60일 영상 없음')}</div>`;
     el.innerHTML = grid2(heatTbl, vids)
-      + so('<b>공백</b> 표시는 교사 관심(조회)은 큰데 자사 과정이 2개 이하인 주제입니다. 인기 영상의 주제·형식(브이로그·꿀팁·실습)은 과정 기획과 홍보 콘텐츠 형식에 그대로 참고하고, 2027 개발 목록과 샘몰 SET 기획에 함께 올리세요.');
+      + so('<b>공백</b> 표시는 교사 채널 관심은 큰데 자사 과정이 2개 이하인 주제입니다. 인기 영상의 주제·형식(브이로그·꿀팁·실습)은 과정 기획과 홍보 콘텐츠 형식에 그대로 참고하고, 2027 개발 목록과 샘몰 SET 기획에 함께 올리세요.');
   });
 
   /* ============ B2G영업 ============ */

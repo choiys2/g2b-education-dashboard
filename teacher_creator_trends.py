@@ -22,7 +22,7 @@ YT = "https://www.googleapis.com/youtube/v3/"
 YT_QUERIES = ["초등교사 브이로그", "중등교사 브이로그", "교사 브이로그", "선생님 유튜버 학급경영", "초등 수업 아이디어 교사",
               "교사 AI 활용 수업", "교사 일상", "임용 교사 공부"]
 TEACHER_RE = re.compile(r"교사|선생님|쌤|teacher|교실|학급|임용", re.I)
-INSTA_RE = re.compile(r"(?:instagram\.com/|인스타(?:그램)?\s*[:：]?\s*@?)([A-Za-z0-9._]{3,30})", re.I)
+INSTA_RE = re.compile(r"instagram\.com/([A-Za-z0-9._]{3,30})|인스타(?:그램)?\s*[:：]?\s*@([A-Za-z0-9._]{3,30})", re.I)
 MIN_SUBS = 3000
 
 
@@ -53,7 +53,7 @@ def youtube(key, prev):
             m = INSTA_RE.search(sn.get("description", ""))
             chans.append({"id": c["id"], "title": sn.get("title", ""), "handle": sn.get("customUrl", ""),
                           "subs": subs, "views": int(st.get("viewCount", 0) or 0), "videos": int(st.get("videoCount", 0) or 0),
-                          "insta": m.group(1).rstrip(".") if m else "",
+                          "insta": (m.group(1) or m.group(2)).rstrip(".") if m else "",
                           "uploads": c.get("contentDetails", {}).get("relatedPlaylists", {}).get("uploads", "")})
     chans.sort(key=lambda c: -c["subs"])
     chans = chans[:40]
