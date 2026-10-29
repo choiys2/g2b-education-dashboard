@@ -25186,11 +25186,9 @@
   ]
  },
  "status": {
-  "days": 1095,
-  "diag": [
-   "getBidPblancListInfoServcPPSSrch/dminsttCd: The read operation timed out",
-   "getBidPblancListInfoThngPPSSrch/dminsttCd: The read operation timed out"
-  ],
+  "covered_days": 1095,
+  "target_days": 1095,
+  "diag": [],
   "fields": {
    "bid": [
     "VAT",
@@ -25370,6 +25368,7 @@
     "techEvlVal",
     "totalEvlAmtVal"
    ]
-  }
+  },
+  "note": "완료"
  }
 }
