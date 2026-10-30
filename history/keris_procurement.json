@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29",
+ "updated": "2026-10-30",
  "inst": "한국교육학술정보원",
  "bids": {
   "20231035089-000": {
@@ -25188,7 +25188,32 @@
  "status": {
   "covered_days": 1095,
   "target_days": 1095,
-  "diag": [],
+  "diag": [
+   "getBidPblancListInfoServcPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getBidPblancListInfoServcPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getBidPblancListInfoServcPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getBidPblancListInfoServcPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getBidPblancListInfoThngPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getBidPblancListInfoThngPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getBidPblancListInfoThngPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getBidPblancListInfoThngPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getOpengResultListInfoServcPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getOpengResultListInfoServcPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getOpengResultListInfoServcPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getOpengResultListInfoServcPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getOpengResultListInfoThngPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getOpengResultListInfoThngPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getOpengResultListInfoThngPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getOpengResultListInfoThngPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getScsbidListSttusServcPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getScsbidListSttusServcPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getScsbidListSttusServcPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getScsbidListSttusServcPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getScsbidListSttusThngPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getScsbidListSttusThngPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getScsbidListSttusThngPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
+   "getScsbidListSttusThngPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    "
+  ],
   "fields": {
    "bid": [
     "VAT",
