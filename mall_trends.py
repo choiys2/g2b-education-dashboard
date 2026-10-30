@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-교사몰 상품 동향 -> 경쟁사 탭 패널 데이터(API 호출 없음, combine_dashboard.py 에서 호출).
+교사몰 상품 동향 -> B2S·샘몰 기획 탭 패널 데이터(API 호출 없음, combine_dashboard.py 에서 호출).
 
   - 카테고리 구성(상품 수), 베스트 상위, 신상품(주간 신규 + NEW 메뉴), 세트 상품, 추천 검색어
   - 자사 과정 ↔ 인기 상품 짝짓기: 같은 연수 주제(training_topics.TOPICS)로 묶이는 상품과 과정을 찾아
