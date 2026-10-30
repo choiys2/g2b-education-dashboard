@@ -2454,6 +2454,14 @@
   </div><!-- /panel-beta -->
 
   <footer>
+    <!-- 데이터·방법론 참고는 비밀번호 입력 후에만 표시(사이트 접속 로그인과 별개인 화면 가림) -->
+    <form id="methodGate" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;" autocomplete="off">
+      <span style="font-weight:700;font-size:13px;">데이터 &amp; 방법론 · 참고</span>
+      <input id="methodPw" type="password" inputmode="numeric" placeholder="비밀번호" aria-label="데이터·방법론 비밀번호" style="font:inherit;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);width:120px;">
+      <button type="submit" class="btn-csv" style="margin:0;">보기</button>
+      <span id="methodErr" role="alert" style="color:var(--danger, #d64545);font-size:12.5px;"></span>
+    </form>
+    <div id="methodLocked" hidden>
     <div class="foot-grid">
       <div>
         <h4>데이터 & 방법론</h4>
@@ -2469,6 +2477,7 @@
       </div>
     </div>
     <div class="updated">이 대시보드의 학교 수 데이터는 조회 시점 기준 실시간 값이며, 나라장터 발주·낙찰 데이터는 2026-07-22 파이프라인 실행 기준, 발주계획 스냅샷·AI·에듀테크 리스트·학교단위 발주 리스트는 2026-07-29 기준입니다. 학교단위 발주는 나라장터 물품(Thng) 입찰공고·낙찰정보 API를 AI·에듀테크 키워드로 검색해 발주기관명에 &lsquo;초등학교·중학교·고등학교&rsquo;가 실제로 들어있는 건만 남긴 것입니다.</div>
+    </div>
   </footer>
 
 </div>
@@ -2476,6 +2485,23 @@
 <div id="tooltip"></div>
 
 <script>
+/* ---------------- 데이터·방법론 참고 가림(비밀번호 SHA-256 비교, 이번 접속 동안 유지) ---------------- */
+(function methodGate(){
+  const HASH = '05744ee6ac5e4d4d6fe17c3a30ff222ac662743a1753c992914ca8a034ae9f66';
+  const form = document.getElementById('methodGate'), box = document.getElementById('methodLocked');
+  if (!form || !box) return;
+  const open = () => { box.hidden = false; form.hidden = true; };
+  try { if (sessionStorage.getItem('method-open') === '1') open(); } catch(e){}
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const pw = document.getElementById('methodPw').value.trim();
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    const hex = [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+    if (hex === HASH) { open(); try { sessionStorage.setItem('method-open', '1'); } catch(e){} }
+    else document.getElementById('methodErr').textContent = '비밀번호가 맞지 않습니다';
+  });
+})();
+
 /* ---------------- 테마 선택(라이트/다크/자동) ---------------- */
 (function themeSwitcher(){
   const KEY = 'neis-dashboard-theme';
