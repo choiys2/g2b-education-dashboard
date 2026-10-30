@@ -24,6 +24,8 @@ on:
       - "teacher_interest_trends.py"
       - ".github/workflows/keris.yml"
       - "keris_export.py"
+      - ".github/workflows/provider_probe.yml"
+      - "provider_probe.py"
 
 permissions:
   contents: write
