@@ -31,7 +31,38 @@ LINK_RE = re.compile(r"개인\s?정보\s?(처리|취급)\s?방침")
 SCRUB_RE = re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+|\(?0\d{1,2}\)?[-.\s]?\d{3,4}[-.\s]?\d{4}|1[5-9]\d{2}-\d{4}")
 
 JS_LINKS = """() => [...document.querySelectorAll('a')].map(a => ({t: (a.innerText || a.title || '').trim(), h: a.getAttribute('href') || '', on: a.getAttribute('onclick') || ''}))"""
-JS_TABLES = """() => [...document.querySelectorAll('table')].map(t => [...t.querySelectorAll('tr')].map(r => [...r.querySelectorAll('th,td')].map(c => c.innerText.trim().replace(/\\s+/g, ' '))))"""
+# 화면에 보이는 표만(지난 버전 접힘 표 제외), 병합 셀(rowspan/colspan)을 펼치고, 표 바로 앞 조항 제목을 붙인다.
+JS_TABLES = """() => {
+  const vis = el => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length) && getComputedStyle(el).visibility !== 'hidden';
+  const out = [];
+  let ctx = '';
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
+  for (let n = w.currentNode; n; n = w.nextNode()) {
+    if (n.nodeType === 3) {
+      const t = n.textContent.trim();
+      if (t && t.length < 70 && /위탁|제\s?3\s?자|제공/.test(t) && !(n.parentElement && n.parentElement.closest('table'))) ctx = t;
+      continue;
+    }
+    if (n.tagName !== 'TABLE' || !vis(n)) continue;
+    const grid = [];
+    [...n.querySelectorAll('tr')].forEach((tr, ri) => {
+      grid[ri] = grid[ri] || [];
+      let ci = 0;
+      [...tr.querySelectorAll('th,td')].forEach(c => {
+        while (grid[ri][ci] !== undefined) ci++;
+        const txt = c.innerText.trim().replace(/\\s+/g, ' ');
+        for (let r = 0; r < (c.rowSpan || 1); r++)
+          for (let k = 0; k < (c.colSpan || 1); k++) {
+            grid[ri + r] = grid[ri + r] || [];
+            grid[ri + r][ci + k] = txt;
+          }
+        ci += c.colSpan || 1;
+      });
+    });
+    out.push({ctx, rows: grid.map(r => [...r].map(x => x || ''))});
+  }
+  return out;
+}"""
 
 
 def scrub(s):
@@ -46,7 +77,8 @@ def find_policy(page, home, rules):
     except Exception as e:
         print(f"  [열기 실패] {home}: {str(e).splitlines()[0][:160]}")
         return None, None
-    links = [l for l in page.evaluate(JS_LINKS) if LINK_RE.search(l["t"])]
+    # 공지 제목('… 처리방침 개정 안내')보다 하단 고정 링크(짧은 글자)를 먼저
+    links = sorted((l for l in page.evaluate(JS_LINKS) if LINK_RE.search(l["t"])), key=lambda l: len(l["t"]))
     print(f"  처리방침 링크 후보: {[(l['t'][:20], l['h'][:80]) for l in links[:5]]}")
     for l in links:
         h = l["h"]
@@ -91,16 +123,22 @@ def sections(text):
 
 
 def classify_tables(tables):
-    consign, third = [], []
+    """조항 제목(ctx)·머리글로 처리위탁/제3자 제공 표를 가른다. 같은 표가 두 번 잡히면 하나만."""
+    consign, third, seen = [], [], set()
     for t in tables:
-        if len(t) < 2:
+        rows = t["rows"]
+        if len(rows) < 2:
             continue
-        head = " ".join(t[0])
-        rows = [[scrub(c) for c in r] for r in t[1:] if any(r)]
-        if re.search(r"수탁|위탁", head):
-            consign.append({"head": t[0], "rows": rows})
-        elif re.search(r"제공\s?받는|제공처|제3자", head):
-            third.append({"head": t[0], "rows": rows})
+        head, ctx = " ".join(rows[0]), t.get("ctx", "")
+        body = [[scrub(c) for c in r] for r in rows[1:] if any(r)]
+        sig = json.dumps(rows, ensure_ascii=False)
+        if sig in seen:
+            continue
+        seen.add(sig)
+        if re.search(r"수탁|위탁", head) or (re.search(r"위탁", ctx) and not re.search(r"제공받는", head)):
+            consign.append({"head": rows[0], "rows": body, "ctx": ctx})
+        elif re.search(r"제공\s?받는|제공처", head) or re.search(r"제\s?3\s?자", ctx):
+            third.append({"head": rows[0], "rows": body, "ctx": ctx})
     return consign, third
 
 
@@ -131,9 +169,11 @@ def scrape(page, key, site):
            "hash": hashlib.sha1(text.encode()).hexdigest()[:12]}
     print(f"  {url} · 시행 {out['effective'] or '?'} · 위탁표 {len(consign)} · 제공표 {len(third)} · 조항 {list(out['sections'])}")
     for k, v in out["sections"].items():
-        print(f"  --- {k} ---\n{v[:1500]}")
+        print(f"  --- {k} ---\n{v[:600]}")
     for t in consign + third:
-        print(f"  표 {t['head']}: {len(t['rows'])}행 예) {t['rows'][:3]}")
+        print(f"  표[{t['ctx'][:30]}] {t['head']}: {len(t['rows'])}행")
+        for r in t["rows"]:
+            print("     ", r[:3])
     return out
 
 
