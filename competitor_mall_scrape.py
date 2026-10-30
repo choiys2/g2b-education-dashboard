@@ -180,10 +180,26 @@ def providers(page, rules):
     """입점사 현황(/service/provider): 회사명·시도만(상세 주소는 저장하지 않음)."""
     if not goto(page, TM + "/service/provider", rules):
         return []
-    rows = page.evaluate("""() => [...document.querySelectorAll('tr')].map(tr => [...tr.querySelectorAll('td')].map(td => td.innerText.trim()))
-                              .filter(c => c.length >= 2 && c[0])""")
-    out = []
+    # 표(tr/td)가 아니어도 되게: 소재지(시도로 시작) 요소와 바로 앞 형제(회사명)를 짝짓는다
+    rows = page.evaluate("""() => {
+      const RE = /^(서울|부산|대구|인천|광주|대전|울산|세종|경기|강원|충청|충북|충남|전라|전북|전남|경상|경북|경남|제주)/;
+      const out = [];
+      document.querySelectorAll('td, li, div, span, p, dd').forEach(el => {
+        if (el.children.length) return;
+        const t = (el.innerText || '').trim();
+        if (!RE.test(t) || t.length > 80) return;
+        let prev = el.previousElementSibling;
+        if (!prev && el.parentElement) prev = el.parentElement.previousElementSibling;
+        const name = prev ? (prev.innerText || '').trim() : '';
+        if (name && name.length <= 60 && !RE.test(name) && name !== '입점사 명') out.push([name, t]);
+      });
+      return out;
+    }""")
+    out, seen = [], set()
     for c in rows:
+        if c[0] in seen:
+            continue
+        seen.add(c[0])
         m = REGION_RE.match(c[1])
         if m:
             r = m.group(1)
