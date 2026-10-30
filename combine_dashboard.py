@@ -407,6 +407,10 @@ def main():
         "teacher_trends": __import__("teacher_trends_view").build(new_courses["courses"].get("비바샘연수원", [])),
     }
 
+    # 샘몰 협력사 우선 협의 리스트(티처몰 입점사 × 인기 상품 판매자/제조자, B2S·샘몰 기획 탭)
+    competitor_training["partners"] = __import__("samall_partners").build(
+        new_courses["courses"].get("비바샘연수원", []), trends=competitor_training.get("teacher_trends"))
+
     # 입찰공고 최근 12개월 -> 초·중·고 연수 주제 수요와 2027 개발 추천(나라장터 종합 탭)
     import training_topics
     training_topic_data = training_topics.build_from_files(new_courses["courses"], "비바샘연수원", full_live)

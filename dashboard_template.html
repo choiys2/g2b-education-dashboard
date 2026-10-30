@@ -5002,6 +5002,29 @@ window.__ownerQ.push(function renderAiBrief(){
     el.innerHTML = cards + list + so((C['비상교육(자사)'] ? '' : '자사(비상교육)는 최근 3년 KERIS 관련 분야 개찰 참가 이력이 확인되지 않습니다 — AI교육 담당교원 연수처럼 경쟁사가 수주하는 연수 운영 공고부터 참여를 검토하세요. ') + '관련 분야를 자주 따는 업체는 KERIS 컨소시엄의 <b>파트너 후보이자 경쟁자</b>입니다. 자사 참여가 없는 분야에서 반복 낙찰하는 업체는 협력 제안 대상으로, 자사와 자주 겹치는 업체는 투찰 전략 비교 대상으로 보세요.');
   });
 
+  /* ============ 샘몰 협력사 우선 협의 리스트(B2S·샘몰 기획) ============ */
+  safe('samallPartners', () => {
+    const P = (COMPETITOR_TRAINING || {}).partners || {};
+    const el = panel('b2s', null, '샘몰 협력사 우선 협의 리스트', `티처몰 입점사 × 인기 상품 판매자·제조자 · 점수 = 판매 인기 35 + 자사 과정 연결 25 + 상품 폭 20 + 교사 관심 20${P.captured_date ? ' · 수집 ' + P.captured_date : ''}`);
+    if (!el) return;
+    if (!P.available) { el.innerHTML = empty(P.n_providers ? `입점사 ${P.n_providers}곳 확인 · 상품별 판매자 수집 대기(매주 월 05:30)` : '티처몰 입점사 수집 대기(매주 월 05:30)'); return; }
+    const R = P.rows || [], gen = R.filter(r => r.kind === '일반 입점'), exc = R.filter(r => r.kind !== '일반 입점');
+    const link = (no, n) => `<a href="${h((P.mall_url || '') + '/goods/view?no=' + no)}" target="_blank" rel="noopener">${h(n.replace(/^\[티처몰ONLY\]\s*/, '★ '))}</a>`;
+    const tbl = rows => `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th style="width:36px;">#</th><th>협력사</th><th style="width:120px;">우선순위 점수</th><th>대표 인기 상품</th><th>연결 주제</th><th style="text-align:right;">자사 과정</th><th>협의 포인트</th></tr></thead><tbody>
+      ${rows.map((r, i) => `<tr><td class="num">${i + 1}</td><td style="white-space:nowrap;"><b>${h(r.name)}</b><div style="color:var(--muted);font-size:11px;">${h(r.region || '지역 미상')} · ${h(r.via)}${r.listed ? '' : ' · 입점사 목록 미확인'}</div></td>
+        <td><div style="height:9px;background:var(--surface-2);border-radius:4px;"><div style="height:100%;width:${r.score}%;background:${r.kind === '일반 입점' ? '#10b981' : 'var(--warning)'};border-radius:4px;"></div></div><span class="num" style="font-size:11px;color:var(--muted);">${r.score} · 상품 ${r.n}${r.best_n ? ` · 베스트 ${r.best_n}(최고 ${r.best_top}위)` : ''}</span></td>
+        <td style="max-width:300px;">${r.items.map(it => `<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${link(it.no, it.n)} <span style="color:var(--muted);">${it.p != null ? it.p.toLocaleString() + '원' : ''}</span></div>`).join('')}</td>
+        <td>${r.topics.map(t => mChip(t)).join('') || '-'}</td><td class="num">${r.own_courses ? r.own_courses + '개' : '<span style="color:var(--danger, #d64545);">없음</span>'}</td>
+        <td style="color:var(--ink-2);min-width:200px;">${h(r.point)}</td></tr>`).join('')}</tbody></table></div>`;
+    const reg = (P.regions || []).slice(0, 8);
+    const head = `<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+      ${[['티처몰 입점사', fmt(P.n_providers) + '곳', '공개 입점사 현황'], ['조사한 인기 상품', fmt(P.n_items) + '개', `판매자 확인 ${fmt(P.n_sellers_checked)}개`], ['협의 후보', fmt(P.n_partners) + '곳', `일반 입점 ${gen.length} · 전용 제휴 ${exc.length}`]].map(([a, b, c]) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:12px;padding:10px 12px;"><div style="font-size:12px;color:var(--muted);">${a}</div><div style="font-size:20px;font-weight:800;">${b}</div><div style="font-size:11.5px;color:var(--ink-2);">${c}</div></div>`).join('')}
+      <div style="flex:2;min-width:260px;border:1px solid var(--border);border-radius:12px;padding:10px 12px;"><div style="font-size:12px;color:var(--muted);margin-bottom:4px;">입점사 소재지(상위)</div>${reg.map(([k, n]) => mChip(`${k} ${n}`)).join('')}</div></div>`;
+    el.innerHTML = head + `<p style="font-weight:800;margin:6px 0;">① 일반 입점 협력사 — 우선 협의</p>` + tbl(gen.slice(0, 20))
+      + (exc.length ? `<details style="margin-top:10px;"><summary style="cursor:pointer;font-weight:800;">② 티처몰 전용 제휴(협의 난이도 높음) ${exc.length}곳</summary><div style="margin-top:6px;">${tbl(exc)}</div></details>` : '')
+      + so(`상위 협력사는 이미 교사 구매가 검증된 공급처입니다. 1~5위는 <b>샘몰 출시(2026 H2) 초기 입점 제안</b> 대상으로, '자사 과정 연결' 주제가 있는 곳은 <b>연수+상품 SET</b>로 함께 제안하세요. ${(P.self_listed || []).length ? `참고: 티처몰 입점사 목록에 ${h(P.self_listed.join(', '))}도 있습니다 — 자사의 티처몰 판매 현황과 샘몰 이관 전략을 함께 점검하세요.` : ''}`);
+  });
+
   /* ============ 교원연수 이수 현황(통합교육연수시스템) ============ */
   const NT = (typeof NETI !== 'undefined' && NETI) || {};
   const NTC = {'집합': '#f59e0b', '혼합': '#a78bfa', '정기': '#94a3b8', '상시': '#4f8cff'};

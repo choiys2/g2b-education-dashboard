@@ -84,7 +84,7 @@ def goto(page, url, rules):
         return False
     try:
         page.goto(url, wait_until="domcontentloaded", timeout=40000)
-        page.wait_for_timeout(2500)
+        page.wait_for_timeout(1500)
         return True
     except Exception as e:
         print(f"  [열기 실패] {url}: {str(e).splitlines()[0][:160]}")
@@ -169,7 +169,48 @@ def scrape_teachermall(page):
     pool = {r["no"]: r for c in res["categories"] for r in c["top"]}
     pool.update({r["no"]: r for r in res["best"] + res["new_menu"]})
     res["sets"] = list({r["no"]: r for r in res["sets"] + [r for r in pool.values() if SET_RE.search(r["name"])]}.values())[:60]
+    res["providers"] = providers(page, rules)
     return res
+
+
+REGION_RE = re.compile(r"^(서울|부산|대구|인천|광주|대전|울산|세종|경기|강원|충청북|충북|충청남|충남|전북|전라북|전남|전라남|경상북|경북|경상남|경남|제주)")
+
+
+def providers(page, rules):
+    """입점사 현황(/service/provider): 회사명·시도만(상세 주소는 저장하지 않음)."""
+    if not goto(page, TM + "/service/provider", rules):
+        return []
+    rows = page.evaluate("""() => [...document.querySelectorAll('tr')].map(tr => [...tr.querySelectorAll('td')].map(td => td.innerText.trim()))
+                              .filter(c => c.length >= 2 && c[0])""")
+    out = []
+    for c in rows:
+        m = REGION_RE.match(c[1])
+        if m:
+            r = m.group(1)
+            r = {"충청북": "충북", "충청남": "충남", "전라북": "전북", "전라남": "전남", "경상북": "경북", "경상남": "경남"}.get(r, r)
+            out.append({"name": c[0][:60], "region": r})
+    print(f"  입점사 {len(out)}곳")
+    return out
+
+
+SELLER_RE = re.compile(r"판매자\s+(.+?)\s+미니샵")
+MAKER_RE = re.compile(r"수입자를 함께 표기\s+(.+?)\s+AS\s?책임자")
+
+
+def sellers(page, rules, nos, cache, limit=260):
+    """상품 상세의 판매자·제조자(공개 표기). 한 번 본 상품은 캐시를 쓴다."""
+    n = 0
+    for no in nos:
+        if no in cache or n >= limit:
+            continue
+        n += 1
+        if not goto(page, f"{TM}/goods/view?no={no}", rules):
+            continue
+        t = re.sub(r"\s+", " ", page.inner_text("body"))
+        s, m = SELLER_RE.search(t), MAKER_RE.search(t)
+        cache[no] = {"seller": s.group(1)[:40] if s else "", "maker": m.group(1)[:40] if m else ""}
+    print(f"  판매자 조회 {n}건(캐시 {len(cache)})")
+    return cache
 
 
 def probe_iscream(page):
@@ -191,6 +232,10 @@ def main():
         b = p.chromium.launch()
         page = b.new_context(user_agent=UA, locale="ko-KR").new_page()
         tm = scrape_teachermall(page)
+        if tm.get("status") == "ok":
+            nos = [r["no"] for r in tm["best"]] + [r["no"] for r in tm["sets"]] + [r["no"] for c in tm["categories"] for r in c["top"]]
+            tm["sellers"] = sellers(page, robots_rules(TM), list(dict.fromkeys(nos)),
+                                    ((prev.get("malls") or {}).get("teachermall") or {}).get("sellers", {}))
         page2 = b.new_context(user_agent=UA, locale="ko-KR").new_page()
         isc = probe_iscream(page2)
         b.close()
