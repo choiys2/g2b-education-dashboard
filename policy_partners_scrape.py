@@ -154,53 +154,6 @@ def notices(page, links, rules):
     return out
 
 
-JS_EXPAND = """() => [...document.querySelectorAll('table a, table button, table [onclick]')]
-  .filter(a => /전체\\s?보기|상세\\s?목록/.test(a.innerText || ''))
-  .map((a, i) => { a.setAttribute('data-pp-x', i); const td = a.closest('td'); return {i, near: td ? td.innerText.trim().slice(0, 30) : '', h: a.getAttribute('href') || ''}; })"""
-
-
-def expand(pg, rules):
-    """표 안 '전체 보기'·'[상세목록]' -> 펼친 명단 글자(새 창·레이어 모두). 회사명만 뷰에서 추린다."""
-    out = []
-    try:
-        cands = pg.evaluate(JS_EXPAND)[:4]
-    except Exception:
-        return out
-    for c in cands:
-        before = set(pg.evaluate("() => document.body.innerText").splitlines())
-        text = ""
-        try:
-            h = c["h"]
-            if h and not h.startswith(("javascript", "#")):
-                url = urljoin(pg.url, h)
-                if allowed(rules, url):
-                    np = pg.context.new_page()
-                    np.goto(url, wait_until="domcontentloaded", timeout=30000)
-                    np.wait_for_timeout(1500)
-                    text = np.evaluate("() => document.body.innerText")
-                    np.close()
-            else:
-                try:
-                    with pg.context.expect_page(timeout=4000) as pop:
-                        pg.click(f'[data-pp-x="{c["i"]}"]', timeout=5000)
-                    np = pop.value
-                    np.wait_for_load_state("domcontentloaded", timeout=30000)
-                    np.wait_for_timeout(1500)
-                    text = np.evaluate("() => document.body.innerText")
-                    np.close()
-                except Exception:
-                    pg.wait_for_timeout(1500)
-                    after = pg.evaluate("() => document.body.innerText").splitlines()
-                    text = "\n".join(x for x in after if x not in before)
-                    pg.keyboard.press("Escape")
-        except Exception as e:
-            print(f"  [펼치기 실패] {c['near'][:20]}: {str(e).splitlines()[0][:120]}")
-        if text:
-            out.append({"near": scrub(c["near"]), "text": scrub(text)[:4000]})
-            print(f"  펼침 [{c['near'][:20]}] {len(text)}자: {text[:200]!r}")
-    return out
-
-
 def scrape(page, key, site):
     print(f"[{site['name']}] {site['home']}")
     rules = robots_rules(site["home"])
@@ -225,7 +178,7 @@ def scrape(page, key, site):
     ver = re.search(r"현행\s*(Ver\.?\s*[\d.]+)", text)
     out = {"status": "ok", "url": url, "effective": "-".join([eff.group(1), eff.group(2).zfill(2), eff.group(3).zfill(2)]) if eff else "",
            "version": ver.group(1) if ver else "", "notices": getattr(page, "_pp_notices", []),
-           "consign_tables": consign, "third_tables": third, "expand": expand(pg, rules),
+           "consign_tables": consign, "third_tables": third,
            "hash": hashlib.sha1(text.encode()).hexdigest()[:12]}
     print(f"  {url} · 시행 {out['effective'] or '?'} {out['version']} · 위탁표 {len(consign)} · 제공표 {len(third)} · 개정공지 {out['notices']}")
     for t in consign + third:

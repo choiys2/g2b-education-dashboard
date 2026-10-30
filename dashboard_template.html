@@ -5002,6 +5002,38 @@ window.__ownerQ.push(function renderAiBrief(){
     el.innerHTML = cards + list + so((C['비상교육(자사)'] ? '' : '자사(비상교육)는 최근 3년 KERIS 관련 분야 개찰 참가 이력이 확인되지 않습니다 — AI교육 담당교원 연수처럼 경쟁사가 수주하는 연수 운영 공고부터 참여를 검토하세요. ') + '관련 분야를 자주 따는 업체는 KERIS 컨소시엄의 <b>파트너 후보이자 경쟁자</b>입니다. 자사 참여가 없는 분야에서 반복 낙찰하는 업체는 협력 제안 대상으로, 자사와 자주 겹치는 업체는 투찰 전략 비교 대상으로 보세요.');
   });
 
+  /* ============ 3사 처리방침 속 협력사(경쟁사 탭, '3사 전체 강좌' 아래) ============ */
+  safe('policyPartners', () => {
+    const PP = (COMPETITOR_TRAINING || {}).policy_partners || {};
+    const el = panel('competitor', 'courseCatalogPanel', '3사 협력사 지도 — 개인정보처리방침 기준', `처리위탁 수탁사 · 제3자 제공처(공개 목록) · 매주 월 확인${PP.updated ? ' · 수집 ' + PP.updated : ''}`);
+    if (!el) return;
+    if (!PP.available) { el.innerHTML = empty('처리방침 수집 대기(매주 월 05:30)'); return; }
+    const S = PP.summary || [], OWNK = (S.find(s => s.own) || {}).key;
+    const hiBg = 'color-mix(in srgb, var(--accent) 18%, var(--surface-2))';
+    const cards = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:12px;">${S.map(s => `<div style="border:1px solid var(--border);border-radius:10px;padding:10px 12px;${s.own ? 'background:color-mix(in srgb, var(--accent) 7%, transparent);' : ''}">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><b>${h(s.name)}${s.own ? ' (자사)' : ''}</b>${s.url ? `<a href="${h(s.url)}" target="_blank" rel="noopener" style="font-size:11.5px;">처리방침 원문</a>` : ''}</div>
+      <div style="font-size:12.5px;margin-top:4px;">처리위탁 <b class="num">${s.n_consign}</b> · 제3자 제공 <b class="num">${s.n_third}</b> · 사업 협력 <b class="num">${s.n_biz}</b></div>
+      <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">${s.effective ? '시행 ' + h(s.effective) : '시행일 표기 없음'}${s.version ? ' · ' + h(s.version) : ''}${s.error ? ' · 최근 수집 실패(' + h(s.error) + ') — 지난 결과 표시' : ''}</div>
+      ${(s.notices || []).map(n => `<div style="font-size:11.5px;margin-top:5px;">${mChip('개정 예고', 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))')}${h(n.t)}${n.eff ? ' · 시행 ' + h(n.eff) : ''}</div>`).join('')}</div>`).join('')}</div>`;
+    const cell = (row, k) => (row[k] || []).map(x => {
+      const mine = k === OWNK, withOwn = (x.shared || []).includes(OWNK);
+      const bg = row.biz && row.cat !== '공공·교육청' && !mine && !withOwn ? hiBg : 'var(--surface-2)';
+      const tip = `<b>${h(x.n)}</b><br>${h(x.kind)}${x.g ? ' · ' + h(x.g) : ''}<br>${h(x.t || '')}${withOwn && !mine ? '<br>자사도 같은 곳과 거래' : ''}`;
+      return `<span ${tipAttr(tip)} style="display:inline-block;padding:2px 8px;margin:2px 4px 2px 0;border-radius:999px;font-size:11.5px;background:${bg};${x.kind !== '위탁' ? 'border:1px dashed var(--border);' : ''}">${h(x.n)}${withOwn && !mine ? ' ·공통' : ''}</span>`;
+    }).join('') || '<span style="color:var(--muted);">—</span>';
+    const tbl = rows => `<div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><thead><tr><th style="width:110px;">용도</th>${S.map(s => `<th>${h(s.name)}${s.own ? ' (자사)' : ''}</th>`).join('')}</tr></thead><tbody>
+      ${rows.map(r => `<tr><td style="font-weight:700;vertical-align:top;">${h(r.cat)}</td>${S.map(s => `<td style="vertical-align:top;">${cell(r, s.key)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    const M = PP.matrix || [], biz = M.filter(r => r.biz), infra = M.filter(r => !r.biz);
+    const ch = PP.changes || [];
+    const chHtml = ch.length ? ch.slice(0, 8).map(c => `<div style="font-size:12px;margin:3px 0;"><b>${h(c.date)} ${h(c.site)}</b> ${(c.added || []).map(a => mChip('+ ' + a.n, 'color-mix(in srgb, #10b981 22%, var(--surface-2))')).join('')}${(c.removed || []).map(a => mChip('− ' + a.n, 'color-mix(in srgb, var(--danger, #ef4444) 18%, var(--surface-2))')).join('')}</div>`).join('')
+      : '<span style="font-size:12px;color:var(--muted);">이번 주가 기준선입니다 — 다음 주부터 새로 생기거나 빠진 협력사를 여기 표시합니다.</span>';
+    el.innerHTML = cards
+      + `<p style="font-weight:800;margin:4px 0 6px;">사업 협력처 <span style="font-weight:600;color:var(--muted);font-size:12px;">파란 칩 = 경쟁사만 거래(자사 미거래) · 점선 = 제3자 제공 · 칩에 마우스를 올리면 업무 내용</span></p>${tbl(biz)}
+      <details style="margin-top:10px;"><summary style="cursor:pointer;font-weight:700;font-size:12.5px;">운영 인프라 수탁사 보기(결제·배송·문자·인증·상담·IT)</summary><div style="margin-top:6px;">${tbl(infra)}</div></details>
+      <p style="font-weight:800;margin:14px 0 6px;">주간 변경</p>${chHtml}`
+      + so(((PP.insights || []).join('<br>') || '경쟁사와 자사의 협력 구조가 비슷합니다.') + '<br>처리방침은 법적 공개 의무 문서라 <b>실제 거래 관계</b>가 드러납니다. 경쟁사만 쓰는 위탁연수 공급처·상품 공급처는 B2B 위탁연수 영업과 샘몰 입점 협의의 1차 후보로 보세요.');
+  });
+
   /* ============ 샘몰 협력사 우선 협의 리스트(B2S·샘몰 기획) ============ */
   safe('samallPartners', () => {
     const P = (COMPETITOR_TRAINING || {}).partners || {};

@@ -35,6 +35,10 @@ jobs:
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
           KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
         run: python teacher_interest_trends.py
+      # 3사 개인정보처리방침의 수탁사·제3자 제공처(개정 때만 바뀜 - 매주 비교해 신규·제외 기록)
+      - name: 처리방침 협력사 수집
+        continue-on-error: true
+        run: python policy_partners_scrape.py
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
@@ -43,6 +47,7 @@ jobs:
           git add history/competitor_mall_catalog.json history/competitor_mall_new.jsonl
           [ -f history/teacher_creator_trends.json ] && git add history/teacher_creator_trends.json
           [ -f history/teacher_interest_trends.json ] && git add history/teacher_interest_trends.json
+          [ -f history/policy_partners.json ] && git add history/policy_partners.json
           git diff --cached --quiet || git commit -m "chore: 교사몰 상품 동향 수집 $(date -u +%F)"
           git pull --rebase origin main
           git push

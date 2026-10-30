@@ -410,6 +410,8 @@ def main():
     # 샘몰 협력사 우선 협의 리스트(티처몰 입점사 × 인기 상품 판매자/제조자, B2S·샘몰 기획 탭)
     competitor_training["partners"] = __import__("samall_partners").build(
         new_courses["courses"].get("비바샘연수원", []), trends=competitor_training.get("teacher_trends"))
+    # 3사 개인정보처리방침 속 협력사(처리위탁 수탁사·제3자 제공처, 경쟁사 탭 '3사 전체 강좌' 아래)
+    competitor_training["policy_partners"] = __import__("policy_partners_view").build()
 
     # 입찰공고 최근 12개월 -> 초·중·고 연수 주제 수요와 2027 개발 추천(나라장터 종합 탭)
     import training_topics

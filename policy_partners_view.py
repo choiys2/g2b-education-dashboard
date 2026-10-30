@@ -9,6 +9,7 @@ combine_dashboard.py 에서 호출(수집은 policy_partners_scrape.py, 매주 �
 """
 import json
 import re
+from html import escape
 from pathlib import Path
 
 SRC = Path(__file__).parent / "history" / "policy_partners.json"
@@ -30,7 +31,7 @@ def split_names(cell):
     cell = re.sub(r"\[?\s*(상세\s?목록|전체\s?보기)\s*\]?|\(\s*전체\s?보기\s*\)", "", cell or "")
     cell = re.sub(r"\s외\s*$", "", cell.strip())
     out = []
-    for p in re.split(r"\s*[|,，/·]\s*|\s{2,}", cell):
+    for p in re.split(r"\s*[|,，/·]\s*|\s{2,}|(?<=[^주유]\))\s+(?=[가-힣A-Z])", cell):
         p = re.sub(r"^(이메일|연락처)\s*:.*$", "", p.strip()).strip(" -")
         p = re.sub(r"\s+외$", "", p)
         if p and not DROP.match(p) and len(p) <= 60:
@@ -105,16 +106,13 @@ def extract(site):
                     parts = [p.strip() for p in cell.split("/")]
                     cell, group = (parts[1] if len(parts) > 1 else parts[0]), f"국외 이전({parts[0]})"
                 names = split_names(cell)
-                ext = next((x["text"] for x in site.get("expand") or [] if x.get("near") and cell.startswith(x["near"][:12])), "")
-                if ext:
-                    names += [n for n in split_names(re.sub(r"\n", "|", ext)) if 2 <= len(n) <= 25 and not re.search(r"닫기|보기|목록|개인정보|제공|공급", n)]
                 for n in names:
                     k = (kind, norm(n), task)
                     if k in seen:
                         continue
                     seen.add(k)
                     out.append({"kind": "국외 이전" if overseas else kind, "name": n, "task": task, "group": group,
-                                "cat": category(n, task, group, kind), "listed": bool(ext) and n not in split_names(r[ni])})
+                                "cat": category(n, task, group, kind)})
     return out
 
 
@@ -136,15 +134,23 @@ def build():
     for c in cats:
         row = {"cat": c, "biz": c in BIZ}
         for k in ent:
-            row[k] = [{"n": e["name"], "t": e["task"], "g": e["group"], "kind": e["kind"], "shared": e["shared"], "listed": e.get("listed")}
-                      for e in ent[k] if e["cat"] == c]
+            cell = {}
+            for e in ent[k]:
+                if e["cat"] != c:
+                    continue
+                x = cell.get(norm(e["name"]))
+                if x:  # 같은 회사가 업무 여러 줄 -> 한 칩
+                    x["t"] = x["t"] + " / " + e["task"] if e["task"] and e["task"] not in x["t"] else x["t"]
+                else:
+                    cell[norm(e["name"])] = {"n": e["name"], "t": e["task"], "g": e["group"], "kind": e["kind"], "shared": e["shared"]}
+            row[k] = list(cell.values())
         if any(row.get(k) for k in ent):
             matrix.append(row)
     summary = []
     for k in ent:
         s = sites[k]
         v = ent[k]
-        summary.append({"key": k, "name": s.get("name"), "own": k == OWN, "url": s.get("url"), "effective": s.get("effective"),
+        summary.append({"key": k, "name": s.get("name"), "own": k == OWN, "url": s.get("url"), "effective": s.get("effective"), "version": s.get("version", ""),
                         "captured": s.get("captured"), "notices": s.get("notices") or [],
                         "n_consign": sum(1 for e in v if e["kind"] != "제공"), "n_third": sum(1 for e in v if e["kind"] == "제공"),
                         "n_biz": sum(1 for e in v if e["cat"] in BIZ), "error": s.get("last_error")})
@@ -158,21 +164,23 @@ def build():
 
 def insights(ent, sites):
     out = []
-    nm = lambda k: sites[k]["name"]
+    nm = lambda k: escape(sites[k]["name"])
+    eun = lambda k: "은" if (ord(sites[k]["name"][-1]) - 0xAC00) % 28 else "는"  # 받침 있으면 '은'
+
     for k in ent:
         if k == OWN:
             continue
         own_n = sum(1 for e in ent.get(OWN, []) if e["cat"] == "위탁연수 공급처")
         tr = [e["name"] for e in ent[k] if e["cat"] == "위탁연수 공급처"]
         if len(tr) > own_n:
-            out.append(f"<b>{nm(k)}</b>는 위탁연수 공급처 {len(tr)}곳을 공개(자사 {own_n}곳) — {', '.join(tr[:6])}{' 외' if len(tr) > 6 else ''}. "
+            out.append(f"<b>{nm(k)}</b>{eun(k)} 위탁연수 공급처 {len(tr)}곳을 공개(자사 {own_n}곳) — {escape(', '.join(tr[:6]))}{' 외' if len(tr) > 6 else ''}. "
                        "공공기관·재단·기업의 교원 대상 위탁 운영이 B2G 입찰 밖의 수주 경로입니다.")
         goods = [e["name"] for e in ent[k] if e["cat"] == "상품·콘텐츠 공급"]
         if len(goods) >= 3:
             out.append(f"<b>{nm(k)}</b> 상품·콘텐츠 공급처 {len(goods)}곳 — 샘몰 입점 협의 후보와 겹치는지 '샘몰 협력사 우선 협의 리스트'와 대조하세요.")
         ai = [e["name"] for e in ent[k] if e["cat"] == "AI"]
         if ai:
-            out.append(f"<b>{nm(k)}</b>는 학습자 데이터를 AI 서비스({', '.join(ai)})에 제공·위탁 — AI 챗봇·생성 기능을 이미 운영 중입니다.")
+            out.append(f"<b>{nm(k)}</b>{eun(k)} 학습자 데이터를 AI 서비스({escape(', '.join(ai))})에 제공·위탁 — AI 챗봇·생성 기능을 이미 운영 중입니다.")
     return out
 
 

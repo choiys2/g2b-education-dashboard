@@ -25,6 +25,8 @@ on:
       - ".github/workflows/keris.yml"
       - "keris_export.py"
       - "samall_partners.py"
+      - "policy_partners_scrape.py"
+      - ".github/workflows/policy_probe.yml"
 
 permissions:
   contents: write
