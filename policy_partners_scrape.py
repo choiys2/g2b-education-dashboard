@@ -50,7 +50,7 @@ JS_TABLES = """() => {
       let ci = 0;
       [...tr.querySelectorAll('th,td')].forEach(c => {
         while (grid[ri][ci] !== undefined) ci++;
-        const txt = c.innerText.trim().replace(/\\s+/g, ' ');
+        const txt = c.innerText.trim().replace(/[ \\t\\u00a0]+/g, ' ').replace(/\\s*\\n\\s*/g, ' | ');
         for (let r = 0; r < (c.rowSpan || 1); r++)
           for (let k = 0; k < (c.colSpan || 1); k++) {
             grid[ri + r] = grid[ri + r] || [];
@@ -80,6 +80,7 @@ def find_policy(page, home, rules):
     # 공지 제목('… 처리방침 개정 안내')보다 하단 고정 링크(짧은 글자)를 먼저
     links = sorted((l for l in page.evaluate(JS_LINKS) if LINK_RE.search(l["t"])), key=lambda l: len(l["t"]))
     print(f"  처리방침 링크 후보: {[(l['t'][:20], l['h'][:80]) for l in links[:5]]}")
+    page._pp_notices = notices(page, [l for l in links if re.search(r"개정|변경|안내", l["t"])], rules)
     for l in links:
         h = l["h"]
         if h and not h.startswith(("javascript", "#")):
@@ -107,39 +108,97 @@ def find_policy(page, home, rules):
         return page.url, page
 
 
-def sections(text):
-    """'위탁'·'제3자 제공' 조항 문단(다음 조항 머리 전까지, 최대 4000자)."""
-    out = {}
-    heads = [m.start() for m in re.finditer(r"(?m)^\s*(제\s?\d+\s?조|\d{1,2}\s?[.)]|[①-⑳]|[가-하]\.)\s*\S", text)]
-    for key, pat in (("consign", r"위탁"), ("third", r"제\s?3\s?자\s?(에게\s?)?제공|제공받는")):
-        for m in re.finditer(r"(?m)^.*(" + pat + r").*$", text):
-            if len(m.group(0)) > 80:  # 조항 제목 줄만(본문 문장 제외)
-                continue
-            st = m.start()
-            nxt = next((h for h in heads if h > st + len(m.group(0)) + 20 and re.match(r"\s*제\s?\d+\s?조", text[h:h + 12])), None)
-            out[key] = scrub(text[st:(nxt or st + 4000)][:4000])
-            break
-    return out
-
-
 def classify_tables(tables):
-    """조항 제목(ctx)·머리글로 처리위탁/제3자 제공 표를 가른다. 같은 표가 두 번 잡히면 하나만."""
+    """머리글로 처리위탁(수탁…)·제3자 제공(…받는 자) 표만 고른다. 책임자·연락처 표는 저장하지 않는다."""
     consign, third, seen = [], [], set()
     for t in tables:
         rows = t["rows"]
         if len(rows) < 2:
             continue
-        head, ctx = " ".join(rows[0]), t.get("ctx", "")
-        body = [[scrub(c) for c in r] for r in rows[1:] if any(r)]
+        head, ctx = [c.replace(" | ", " ") for c in rows[0]], t.get("ctx", "")
+        hs = " ".join(head)
+        if re.search(r"책임자|담당자|담당부서|연락처|전화", hs):
+            continue
         sig = json.dumps(rows, ensure_ascii=False)
         if sig in seen:
             continue
         seen.add(sig)
-        if re.search(r"수탁|위탁", head) or (re.search(r"위탁", ctx) and not re.search(r"제공받는", head)):
-            consign.append({"head": rows[0], "rows": body, "ctx": ctx})
-        elif re.search(r"제공\s?받는|제공처", head) or re.search(r"제\s?3\s?자", ctx):
-            third.append({"head": rows[0], "rows": body, "ctx": ctx})
+        body = [[scrub(c) for c in r] for r in rows[1:] if any(r)]
+        if re.search(r"수탁", hs) or (head[:2] == ["구분", "목적"] and "위탁" in ctx):
+            consign.append({"head": head, "rows": body, "ctx": ctx})
+        elif re.search(r"받는\s?자|제공처", hs):
+            third.append({"head": head, "rows": body, "ctx": ctx})
     return consign, third
+
+
+NOTICE_RE = re.compile(r"시행\s?일?\s*[:：]?\s*(20\d{2})\s?[.년-]\s?(\d{1,2})\s?[.월-]\s?(\d{1,2})")
+
+
+def notices(page, links, rules):
+    """첫 화면 공지 중 처리방침 개정 안내 -> [{t, eff}] (최대 2건, 제목과 시행일만)"""
+    out = []
+    for l in links[:2]:
+        url = urljoin(page.url, l["h"]) if l["h"] and not l["h"].startswith(("javascript", "#")) else ""
+        eff = ""
+        if url and allowed(rules, url):
+            try:
+                np = page.context.new_page()
+                np.goto(url, wait_until="domcontentloaded", timeout=30000)
+                np.wait_for_timeout(1500)
+                m = NOTICE_RE.search(np.evaluate("() => document.body.innerText"))
+                eff = "-".join([m.group(1), m.group(2).zfill(2), m.group(3).zfill(2)]) if m else ""
+                np.close()
+            except Exception:
+                pass
+        out.append({"t": scrub(l["t"])[:80], "eff": eff})
+    return out
+
+
+JS_EXPAND = """() => [...document.querySelectorAll('table a, table button, table [onclick]')]
+  .filter(a => /전체\\s?보기|상세\\s?목록/.test(a.innerText || ''))
+  .map((a, i) => { a.setAttribute('data-pp-x', i); const td = a.closest('td'); return {i, near: td ? td.innerText.trim().slice(0, 30) : '', h: a.getAttribute('href') || ''}; })"""
+
+
+def expand(pg, rules):
+    """표 안 '전체 보기'·'[상세목록]' -> 펼친 명단 글자(새 창·레이어 모두). 회사명만 뷰에서 추린다."""
+    out = []
+    try:
+        cands = pg.evaluate(JS_EXPAND)[:4]
+    except Exception:
+        return out
+    for c in cands:
+        before = set(pg.evaluate("() => document.body.innerText").splitlines())
+        text = ""
+        try:
+            h = c["h"]
+            if h and not h.startswith(("javascript", "#")):
+                url = urljoin(pg.url, h)
+                if allowed(rules, url):
+                    np = pg.context.new_page()
+                    np.goto(url, wait_until="domcontentloaded", timeout=30000)
+                    np.wait_for_timeout(1500)
+                    text = np.evaluate("() => document.body.innerText")
+                    np.close()
+            else:
+                try:
+                    with pg.context.expect_page(timeout=4000) as pop:
+                        pg.click(f'[data-pp-x="{c["i"]}"]', timeout=5000)
+                    np = pop.value
+                    np.wait_for_load_state("domcontentloaded", timeout=30000)
+                    np.wait_for_timeout(1500)
+                    text = np.evaluate("() => document.body.innerText")
+                    np.close()
+                except Exception:
+                    pg.wait_for_timeout(1500)
+                    after = pg.evaluate("() => document.body.innerText").splitlines()
+                    text = "\n".join(x for x in after if x not in before)
+                    pg.keyboard.press("Escape")
+        except Exception as e:
+            print(f"  [펼치기 실패] {c['near'][:20]}: {str(e).splitlines()[0][:120]}")
+        if text:
+            out.append({"near": scrub(c["near"]), "text": scrub(text)[:4000]})
+            print(f"  펼침 [{c['near'][:20]}] {len(text)}자: {text[:200]!r}")
+    return out
 
 
 def scrape(page, key, site):
@@ -151,9 +210,8 @@ def scrape(page, key, site):
     if not pg:
         return {"status": "접속 실패"}
     text = pg.evaluate("() => document.body.innerText")
-    # 처리방침이 iframe 안에 있는 경우
     tables = pg.evaluate(JS_TABLES)
-    for fr in pg.frames[1:]:
+    for fr in pg.frames[1:]:  # 처리방침이 iframe 안에 있는 경우
         try:
             text += "\n" + fr.evaluate("() => document.body.innerText")
             tables += fr.evaluate(JS_TABLES)
@@ -164,17 +222,40 @@ def scrape(page, key, site):
         return {"status": "본문 없음", "url": url}
     consign, third = classify_tables(tables)
     eff = re.search(r"(20\d{2})\s?[.년-]\s?(\d{1,2})\s?[.월-]\s?(\d{1,2})\s?일?\s*(부터|시행|적용)", text)
+    ver = re.search(r"현행\s*(Ver\.?\s*[\d.]+)", text)
     out = {"status": "ok", "url": url, "effective": "-".join([eff.group(1), eff.group(2).zfill(2), eff.group(3).zfill(2)]) if eff else "",
-           "consign_tables": consign, "third_tables": third, "sections": sections(text),
+           "version": ver.group(1) if ver else "", "notices": getattr(page, "_pp_notices", []),
+           "consign_tables": consign, "third_tables": third, "expand": expand(pg, rules),
            "hash": hashlib.sha1(text.encode()).hexdigest()[:12]}
-    print(f"  {url} · 시행 {out['effective'] or '?'} · 위탁표 {len(consign)} · 제공표 {len(third)} · 조항 {list(out['sections'])}")
-    for k, v in out["sections"].items():
-        print(f"  --- {k} ---\n{v[:600]}")
+    print(f"  {url} · 시행 {out['effective'] or '?'} {out['version']} · 위탁표 {len(consign)} · 제공표 {len(third)} · 개정공지 {out['notices']}")
     for t in consign + third:
         print(f"  표[{t['ctx'][:30]}] {t['head']}: {len(t['rows'])}행")
         for r in t["rows"]:
-            print("     ", r[:3])
+            print("     ", [c[:50] for c in r[:3]])
     return out
+
+
+def track(prev_snap, sites, today):
+    """협력사 이름 집합을 지난주와 비교 -> 변경 이력(신규·제외)"""
+    from policy_partners_view import extract, norm
+    snap, changes = {}, []
+    for k, s in sites.items():
+        if s.get("status") != "ok":
+            if k in prev_snap:
+                snap[k] = prev_snap[k]
+            continue
+        cur = {}
+        for e in extract(s):
+            cur.setdefault(norm(e["name"]), {"n": e["name"], "kind": e["kind"], "cat": e["cat"]})
+        snap[k] = cur
+        old = prev_snap.get(k)
+        if old is None:
+            continue
+        add = [v for n, v in cur.items() if n not in old]
+        rem = [v for n, v in old.items() if n not in cur]
+        if add or rem:
+            changes.append({"date": today, "site": s.get("name"), "added": add, "removed": rem})
+    return snap, changes
 
 
 def main():
@@ -196,9 +277,10 @@ def main():
                 sites[key]["last_error"] = r.get("status")
             page.context.close()
         b.close()
-    OUT_PATH.write_text(json.dumps({"updated": today, "sites": sites, "changes": prev.get("changes", []),
-                                    "snap": prev.get("snap", {})}, ensure_ascii=False, indent=1), encoding="utf-8")
-    print("저장:", {k: v.get("status") for k, v in sites.items()})
+    snap, changes = track(prev.get("snap", {}), sites, today)
+    OUT_PATH.write_text(json.dumps({"updated": today, "sites": sites, "changes": (prev.get("changes", []) + changes)[-100:],
+                                    "snap": snap}, ensure_ascii=False, indent=1), encoding="utf-8")
+    print("저장:", {k: v.get("status") for k, v in sites.items()}, "· 변경", len(changes))
     return 0
 
 
