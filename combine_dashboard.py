@@ -548,6 +548,8 @@ def main():
         "__EDU_CNTR_JSON__": __import__("edu_contracts").build(),
         "__NETI_JSON__": __import__("neti_view").build(),
         "__KERIS_JSON__": __import__("keris_view").build(),
+        # 나라장터 API 장애로 마지막 정상 수집분을 대신 쓴 날: {"date": "YYYY-MM-DD"}, 평소엔 null
+        "__G2B_STALE_JSON__": load("live/g2b_stale.json") if os.path.exists("live/g2b_stale.json") else None,
     }
     for token, value in subs.items():
         if token not in html:

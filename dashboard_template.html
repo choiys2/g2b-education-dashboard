@@ -725,6 +725,8 @@
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="admin">관리 🔒</button>
   </nav>
 
+  <div id="g2bStaleNote" role="status" hidden style="margin:10px 0 0;padding:9px 14px;border-radius:10px;font-size:13px;background:color-mix(in srgb, var(--warning) 18%, var(--surface));border:1px solid color-mix(in srgb, var(--warning) 45%, transparent);"></div>
+
   <div class="tabpanel active" id="panel-market">
 
   <section class="kpis" id="kpis"></section>
@@ -2586,6 +2588,13 @@ const OPS = __OPS_JSON__;
 const EDU_CNTR = __EDU_CNTR_JSON__;
 const VIZ = __VIZ_JSON__;
 const ADMIN = __ADMIN_JSON__;
+const G2B_STALE = __G2B_STALE_JSON__;  // 나라장터 API 장애로 이전 정상 수집분을 쓴 날만 값이 있다
+(function g2bStaleNote(){
+  const el = document.getElementById('g2bStaleNote');
+  if (!el || !G2B_STALE) return;
+  el.textContent = `⚠ 조달청 나라장터 API 점검·장애로 나라장터 입찰·사전규격·낙찰 수치는 ${G2B_STALE.date ? G2B_STALE.date.slice(5).replace('-', '월 ') + '일' : '이전'} 수집분을 표시 중입니다. 다른 데이터와 화면은 최신입니다.`;
+  el.hidden = false;
+})();
 const WF_BADGES = __WF_BADGES_JSON__;
 const SHEETS_OPS = __SHEETS_OPS_JSON__;
 const REV26 = __REV26_JSON__;

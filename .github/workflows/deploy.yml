@@ -64,8 +64,11 @@ jobs:
 
       # 2026-09-27~28 하루 새 3회: 나라장터 API가 응답 없이 매달려 40분 상한에 걸렸고,
       # 매번 수동 재실행하면 13분 만에 정상 완료됐다(일시 장애). 25분 넘으면 끊고 1회 자동 재시도.
+      # 2026-10-30: 실패해도 멈추지 않는다 - 아래에서 마지막 정상 수집분으로 대체해 다른 탭 변경은 배포한다
       - name: fetch G2B data + build 기존 단독 대시보드
+        id: g2b
         timeout-minutes: 55
+        continue-on-error: true
         env:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
         run: |
@@ -83,8 +86,45 @@ jobs:
       # 어제까지 이미 떠 있는 GitHub Pages 콘텐츠를 그대로 둔다(live/는 gitignore라
       # "어제 버전으로 롤백"할 파일이 없으므로, 배포를 안 하는 것 자체가 롤백이 된다).
       - name: G2B 데이터 건전성 체크
-        id: healthcheck
+        id: fresh
         run: python check_g2b_health.py
+
+      # 2026-10-30: 나라장터 API 점검 한 번에 다른 탭 화면 수정까지 전부 막혔다.
+      # 정상 수집분(live/, run_pipeline 결과만 있는 시점)을 캐시에 보관해 두고, 장애 때는
+      # 마지막 정상분으로 대체해 배포한다. 화면에는 '○월 ○일 수집분 표시 중' 안내(live/g2b_stale.json).
+      # 지표 누적(history)은 정상 수집일에만 한다(대체 데이터를 오늘 값으로 쌓지 않음).
+      - name: 정상 수집분 날짜 기록
+        if: steps.fresh.outputs.healthy == 'true'
+        run: TZ=Asia/Seoul date +%F > live/g2b_captured_date.txt
+      - name: 정상 수집분 보관(장애 대비)
+        if: steps.fresh.outputs.healthy == 'true'
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: live
+          key: g2b-live-${{ github.run_id }}
+      - name: 장애 시 마지막 정상 수집분 복원
+        if: steps.fresh.outputs.healthy != 'true'
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: live
+          key: g2b-live-latest
+          restore-keys: g2b-live-
+      - name: 배포 가능 여부(정상 또는 대체 데이터)
+        id: healthcheck
+        run: |
+          if [ "${{ steps.fresh.outputs.healthy }}" = "true" ]; then
+            echo "healthy=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          python check_g2b_health.py   # 복원본 건수 확인 -> healthy=true/false 기록
+          if grep -q "healthy=true" "$GITHUB_OUTPUT"; then
+            d=$(cat live/g2b_captured_date.txt 2>/dev/null || echo "")
+            echo "{\"date\": \"$d\"}" > live/g2b_stale.json
+            echo "::warning::나라장터 API 장애 - ${d:-이전} 정상 수집분으로 대체해 배포합니다"
+          else
+            echo "::warning::대체할 정상 수집분도 없어 이번 배포를 건너뜁니다"
+          fi
 
       # ---- 통합 대시보드(나이스+G2B+선도학교+자사파이프라인) 확장 파이프라인 ----
       # NEIS_KEY / ODCLOUD_KEY 시크릿이 없으면 이 스텝들은 개별적으로 실패해도
@@ -295,12 +335,12 @@ jobs:
         run: python pdf_report.py live/weekly_report.pdf
 
       - name: 일별 히스토리 누적 (history/daily_stats.jsonl)
-        if: steps.combine.outcome == 'success' && steps.healthcheck.outputs.healthy == 'true'
+        if: steps.combine.outcome == 'success' && steps.fresh.outputs.healthy == 'true'
         continue-on-error: true
         run: python history_tracker.py
 
       - name: 히스토리 커밋 (있으면)
-        if: steps.combine.outcome == 'success' && steps.healthcheck.outputs.healthy == 'true'
+        if: steps.combine.outcome == 'success' && steps.fresh.outputs.healthy == 'true'
         continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
