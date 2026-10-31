@@ -122,18 +122,30 @@ jobs:
           if [ "${{ steps.fresh.outputs.healthy }}" = "true" ]; then
             echo "healthy=true" >> "$GITHUB_OUTPUT"; exit 0
           fi
-          python check_g2b_health.py   # 복원본 건수 확인 -> healthy=true/false 기록
-          if grep -q "healthy=true" "$GITHUB_OUTPUT"; then
+          ok() { GITHUB_OUTPUT=/tmp/hc python check_g2b_health.py; grep -q "healthy=true" /tmp/hc; }
+          rm -f /tmp/hc
+          if ok; then   # 1순위: 캐시에 보관된 마지막 정상 수집분
             d=$(cat live/g2b_captured_date.txt 2>/dev/null || echo "")
             echo "{\"date\": \"$d\"}" > live/g2b_stale.json
+            echo "healthy=true" >> "$GITHUB_OUTPUT"
             echo "::warning::나라장터 API 장애 - ${d:-이전} 정상 수집분으로 대체해 배포합니다"
+            exit 0
+          fi
+          # 2순위: 저장소 history/ 누적 기록으로 근사 재구성(연수 입찰공고·경쟁사 낙찰·발주계획, 사전규격 없음)
+          python g2b_history_fallback.py live/full_live.json || true
+          rm -f /tmp/hc
+          if ok; then
+            d=$(python -c "import json;print(json.load(open('live/full_live.json')).get('_asof',''))" 2>/dev/null || echo "")
+            echo "{\"date\": \"$d\", \"partial\": true}" > live/g2b_stale.json
+            echo "healthy=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::보관분이 없어 누적 기록(~$d)으로 나라장터 화면을 채워 배포합니다"
           elif [ "${{ github.event.inputs.force_without_g2b }}" = "true" ]; then
             # 수동 실행에서만: 나라장터 수치는 비운 채 다른 탭 변경을 배포하고 상단에 점검 안내
             echo "healthy=true" >> "$GITHUB_OUTPUT"
             echo '{"date": "", "empty": true}' > live/g2b_stale.json
-            echo "::warning::대체 수집분이 없어 나라장터 수치 없이 강제 배포합니다(수동 실행)"
+            echo "::warning::대체 데이터가 없어 나라장터 수치 없이 강제 배포합니다(수동 실행)"
           else
-            echo "::warning::대체할 정상 수집분도 없어 이번 배포를 건너뜁니다"
+            echo "::warning::대체할 데이터가 없어 이번 배포를 건너뜁니다"
           fi
 
       # ---- 통합 대시보드(나이스+G2B+선도학교+자사파이프라인) 확장 파이프라인 ----

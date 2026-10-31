@@ -2592,7 +2592,7 @@ const G2B_STALE = __G2B_STALE_JSON__;  // 나라장터 API 장애로 이전 정�
 (function g2bStaleNote(){
   const el = document.getElementById('g2bStaleNote');
   if (!el || !G2B_STALE) return;
-  el.textContent = G2B_STALE.empty ? '⚠ 조달청 나라장터 시스템 점검으로 입찰·사전규격·낙찰 수치를 불러오지 못해 해당 부분이 비어 있습니다. 점검이 끝나면 다음 배포 때 다시 채워집니다. 다른 데이터와 화면은 최신입니다.' : `⚠ 조달청 나라장터 API 점검·장애로 나라장터 입찰·사전규격·낙찰 수치는 ${G2B_STALE.date ? G2B_STALE.date.slice(5).replace('-', '월 ') + '일' : '이전'} 수집분을 표시 중입니다. 다른 데이터와 화면은 최신입니다.`;
+  el.textContent = G2B_STALE.partial ? `⚠ 조달청 나라장터 시스템 점검 중이라, 나라장터 화면은 저장해 둔 누적 기록(${G2B_STALE.date ? G2B_STALE.date.slice(5).replace('-', '월 ') + '일' : '최근'}까지)으로 표시 중입니다 — 교원연수 관련 입찰공고·경쟁사 낙찰·발주계획만 있고 사전규격과 진행 중 공고는 빠져 있습니다. 점검이 끝나면 다음 배포 때 전체 데이터로 바뀝니다.` : G2B_STALE.empty ? '⚠ 조달청 나라장터 시스템 점검으로 입찰·사전규격·낙찰 수치를 불러오지 못해 해당 부분이 비어 있습니다. 점검이 끝나면 다음 배포 때 다시 채워집니다. 다른 데이터와 화면은 최신입니다.' : `⚠ 조달청 나라장터 API 점검·장애로 나라장터 입찰·사전규격·낙찰 수치는 ${G2B_STALE.date ? G2B_STALE.date.slice(5).replace('-', '월 ') + '일' : '이전'} 수집분을 표시 중입니다. 다른 데이터와 화면은 최신입니다.`;
   el.hidden = false;
 })();
 const WF_BADGES = __WF_BADGES_JSON__;
