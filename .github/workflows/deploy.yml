@@ -9,6 +9,11 @@ on:
         description: "경쟁사 낙찰 조회 기간(일). 평소 60, 과거분 재수집(백필)은 730"
         required: false
         default: "60"
+      force_without_g2b:
+        description: "나라장터 점검 중이고 대체 수집분도 없을 때 나라장터 수치 없이 배포(상단 점검 안내 표시)"
+        type: boolean
+        required: false
+        default: false
   push:
     branches: [main]
     # 브리핑 데이터만 바뀐 푸시는 news.yml 이 전담한다. 두 워크플로가 같은 push 로
@@ -122,6 +127,11 @@ jobs:
             d=$(cat live/g2b_captured_date.txt 2>/dev/null || echo "")
             echo "{\"date\": \"$d\"}" > live/g2b_stale.json
             echo "::warning::나라장터 API 장애 - ${d:-이전} 정상 수집분으로 대체해 배포합니다"
+          elif [ "${{ github.event.inputs.force_without_g2b }}" = "true" ]; then
+            # 수동 실행에서만: 나라장터 수치는 비운 채 다른 탭 변경을 배포하고 상단에 점검 안내
+            echo "healthy=true" >> "$GITHUB_OUTPUT"
+            echo '{"date": "", "empty": true}' > live/g2b_stale.json
+            echo "::warning::대체 수집분이 없어 나라장터 수치 없이 강제 배포합니다(수동 실행)"
           else
             echo "::warning::대체할 정상 수집분도 없어 이번 배포를 건너뜁니다"
           fi
