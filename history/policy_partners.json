@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-30",
+ "updated": "2026-11-01",
  "sites": {
   "teacherville": {
    "status": "ok",
@@ -208,7 +208,7 @@
    "hash": "248926004efc",
    "name": "티처빌",
    "home": "https://www.teacherville.co.kr",
-   "captured": "2026-10-30"
+   "captured": "2026-11-01"
   },
   "iscream": {
    "status": "ok",
@@ -307,10 +307,10 @@
      "ctx": "③ 명백히 정보주체 또는 제3자의 급박한 생명, 신체, 재산의 이익을 위하여 필요하다고 인정되는 경우"
     }
    ],
-   "hash": "036b67035498",
+   "hash": "f68c71c68a29",
    "name": "아이스크림",
    "home": "https://teacher.i-scream.co.kr",
-   "captured": "2026-10-30"
+   "captured": "2026-11-01"
   },
   "vivasam": {
    "status": "ok",
@@ -422,10 +422,10 @@
      "ctx": "- 단, 법률의 특별한 규정 등 개인정보 보호법 제17조에 해당하는 경우에는 개인정보를 제3자에게 제공합니다."
     }
    ],
-   "hash": "ad3a1f4b06e2",
+   "hash": "f8ae9678c123",
    "name": "비바샘",
    "home": "https://t.vivasam.com",
-   "captured": "2026-10-30"
+   "captured": "2026-11-01"
   }
  },
  "changes": [],
