@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31",
+ "updated": "2026-11-01",
  "inst": "한국교육학술정보원",
  "bids": {
   "20231035089-000": {
@@ -10567,6 +10567,42 @@
    "method": "제한경쟁",
    "award": "적격심사제-추정가격이 고시금액 미만인 물품 제조 또는 구매입찰",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01771617&bidPbancOrd=000"
+  },
+  "R26BK01800655-000": {
+   "no": "R26BK01800655",
+   "ord": "000",
+   "t": "2027~2028년 KERIS 대표 홈페이지 응용S/W 유지관리",
+   "kind": "용역",
+   "cat": "시스템·SW",
+   "rel": false,
+   "ntce": "한국교육학술정보원",
+   "dmnd": "한국교육학술정보원",
+   "d": "2026-10-30",
+   "close": "2026-11-10 10:00",
+   "open": "2026-11-10 11:00",
+   "budget": 90000000,
+   "est": 81818182,
+   "method": "제한경쟁",
+   "award": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01800655&bidPbancOrd=000"
+  },
+  "R26BK01800811-000": {
+   "no": "R26BK01800811",
+   "ord": "000",
+   "t": "디지털 매체 활용 독서활동 지원 강화(구독형 전자책) 시범사업",
+   "kind": "용역",
+   "cat": "기타",
+   "rel": false,
+   "ntce": "한국교육학술정보원",
+   "dmnd": "한국교육학술정보원",
+   "d": "2026-10-30",
+   "close": "2026-11-10 10:00",
+   "open": "2026-11-10 11:00",
+   "budget": 90000000,
+   "est": 90000000,
+   "method": "제한경쟁",
+   "award": "협상에의한계약-협상에 의한 낙찰자 결정",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01800811&bidPbancOrd=000"
   }
  },
  "opening": {
@@ -25188,32 +25224,7 @@
  "status": {
   "covered_days": 1095,
   "target_days": 1095,
-  "diag": [
-   "getBidPblancListInfoServcPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getBidPblancListInfoServcPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getBidPblancListInfoServcPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getBidPblancListInfoServcPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getBidPblancListInfoThngPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getBidPblancListInfoThngPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getBidPblancListInfoThngPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getBidPblancListInfoThngPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getOpengResultListInfoServcPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getOpengResultListInfoServcPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getOpengResultListInfoServcPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getOpengResultListInfoServcPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getOpengResultListInfoThngPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getOpengResultListInfoThngPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getOpengResultListInfoThngPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getOpengResultListInfoThngPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getScsbidListSttusServcPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getScsbidListSttusServcPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getScsbidListSttusServcPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getScsbidListSttusServcPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getScsbidListSttusThngPPSSrch/dminsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getScsbidListSttusThngPPSSrch/dminsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getScsbidListSttusThngPPSSrch/ntceInsttCd: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    ",
-   "getScsbidListSttusThngPPSSrch/ntceInsttNm: JSON 파싱 실패(응답이 JSON이 아님): <!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    "
-  ],
+  "diag": [],
   "fields": {
    "bid": [
     "VAT",
