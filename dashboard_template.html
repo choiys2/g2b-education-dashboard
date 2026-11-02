@@ -716,6 +716,7 @@
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="school">학교단위 발주</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 중점·선도학교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="trend2027">교사 트렌드 2027</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="content">콘텐츠·매출</button>
@@ -1930,6 +1931,13 @@
 
   </div><!-- /panel-pipeline -->
 
+  <div class="tabpanel" id="panel-trend2027">
+    <div class="callout"><div class="icon">i</div><div>
+      <h3>교사 트렌드 2027 — 신호 6종을 연수 주제 13개로 합친 트렌드 지도</h3>
+      <p>공공 입찰(나라장터)·네이버 검색·블로그/카페·유튜브 교사 채널·교사몰·경쟁 연수원 신규 강좌를 주제별로 정규화해 합산합니다. <b>점수·성장률·단계는 데이터 계산값</b>이고, 키워드 이름과 설명 문장만 AI가 짓습니다(근거 수치는 카드에 그대로 표시). 순위는 분기마다 기록해 직전 분기와 비교합니다.</p>
+    </div></div>
+  </div><!-- /panel-trend2027 -->
+
   <div class="tabpanel" id="panel-competitor">
 
     <div class="callout">
@@ -2563,6 +2571,7 @@ const NATIONAL_SCHOOL_COUNTS = [{"grade":"초","total":6369,"active":6158,"rate"
 const SCHOOL_CONTRACT_TREND = {"years":["2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025"],"series":{"강원":[6157972369,188172428196,193231757664,184483641751,157228370637,117398013763,118998584407,117825090472,131952619731,132216938225,154200062083,193390272731,272943593798,269310223778,289437455103,349680407311,368536853618],"경기":[41214710032,1177544960703,1319872008582,1212981505974,1028207466092,873314370497,841489258435,812614330280,853903398517,847042549194,962993612190,1337590623638,1636328527090,1996924065865,2388830848887,2785217989683,2827435419128],"경남":[10119143263,477077962459,443024976953,405804156238,326068198257,264152165755,256313550193,274038532143,298310490496,307242125847,403191426840,468661679157,536895596656,605427697347,727735262509,769696861136,783870171014],"경북":[4375272617,374405259765,409614805772,412383313756,327956735226,259811920924,256787995823,250596717543,283183391436,283812897536,332510400570,336914419817,446095258393,523802130969,589839551481,644777270742,642963537457],"광주":[5746015521,187169466681,196791341359,208986754463,175092060540,130494764364,125773288299,123634383701,126787356491,127817895965,143167334897,170546139490,208202510590,252659655943,283345715469,318337469996,301784640304],"대구":[3759357599,295039565037,340018302341,333028011027,270605858406,213887106573,186810749074,198363436823,226054376928,238081871886,246316282134,207754553223,292913510894,342664315740,356531848579,417625190212,418730580126],"대전":[3895513950,192052706808,208384910984,178167077274,139254923517,108953420712,113263050835,116409635362,124074787685,115576017160,124374391415,139641677560,170820980781,187213367494,222166468296,220109217123,198515303439],"부산":[6274479772,294851376617,343376419013,329213149738,251580297649,185308230005,167636901581,166588656011,180905919079,165066350594,203941746436,23244999205247,419907959814,456447530508,525065682603,585044969076,582520035129],"서울":[12835919817,810396173602,995280439641,1010015395813,872879835616,694069806267,750888229994,774020104962,838161734917,821850171373,897861651195,826959438555,1043420059972,1367928025486,1509318587825,1671623422317,1578578348862],"울산":[5683550923,140815863739,131822351688,129251247094,111993445704,93779075422,97736930223,108094727603,120559083446,109737329996,121982578413,144310929207,192011797847,256538277677,217094481993,241426818170,237045904297],"인천":[5236958439,247168302139,255866147887,229202692801,191891609373,143527306587,153328944310,160672457064,200762899298,195017203683,223108374583,221297561397,283034626839,395257365692,449659454359,500654092717,464817800776],"전남":[8498824554,252813212887,295326988353,282424073853,240106443501,191975053936,192318830185,197288165685,219501066968,259874559830,249226407168,325670072661,392977625248,443029264381,517114439187,601412013513,577943480319],"전북":[6905104920,256988017714,285974255116,262379683469,205864039487,158429995748,168184930905,171182525382,181792345361,183352486443,192030515699,17592078210364,333432468272,369207877015,460513394552,529161207918,511735934803],"제주":[5007597854,90511604735,78455049885,69094098767,56254854679,53279942273,57913745149,53462805602,65654279690,68594005122,82446289333,137065321681,147060114520,176486209373,199185973551,209388105162,205525924689],"충남":[8071152300,348114701973,370672070036,364747568942,294724987413,235082346913,258372232618,245533801883,249055243658,258788113903,281083252705,275336938029,340204234675,381364021793,452128627710,498843386216,454836758158],"충북":[6387593829,223982993828,246728481105,230269075433,214165144496,178780796412,170628514244,174789023917,189264330963,210778296071,237767608063,214574854619,263881302161,273402684955,333548751146,382211207612,402140710043],"세종":[0,0,0,0,18467299285,19485960739,33608250007,37548932328,44666999494,47719494624,54687583326,57198787665,63876326007,76292939808,107234197089,113707172621,124926920280]},"school_counts":{"강원":[17,637,638,640,651,649,651,656,661,660,656,658,660,661,661,660,662],"경기":[63,2166,2215,2256,2283,2321,2366,2401,2441,2472,2503,2563,2618,2653,2676,2692,2729],"경남":[21,951,958,973,976,979,989,991,997,995,999,1002,1013,1019,1024,1027,1031],"경북":[21,979,978,972,960,960,961,951,936,941,937,947,948,947,949,939,939],"광주":[11,411,419,310,313,317,323,326,325,325,327,329,328,328,329,333,334],"대구":[12,430,435,440,442,447,449,464,473,478,479,479,484,487,485,498,497],"대전":[8,293,298,303,305,306,309,309,312,314,315,314,316,319,319,320,322],"부산":[16,619,616,624,635,639,644,649,655,652,652,654,658,661,665,663,665],"서울":[28,1402,1428,1462,1480,1496,1508,1512,1527,1542,1567,1597,1617,1637,1641,1635,1638],"울산":[8,237,239,239,240,244,245,245,248,248,250,255,259,257,257,257,260],"인천":[12,470,489,499,506,506,517,524,530,530,536,538,550,558,562,568,571],"전남":[19,836,843,850,848,841,842,844,850,850,853,855,859,857,851,847,846],"전북":[26,1109,1113,775,777,780,785,787,791,790,792,798,799,801,801,799,793],"제주":[8,172,177,180,181,182,184,184,184,185,185,185,185,186,186,186,188],"충남":[19,754,758,760,733,734,735,733,741,744,746,749,753,756,760,761,763],"충북":[17,488,487,498,492,498,497,498,500,500,502,503,507,504,508,509,512],"세종":[0,0,0,0,42,55,86,92,113,125,129,133,140,143,145,147,151]}};
 const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
 const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
+const TREND2027 = __TREND2027_JSON__;  // 교사 트렌드 2027(teacher_trend2027.py)
 const NETI = __NETI_JSON__;
 const KERIS = __KERIS_JSON__;
 const LEADING_ROWS = __LEADING_ROWS_JSON__;
@@ -4919,11 +4928,76 @@ window.__ownerQ.push(function renderAiBrief(){
     </tbody></table></div>${so(`상위 3개 주제(${P.slice(0, 3).map(p => p.name).join(' · ')})는 교사 구매가 이미 일어나는 영역입니다. <b>SET 기획 후보</b>는 자사 과정에 1행 인기 상품을 실습 키트로 붙인 샘몰 묶음 상품으로, <b>과정 개발 후보</b>는 상품 수요는 있는데 자사 과정이 없는 주제로 2027 개발 목록에 올려 검토하세요.`)}`;
   });
 
+  /* ============ 교사 트렌드 2027(키워드 10선 · 성숙도 지도 · 신호 표 · 분기 리포트) ============ */
+  const T27 = (typeof TREND2027 !== 'undefined' && TREND2027) || {};
+  const STG = {'부상': '#f59e0b', '확산': '#ef4444', '성숙': '#4f8cff', '관망': '#94a3b8'};
+  const stgChip = st => `<span style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;background:${STG[st] || '#94a3b8'};">${h(st || '')}</span>`;
+  const gTxt = g => g == null ? '–' : (g > 0 ? '+' : '') + g + '%';
+  safe('trend27Keywords', () => {
+    const el = panel('trend2027', null, '교사 트렌드 2027 키워드 10선', `점수 = 신호 6종 가중합(0~100) · ${T27.kw_src === 'rule' ? '키워드명 = 연수 주제명(AI 미생성)' : 'AI 작명 ' + (T27.kw_date || '')}${T27.generated ? ' · 계산 ' + T27.generated : ''}`);
+    if (!el) return;
+    if (!T27.available) { el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">${(T27.keywords || []).map((k, i) => {
+      const ev = Object.entries(k.ev || {}).slice(0, 5).map(([a, b]) => `<span style="white-space:nowrap;">${h(a)} <b class="num">${typeof b === 'number' ? b.toLocaleString() : h(b)}</b></span>`).join(' · ');
+      return `<article style="border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--muted);font-weight:700;">${String(i + 1).padStart(2, '0')} · ${h(k.topic_name)}</span>${stgChip(k.stage)}</div>
+        <div style="font-size:18px;font-weight:800;line-height:1.3;">${h(k.keyword)}</div>
+        ${k.summary ? `<div style="font-size:12.5px;color:var(--ink-2);">${h(k.summary)}</div>` : ''}
+        <div style="display:flex;gap:10px;font-size:12px;"><span>점수 <b class="num">${k.score ?? '–'}</b></span><span>성장 <b class="num" style="color:${(k.growth || 0) >= 10 ? 'var(--danger, #d64545)' : 'inherit'};">${gTxt(k.growth)}</b></span><span>자사 과정 <b class="num">${k.own ?? '–'}</b></span></div>
+        ${k.why ? `<div style="font-size:12px;"><b>근거</b> ${h(k.why)}</div>` : ''}
+        <div style="font-size:11.5px;color:var(--muted);">${ev}</div>
+        ${k.action ? `<div style="font-size:12px;padding:6px 8px;border-radius:8px;background:color-mix(in srgb, var(--accent) 10%, transparent);"><b>2027 실행</b> ${h(k.action)}</div>` : ''}
+      </article>`; }).join('')}</div>`
+      + so('키워드 카드의 <b>점수·성장·자사 과정 수</b>는 데이터 값입니다. 점수가 높고 자사 과정이 0~1개인 키워드가 2027 콘텐츠 개발(샘크리에이티브)과 B2C 기획전의 1순위입니다.');
+  });
+  safe('trend27Map', () => {
+    const el = panel('trend2027', null, '트렌드 성숙도 지도', 'x = 규모(점수) · y = 성장률(입찰·검색·경쟁사 출시 평균) · 원 크기 = 공공 입찰 건수');
+    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
+    const R = T27.topics || [], W0 = 640, H0 = 320, pad = 40;
+    const gs = R.map(r => r.growth ?? 0), gMin = Math.min(-50, ...gs), gMax = Math.max(60, ...gs);
+    const sx = v => pad + v / 100 * (W0 - pad * 2), sy = v => H0 - pad - (v - gMin) / (gMax - gMin) * (H0 - pad * 2);
+    const med = R.map(r => r.score).sort((a, b) => a - b)[Math.floor(R.length / 2)] || 0;
+    const nMax = Math.max(1, ...R.map(r => (r.ev || {})['입찰 12개월'] || 0));
+    const dots = R.map(r => { const n = (r.ev || {})['입찰 12개월'] || 0, rad = 5 + Math.sqrt(n / nMax) * 14;
+      return `<g ${tipAttr(`<b>${h(r.name)}</b><br>점수 ${r.score} · 성장 ${gTxt(r.growth)} · ${h(r.stage)}<br>${Object.entries(r.parts || {}).map(([a, b]) => `${h(a)} ${b}`).join(' · ')}`)}><circle cx="${sx(r.score)}" cy="${sy(r.growth ?? 0)}" r="${rad}" fill="${STG[r.stage]}" fill-opacity=".75" stroke="var(--surface)" stroke-width="1.5"/>
+        ${r.score >= med || r.stage !== '관망' ? `<text x="${sx(r.score)}" y="${sy(r.growth ?? 0) - rad - 3}" text-anchor="middle" font-size="11" fill="var(--ink-2)">${h(r.name)}</text>` : ''}</g>`; }).join('');  // 관망 작은 점은 이름 겹침을 막으려 툴팁으로만
+    const q = (x, y, t, c) => `<text x="${x}" y="${y}" font-size="12" font-weight="800" fill="${c}" opacity=".85">${t}</text>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W0} ${H0}" style="width:100%;height:auto;max-height:380px;" role="img" aria-label="트렌드 성숙도 지도">
+      <line x1="${sx(med)}" x2="${sx(med)}" y1="${pad / 2}" y2="${H0 - pad}" stroke="var(--border)" stroke-dasharray="4 4"/>
+      <line x1="${pad}" x2="${W0 - pad}" y1="${sy(10)}" y2="${sy(10)}" stroke="var(--border)" stroke-dasharray="4 4"/>
+      ${q(pad + 4, pad / 2 + 12, '부상', STG['부상'])}${q(W0 - pad - 34, pad / 2 + 12, '확산', STG['확산'])}${q(W0 - pad - 34, H0 - pad - 6, '성숙', STG['성숙'])}${q(pad + 4, H0 - pad - 6, '관망', STG['관망'])}
+      <text x="${W0 / 2}" y="${H0 - 8}" text-anchor="middle" font-size="11" fill="var(--muted)">규모(점수) →</text>
+      <text x="12" y="${H0 / 2}" font-size="11" fill="var(--muted)" transform="rotate(-90 12 ${H0 / 2})" text-anchor="middle">성장률 →</text>
+      ${dots}</svg>`
+      + so('<b>확산</b>(크고 빠름)은 지금 과정 수를 늘릴 주제, <b>부상</b>(작지만 빠름)은 선점용 파일럿 과정, <b>성숙</b>(크고 느림)은 가격·묶음 경쟁, <b>관망</b>은 정책 이벤트가 생길 때만 대응하는 주제입니다.');
+  });
+  safe('trend27Signals', () => {
+    const el = panel('trend2027', null, '주제별 신호 표', '각 신호 0~100(주제 간 상대값) · 빈칸 = 해당 신호 없음');
+    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
+    const keys = Object.keys(T27.weights || {});
+    const cell = v => v == null ? '<td></td>' : `<td class="num" style="background:color-mix(in srgb, var(--accent) ${Math.round(v * .55)}%, transparent);">${v}</td>`;
+    el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>주제</th><th>단계</th><th class="num">점수</th><th class="num">성장</th>${keys.map(k => `<th class="num">${h(k)}<br><span style="font-weight:500;color:var(--muted);">×${T27.weights[k]}</span></th>`).join('')}<th class="num">자사 과정</th></tr></thead><tbody>
+      ${(T27.topics || []).map(r => `<tr><td style="white-space:nowrap;font-weight:700;">${h(r.name)}</td><td>${stgChip(r.stage)}</td><td class="num"><b>${r.score}</b></td><td class="num">${gTxt(r.growth)}</td>${keys.map(k => cell((r.parts || {})[k])).join('')}<td class="num">${r.own ?? '–'}</td></tr>`).join('')}</tbody></table></div>`;
+  });
+  safe('trend27Quarter', () => {
+    const Q = T27.quarter || {};
+    const el = panel('trend2027', null, '분기 트렌드 리포트', Q.quarter ? `${Q.quarter}${Q.prev ? ' vs ' + Q.prev : ''}` : '');
+    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
+    if (!Q.prev) { el.innerHTML = `<p style="font-size:13px;color:var(--muted);margin:4px 0;">${h(Q.quarter || '')}이 첫 기준 분기입니다. 다음 분기부터 순위 변동·새로 뜬 주제·식은 주제를 자동으로 비교합니다(매일 갱신되는 현재 분기 값이 분기 말 기준으로 남습니다).</p>`; return; }
+    const it = Q.items || [];
+    const up = it.filter(x => x.prev_rank && x.prev_rank - x.rank >= 2), down = it.filter(x => x.prev_rank && x.rank - x.prev_rank >= 2);
+    const stg = it.filter(x => x.prev_stage && x.prev_stage !== x.stage);
+    const line = (t, arr, f) => `<p style="margin:6px 0;font-size:13px;"><b>${t}</b> ${arr.length ? arr.map(f).join(' · ') : '<span style="color:var(--muted);">없음</span>'}</p>`;
+    el.innerHTML = line('순위 상승', up, x => `${h(x.name)} ${x.prev_rank}→${x.rank}위`) + line('순위 하락', down, x => `${h(x.name)} ${x.prev_rank}→${x.rank}위`)
+      + line('단계 변화', stg, x => `${h(x.name)} ${h(x.prev_stage)}→${h(x.stage)}`)
+      + `<div class="tbl-wrap" style="margin-top:8px;"><table class="data" style="font-size:12px;"><thead><tr><th>순위</th><th>주제</th><th>직전</th><th class="num">점수 변화</th><th>단계</th></tr></thead><tbody>${it.map(x => `<tr><td class="num">${x.rank}</td><td>${h(x.name)}</td><td class="num">${x.prev_rank ?? '신규'}</td><td class="num">${x.d_score == null ? '–' : (x.d_score > 0 ? '+' : '') + x.d_score}</td><td>${stgChip(x.stage)}</td></tr>`).join('')}</tbody></table></div>`;
+  });
+
   /* 교사 트렌드: 유튜브 교사 크리에이터(주 1회 · YouTube Data API) */
   const TT = (COMPETITOR_TRAINING || {}).teacher_trends || {};
   const nfmt = v => v >= 1e4 ? (v / 1e4).toFixed(v >= 1e5 ? 0 : 1) + '만' : (v || 0).toLocaleString();
   safe('teacherCreators', () => {
-    const el = panel('competitor', null, '교사 크리에이터 시장(유튜브)', `구독자 상위 교사 채널 · 최근 영상 5개 기준${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
+    const el = panel('trend2027', null, '교사 크리에이터 시장(유튜브)', `구독자 상위 교사 채널 · 최근 영상 5개 기준${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
     if (!el) return;
     const C = TT.channels || [];
     if (!C.length) { el.innerHTML = empty('YouTube API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
@@ -4936,7 +5010,7 @@ window.__ownerQ.push(function renderAiBrief(){
     </tbody></table></div>${so(`교사 채널 ${TT.n_channels || C.length}개 중 상위 ${C.length}개입니다. 구독자 증가(4주)가 큰 채널의 주력 주제가 지금 교사들이 찾는 콘텐츠입니다 — <b>강사 섭외·공동 기획 후보</b>로 보고, 자사 과정 홍보 채널로 협업(리뷰·라이브) 가능성을 검토하세요.`)}`;
   });
   safe('teacherTopicHeat', () => {
-    const el = panel('competitor', null, '교사 트렌드 주제 열기', `교사 채널별 최근 영상 주제 비중(채널 규모 가중) vs 자사 과정 수${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
+    const el = panel('trend2027', null, '교사 트렌드 주제 열기', `교사 채널별 최근 영상 주제 비중(채널 규모 가중) vs 자사 과정 수${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
     if (!el) return;
     if (!TT.available) { el.innerHTML = empty('YouTube API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
     const H = (TT.heat || []).slice(0, 10), mx = Math.max(1, ...H.map(r => r.heat));
@@ -4951,7 +5025,7 @@ window.__ownerQ.push(function renderAiBrief(){
 
   safe('teacherInterest', () => {
     const I = TT.interest || {};
-    const el = panel('competitor', null, '교사 관심사 레이더(검색·쇼핑·커뮤니티)', `네이버 데이터랩 검색 지수('교사' 검색=100${I.ages ? ', ' + I.ages : ''}) · 블로그·카페 글 · 쇼핑 클릭${I.dl_date ? ' · 수집 ' + I.dl_date : ''}`);
+    const el = panel('trend2027', null, '교사 관심사 레이더(검색·쇼핑·커뮤니티)', `네이버 데이터랩 검색 지수('교사' 검색=100${I.ages ? ', ' + I.ages : ''}) · 블로그·카페 글 · 쇼핑 클릭${I.dl_date ? ' · 수집 ' + I.dl_date : ''}`);
     if (!el) return;
     if (!I.available) { el.innerHTML = empty('네이버·카카오 API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
     const spark = (a, w = 110, hgt = 24) => { if (!a || a.length < 2) return ''; const mx = Math.max(...a), mn = Math.min(...a), r = mx - mn || 1;

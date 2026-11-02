@@ -416,6 +416,9 @@ def main():
     # 입찰공고 최근 12개월 -> 초·중·고 연수 주제 수요와 2027 개발 추천(나라장터 종합 탭)
     import training_topics
     training_topic_data = training_topics.build_from_files(new_courses["courses"], "비바샘연수원", full_live)
+    # 교사 트렌드 2027: 위 신호들을 연수 주제 단위로 합친 점수·성숙도·키워드(AI 작명은 캐시)
+    trend2027 = __import__("teacher_trend2027").build(training_topic_data, competitor_training.get("teacher_trends"),
+                                                       competitor_training.get("mall"))
 
     # B2S 학교 타깃 레이더 + 샘몰 상품 기획 보드(B2S·샘몰 기획 탭) - 위 데이터 재조합, API 호출 없음
     import b2s_board
@@ -534,6 +537,7 @@ def main():
         "__BETA_JSON__": beta, "__KOSIS_FINANCE_JSON__": kosis_finance,
         "__COMPETITOR_TRAINING_JSON__": competitor_training,
         "__TRAINING_TOPICS_JSON__": training_topic_data,
+        "__TREND2027_JSON__": trend2027,
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": None,
