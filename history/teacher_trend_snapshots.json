@@ -1,0 +1,72 @@
+{
+ "2026Q4": {
+  "date": "2026-11-02",
+  "rank": [
+   {
+    "id": "ai",
+    "score": 68,
+    "stage": "확산"
+   },
+   {
+    "id": "subject",
+    "score": 55,
+    "stage": "성숙"
+   },
+   {
+    "id": "lesson",
+    "score": 40,
+    "stage": "확산"
+   },
+   {
+    "id": "inclusive",
+    "score": 35,
+    "stage": "성숙"
+   },
+   {
+    "id": "credit",
+    "score": 33,
+    "stage": "확산"
+   },
+   {
+    "id": "safety",
+    "score": 23,
+    "stage": "성숙"
+   },
+   {
+    "id": "care",
+    "score": 22,
+    "stage": "성숙"
+   },
+   {
+    "id": "leader",
+    "score": 21,
+    "stage": "관망"
+   },
+   {
+    "id": "basic",
+    "score": 16,
+    "stage": "관망"
+   },
+   {
+    "id": "neulbom",
+    "score": 15,
+    "stage": "관망"
+   },
+   {
+    "id": "citizen",
+    "score": 11,
+    "stage": "관망"
+   },
+   {
+    "id": "parent",
+    "score": 11,
+    "stage": "관망"
+   },
+   {
+    "id": "rights",
+    "score": 7,
+    "stage": "관망"
+   }
+  ]
+ }
+}
