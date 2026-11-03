@@ -11,9 +11,13 @@ import json
 import re
 import sys
 from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:  # 로컬 점검용(수집은 러너에서만)
+    sync_playwright = None
 
 URL = "https://edutech-radar.netlify.app/"
 OUT = Path("history/edutech_radar.json")
@@ -40,12 +44,31 @@ def _articles_in(obj, depth=0):
     return []
 
 
+MAIN = ("title", "headline", "name", "url", "link", "href", "date", "published", "publishedAt", "pubDate", "createdAt",
+        "time", "datetime", "source", "press", "publisher", "media", "outlet", "site", "summary", "description", "desc",
+        "snippet", "content", "abstract", "category", "tag", "tags", "section", "topic", "image", "thumbnail")
+
+
+def _date(d):
+    """'Tue, 03 Nov 2026 23:04:00' · ISO · '2026.11.03' -> 'YYYY-MM-DD HH:MM'(KST)"""
+    try:
+        dt = parsedate_to_datetime(d)  # 시간대 표기가 없는 피드 시각은 UTC(실측: 23:04 표기 = KST 08:04 '7분 전')
+        return (dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)).astimezone(KST).strftime("%Y-%m-%d %H:%M")
+    except (TypeError, ValueError, IndexError):
+        pass
+    try:
+        dt = datetime.fromisoformat(d.replace("Z", "+00:00"))
+        return (dt.astimezone(KST) if dt.tzinfo else dt).strftime("%Y-%m-%d %H:%M")
+    except ValueError:
+        m = DATE_RE.search(d)
+        return "-".join([m.group(1), m.group(2).zfill(2), m.group(3).zfill(2)]) if m else d[:25]
+
+
 def _norm(a):
     g = lambda *ks: next((str(a[k]) for k in ks if a.get(k) not in (None, "")), "")
-    d = g("date", "published", "publishedAt", "pubDate", "createdAt", "time", "datetime")
-    m = DATE_RE.search(d)
+    extra = {k: v for k, v in a.items() if k not in MAIN and isinstance(v, (str, int, float, bool)) and len(str(v)) <= 80}
     return {"title": g("title", "headline", "name")[:300], "url": g("url", "link", "href"),
-            "date": "-".join([m.group(1), m.group(2).zfill(2), m.group(3).zfill(2)]) if m else d[:25],
+            "date": _date(g("date", "published", "publishedAt", "pubDate", "createdAt", "time", "datetime")), "extra": extra,
             "source": g("source", "press", "publisher", "media", "outlet", "site")[:80],
             "summary": g("summary", "description", "desc", "snippet", "content", "abstract")[:600],
             "category": g("category", "tag", "tags", "section", "topic")[:80]}
@@ -77,13 +100,23 @@ def main():
             page.wait_for_timeout(4000)
             out["http"] = resp.status if resp else None
             best_url, best = "", []
+            feeds = {}
             for u, j in jsons:
                 arr = _articles_in(j)
+                name = re.sub(r"\?.*", "", u).rstrip("/").rsplit("/", 1)[-1]
+                if arr and "news-image" not in u:
+                    feeds[name] = arr
                 if len(arr) > len(best):
                     best_url, best = u, arr
+            cut = (now - timedelta(days=7)).strftime("%Y-%m-%d")
+            recent = lambda arr, cap: sorted((x for x in (_norm(a) for a in arr) if x["date"][:10] >= cut or not x["date"][:4].isdigit()),
+                                             key=lambda x: x["date"], reverse=True)[:cap]
+            # 뉴스 외 채널(유튜브·블로그·학사일정 등)도 최근 7일만 함께 남긴다
+            out["channels"] = {k: recent(v, 80) for k, v in feeds.items() if v is not best}
             if best:
                 out["method"], out["source_json"] = "json", best_url
-                out["items"] = [_norm(a) for a in best]
+                out["total_in_site"] = len(best)
+                out["items"] = recent(best, 500)
             else:
                 cards = page.evaluate(JS_CARDS)
                 seen, items = set(), []

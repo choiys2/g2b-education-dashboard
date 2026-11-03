@@ -1,0 +1,28 @@
+name: 전략 브리핑 공개키 갱신
+
+# GitHub Secret STRATEGY_KEY(사용자만 아는 값)에서 공개키를 만들어 커밋한다.
+# 07:00 브리핑 세션은 이 공개키로만 암호화하고, 대시보드 배포만 STRATEGY_KEY 로 푼다.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  pubkey:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install cryptography
+      - env:
+          STRATEGY_KEY: ${{ secrets.STRATEGY_KEY }}
+        run: python strategy_crypto.py pubkey
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add strategy_pubkey.txt
+          git diff --cached --quiet || git commit -m "chore: 전략 브리핑 공개키 갱신"
+          git pull --rebase origin main && git push

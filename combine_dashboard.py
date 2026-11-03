@@ -545,6 +545,8 @@ def main():
         "__COMPETITOR_TRAINING_JSON__": competitor_training,
         "__TRAINING_TOPICS_JSON__": training_topic_data,
         "__TREND2027_JSON__": trend2027,
+        # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
+        "__STRATEGY_JSON__": __import__("strategy_crypto").load_all(),
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": None,
