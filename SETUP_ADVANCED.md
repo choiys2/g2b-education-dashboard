@@ -174,3 +174,5 @@ git push
    관리 탭 '내 일정'(내 일정 × 입찰 마감 × 주간보고 일정, 겹침 자동 감지)과 경영 브리프 팩에 반영(`owner_schedule.py`)
 
 로컬 시험: `weekly_data.local/` 에 JSON 을 두고 `python owner_weekly.py preview.html` (폴더는 gitignore).
+8. 데이터 팩: 매일 배포 끝에 `data_pack.py` 가 대시보드 모든 탭 데이터(live/data_pack_raw.json + 대표 전용 owner_pack)를
+   탭별 Markdown(표 300행까지) + 전체 CSV 로 비공개 저장소 `data_pack/` 에 저장. Claude 프로젝트 지식에 연결해 검색·질의·PPT 근거로 쓴다.

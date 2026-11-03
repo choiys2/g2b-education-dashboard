@@ -571,6 +571,14 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(html)
 
+    # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
+    try:
+        skip = {"__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
+            json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
+    except Exception as e:
+        print(f"[경고] data_pack_raw 저장 실패: {str(e)[:120]}")
+
     # 주간 보고(weekly_digest.py)가 쓰는 입력 묶음 - 대시보드와 같은 계산 결과를 그대로 넘긴다
     with open("live/_weekly_inputs.json", "w", encoding="utf-8") as f:
         json.dump({"bids": full_live["analytics"]["입찰공고"], "early": early,
