@@ -33,6 +33,9 @@ on:
       - "keris_export.py"
       - "samall_partners.py"
       - "policy_partners_scrape.py"
+      - "radar_collect.py"
+      - ".github/workflows/radar.yml"
+      - "history/edutech_radar.json"
       - ".github/workflows/policy_probe.yml"
 
 permissions:

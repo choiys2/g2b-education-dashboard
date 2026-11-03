@@ -1,0 +1,33 @@
+name: 에듀테크 레이더 수집
+
+# 07:00 전략 브리핑(클라우드 분석 세션)은 이 사이트에 직접 접속할 수 없어 러너가 대신 열어 저장한다.
+on:
+  schedule:
+    - cron: "40 21 * * *"   # 매일 06:40 KST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - run: python radar_collect.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add history/edutech_radar.json
+          git diff --cached --quiet || git commit -m "chore: 에듀테크 레이더 수집 $(TZ=Asia/Seoul date +%F)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done
