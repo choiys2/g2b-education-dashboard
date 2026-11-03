@@ -159,6 +159,22 @@ def sec_weekly():
         return []
 
 
+def sec_decide():
+    try:
+        return __import__("owner_decisions").pack_md()
+    except Exception as e:
+        print(f"[경고] 결정 보드 요약 실패: {type(e).__name__}")
+        return []
+
+
+def sec_targets():
+    try:
+        return __import__("owner_targets").pack_md()
+    except Exception as e:
+        print(f"[경고] 목표 경로 요약 실패: {type(e).__name__}")
+        return []
+
+
 def sec_schedule():
     try:
         return __import__("owner_schedule").pack_md()
@@ -170,7 +186,7 @@ def sec_schedule():
 def build():
     owner = _j("live/owner_pack.json", {}) or {}
     today = _today()
-    parts = [sec_ai(owner), sec_story(), sec_metrics(owner), sec_daily(), sec_comp(owner), sec_mgmt(), sec_weekly(), sec_schedule()]
+    parts = [sec_decide(), sec_ai(owner), sec_targets(), sec_story(), sec_metrics(owner), sec_daily(), sec_comp(owner), sec_mgmt(), sec_weekly(), sec_schedule()]
     body = [x for p in parts for x in p]
     head = [f"# 경영 브리프 팩 — {today.isoformat()}", "",
             "> 비바샘원격교육연수원 대표 전용 · 대시보드(vs-insight.pages.dev)가 매일 06시에 자동 생성 · 외부 공유 금지",

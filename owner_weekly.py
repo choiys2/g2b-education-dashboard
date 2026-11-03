@@ -311,7 +311,19 @@ def build(sec):
     txt = E(brief_text(weeks, tr, fl))
     s8 = sec("보고·발표용 요약 문안", "숫자를 그대로 옮긴 텍스트입니다. 선택해 복사하면 메일·보고서·슬라이드 초안에 바로 쓸 수 있습니다.",
              f"<pre style='white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--surface-2);padding:12px;border-radius:8px;border:1px solid var(--border);margin:0;'>{txt}</pre>")
-    return s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8
+    # 품질 검사(weekly_check.py) — 최신 주차를 직전 주와 비교
+    try:
+        qc = __import__("weekly_check").check(w, wid, weeks[-2][1] if len(weeks) > 1 else None)
+    except Exception as e:
+        qc = [("warn", f"품질 검사 실패: {type(e).__name__}")]
+    if qc:
+        qrows = "".join(f"<div style='padding:4px 0;border-bottom:1px dashed var(--border);font-size:13px;'>"
+                        f"{_pill('#dc2626', '오류') if lv == 'error' else _pill('#f59e0b', '확인')} {E(msg)}</div>" for lv, msg in qc)
+        sq = sec(f"품질 검사 — {E(_label(wid, w))} (오류 {sum(1 for l, _ in qc if l == 'error')} · 확인 {sum(1 for l, _ in qc if l == 'warn')})",
+                 "요일·날짜 형식·공정률·이름 일관성을 직전 주와 비교했습니다. 보고서·발표에 쓰기 전에 원문을 고쳐 다시 올리면 사라집니다.", qrows)
+    else:
+        sq = sec(f"품질 검사 — {E(_label(wid, w))}", "요일·날짜·공정률·이름 일관성", "<p style='color:#10b981;font-size:13px;font-weight:700;'>✓ 문제 없음</p>")
+    return s1 + sq + s2 + s3 + s4 + s5 + s6 + s7 + s8
 
 
 if __name__ == "__main__":

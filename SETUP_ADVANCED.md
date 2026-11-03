@@ -176,3 +176,5 @@ git push
 로컬 시험: `weekly_data.local/` 에 JSON 을 두고 `python owner_weekly.py preview.html` (폴더는 gitignore).
 8. 데이터 팩: 매일 배포 끝에 `data_pack.py` 가 대시보드 모든 탭 데이터(live/data_pack_raw.json + 대표 전용 owner_pack)를
    탭별 Markdown(표 300행까지) + 전체 CSV 로 비공개 저장소 `data_pack/` 에 저장. Claude 프로젝트 지식에 연결해 검색·질의·PPT 근거로 쓴다.
+9. 고도화 1차(2026-11): 관리 탭 '경영 종합' 맨 위 **2027 목표 경로 트래커**(`owner_targets.py`, MGMT_JSON 월별 → TTM B2G 비중 vs 2027 계획 월 직선 경로, 필요 B2C+B2S 역산) ·
+   '주간보고' **품질 검사**(`weekly_check.py`, 비공개 저장소 업로드 때도 자동 실행) · **결정 보드**(`owner_decisions.py`, 비공개 저장소 decisions/log.md 표) — 셋 다 경영 브리프 팩에도 요약
