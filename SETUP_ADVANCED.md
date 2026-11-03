@@ -155,3 +155,17 @@ git push
   이후로 이 경로의 갱신이 끊긴 것으로 보임). 그래서 이 표는 **기회점수 계산에는 반영하지
   않고** 별도 참고 표로만 뒀습니다 — 절대금액을 지역 간 비교할 때 기준연도를 꼭 같이 보세요.
   강원은 "지출액"(결산) 데이터 자체가 없어 "예산액"(당초 예산)으로 대체했습니다.
+
+## 관리 탭 '주간보고' (대표 전용 · 비공개 저장소 연동)
+
+콘텐츠Company 주간보고 원본은 이 공개 저장소에 두지 않고 비공개 저장소에만 둔다.
+배포 때 `deploy.yml` 의 '비공개 데이터 가져오기' 단계가 내려받아 `owner_weekly.py` 가 관리 탭 암호문(ADMIN_PASSWORD) 안에만 싣는다.
+
+1. 비공개 저장소 `choiys2/vs-insight-private` 생성(Private) → `weekly_data/YYYY-MM-WN.json` 업로드
+   (다른 이름이면 저장소 변수 `PRIVATE_DATA_REPO` 에 `owner/name`)
+2. Fine-grained PAT 발급: 대상 저장소 = vs-insight-private + g2b-education-dashboard, 권한 = Contents Read and write
+3. 이 저장소 Secret `PRIVATE_DATA_TOKEN` = 위 토큰 (내려받기용)
+4. 비공개 저장소 Secret `DASHBOARD_DISPATCH_TOKEN` = 같은 토큰 (새 주차 업로드 시 즉시 재배포 신호)
+5. 매주: 비공개 저장소 `weekly_data/` 에 JSON 한 개 업로드 → 자동 반영
+
+로컬 시험: `weekly_data.local/` 에 JSON 을 두고 `python owner_weekly.py preview.html` (폴더는 gitignore).

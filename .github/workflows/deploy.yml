@@ -3,6 +3,8 @@ name: 나라장터 대시보드 자동 갱신·배포
 on:
   schedule:
     - cron: "0 21 * * *"   # 매일 06:00 KST (UTC 21:00 전날)
+  repository_dispatch:
+    types: [private-data-updated]   # 비공개 저장소(주간보고)에 새 주차를 올리면 즉시 재배포
   workflow_dispatch:
     inputs:
       competitor_days:
@@ -311,6 +313,22 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python rfp_analysis.py
+
+      # 대표 전용 주간보고(콘텐츠Company)는 비공개 저장소에만 둔다. 배포 때만 내려받아 관리 탭 암호문 안에 싣는다.
+      - name: 비공개 데이터 가져오기 (주간보고)
+        timeout-minutes: 2
+        continue-on-error: true
+        env:
+          PRIVATE_DATA_TOKEN: ${{ secrets.PRIVATE_DATA_TOKEN }}
+          PRIVATE_DATA_REPO: ${{ vars.PRIVATE_DATA_REPO || 'choiys2/vs-insight-private' }}
+        run: |
+          if [ -z "$PRIVATE_DATA_TOKEN" ]; then echo "PRIVATE_DATA_TOKEN 없음 - 주간보고 건너뜀"; exit 0; fi
+          rm -rf _private
+          if git clone --depth 1 -q "https://x-access-token:${PRIVATE_DATA_TOKEN}@github.com/${PRIVATE_DATA_REPO}.git" _private 2>/dev/null; then
+            echo "주간보고 $(ls _private/weekly_data/*.json 2>/dev/null | wc -l)개 파일"
+          else
+            echo "비공개 저장소 내려받기 실패(토큰 권한·저장소 이름 확인)"
+          fi
 
       - name: 통합 대시보드 조합
         id: combine
