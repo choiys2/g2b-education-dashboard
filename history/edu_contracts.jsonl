@@ -1,3 +1,7 @@
+{"sido": "전북", "org": "진경여자고등학교", "school": true, "title": "특성화고 AI역량강화사업 AI학교 홍보 노래 제작 체험 프로그램 계약", "date": "2026-11-02", "amount": 2000000, "vendor": "기타 법인", "src": "jbe"}
+{"sido": "전북", "org": "한국기술부사관고등학교", "school": true, "title": "[혁신지구] 3학년 실전 취업역량강화 캠프 프로그램", "date": "2026-11-02", "amount": 2060000, "vendor": "기타 법인", "src": "jbe"}
+{"sido": "전북", "org": "정읍중학교", "school": true, "title": "2026학년도 특수학급 11월 직업프로그램(바리스타 직무교육) 운영비 지급", "date": "2026-11-02", "amount": 1170000, "vendor": "기타", "src": "jbe"}
+{"sido": "부산", "org": "삼어초등학교", "school": true, "title": "2026학년도 학부모연수 운영(아로마 치유) 재료비 지급", "date": "2026-11-02", "amount": 1170000, "vendor": "기타 법인", "src": "pen"}
 {"sido": "전북", "org": "이리공업고등학교", "school": true, "title": "(AI)특성화고 1,2학년 역량강화사업 프로그램 용역 계약", "date": "2026-10-30", "amount": 4800000, "vendor": "기타 법인", "src": "jbe"}
 {"sido": "부산", "org": "부산보건고등학교", "school": true, "title": "AI·디지털 역량강화 프로그램 운영 용역비 지출 원인행위", "date": "2026-10-30", "amount": 20000000, "vendor": "기타", "src": "pen"}
 {"sido": "전북", "org": "전주호성중학교", "school": true, "title": "2026학년도 2학기 1학년 진로역량강화 프로그램 계약", "date": "2026-10-29", "amount": 2200000, "vendor": "기타 법인", "src": "jbe"}
@@ -483,6 +487,12 @@
 {"sido": "서울", "org": "강빛중학교", "school": true, "title": "(유)2026학년도 유초연계 이음교육 교원역량강화 체험연수비 지급", "date": "2026", "amount": 1000000, "vendor": "", "src": "sen"}
 {"sido": "서울", "org": "대광중학교", "school": true, "title": "2026 교사 역량강화 사업 및 교학공의 날 운영 관련 식사비 지급", "date": "2026", "amount": 2280000, "vendor": "", "src": "sen"}
 {"sido": "서울", "org": "창천중학교", "school": true, "title": "2026학년도 3학년 전환기 프로그램 운영계획에 따른 AI역량강화교육 운영비 지출 요청", "date": "2026", "amount": 2200000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울특별시교육청교육연수원", "school": false, "title": "2026 초등 교장·교감 아카데미 직무연수(현장체험연수, 결과공유회) 위탁 용역", "date": "2026", "amount": 51665000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울동의초등학교", "school": true, "title": "(카드)방과후·돌봄 협의체 2차 연수 운영", "date": "2026", "amount": 1200000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울가주초등학교", "school": true, "title": "2026 부장교사 역량 강화 워크숍 실시", "date": "2026", "amount": 5414000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "예일여자고등학교", "school": true, "title": "고교학점제 운영 및 교원 역량 강화용 리로스쿨 AI 프로그램", "date": "2026", "amount": 1980000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울인공지능고등학교", "school": true, "title": "(2026혁신지구,역량강화)2026 AI역량강화 프로그램 위탁 운영비 지출", "date": "2026", "amount": 13635000, "vendor": "", "src": "sen"}
+{"sido": "서울", "org": "서울동산고등학교", "school": true, "title": "AI역량강화사업 스포츠경영과 경기분석 프로그램 연간 구독료 지출", "date": "2026", "amount": 3500000, "vendor": "", "src": "sen"}
 {"sido": "전북", "org": "글로벌학산고등학교", "school": true, "title": "중소기업특성화고인력양성사업 1,2학년 중소기업이해연수 위탁교육비", "date": "2025-12-31", "amount": 7400000, "vendor": "기타 법인", "src": "jbe"}
 {"sido": "전북", "org": "글로벌학산고등학교", "school": true, "title": "2025년 특성화고 미래역량강화사업 정서케어 프로그램 졸업식 운영 포토부스 대여비", "date": "2025-12-31", "amount": 3300000, "vendor": "기타 법인", "src": "jbe"}
 {"sido": "전북", "org": "전북베이커리고등학교", "school": true, "title": "[미래역량]2025학년도 미래역량강화사업 취업역량강화교육 실시", "date": "2025-12-31", "amount": 2400000, "vendor": "기타 법인", "src": "jbe"}
