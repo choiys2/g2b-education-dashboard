@@ -361,6 +361,23 @@ jobs:
           timeout 90 python report_drafts.py live/report_drafts.json || true  # 최근 종료 사업 결과보고서 초안
           if [ -f live/ai_insights.json ] || [ -f live/ai_drafts.json ] || [ -f live/exec_story.json ] || [ -f live/recruit_copy.json ] || [ -f live/report_drafts.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
 
+      # 양방향 연동(대시보드 → 대표님): 경영 브리프 팩을 비공개 저장소 exec_pack/ 에만 저장(공개 저장소·사이트 미기록)
+      - name: 경영 브리프 팩 → 비공개 저장소
+        timeout-minutes: 3
+        continue-on-error: true
+        env:
+          MGMT_JSON: ${{ secrets.MGMT_JSON }}
+        run: |
+          if [ ! -d _private/.git ]; then echo "비공개 저장소 없음 - 건너뜀"; exit 0; fi
+          python exec_pack.py _private/exec_pack
+          cd _private
+          git config user.name "vs-insight-bot"; git config user.email "actions@users.noreply.github.com"
+          git add exec_pack
+          git diff --cached --quiet && { echo "변경 없음"; exit 0; }
+          git commit -q -m "exec_pack: $(TZ=Asia/Seoul date +%F)"
+          B=$(git rev-parse --abbrev-ref HEAD)
+          for i in 1 2 3; do git push -q origin "$B" 2>/dev/null && { echo "푸시 완료"; exit 0; }; sleep $((i*3)); git pull -q --rebase origin "$B" 2>/dev/null || true; done
+          echo "비공개 저장소 푸시 실패(토큰 Contents 쓰기 권한 확인)"
       - name: 주간 보고(최근 7일) 생성
         if: steps.combine.outcome == 'success'
         continue-on-error: true

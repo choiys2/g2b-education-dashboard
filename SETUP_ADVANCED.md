@@ -167,5 +167,7 @@ git push
 3. 이 저장소 Secret `PRIVATE_DATA_TOKEN` = 위 토큰 (내려받기용)
 4. 비공개 저장소 Secret `DASHBOARD_DISPATCH_TOKEN` = 같은 토큰 (새 주차 업로드 시 즉시 재배포 신호)
 5. 매주: 비공개 저장소 `weekly_data/` 에 JSON 한 개 업로드 → 자동 반영
+6. 역방향(대시보드 → 대표님): 매일 배포 끝에 `exec_pack.py` 가 경영 브리프 팩을 비공개 저장소 `exec_pack/latest.md`(+날짜별)로 푸시.
+   Claude 프로젝트에 비공개 저장소를 연결해 채팅 근거 자료로 쓴다(같은 토큰, Contents 쓰기 권한 필요)
 
 로컬 시험: `weekly_data.local/` 에 JSON 을 두고 `python owner_weekly.py preview.html` (폴더는 gitignore).

@@ -528,6 +528,13 @@ def main():
              "reports": sheets_ops.pop("reports", None), "recruit_copy": recruit_copy, "copy_date": copy_date,
              "comp": comp_watch}
     owner_blob = __import__("admin_structure").encrypted_json(owner)
+    # 경영 브리프 팩(exec_pack.py → 비공개 저장소)용 원본. live/ 는 gitignore 이고 사이트에는 복사하지 않는다.
+    try:
+        os.makedirs("live", exist_ok=True)
+        with open("live/owner_pack.json", "w", encoding="utf-8") as f:
+            json.dump(owner, f, ensure_ascii=False, default=str)
+    except Exception as e:
+        print(f"[경고] owner_pack 저장 실패: {str(e)[:120]}")
 
     html = open(template_path, encoding="utf-8").read()
     subs = {
