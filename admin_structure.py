@@ -280,6 +280,7 @@ def build_html(exec_sources=None):
               ("키 보호", "API 키는 GitHub Secret 에만, 로그 마스킹, 코드·history 에 미기록"),
               ("대표 전용", "경영 종합·AI 해석·초안·경쟁사 변화 감지 데이터는 관리 비밀번호 암호문(OWNER)에만 실음 — 직원 화면 소스에도 없음"),
               ("계획 수치", "2027 경영계획은 Secret PLAN_2027_JSON 에서만 읽어 이 관리 탭 암호문 안에만 실음(history·브리핑·공개 화면 미기록)"),
+              ("주간보고·브리프 팩", "주간보고는 비공개 저장소(PRIVATE_DATA_REPO)에서 배포 때만 내려받아 이 관리 탭 암호문 안에만 싣고, 내 일정(my_schedule)·내 주간업무보고(my_weekly)도 같은 저장소에서 읽고, 경영 브리프 팩은 exec_pack/ 에만 씀(공개 저장소·사이트·history 미기록)"),
               ("경영 실적", "손익·이수자 합계는 Secret MGMT_JSON 에서만 읽어 이 관리 탭 암호문 안에만 실음(개인 정보 없음, 공개 화면 미기록)"),
               ("접근 통제", "검색 차단(noindex) + 대시보드 비밀번호(AES-256-GCM) + 관리 탭 별도 비밀번호"),
               ("외부 사이트 예절", "robots.txt 확인 후 허용 경로만, 요청 간 0.6~1초 간격, S2B 는 자동 수집 안 함")]
@@ -290,7 +291,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("exec", "경영 종합"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -311,6 +312,16 @@ def build_html(exec_sources=None):
                 extra[k] = fn()
             except Exception as e:  # 한 섹션 오류가 나머지를 막지 않게
                 print(f"[경고] 관리 탭 {k} 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+    try:
+        weekly_html = __import__("owner_weekly").build(sec)
+    except Exception as e:  # 주간보고 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 주간보고 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        weekly_html = ""
+    try:
+        schedule_html = __import__("owner_schedule").build(sec)
+    except Exception as e:  # 내 일정 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 내 일정 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        schedule_html = ""
     pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
@@ -335,6 +346,8 @@ def build_html(exec_sources=None):
                   + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
     return (css + '<div class="adm">' + nav
             + pane("exec", mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
+            + pane("weekly", weekly_html)
+            + pane("schedule", schedule_html)
             + pane("actions", actions + extra["roles"] + mg_settle + quick_links())
             + pane("comp", mg_comp + comp)
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
