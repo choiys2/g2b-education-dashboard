@@ -291,7 +291,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -317,6 +317,13 @@ def build_html(exec_sources=None):
     except Exception as e:  # 주간보고 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 주간보고 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         weekly_html = ""
+    blocks = {}
+    for k, mod in (("targets", "owner_targets"), ("decide", "owner_decisions")):
+        try:
+            blocks[k] = __import__(mod).build(sec)
+        except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
+            print(f"[경고] 관리 탭 {k} 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+            blocks[k] = ""
     try:
         schedule_html = __import__("owner_schedule").build(sec)
     except Exception as e:  # 내 일정 섹션 오류가 관리 탭 전체를 막지 않게
@@ -345,7 +352,8 @@ def build_html(exec_sources=None):
                   + "<div><h4>일정</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in sched) + "</tbody></table></div>"
                   + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
     return (css + '<div class="adm">' + nav
-            + pane("exec", mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
+            + pane("exec", blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
+            + pane("decide", blocks["decide"])
             + pane("weekly", weekly_html)
             + pane("schedule", schedule_html)
             + pane("actions", actions + extra["roles"] + mg_settle + quick_links())
