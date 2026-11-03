@@ -169,5 +169,8 @@ git push
 5. 매주: 비공개 저장소 `weekly_data/` 에 JSON 한 개 업로드 → 자동 반영
 6. 역방향(대시보드 → 대표님): 매일 배포 끝에 `exec_pack.py` 가 경영 브리프 팩을 비공개 저장소 `exec_pack/latest.md`(+날짜별)로 푸시.
    Claude 프로젝트에 비공개 저장소를 연결해 채팅 근거 자료로 쓴다(같은 토큰, Contents 쓰기 권한 필요)
+7. 루틴 허브(choiys2/vivasam-routine-hub) 연동: 예약 작업 '일정 금고 저장'(매일 05:37)이 `my_schedule/latest.json`,
+   '주간업무보고 초안'(금 13:51)이 `my_weekly/YYYY-MM-WN.md` 를 비공개 저장소에 쓴다 →
+   관리 탭 '내 일정'(내 일정 × 입찰 마감 × 주간보고 일정, 겹침 자동 감지)과 경영 브리프 팩에 반영(`owner_schedule.py`)
 
 로컬 시험: `weekly_data.local/` 에 JSON 을 두고 `python owner_weekly.py preview.html` (폴더는 gitignore).
