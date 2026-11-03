@@ -143,7 +143,8 @@ def my_weekly():
     for d in _dirs("my_weekly"):
         if d.is_dir():
             for f in d.glob("*.md"):
-                items.setdefault(f.stem, f)
+                if re.fullmatch(r"\d{4}-\d{2}-W\d", f.stem):  # README 등 안내 파일 제외
+                    items.setdefault(f.stem, f)
     return [(k, items[k].read_text(encoding="utf-8")) for k in sorted(items, reverse=True)]
 
 
