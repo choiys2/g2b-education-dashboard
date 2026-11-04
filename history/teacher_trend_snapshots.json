@@ -1,6 +1,6 @@
 {
  "2026Q4": {
-  "date": "2026-11-03",
+  "date": "2026-11-04",
   "rank": [
    {
     "id": "ai",
@@ -9,7 +9,7 @@
    },
    {
     "id": "subject",
-    "score": 55,
+    "score": 54,
     "stage": "성숙"
    },
    {
@@ -19,7 +19,7 @@
    },
    {
     "id": "inclusive",
-    "score": 35,
+    "score": 34,
     "stage": "성숙"
    },
    {
@@ -28,12 +28,12 @@
     "stage": "확산"
    },
    {
-    "id": "safety",
-    "score": 23,
+    "id": "care",
+    "score": 22,
     "stage": "성숙"
    },
    {
-    "id": "care",
+    "id": "safety",
     "score": 22,
     "stage": "성숙"
    },
