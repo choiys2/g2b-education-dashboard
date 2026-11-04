@@ -191,6 +191,93 @@ def quarter_report(rows, today):
     return {"quarter": q, "prev": prev_q, "items": items}
 
 
+LV_NAME = {"초": "초등", "중": "중학교", "고": "고등학교"}
+
+
+def _lv_course(title):
+    """경쟁사·자사 과정명에 학교급이 적힌 경우만(대부분 공통 과정)"""
+    return training_topics.classify_levels(title)
+
+
+def levels(rows, today):
+    """학교급(초·중·고)별 수요 - 공공 연수 입찰 + 학교·교육청 연수 수의계약(최근 12개월).
+    학교급은 공고명·기관명 표기로만 판정하고(training_topics.classify_levels), 표기 없는 건은 '공통'으로 따로 센다."""
+    L = training_topics.LEVELS
+    y1, d90 = (today - timedelta(days=365)).isoformat(), (today - timedelta(days=90)).isoformat()
+    months = [f"{(today.year * 12 + today.month - 1 - k) // 12}-{(today.month - 1 - k) % 12 + 1:02d}" for k in range(11, -1, -1)]
+    recs, seen = [], set()
+    for b in _jsonl("training_bids.jsonl"):
+        d, no = b.get("d", ""), b.get("k", "").rsplit("-", 1)[0]
+        if d >= y1 and no not in seen:  # 재공고·차수는 한 번만
+            seen.add(no)
+            recs.append(("입찰", b.get("t", ""), b.get("o", ""), d, b.get("a") or 0))
+    for c in _jsonl("edu_contracts.jsonl"):
+        d = c.get("date") or ""
+        if d >= y1 or d == str(today.year):  # 날짜가 연도만 있는 계약은 올해 것만(월별 추이에서는 제외)
+            recs.append(("수의계약", c.get("title", ""), c.get("org", ""), c["date"], c.get("amount") or 0))
+    names = {r["id"]: r["name"] for r in rows}
+    own = {r["id"]: r.get("own") for r in rows}
+    comp = {r["id"]: r.get("comp_avg") for r in rows}
+    agg = {l: {"n": 0, "bids": 0, "contracts": 0, "amount": 0, "r90": 0, "monthly": {}, "topics": {}, "samples": []} for l in L + ["공통"]}
+    tagged = 0
+    for src, t, o, d, a in sorted(recs, key=lambda r: r[3], reverse=True):
+        lv = training_topics.classify_levels(t, o) or ["공통"]
+        tagged += lv != ["공통"]
+        tids = training_topics.classify_topics(t)
+        for l in lv:
+            g = agg[l]
+            g["n"] += 1
+            g["bids" if src == "입찰" else "contracts"] += 1
+            g["amount"] += a
+            if len(d) >= 7:
+                g["monthly"][d[:7]] = g["monthly"].get(d[:7], 0) + 1
+                g["r90"] += d >= d90
+            for tid in tids:
+                g["topics"][tid] = g["topics"].get(tid, 0) + 1
+            if len(g["samples"]) < 4 and tids:
+                g["samples"].append({"t": t[:80], "d": d, "src": src})
+    # 과정명에 학교급이 적힌 과정 수(공급) - 3사 카탈로그
+    supply = {l: {} for l in L}
+    try:
+        cat = json.loads((H / "competitor_course_catalog.json").read_text(encoding="utf-8")).get("companies", {})
+    except (FileNotFoundError, json.JSONDecodeError):
+        cat = {}
+    for co, v in cat.items():
+        for c in v.get("courses", []):
+            for l in _lv_course(c.get("title", "")):
+                supply[l][co] = supply[l].get(co, 0) + 1
+    tot_topic = {}
+    for l in L:
+        for tid, n in agg[l]["topics"].items():
+            tot_topic[tid] = tot_topic.get(tid, 0) + n
+    all_n = sum(tot_topic.values()) or 1
+    out = []
+    for l in L:
+        g = agg[l]
+        tn = sum(g["topics"].values()) or 1
+        top = sorted(g["topics"].items(), key=lambda x: -x[1])
+        items = []
+        for tid, n in top:
+            share = round(n / tn * 100, 1)
+            lift = round(share / (tot_topic[tid] / all_n * 100), 2)
+            prop = (training_topics.TOPIC_META[tid][5] or {}).get(l)
+            items.append({"id": tid, "name": names.get(tid, tid), "n": n, "share": share, "lift": lift,
+                          "own": own.get(tid), "comp_avg": comp.get(tid),
+                          "proposal": {"title": prop[0], "content": prop[1]} if prop else None})
+        out.append({"lv": l, "name": LV_NAME[l], "n": g["n"], "bids": g["bids"], "contracts": g["contracts"],
+                    "amount": g["amount"], "r90": g["r90"], "monthly": [g["monthly"].get(m, 0) for m in months],
+                    "topics": items, "samples": g["samples"], "supply": supply[l]})
+    # 학교급별 기회: 해당 학교급 비중 상위 + 다른 학교급보다 두드러짐(lift≥1.15) + 자사 과정이 경쟁사 평균 이하
+    for o in out:
+        o["opps"] = [x for x in o["topics"] if x["share"] >= 6 and x["lift"] >= 1.15 and x["n"] >= 3
+                     and (x["own"] is None or x["comp_avg"] is None or x["own"] <= x["comp_avg"])][:3]
+    return {"available": any(o["n"] for o in out), "from": y1, "to": today.isoformat(),
+            "total": len(recs), "tagged": tagged, "months": months, "common": agg["공통"]["n"], "levels": out,
+            "matrix": [{"id": tid, "name": names.get(tid, tid), "total": n,
+                        "cells": {o["lv"]: next(({"n": x["n"], "share": x["share"], "lift": x["lift"]} for x in o["topics"] if x["id"] == tid), None) for o in out}}
+                       for tid, n in sorted(tot_topic.items(), key=lambda x: -x[1])]}
+
+
 def build(training=None, trends=None, mall=None, today=None):
     today = today or date.today()
     rows = signals(training, trends, mall, today)
@@ -204,7 +291,12 @@ def build(training=None, trends=None, mall=None, today=None):
                   "stage": r.get("stage"), "own": r.get("own"), "ev": {a: b for a, b in (r.get("ev") or {}).items() if b is not None}})
     for r in rows:
         r.pop("samples", None)
-    return {"available": True, "generated": today.isoformat(), "keywords": kws, "kw_date": kw_date, "kw_src": kw_src,
+    try:
+        lvs = levels(rows, today)
+    except Exception as e:  # 부가 분석 - 실패해도 탭 본문은 유지
+        print(f"  [경고] 학교급별 분석 실패: {e}")
+        lvs = {"available": False}
+    return {"available": True, "generated": today.isoformat(), "levels": lvs, "keywords": kws, "kw_date": kw_date, "kw_src": kw_src,
             "topics": rows, "weights": {SIG_NAME[k]: v for k, v in W.items()}, "quarter": quarter_report(rows, today)}
 
 
@@ -217,3 +309,6 @@ if __name__ == "__main__":
         print(r["score"], r["growth"], r["stage"], r["name"], r["parts"])
     print(o["kw_src"], [k["keyword"] for k in o["keywords"]])
     print(o["quarter"])
+    for l in o["levels"].get("levels", []):
+        print(l["lv"], l["n"], l["bids"], l["contracts"], l["r90"], l["monthly"], [(x["name"], x["share"], x["lift"]) for x in l["topics"][:5]], l["supply"], [x["name"] for x in l["opps"]])
+    print({k: v for k, v in o["levels"].items() if k in ("total", "tagged", "common")})

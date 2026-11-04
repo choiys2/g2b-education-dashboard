@@ -5058,6 +5058,41 @@ window.__ownerQ.push(function renderAiBrief(){
     el.innerHTML = tbl + shop + so(`${up.length ? `검색 관심이 12주 전보다 15% 이상 오른 주제: <b>${h(up.join(' · '))}</b>. ` : ''}${gap.length ? `관심은 중간 이상인데 자사 과정이 2개 이하인 주제: <b>${h(gap.join(' · '))}</b> — 2027 개발 목록 우선 검토. ` : ''}상승 주제는 <b>과정 노출 순서와 교육청 제안서 첫 장</b>에 먼저 반영하고, 몇 주 누적되면 검색 상승과 실제 신청 증가의 시차를 확인해 기준을 조정하세요.`);
   });
 
+  /* 교사 트렌드: 학교급(초·중·고)별 - 공공 입찰 + 학교 수의계약(teacher_trend2027.levels) */
+  safe('trend27Levels', () => {
+    const LV = T27.levels || {};
+    const el = panel('trend2027', null, '학교급별(초·중·고) 트렌드', LV.available ? `공공 연수 입찰 + 학교·교육청 연수 수의계약 · ${h(LV.from)} ~ ${h(LV.to)} · 학교급 표기 ${LV.tagged.toLocaleString()}건 / 전체 ${LV.total.toLocaleString()}건` : '');
+    if (!el) return;
+    if (!LV.available) { el.innerHTML = empty('학교급 분류 데이터 수집 대기'); return; }
+    const L = LV.levels || [], COL = {'초': '#f59e0b', '중': '#10b981', '고': '#4f8cff'};
+    const eok = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : Math.round(v / 1e4).toLocaleString() + '만';
+    const bars = (a, c) => { const mx = Math.max(1, ...a); return `<svg viewBox="0 0 120 26" style="width:120px;height:26px;" aria-hidden="true">${a.map((v, i) => `<rect x="${i * 10 + 1}" y="${26 - v / mx * 24}" width="8" height="${v / mx * 24}" rx="1.5" fill="${c}" opacity="${i === a.length - 1 ? .45 : .9}"/>`).join('')}</svg>`; };
+    const cards = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;">${L.map(l => {
+      const sup = Object.entries(l.supply || {}).map(([co, n]) => `${h(co.replace('연수원', ''))} <b class="num">${n}</b>`).join(' · ') || '-';
+      const top = (l.topics || []).slice(0, 4).map(x => `<div style="display:grid;grid-template-columns:1fr 90px 40px;gap:6px;align-items:center;font-size:12px;" ${tipAttr(`${h(x.name)} — ${h(l.name)} 수요 ${x.n}건 · 비중 ${x.share}% · 다른 학교급 대비 ${x.lift}배`)}><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(x.name)}${x.lift >= 1.3 && x.n >= 3 ? ' ' + mChip('특화', 'color-mix(in srgb, ' + COL[l.lv] + ' 25%, var(--surface-2))') : ''}</span><div style="height:8px;background:var(--surface-2);border-radius:4px;"><div style="height:100%;width:${Math.min(100, x.share * 2)}%;background:${COL[l.lv]};border-radius:4px;"></div></div><span class="num" style="text-align:right;">${x.share}%</span></div>`).join('');
+      return `<article style="border:1px solid var(--border);border-top:4px solid ${COL[l.lv]};border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;"><span style="font-size:17px;font-weight:800;">${h(l.name)}</span><span style="font-size:12px;color:var(--muted);">최근 90일 <b class="num" style="color:var(--ink);">${l.r90}</b>건</span></div>
+        <div style="display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;"><div><div style="font-size:22px;font-weight:800;" class="num">${l.n.toLocaleString()}<span style="font-size:12px;font-weight:600;color:var(--muted);">건</span></div><div style="font-size:11.5px;color:var(--muted);">입찰 ${l.bids} · 수의계약 ${l.contracts} · ${eok(l.amount)}원</div></div>
+          <div ${tipAttr(`월별 건수(${h((LV.months || [])[0] || '')} ~ ${h((LV.months || []).slice(-1)[0] || '')}, 마지막 달은 진행 중)<br>${(LV.months || []).map((m, i) => `${h(m)} ${l.monthly[i]}`).join(' · ')}`)}>${bars(l.monthly || [], COL[l.lv])}<div style="font-size:10.5px;color:var(--muted);">12개월 월별 건수</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:5px;">${top}</div>
+        <div style="font-size:11.5px;color:var(--muted);">과정명에 '${h(l.name.slice(0, 2))}' 표기 과정: ${sup}</div>
+      </article>`; }).join('')}</div>`;
+    const M = LV.matrix || [];
+    const hot = c => c && c.lift >= 1.3 && c.n >= 3;
+    const cell = (c, lv) => !c ? '<td class="num" style="color:var(--muted);">–</td>' : `<td class="num" style="background:color-mix(in srgb, ${COL[lv]} ${Math.round(Math.min(40, c.share) * 1.6)}%, transparent);${hot(c) ? 'font-weight:800;' : ''}" ${tipAttr(`${c.n}건 · 비중 ${c.share}% · 다른 학교급 대비 ${c.lift}배`)}>${c.share}%${hot(c) ? ' ▲' : ''}</td>`;
+    const heat = `<div><p style="font-weight:800;margin:0 0 6px;">주제 × 학교급 수요 비중</p><div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>주제</th>${L.map(l => `<th class="num">${h(l.name)}</th>`).join('')}<th class="num">합계</th></tr></thead><tbody>
+      ${M.map(r => `<tr><td style="white-space:nowrap;font-weight:700;">${h(r.name)}</td>${L.map(l => cell(r.cells[l.lv], l.lv)).join('')}<td class="num">${r.total}</td></tr>`).join('')}</tbody></table></div>
+      <p style="font-size:11.5px;color:var(--muted);margin:6px 0 0;">비중 = 해당 학교급 수요 중 그 주제 비율 · ▲ = 다른 학교급보다 1.3배 이상 두드러짐(3건 이상)</p></div>`;
+    const O = L.flatMap(l => (l.opps || []).map(x => ({...x, lv: l.lv, lvn: l.name})));
+    const opp = `<div><p style="font-weight:800;margin:0 0 6px;">학교급별 과정 개발 후보</p>${O.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>학교급</th><th>주제</th><th class="num">비중</th><th class="num">특화도</th><th class="num">자사/경쟁사 평균</th><th>제안 과정</th></tr></thead><tbody>
+      ${O.map(x => `<tr><td style="white-space:nowrap;"><span style="font-weight:800;color:${COL[x.lv]};">${h(x.lvn)}</span></td><td style="white-space:nowrap;">${h(x.name)}</td><td class="num">${x.share}%</td><td class="num" style="white-space:nowrap;">${x.lift}배</td><td class="num" style="white-space:nowrap;">${x.own ?? '–'} / ${x.comp_avg ?? '–'}</td>
+        <td ${x.proposal ? tipAttr(h(x.proposal.content)) : ''}>${x.proposal ? `<b>${h(x.proposal.title)}</b><div style="font-size:11.5px;color:var(--muted);">${h(x.proposal.content)}</div>` : '–'}</td></tr>`).join('')}</tbody></table></div>` : '<p style="font-size:12.5px;color:var(--muted);">조건(비중 6% 이상 · 1.15배 이상 · 자사 과정 ≤ 경쟁사 평균)에 맞는 주제가 없습니다.</p>'}
+      <p style="font-size:11.5px;color:var(--muted);margin:6px 0 0;">조건: 해당 학교급 수요 비중 6% 이상 · 다른 학교급 대비 1.15배 이상 · 3건 이상 · 자사 과정 수 ≤ 경쟁사 평균 · 제안 과정은 연수 주제별 학교급 기본 구성안</p></div>`;
+    const lead = L.map(l => { const t = (l.topics || []).filter(x => x.lift >= 1.3 && x.n >= 3).slice(0, 2).map(x => x.name); const jj = (l.name.charCodeAt(l.name.length - 1) - 0xAC00) % 28 ? '은' : '는'; return t.length ? `<b>${h(l.name)}</b>${jj} ${h(t.join('·'))}` : ''; }).filter(Boolean).join(', ');
+    el.innerHTML = cards + `<div style="margin-top:16px;">${heat}</div><div style="margin-top:16px;">${opp}</div>`
+      + so(`${lead ? lead + ' 수요가 다른 학교급보다 두드러집니다. ' : ''}학교급은 공고명·기관명 표기(초등·중학·고등·학점제 등)로만 판정하며, '중등'·'초중'처럼 묶인 표기는 해당 학교급 모두에 셉니다. 표기가 없는 <b>${(LV.common || 0).toLocaleString()}건</b>(공통)은 제외했습니다. 과정 수(공급)는 3사 카탈로그 중 과정명에 학교급이 적힌 과정만 센 값이라 실제 대상 학교급과 다를 수 있습니다.`);
+  });
+
   /* ============ KERIS 조달 ============ */
   const KR = (typeof KERIS !== 'undefined' && KERIS) || {};
   const krRel = 'color-mix(in srgb, #10b981 22%, var(--surface-2))';
