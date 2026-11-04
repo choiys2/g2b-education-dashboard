@@ -1,5 +1,5 @@
 {
- "at": "2026-11-04 09:19",
+ "at": "2026-11-04 11:28",
  "places": 312,
  "by_region": {
   "서울": 30,
@@ -20,5 +20,8 @@
   "경남": 26,
   "제주": 22
  },
- "errors": []
+ "errors": [
+  "부산 연수원: <urlopen error _ssl.c:993: The handshake operation timed out>",
+  "세종 교육원: <urlopen error _ssl.c:993: The handshake operation timed out>"
+ ]
 }
