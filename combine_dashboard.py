@@ -27,6 +27,14 @@ AI_KEYWORDS = ["AI", "인공지능", "AIDT", "디지털교과서", "에듀테크
 EXCLUDE_ALWAYS = ["급식", "수련활동", "교육여행", "기숙사", "현장체험학습", "통학버스"]
 
 
+
+def _strategy():
+    """에듀테크 전략 브리핑 복호화 - 결과 상태만 로그에 남긴다(내용은 출력하지 않음)."""
+    import strategy_crypto
+    r = strategy_crypto.load_all()
+    print(f"전략 브리핑: 파일 {r.get('n_files', 0)}개 · 복호화 {len(r.get('issues') or [])}개 · 실패 {r.get('undecryptable', 0)}개 · {r.get('reason') or '정상'}")
+    return r
+
 def load(path):
     with open(path, encoding="utf-8") as f:
         return json.load(f)
@@ -546,7 +554,7 @@ def main():
         "__TRAINING_TOPICS_JSON__": training_topic_data,
         "__TREND2027_JSON__": trend2027,
         # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
-        "__STRATEGY_JSON__": __import__("strategy_crypto").load_all(),
+        "__STRATEGY_JSON__": _strategy(),
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": None,
