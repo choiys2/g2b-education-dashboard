@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>17개 시도교육청 초·중등 교육시장 입체 분석</title>
 <meta name="description" content="NEIS 개방포털 실측 데이터와 나라장터 발주 실적을 교차분석한 (주)비상교육 B2G 전략 대시보드">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -348,14 +349,14 @@
 
   /* ---------- 2027 연수 개발 추천 ---------- */
   #trainingTopicsPanel .panel-head{flex-wrap:wrap;gap:12px;}
-  .tt-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:4px 0 16px;}
+  .tt-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;margin:4px 0 16px;}
   .tt-stat{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:var(--surface-2);}
   .tt-stat .lbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px;}
   .tt-stack{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--surface);}
   .tt-stack span{display:block;height:100%;}
   .tt-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--ink-2);margin-top:8px;}
   .tt-legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px;}
-  .tt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+  .tt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:14px;}
   .tt-card{border:1px solid var(--border);border-radius:14px;padding:16px;background:var(--surface);display:flex;flex-direction:column;gap:10px;}
   .tt-card .hd{display:flex;align-items:flex-start;gap:10px;}
   .tt-card .rk{font-size:12px;font-weight:800;color:var(--accent);background:color-mix(in srgb, var(--accent) 14%, transparent);border-radius:8px;padding:3px 8px;}
@@ -380,12 +381,12 @@
   .tt-more summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--ink-2);}
   .tt-note{font-size:12px;color:var(--muted);line-height:1.6;margin:10px 0 0;}
   /* B2S·샘몰 기획 탭 */
-  .bs-weights{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px 18px;margin:0 0 16px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);}
+  .bs-weights{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:10px 18px;margin:0 0 16px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);}
   .bs-weights label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;font-weight:700;color:var(--ink-2);}
   .bs-weights label span{display:flex;justify-content:space-between;}
   .bs-weights label small{font-weight:500;color:var(--muted);font-size:11.5px;}
   .bs-weights input[type=range]{width:100%;accent-color:var(--accent);}
-  .bs-regions{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:14px;}
+  .bs-regions{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr));gap:8px;margin-bottom:14px;}
   .bs-reg{font-family:inherit;text-align:left;border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:var(--surface);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;gap:4px;}
   .bs-reg[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);}
   .bs-reg .top{display:flex;justify-content:space-between;align-items:baseline;font-weight:800;font-size:13.5px;}
@@ -419,7 +420,7 @@
   .wx-c .p{color:var(--accent);font-weight:700;}
 
   /* ---------- 오늘의 AI 브리핑(Gemini) ---------- */
-  .rfp-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;}
+  .rfp-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:12px;}
   .rfp-card{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:var(--surface-2);font-size:13px;line-height:1.55;}
   .rfp-card .t{font-weight:800;color:var(--ink);}
   .rfp-card .t a{color:inherit;text-decoration:none;}
@@ -434,7 +435,7 @@
   .fit-불가{background:color-mix(in srgb, var(--danger, #d64545) 18%, transparent);color:var(--danger, #d64545);}
   .rfp-card .why{font-size:12px;color:var(--muted);margin:4px 0 6px;}
   .rfp-card .pitch{background:color-mix(in srgb, var(--accent) 8%, var(--surface));border-radius:8px;padding:6px 10px;}
-  .ex-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;}
+  .ex-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px;}
   .ex-summary .card{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface-2);}
   .ex-summary .card b{display:block;font-size:14px;margin-bottom:6px;color:var(--ink);}
   .ex-summary .card p{margin:0;font-size:13px;line-height:1.6;color:var(--ink-2);}
@@ -450,13 +451,13 @@
   .ex-story .cap{font-size:12px;color:var(--muted);}
   .ex-story .say{font-size:13px;line-height:1.6;color:var(--ink-2);}
   .ex-story .so{font-size:13px;line-height:1.5;font-weight:700;color:var(--ink);border-top:1px dashed var(--border);padding-top:8px;margin-top:auto;}
-  .ex-pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
+  .ex-pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:12px;}
   .ex-pillars .pl{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface-2);font-size:13px;line-height:1.6;}
   .ex-pillars .pl .no{font-size:11px;font-weight:800;color:var(--accent);}
   .ex-pillars .pl h4{margin:2px 0 6px;font-size:15px;}
   .ex-pillars .pl .ev{margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);color:var(--muted);font-size:12px;}
   .ex-pillars .pl ul{margin:4px 0 0;padding-left:18px;}
-  .ex-road{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+  .ex-road{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px;}
   .ex-road .q{border-left:3px solid var(--accent);padding:6px 12px;background:var(--surface-2);border-radius:0 10px 10px 0;font-size:13px;line-height:1.55;}
   .ex-road .q b{display:block;font-size:12px;color:var(--accent);margin-bottom:4px;}
   .ex-road .q ul{margin:0;padding-left:16px;}
@@ -497,7 +498,7 @@
   td.region-cell{white-space:nowrap;}
 
   /* ---------- school contact cards ---------- */
-  .school-card-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:14px;}
+  .school-card-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(min(260px,100%), 1fr));gap:14px;}
   .school-card{
     background:var(--surface-2);border:1px solid var(--border);border-radius:12px;
     padding:16px;display:flex;flex-direction:column;gap:8px;
@@ -551,7 +552,7 @@
   .flip-card .flip-hint{ margin-top:auto;padding-top:6px;font-size:11px;color:var(--muted);text-align:right; }
 
   /* ---------- segment strategy cards ---------- */
-  .segment-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:14px;}
+  .segment-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(280px,100%), 1fr));gap:14px;}
   .segment-card{
     background:var(--surface-2);border:1px solid var(--border);border-radius:12px;
     padding:18px 20px;display:flex;flex-direction:column;gap:10px;border-top:3px solid var(--accent);
@@ -660,6 +661,24 @@
   .foot-grid h4{font-size:12px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;font-weight:700;}
   .foot-grid a{color:var(--accent);text-decoration:none;}
   .updated{margin-top:22px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:16px;}
+
+/* ---- 모바일(좁은 화면) 공통: 패널 밖으로 넘치지 않게 ---- */
+.panel, .viz-panel, .viz-body { min-width: 0; }
+svg { max-width: 100%; }
+@media (max-width: 700px) {
+  .viz-body, .panel > .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .panel img, .panel canvas, .panel video { max-width: 100%; height: auto; }
+  .strat-wrap { border: 0; overflow: visible; }
+  table.strat-tbl, table.strat-tbl tbody, table.strat-tbl tr, table.strat-tbl td { display: block; width: 100% !important; }
+  table.strat-tbl thead { display: none; }
+  table.strat-tbl tr { border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; }
+  table.strat-tbl td { border: 0 !important; padding: 3px 0 !important; text-align: left !important; }
+  table.strat-tbl td::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 700; color: var(--muted); }
+  table.strat-tbl td[data-label="#"]::before { display: inline; margin-right: 4px; }
+  /* 좁은 표: 말줄임(…) 대신 줄바꿈해서 전체 글자를 보여 준다 */
+  table.data[style*="table-layout:fixed"][style*="min-width:0"]:not(.strat-tbl) { table-layout: auto !important; }
+  table.data td[style*="text-overflow:ellipsis"], table.data td [style*="text-overflow:ellipsis"] { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+}
 </style>
 
 <div class="wrap">
@@ -1086,7 +1105,7 @@
         </div>
       </div>
       <div class="kpis" id="ecKpis" style="margin-bottom:12px;"></div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-bottom:14px;" id="ecGrid"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px;margin-bottom:14px;" id="ecGrid"></div>
       <div class="tbl-wrap" style="max-height:520px;overflow:auto;"><table class="data" id="ecTable">
         <thead><tr><th>계약일</th><th>시도</th><th>계약기관</th><th>계약명</th><th class="num">금액</th><th>상대(구분)</th></tr></thead><tbody></tbody>
       </table></div>
@@ -1652,7 +1671,7 @@
         </div>
       </div>
       <div id="t17Summary" style="font-size:12.5px;color:var(--muted);margin:0 0 8px;"></div>
-      <div id="tier1Grid" class="segment-grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));"></div>
+      <div id="tier1Grid" class="segment-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));"></div>
     </section>
 
     <section class="panel">
@@ -1814,11 +1833,11 @@
       </div>
       <div class="kpis" id="bnKpis" style="margin-bottom:12px;"></div>
       <div id="bnShare" style="margin-bottom:16px;"></div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:14px;">
         <div><p style="font-weight:800;margin:0 0 6px;">테마 × 업체 <span style="font-size:12px;color:var(--muted);font-weight:600;">진할수록 많음 · 공백 = 타사 3건 이상인데 자사 0건</span></p><div class="tbl-wrap"><table class="data" id="bnTheme"></table></div></div>
         <div><p style="font-weight:800;margin:0 0 6px;">지역 × 업체 <span style="font-size:12px;color:var(--muted);font-weight:600;">자사 점유율 낮은 순</span></p><div class="tbl-wrap"><table class="data" id="bnRegion"></table></div></div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px;margin-top:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:14px;margin-top:14px;">
         <div class="rfp-card"><div class="t">계약 방식별 업체 (경쟁여부)</div><div id="bnKind" style="margin-top:8px;"></div></div>
         <div class="rfp-card"><div class="t">월별 배너 수 (업체별 누적)</div><div id="bnMonths" style="margin-top:10px;"></div></div>
         <div class="rfp-card"><div class="t" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">최근 배너 <select id="bnCo" aria-label="업체" style="font:inherit;font-size:12px;"></select></div><div id="bnRecent" style="max-height:300px;overflow:auto;margin-top:8px;font-size:13px;"></div></div>
@@ -1849,7 +1868,7 @@
         <p class="panel-desc" id="cvDesc"></p>
       </div></div>
       <div class="kpis" id="cvKpis" style="margin-bottom:12px;"></div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;" id="cvGrid"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:14px;" id="cvGrid"></div>
       <p class="tt-note">수주 기관 = 소통 기록에 수주 표시가 있거나 운영DT(수주 사업)에 같은 기관이 있는 곳. 전환율 = 수주 기관 ÷ 소통 기관. 인과가 아니라 상관이며(많이 수주한 기관과 더 자주 소통했을 수 있음), 기관명 표기가 다르면 같은 기관이 따로 셀 수 있습니다. 기관명·이름·원문은 싣지 않습니다.</p>
     </section>
 
@@ -2242,7 +2261,7 @@
       <div class="tbl-wrap"><table class="data" id="bmSido">
         <thead><tr><th>시도</th><th class="num">학교</th><th class="num">교원</th><th class="num">초 / 중 / 고 교원</th><th class="num">대·중·소 학교</th><th class="num">AI 중점·선도</th><th class="num">잠재 매출</th><th class="num">계약 자사 / 경쟁사</th><th>공략 신호</th></tr></thead><tbody></tbody>
       </table></div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:14px;margin-top:14px;">
         <div><p style="font-weight:800;margin:0 0 6px;" id="bmSggTitle">교원 많은 시군구</p>
           <div class="tbl-wrap"><table class="data" id="bmSgg"><thead><tr><th>시군구</th><th class="num">학교</th><th class="num">교원</th><th class="num">대규모</th><th class="num">잠재 매출</th></tr></thead><tbody></tbody></table></div></div>
         <div><p style="font-weight:800;margin:0 0 6px;" id="bmTopTitle">우선 공략 학교</p>
@@ -4660,7 +4679,7 @@ window.__ownerQ.push(function renderAiBrief(){
     if (anchor) { (host._vizLast || host).after(sec); host._vizLast = sec; } else host.appendChild(sec);  // 같은 기준 패널 뒤에는 번호 순서대로
     return sec.querySelector('.viz-body');
   }
-  const grid2 = (a, b) => `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px;">${a}${b}</div>`;
+  const grid2 = (a, b) => `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));gap:16px;">${a}${b}</div>`;
   const safe = (name, fn) => { try { fn(); } catch (e) { console.warn('viz', name, e); } };
 
   // 가로 막대(단일 계열)
@@ -4702,7 +4721,7 @@ window.__ownerQ.push(function renderAiBrief(){
     if (d.length < 8) { el.innerHTML = empty('일일 지표가 8일 이상 쌓이면 표시됩니다.'); return; }
     const L = {ai_rows_count: 'AI·에듀테크 공고', g2b_total_detail: '나라장터 상세 공고', own_pipeline_total: '자사 파이프라인 건수', own_pipeline_target: '자사 파이프라인 금액'};
     const avg = a => { const x = a.filter(v => v != null); return x.length ? x.reduce((s, v) => s + v, 0) / x.length : null; };
-    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">${Object.entries(L).map(([k, lab]) => {
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px;">${Object.entries(L).map(([k, lab]) => {
       const s = K.series[k] || [], a = avg(s.slice(-7)), b = avg(s.slice(-14, -7));
       const ch = a != null && b ? (a - b) / b * 100 : null;
       const st = ch == null ? ['–', 'var(--muted)', '데이터 부족'] : ch >= 3 ? ['▲', 'var(--good)', '개선'] : ch <= -3 ? ['▼', 'var(--danger, #d64545)', '악화'] : ['■', 'var(--warning)', '유지'];
@@ -4747,12 +4766,12 @@ window.__ownerQ.push(function renderAiBrief(){
     const W = 760, H = 320, P = 46, mxN = Math.max(...B.map(b => b.n)), mxA = Math.max(...B.map(b => b.avg));
     const x = n => P + (n / mxN) * (W - P - 16), y = a => H - 30 - Math.sqrt(a / mxA) * (H - 50);
     const yt = [0.1, 0.5, 1].map(t => mxA * t * t);
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;">
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;min-width:560px;max-width:${W}px;">
       ${yt.map(v => `<line x1="${P}" x2="${W - 10}" y1="${y(v)}" y2="${y(v)}" stroke="var(--border)" stroke-dasharray="3 3"/><text x="${P - 6}" y="${y(v) + 4}" text-anchor="end" font-size="10" fill="var(--muted)">${h(fmtWon(Math.round(v)))}</text>`).join('')}
       <line x1="${P}" x2="${W - 10}" y1="${H - 30}" y2="${H - 30}" stroke="var(--border)"/>
       ${[0, Math.round(mxN / 2), mxN].map(n => `<text x="${x(n)}" y="${H - 12}" text-anchor="middle" font-size="10" fill="var(--muted)">${n}건</text>`).join('')}
       ${B.map(b => `<circle cx="${x(b.n)}" cy="${y(b.avg)}" r="${b.own ? 7 + b.own * 2 : 5}" fill="${b.own ? '#10b981' : 'var(--accent)'}" fill-opacity="${b.own ? .85 : .45}" stroke="var(--surface)" stroke-width="2" ${tipAttr(`<div class='tt-title'>${h(b.org)}</div><div class='tt-row'><span>지역</span><b>${h(b.r)}</b></div><div class='tt-row'><span>연수 공고</span><b>${b.n}건</b></div><div class='tt-row'><span>평균 금액</span><b>${h(fmtWon(b.avg))}</b></div><div class='tt-row'><span>자사 계약</span><b>${b.own}건</b></div>`)}/>`).join('')}
-      ${B.slice(0, 6).map(b => `<text x="${x(b.n) + 9}" y="${y(b.avg) + 4}" font-size="10.5" fill="var(--ink-2)">${h(b.org.slice(0, 12))}</text>`).join('')}
+      ${B.slice(0, 6).map(b => `<text x="${x(b.n) > W * .7 ? x(b.n) - 9 : x(b.n) + 9}" y="${y(b.avg) + 4}" text-anchor="${x(b.n) > W * .7 ? 'end' : 'start'}" font-size="10.5" fill="var(--ink-2)">${h(b.org.slice(0, 12))}</text>`).join('')}
     </svg>${legend([['자사 계약 있음', '#10b981'], ['자사 계약 없음', 'var(--accent)']])}${so('오른쪽 위(자주·크게 발주)인데 파란 점인 기관이 1순위 공략 대상입니다.')}`;
   });
 
@@ -4815,7 +4834,7 @@ window.__ownerQ.push(function renderAiBrief(){
     rows.forEach(r => { if (!r.vendor) return; const s = vend[r.sido] = vend[r.sido] || {}; s[r.vendor] = (s[r.vendor] || 0) + r.amount; });
     const VK = ['비바샘연수원', '티처빌', '아이스크림', '한교원', '기타 법인', '기타'];
     const vb = Object.entries(vend).map(([s, v]) => { const tot = Object.values(v).reduce((a, b) => a + b, 0); return `<div style="display:grid;grid-template-columns:44px 1fr;gap:8px;align-items:center;margin:6px 0;font-size:12.5px;"><span>${h(s)}</span><span style="display:flex;height:16px;gap:2px;">${VK.filter(k => v[k]).map(k => `<span ${tipAttr(`${s} · ${k}: ${fmtWon(v[k])} (${Math.round(v[k] / tot * 100)}%)`)} style="flex:${v[k]};background:${CO[k]};"></span>`).join('')}</span></div>`; }).join('');
-    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;">
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px;">
       <div><p style="font-weight:800;margin:0 0 6px;">금액 구간</p>${bh}</div>
       <div><p style="font-weight:800;margin:0 0 6px;">월별 계약 건수</p>${stackCols(cols, sidos, SC, 120, v => v + '건')}${legend(sidos.map(s => [s, SC[s] || 'var(--muted)']))}</div>
       <div><p style="font-weight:800;margin:0 0 6px;">계약 상대 구성(금액)</p>${vb || empty('상대 정보 있는 시도 없음')}${legend(VK.map(k => [k, CO[k]]))}</div></div>
@@ -4847,14 +4866,14 @@ window.__ownerQ.push(function renderAiBrief(){
     const inter = (a, b) => [...a].filter(x => b.has(x)).length;
     const cards = [['AI 중점·선도 지정', L.size, 'var(--accent)'], ['나라장터 AI 구매 학교', G.size, '#f59e0b'], ['연수 수의계약 학교(서울·부산·전북)', E.size, '#10b981'],
       ['지정 ∩ 구매', inter(L, G), 'var(--ink-2)'], ['지정 ∩ 연수 계약', inter(L, E), 'var(--ink-2)'], ['지정인데 둘 다 없음', [...L].filter(x => !G.has(x) && !E.has(x)).length, 'var(--warning)']];
-    el.innerHTML = `<svg viewBox="0 0 420 220" style="width:100%;max-width:420px;float:left;margin-right:16px;">
+    el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;"><svg viewBox="0 0 420 220" style="flex:1 1 280px;width:100%;max-width:420px;">
       <circle cx="150" cy="95" r="80" fill="var(--accent)" fill-opacity=".25" stroke="var(--accent)"/>
       <circle cx="260" cy="95" r="60" fill="#f59e0b" fill-opacity=".25" stroke="#f59e0b"/>
       <circle cx="205" cy="160" r="55" fill="#10b981" fill-opacity=".25" stroke="#10b981"/>
       <text x="110" y="90" font-size="13" font-weight="800" fill="var(--ink)">${fmt(L.size)}</text><text x="285" y="80" font-size="13" font-weight="800" fill="var(--ink)">${fmt(G.size)}</text><text x="196" y="195" font-size="13" font-weight="800" fill="var(--ink)">${fmt(E.size)}</text>
       <text x="200" y="100" font-size="12" fill="var(--ink-2)">${inter(L, G)}</text><text x="170" y="145" font-size="12" fill="var(--ink-2)">${inter(L, E)}</text></svg>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;">${cards.map(([k, v, c]) => `<div class="rfp-card"><div style="font-size:12px;color:var(--muted);">${h(k)}</div><div class="num" style="font-size:20px;font-weight:800;color:${c};">${fmt(v)}</div></div>`).join('')}</div>
-      <div style="clear:both;"></div>${so('"지정인데 구매·계약 기록이 없는" 학교는 예산은 있는데 아직 집행 전일 가능성이 큽니다. AI 수업 연수 제안 1순위 명단으로 쓰세요.')}`;
+      <div style="flex:1 1 260px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:8px;">${cards.map(([k, v, c]) => `<div class="rfp-card"><div style="font-size:12px;color:var(--muted);">${h(k)}</div><div class="num" style="font-size:20px;font-weight:800;color:${c};">${fmt(v)}</div></div>`).join('')}</div>
+      </div>${so('"지정인데 구매·계약 기록이 없는" 학교는 예산은 있는데 아직 집행 전일 가능성이 큽니다. AI 수업 연수 제안 1순위 명단으로 쓰세요.')}`;
   });
 
   /* ============ 경쟁사 연수 분석 ============ */
@@ -4951,7 +4970,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const el = panel('trend2027', null, '교사 트렌드 2027 키워드 10선', `점수 = 신호 6종 가중합(0~100) · ${T27.kw_src === 'rule' ? '키워드명 = 연수 주제명(AI 미생성)' : 'AI 작명 ' + (T27.kw_date || '')}${T27.generated ? ' · 계산 ' + T27.generated : ''}`);
     if (!el) return;
     if (!T27.available) { el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
-    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">${(T27.keywords || []).map((k, i) => {
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px;">${(T27.keywords || []).map((k, i) => {
       const ev = Object.entries(k.ev || {}).slice(0, 5).map(([a, b]) => `<span style="white-space:nowrap;">${h(a)} <b class="num">${typeof b === 'number' ? b.toLocaleString() : h(b)}</b></span>`).join(' · ');
       return `<article style="border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--muted);font-weight:700;">${String(i + 1).padStart(2, '0')} · ${h(k.topic_name)}</span>${stgChip(k.stage)}</div>
@@ -5067,7 +5086,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const L = LV.levels || [], COL = {'초': '#f59e0b', '중': '#10b981', '고': '#4f8cff'};
     const eok = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : Math.round(v / 1e4).toLocaleString() + '만';
     const bars = (a, c) => { const mx = Math.max(1, ...a); return `<svg viewBox="0 0 120 26" style="width:120px;height:26px;" aria-hidden="true">${a.map((v, i) => `<rect x="${i * 10 + 1}" y="${26 - v / mx * 24}" width="8" height="${v / mx * 24}" rx="1.5" fill="${c}" opacity="${i === a.length - 1 ? .45 : .9}"/>`).join('')}</svg>`; };
-    const cards = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;">${L.map(l => {
+    const cards = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:12px;">${L.map(l => {
       const sup = Object.entries(l.supply || {}).map(([co, n]) => `${h(co.replace('연수원', ''))} <b class="num">${n}</b>`).join(' · ') || '-';
       const top = (l.topics || []).slice(0, 4).map(x => `<div style="display:grid;grid-template-columns:1fr 90px 40px;gap:6px;align-items:center;font-size:12px;" ${tipAttr(`${h(x.name)} — ${h(l.name)} 수요 ${x.n}건 · 비중 ${x.share}% · 다른 학교급 대비 ${x.lift}배`)}><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(x.name)}${x.lift >= 1.3 && x.n >= 3 ? ' ' + mChip('특화', 'color-mix(in srgb, ' + COL[l.lv] + ' 25%, var(--surface-2))') : ''}</span><div style="height:8px;background:var(--surface-2);border-radius:4px;"><div style="height:100%;width:${Math.min(100, x.share * 2)}%;background:${COL[l.lv]};border-radius:4px;"></div></div><span class="num" style="text-align:right;">${x.share}%</span></div>`).join('');
       return `<article style="border:1px solid var(--border);border-top:4px solid ${COL[l.lv]};border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
@@ -5168,7 +5187,7 @@ window.__ownerQ.push(function renderAiBrief(){
     if (!PP.available) { el.innerHTML = empty('처리방침 수집 대기(매주 월 05:30)'); return; }
     const S = PP.summary || [], OWNK = (S.find(s => s.own) || {}).key;
     const hiBg = 'color-mix(in srgb, var(--accent) 18%, var(--surface-2))';
-    const cards = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:12px;">${S.map(s => `<div style="border:1px solid var(--border);border-radius:10px;padding:10px 12px;${s.own ? 'background:color-mix(in srgb, var(--accent) 7%, transparent);' : ''}">
+    const cards = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:10px;margin-bottom:12px;">${S.map(s => `<div style="border:1px solid var(--border);border-radius:10px;padding:10px 12px;${s.own ? 'background:color-mix(in srgb, var(--accent) 7%, transparent);' : ''}">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><b>${h(s.name)}${s.own ? ' (자사)' : ''}</b>${s.url ? `<a href="${h(s.url)}" target="_blank" rel="noopener" style="font-size:11.5px;">처리방침 원문</a>` : ''}</div>
       <div style="font-size:12.5px;margin-top:4px;">처리위탁 <b class="num">${s.n_consign}</b> · 제3자 제공 <b class="num">${s.n_third}</b> · 사업 협력 <b class="num">${s.n_biz}</b></div>
       <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">${s.effective ? '시행 ' + h(s.effective) : '시행일 표기 없음'}${s.version ? ' · ' + h(s.version) : ''}${s.error ? ' · 최근 수집 실패(' + h(s.error) + ') — 지난 결과 표시' : ''}</div>
@@ -5177,9 +5196,9 @@ window.__ownerQ.push(function renderAiBrief(){
       const mine = k === OWNK, withOwn = (x.shared || []).includes(OWNK);
       const bg = row.biz && row.cat !== '공공·교육청' && !mine && !withOwn ? hiBg : 'var(--surface-2)';
       const tip = `<b>${h(x.n)}</b><br>${h(x.kind)}${x.g ? ' · ' + h(x.g) : ''}<br>${h(x.t || '')}${withOwn && !mine ? '<br>자사도 같은 곳과 거래' : ''}`;
-      return `<span ${tipAttr(tip)} style="display:inline-block;padding:2px 8px;margin:2px 4px 2px 0;border-radius:999px;font-size:11.5px;background:${bg};${x.kind !== '위탁' ? 'border:1px dashed var(--border);' : ''}">${h(x.n)}${withOwn && !mine ? ' ·공통' : ''}</span>`;
+      return `<span ${tipAttr(tip)} style="display:inline-block;max-width:100%;word-break:keep-all;padding:2px 8px;margin:2px 4px 2px 0;border-radius:999px;font-size:11.5px;background:${bg};${x.kind !== '위탁' ? 'border:1px dashed var(--border);' : ''}">${h(x.n)}${withOwn && !mine ? ' ·공통' : ''}</span>`;
     }).join('') || '<span style="color:var(--muted);">—</span>';
-    const tbl = rows => `<div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><thead><tr><th style="width:110px;">용도</th>${S.map(s => `<th>${h(s.name)}${s.own ? ' (자사)' : ''}</th>`).join('')}</tr></thead><tbody>
+    const tbl = rows => `<div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:620px;"><thead><tr><th style="width:110px;">용도</th>${S.map(s => `<th>${h(s.name)}${s.own ? ' (자사)' : ''}</th>`).join('')}</tr></thead><tbody>
       ${rows.map(r => `<tr><td style="font-weight:700;vertical-align:top;">${h(r.cat)}</td>${S.map(s => `<td style="vertical-align:top;">${cell(r, s.key)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     const M = PP.matrix || [], biz = M.filter(r => r.biz), infra = M.filter(r => !r.biz);
     const ch = PP.changes || [];
@@ -5525,7 +5544,7 @@ window.__ownerQ.push(function renderAiBrief(){
       <text x="${W / 2}" y="${H - 8}" text-anchor="middle" font-size="10.5" fill="var(--muted)">사업규모 →</text></svg>${legend([['자사 수주', '#10b981'], ['타사 수주', '#ef4444']])}` : empty('사업규모·수주금액이 함께 있는 건이 없습니다.');
     const lost = Object.entries(B.lost_to || {}).map(([k, v]) => ({k, v, label: v + '건'}));
     el.innerHTML = `<div class="kpis" style="margin-bottom:12px;">${[['수주율(참여 대비)', B.joined ? Math.round(B.won / B.joined * 100) + '%' : '-', `${B.won}/${B.joined}건`], ['수주 금액', fmtWon(B.won_amt || 0), '자사'], ['참여율', B.n ? Math.round(B.joined / B.n * 100) + '%' : '-', `검토 ${B.n}건 중`]].map(t => `<div class="kpi"><div class="lbl">${t[0]}</div><div class="val num">${t[1]}</div><div class="sup">${t[2]}</div></div>`).join('')}</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:16px;">
       <div><p style="font-weight:800;margin:0 0 6px;">입찰 깔때기</p>${fun}<p style="font-weight:800;margin:14px 0 6px;">결과 구분</p>${hbars(Object.entries(B.results || {}).map(([k, v]) => ({k, v, label: v + '건'})), {lw: 90, vw: 50})}</div>
       <div><p style="font-weight:800;margin:0 0 6px;">사업규모 × 낙찰률</p>${sc}</div>
       <div><p style="font-weight:800;margin:0 0 6px;">패찰 시 수주 업체</p>${lost.length ? hbars(lost, {lw: 120, vw: 50}) : empty('기록 없음')}</div></div>
@@ -5745,7 +5764,7 @@ window.__ownerQ.push(function renderAiBrief(){
     { const sec = el.closest('section'), host = document.getElementById('panel-exec'); host.insertBefore(sec, host.children[1] || null); }
     const L = D.slice(-30), M = [['나라장터 교육청·연수원 발주(누적)', 'g2b_total_detail', v => fmt(v) + '건'], ['AI·에듀테크 발주 건수', 'ai_rows_count', v => fmt(v) + '건'], ['AI·에듀테크 발주액', 'ai_rows_amount_sum', v => fmtWon(v)], ['자사 파이프라인 사업', 'own_pipeline_total', v => fmt(v) + '건'], ['자사 파이프라인 목표금액', 'own_pipeline_target', v => fmtWon(v)]];
     const spark = (vals) => { const mn = Math.min(...vals), mx = Math.max(...vals), W = 160, H = 36; const y = v => mx === mn ? H / 2 : H - 3 - (v - mn) / (mx - mn) * (H - 6); return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;"><polyline points="${vals.map((v, i) => `${i / Math.max(1, vals.length - 1) * W},${y(v)}`).join(' ')}" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="${W}" cy="${y(vals[vals.length - 1])}" r="3" fill="var(--accent)"/></svg>`; };
-    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">${M.map(([lab, k, f]) => {
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:10px;">${M.map(([lab, k, f]) => {
       const vals = L.map(r => +r[k] || 0), last = vals[vals.length - 1], wk = vals.length > 7 ? vals[vals.length - 8] : vals[0], dlt = last - wk;
       return `<div style="padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);" ${tipAttr(`${lab}<br>${L[0].date} ~ ${L[L.length - 1].date}`)}><div style="font-size:11.5px;color:var(--muted);">${h(lab)}</div>
         <div style="display:flex;justify-content:space-between;align-items:baseline;"><b class="num" style="font-size:18px;">${h(f(last))}</b><span class="num" style="font-size:11.5px;font-weight:700;color:${dlt > 0 ? '#10b981' : dlt < 0 ? '#d64545' : 'var(--muted)'};">${dlt > 0 ? '▲' : dlt < 0 ? '▼' : '–'} ${h(f(Math.abs(dlt)))} (7일)</span></div>${spark(vals)}</div>`; }).join('')}</div>`
@@ -8340,10 +8359,12 @@ window.__ownerQ.push(function renderExec(){
     stage.addEventListener('mouseleave', () => { svg.style.transform = ''; });
   });
 })();
-
+</script>
+<script>
 /* ---------------- 에듀테크 전략 브리핑(07:00, 6개 항목·표 중심) ---------------- */
 (function renderStrategy(){
-  const S = (typeof STRATEGY !== 'undefined' && STRATEGY) || {};
+  let S = {};
+  try { S = STRATEGY || {}; } catch (e) { S = {}; }  // 다른 패널 오류와 무관하게 그린다
   const body = document.getElementById('stratBody'), pick = document.getElementById('stratPick');
   if (!body) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -8353,7 +8374,7 @@ window.__ownerQ.push(function renderExec(){
   const IMP = {'상': '#ef4444', '중': '#f59e0b', '하': '#94a3b8'};
   const chip = (t, c) => `<span style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;background:${c || '#94a3b8'};white-space:nowrap;">${h(t)}</span>`;
   const sec = (n, t, inner) => `<h3 style="font-size:15px;margin:18px 0 8px;">${n}) ${t}</h3>${inner}`;
-  const tbl = (head, rows) => `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;table-layout:fixed;width:100%;min-width:0;"><thead><tr>${head.map(x => `<th${x[1] ? ` style="width:${x[1]}"` : ''}>${x[0]}</th>`).join('')}</tr></thead><tbody>${rows.join('') || `<tr><td colspan="${head.length}" style="color:var(--muted);">해당 없음</td></tr>`}</tbody></table></div>`;
+  const tbl = (head, rows) => `<div class="tbl-wrap strat-wrap"><table class="data strat-tbl" style="font-size:12.5px;table-layout:fixed;width:100%;min-width:0;"><thead><tr>${head.map(x => `<th${x[1] ? ` style="width:${x[1]}"` : ''}>${x[0]}</th>`).join('')}</tr></thead><tbody>${rows.join('') || `<tr><td colspan="${head.length}" style="color:var(--muted);">해당 없음</td></tr>`}</tbody></table></div>`;
   const link = (u, t) => u ? `<a href="${h(u)}" target="_blank" rel="noopener">${h(t || '원문')}</a>` : '';
   function draw(i){
     const d = I[i] || {};
@@ -8373,7 +8394,10 @@ window.__ownerQ.push(function renderExec(){
           (d.opportunities || []).map(o => `<tr><td><b>${h(o.idea)}</b></td><td>${rich(o.action)}</td><td>${h(o.link || '')}</td><td>${h(o.timing || '')}</td></tr>`)))
       + sec(6, '이번 주 추적 이슈·KPI 신호', tbl([['이슈'], ['KPI 신호(무엇을 보면 되나)'], ['예측·가설']],
           (d.watch || []).map(w => `<tr><td><b>${h(w.issue)}</b></td><td>${rich(w.kpi_signal)}</td><td style="color:var(--ink-2);">${rich(w.forecast || '')}</td></tr>`)))
-      + (d.sources ? `<p style="font-size:11.5px;color:var(--muted);margin-top:12px;">${rich(d.sources)}</p>` : '');
+      + (d.sources ? `<p style="font-size:11.5px;color:var(--muted);margin-top:12px;">${rich(d.sources)}</p>` : '');    body.querySelectorAll('table.strat-tbl').forEach(t => {  // 모바일 카드형 표시용 열 이름
+      const hs = [...t.querySelectorAll('thead th')].map(x => x.textContent);
+      t.querySelectorAll('tbody tr').forEach(tr => [...tr.children].forEach((td, k) => { td.dataset.label = hs[k] || ''; }));
+    });
   }
   if (pick) {
     pick.innerHTML = I.map((d, k) => `<option value="${k}">${h(d.date)} (${h(d.weekday || '')})</option>`).join('');
