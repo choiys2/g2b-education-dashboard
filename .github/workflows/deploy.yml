@@ -38,6 +38,8 @@ on:
       - "history/edutech_radar.json"
       - "neis_schedule.py"
       - ".github/workflows/neis_schedule.yml"
+      - "gg_probe.py"
+      - ".github/workflows/gg_probe.yml"
       - ".github/workflows/policy_probe.yml"
 
 permissions:

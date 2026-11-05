@@ -1,0 +1,26 @@
+name: 경기데이터드림 데이터셋 점검
+
+on:
+  workflow_dispatch:
+    inputs:
+      words:
+        description: "검색어(쉼표 구분)"
+        default: "학교 현황,학원 교습소"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - name: 점검
+        env:
+          GG_DATA_KEY: ${{ secrets.GG_DATA_KEY }}
+          WORDS: ${{ inputs.words }}
+        run: |
+          IFS=',' read -ra W <<< "$WORDS"
+          python gg_probe.py "${W[@]}"
