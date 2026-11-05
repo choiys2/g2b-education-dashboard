@@ -33,7 +33,7 @@ EVENTS = [  # (키, 정규식) - 위에서부터 먼저 맞는 것
     ("방학식", r"방학식"),
     ("졸업식", r"졸업"),
     ("종업식", r"종업|수료식"),
-    ("개학", r"개학"),
+    ("개학", r"개학|시업식"),
     ("겨울방학", r"겨울\s?방학|동계\s?방학"),
     ("여름방학", r"여름\s?방학|하계\s?방학"),
     ("봄방학", r"봄\s?방학|학년말\s?방학"),
@@ -85,8 +85,10 @@ def school_events(code, sc, d0, d1):
 
 
 def summarize(rows):
-    """학교 1곳 -> {행사: 첫 날짜}, 방학 날짜 집합"""
-    first, days, vac = {}, {}, set()
+    """학교 1곳 -> {행사: 날짜}, 방학 날짜 집합.
+    방학 표기는 학교마다 다르다(시작일 하루만 / 매일 / 겨울·학년말 방학 분리). 방학 표기 날짜들을 4일 이내 간격으로 이어
+    가장 긴 연속 구간을 '겨울방학'으로 보고, 그 시작·끝과 직후 개학(개학·시업식)을 잡는다."""
+    days = {}
     for r in rows:
         nm, ymd = (r.get("EVENT_NM") or "").strip(), r.get("AA_YMD") or ""
         if len(ymd) != 8 or not nm:
@@ -95,20 +97,36 @@ def summarize(rows):
         for k, rx in EV_RE:
             if rx.search(nm):
                 days.setdefault(k, set()).add(d)
-                first[k] = min(first.get(k, d), d)
-                if k in ("겨울방학", "여름방학", "봄방학"):
-                    vac.add(d)
                 break
-    # 방학 시작~개학 전날을 방학으로 채운다(일정에 시작일만 적는 학교 대비)
-    for v in ("겨울방학", "여름방학"):
-        if v in first and "개학" in days:
-            back = min((x for x in days["개학"] if x > first[v]), default=None)
-            if back:
-                vac |= {first[v] + timedelta(n) for n in range((back - first[v]).days)}
-    if "시험" in days:  # 앞으로 가장 가까운 시험 묶음의 시작일
-        first["시험"] = min(days["시험"])
-    if "개학" in days and "겨울방학" in first:
-        first["개학"] = min((x for x in days["개학"] if x > first["겨울방학"]), default=first["개학"])
+    vdays = sorted(days.get("겨울방학", set()) | days.get("봄방학", set()))
+    runs, cur = [], []
+    for d in vdays:
+        if cur and (d - cur[-1]).days > 4:
+            runs.append(cur); cur = []
+        cur.append(d)
+    if cur:
+        runs.append(cur)
+    first, vac = {}, set()
+    for run in runs:
+        vac |= {run[0] + timedelta(n) for n in range((run[-1] - run[0]).days + 1)}
+    if runs:
+        main = max(runs, key=lambda r: ((r[-1] - r[0]).days, len(r)))
+        end = main[-1]
+        nxt = [x for x in days.get("개학", ()) if x > main[0]]
+        if (end - main[0]).days < 3 and nxt:  # 시작일만 적는 학교: 개학 전날까지를 방학으로
+            end = min(nxt) - timedelta(1)
+            vac |= {main[0] + timedelta(n) for n in range((end - main[0]).days + 1)}
+        main = [main[0], end]
+        first["겨울방학"], first["방학 종료"] = main[0], main[-1]
+        bs = [x for x in days.get("방학식", ()) if timedelta(0) <= main[0] - x <= timedelta(14)]
+        if bs:
+            first["방학식"] = max(bs)
+        back = [x for x in days.get("개학", ()) if x > main[-1]]
+        if back:
+            first["개학"] = min(back)
+    for k in ("시험", "졸업식", "종업식", "재량휴업"):
+        if k in days:
+            first[k] = min(days[k])
     return first, vac
 
 
