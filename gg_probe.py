@@ -28,31 +28,35 @@ def api(svc):
 def main():
     print("키 설정:", "있음" if KEY else "없음")
     found = {}
-    for w in WORDS:
-        try:
-            d = get("https://data.gg.go.kr/portal/data/dataset/searchDataset.do?" + urllib.parse.urlencode({"category": "", "page": 1, "searchKeyword": w, "size": 20, "sort": "view"}))
-        except Exception as e:
-            print(f"[{w}] 검색 실패: {e}"); continue
-        items = (d.get("result") or {}).get("contents") or []
-        if items:
-            print(f"[{w}] 키 목록:", sorted(items[0].keys()))
-        for it in items[:12]:
-            nm = it.get("infNm") or it.get("title") or it.get("infNmKor") or ""
-            print(f"[{w}] {nm[:50]} · 기관 {it.get('orgNm')} · infId {it.get('infId')} · API seq {it.get('acolInfSeq')}")
-            if not it.get("acolInfSeq"):
-                continue
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:
+        br = p.chromium.launch()
+        pg = br.new_page(locale="ko-KR")
+        pg.goto("https://data.gg.go.kr/portal/data/dataset/searchDatasetPage.do", wait_until="domcontentloaded", timeout=60000)
+        for w in WORDS:
             try:
-                html = get(f"https://data.gg.go.kr/portal/data/service/selectAPIServicePage.do?infId={it['infId']}&infSeq={it['acolInfSeq']}", js=False)
-                svcs = set(SVC_RE.findall(html))
-                if not svcs:
-                    html = get(f"https://data.gg.go.kr/portal/data/service/selectServicePage.do?infId={it['infId']}&infSeq={it['acolInfSeq']}", js=False)
-                    svcs = set(SVC_RE.findall(html))
-                svcs -= {"sample"}
-                print(f"      -> 서비스명 {sorted(svcs)}")
-                for s in svcs:
-                    found.setdefault(s, nm)
+                r = pg.request.get("https://data.gg.go.kr/portal/data/dataset/searchDataset.do?" + urllib.parse.urlencode(
+                    {"category": "", "page": 1, "searchKeyword": w, "size": 10, "sort": "view"}), timeout=60000)
+                items = ((r.json().get("result") or {}).get("contents")) or []
             except Exception as e:
-                print(f"      -> 상세 실패: {str(e)[:80]}")
+                print(f"[{w}] 검색 실패: {str(e)[:100]}"); continue
+            for it in items[:6]:
+                nm = it.get("infNm") or ""
+                seq = it.get("acolInfSeq")
+                print(f"[{w}] {nm[:50]} · infId {it.get('infId')} · API seq {seq}", flush=True)
+                if not seq:
+                    continue
+                try:
+                    pg.goto(f"https://data.gg.go.kr/portal/data/service/selectServicePage.do?infId={it['infId']}&infSeq={seq}",
+                            wait_until="domcontentloaded", timeout=60000)
+                    pg.wait_for_timeout(3000)
+                    svcs = set(SVC_RE.findall(pg.content())) - {"sample"}
+                    print(f"      -> 서비스명 {sorted(svcs)}", flush=True)
+                    for s_ in svcs:
+                        found.setdefault(s_, nm)
+                except Exception as e:
+                    print(f"      -> 상세 실패: {str(e)[:80]}", flush=True)
+        br.close()
     for s, title in found.items():
         d = api(s)
         if "_err" in d:
