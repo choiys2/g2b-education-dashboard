@@ -25,33 +25,50 @@ def main():
         b = p.chromium.launch()
         pg = b.new_page(locale="ko-KR")
         for w in WORDS:
+            js = []
+            pg.on("response", lambda r: js.append(r) if ("json" in (r.headers.get("content-type") or "") or r.request.resource_type in ("xhr", "fetch")) else None)
             url = "https://data.gg.go.kr/portal/data/dataset/searchDatasetPage.do?searchWord=" + urllib.parse.quote(w)
             try:
-                pg.goto(url, wait_until="networkidle", timeout=45000)
+                pg.goto(url, wait_until="networkidle", timeout=60000)
+                pg.wait_for_timeout(2500)
             except Exception as e:
                 print(f"[{w}] 검색 실패: {str(e)[:100]}"); continue
-            links = pg.evaluate("""() => [...document.querySelectorAll('a')].map(a => ({t:(a.innerText||'').trim().slice(0,60), h:a.href, on:a.getAttribute('onclick')||''}))
-                                   .filter(x => x.t && (/dataset|infId|selectServicePage|fn_detail/i.test(x.h + x.on)))""")
-            print(f"[{w}] 검색 결과 후보 {len(links)}개:", [l['t'] for l in links[:10]])
-            for l in links[:6]:
+            print(f"[{w}] 최종 주소 {pg.url} · XHR {len(js)}개")
+            for r in js[:12]:
                 try:
-                    if l["h"].startswith("http") and "javascript" not in l["h"]:
-                        pg.goto(l["h"], wait_until="networkidle", timeout=45000)
+                    body = r.text()[:3000]
+                except Exception:
+                    body = ""
+                print("   xhr", r.request.method, r.url[:140], "|", re.sub(r"\s+", " ", body)[:300])
+                for s_ in SVC_RE.findall(body):
+                    found.setdefault(s_, w)
+            text = re.sub(r"\s+", " ", pg.evaluate("() => document.body.innerText"))
+            i = text.find(w.split()[0])
+            print("   본문:", text[max(0, i - 200): i + 1200])
+            links = pg.evaluate("""() => [...document.querySelectorAll('a,[onclick]')].map(a => ({t:(a.innerText||'').trim().replace(/\\s+/g,' ').slice(0,70), h:a.getAttribute('href')||'', on:a.getAttribute('onclick')||''}))
+                                   .filter(x => /infId|infSeq|dataset\\/view|selectDataset|goDetail|fn_/i.test(x.h + ' ' + x.on))""")
+            print(f"   상세 링크 {len(links)}개:", [(l['t'], (l['h'] + ' ' + l['on'])[:90]) for l in links[:15]])
+            for l in [l for l in links if w.split()[0] in l["t"]][:4]:
+                try:
+                    if l["h"].startswith(("http", "/")) and "javascript" not in l["h"]:
+                        pg.goto(urllib.parse.urljoin(pg.url, l["h"]), wait_until="networkidle", timeout=45000)
                     else:
                         pg.goto(url, wait_until="networkidle", timeout=45000)
-                        pg.get_by_text(l["t"], exact=False).first.click(timeout=8000)
+                        pg.locator("a,[onclick]").filter(has_text=l["t"][:20]).first.click(timeout=10000)
                         pg.wait_for_load_state("networkidle", timeout=30000)
-                    tabs = pg.get_by_text("Open API", exact=False)
-                    if tabs.count():
-                        try: tabs.first.click(timeout=5000); pg.wait_for_timeout(1500)
-                        except Exception: pass
-                    html = pg.content()
-                    svcs = sorted(set(SVC_RE.findall(html)) - {"sample"})
-                    print(f"   - {l['t']} -> 서비스명 {svcs}")
-                    for s in svcs:
-                        found.setdefault(s, l["t"])
+                    for tab in ("Open API", "OpenAPI", "오픈API"):
+                        loc = pg.get_by_text(tab, exact=False)
+                        if loc.count():
+                            try:
+                                loc.first.click(timeout=4000); pg.wait_for_timeout(2000); break
+                            except Exception:
+                                pass
+                    svcs = sorted(set(SVC_RE.findall(pg.content())) - {"sample"})
+                    print(f"   - {l['t']} ({pg.url[:120]}) -> 서비스명 {svcs}")
+                    for s_ in svcs:
+                        found.setdefault(s_, l["t"])
                 except Exception as e:
-                    print(f"   - {l['t']} 열기 실패: {str(e)[:80]}")
+                    print(f"   - {l['t']} 열기 실패: {str(e)[:100]}")
         b.close()
     for s, title in found.items():
         d = api(s)
