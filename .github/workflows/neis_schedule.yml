@@ -1,0 +1,35 @@
+name: NEIS 학사일정 표본 수집
+
+# B2S 학사일정 패널: 시도 x 학교급 표본 학교의 앞으로 150일 학사일정(방학·개학·시험·졸업) -> 대표 날짜만 저장
+on:
+  schedule:
+    - cron: "10 18 * * 0"   # 매주 월요일 03:10 KST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: neis-schedule
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 학사일정 수집
+        env:
+          NEIS_KEY: ${{ secrets.NEIS_KEY }}
+        run: python neis_schedule.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add history/neis_schedule.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: NEIS 학사일정 표본 $(TZ=Asia/Seoul date +%F)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done

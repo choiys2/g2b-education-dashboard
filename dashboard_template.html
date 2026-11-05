@@ -2246,6 +2246,21 @@ svg { max-width: 100%; }
       </div>
     </div>
 
+    <!-- 학사일정(NEIS SchoolSchedule 표본, neis_schedule.py) - 연수 모집·학교 판매 타이밍 -->
+    <section class="panel" id="schoolSchedPanel">
+      <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
+        <div>
+          <p class="panel-title">학사일정 — 연수·판매 타이밍<span id="schedSub" style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">NEIS 학사일정 표본</span></p>
+        </div>
+        <div class="view-toggle" id="schedLv" role="group" aria-label="학교급">
+          <button type="button" data-lv="초" aria-pressed="true">초</button>
+          <button type="button" data-lv="중" aria-pressed="false">중</button>
+          <button type="button" data-lv="고" aria-pressed="false">고</button>
+        </div>
+      </div>
+      <div id="schedBody"></div>
+    </section>
+
     <!-- B2S 학교 잠재 수요: 학교알리미 전국 학교별 교원 수 (b2s_demand.py) -->
     <section class="panel" id="b2sMarketPanel">
       <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
@@ -8360,6 +8375,41 @@ window.__ownerQ.push(function renderExec(){
     });
     stage.addEventListener('mouseleave', () => { svg.style.transform = ''; });
   });
+})();
+</script>
+<script>
+/* ---------------- B2S 학사일정(NEIS 표본) — 독립 스크립트(다른 패널 오류와 무관) ---------------- */
+(function renderSchoolSchedule(){
+  const D = __NEIS_SCHED_JSON__;
+  const body = document.getElementById('schedBody'); if (!body) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  if (!D || !(D.regions || []).length) { body.innerHTML = '<p style="color:var(--muted);font-size:13px;">학사일정 첫 수집 대기 — 매주 월요일 03:10 자동 수집(NEIS 학사일정, 시도·학교급별 표본 학교)</p>'; return; }
+  document.getElementById('schedSub').textContent = `NEIS 학사일정 · 시도×학교급 표본 ${D.sample_per_cell}개교(총 ${D.n_schools}교) · ${D.from} ~ ${D.to} · 수집 ${D.generated}`;
+  const WD = '일월화수목금토';
+  const dt = s => { if (!s) return '<span style="color:var(--muted);">–</span>'; const d = new Date(s + 'T00:00:00'); return `${d.getMonth() + 1}/${d.getDate()}(${WD[d.getDay()]})`; };
+  const add = (s, n) => { const d = new Date(s + 'T00:00:00'); d.setDate(d.getDate() + n); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+  const COLS = [['시험', '다음 시험'], ['방학식', '방학식'], ['겨울방학', '겨울방학 시작'], ['개학', '개학'], ['졸업식', '졸업식'], ['종업식', '종업식']];
+  function draw(lv){
+    const rows = D.regions.map(r => ({region: r.region, ...(r.levels[lv] || {})}));
+    const starts = rows.map(r => r['겨울방학']).filter(Boolean).sort();
+    const nat = starts.length ? starts[Math.floor(starts.length / 2)] : null;
+    const tbl = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:640px;"><thead><tr><th>시도</th><th class="num">표본</th>${COLS.map(c => `<th>${c[1]}</th>`).join('')}<th>겨울 연수 모집 권장</th></tr></thead><tbody>
+      ${rows.map(r => `<tr><td style="font-weight:700;">${h(r.region)}</td><td class="num">${r.n || 0}</td>${COLS.map(c => `<td style="white-space:nowrap;">${dt(r[c[0]])}</td>`).join('')}
+        <td style="white-space:nowrap;">${r['겨울방학'] ? `${dt(add(r['겨울방학'], -21))} ~ ${dt(add(r['겨울방학'], 7))}` : '<span style="color:var(--muted);">–</span>'}</td></tr>`).join('')}</tbody></table></div>`;
+    const W = (D.weeks || []).filter(w => w.vac_share != null);
+    const bars = W.length ? `<p style="font-weight:800;margin:14px 0 6px;">주별 방학 중인 표본 학교 비율 <span style="font-weight:600;color:var(--muted);font-size:12px;">전 학교급 · 높을수록 교사 시간 여유(연수 수강·B2C 기획전 적기)</span></p>
+      <div style="display:flex;align-items:flex-end;gap:3px;height:110px;overflow-x:auto;padding-bottom:2px;">${W.map(w => { const d = new Date(w.week + 'T00:00:00');
+        return `<div title="${h(w.week)} 주: ${w.vac_share}%" style="flex:1 0 18px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;">
+          <span style="font-size:10px;color:var(--muted);">${w.vac_share >= 10 ? w.vac_share : ''}</span>
+          <div style="width:100%;height:${Math.max(2, w.vac_share * 0.8)}px;border-radius:3px 3px 0 0;background:${w.vac_share >= 50 ? 'var(--accent)' : 'color-mix(in srgb, var(--accent) 35%, var(--surface-2))'};"></div>
+          <span style="font-size:9.5px;color:var(--muted);white-space:nowrap;">${d.getMonth() + 1}/${d.getDate()}</span></div>`; }).join('')}</div>` : '';
+    body.innerHTML = (nat ? `<p style="font-size:13px;margin:2px 0 10px;">${lv}학교(표본) 겨울방학 시작 중앙값 <b>${dt(nat)}</b> — 가장 이른 시도 <b>${dt(starts[0])}</b>, 가장 늦은 시도 <b>${dt(starts[starts.length - 1])}</b></p>` : '')
+      + tbl + bars
+      + `<p class="tt-note" style="margin-top:10px;"><b>그래서</b> 겨울 연수 모집은 시도별 <b>방학 시작 3주 전~1주 후</b>에 맞추고, 홍보는 시험 주간을 피하세요. 졸업식·종업식 전(학년말)은 학교 예산을 마무리하는 시기라 B2S 학교 단위 판매(연수+자료 묶음)를 제안하기 좋습니다. 날짜는 표본 학교의 중앙값이라 학교마다 다를 수 있습니다.</p>`;
+  }
+  const tg = document.getElementById('schedLv');
+  tg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { tg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(b.dataset.lv); }));
+  draw('초');
 })();
 </script>
 <script>

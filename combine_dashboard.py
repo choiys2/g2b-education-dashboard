@@ -562,6 +562,7 @@ def main():
         "__TREND2027_JSON__": trend2027,
         # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
         "__STRATEGY_JSON__": _strategy(),
+        "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,

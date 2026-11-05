@@ -36,6 +36,8 @@ on:
       - "radar_collect.py"
       - ".github/workflows/radar.yml"
       - "history/edutech_radar.json"
+      - "neis_schedule.py"
+      - ".github/workflows/neis_schedule.yml"
       - ".github/workflows/policy_probe.yml"
 
 permissions:
