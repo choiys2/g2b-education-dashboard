@@ -28,6 +28,13 @@ EXCLUDE_ALWAYS = ["급식", "수련활동", "교육여행", "기숙사", "현장
 
 
 
+def _pool_url():
+    """강사풀 링크(시크릿/변수) - 값은 출력하지 않고 설정 여부만 로그에 남긴다."""
+    u = os.environ.get("INSTRUCTOR_POOL_URL", "").strip()
+    print("강사풀 링크:", "설정됨" if u.startswith("https://claude.ai/") else ("형식 오류(https://claude.ai/ 로 시작해야 함)" if u else "미설정"))
+    return u or None
+
+
 def _strategy():
     """에듀테크 전략 브리핑 복호화 - 결과 상태만 로그에 남긴다(내용은 출력하지 않음)."""
     import strategy_crypto
@@ -555,7 +562,7 @@ def main():
         "__TREND2027_JSON__": trend2027,
         # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
         "__STRATEGY_JSON__": _strategy(),
-        "__POOL_URL_JSON__": os.environ.get("INSTRUCTOR_POOL_URL", "").strip() or None,  # 강사풀 링크(시크릿)
+        "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": None,
