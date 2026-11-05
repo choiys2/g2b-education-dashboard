@@ -2261,6 +2261,21 @@ svg { max-width: 100%; }
       <div id="schedBody"></div>
     </section>
 
+    <!-- 경기 31개 시군 B2S(경기데이터드림 학교 현황 + 학원·교습소, gg_data.py) -->
+    <section class="panel" id="ggB2SPanel">
+      <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
+        <div>
+          <p class="panel-title">경기 31개 시군 B2S<span id="ggSub" style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">경기데이터드림</span></p>
+        </div>
+        <div class="view-toggle" id="ggSort" role="group" aria-label="정렬">
+          <button type="button" data-k="n_students" aria-pressed="true">학생 수</button>
+          <button type="button" data-k="per1k" aria-pressed="false">사교육 밀도</button>
+          <button type="button" data-k="bids" aria-pressed="false">연수 입찰</button>
+        </div>
+      </div>
+      <div id="ggBody"></div>
+    </section>
+
     <!-- B2S 학교 잠재 수요: 학교알리미 전국 학교별 교원 수 (b2s_demand.py) -->
     <section class="panel" id="b2sMarketPanel">
       <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
@@ -8410,6 +8425,42 @@ window.__ownerQ.push(function renderExec(){
   const tg = document.getElementById('schedLv');
   tg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { tg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(b.dataset.lv); }));
   draw('초');
+})();
+</script>
+<script>
+/* ---------------- B2S 경기 31개 시군(경기데이터드림) — 독립 스크립트 ---------------- */
+(function renderGgB2S(){
+  const D = __GG_B2S_JSON__;
+  const body = document.getElementById('ggBody'); if (!body) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  if (!D || !(D.rows || []).length) { body.innerHTML = '<p style="color:var(--muted);font-size:13px;">경기 시군 집계 첫 수집 대기 — 매주 월요일 03:40 자동 수집(경기데이터드림)</p>'; return; }
+  const n = v => (v || 0).toLocaleString();
+  const R = D.rows.filter(r => r.n_students || r.academy);
+  const T = D.totals || {};
+  document.getElementById('ggSub').textContent = `경기데이터드림 · 학생 수 기준 ${D.student_year || '-'}년 · 수집 ${D.generated}`;
+  const dens = R.map(r => r.per1k).filter(v => v != null).sort((a, b) => a - b), medD = dens.length ? dens[Math.floor(dens.length / 2)] : 0;
+  const stuSorted = R.map(r => r.n_students).sort((a, b) => b - a), cut = stuSorted[Math.floor(stuSorted.length / 3)] || 0;
+  R.forEach(r => { r.pri = r.n_students >= cut && (r.per1k || 0) >= medD; });
+  const mxS = Math.max(1, ...R.map(r => r.n_students)), mxD = Math.max(1, ...dens);
+  const bar = (v, mx, c) => `<div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;min-width:50px;height:8px;background:var(--surface-2);border-radius:4px;"><div style="width:${v / mx * 100}%;height:100%;background:${c};border-radius:4px;"></div></div></div>`;
+  let sortKey = 'n_students';
+  const tiles = [['학교', n(T.schools) + '개'], ['학생', n(T.students) + '명'], ['학원', n(T.academy) + '곳'], ['교습소', n(T.tutoring) + '곳'], ['연수 입찰(12개월)', n(T.bids) + '건']]
+    .map(([k, v]) => `<div style="flex:1;min-width:120px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div><div class="num" style="font-size:18px;font-weight:800;">${v}</div></div>`).join('');
+  function draw(){
+    const rows = [...R].sort((a, b) => (b[sortKey] || 0) - (a[sortKey] || 0));
+    const tbl = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:760px;"><thead><tr><th>시군</th><th class="num">학교(초·중·고)</th><th class="num">학생</th><th style="width:110px;">학생 규모</th><th class="num">학원</th><th class="num">교습소</th><th class="num">학생 1천 명당</th><th style="width:110px;">사교육 밀도</th><th>주요 교습과정</th><th class="num">연수 입찰</th></tr></thead><tbody>
+      ${rows.map(r => `<tr${r.pri ? ' style="background:color-mix(in srgb, var(--accent) 8%, transparent);"' : ''}><td style="font-weight:700;white-space:nowrap;">${h(r.sigun)}${r.pri ? ' <span style="font-size:10.5px;padding:1px 6px;border-radius:999px;background:var(--accent);color:#fff;">우선</span>' : ''}</td>
+        <td class="num" style="white-space:nowrap;">${n(r.n_schools)} <span style="color:var(--muted);font-size:11px;">(${n((r.schools || {})['초'])}·${n((r.schools || {})['중'])}·${n((r.schools || {})['고'])})</span></td>
+        <td class="num">${n(r.n_students)}</td><td>${bar(r.n_students, mxS, 'var(--accent)')}</td>
+        <td class="num">${n(r.academy)}</td><td class="num">${n(r.tutoring)}</td><td class="num">${r.per1k ?? '–'}</td><td>${bar(r.per1k || 0, mxD, '#f59e0b')}</td>
+        <td style="font-size:11.5px;color:var(--ink-2);">${(r.courses || []).slice(0, 2).map(c => `${h(c[0])} ${n(c[1])}`).join(' · ')}</td><td class="num">${n(r.bids)}</td></tr>`).join('')}</tbody></table></div>`;
+    const top = R.filter(r => r.pri).sort((a, b) => b.n_students - a.n_students).slice(0, 5).map(r => r.sigun);
+    body.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${tiles}</div>` + tbl
+      + `<p class="tt-note" style="margin-top:10px;"><b>그래서</b> ${top.length ? `학생 수 상위 1/3이면서 사교육 밀도(학생 1천 명당 학원·교습소)가 경기 중앙값(${medD}) 이상인 <b>${h(top.join(' · '))}</b>을 학교 단위 판매·학부모 연계 상품의 우선 시군으로 보세요. ` : ''}연수 입찰 건수는 해당 시군 교육지원청의 최근 12개월 나라장터 연수 공고 수(B2G 수요)입니다. 사교육 밀도가 높은 지역은 교과·입시 수요가 커서 수업·평가 역량 연수와 학습자료 묶음이 잘 맞습니다(가설).</p>`;
+  }
+  const tg = document.getElementById('ggSort');
+  tg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { tg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); sortKey = b.dataset.k; draw(); }));
+  draw();
 })();
 </script>
 <script>
