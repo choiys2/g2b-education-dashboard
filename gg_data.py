@@ -26,30 +26,31 @@ SIGUN = ["수원시", "성남시", "고양시", "용인시", "부천시", "안�
 LV = {"초등학교": "초", "중학교": "중", "고등학교": "고"}
 
 
-def fetch_all(svc, extra=None, cap=60):
+def fetch_all(svc, extra=None, size=200, cap=250):
     rows = []
     for page in range(1, cap + 1):
-        q = {"KEY": KEY, "Type": "json", "pIndex": page, "pSize": 1000, **(extra or {})}
+        q = {"KEY": KEY, "Type": "json", "pIndex": page, "pSize": size, **(extra or {})}
         url = f"https://openapi.gg.go.kr/{svc}?" + urllib.parse.urlencode(q)
         data = None
         for i in range(3):
             try:
-                with urllib.request.urlopen(url, timeout=40) as r:
+                with urllib.request.urlopen(url, timeout=90) as r:
                     data = json.loads(r.read().decode("utf-8"))
                 break
             except Exception as e:
                 if i == 2:
                     print(f"  [경고] {svc} p{page} 실패: {str(e)[:100]}", file=sys.stderr)
-                time.sleep(2)
+                time.sleep(3 * (i + 1))
         body = (data or {}).get(svc)
         if not body or len(body) < 2:
             break
         got = body[1].get("row", [])
         rows += got
         total = next((h.get("list_total_count") for h in body[0]["head"] if "list_total_count" in h), 0)
-        if len(rows) >= total or len(got) < 1000:
+        if len(rows) >= total or len(got) < size:
             break
         time.sleep(0.2)
+    print(f"  {svc}: {len(rows)}행 / {page}쪽")
     return rows
 
 
