@@ -343,6 +343,7 @@ jobs:
           ADMIN_LINKS: ${{ secrets.ADMIN_LINKS }}   # 관리 탭 바로가기(주소는 시크릿에만)
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # 교사 트렌드 2027 키워드 작명(주 1회 캐시)
           STRATEGY_KEY: ${{ secrets.STRATEGY_KEY }}   # 에듀테크 전략 브리핑 복호화(암호문만 저장소에)
+          INSTRUCTOR_POOL_URL: ${{ secrets.INSTRUCTOR_POOL_URL }}   # 강사풀 버튼 링크(공개 저장소에 주소를 두지 않음)
         run: python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html
 
       # Gemini로 '오늘의 AI 브리핑' 생성 후 대시보드를 한 번 더 조합(조합 결과를 입력으로 쓰기 때문)
@@ -357,6 +358,7 @@ jobs:
           MGMT_JSON: ${{ secrets.MGMT_JSON }}   # 경영 실적 합계(관리 탭 암호문 안에만)
           ADMIN_LINKS: ${{ secrets.ADMIN_LINKS }}   # 관리 탭 바로가기(주소는 시크릿에만)
           STRATEGY_KEY: ${{ secrets.STRATEGY_KEY }}   # 재조합 때도 전략 브리핑 복호화
+          INSTRUCTOR_POOL_URL: ${{ secrets.INSTRUCTOR_POOL_URL }}
         run: |
           # 스크립트마다 시간 상한을 둬 한 곳의 과부하 재시도가 다른 해석을 막지 않게 한다(중요한 순서대로)
           timeout 180 python ai_insights.py live/ai_insights.json || true

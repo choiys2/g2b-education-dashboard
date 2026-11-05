@@ -276,8 +276,9 @@
 
   /* ---------- tabs ---------- */
   .tabnav{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:thin;}
-  .tabnav .tabbtn{flex:none;white-space:nowrap;}  /* 좁은 화면에서 탭 글자가 세로로 쪼개지던 문제 -> 가로 스크롤 */
-  .tabbtn{
+  .tabnav .tabbtn, .tabnav .tablink{flex:none;white-space:nowrap;}  /* 좁은 화면에서 탭 글자가 세로로 쪼개지던 문제 -> 가로 스크롤 */
+  .tablink{text-decoration:none;}
+  .tabbtn, .tablink{
     appearance:none;border:none;background:transparent;cursor:pointer;
     font-family:inherit;font-size:14px;font-weight:600;color:var(--ink-2);
     padding:11px 4px;margin-right:22px;border-bottom:2px solid transparent;
@@ -740,6 +741,7 @@ svg { max-width: 100%; }
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="content">콘텐츠·매출</button>
+    <a class="tablink" id="poolLink" href="#" target="_blank" rel="noopener noreferrer" hidden title="강사풀(별도 페이지 · 초대된 계정만 열람)">강사풀 ↗</a>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="search" hidden>통합검색</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">관계망</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="beta">베타 기능</button>
@@ -8361,6 +8363,12 @@ window.__ownerQ.push(function renderExec(){
 })();
 </script>
 <script>
+/* 강사풀: 주소는 GitHub Secret(INSTRUCTOR_POOL_URL)에서 배포 때만 넣는다 - 공개 저장소에는 주소가 없다 */
+(function poolLink(){
+  const u = __POOL_URL_JSON__;
+  const a = document.getElementById('poolLink');
+  if (a && typeof u === 'string' && /^https:\/\/claude\.ai\//.test(u)) { a.href = u; a.hidden = false; }
+})();
 /* ---------------- 에듀테크 전략 브리핑(07:00, 6개 항목·표 중심) ---------------- */
 (function renderStrategy(){
   let S = {};
