@@ -41,6 +41,9 @@ on:
       - "gg_probe.py"
       - "gg_data.py"
       - ".github/workflows/gg_data.yml"
+      - "teacher_group_news.py"
+      - ".github/workflows/teacher_group_news.yml"
+      - "pool_groups.py"
       - ".github/workflows/gg_probe.yml"
       - ".github/workflows/policy_probe.yml"
 

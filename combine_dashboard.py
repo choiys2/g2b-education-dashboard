@@ -28,6 +28,23 @@ EXCLUDE_ALWAYS = ["급식", "수련활동", "교육여행", "기숙사", "현장
 
 
 
+def _pool_people():
+    """강사풀 개인 정보(핵심 강사·단체 대표·활동 상위 강사) 복호화 - 이름은 로그에 남기지 않는다."""
+    p = "static_data/pool_people.enc.json"
+    key = os.environ.get("STRATEGY_KEY", "")
+    if not os.path.exists(p) or not key:
+        print("강사 정보:", "파일 없음" if not os.path.exists(p) else "STRATEGY_KEY 미설정 - 집계만 표시")
+        return None
+    try:
+        import strategy_crypto
+        d = strategy_crypto.decrypt(load(p), key)
+        print(f"강사 정보: 복호화 · 핵심 {len(d.get('core', []))} · 대표 {len(d.get('leaders', []))} · 상위 {len(d.get('top', []))}")
+        return d
+    except Exception as e:
+        print(f"강사 정보: 복호화 실패({type(e).__name__}) - 집계만 표시")
+        return None
+
+
 def _pool_url():
     """강사풀 링크(시크릿/변수) - 값은 출력하지 않고 설정 여부만 로그에 남긴다."""
     u = os.environ.get("INSTRUCTOR_POOL_URL", "").strip()
@@ -565,6 +582,10 @@ def main():
         "__GG_B2S_JSON__": load("history/gg_b2s.json") if os.path.exists("history/gg_b2s.json") else None,  # B2S 경기 시군
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)
+        "__TEACHER_GROUPS_JSON__": load("static_data/teacher_groups.json") if os.path.exists("static_data/teacher_groups.json") else None,  # 교사단체(공개 집계)
+        "__GROUP_NEWS_JSON__": load("history/teacher_group_news.json") if os.path.exists("history/teacher_group_news.json") else None,  # 교사단체 소식
+        "__POOL_PEOPLE_JSON__": _pool_people(),  # 강사 개인 정보(암호문 -> 로그인 뒤 화면만)
+        "__AI_SCHOOL_UPDATES_JSON__": load("static_data/ai_school_updates.json") if os.path.exists("static_data/ai_school_updates.json") else None,  # AI 중점학교 최신 동향
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": None,
@@ -593,7 +614,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:

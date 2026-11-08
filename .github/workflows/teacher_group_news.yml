@@ -1,0 +1,36 @@
+name: 교사단체 소식 수집
+
+# 교사 트렌드 2027 '교사단체·강사 공급' 패널: 전국 협회·연구회 최근 180일 뉴스 제목(네이버 검색 API, 없으면 구글 뉴스 RSS)
+on:
+  schedule:
+    - cron: "50 18 * * 0"   # 매주 월요일 03:50 KST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: teacher-group-news
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 단체 소식
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: python teacher_group_news.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add history/teacher_group_news.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: 교사단체 소식 $(TZ=Asia/Seoul date +%F)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done

@@ -1,0 +1,15 @@
+{
+ "checked": "2026-11-08",
+ "national": {"total": 1141, "elem": 530, "middle": 279, "high": 319, "special": 13, "budget_eok": 385, "years": 3,
+              "announced": "2026-03-09", "plan": [{"year": 2026, "n": 1141}, {"year": 2027, "n": 1500}, {"year": 2028, "n": 2000}]},
+ "sido_detail": {"충남": {"elem": 53, "middle": 33, "high": 27, "prev": 40, "note": "2025년 40교 → 2026년 113교. 학교급 내역은 언론 보도 기준(명단은 미공개)"},
+                 "세종": {"note": "AI정보교육실을 3년 안에 모든 학교에 설치할 계획(단일 보도)"},
+                 "충북": {"note": "교사 워크숍에서 2027 AI 중점학교 개편 방향 안내(공모 일정은 미공개)"}},
+ "status_2027": "2027학년도 신규 공모 공고는 아직 확인되지 않음(2026-11-08 기준). 교육부 계획대로면 2027년 +359교, 2028년 +500교 추가 지정",
+ "sources": [
+  {"t": "교육부 보도(대한민국 정책브리핑) · AI 중점학교 1,141개교 선정", "u": "https://www.korea.kr/news/policyNewsView.do?newsId=148960557"},
+  {"t": "에듀프레스 · AI 중점학교 1141개교 선정, 초등 68·중등 102시간 이상", "u": "https://www.edupress.kr/news/articleView.html?idxno=21850"},
+  {"t": "한국교육신문 · AI중점학교 속도 내는데 학교 준비는 아직", "u": "https://www.hangyo.com/news/article.html?no=106819"},
+  {"t": "한국교육신문 · AI 중점학교 확대, 마이스터고 신규 선정", "u": "https://www.hangyo.com/news/article.html?no=105797"}
+ ]
+}

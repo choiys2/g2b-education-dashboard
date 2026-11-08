@@ -1,0 +1,1652 @@
+{
+ "generated": "2026-11-08",
+ "survey_date": "2026-08-30",
+ "source": "비바샘 강사풀(사내 비공개 아티팩트) · 공개·공식 출처로 확인한 교사단체 조사",
+ "principles": [
+  "① 대형 전국 채널은 별도 관리",
+  "② 지역은 교육청 공식 이력으로 검증",
+  "③ 개인은 연구회와 묶어 관리",
+  "④ AI/AIDT·SEL·수업평가를 우선",
+  "연구회 대표에게 단일 제안",
+  "강사 개인에게만 접촉하지 않음",
+  "공식 연수·콘텐츠 공동개발을 첫 제안"
+ ],
+ "national": [
+  {
+   "name": "한국교사크리에이터협회 (교크협)",
+   "scale": "정회원 540명, 티튜버 회원 2,830명",
+   "focus": "수업 영상 콘텐츠 공유 플랫폼(티튜버) 운영, 에듀테크 연수, 전국 지부 운영",
+   "mou": true,
+   "mou_note": "MOU 체결",
+   "friendly": false,
+   "comp": [
+    "미래엔",
+    "테크빌"
+   ],
+   "contest": 3,
+   "stamps": 13,
+   "unverified": false,
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%ED%95%9C%EA%B5%AD%EA%B5%90%EC%82%AC%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%ED%98%91%ED%9A%8C%22"
+  },
+  {
+   "name": "대한교사협회 (대교협)",
+   "scale": "인스타그램 팔로워 약 4,300명",
+   "focus": "교원 정책·권익 대변, 비바샘 교육콘텐츠 개발 자문",
+   "mou": true,
+   "mou_note": "2025-01-22 비바샘 콘텐츠 개발 MOU 체결",
+   "friendly": false,
+   "comp": [],
+   "contest": 0,
+   "stamps": 0,
+   "unverified": false,
+   "topics": [],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%8C%80%ED%95%9C%EA%B5%90%EC%82%AC%ED%98%91%ED%9A%8C%22"
+  },
+  {
+   "name": "전국진로진학상담교사협의회 (전국진교협)",
+   "scale": "전국 진로진학상담교사 회원(규모 미상)",
+   "focus": "진로·진학 상담, 학생 맞춤형 진로교육",
+   "mou": true,
+   "mou_note": "2025-04-30 공교육 진로교육 혁신 MOU 체결",
+   "friendly": false,
+   "comp": [],
+   "contest": 0,
+   "stamps": 0,
+   "unverified": false,
+   "topics": [
+    "credit",
+    "care"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%84%EA%B5%AD%EC%A7%84%EB%A1%9C%EC%A7%84%ED%95%99%EC%83%81%EB%8B%B4%EA%B5%90%EC%82%AC%ED%98%91%EC%9D%98%ED%9A%8C%22"
+  },
+  {
+   "name": "(사)디지털미디어 교육콘텐츠 교사연구협회 (몽당분필)",
+   "scale": "정회원 243명, 팔로워 10만+, 누적 조회수 1,000만+",
+   "focus": "디지털 미디어 콘텐츠 제작, 미디어 리터러시, 영상 계기교육",
+   "mou": false,
+   "mou_note": "",
+   "friendly": true,
+   "comp": [],
+   "contest": 4,
+   "stamps": 0,
+   "unverified": false,
+   "topics": [
+    "ai",
+    "citizen"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%94%94%EC%A7%80%ED%84%B8%EB%AF%B8%EB%94%94%EC%96%B4%20%EA%B5%90%EC%9C%A1%EC%BD%98%ED%85%90%EC%B8%A0%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%98%91%ED%9A%8C%22"
+  },
+  {
+   "name": "참쌤스쿨",
+   "scale": "기수별 120~160여 명, 인스타 10만+, 연수 수강생 9,000명+",
+   "focus": "비주얼씽킹, 그림책, 미술, 교실 환경 및 굿즈 제작",
+   "mou": false,
+   "mou_note": "",
+   "friendly": true,
+   "comp": [],
+   "contest": 5,
+   "stamps": 2,
+   "unverified": false,
+   "topics": [
+    "citizen",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B0%B8%EC%8C%A4%EC%8A%A4%EC%BF%A8%22"
+  },
+  {
+   "name": "(사)좋은교사운동",
+   "scale": "회원 약 4,000명, 14개 회원단체/15개 전문단체",
+   "focus": "회복적 생활교육, 일대일 결연, 가정방문 캠페인, 수업평가 받기",
+   "mou": false,
+   "mou_note": "",
+   "friendly": false,
+   "comp": [],
+   "contest": 0,
+   "stamps": 0,
+   "unverified": false,
+   "topics": [
+    "care",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A2%8B%EC%9D%80%EA%B5%90%EC%82%AC%EC%9A%B4%EB%8F%99%22"
+  },
+  {
+   "name": "실천교육교사모임",
+   "scale": "회원 약 3,100명",
+   "focus": "신규교사 멘토링('신규함께'), 교육정책 대안 제시 및 현장 연구",
+   "mou": false,
+   "mou_note": "",
+   "friendly": false,
+   "comp": [],
+   "contest": 0,
+   "stamps": 0,
+   "unverified": false,
+   "topics": [
+    "leader"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%8B%A4%EC%B2%9C%EA%B5%90%EC%9C%A1%EA%B5%90%EC%82%AC%EB%AA%A8%EC%9E%84%22"
+  },
+  {
+   "name": "(사)미래교실네트워크",
+   "scale": "전국 연수 이수 교사 3,000명+",
+   "focus": "거꾸로 교실(Flipped Learning), 학생 주도 프로젝트 수업",
+   "mou": false,
+   "mou_note": "",
+   "friendly": false,
+   "comp": [],
+   "contest": 0,
+   "stamps": 0,
+   "unverified": false,
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%AF%B8%EB%9E%98%EA%B5%90%EC%8B%A4%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%22"
+  },
+  {
+   "name": "상상그리다필름",
+   "scale": "현직교사 영상디자인 그룹(정확한 정회원 수 미상)",
+   "focus": "교육 영상 콘텐츠 제작(CF감독·영화연출가·미술감독 등 현업 전문가 연수 기반)",
+   "mou": false,
+   "mou_note": "",
+   "friendly": true,
+   "comp": [],
+   "contest": 10,
+   "stamps": 28,
+   "unverified": false,
+   "topics": [
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%83%81%EC%83%81%EA%B7%B8%EB%A6%AC%EB%8B%A4%ED%95%84%EB%A6%84%22"
+  },
+  {
+   "name": "트라이팟(네트워크/연구회)",
+   "scale": "확인 필요",
+   "focus": "확인 필요",
+   "mou": false,
+   "mou_note": "",
+   "friendly": true,
+   "comp": [],
+   "contest": 3,
+   "stamps": 20,
+   "unverified": true,
+   "topics": [],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%ED%8A%B8%EB%9D%BC%EC%9D%B4%ED%8C%9F%22"
+  },
+  {
+   "name": "아꿈선",
+   "scale": "전국 초등교사 약 60명(2016년부터 활동)",
+   "focus": "초등 과학실험 영상 콘텐츠 제작·보급(농산어촌 등 교육격차 해소 목적)",
+   "mou": false,
+   "mou_note": "",
+   "friendly": true,
+   "comp": [],
+   "contest": 4,
+   "stamps": 12,
+   "unverified": false,
+   "topics": [
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%95%84%EA%BF%88%EC%84%A0%22"
+  },
+  {
+   "name": "AI미래교육연구회",
+   "scale": "확인 필요(온라인강의 플랫폼 '갓쌤에듀' 운영)",
+   "focus": "AI·에듀테크 교원연수 콘텐츠 개발",
+   "mou": false,
+   "mou_note": "",
+   "friendly": true,
+   "comp": [
+    "미래엔"
+   ],
+   "contest": 3,
+   "stamps": 2,
+   "unverified": true,
+   "topics": [
+    "ai"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22AI%EB%AF%B8%EB%9E%98%EA%B5%90%EC%9C%A1%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "name": "도담도담",
+   "scale": "확인 필요",
+   "focus": "학급운영 또는 그림책 동아리(정확한 정체성 미확정)",
+   "mou": false,
+   "mou_note": "",
+   "friendly": true,
+   "comp": [],
+   "contest": 2,
+   "stamps": 7,
+   "unverified": true,
+   "topics": [],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%8F%84%EB%8B%B4%EB%8F%84%EB%8B%B4%22"
+  },
+  {
+   "name": "에듀테크교사연구회(에크연)",
+   "scale": "확인 필요",
+   "focus": "에듀테크 활용 수업·학급운영·행정업무 효율화",
+   "mou": false,
+   "mou_note": "",
+   "friendly": true,
+   "comp": [],
+   "contest": 7,
+   "stamps": 16,
+   "unverified": true,
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%97%90%EB%93%80%ED%85%8C%ED%81%AC%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  }
+ ],
+ "regional": [
+  {
+   "authority": "중앙(교육부/KERIS)",
+   "name": "T.O.U.C.H 교사단",
+   "scale": "전국 디지털 선도교사 400명+",
+   "focus": "AI 디지털교과서 활용, 하이터치-하이테크 수업 실습 및 디지털 코칭",
+   "result": "전국 디지털 교육 대전환 선도 인력 인프라",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22T.O.U.C.H%20%EA%B5%90%EC%82%AC%EB%8B%A8%22"
+  },
+  {
+   "authority": "서울특별시교육청",
+   "name": "SWEET AI",
+   "scale": "영등포·금천·구로 중등 교사(8개 교과)",
+   "focus": "AI·에듀테크 융합 수업, 마이크로비트 코딩, VR 활용 연구",
+   "result": "교과 융합 수업 모형 개발 및 동료 컨설팅",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22SWEET%20AI%22"
+  },
+  {
+   "authority": "서울특별시교육청",
+   "name": "뮤즈(MUSE)",
+   "scale": "유·초·중·고 교원 100여 명",
+   "focus": "뮤지컬 제작 및 연출, 창의융합 예술교육",
+   "result": "정기 공연 개최 및 지역사회 무료 나눔 실천",
+   "topics": [],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%AE%A4%EC%A6%88%22"
+  },
+  {
+   "authority": "서울특별시교육청",
+   "name": "가락중 에코마인드셋",
+   "scale": "서울 가락중 교원 중심",
+   "focus": "생태 전환 교육 역량 강화, 현장 실천형 환경 교육",
+   "result": "지구의 날 소등 행사 등 학교 현장 환경 실천",
+   "topics": [
+    "citizen"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EA%B0%80%EB%9D%BD%EC%A4%91%20%EC%97%90%EC%BD%94%EB%A7%88%EC%9D%B8%EB%93%9C%EC%85%8B%22"
+  },
+  {
+   "authority": "경기도교육청",
+   "name": "도·지역 교육연구회",
+   "scale": "도 단위 151개, 지역 단위 351개",
+   "focus": "교과 지도, 범교과 주제, 정책실행 연구",
+   "result": "경기 미래교육 정책 수립 및 현장 안착 지원",
+   "topics": [],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%8F%84%C2%B7%EC%A7%80%EC%97%AD%20%EA%B5%90%EC%9C%A1%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "authority": "충청북도교육청",
+   "name": "음플릭스(UM-FLIX)",
+   "scale": "충북 지역 음악 교사 4명",
+   "focus": "온라인/디지털 음악 수업 콘텐츠 제작 및 공유",
+   "result": "원격수업 시기 전국 음악 수업 결손 지원",
+   "topics": [
+    "ai",
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%9D%8C%ED%94%8C%EB%A6%AD%EC%8A%A4%22"
+  },
+  {
+   "authority": "대구광역시교육청",
+   "name": "학교가자.com",
+   "scale": "전국 자발적 참여 교사 20여 명",
+   "focus": "에듀테크 기반 블렌디드 러닝, 재난 대비 학습 포트폴리오 구축",
+   "result": "국무총리표창 수상, 온라인 교육 공백 보완",
+   "topics": [
+    "ai",
+    "safety"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%ED%95%99%EA%B5%90%EA%B0%80%EC%9E%90.com%22"
+  }
+ ],
+ "groups": [
+  {
+   "sido": "경기",
+   "region": "수도권",
+   "name": "2026 인공지능(AI) 융합교육 전문지원단(경기도교육청)",
+   "theme": "AI 융합교육 컨설팅·연수·자료개발",
+   "tier": "1위군 후보",
+   "score": 80,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "AI 융합교육 연수·컨설팅 공동추진",
+   "url": "https://ggnews.co.kr/117002",
+   "topics": [
+    "ai",
+    "leader"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%222026%20%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%20%EC%9C%B5%ED%95%A9%EA%B5%90%EC%9C%A1%20%EC%A0%84%EB%AC%B8%EC%A7%80%EC%9B%90%EB%8B%A8%22"
+  },
+  {
+   "sido": "전남",
+   "region": "호남·제주",
+   "name": "전남교과교육연구회(전남초등교과교육연구회)",
+   "theme": "초등 교과교육 전반(학생주도성 수업·수업나눔)",
+   "tier": "1위군 후보",
+   "score": 79,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "초등 교과교육 콘텐츠 공동개발",
+   "url": "https://www.jnedu.kr/news/articleView.html?idxno=94975",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%84%EB%82%A8%EA%B5%90%EA%B3%BC%EA%B5%90%EC%9C%A1%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "경기",
+   "region": "수도권",
+   "name": "반올림스쿨(교육콘텐츠연구회)",
+   "theme": "놀이·아트·에듀테크·생태환경 교육콘텐츠 개발(초등)",
+   "tier": "1위군 후보",
+   "score": 78,
+   "verify": "B",
+   "confirmed": "2026-08-30",
+   "collab": "놀이·아트·에듀테크 콘텐츠 공동제작",
+   "url": "https://www.instagram.com/vanollimschool/",
+   "topics": [
+    "ai",
+    "citizen"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%B0%98%EC%98%AC%EB%A6%BC%EC%8A%A4%EC%BF%A8%22"
+  },
+  {
+   "sido": "충북",
+   "region": "강원·충청",
+   "name": "직지과학사랑 교사연구회",
+   "theme": "과학·탐구·융합",
+   "tier": "1위군 후보",
+   "score": 78,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "과학·탐구 연수/교구",
+   "url": "https://www.cbe.go.kr/news/na/ntt/selectNttInfo.do?mi=10301&nttSn=1520902",
+   "topics": [
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A7%81%EC%A7%80%EA%B3%BC%ED%95%99%EC%82%AC%EB%9E%91%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "경기",
+   "region": "수도권",
+   "name": "(사)교사성장학교",
+   "theme": "교사 전문성·에듀테크·역사교육·독서출판 등 다분야(유초중등 교사모임)",
+   "tier": "1위군 후보",
+   "score": 75,
+   "verify": "B",
+   "confirmed": "2026-08-30",
+   "collab": "교원연수·에듀테크·진로교육 콘텐츠 공동기획",
+   "url": "https://www.ibabynews.com/news/articleView.html?idxno=130294",
+   "topics": [
+    "ai",
+    "credit",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EA%B5%90%EC%82%AC%EC%84%B1%EC%9E%A5%ED%95%99%EA%B5%90%22"
+  },
+  {
+   "sido": "서울",
+   "region": "수도권",
+   "name": "서울 학교간 교원학습공동체(2025년, 56개 등재)",
+   "theme": "AI·디지털 수업혁신 외 다양한 주제 혼재",
+   "tier": "1위군 후보",
+   "score": 74,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "AI/디지털 교원연수",
+   "url": "https://innoschoolcenter.sen.go.kr/common/bbs/management/selectCmmnBBSMgmtList.do?menuId=3000001714&bbsId=BBSMSTR_000000001405&pageIndex=1",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%84%9C%EC%9A%B8%20%ED%95%99%EA%B5%90%EA%B0%84%20%EA%B5%90%EC%9B%90%ED%95%99%EC%8A%B5%EA%B3%B5%EB%8F%99%EC%B2%B4%22"
+  },
+  {
+   "sido": "충북",
+   "region": "강원·충청",
+   "name": "충북 초등과학·STEAM 연구회",
+   "theme": "과학·STEAM·AI융합",
+   "tier": "1위군 후보",
+   "score": 74,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "과학 AI융합·실험연수",
+   "url": "https://www.cbe.go.kr/news/na/ntt/selectNttInfo.do?mi=10301&nttSn=1563041",
+   "topics": [
+    "ai",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B6%A9%EB%B6%81%20%EC%B4%88%EB%93%B1%EA%B3%BC%ED%95%99%C2%B7STEAM%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "전남",
+   "region": "호남·제주",
+   "name": "전남 2030수업연구회",
+   "theme": "미래형 수업전환(AI·디지털 융합, 국제교류)",
+   "tier": "1위군 후보",
+   "score": 74,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교사성장",
+   "url": "https://www.jne.go.kr/upload/sse/na/bbs_374/ntt_5151838/doc_0ef5996e-25f3-4abf-be96-2a090b94c1541755a6756b81065.pdf",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%84%EB%82%A8%202030%EC%88%98%EC%97%85%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "경남",
+   "region": "영남",
+   "name": "뭉클(경남 디지털교육콘텐츠 교사연구협회)",
+   "theme": "AI자동화·바이브코딩·사회정서교육(SEL)",
+   "tier": "1위군 후보",
+   "score": 73,
+   "verify": "A",
+   "confirmed": "2026-08-06",
+   "collab": "경남 기초학력 정책연수(2026H2 Tier1) 지역 강사 공급원",
+   "url": "",
+   "topics": [
+    "ai",
+    "care",
+    "basic"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%AD%89%ED%81%B4%22"
+  },
+  {
+   "sido": "전국",
+   "region": "전국",
+   "name": "한국배움의공동체연구회",
+   "theme": "수업혁신·협력학습",
+   "tier": "1위군 후보",
+   "score": 73,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업나눔·교사성장 연수",
+   "url": "https://kslc.co.kr/",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%ED%95%9C%EA%B5%AD%EB%B0%B0%EC%9B%80%EC%9D%98%EA%B3%B5%EB%8F%99%EC%B2%B4%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "전국",
+   "region": "전국",
+   "name": "전국수학교사모임",
+   "theme": "수학·평가·교과콘텐츠",
+   "tier": "1위군 후보",
+   "score": 73,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수학/평가 콘텐츠·매쓰캔버스",
+   "url": "https://www.tmath.or.kr/%ED%99%88/%EB%8B%A8%EC%B2%B4-%EC%86%8C%EA%B0%9C",
+   "topics": [
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%84%EA%B5%AD%EC%88%98%ED%95%99%EA%B5%90%EC%82%AC%EB%AA%A8%EC%9E%84%22"
+  },
+  {
+   "sido": "경북",
+   "region": "영남",
+   "name": "창의융합교사연구회(메이커놀LAB/STEMPLE 등)",
+   "theme": "STEAM·메이커",
+   "tier": "1위군 후보",
+   "score": 73,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "STEAM·메이커 공동개발",
+   "url": "https://www.gbe.kr/steam/na/ntt/selectNttList.do?bbsId=6159&mi=22423",
+   "topics": [],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B0%BD%EC%9D%98%EC%9C%B5%ED%95%A9%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "전국",
+   "region": "전국",
+   "name": "교컴·교육사랑연수원",
+   "theme": "교원 역량·IB·에듀테크",
+   "tier": "1위군 후보",
+   "score": 72,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "연수 공동기획·B2C 채널",
+   "url": "https://edu.chosun.com/m/edu_article.html?contid=2023032201594",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EA%B5%90%EC%BB%B4%C2%B7%EA%B5%90%EC%9C%A1%EC%82%AC%EB%9E%91%EC%97%B0%EC%88%98%EC%9B%90%22"
+  },
+  {
+   "sido": "경기",
+   "region": "수도권",
+   "name": "QUOKA(쿼카) 교사연구회",
+   "theme": "AI 융합교육·에듀테크(초등 과학 시뮬레이션 등)",
+   "tier": "1위군 후보",
+   "score": 72,
+   "verify": "B",
+   "confirmed": "2026-08-30",
+   "collab": "AI 융합교육·에듀테크 연수 공동기획",
+   "url": "https://www.mt.co.kr/industry/2025/05/07/2025050613492472735",
+   "topics": [
+    "ai",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22QUOKA%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "인천",
+   "region": "수도권",
+   "name": "이루올 ICT 교사연구회",
+   "theme": "SW·AI·AIDT",
+   "tier": "1위군 후보",
+   "score": 72,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "AI/AIDT·SW 수업 콘텐츠",
+   "url": "https://www.ice.go.kr/upload/hyuksin/na/bbs_1387/2026/05/1b42e0dea5c343c786104dc19fe1b6e0.pdf",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%9D%B4%EB%A3%A8%EC%98%AC%20ICT%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "충북",
+   "region": "강원·충청",
+   "name": "전국 수업평가 개선 교사연구회(충북 연결)",
+   "theme": "AI·수업혁신·기초학력",
+   "tier": "1위군 후보",
+   "score": 72,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "AI 수업혁신·컨설팅",
+   "url": "https://www.cbe.go.kr/news/na/ntt/selectNttInfo.do?mi=10301&nttSn=1561464",
+   "topics": [
+    "ai",
+    "basic",
+    "lesson",
+    "leader"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%84%EA%B5%AD%20%EC%88%98%EC%97%85%ED%8F%89%EA%B0%80%20%EA%B0%9C%EC%84%A0%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "전국",
+   "region": "전국",
+   "name": "몽당분필(MDBF)",
+   "theme": "디지털 리터러시·미디어교육",
+   "tier": "1위군 후보",
+   "score": 71,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "AI·디지털 시민성/콘텐츠 공동개발",
+   "url": "https://mdbf.co.kr/",
+   "topics": [
+    "ai",
+    "citizen"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%AA%BD%EB%8B%B9%EB%B6%84%ED%95%84%22"
+  },
+  {
+   "sido": "경북",
+   "region": "영남",
+   "name": "경상북도 메이커발명교사연구회 '메생이'",
+   "theme": "메이커·발명",
+   "tier": "1위군 후보",
+   "score": 71,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "메이커·AI융합·교구",
+   "url": "https://www.gbe.kr/steam/na/ntt/selectNttList.do?bbsId=6159&mi=22423",
+   "topics": [
+    "ai"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EA%B2%BD%EC%83%81%EB%B6%81%EB%8F%84%20%EB%A9%94%EC%9D%B4%EC%BB%A4%EB%B0%9C%EB%AA%85%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%20%27%EB%A9%94%EC%83%9D%EC%9D%B4%27%22"
+  },
+  {
+   "sido": "전북",
+   "region": "호남·제주",
+   "name": "전북 교사크리에이터협회",
+   "theme": "AI·코딩·크리에이터",
+   "tier": "1위군 후보",
+   "score": 70,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "AI·디지털·크리에이터 공동연수",
+   "url": "https://www.smartfn.co.kr/article/view/sfn202410290072",
+   "topics": [
+    "ai"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%84%EB%B6%81%20%EA%B5%90%EC%82%AC%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%ED%98%91%ED%9A%8C%22"
+  },
+  {
+   "sido": "광주",
+   "region": "호남·제주",
+   "name": "지속가능발전교육 교사연구회(GESD/YGA)",
+   "theme": "생태전환·ESD",
+   "tier": "1위군 후보",
+   "score": 69,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "ESG·생태전환·프로젝트 수업",
+   "url": "https://edhc.gen.go.kr/xboard/board.php?mode=view&number=2142&page=1&sCat=0&tbnum=24",
+   "topics": [
+    "lesson",
+    "citizen"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A7%80%EC%86%8D%EA%B0%80%EB%8A%A5%EB%B0%9C%EC%A0%84%EA%B5%90%EC%9C%A1%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대전",
+   "region": "강원·충청",
+   "name": "대전배움의공동체연구회",
+   "theme": "배움의공동체 수업모형",
+   "tier": "1위군 후보",
+   "score": 66,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교과연구 공동개발",
+   "url": "https://desre.djsch.kr/boardCnts/list.do?boardID=84947&m=020604&s=des",
+   "topics": [
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%8C%80%EC%A0%84%EB%B0%B0%EC%9B%80%EC%9D%98%EA%B3%B5%EB%8F%99%EC%B2%B4%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대전",
+   "region": "강원·충청",
+   "name": "초등경제교육연구회",
+   "theme": "초등 경제교육",
+   "tier": "1위군 후보",
+   "score": 66,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교과연구 공동개발",
+   "url": "https://desre.djsch.kr/boardCnts/list.do?boardID=84947&m=020604&s=des",
+   "topics": [
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B4%88%EB%93%B1%EA%B2%BD%EC%A0%9C%EA%B5%90%EC%9C%A1%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대전",
+   "region": "강원·충청",
+   "name": "대전 집현전 수업놀이 연구회",
+   "theme": "수업놀이",
+   "tier": "1위군 후보",
+   "score": 66,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교과연구 공동개발",
+   "url": "https://desre.djsch.kr/boardCnts/list.do?boardID=84947&m=020604&s=des",
+   "topics": [
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%8C%80%EC%A0%84%20%EC%A7%91%ED%98%84%EC%A0%84%20%EC%88%98%EC%97%85%EB%86%80%EC%9D%B4%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대전",
+   "region": "강원·충청",
+   "name": "대전도덕교과연구회",
+   "theme": "도덕과 교과교육",
+   "tier": "1위군 후보",
+   "score": 66,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교과연구 공동개발",
+   "url": "https://desre.djsch.kr/boardCnts/list.do?boardID=84947&m=020604&s=des",
+   "topics": [
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%8C%80%EC%A0%84%EB%8F%84%EB%8D%95%EA%B5%90%EA%B3%BC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대전",
+   "region": "강원·충청",
+   "name": "2025한국형사회정서교육(SEL)연구회",
+   "theme": "사회정서교육(SEL)",
+   "tier": "1위군 후보",
+   "score": 66,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교과연구 공동개발",
+   "url": "https://desre.djsch.kr/boardCnts/list.do?boardID=84947&m=020604&s=des",
+   "topics": [
+    "care",
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%222025%ED%95%9C%EA%B5%AD%ED%98%95%EC%82%AC%ED%9A%8C%EC%A0%95%EC%84%9C%EA%B5%90%EC%9C%A1%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대전",
+   "region": "강원·충청",
+   "name": "EduAI+ 연구회",
+   "theme": "AI 융합 교육",
+   "tier": "1위군 후보",
+   "score": 66,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교과연구 공동개발",
+   "url": "https://desre.djsch.kr/boardCnts/list.do?boardID=84947&m=020604&s=des",
+   "topics": [
+    "ai",
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22EduAI%2B%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대전",
+   "region": "강원·충청",
+   "name": "스쿨공감연구회",
+   "theme": "공감교육·생활지도",
+   "tier": "1위군 후보",
+   "score": 66,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교과연구 공동개발",
+   "url": "https://desre.djsch.kr/boardCnts/list.do?boardID=84947&m=020604&s=des",
+   "topics": [
+    "care",
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%8A%A4%EC%BF%A8%EA%B3%B5%EA%B0%90%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대전",
+   "region": "강원·충청",
+   "name": "함께하는 피스메이커 연구회",
+   "theme": "평화·시민교육",
+   "tier": "1위군 후보",
+   "score": 66,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "수업혁신·교과연구 공동개발",
+   "url": "https://desre.djsch.kr/boardCnts/list.do?boardID=84947&m=020604&s=des",
+   "topics": [
+    "lesson",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%ED%95%A8%EA%BB%98%ED%95%98%EB%8A%94%20%ED%94%BC%EC%8A%A4%EB%A9%94%EC%9D%B4%EC%BB%A4%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "강원",
+   "region": "강원·충청",
+   "name": "삼척 AI 기반 수업혁신 교사연구회",
+   "theme": "AI·디지털 수업",
+   "tier": "2위군 후보",
+   "score": 63,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "지역형 AI 수업혁신",
+   "url": "https://www.gwe.go.kr/promotion/bbs/view.do?bbsSn=41793&key=m2411225294640",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%82%BC%EC%B2%99%20AI%20%EA%B8%B0%EB%B0%98%20%EC%88%98%EC%97%85%ED%98%81%EC%8B%A0%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "세종",
+   "region": "강원·충청",
+   "name": "보드미 세계시민교육 교사연구회",
+   "theme": "세계시민·사회정서",
+   "tier": "2위군 후보",
+   "score": 63,
+   "verify": "A",
+   "confirmed": "2026-08-27",
+   "collab": "세계시민·SEL 연수",
+   "url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52234&nttSn=385987",
+   "topics": [
+    "care"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%B3%B4%EB%93%9C%EB%AF%B8%20%EC%84%B8%EA%B3%84%EC%8B%9C%EB%AF%BC%EA%B5%90%EC%9C%A1%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "전북",
+   "region": "호남·제주",
+   "name": "전북 사회정서교육 교육학습공동체",
+   "theme": "SEL·학생마음건강",
+   "tier": "2위군 후보",
+   "score": 63,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "SEL·상담·마음건강",
+   "url": "https://www.jbe.go.kr/office/index.jbe?menuCd=DOM_000000714001002000",
+   "topics": [
+    "care"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%84%EB%B6%81%20%EC%82%AC%ED%9A%8C%EC%A0%95%EC%84%9C%EA%B5%90%EC%9C%A1%20%EA%B5%90%EC%9C%A1%ED%95%99%EC%8A%B5%EA%B3%B5%EB%8F%99%EC%B2%B4%22"
+  },
+  {
+   "sido": "대구",
+   "region": "영남",
+   "name": "초등 개념기반 탐구수업 교사연구회",
+   "theme": "개념기반 탐구수업(Concept-Based Inquiry), IB 연계",
+   "tier": "2위군 후보",
+   "score": 60,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "IB·개념기반수업 연수",
+   "url": "https://www.kbmaeil.com/article/20251001500315",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B4%88%EB%93%B1%20%EA%B0%9C%EB%85%90%EA%B8%B0%EB%B0%98%20%ED%83%90%EA%B5%AC%EC%88%98%EC%97%85%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "울산",
+   "region": "영남",
+   "name": "울산 다문화교육 교사연구회",
+   "theme": "다문화·세계시민",
+   "tier": "2위군 후보",
+   "score": 60,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "다문화·세계시민 연수",
+   "url": "https://use.go.kr/mc/intro/business.jsp",
+   "topics": [
+    "inclusive"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%9A%B8%EC%82%B0%20%EB%8B%A4%EB%AC%B8%ED%99%94%EA%B5%90%EC%9C%A1%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "경기",
+   "region": "수도권",
+   "name": "에듀테크 교사연구회 'IT2EDU'",
+   "theme": "에듀테크 활용 수업·교사 업무개혁",
+   "tier": "2위군 후보",
+   "score": 60,
+   "verify": "B",
+   "confirmed": "2026-08-30",
+   "collab": "에듀테크 연수 공동기획",
+   "url": "",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%97%90%EB%93%80%ED%85%8C%ED%81%AC%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%20%27IT2EDU%27%22"
+  },
+  {
+   "sido": "강원",
+   "region": "강원·충청",
+   "name": "강원인공지능교육창작연구회(A.C.E.)",
+   "theme": "초등 AI 교육 창작",
+   "tier": "2위군 후보",
+   "score": 56,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "수업성장 연수",
+   "url": "https://keric.gwe.go.kr/boardCnts/list.do?boardID=107746&m=371341&s=keric",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EA%B0%95%EC%9B%90%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%EA%B5%90%EC%9C%A1%EC%B0%BD%EC%9E%91%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "강원",
+   "region": "강원·충청",
+   "name": "책놀이글놀이연구회",
+   "theme": "초등 독서·글쓰기 놀이 수업",
+   "tier": "2위군 후보",
+   "score": 56,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "수업성장 연수",
+   "url": "https://keric.gwe.go.kr/boardCnts/list.do?boardID=107746&m=371341&s=keric",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B1%85%EB%86%80%EC%9D%B4%EA%B8%80%EB%86%80%EC%9D%B4%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "강원",
+   "region": "강원·충청",
+   "name": "환경융합교육연구회",
+   "theme": "환경·생태전환 융합수업",
+   "tier": "2위군 후보",
+   "score": 56,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "수업성장 연수",
+   "url": "https://keric.gwe.go.kr/boardCnts/list.do?boardID=107746&m=371341&s=keric",
+   "topics": [
+    "lesson",
+    "citizen"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%ED%99%98%EA%B2%BD%EC%9C%B5%ED%95%A9%EA%B5%90%EC%9C%A1%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "강원",
+   "region": "강원·충청",
+   "name": "남산수업성장연구회",
+   "theme": "수업성장 일반",
+   "tier": "2위군 후보",
+   "score": 56,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "수업성장 연수",
+   "url": "https://keric.gwe.go.kr/boardCnts/list.do?boardID=107746&m=371341&s=keric",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%82%A8%EC%82%B0%EC%88%98%EC%97%85%EC%84%B1%EC%9E%A5%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "강원",
+   "region": "강원·충청",
+   "name": "춘천 보드게임 활용교육 연구회",
+   "theme": "보드게임 기반 수업",
+   "tier": "2위군 후보",
+   "score": 56,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "수업성장 연수",
+   "url": "https://keric.gwe.go.kr/boardCnts/list.do?boardID=107746&m=371341&s=keric",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B6%98%EC%B2%9C%20%EB%B3%B4%EB%93%9C%EA%B2%8C%EC%9E%84%20%ED%99%9C%EC%9A%A9%EA%B5%90%EC%9C%A1%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "강원",
+   "region": "강원·충청",
+   "name": "세계시민 역량 강화를 위한 수업 연구회",
+   "theme": "세계시민교육",
+   "tier": "2위군 후보",
+   "score": 56,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "수업성장 연수",
+   "url": "https://keric.gwe.go.kr/boardCnts/list.do?boardID=107746&m=371341&s=keric",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%84%B8%EA%B3%84%EC%8B%9C%EB%AF%BC%20%EC%97%AD%EB%9F%89%20%EA%B0%95%ED%99%94%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%EC%88%98%EC%97%85%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "경기",
+   "region": "수도권",
+   "name": "경기도 수학교육연구회 '수학정원'",
+   "theme": "수학교육(하이러닝 분과)",
+   "tier": "2위군 후보",
+   "score": 55,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "수학 AI 연수·콘텐츠",
+   "url": "https://litt.ly/limn8",
+   "topics": [
+    "ai",
+    "subject"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%88%98%ED%95%99%EA%B5%90%EC%9C%A1%EC%97%B0%EA%B5%AC%ED%9A%8C%20%27%EC%88%98%ED%95%99%EC%A0%95%EC%9B%90%27%22"
+  },
+  {
+   "sido": "서울",
+   "region": "수도권",
+   "name": "챗G(ood)P(riming)T(eacher)",
+   "theme": "AI/생성형AI 활용 수업(명칭 기반 추정)",
+   "tier": "2위군 후보",
+   "score": 55,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "AI/디지털 교원연수",
+   "url": "https://innoschoolcenter.sen.go.kr/common/bbs/management/selectCmmnBBSMgmtList.do?menuId=3000001714&bbsId=BBSMSTR_000000001405&pageIndex=1",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B1%97G%20P%20T%22"
+  },
+  {
+   "sido": "경남",
+   "region": "영남",
+   "name": "사회정서교육 교사연구회 '공감대화'",
+   "theme": "SEL·관계·마음건강",
+   "tier": "2위군 후보",
+   "score": 52,
+   "verify": "C",
+   "confirmed": "2026-08-27",
+   "collab": "SEL·학부모 연수",
+   "url": "https://myedu.gne.go.kr/myedu/na/ntt/selectNttInfo.do?nttSn=2873584",
+   "topics": [
+    "care",
+    "parent"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%82%AC%ED%9A%8C%EC%A0%95%EC%84%9C%EA%B5%90%EC%9C%A1%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%20%27%EA%B3%B5%EA%B0%90%EB%8C%80%ED%99%94%27%22"
+  },
+  {
+   "sido": "충남",
+   "region": "강원·충청",
+   "name": "충남 수업·평가 연구회",
+   "theme": "수업·평가",
+   "tier": "2위군 후보",
+   "score": 50,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "수업평가·교과 콘텐츠",
+   "url": "https://www.togetherschool.go.kr/playGround/policyNotification/detailView?%3FsrchType=TITLE&pageNum=1&pstId=18370",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%B6%A9%EB%82%A8%20%EC%88%98%EC%97%85%C2%B7%ED%8F%89%EA%B0%80%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "부산",
+   "region": "영남",
+   "name": "전국단위 수업평가 교사연구회",
+   "theme": "AI·디지털 학급운영",
+   "tier": "2위군 후보",
+   "score": 48,
+   "verify": "C",
+   "confirmed": "2026-08-27",
+   "collab": "AI 학급운영·수업평가",
+   "url": "https://dandi.pen.go.kr/courses/course-v1%3ADANDI%2BDANDI30141x%2B2025_Y1/about",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%84%EA%B5%AD%EB%8B%A8%EC%9C%84%20%EC%88%98%EC%97%85%ED%8F%89%EA%B0%80%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "대구",
+   "region": "영남",
+   "name": "대구초등SW교사연구회",
+   "theme": "SW·메이커",
+   "tier": "2위군 후보",
+   "score": 48,
+   "verify": "C",
+   "confirmed": "2026-08-27",
+   "collab": "SW·메이커 수업",
+   "url": "https://padlet-uploads.storage.googleapis.com/20796883/b0efe9df22a53491e692c128354ff0b6/SW____________________.pdf",
+   "topics": [
+    "ai",
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EB%8C%80%EA%B5%AC%EC%B4%88%EB%93%B1SW%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "제주",
+   "region": "호남·제주",
+   "name": "제주 수업·평가 연구회",
+   "theme": "수업·평가",
+   "tier": "2위군 후보",
+   "score": 43,
+   "verify": "B",
+   "confirmed": "2026-08-27",
+   "collab": "IB·수업평가·지역형 연수",
+   "url": "https://www.togetherschool.go.kr/playGround/policyNotification/detailView?%3FsrchType=TITLE&pageNum=1&pstId=18370",
+   "topics": [
+    "lesson"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%9C%EC%A3%BC%20%EC%88%98%EC%97%85%C2%B7%ED%8F%89%EA%B0%80%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "부산",
+   "region": "영남",
+   "name": "이로운이들 AI 교사연구회",
+   "theme": "생성형 AI·업무혁신",
+   "tier": "2위군 후보",
+   "score": 40,
+   "verify": "C",
+   "confirmed": "2026-08-27",
+   "collab": "생성형AI·교원 업무혁신",
+   "url": "https://dandi.pen.go.kr/courses/course-v1%3ADANDI%2BDANDI30102x%2B2025_Y1/about",
+   "topics": [
+    "ai"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%9D%B4%EB%A1%9C%EC%9A%B4%EC%9D%B4%EB%93%A4%20AI%20%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "제주",
+   "region": "호남·제주",
+   "name": "실천교육교사모임 제주지역모임",
+   "theme": "교사 주도 실천·정책 참여(범교과)",
+   "tier": "2위군 후보",
+   "score": 33,
+   "verify": "C",
+   "confirmed": "2026-08-27",
+   "collab": "교사 정책참여 네트워크",
+   "url": "https://namu.wiki/w/실천교육교사모임",
+   "topics": [],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%8B%A4%EC%B2%9C%EA%B5%90%EC%9C%A1%EA%B5%90%EC%82%AC%EB%AA%A8%EC%9E%84%20%EC%A0%9C%EC%A3%BC%EC%A7%80%EC%97%AD%EB%AA%A8%EC%9E%84%22"
+  },
+  {
+   "sido": "제주",
+   "region": "호남·제주",
+   "name": "제주 사서교사연구회",
+   "theme": "학교도서관·독서교육(사서교사 전문성)",
+   "tier": "2위군 후보",
+   "score": 32,
+   "verify": "C",
+   "confirmed": "2026-08-27",
+   "collab": "독서교육 연수(니치)",
+   "url": "https://www.slj.co.kr/bbs/board.php?bo_table=people&wr_id=585&page=2",
+   "topics": [],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%A0%9C%EC%A3%BC%20%EC%82%AC%EC%84%9C%EA%B5%90%EC%82%AC%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  },
+  {
+   "sido": "세종",
+   "region": "강원·충청",
+   "name": "세종 에듀테크 연구회",
+   "theme": "에듀테크(구글/AI 도구) 활용",
+   "tier": "2위군 후보",
+   "score": 30,
+   "verify": "C",
+   "confirmed": "2026-08-27",
+   "collab": "에듀테크 연수",
+   "url": "https://www.facebook.com/groups/gegsj/",
+   "topics": [
+    "ai"
+   ],
+   "news": "https://search.naver.com/search.naver?where=news&sort=1&query=%22%EC%84%B8%EC%A2%85%20%EC%97%90%EB%93%80%ED%85%8C%ED%81%AC%20%EC%97%B0%EA%B5%AC%ED%9A%8C%22"
+  }
+ ],
+ "sido_priority": [
+  {
+   "rank": 1,
+   "sido": "경기",
+   "support_count": 91,
+   "anchor_theme": "수학정원·교사크리에이터·AI/수업연구회",
+   "priority": "최우선"
+  },
+  {
+   "rank": 2,
+   "sido": "서울",
+   "support_count": 54,
+   "anchor_theme": "AI·디지털 교사연구회",
+   "priority": "최우선"
+  },
+  {
+   "rank": 3,
+   "sido": "경남",
+   "support_count": 25,
+   "anchor_theme": "공감대화·세계시민 교사연구회",
+   "priority": "높음"
+  },
+  {
+   "rank": 4,
+   "sido": "부산",
+   "support_count": 20,
+   "anchor_theme": "수업평가·AI 교사연구회",
+   "priority": "높음"
+  },
+  {
+   "rank": 5,
+   "sido": "경북",
+   "support_count": 20,
+   "anchor_theme": "메생이·창의융합교사연구회",
+   "priority": "높음"
+  },
+  {
+   "rank": 6,
+   "sido": "인천",
+   "support_count": 19,
+   "anchor_theme": "이루올 ICT·공감테크",
+   "priority": "높음"
+  },
+  {
+   "rank": 7,
+   "sido": "대구",
+   "support_count": 17,
+   "anchor_theme": "초등SW 교사연구회",
+   "priority": "중간"
+  },
+  {
+   "rank": 8,
+   "sido": "충남",
+   "support_count": 17,
+   "anchor_theme": "수업·평가 연구회",
+   "priority": "중간"
+  },
+  {
+   "rank": 9,
+   "sido": "전남",
+   "support_count": 16,
+   "anchor_theme": "2030수업 교사연구회",
+   "priority": "중간"
+  },
+  {
+   "rank": 10,
+   "sido": "전북",
+   "support_count": 15,
+   "anchor_theme": "교사크리에이터·SEL 공동체",
+   "priority": "중간"
+  },
+  {
+   "rank": 11,
+   "sido": "강원",
+   "support_count": 12,
+   "anchor_theme": "삼척 AI 기반 수업혁신 연구회",
+   "priority": "중간"
+  },
+  {
+   "rank": 12,
+   "sido": "충북",
+   "support_count": 12,
+   "anchor_theme": "직지과학사랑·STEAM",
+   "priority": "중간"
+  },
+  {
+   "rank": 13,
+   "sido": "광주",
+   "support_count": 11,
+   "anchor_theme": "GESD/YGA",
+   "priority": "중간"
+  },
+  {
+   "rank": 14,
+   "sido": "대전",
+   "support_count": 11,
+   "anchor_theme": "수업·평가 연구회",
+   "priority": "보강"
+  },
+  {
+   "rank": 15,
+   "sido": "울산",
+   "support_count": 9,
+   "anchor_theme": "다문화교육 교사연구회",
+   "priority": "보강"
+  },
+  {
+   "rank": 16,
+   "sido": "제주",
+   "support_count": 6,
+   "anchor_theme": "수업·평가 연구회",
+   "priority": "보강"
+  },
+  {
+   "rank": 17,
+   "sido": "세종",
+   "support_count": 5,
+   "anchor_theme": "보드미 세계시민교육 연구회",
+   "priority": "보강"
+  }
+ ],
+ "books": [
+  {
+   "title": "AI 디지털 교육 트렌드 리포트 2026",
+   "publisher": "테크빌교육",
+   "date": "2026-01-09",
+   "authors": 14,
+   "teachers": 2,
+   "pool": 1,
+   "keywords": [
+    "AI공존",
+    "AI교육정책",
+    "교육데이터",
+    "사회정서교육",
+    "AI기반평가"
+   ],
+   "url": "https://product.kyobobook.co.kr/detail/S000218938609"
+  },
+  {
+   "title": "2026 대한민국 미래 교육 트렌드",
+   "publisher": "(사)교사크리에이터협회 기획 · 더디스톤",
+   "date": "2025-10-31",
+   "authors": 31,
+   "teachers": 27,
+   "pool": 7,
+   "keywords": [
+    "고교학점제",
+    "AI 시대 교육",
+    "사회정서교육",
+    "에듀테크",
+    "미래 교육 실험실"
+   ],
+   "url": "https://www.ddstone.com/bbs/m/publishing_data_view.php?type=publishing&ep=ep10742399685eb1fbb62332e&gp=all&item=B0771"
+  },
+  {
+   "title": "대한민국 교육트렌드 2026",
+   "publisher": "에듀니티",
+   "date": "2025-10-20",
+   "authors": 8,
+   "teachers": 2,
+   "pool": 0,
+   "keywords": [
+    "교육정책",
+    "고교학점제",
+    "국가교육위원회",
+    "지역교육자치",
+    "AI 대전환"
+   ],
+   "url": "https://product.kyobobook.co.kr/detail/S000218171296"
+  },
+  {
+   "title": "2026 AI 교육 트렌드",
+   "publisher": "길벗",
+   "date": "2025-12-01",
+   "authors": 7,
+   "teachers": 2,
+   "pool": 0,
+   "keywords": [
+    "AI 네이티브 키즈",
+    "맞춤형 교실",
+    "AI 리터러시",
+    "평생학습",
+    "학습경험 디자인"
+   ],
+   "url": "https://www.yes24.com/product/goods/167434734"
+  }
+ ],
+ "supply": [
+  {
+   "id": "lesson",
+   "name": "수업·평가 혁신",
+   "n": 38,
+   "names": [
+    "한국교사크리에이터협회 (교크협)",
+    "(사)좋은교사운동",
+    "(사)미래교실네트워크",
+    "에듀테크교사연구회(에크연)",
+    "T.O.U.C.H 교사단",
+    "SWEET AI"
+   ]
+  },
+  {
+   "id": "ai",
+   "name": "AI·디지털 수업",
+   "n": 32,
+   "names": [
+    "한국교사크리에이터협회 (교크협)",
+    "(사)디지털미디어 교육콘텐츠 교사연구협회 (몽당분필)",
+    "AI미래교육연구회",
+    "에듀테크교사연구회(에크연)",
+    "T.O.U.C.H 교사단",
+    "SWEET AI"
+   ]
+  },
+  {
+   "id": "subject",
+   "name": "교과 전문성",
+   "n": 18,
+   "names": [
+    "참쌤스쿨",
+    "상상그리다필름",
+    "아꿈선",
+    "음플릭스(UM-FLIX)",
+    "직지과학사랑 교사연구회",
+    "(사)교사성장학교"
+   ]
+  },
+  {
+   "id": "care",
+   "name": "생활지도·마음건강",
+   "n": 8,
+   "names": [
+    "전국진로진학상담교사협의회 (전국진교협)",
+    "(사)좋은교사운동",
+    "뭉클(경남 디지털교육콘텐츠 교사연구협회)",
+    "2025한국형사회정서교육(SEL)연구회",
+    "스쿨공감연구회",
+    "보드미 세계시민교육 교사연구회"
+   ]
+  },
+  {
+   "id": "citizen",
+   "name": "민주시민·생태전환",
+   "n": 7,
+   "names": [
+    "(사)디지털미디어 교육콘텐츠 교사연구협회 (몽당분필)",
+    "참쌤스쿨",
+    "가락중 에코마인드셋",
+    "반올림스쿨(교육콘텐츠연구회)",
+    "몽당분필(MDBF)",
+    "지속가능발전교육 교사연구회(GESD/YGA)"
+   ]
+  },
+  {
+   "id": "leader",
+   "name": "학교 리더십·교원 성장",
+   "n": 3,
+   "names": [
+    "실천교육교사모임",
+    "2026 인공지능(AI) 융합교육 전문지원단(경기도교육청)",
+    "전국 수업평가 개선 교사연구회(충북 연결)"
+   ]
+  },
+  {
+   "id": "credit",
+   "name": "고교학점제·진로진학",
+   "n": 2,
+   "names": [
+    "전국진로진학상담교사협의회 (전국진교협)",
+    "(사)교사성장학교"
+   ]
+  },
+  {
+   "id": "basic",
+   "name": "기초학력·문해력",
+   "n": 2,
+   "names": [
+    "뭉클(경남 디지털교육콘텐츠 교사연구협회)",
+    "전국 수업평가 개선 교사연구회(충북 연결)"
+   ]
+  },
+  {
+   "id": "inclusive",
+   "name": "다문화·특수·통합",
+   "n": 1,
+   "names": [
+    "울산 다문화교육 교사연구회"
+   ]
+  },
+  {
+   "id": "safety",
+   "name": "안전·보건",
+   "n": 1,
+   "names": [
+    "학교가자.com"
+   ]
+  },
+  {
+   "id": "parent",
+   "name": "학부모·지역연계",
+   "n": 1,
+   "names": [
+    "사회정서교육 교사연구회 '공감대화'"
+   ]
+  },
+  {
+   "id": "rights",
+   "name": "교권·교육활동보호",
+   "n": 0,
+   "names": []
+  },
+  {
+   "id": "neulbom",
+   "name": "늘봄·방과후",
+   "n": 0,
+   "names": []
+  }
+ ],
+ "pool": {
+  "kpi": {
+   "total_lectures": 3541,
+   "total_instructors": 1135,
+   "total_projects": 5,
+   "total_regions": 39,
+   "main_instructors": 237,
+   "assist_instructors": 1020
+  },
+  "n": 1191,
+  "tier": [
+   [
+    "1회참여강사",
+    872
+   ],
+   [
+    "핵심강사",
+    183
+   ],
+   [
+    "활동강사",
+    80
+   ],
+   [
+    "신규 후보",
+    56
+   ]
+  ],
+  "levels": [
+   [
+    "초등",
+    871
+   ],
+   [
+    "중등",
+    203
+   ],
+   [
+    "고등",
+    88
+   ]
+  ],
+  "subjects": [
+   [
+    "전교과",
+    102
+   ],
+   [
+    "행정",
+    91
+   ],
+   [
+    "수학",
+    55
+   ],
+   [
+    "전과목",
+    51
+   ],
+   [
+    "영어",
+    42
+   ],
+   [
+    "정보",
+    37
+   ],
+   [
+    "과학",
+    33
+   ],
+   [
+    "국어",
+    22
+   ],
+   [
+    "사회",
+    9
+   ],
+   [
+    "기술가정",
+    6
+   ]
+  ],
+  "regions": [
+   [
+    "화성오산",
+    105
+   ],
+   [
+    "경기",
+    102
+   ],
+   [
+    "대구",
+    99
+   ],
+   [
+    "고양",
+    66
+   ],
+   [
+    "용인",
+    65
+   ],
+   [
+    "구리남양주",
+    56
+   ],
+   [
+    "전남",
+    54
+   ],
+   [
+    "김포",
+    53
+   ],
+   [
+    "수원",
+    53
+   ],
+   [
+    "평택",
+    53
+   ],
+   [
+    "파주",
+    51
+   ],
+   [
+    "성남",
+    50
+   ]
+  ],
+  "biz": [
+   [
+    "25 경기미래교육(교사연수)",
+    877
+   ],
+   [
+    "26년 인공지능연수(3권역)",
+    128
+   ],
+   [
+    "26년 인공지능연수(6권역)",
+    95
+   ],
+   [
+    "25 경기미래교육(행정연수)",
+    91
+   ],
+   [
+    "24년 교실혁명(5권역 대구)",
+    52
+   ]
+  ],
+  "online": 78,
+  "offline": 191
+ }
+}

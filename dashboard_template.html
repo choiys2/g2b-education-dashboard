@@ -1252,6 +1252,14 @@ svg { max-width: 100%; }
 
     <section class="kpis" id="kpisLeading"></section>
 
+    <section class="panel" id="aiUpdPanel">
+      <div class="panel-head"><div>
+        <p class="panel-title">AI 중점학교 최신 동향 · 2027 확대 추정<span id="aiUpdSub" style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;"></span></p>
+        <p class="panel-desc">교육부 확대 계획(2026 1,141교 → 2027 1,500교 → 2028 2,000교)을 시도별 2026 지정 비중으로 나눠 신규 지정 규모를 추정했습니다. 공모 공고가 나오면 실제 값으로 바꿉니다.</p>
+      </div></div>
+      <div id="aiUpdBody"></div>
+    </section>
+
     <section class="panel">
       <div class="panel-head">
         <div>
@@ -2546,7 +2554,7 @@ svg { max-width: 100%; }
         <p>공립 비중은 전 지역 84~100% 수준으로 나라장터를 통한 공식 조달 채널 접근성이 전반적으로 높습니다(전국 평균 92.4%).</p>
         <p>강점권역 기준은 기존 나라장터 자동화 프로젝트에서 사용해 온 10개 권역(대구·강원·경북·광주·전북·전남·경기·충남·세종·충북)을 그대로 적용했습니다.</p>
         <p>AI·에듀테크 발주 리스트는 공고명에 &lsquo;AI·인공지능·AIDT·디지털교과서·에듀테크·메타버스&rsquo; 등 키워드가 포함된 건을 추리고, 발주기관명에 &lsquo;교육청&rsquo; 또는 &lsquo;학교&rsquo;가 실제로 들어있는 건만 남겼습니다(학교 고유명사·법무연수원 등 무관 기관 오탐 제거).</p>
-        <p>경쟁사 랭킹은 AI 키워드로 좁히지 않은 교육청·연수원 낙찰정보 전체(98건)를 기준으로 합니다. 발주계획 얼리워닝은 2026-07-28 조회 시점 스냅샷이며, AI 교육 선도학교 전국 규모는 한국과학창의재단 자료 기준 1,291교(2025-08-22 갱신), AI 중점학교는 교육부 기준 1,141교·특별교부금 385억원(2026, 학교당 평균 약 3,400만원)입니다 — 두 사업 모두 시도별 세부 명단은 이번 버전에 반영하지 못했습니다.</p>
+        <p>경쟁사 랭킹은 AI 키워드로 좁히지 않은 교육청·연수원 낙찰정보 전체(98건)를 기준으로 합니다. 발주계획 얼리워닝은 2026-07-28 조회 시점 스냅샷이며, AI 교육 선도학교 전국 규모는 한국과학창의재단 자료 기준 1,291교(2025-08-22 갱신), AI 중점학교는 교육부 기준 1,141교·특별교부금 385억원(2026, 학교당 평균 약 3,400만원)입니다 — 시도별 명단·확대 추정은 &lsquo;AI 중점·선도학교&rsquo; 탭에 있습니다.</p>
       </div>
     </div>
     <div class="updated">이 대시보드의 학교 수 데이터는 조회 시점 기준 실시간 값이며, 나라장터 발주·낙찰 데이터는 2026-07-22 파이프라인 실행 기준, 발주계획 스냅샷·AI·에듀테크 리스트·학교단위 발주 리스트는 2026-07-29 기준입니다. 학교단위 발주는 나라장터 물품(Thng) 입찰공고·낙찰정보 API를 AI·에듀테크 키워드로 검색해 발주기관명에 &lsquo;초등학교·중학교·고등학교&rsquo;가 실제로 들어있는 건만 남긴 것입니다.</div>
@@ -8461,6 +8469,164 @@ window.__ownerQ.push(function renderExec(){
   const tg = document.getElementById('ggSort');
   tg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { tg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); sortKey = b.dataset.k; draw(); }));
   draw();
+})();
+</script>
+<script>
+/* ---------------- 교사 트렌드 2027: 교사단체·강사 공급(강사풀 연계) — 독립 스크립트 ----------------
+   공개 집계(static_data/teacher_groups.json) + 주간 소식(history/teacher_group_news.json)
+   + 강사 개인 정보(암호문 static_data/pool_people.enc.json 을 배포 때 복호화 - 로그인 뒤 화면에만, 연락처 없음) */
+(function renderTeacherGroups(){
+  const G = __TEACHER_GROUPS_JSON__, NEWS = (__GROUP_NEWS_JSON__ || {}), P = __POOL_PEOPLE_JSON__;
+  const tab = document.getElementById('panel-trend2027'); if (!tab) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => (v || 0).toLocaleString();
+  const mk = (title, sub) => {
+    const s = document.createElement('section'); s.className = 'panel viz-panel';
+    s.innerHTML = `<div class="panel-head"><div><p class="panel-title">${title}${sub ? `<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">${sub}</span>` : ''}</p></div></div><div class="viz-body"></div>`;
+    tab.appendChild(s); return s.querySelector('.viz-body');
+  };
+  const chip = (t, bg, fg) => `<span style="display:inline-block;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700;background:${bg};color:${fg || 'var(--ink)'};white-space:nowrap;margin:1px 2px 1px 0;">${h(t)}</span>`;
+  const note = t => `<p class="tt-note" style="margin-top:10px;font-size:13px;line-height:1.6;"><b>그래서</b> ${t}</p>`;
+  const tile = (k, v, s) => `<div style="flex:1;min-width:120px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div><div class="num" style="font-size:18px;font-weight:800;">${v}</div>${s ? `<div style="font-size:11px;color:var(--muted);">${s}</div>` : ''}</div>`;
+  const ON = NEWS.orgs || {};
+  const newsCell = o => {
+    const x = ON[o.name];
+    if (x && x.items && x.items.length) { const i = x.items[0]; return `<a href="${h(i.u)}" target="_blank" rel="noopener" style="font-size:12px;">${h(i.t)}</a><div style="font-size:11px;color:var(--muted);">${h(i.d)} · ${h(i.src)}${x.n > 1 ? ` · 외 ${x.n - 1}건` : ''}</div>`; }
+    return `<a href="${h(o.news)}" target="_blank" rel="noopener" style="font-size:12px;color:var(--muted);">뉴스 검색 ↗</a>`;
+  };
+  if (!G) { const el = mk('교사단체·강사 공급', ''); el.innerHTML = '<p style="color:var(--muted);font-size:13px;">강사풀 집계 파일 없음(static_data/teacher_groups.json)</p>'; return; }
+  const LEAD = {}; ((P && P.leaders) || []).forEach(x => { LEAD[x.org] = x.leader; });
+  let T27 = {}; try { T27 = TREND2027 || {}; } catch (e) {}
+  const TS = Object.fromEntries((T27.topics || []).map(t => [t.id, t]));
+
+  /* 1) 2027 트렌드 주제 × 교사단체 공급 */
+  (function(){
+    const el = mk('교사단체·강사 공급 지도 — 2027 트렌드 주제별', `강사풀 조사 ${h(G.survey_date)} · 소식 ${NEWS.generated ? h(NEWS.generated.slice(0, 10)) + ' 수집' : '첫 수집 대기(매주 월 03:50)'}`);
+    const pool = G.pool || {}, tier = Object.fromEntries(pool.tier || []);
+    const mou = (G.national || []).filter(o => o.mou).length, fr = (G.national || []).filter(o => o.friendly).length;
+    const tiles = `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${tile('전국 협회·크리에이터', n((G.national || []).length) + '곳', `비상 MOU ${mou} · 우호 ${fr}`)}${tile('교육청 공식 연구회', n((G.regional || []).length) + '곳')}${tile('시도 연구회(검증)', n((G.groups || []).length) + '곳', `1위군 후보 ${(G.groups || []).filter(g => /1위군/.test(g.tier)).length}`)}${tile('강사풀 인원', n(pool.n) + '명', `핵심 ${n(tier['핵심강사'])} · 활동 ${n(tier['활동강사'])}`)}${tile('강의 실적', n((pool.kpi || {}).total_lectures) + '회', `주강사 ${n((pool.kpi || {}).main_instructors)}명`)}</div>`;
+    const rows = (G.supply || []).map(s => ({...s, score: (TS[s.id] || {}).score, stage: (TS[s.id] || {}).stage}))
+      .sort((a, b) => (b.score ?? -1) - (a.score ?? -1));
+    const mxN = Math.max(1, ...rows.map(r => r.n));
+    const gap = rows.filter(r => (r.score ?? 0) >= 30 && r.n <= 2);
+    const tbl = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:640px;"><thead><tr><th>2027 트렌드 주제</th><th class="num">트렌드 점수</th><th>단계</th><th class="num">공급 단체</th><th style="width:110px;"></th><th>대표 단체</th></tr></thead><tbody>
+      ${rows.map(r => `<tr${(r.score ?? 0) >= 30 && r.n <= 2 ? ' style="background:color-mix(in srgb, var(--warning) 12%, transparent);"' : ''}><td style="font-weight:700;white-space:nowrap;">${h(r.name)}</td><td class="num">${r.score ?? '-'}</td><td>${h(r.stage || '-')}</td><td class="num">${r.n}</td>
+        <td><div style="height:8px;background:var(--surface-2);border-radius:4px;"><div style="width:${r.n / mxN * 100}%;height:100%;background:var(--accent);border-radius:4px;"></div></div></td>
+        <td style="font-size:11.5px;color:var(--ink-2);">${h(r.names.slice(0, 3).join(' · ')) || '<span style="color:var(--critical);">공급 단체 없음</span>'}</td></tr>`).join('')}</tbody></table></div>`;
+    el.innerHTML = tiles + tbl + note(`${gap.length ? `트렌드 점수 30 이상인데 연결된 단체가 2곳 이하인 <b>${h(gap.map(r => r.name).join(' · '))}</b>는 강사 공급이 수요를 못 따라가는 주제입니다 — 이 주제의 연구회·크리에이터를 먼저 영입하세요. ` : ''}공급이 두꺼운 주제(${h(rows.slice().sort((a, b) => b.n - a.n).slice(0, 2).map(r => r.name).join(' · '))})는 단체 대표 단위로 '공동 개발 + 출강' 패키지를 제안하는 편이 효율적입니다(강사풀 원칙: 개인이 아니라 연구회 대표에게 단일 제안).`);
+  })();
+
+  /* 2) 전국 협회·크리에이터 + 교육청 공식 연구회 - 활동·소식 */
+  (function(){
+    const el = mk('전국 교사단체·크리에이터 — 활동과 최근 소식', `${P ? '대표자는 로그인 뒤 화면에만 표시' : '집계 화면(대표자 비표시)'} · 소식 = 최근 180일 기사 제목`);
+    const rel = o => [o.mou ? chip('비상 MOU', 'color-mix(in srgb, #10b981 22%, var(--surface-2))') : '', o.friendly ? chip('비상 우호', 'color-mix(in srgb, var(--accent) 18%, var(--surface-2))') : '',
+      (o.comp || []).length ? chip(o.comp.join('·') + '와도 협력', 'color-mix(in srgb, var(--warning) 28%, var(--surface-2))') : '', o.unverified ? chip('실체 재확인', 'var(--surface-2)', 'var(--muted)') : ''].join('');
+    const nat = (G.national || []).slice().sort((a, b) => (b.mou - a.mou) || (b.stamps - a.stamps));
+    const t1 = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>단체</th><th>규모</th><th>활동 분야</th><th>비상 관계</th><th class="num" title="연구대회 참여 인원·도장 수">연구대회</th><th style="width:240px;">최근 소식</th></tr></thead><tbody>
+      ${nat.map(o => `<tr><td style="font-weight:700;">${h(o.name)}${LEAD[o.name] ? `<div style="font-size:11px;color:var(--muted);font-weight:500;">${h(LEAD[o.name])}</div>` : ''}</td><td style="font-size:12px;">${h(o.scale)}</td><td style="font-size:12px;color:var(--ink-2);">${h(o.focus)}</td><td>${rel(o) || '-'}</td><td class="num">${o.contest ? `${o.contest}명 · ${o.stamps}` : '-'}</td><td>${newsCell(o)}</td></tr>`).join('')}</tbody></table></div>`;
+    const t2 = `<p style="font-weight:800;margin:16px 0 6px;">교육청 공식 연구회·교사단</p><div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:720px;"><thead><tr><th>소관</th><th>연구회</th><th>규모</th><th>활동</th><th>성과</th><th style="width:200px;">최근 소식</th></tr></thead><tbody>
+      ${(G.regional || []).map(o => `<tr><td style="white-space:nowrap;font-size:12px;">${h(o.authority)}</td><td style="font-weight:700;">${h(o.name)}</td><td style="font-size:12px;">${h(o.scale)}</td><td style="font-size:12px;color:var(--ink-2);">${h(o.focus)}</td><td style="font-size:12px;color:var(--ink-2);">${h(o.result)}</td><td>${newsCell(o)}</td></tr>`).join('')}</tbody></table></div>`;
+    const withNews = Object.keys(ON).length, comp = nat.filter(o => (o.comp || []).length).map(o => o.name);
+    el.innerHTML = t1 + t2 + note(`MOU 단체(${h(nat.filter(o => o.mou).map(o => o.name.replace(/\s*\(.*\)$/, '')).join(' · ') || '-')})는 2027 상반기 공동 기획 과정의 1순위 파트너입니다. ${comp.length ? `<b>${h(comp.map(x => x.replace(/\s*\(.*\)$/, '')).join(' · '))}</b>는 경쟁사와도 협력 중이라 독점 조건보다 '비바샘 단독 주제' 단위로 제안하세요. ` : ''}${withNews ? `최근 180일 기사가 잡힌 단체 ${withNews}곳은 활동이 살아 있는 채널입니다.` : '소식은 매주 월요일 자동 수집됩니다.'}`);
+  })();
+
+  /* 3) 시도 연구회(검증) - 시도 필터 */
+  (function(){
+    const el = mk('시도 교사 연구회 — 지역 강사 공급원', `공개·공식 출처 검증 ${n((G.groups || []).length)}곳 · 점수 = 최근성+공식성+확산성`);
+    const sidos = [...new Set((G.groups || []).map(g => g.sido))].sort();
+    const SP = Object.fromEntries((G.sido_priority || []).map(s => [s.sido, s]));
+    let cur = '';
+    const ctl = `<div class="filter-row" style="margin-bottom:8px;"><select id="tgSido"><option value="">전체 시도</option>${sidos.map(s => `<option>${h(s)}</option>`).join('')}</select></div>`;
+    el.innerHTML = ctl + '<div id="tgBody"></div>';
+    const draw = () => {
+      const R = (G.groups || []).filter(g => !cur || g.sido === cur);
+      const sp = cur && SP[cur];
+      document.getElementById('tgBody').innerHTML = (sp ? `<p style="font-size:12.5px;margin:0 0 8px;color:var(--ink-2);"><b>${h(cur)}</b> 우선순위 ${h(sp.rank)}위(${h(sp.priority)}) · 강사풀 지원 이력 ${n(sp.support_count)}건 · 앵커 주제: ${h(sp.anchor_theme)}</p>` : '')
+        + `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>시도</th><th>연구회</th><th>테마</th><th>등급</th><th class="num">점수</th><th>검증</th><th>협업 아이디어</th><th style="width:200px;">최근 소식</th></tr></thead><tbody>
+        ${R.map(g => `<tr><td style="white-space:nowrap;">${h(g.sido)}</td><td style="font-weight:700;">${g.url ? `<a href="${h(g.url)}" target="_blank" rel="noopener">${h(g.name)}</a>` : h(g.name)}${LEAD[g.name] ? `<div style="font-size:11px;color:var(--muted);font-weight:500;">${h(LEAD[g.name])}</div>` : ''}</td><td style="font-size:12px;color:var(--ink-2);">${h(g.theme)}</td><td style="white-space:nowrap;font-size:12px;">${h(g.tier)}</td><td class="num">${g.score}</td><td>${h(g.verify)}</td><td style="font-size:12px;">${h(g.collab)}</td><td>${newsCell(g)}</td></tr>`).join('')}</tbody></table></div>`;
+    };
+    document.getElementById('tgSido').addEventListener('change', e => { cur = e.target.value; draw(); });
+    draw();
+    const top = (G.sido_priority || []).slice(0, 3).map(s => `${s.sido}(${s.anchor_theme})`);
+    el.insertAdjacentHTML('beforeend', note(`강사풀 지원 이력 기준 우선 시도는 <b>${h(top.join(' · '))}</b>입니다. 지역 연수(B2G) 제안서에 해당 시도 연구회를 '지역 강사 공급원'으로 명시하면 지역화·강사 확보 평가 항목에서 근거가 됩니다.`));
+  })();
+
+  /* 4) 강사풀 현황 + 강사 정보 */
+  (function(){
+    const pool = G.pool || {};
+    const el = mk('강사풀 현황 — 등급·학교급·과목·권역', P ? `강사 개인 정보는 로그인 뒤 화면에만 · 연락처는 강사풀에서 확인` : '집계만 표시(강사 개인 정보는 배포 키로 복호화될 때만 나옴)');
+    const bars = (arr, c, unit) => { const mx = Math.max(1, ...arr.map(x => x[1])); return arr.map(([k, v]) => `<div style="display:grid;grid-template-columns:110px 1fr 56px;gap:8px;align-items:center;margin:4px 0;font-size:12.5px;"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(k)}</span><div style="height:9px;background:var(--surface-2);border-radius:4px;"><div style="width:${v / mx * 100}%;height:100%;background:${c};border-radius:4px;"></div></div><span class="num" style="text-align:right;">${n(v)}${unit || ''}</span></div>`).join(''); };
+    const box = (t, inner) => `<div style="border:1px solid var(--border);border-radius:12px;padding:10px 14px;"><p style="font-weight:800;margin:0 0 6px;font-size:13px;">${t}</p>${inner}</div>`;
+    const grid = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px;">
+      ${box('활동 등급', bars(pool.tier || [], 'var(--accent)', '명'))}${box('학교급', bars(pool.levels || [], '#f59e0b', '명'))}
+      ${box('과목(초등 담임 제외)', bars((pool.subjects || []).slice(0, 8), '#10b981', '명'))}${box('권역 상위', bars((pool.regions || []).slice(0, 8), '#4f8cff', '명'))}
+      ${box('참여 사업', bars(pool.biz || [], '#a78bfa', '명'))}${box('강의 방식', bars([['오프라인 출강', pool.offline || 0], ['온라인 강의', pool.online || 0]], '#94a3b8', '명'))}</div>`;
+    let people = '';
+    if (P) {
+      const core = P.core || [];
+      people += `<p style="font-weight:800;margin:16px 0 6px;">분야별 핵심 강사(강사풀 매트릭스)</p><div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:720px;"><thead><tr><th>분야</th><th>군</th><th>강사</th><th>소속·직위</th><th>연구회</th><th>주요 경력</th></tr></thead><tbody>
+        ${core.map(c => `<tr><td style="white-space:nowrap;">${h(c.field)}</td><td style="white-space:nowrap;">${h(c.tier)}</td><td style="font-weight:700;white-space:nowrap;">${h(c.name)}</td><td style="font-size:12px;">${h(c.title)}</td><td style="font-size:12px;">${h(c.org)}</td><td style="font-size:12px;color:var(--ink-2);">${h(c.career)}</td></tr>`).join('')}</tbody></table></div>`;
+      const top = P.top || [];
+      const lvs = ['초등', '중등', '고등'];
+      people += `<p style="font-weight:800;margin:16px 0 6px;">활동 상위 강사 <span style="font-size:12px;font-weight:600;color:var(--muted);">강의 횟수 순 · 상위 ${top.length}명</span></p>
+        <div class="filter-row" id="tpLv" role="group" style="margin-bottom:6px;">${['전체', ...lvs].map((l, i) => `<button type="button" class="pill" data-lv="${i ? l : ''}" aria-pressed="${!i}">${l}</button>`).join('')}</div><div id="tpBody"></div>`;
+    }
+    el.innerHTML = grid + people;
+    if (P) {
+      let lv = '', more = false;
+      const draw = () => {
+        const R = (P.top || []).filter(t => !lv || (t.levels || []).includes(lv)), S = more ? R : R.slice(0, 20);
+        document.getElementById('tpBody').innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:760px;"><thead><tr><th class="num">#</th><th>강사</th><th>소속</th><th>등급</th><th>학교급·과목</th><th>권역</th><th class="num">강의</th><th class="num">주강사</th><th class="num">2026</th><th>비고</th></tr></thead><tbody>
+          ${S.map((t, k) => `<tr><td class="num">${k + 1}</td><td style="font-weight:700;white-space:nowrap;">${h(t.name)}</td><td style="font-size:12px;">${h(t.aff)}</td><td style="white-space:nowrap;font-size:12px;">${h(t.tier)}</td><td style="font-size:12px;">${h([(t.levels || []).join('·'), (t.subjects || []).join('·')].filter(Boolean).join(' / '))}</td><td style="font-size:12px;">${h((t.regions || []).join('·'))}</td><td class="num">${n(t.total)}</td><td class="num">${n(t.main)}</td><td class="num">${n(t.y2026)}</td><td>${t.flag ? chip(t.flag, 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))') : ''}</td></tr>`).join('')}</tbody></table></div>`
+          + (R.length > 20 ? `<p style="margin:6px 0 0;"><button type="button" class="pill" id="tpMore">${more ? '20명만 보기' : `전체 ${R.length}명 보기`}</button></p>` : '');
+        const b = document.getElementById('tpMore'); if (b) b.addEventListener('click', () => { more = !more; draw(); });
+      };
+      const g = document.getElementById('tpLv');
+      g.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { g.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); lv = b.dataset.lv; more = false; draw(); }));
+      draw();
+    }
+    const tier = Object.fromEntries(pool.tier || []), once = tier['1회참여강사'] || 0;
+    const lvl = Object.fromEntries(pool.levels || []);
+    el.insertAdjacentHTML('beforeend', note(`강사풀 ${n(pool.n)}명 중 <b>1회 참여 강사가 ${n(once)}명(${pool.n ? Math.round(once / pool.n * 100) : 0}%)</b>입니다 — 2회차 출강 제안만으로 활동 강사층을 늘릴 여지가 큽니다. 학교급은 초등 ${n(lvl['초등'])}명 대비 중등 ${n(lvl['중등'])}·고등 ${n(lvl['고등'])}명으로 중·고 공급이 얇아, 고교학점제·교과 전문성 과정은 위 전국 교과 연구회(수학·과학 등)와 묶어 확보하세요.`));
+  })();
+
+  /* 5) 교사 필진 트렌드 도서 */
+  (function(){
+    const B = G.books || []; if (!B.length) return;
+    const el = mk('교육 트렌드 도서 — 현직 교사 필진', '강사풀과 겹치는 필진 수 = 섭외 가능 저자');
+    el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:680px;"><thead><tr><th>도서</th><th>출판</th><th>출간</th><th class="num">필진</th><th class="num">현직 교사</th><th class="num">강사풀 겹침</th><th>키워드</th></tr></thead><tbody>
+      ${B.map(b => `<tr><td style="font-weight:700;">${b.url ? `<a href="${h(b.url)}" target="_blank" rel="noopener">${h(b.title)}</a>` : h(b.title)}</td><td style="font-size:12px;">${h(b.publisher)}</td><td style="white-space:nowrap;">${h(b.date)}</td><td class="num">${b.authors}</td><td class="num">${b.teachers}</td><td class="num"><b>${b.pool}</b></td><td style="font-size:11.5px;">${(b.keywords || []).slice(0, 4).map(k => chip(k, 'var(--surface-2)')).join('')}</td></tr>`).join('')}</tbody></table></div>`
+      + note(`현직 교사 필진이 많은 책일수록 강사풀과 겹치는 저자가 많습니다(${h(B.slice().sort((a, b) => b.pool - a.pool)[0].title)} ${B.slice().sort((a, b) => b.pool - a.pool)[0].pool}명). 2027 트렌드 과정은 '책 출간 저자 직강' 구성으로 B2C 상세페이지·홍보 문구에 바로 쓸 수 있습니다.`);
+  })();
+})();
+
+/* ---------------- AI 중점학교: 최신 동향 · 2027 확대 추정 (static_data/ai_school_updates.json) ---------------- */
+(function renderAiUpdates(){
+  const U = __AI_SCHOOL_UPDATES_JSON__;
+  const el = document.getElementById('aiUpdBody'); if (!el) return;
+  if (!U) { el.closest('section').hidden = true; return; }
+  let ST = []; try { ST = (AI_SCHOOL_STATUS && AI_SCHOOL_STATUS.status) || []; } catch (e) {}
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => (v || 0).toLocaleString();
+  const N = U.national || {}, plan = N.plan || [], p27 = (plan.find(x => x.year === 2027) || {}).n, p28 = (plan.find(x => x.year === 2028) || {}).n;
+  const tot = ST.reduce((a, r) => a + (r.ai_moe || 0), 0) || N.total || 1;
+  document.getElementById('aiUpdSub').textContent = `확인 ${U.checked} · 2027·2028 값은 교육부 확대 목표를 2026 시도 비중대로 나눈 추정`;
+  const D = U.sido_detail || {};
+  const rows = ST.filter(r => r.ai_moe).map(r => {
+    const sh = r.ai_moe / tot, e27 = p27 ? Math.round(p27 * sh) : null, e28 = p28 ? Math.round(p28 * sh) : null;
+    return {...r, sh, e27, e28, add: e27 != null ? e27 - r.ai_moe : null, d: D[r.region]};
+  }).sort((a, b) => b.ai_moe - a.ai_moe);
+  const tiles = [['2026 지정', n(N.total) + '교', `초 ${n(N.elem)} · 중 ${n(N.middle)} · 고 ${n(N.high)} · 특수 ${n(N.special)}`], ['특별교부금', n(N.budget_eok) + '억 원', `${N.years}년 운영 · 학교당 약 ${N.total ? Math.round(N.budget_eok / N.total * 10000).toLocaleString() : '-'}만 원`],
+    ['2027 목표', p27 ? n(p27) + '교' : '-', p27 ? `+${n(p27 - N.total)}교 신규 지정` : ''], ['2028 목표', p28 ? n(p28) + '교' : '-', p28 && p27 ? `+${n(p28 - p27)}교 추가` : '']]
+    .map(([k, v, s]) => `<div style="flex:1;min-width:140px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div><div class="num" style="font-size:18px;font-weight:800;">${v}</div><div style="font-size:11px;color:var(--muted);">${s}</div></div>`).join('');
+  const tbl = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:700px;"><thead><tr><th>시도</th><th class="num">2026 지정</th><th class="num">비중</th><th class="num">2027 추정</th><th class="num">신규(추정)</th><th class="num">2028 추정</th><th>명단</th><th>최신 메모</th></tr></thead><tbody>
+    ${rows.map(r => `<tr><td style="font-weight:700;">${h(r.region)}</td><td class="num">${n(r.ai_moe)}</td><td class="num">${(r.sh * 100).toFixed(1)}%</td><td class="num">${r.e27 != null ? n(r.e27) : '-'}</td><td class="num" style="font-weight:700;color:var(--accent);">${r.add != null ? '+' + n(r.add) : '-'}</td><td class="num">${r.e28 != null ? n(r.e28) : '-'}</td>
+      <td style="${r.ai_open ? '' : 'color:var(--critical);font-weight:700;'}">${r.ai_open ? '공개' : '비공개'}</td>
+      <td style="font-size:12px;color:var(--ink-2);">${r.d ? h((r.d.elem != null ? `초 ${r.d.elem} · 중 ${r.d.middle} · 고 ${r.d.high}. ` : '') + (r.d.note || '')) : ''}</td></tr>`).join('')}</tbody></table></div>`;
+  const top = rows.slice(0, 4).map(r => `${r.region} +${r.add}`);
+  el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${tiles}</div>` + tbl
+    + `<p class="tt-note" style="margin-top:10px;font-size:13px;line-height:1.6;"><b>지금 상태</b> ${h(U.status_2027)}.<br><b>그래서</b> 시도 비중이 유지되면 신규 지정은 <b>${h(top.join(' · '))}</b>교 순으로 많습니다. 신규 지정교는 운영 첫해에 교원 AI 연수 수요가 몰리므로, 공모 공고(보통 학년도 전 겨울)가 뜨는 즉시 해당 시도 교육청에 '신규 중점학교 교원 연수 패키지'를 제안하세요.</p>`
+    + `<p style="font-size:11.5px;color:var(--muted);margin-top:8px;">출처: ${(U.sources || []).map(s => `<a href="${h(s.u)}" target="_blank" rel="noopener">${h(s.t)}</a>`).join(' · ')}</p>`;
 })();
 </script>
 <script>
