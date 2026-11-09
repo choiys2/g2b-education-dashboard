@@ -615,6 +615,7 @@ def main():
         "__POOL_PEOPLE_JSON__": _pool_people(),  # 강사 개인 정보(암호문 -> 로그인 뒤 화면만)
         "__MATCH_BIDS_JSON__": _match_bids(),  # 공고-강사 매칭 대상
         "__OPPORTUNITY_JSON__": _safe(lambda: __import__("opportunity").build(trend2027, data_rows, pipeline=pipeline_export), "통합 기회점수"),  # 통합 기회점수(시도×주제)
+        "__FORECAST_JSON__": _safe(lambda: __import__("bid_forecast").build(), "발주 예측"),  # 발주 예측 캘린더
         "__FRESHNESS_JSON__": __import__("freshness").build(full_live),  # 데이터 신선도(상단 배지)
         "__AI_SCHOOL_UPDATES_JSON__": load("static_data/ai_school_updates.json") if os.path.exists("static_data/ai_school_updates.json") else None,  # AI 중점학교 최신 동향
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
