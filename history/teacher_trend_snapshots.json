@@ -1,36 +1,31 @@
 {
  "2026Q4": {
-  "date": "2026-11-08",
+  "date": "2026-11-09",
   "rank": [
    {
     "id": "ai",
-    "score": 68,
+    "score": 69,
     "stage": "확산"
    },
    {
     "id": "subject",
-    "score": 54,
+    "score": 55,
     "stage": "성숙"
    },
    {
     "id": "lesson",
-    "score": 40,
+    "score": 44,
     "stage": "확산"
    },
    {
     "id": "inclusive",
-    "score": 34,
+    "score": 36,
     "stage": "성숙"
    },
    {
     "id": "credit",
-    "score": 33,
+    "score": 35,
     "stage": "확산"
-   },
-   {
-    "id": "care",
-    "score": 22,
-    "stage": "성숙"
    },
    {
     "id": "safety",
@@ -38,29 +33,34 @@
     "stage": "성숙"
    },
    {
-    "id": "leader",
-    "score": 21,
-    "stage": "관망"
+    "id": "care",
+    "score": 19,
+    "stage": "성숙"
    },
    {
-    "id": "basic",
+    "id": "leader",
+    "score": 19,
+    "stage": "성숙"
+   },
+   {
+    "id": "neulbom",
     "score": 16,
     "stage": "관망"
    },
    {
-    "id": "neulbom",
+    "id": "basic",
     "score": 15,
     "stage": "관망"
    },
    {
     "id": "citizen",
-    "score": 11,
+    "score": 13,
     "stage": "관망"
    },
    {
     "id": "parent",
     "score": 11,
-    "stage": "관망"
+    "stage": "부상"
    },
    {
     "id": "rights",
