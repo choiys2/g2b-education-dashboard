@@ -152,7 +152,9 @@ def main():
         "supply": sorted(sup.values(), key=lambda s: -s["n"]),
         "pool": {"kpi": data.get("kpi", {}), "n": len(ins), "tier": tier.most_common(), "levels": lv.most_common(),
                  "subjects": subj.most_common(10), "regions": reg.most_common(12), "biz": biz.most_common(),
-                 "online": sum((i.get("online") or 0) > 0 for i in ins), "offline": sum((i.get("offline") or 0) > 0 for i in ins)},
+                 "online": sum((i.get("online") or 0) > 0 for i in ins), "offline": sum((i.get("offline") or 0) > 0 for i in ins),
+                 "by_sido": Counter(x for a in people.get("all", []) for x in a[5]).most_common(),
+                 "core_by_sido": Counter(x for a in people.get("all", []) if a[2] in ("핵심강사", "활동강사") for x in a[5]).most_common()},
     }
     blob = json.dumps(out, ensure_ascii=False)
     assert not re.search(r"010-|\d{2,3}-\*{3,4}-\d{4}", blob), "공개 파일에 전화번호 형식이 섞였습니다"

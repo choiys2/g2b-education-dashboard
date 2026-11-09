@@ -28,6 +28,15 @@ EXCLUDE_ALWAYS = ["급식", "수련활동", "교육여행", "기숙사", "현장
 
 
 
+def _safe(fn, name):
+    """보조 패널 계산 실패가 대시보드 전체 조합을 멈추지 않게 한다."""
+    try:
+        return fn()
+    except Exception as e:
+        print(f"[경고] {name} 계산 실패: {type(e).__name__}: {str(e)[:120]}")
+        return None
+
+
 def _pool_people():
     """강사풀 개인 정보(핵심 강사·단체 대표·활동 상위 강사) 복호화 - 이름은 로그에 남기지 않는다."""
     p = "static_data/pool_people.enc.json"
@@ -605,6 +614,7 @@ def main():
         "__GROUP_NEWS_JSON__": load("history/teacher_group_news.json") if os.path.exists("history/teacher_group_news.json") else None,  # 교사단체 소식
         "__POOL_PEOPLE_JSON__": _pool_people(),  # 강사 개인 정보(암호문 -> 로그인 뒤 화면만)
         "__MATCH_BIDS_JSON__": _match_bids(),  # 공고-강사 매칭 대상
+        "__OPPORTUNITY_JSON__": _safe(lambda: __import__("opportunity").build(trend2027, data_rows, pipeline=pipeline_export), "통합 기회점수"),  # 통합 기회점수(시도×주제)
         "__FRESHNESS_JSON__": __import__("freshness").build(full_live),  # 데이터 신선도(상단 배지)
         "__AI_SCHOOL_UPDATES_JSON__": load("static_data/ai_school_updates.json") if os.path.exists("static_data/ai_school_updates.json") else None,  # AI 중점학교 최신 동향
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
