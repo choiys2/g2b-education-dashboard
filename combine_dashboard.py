@@ -45,6 +45,25 @@ def _pool_people():
         return None
 
 
+def _match_bids(days=60):
+    """강사 매칭용 최근 연수 입찰(공고번호 단위 중복 제거) - 공개 조달 정보만."""
+    from datetime import date, timedelta
+    p, cut, seen, out = "history/training_bids.jsonl", (date.today() - timedelta(days=days)).isoformat(), set(), []
+    if not os.path.exists(p):
+        return []
+    for line in open(p, encoding="utf-8").read().splitlines()[::-1]:
+        try:
+            b = json.loads(line)
+        except Exception:
+            continue
+        no = (b.get("k") or "").rsplit("-", 1)[0]
+        if (b.get("d") or "") < cut or no in seen:
+            continue
+        seen.add(no)
+        out.append({"k": b.get("k"), "t": b.get("t"), "o": b.get("o"), "r": b.get("r"), "d": b.get("d"), "a": b.get("a"), "u": b.get("u")})
+    return sorted(out, key=lambda b: b["d"] or "", reverse=True)[:150]
+
+
 def _pool_url():
     """강사풀 링크(시크릿/변수) - 값은 출력하지 않고 설정 여부만 로그에 남긴다."""
     u = os.environ.get("INSTRUCTOR_POOL_URL", "").strip()
@@ -585,6 +604,8 @@ def main():
         "__TEACHER_GROUPS_JSON__": load("static_data/teacher_groups.json") if os.path.exists("static_data/teacher_groups.json") else None,  # 교사단체(공개 집계)
         "__GROUP_NEWS_JSON__": load("history/teacher_group_news.json") if os.path.exists("history/teacher_group_news.json") else None,  # 교사단체 소식
         "__POOL_PEOPLE_JSON__": _pool_people(),  # 강사 개인 정보(암호문 -> 로그인 뒤 화면만)
+        "__MATCH_BIDS_JSON__": _match_bids(),  # 공고-강사 매칭 대상
+        "__FRESHNESS_JSON__": __import__("freshness").build(full_live),  # 데이터 신선도(상단 배지)
         "__AI_SCHOOL_UPDATES_JSON__": load("static_data/ai_school_updates.json") if os.path.exists("static_data/ai_school_updates.json") else None,  # AI 중점학교 최신 동향
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,

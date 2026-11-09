@@ -102,6 +102,26 @@ def main():
             "flag": "승급 후보" if i.get("promotion_candidate") else ("휴면 핵심" if i.get("dormant_core") else ""),
         })
 
+    # 공고 매칭용 전체 강사(이름·소속·등급·학교급·과목·시도·실적·AI 연수 경험) - 연락처 없음, 암호문에만
+    team = j("teamBlob") if (SRC / "teamBlob.json").exists() else {}
+    gg = {r["region"] for r in team.get("regions_meta", []) if r.get("group") == "경기 교육지원청"}
+    def sido(r):
+        if r in gg or r.startswith("경기") or r.endswith("교육지원청"):
+            return "경기"
+        if r == "전국":
+            return "*"
+        if r.startswith("전남광주"):
+            return "전남·광주"
+        return r.split("(")[0]
+    for i in ins:
+        sd = sorted({x for r in (i.get("regions") or []) for x in sido(r).split("·")})
+        people["all"] = people.get("all", [])
+        people["all"].append([i.get("name"), i.get("affiliation") or "", i.get("tier") or "",
+                              "".join(l[0] for l in (i.get("levels") or [])), [x for x in (i.get("subjects") or []) if x != "초등"][:4], sd,
+                              i.get("total") or 0, i.get("main") or 0,
+                              int(any("인공지능" in b or "AI" in b for b in (i.get("businesses") or []))),
+                              (i.get("year_totals") or {}).get("2026", 0)])
+
     # 주제별 공급원: 2027 트렌드 주제마다 맞는 단체 수(전국 협회 + 시도 연구회 + 교육청 연구회)
     sup = {tid: {"id": tid, "name": nm, "n": 0, "names": []} for tid, nm in TOPIC_NAME.items()}
     for o in national + regional + groups:
@@ -145,7 +165,7 @@ def main():
     assert not re.search(r"010-|\d{2,3}-\*{3,4}-\d{4}", pp), "개인 파일에 전화번호가 섞였습니다"
     ENC_OUT.write_text(json.dumps(strategy_crypto.encrypt(people)), encoding="utf-8")
     print(f"공개 {PUB_OUT}: 전국 {len(national)} · 교육청 {len(regional)} · 연구회 {len(groups)} · 도서 {len(out['books'])}")
-    print(f"암호화 {ENC_OUT}: 핵심 {len(people['core'])} · 대표 {len(people['leaders'])} · 상위 {len(people['top'])}")
+    print(f"암호화 {ENC_OUT}: 핵심 {len(people['core'])} · 대표 {len(people['leaders'])} · 상위 {len(people['top'])} · 매칭용 {len(people.get('all', []))}")
 
 
 if __name__ == "__main__":

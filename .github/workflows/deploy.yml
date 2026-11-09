@@ -35,6 +35,7 @@ on:
       - "policy_partners_scrape.py"
       - "radar_collect.py"
       - ".github/workflows/radar.yml"
+      - "radar_resolve.py"
       - "history/edutech_radar.json"
       - "neis_schedule.py"
       - ".github/workflows/neis_schedule.yml"
