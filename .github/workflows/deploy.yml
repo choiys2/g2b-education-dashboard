@@ -51,6 +51,8 @@ on:
       - ".github/workflows/teacher_group_news.yml"
       - "pool_groups.py"
       - "proposal_draft.py"
+      - "ref_capture.py"
+      - ".github/workflows/ref_capture.yml"
       - ".github/workflows/proposal_draft.yml"
       - ".github/workflows/gg_probe.yml"
       - ".github/workflows/policy_probe.yml"

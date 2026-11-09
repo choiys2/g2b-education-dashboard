@@ -1,0 +1,32 @@
+name: 참고 사이트 분석(수동)
+
+# 대시보드 디자인·기능 개선 참고용. 화면 캡처는 실행 결과물(artifact)로만 남기고 저장소에는 커밋하지 않는다.
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "공백으로 구분한 URL 목록"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - name: 분석
+        env:
+          URLS: ${{ inputs.urls }}
+        run: python ref_capture.py ref_out $URLS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ref-screens
+          path: ref_out
+          retention-days: 7
