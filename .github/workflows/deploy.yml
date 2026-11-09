@@ -11,6 +11,11 @@ on:
         description: "경쟁사 낙찰 조회 기간(일). 평소 60, 과거분 재수집(백필)은 730"
         required: false
         default: "60"
+      quick:
+        description: "빠른 배포: 수집을 건너뛰고 마지막 전체 수집 묶음으로 화면만 다시 조합·배포(5~8분)"
+        type: boolean
+        required: false
+        default: false
       force_without_g2b:
         description: "나라장터 점검 중이고 대체 수집분도 없을 때 나라장터 수치 없이 배포(상단 점검 안내 표시)"
         type: boolean
@@ -73,6 +78,28 @@ jobs:
         with:
           python-version: "3.12"
 
+      # 2026-11-09: 화면·조합 코드만 바뀐 푸시는 수집(나라장터 24분·학교알리미 16분·NEIS 11분·AI 8분)을 건너뛰고
+      # 매일 06:00 전체 실행이 남긴 수집 묶음(live/)으로 조합·배포만 한다. 묶음이 없으면 자동으로 전체 수집.
+      - name: 배포 방식 결정
+        id: mode
+        run: python quick_mode.py
+      - name: 마지막 전체 수집 묶음 복원(빠른 배포)
+        if: steps.mode.outputs.candidate == 'true'
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: live
+          key: full-live-latest
+          restore-keys: full-live-
+      - name: 빠른 배포 확정
+        id: q
+        run: |
+          if [ "${{ steps.mode.outputs.candidate }}" = "true" ] && [ -f live/full_live.json ] && [ -f live/neis_full_export.json ]; then
+            echo "quick=true" >> "$GITHUB_OUTPUT"; echo "::notice::빠른 배포 - 수집 생략, 마지막 전체 수집 묶음 사용 (${{ steps.mode.outputs.reason }})"
+          else
+            echo "quick=false" >> "$GITHUB_OUTPUT"; echo "전체 수집 (${{ steps.mode.outputs.reason }})"
+          fi
+
       - name: install dependencies
         run: |
           pip install openpyxl reportlab PublicDataReader playwright google-auth olefile cryptography
@@ -86,6 +113,7 @@ jobs:
       # 매번 수동 재실행하면 13분 만에 정상 완료됐다(일시 장애). 25분 넘으면 끊고 1회 자동 재시도.
       # 2026-10-30: 실패해도 멈추지 않는다 - 아래에서 마지막 정상 수집분으로 대체해 다른 탭 변경은 배포한다
       - name: fetch G2B data + build 기존 단독 대시보드
+        if: steps.q.outputs.quick != 'true'
         id: g2b
         timeout-minutes: 55
         continue-on-error: true
@@ -114,10 +142,10 @@ jobs:
       # 마지막 정상분으로 대체해 배포한다. 화면에는 '○월 ○일 수집분 표시 중' 안내(live/g2b_stale.json).
       # 지표 누적(history)은 정상 수집일에만 한다(대체 데이터를 오늘 값으로 쌓지 않음).
       - name: 정상 수집분 날짜 기록
-        if: steps.fresh.outputs.healthy == 'true'
+        if: steps.q.outputs.quick != 'true' && (steps.fresh.outputs.healthy == 'true')
         run: TZ=Asia/Seoul date +%F > live/g2b_captured_date.txt
       - name: 정상 수집분 보관(장애 대비)
-        if: steps.fresh.outputs.healthy == 'true'
+        if: steps.q.outputs.quick != 'true' && (steps.fresh.outputs.healthy == 'true')
         continue-on-error: true
         uses: actions/cache/save@v4
         with:
@@ -167,10 +195,12 @@ jobs:
       # NEIS_KEY / ODCLOUD_KEY 시크릿이 없으면 이 스텝들은 개별적으로 실패해도
       # continue-on-error로 넘어가고, 기존 단독 대시보드만 배포된다(하위 호환).
       - name: G2B 분석 데이터 export (analytics.py 재사용, 스크레이핑 없음)
+        if: steps.q.outputs.quick != 'true'
         continue-on-error: true
         run: python g2b_full_export.py live/full_live.json live/g2b_full_export.json
 
       - name: 나이스 학교수 + AI 선도학교(odcloud) export
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 30
         continue-on-error: true
         env:
@@ -179,6 +209,7 @@ jobs:
         run: python neis_full_export.py live/neis_full_export.json
 
       - name: 자사 영업 파이프라인 export (안전 필드만, 담당자 익명화)
+        if: steps.q.outputs.quick != 'true'
         continue-on-error: true
         env:
           GOOGLE_SHEETS_SA_JSON: ${{ secrets.GOOGLE_SHEETS_SA_JSON }}
@@ -186,6 +217,7 @@ jobs:
 
       # '26타사DT' -> B2G 연수 배너(수의계약 포함) 자사·타사 테마·지역 교차 분석
       - name: 연수 배너 시장(자사·타사) 분석
+        if: steps.q.outputs.quick != 'true'
         continue-on-error: true
         timeout-minutes: 5
         env:
@@ -195,6 +227,7 @@ jobs:
       # '26영업소통 DT' -> 사업별 소통 숫자 지표만(원문·이름·연락처·문장 요약은 저장/게시/외부 AI 전송 안 함)
       # 업무 실행 추적: 26입찰DT·26 콘텐츠DT·정산관리·26운영(블렌디드) (sheets_ops.py, 개인정보 열 미사용)
       - name: 입찰·콘텐츠·정산·집합연수 시트
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 5
         continue-on-error: true
         env:
@@ -202,6 +235,7 @@ jobs:
         run: python sheets_ops.py live/sheets_ops.json
 
       - name: 사업별 소통·진행 분석
+        if: steps.q.outputs.quick != 'true'
         continue-on-error: true
         timeout-minutes: 10
         env:
@@ -209,6 +243,7 @@ jobs:
         run: python pipeline_comms.py live/pipeline_comms.json
 
       - name: KOSIS 시도교육청 교육재정 규모 export
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 8   # 2026-10-21: KOSIS 응답 없음으로 90분 멈춰 전체 작업이 시간 초과로 취소됨 - 멈추면 건너뛴다
         continue-on-error: true
         run: python kosis_edu_finance.py "${{ secrets.KOSIS_KEY }}" live/kosis_edu_finance.json
@@ -217,6 +252,7 @@ jobs:
       # 누적(git 추적, live/처럼 매일 지워지지 않음). 매일은 최근 60일치만 조회(낙찰 데이터가
       # 뒤늦게 등록되는 경우를 감안해 겹치게), 대시보드에는 누적 전체를 집계해 보여준다.
       - name: 경쟁사 나라장터 낙찰 매트릭스 export (누적)
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 30
         continue-on-error: true
         env:
@@ -226,18 +262,21 @@ jobs:
       # 경쟁사 홈페이지 비로그인 공개 화면의 진행중 이벤트 목록만 읽는다(robots.txt 확인:
       # teacherville.co.kr, teacher.i-scream.co.kr, t.vivasam.com 모두 Allow: / - 자동화 허용).
       - name: 경쟁사 홈페이지 콘텐츠 스크레이핑
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 10
         continue-on-error: true
         run: python competitor_content_scrape.py
 
       # 경쟁사 변화 감지(대표 전용): 홈페이지 이벤트 신규분을 history/competitor_events.jsonl 에 누적
       - name: 경쟁사 변화 감지 누적
+        if: steps.q.outputs.quick != 'true'
         continue-on-error: true
         run: python competitor_watch.py
 
       # 금융위원회 공시 재무정보(GetFinaStatInfoService_V2) - 상장/외감대상 법인만 조회됨.
       # 법인등록번호(crno)는 스크립트에 고정값으로 미리 조회해뒀음(회사명 매칭에 매일 의존하지 않음).
       - name: 경쟁사 재무정보 export (금융위원회 공시)
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 8
         continue-on-error: true
         env:
@@ -253,6 +292,7 @@ jobs:
       # 비상 영업용 앱(v-edu-board) 뉴스 위젯이 읽는 공개 JSON (api/news/*.json, 명세: docs/NEWS_API.md)
       # Gemini: 최신 브리핑 3줄 요약·영업 한마디·키워드(history/news_ai.jsonl, 호당 1회 호출)
       - name: 조간 브리핑 AI 요약 (Gemini)
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 3
         continue-on-error: true
         env:
@@ -266,6 +306,7 @@ jobs:
       # 연수 주제 수요 분석용 입찰공고(연수 일반 키워드) - history/training_bids.jsonl 에 누적.
       # 누적이 비어 있으면 스크립트가 알아서 12개월을 백필하고, 이후엔 최근 45일만 겹쳐 조회한다.
       - name: 연수 입찰공고 누적 (2027 연수 개발 추천용)
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 30
         continue-on-error: true
         env:
@@ -274,6 +315,7 @@ jobs:
 
       # 계약정보(용역): 수의·협상계약까지 포함한 경쟁사·자사 B2G 계약 이력 - history/competitor_contracts.jsonl 누적
       - name: 경쟁사 계약정보 누적 (수의계약 포함)
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 25
         continue-on-error: true
         env:
@@ -282,6 +324,7 @@ jobs:
 
       # 학교알리미 공시(교원·학생 수) - AI 중점·선도학교에 붙인다. SCHOOLINFO_KEY 시크릿이 없으면 건너뜀
       - name: 학교알리미 교원·학생 수
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 45
         continue-on-error: true
         env:
@@ -290,6 +333,7 @@ jobs:
 
       # 지방교육재정알리미: 시도교육청 세입·세출·차액 총계(opclTotal -> 예산 여력, history/eduinfo_finance.json) + 교원연수 세부 서비스 진단
       - name: 지방교육재정알리미 교원 연수 세출
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 10
         continue-on-error: true
         env:
@@ -298,12 +342,14 @@ jobs:
 
       # 교육청 수의계약 공개(K-에듀파인 연계, S2B 거래 포함) - robots 허용 교육청만. history/edu_contracts.jsonl 누적
       - name: 학교·교육청 연수 수의계약
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 12
         continue-on-error: true
         run: python edu_contracts.py live/edu_contracts.json
 
       # 기상청 단기예보(공공데이터포털 계정 공용 키) - 대시보드 머리말 날씨
       - name: 주요 도시 날씨
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 5
         continue-on-error: true
         env:
@@ -312,6 +358,7 @@ jobs:
 
       # 한국관광공사 관광정보 - 17개 시도 숙박·연수·회의 시설(집합연수 장소 섭외)
       - name: 집합연수 장소(관광공사)
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 8
         continue-on-error: true
         env:
@@ -321,6 +368,7 @@ jobs:
 
       # Gemini: 연수 입찰 첨부(제안요청서·과업지시서) 구조화 - 하루 최대 8건, 결과는 history 에 누적
       - name: 제안요청서 AI 분석 (Gemini)
+        if: steps.q.outputs.quick != 'true'
         timeout-minutes: 12
         continue-on-error: true
         env:
@@ -358,7 +406,7 @@ jobs:
 
       # Gemini로 '오늘의 AI 브리핑' 생성 후 대시보드를 한 번 더 조합(조합 결과를 입력으로 쓰기 때문)
       - name: 오늘의 AI 브리핑 (Gemini)
-        if: steps.combine.outcome == 'success'
+        if: steps.q.outputs.quick != 'true' && (steps.combine.outcome == 'success')
         timeout-minutes: 15
         continue-on-error: true
         env:
@@ -379,6 +427,14 @@ jobs:
           if [ -f live/ai_insights.json ] || [ -f live/ai_drafts.json ] || [ -f live/exec_story.json ] || [ -f live/recruit_copy.json ] || [ -f live/report_drafts.json ]; then python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html; fi
 
       # 양방향 연동(대시보드 → 대표님): 경영 브리프 팩을 비공개 저장소 exec_pack/ 에만 저장(공개 저장소·사이트 미기록)
+      - name: 전체 수집 묶음 보관(빠른 배포용)
+        if: steps.q.outputs.quick != 'true' && steps.healthcheck.outputs.healthy == 'true' && steps.combine.outcome == 'success'
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: live
+          key: full-live-${{ github.run_id }}
+
       - name: 경영 브리프 팩·데이터 팩 → 비공개 저장소
         timeout-minutes: 5
         continue-on-error: true
@@ -411,12 +467,12 @@ jobs:
         run: python pdf_report.py live/weekly_report.pdf
 
       - name: 일별 히스토리 누적 (history/daily_stats.jsonl)
-        if: steps.combine.outcome == 'success' && steps.fresh.outputs.healthy == 'true'
+        if: steps.q.outputs.quick != 'true' && (steps.combine.outcome == 'success' && steps.fresh.outputs.healthy == 'true')
         continue-on-error: true
         run: python history_tracker.py
 
       - name: 히스토리 커밋 (있으면)
-        if: steps.combine.outcome == 'success' && steps.fresh.outputs.healthy == 'true'
+        if: steps.q.outputs.quick != 'true' && (steps.combine.outcome == 'success' && steps.fresh.outputs.healthy == 'true')
         continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
