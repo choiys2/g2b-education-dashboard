@@ -643,6 +643,17 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(html)
 
+    # 월요 '이번 주 실행 1장'(exec_pack.py → 비공개 저장소)용: 기회 Top·신선도·최신 전략 브리핑 요약
+    try:
+        st = subs.get("__STRATEGY_JSON__") or {}
+        iss = (st.get("issues") or [{}])[0] if st.get("available") else {}
+        with open("live/_ops_pack.json", "w", encoding="utf-8") as f:
+            json.dump({"opp": subs.get("__OPPORTUNITY_JSON__"), "fresh": subs.get("__FRESHNESS_JSON__"),
+                       "strategy": {k: iss.get(k) for k in ("date", "summary", "opportunities", "watch")} if iss else None},
+                      f, ensure_ascii=False, default=str)
+    except Exception as e:
+        print(f"[경고] _ops_pack 저장 실패: {str(e)[:120]}")
+
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
         skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}

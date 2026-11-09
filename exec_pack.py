@@ -183,10 +183,51 @@ def sec_schedule():
         return []
 
 
+def sec_week_plan():
+    """이번 주 실행 1장 - 통합 기회점수 Top·B2S 발송 기한·데이터 리스크·전략 브리핑(대시보드 계산 결과 그대로)."""
+    import re as _re
+    from datetime import timedelta
+    ops = _j("live/_ops_pack.json", {}) or {}
+    opp, fresh, st = ops.get("opp") or {}, ops.get("fresh") or {}, ops.get("strategy") or {}
+    today = _today()
+    out = ["## 이번 주 실행 1장", ""]
+    top = (opp.get("top") or [])[:5]
+    if top:
+        out += ["**공략 Top 5 (통합 기회점수, 규칙 기반)**", "", "| # | 시도·주제 | 점수 | 12개월 입찰 | 핵심 강사 | 권장 행동 |", "|---|---|---|---|---|---|"]
+        out += [f"| {i + 1} | {c['sido']} {c['topic']} | {c['score']} | {c['bids']}건 | {c['core']}명 | {c['action']} |" for i, c in enumerate(top)]
+        out.append("")
+    # B2S 발송 기한: AI 중점·선도학교 x 학사일정(시도·학교급 겨울방학 중앙값 - 21일)
+    sched = {r["region"]: r.get("levels", {}) for r in (_j("history/neis_schedule.json", {}) or {}).get("regions", [])}
+    due = {}
+    for s in (_j("static_data/ai_schools_2026.json", {}) or {}).get("schools", []):
+        v = (sched.get(s.get("소속지역"), {}).get(s.get("학교급")) or {}).get("겨울방학")
+        if not v:
+            continue
+        d = (__import__("datetime").date.fromisoformat(v) - timedelta(21) - today).days
+        if -7 <= d <= 14:
+            due[s["소속지역"]] = due.get(s["소속지역"], 0) + 1
+    gap = [c for c in (opp.get("top") or []) if "강사 확보" in (c.get("action") or "")]
+    dec = []
+    if top:
+        dec.append(f"{top[0]['sido']} {top[0]['topic']} 제안 착수 여부와 담당 지정(점수 {top[0]['score']}, 12개월 입찰 {top[0]['bids']}건)")
+    if gap:
+        dec.append(f"강사 확보 우선 대상: {', '.join(c['sido'] + ' ' + c['topic'] for c in gap[:3])} — 연구회 대표 접촉 여부")
+    if due:
+        dec.append(f"B2S 겨울방학 연수 안내 발송(2주 내 기한 {sum(due.values())}교: " + ", ".join(f"{k} {v}" for k, v in sorted(due.items(), key=lambda x: -x[1])[:5]) + ")")
+    if dec:
+        out += ["**이번 주 결정할 일**", ""] + [f"{i + 1}. {x}" for i, x in enumerate(dec[:3])] + [""]
+    bad = [r for r in (fresh.get("rows") or []) if r.get("state") != "정상"]
+    if bad:
+        out += ["**데이터 리스크**", ""] + [f"- {r['name']}: {r['state']}(마지막 {r.get('at') or '-'}){' · ' + r['note'] if r.get('note') else ''}" for r in bad[:6]] + [""]
+    if st and st.get("summary"):
+        out += [f"**최신 전략 브리핑({st.get('date')}) 핵심**", ""] + [f"- {_re.sub(r'</?strong>', '**', x)}" for x in st["summary"][:4]] + [""]
+    return out if len(out) > 2 else []
+
+
 def build():
     owner = _j("live/owner_pack.json", {}) or {}
     today = _today()
-    parts = [sec_decide(), sec_ai(owner), sec_targets(), sec_story(), sec_metrics(owner), sec_daily(), sec_comp(owner), sec_mgmt(), sec_weekly(), sec_schedule()]
+    parts = [sec_week_plan(), sec_decide(), sec_ai(owner), sec_targets(), sec_story(), sec_metrics(owner), sec_daily(), sec_comp(owner), sec_mgmt(), sec_weekly(), sec_schedule()]
     body = [x for p in parts for x in p]
     head = [f"# 경영 브리프 팩 — {today.isoformat()}", "",
             "> 비바샘원격교육연수원 대표 전용 · 대시보드(vs-insight.pages.dev)가 매일 06시에 자동 생성 · 외부 공유 금지",
