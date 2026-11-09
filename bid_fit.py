@@ -85,3 +85,67 @@ if __name__ == "__main__":
         r = json.loads(line)
         if r.get("ai"):
             print(judge(r["ai"]), r["t"][:40])
+
+
+# ---- 참여 권장 점수(Go/No-go 강화, 규칙 기반 - 수주 결과 학습은 하지 않음) ----
+def go_context():
+    """시도별 경쟁사·자사 계약(최근 12개월), 강사풀 시도별 핵심 강사, 계약 목록(작년 수주사 찾기)."""
+    from collections import Counter
+    from datetime import date, timedelta
+    y1 = (date.today() - timedelta(365)).isoformat()
+    rows = []
+    for name in ("history/competitor_contracts.jsonl", "history/competitor_wins.jsonl"):
+        p = HERE / name
+        if p.exists():
+            for line in p.read_text(encoding="utf-8").splitlines():
+                try:
+                    rows.append(json.loads(line))
+                except ValueError:
+                    pass
+    comp, own = Counter(), Counter()
+    for c in rows:
+        if (c.get("date") or "") >= y1 and c.get("region"):
+            (own if "비바샘" in (c.get("competitor") or "") else comp)[c["region"]] += 1
+    try:
+        g = json.loads((HERE / "static_data" / "teacher_groups.json").read_text(encoding="utf-8"))
+        core = dict((g.get("pool") or {}).get("core_by_sido") or [])
+    except (OSError, ValueError):
+        core = {}
+    return {"comp": comp, "own": own, "core": core, "rows": rows, "mx": max(comp.values() or [1]) or 1}
+
+
+def _toks(t):
+    return {w for w in re.findall(r"[가-힣A-Za-z]{2,}", re.sub(r"\d+", " ", t or "")) if w not in ("용역", "위탁", "운영", "연수", "년도", "학년도")}
+
+
+def go_score(item, fit, ctx):
+    r, reasons, s = item.get("r") or "", [], 0
+    v = (fit or {}).get("verdict")
+    s += {"가능": 40, "확인 필요": 20}.get(v, 0)
+    reasons.append(f"자격 {v or '미판정'}")
+    play = (fit or {}).get("play")
+    if play == "기술":
+        s += 15; reasons.append("기술점수 승부(콘텐츠·강사 강점 반영)")
+    elif play == "가격":
+        s += 5; reasons.append("최저가 승부")
+    cc = ctx["comp"].get(r, 0)
+    s -= round(25 * cc / ctx["mx"]); reasons.append(f"그 시도 경쟁사 계약 {cc}건")
+    if ctx["own"].get(r):
+        s += 10; reasons.append(f"자사 계약 이력 {ctx['own'][r]}건")
+    k = ctx["core"].get(r, 0)
+    s += 10 if k >= 15 else 5 if k >= 5 else 0
+    reasons.append(f"그 시도 핵심·활동 강사 {k}명")
+    a = item.get("a") or 0
+    if a >= 5e7:
+        s += 10; reasons.append(f"예산 {a / 1e8:.1f}억")
+    tk, prev = _toks(item.get("t")), None
+    for c in ctx["rows"]:
+        if c.get("org") and c.get("org") == item.get("o") and len(tk & _toks(c.get("course"))) >= 2:
+            prev = c
+    if prev:
+        own_prev = "비바샘" in (prev.get("competitor") or "")
+        s += 10 if own_prev else -5
+        reasons.append(f"같은 기관 비슷한 사업 직전 수주: {prev.get('competitor')}({prev.get('date', '')[:7]})")
+    s = max(0, min(100, s + 20))
+    label = "참여 권장" if s >= 65 and v != "불가" else "신중 검토" if s >= 45 and v != "불가" else "비권장"
+    return {"score": s, "label": label, "reasons": reasons}

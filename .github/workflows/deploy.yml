@@ -50,6 +50,8 @@ on:
       - "teacher_group_news.py"
       - ".github/workflows/teacher_group_news.yml"
       - "pool_groups.py"
+      - "proposal_draft.py"
+      - ".github/workflows/proposal_draft.yml"
       - ".github/workflows/gg_probe.yml"
       - ".github/workflows/policy_probe.yml"
 

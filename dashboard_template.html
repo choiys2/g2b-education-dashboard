@@ -4299,7 +4299,8 @@ window.__ownerQ.push(function renderAiBrief(){
   const draw = () => { list.innerHTML = R.items.filter(r => !st.v || (r.fit && r.fit.verdict === st.v)).map(r => { const a = r.ai || {}, f = r.fit; return `<article class="rfp-card">
     ${f ? `<div><span class="fit fit-${FK(f.verdict)}">${h(f.verdict)}</span>${f.play !== '미상' ? `<span class="fit" style="background:var(--surface);border:1px solid var(--border);color:var(--ink-2);">${f.play === '기술' ? '기술점수 승부' : '가격 승부'}</span>` : ''}</div>
       ${(f.reasons || []).length || (f.ok || []).length ? `<div class="why">${[...(f.reasons || []).map(x => '⚠ ' + h(x)), ...(f.ok || []).map(x => '✓ ' + h(x))].join('<br>')}</div>` : ''}` : ''}
-    <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)} ↗</a>` : h(r.t)}</div>
+    ${r.go ? `<div style="margin:6px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><span class="fit" style="background:${r.go.label === '참여 권장' ? 'color-mix(in srgb, var(--good) 22%, transparent)' : r.go.label === '신중 검토' ? 'color-mix(in srgb, var(--warning) 22%, transparent)' : 'var(--surface-2)'};">${h(r.go.label)} ${r.go.score}</span><span style="font-size:11.5px;color:var(--ink-2);">${(r.go.reasons || []).map(h).join(' · ')}</span></div>` : ''}
+    <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)} ↗</a>` : h(r.t)}${r.k ? ` <button type="button" class="pill" data-draft="${h((r.k || '').split('-')[0])}" title="공고번호를 복사하고 GitHub에서 초안 생성(Run workflow)을 엽니다. 결과는 비공개 저장소 proposals/" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}</div>
     <div class="m">${h(r.d)} · ${h(r.o)}${r.a ? ` · 예산 ${fmtWon(r.a)}` : ''}${r.doc ? ` · 문서: ${h(r.doc)}` : ''}</div>
     <dl>${[['대상', a.target], ['인원', a.headcount], ['운영', a.format], ['기간', a.period], ['시간', a.hours], ['평가', a.evaluation]]
       .filter(x => x[1]).map(x => `<dt>${x[0]}</dt><dd>${h(x[1])}</dd>`).join('')}</dl>
@@ -8636,6 +8637,14 @@ window.__ownerQ.push(function renderExec(){
 })();
 </script>
 <script>
+/* ---------------- ⑧ 제안서 초안 버튼: 공고번호를 복사하고 GitHub 'Run workflow' 화면을 연다(누를 때만 실행) ---------------- */
+window.__draft = function(k, btn){
+  const url = 'https://github.com/choiys2/g2b-education-dashboard/actions/workflows/proposal_draft.yml';
+  const done = () => { if (btn) { const t = btn.textContent; btn.textContent = '번호 복사됨 → Run workflow 에 붙여넣기'; setTimeout(() => { btn.textContent = t; }, 4000); } };
+  try { navigator.clipboard.writeText(k).then(done, done); } catch (e) { done(); }
+  window.open(url, '_blank', 'noopener');
+};
+document.addEventListener('click', e => { const b = e.target.closest('[data-draft]'); if (b) { e.preventDefault(); window.__draft(b.dataset.draft, b); } });
 /* ---------------- ③ 데이터 신선도 배지(상단) ---------------- */
 (function renderFreshness(){
   const F = __FRESHNESS_JSON__;
@@ -8707,7 +8716,7 @@ window.__ownerQ.push(function renderExec(){
     body.innerHTML = out;
   }
   const sel = sec.querySelector('#bmBid'), txt = sec.querySelector('#bmText');
-  sel.addEventListener('change', () => { const b = BIDS[+sel.value]; if (!sel.value || !b) { body.innerHTML = ''; return; } txt.value = ''; run((b.t || '') + ' ' + (b.o || ''), b.r || ''); body.insertAdjacentHTML('afterbegin', `<p style="font-size:12px;margin:0 0 6px;color:var(--ink-2);">${h(b.o || '')} · 공고일 ${h(b.d || '')}${b.a ? ` · 예산 ${(b.a / 1e6).toFixed(0)}백만 원` : ''}${b.u ? ` · <a href="${h(b.u)}" target="_blank" rel="noopener">공고 ↗</a>` : ''}</p>`); });
+  sel.addEventListener('change', () => { const b = BIDS[+sel.value]; if (!sel.value || !b) { body.innerHTML = ''; return; } txt.value = ''; run((b.t || '') + ' ' + (b.o || ''), b.r || ''); body.insertAdjacentHTML('afterbegin', `<p style="font-size:12px;margin:0 0 6px;color:var(--ink-2);">${h(b.o || '')} · 공고일 ${h(b.d || '')}${b.a ? ` · 예산 ${(b.a / 1e6).toFixed(0)}백만 원` : ''}${b.u ? ` · <a href="${h(b.u)}" target="_blank" rel="noopener">공고 ↗</a>` : ''}${b.k ? ` <button type="button" class="pill" data-draft="${h((b.k || '').split('-')[0])}" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}</p>`); });
   let tm; txt.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => { sel.value = ''; if (txt.value.trim().length >= 2) run(txt.value.trim(), ''); else body.innerHTML = ''; }, 250); });
 })();
 

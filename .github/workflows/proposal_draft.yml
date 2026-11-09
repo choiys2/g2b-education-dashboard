@@ -1,0 +1,59 @@
+name: 제안서 초안 생성(버튼 실행)
+
+# 대시보드의 '제안서 초안' 버튼 → 이 화면에서 Run workflow. 정기 실행 없음(누를 때만 실행 = 불필요한 AI 비용 없음).
+# 결과는 비공개 저장소 proposals/ 에만 저장한다(강사 실명 포함). 공개 저장소·사이트에는 남기지 않는다.
+on:
+  workflow_dispatch:
+    inputs:
+      bid:
+        description: "공고번호(R26BK…) 또는 공고명 일부"
+        required: true
+      use_ai:
+        description: "AI로 '추진 전략' 문단 다듬기(Gemini 1회 호출). 끄면 AI 없이 골격만"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: proposal-draft
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install cryptography
+      - name: 비공개 저장소 가져오기
+        env:
+          PRIVATE_DATA_TOKEN: ${{ secrets.PRIVATE_DATA_TOKEN }}
+          PRIVATE_DATA_REPO: ${{ vars.PRIVATE_DATA_REPO || 'choiys2/vs-insight-private' }}
+        run: |
+          if [ -z "$PRIVATE_DATA_TOKEN" ]; then echo "::error::PRIVATE_DATA_TOKEN 없음 - 결과를 저장할 곳이 없습니다"; exit 1; fi
+          git clone --depth 1 -q "https://x-access-token:${PRIVATE_DATA_TOKEN}@github.com/${PRIVATE_DATA_REPO}.git" _private
+      - name: 제안서 초안 작성
+        env:
+          STRATEGY_KEY: ${{ secrets.STRATEGY_KEY }}
+          GEMINI_API_KEY: ${{ inputs.use_ai && secrets.GEMINI_API_KEY || '' }}
+          BID: ${{ inputs.bid }}
+        run: |
+          python proposal_draft.py "$BID" _private/proposals ${{ inputs.use_ai && '--ai' || '' }} | tee /tmp/out.txt
+      - name: 비공개 저장소에 저장
+        run: |
+          cd _private
+          git config user.name "vs-insight-bot"; git config user.email "actions@users.noreply.github.com"
+          git add proposals
+          git diff --cached --quiet && { echo "변경 없음"; exit 0; }
+          git commit -q -m "proposal: $(TZ=Asia/Seoul date +%F) ${{ inputs.bid }}"
+          B=$(git rev-parse --abbrev-ref HEAD)
+          for i in 1 2 3; do git push -q origin "$B" && break; sleep $((i*3)); git pull -q --rebase origin "$B" || true; done
+          F=$(grep -o 'proposals/[^ ]*\.md' /tmp/out.txt | head -1)
+          echo "### 제안서 초안 저장 완료" >> "$GITHUB_STEP_SUMMARY"
+          echo "비공개 저장소: ${{ vars.PRIVATE_DATA_REPO || 'choiys2/vs-insight-private' }} / $F" >> "$GITHUB_STEP_SUMMARY"

@@ -506,6 +506,12 @@ def main():
                 continue
             _seen.add(nt)
             _ok.append({**r, "fit": bid_fit.judge(r["ai"])})
+        try:
+            _ctx = bid_fit.go_context()
+            for r in _ok:
+                r["go"] = bid_fit.go_score(r, r["fit"], _ctx)
+        except Exception as e:
+            print(f"[경고] 참여 권장 점수 실패: {type(e).__name__}: {str(e)[:100]}")
         _prof = bid_fit.load_profile()
         rfp = {"items": _ok[:30], "total": len(_ok), "skipped": sum(1 for r in _rows if not r.get("ai")),
                "profile": {k: _prof[k] for k in ("name", "hq_region", "company_size", "industry_codes")}}
