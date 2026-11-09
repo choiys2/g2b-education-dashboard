@@ -168,6 +168,20 @@ def main():
         "note": "외부감사대상(상장 또는 일정 규모 이상 비상장) 법인만 조회됩니다. 연 1회 결산 공시 기준이라 최신 분기 실적은 반영되지 않습니다.",
         "companies": companies,
     }
+    # 2026-11 금융위원회 API 점검(네트워크 장비 교체) 대비: 이번에 한 곳도 못 받았으면 직전 정상 수집분을 쓴다.
+    # 연 1회 결산 공시라 직전 값이 그대로 유효하다. 정상 수집이면 직전분으로 보관(history/ 커밋 대상).
+    last = Path("history/competitor_finance_last.json")
+    if not any(c.get("available") for c in companies.values()):
+        if last.exists():
+            prev = json.loads(last.read_text(encoding="utf-8"))
+            prev["note"] = (prev.get("note") or "") + f" (API 응답 없음 - {prev.get('captured', '직전')} 수집분 표시)"
+            out = prev
+            print("금융위원회 API 응답 없음 - 직전 정상 수집분으로 대체")
+        else:
+            print("금융위원회 API 응답 없음 - 직전 수집분도 없어 빈 결과 저장")
+    else:
+        out["captured"] = date.today().isoformat()
+        last.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     Path(args.out).parent.mkdir(exist_ok=True)
     Path(args.out).write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"saved {args.out}")
