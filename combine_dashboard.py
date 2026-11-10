@@ -127,6 +127,23 @@ def _pool_url():
     return u or None
 
 
+def _ext_links():
+    """탭 줄 바깥 링크(별도 페이지) - 비공개 저장소 _private/config/links.json 또는 환경변수에서만 읽는다(공개 저장소에 주소 없음).
+    값은 출력하지 않고 설정 여부만 로그에 남긴다."""
+    d = {}
+    f = __import__("pathlib").Path(__file__).resolve().parent / "_private" / "config" / "links.json"
+    if f.exists():
+        try:
+            d = {k: v for k, v in json.loads(f.read_text(encoding="utf-8")).items() if not k.startswith("_")}
+        except Exception as e:  # noqa: BLE001
+            print("바깥 링크 파일 오류:", type(e).__name__)
+    if os.environ.get("REPORT_AUTO_URL", "").strip():
+        d["report_auto"] = os.environ["REPORT_AUTO_URL"].strip()
+    d = {k: v.strip() for k, v in d.items() if isinstance(v, str) and v.strip().startswith("https://claude.ai/")}
+    print("바깥 링크:", ", ".join(sorted(d)) or "미설정")
+    return d
+
+
 def _strategy():
     """에듀테크 전략 브리핑 복호화 - 결과 상태만 로그에 남긴다(내용은 출력하지 않음)."""
     import strategy_crypto
@@ -663,6 +680,7 @@ def main():
         "__GG_B2S_JSON__": load("history/gg_b2s.json") if os.path.exists("history/gg_b2s.json") else None,  # B2S 경기 시군
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)
+        "__EXT_LINKS_JSON__": _ext_links(),  # 결과보고 등 바깥 링크(비공개 저장소)
         "__TEACHER_GROUPS_JSON__": load("static_data/teacher_groups.json") if os.path.exists("static_data/teacher_groups.json") else None,  # 교사단체(공개 집계)
         "__GROUP_NEWS_JSON__": load("history/teacher_group_news.json") if os.path.exists("history/teacher_group_news.json") else None,  # 교사단체 소식
         "__POOL_PEOPLE_JSON__": _pool_people(),  # 강사 개인 정보(암호문 -> 로그인 뒤 화면만)
@@ -732,7 +750,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:
