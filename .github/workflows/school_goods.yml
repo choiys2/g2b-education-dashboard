@@ -1,0 +1,46 @@
+name: 학교단위 발주 수집(주 1회)
+
+on:
+  schedule:
+    - cron: "20 19 * * 0"   # 매주 월 04:20 KST - 06:00 대시보드 배포 전에 끝나도록
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "이 날짜부터 다시 조회(YYYY-MM-DD, 비우면 최근 35일)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: school-goods
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 설정 파일 준비(키는 환경변수로 덮어씀)
+        run: cp g2b_config.example.json g2b_config.json
+      - name: 학교단위 발주(물품·용역 공고·낙찰) 수집
+        timeout-minutes: 25
+        continue-on-error: true
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+          SINCE: ${{ github.event.inputs.since }}
+        run: python school_goods.py ${SINCE:+--since "$SINCE"}
+      # 결과 커밋 -> 대시보드 배포(빠른 배포)가 이어서 돌아 화면에 반영
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add history/school_goods.json
+          git diff --cached --quiet || git commit -m "chore: 학교단위 발주 수집 $(date -u +%F)"
+          git pull --rebase origin main
+          git push

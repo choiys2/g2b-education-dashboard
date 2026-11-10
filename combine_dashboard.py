@@ -671,6 +671,8 @@ def main():
         "__BRANCH_JSON__": None,  # 아래에서 기회점수 계산 뒤 채움(총판 연계)
         "__BRANCH_SUMMARY_JSON__": load("static_data/branch_summary.json") if os.path.exists("static_data/branch_summary.json") else None,
         "__INDUSTRY_JSON__": _safe(lambda: __import__("industry_view").build(), "기업·대학 트렌드"),  # 비공개 메모는 키로
+        "__SCHOOL_GOODS_JSON__": (load("history/school_goods.json") if os.path.exists("history/school_goods.json") else {}).get("rows", []),  # 학교단위 발주(주 1회 수집)
+        "__SCHOOL_GOODS_META_JSON__": {k: v for k, v in (load("history/school_goods.json") if os.path.exists("history/school_goods.json") else {}).items() if k != "rows"},
         "__REGION_PROGRAMS_JSON__": _safe(_region_programs, "지역 연계 사업"),
         "__AIEP_JSON__": _safe(lambda: __import__("aiep_view").build(), "시도 AIEP"),  # 17개 시도 AIEP·조달·제휴 메모(비공개는 키로)
         "__ADOPTION_JSON__": _adoption(),  # 비상 교과서 채택(암호문 -> 로그인 뒤 화면)
