@@ -8848,59 +8848,158 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
 </script>
 <script>
 /* ---------------- 지역 총판 연계: B2G(교육청·교육지원청) ↔ B2S(학교) 다리 (지역 총판 탭: B2G영업과 B2S 사이) ----------------
-   총판 상세는 암호문(static_data/branch_network.enc.json)을 배포 때 복호화 - 로그인 뒤 화면에만. 휴대폰·계좌·대표자 이름은 없음 */
+   총판 상세는 암호문(static_data/branch_network.enc.json)을 배포 때 복호화 - 로그인 뒤 화면에만. 휴대폰·계좌·대표자 이름은 없음.
+   입체 지도: 시군구 경계(통계청 2018 공개본) 위에 총판 담당 구역(색)·지사 사무실(핀)·AI 중점·디지털 선도학교 수(막대) */
 (function renderBranch(){
-  const B = __BRANCH_JSON__, SUM = __BRANCH_SUMMARY_JSON__;
+  const B = __BRANCH_JSON__, SUM = __BRANCH_SUMMARY_JSON__, GEO = __BRANCH_GEO_JSON__;
   const tab = document.getElementById('panel-branch'); if (!tab || (!B && !SUM)) return;
   window.__BRANCH = B;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const n = v => (v || 0).toLocaleString();
   const won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
+  const SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+  const PAL = ['#4f8cff', '#10b981', '#f59e0b', '#a78bfa', '#ef4444', '#14b8a6', '#ec4899', '#84cc16', '#f97316', '#06b6d4', '#8b5cf6', '#eab308'];
   const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'branchPanel';
   const asOf = (B && B.as_of) || (SUM && SUM.as_of) || '';
   sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">지역 총판 연계 — 교육청 영업(B2G) ↔ 학교 영업(B2S)<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">비상교육 지사 주소록 ${h(asOf)} 기준 · ${B ? '총판 상세는 로그인 뒤 화면에만' : '시도별 집계만 표시'}</span></p>
-    <p class="panel-desc">총판(학판·교판)의 담당 지역을 교육지원청에 연결하고, 그 관할의 연수 공고·AI 중점·선도학교·겨울방학 안내 대상 학교를 붙였습니다. 교육청 공고는 시도 단위, 학교 영업은 총판 단위로 보면서 '교육청 영업 → 관할 총판 → 학교' 동선을 짭니다.</p>
+    <p class="panel-desc">총판(학판·교판)의 담당 지역을 교육지원청·시군구에 연결하고, 그 관할의 연수 공고·AI 중점·선도학교·겨울방학 안내 대상 학교를 붙였습니다. 지도에서 구역을 누르면 그 구역 총판만, 표에서 총판을 누르면 지도에 담당 구역이 강조됩니다.</p>
     <p style="margin:6px 0 0;font-size:12px;padding:6px 10px;border-radius:8px;background:color-mix(in srgb, var(--warning) 16%, transparent);"><b>주의</b> 주소록이 ${h(asOf)} 기준이라 상호·담당 지역·연락처가 바뀌었을 수 있습니다. 최신 주소록 파일을 같은 드라이브 폴더에 올리면 다시 변환합니다.</p></div></div>
-    <div class="filter-row" style="gap:8px;flex-wrap:wrap;margin-top:8px;"><select id="brSido"></select><input id="brQ" type="search" placeholder="총판·지역·교육지원청 검색" style="flex:1 1 200px;min-width:0;"></div>
-    <div id="brSidoCard" style="margin-top:10px;"></div><div id="brBody" style="margin-top:10px;"></div>`;
+    <div class="filter-row" style="gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center;"><select id="brSido"></select><input id="brQ" type="search" placeholder="총판·지역·교육지원청 검색" style="flex:1 1 200px;min-width:0;">
+      <select id="brMetric" title="지도 막대"><option value="sum">막대: AI 중점+디지털 선도</option><option value="ai">막대: AI 중점학교</option><option value="dig">막대: 디지털 선도학교</option><option value="none">막대 없음</option></select>
+      <button type="button" class="pill" id="brView">평면으로</button></div>
+    <div id="brSidoCard" style="margin-top:10px;"></div>
+    <div id="brMapWrap" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;"><div id="brMap" style="flex:1 1 560px;min-width:0;"></div><div id="brLegend" style="flex:0 1 240px;min-width:0;font-size:12px;"></div></div>
+    <div id="brBody" style="margin-top:10px;"></div>`;
   tab.prepend(sec);
-  const SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
   // 학판·교판이 같은 지역을 맡으면 한 줄로 묶는다
   const groups = {};
   ((B && B.rows) || []).forEach(r => {
     const k = r.sido + '|' + r.offices.join(',') + '|' + r.area.replace(/\s/g, '');
-    const g = groups[k] = groups[k] || {...r, names: [], staff: new Set(), tels: new Set()};
+    const g = groups[k] = groups[k] || {...r, names: [], staff: new Set(), tels: new Set(), locs: new Set(), sggs: new Set()};
     g.names.push({type: r.type, name: r.name}); if (r.staff) g.staff.add(r.staff); if (r.tel) g.tels.add(r.tel);
+    if (r.loc) g.locs.add(r.loc); (r.sgg || []).forEach(c => g.sggs.add(c));
   });
   const G = Object.values(groups);
   const bySido = {}; (SUM && SUM.by_sido || []).forEach(x => { bySido[x.sido] = x; });
+  const F = (GEO && GEO.features) || [], FC = {}; F.forEach(f => { FC[f.c] = f; });
+  const sgg2g = {}; G.forEach(g => g.sggs.forEach(c => { (sgg2g[c] = sgg2g[c] || []).push(g); }));
   const sel = sec.querySelector('#brSido');
-  const score = sd => (B && B.sido && B.sido[sd]) ? (B.sido[sd].hq_bids || 0) : 0;
-  sel.innerHTML = SIDO.map(sd => `<option value="${sd}">${sd} · 총판 ${(bySido[sd] ? bySido[sd]['학판'] + bySido[sd]['교판'] : 0)}곳</option>`).join('');
-  sel.value = '경기';
+  const cnt = sd => sd === '전체' ? (SUM ? SUM.total : 0) : (bySido[sd] ? bySido[sd]['학판'] + bySido[sd]['교판'] : 0);
+  sel.innerHTML = ['전체', ...SIDO].map(sd => `<option value="${sd}">${sd} · 총판 ${cnt(sd)}곳</option>`).join('');
+  sel.value = '전체';
+  let flat = false, pick = null, focus = null;  // pick: 지도에서 고른 시군구, focus: 표에서 고른 총판 묶음
+  const metricOf = c => { const m = sec.querySelector('#brMetric').value, a = (GEO && GEO.ai[c]) || 0, d = (GEO && GEO.dig[c]) || 0; return m === 'ai' ? a : m === 'dig' ? d : m === 'sum' ? a + d : 0; };
+
+  function drawMap(sd, R){
+    const el = sec.querySelector('#brMap'), lg = sec.querySelector('#brLegend');
+    if (!F.length) { el.innerHTML = ''; lg.innerHTML = ''; return; }
+    const all = sd === '전체', fs = F.filter(f => all || f.sd === sd || (B && [...(sgg2g[f.c] || [])].some(g => g.sido === sd)));
+    const tilt = flat ? 1 : 0.6, thick = flat ? 0 : (all ? 5 : 9);
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    fs.forEach(f => f.r.forEach(r => { for (let i = 0; i < r.length; i += 2) { x0 = Math.min(x0, r[i]); x1 = Math.max(x1, r[i]); y0 = Math.min(y0, r[i + 1]); y1 = Math.max(y1, r[i + 1]); } }));
+    const W = 900, H = all ? 640 : 560, pad = 26, top = flat ? 10 : 60;
+    const s = Math.min((W - pad * 2) / (x1 - x0 || 1), (H - pad - top - thick) / ((y1 - y0) * tilt || 1));
+    const ox = (W - (x1 - x0) * s) / 2, P = (x, y) => [ox + (x - x0) * s, top + (y - y0) * tilt * s];
+    const path = f => f.r.map(r => { let d = ''; for (let i = 0; i < r.length; i += 2) { const [a, b] = P(r[i], r[i + 1]); d += (i ? 'L' : 'M') + a.toFixed(1) + ',' + b.toFixed(1); } return d + 'Z'; }).join('');
+    // 구역 색: 시도 보기 = 총판 묶음별 색, 전체 보기 = 담당 총판 수
+    const colorOf = {}; R.forEach((g, i) => { colorOf[g.code + g.area] = PAL[i % PAL.length]; });
+    const fillOf = f => {
+      const gs = (sgg2g[f.c] || []).filter(g => all || g.sido === sd);
+      if (!B) { const v = metricOf(f.c) || ((GEO.ai[f.c] || 0) + (GEO.dig[f.c] || 0)); return `color-mix(in srgb, var(--accent) ${Math.min(70, 8 + v * 6)}%, var(--surface-2))`; }
+      if (!gs.length) return 'color-mix(in srgb, #ef4444 22%, var(--surface-2))';
+      if (all) return `color-mix(in srgb, var(--accent) ${[0, 28, 48, 66][Math.min(3, gs.length)]}%, var(--surface-2))`;
+      return colorOf[gs[0].code + gs[0].area] || 'var(--surface-2)';
+    };
+    const hl = new Set(focus ? [...focus.sggs] : pick ? [pick] : []);
+    const base = thick ? fs.map(f => `<path d="${path(f)}" transform="translate(0,${thick})" fill="color-mix(in srgb, var(--ink) 22%, var(--surface-2))" stroke="color-mix(in srgb, var(--ink) 30%, var(--surface-2))" stroke-width=".6"/>`).join('') : '';
+    const tops = fs.map(f => {
+      const gs = (sgg2g[f.c] || []);
+      const tip = `<b>${h(f.sd)} ${h(f.n)}</b><br>AI 중점 ${n(GEO.ai[f.c])} · 디지털 선도 ${n(GEO.dig[f.c])}${B ? '<br>' + (gs.length ? '총판: ' + gs.map(g => g.names.map(x => h(x.name)).join('·')).join(' / ') : '연결된 총판 없음') : ''}`;
+      const dim = hl.size && !hl.has(f.c);
+      return `<path class="brSgg" data-c="${f.c}" d="${path(f)}" fill="${fillOf(f)}" fill-opacity="${dim ? .35 : (all || !B ? 1 : .62)}" stroke="${hl.has(f.c) ? 'var(--ink)' : 'var(--surface)'}" stroke-width="${hl.has(f.c) ? 1.8 : .7}" style="cursor:pointer;" data-tip="${h(tip)}"/>`;
+    }).join('');
+    // 시도 경계 강조(전체 보기)
+    const items = [];
+    const bw = all ? 3.2 : 7, hmax = all ? 70 : 110, mx = Math.max(1, ...fs.map(f => metricOf(f.c)));
+    if (sec.querySelector('#brMetric').value !== 'none') fs.forEach(f => {
+      const v = metricOf(f.c); if (!v) return;
+      const [X, Y] = P(f.xy[0], f.xy[1]), hh = Math.max(3, v / mx * hmax), dx = bw * .55, dy = bw * .35;
+      items.push({y: Y, svg: `<g data-tip="${h(`<b>${h(f.n)}</b> · AI 중점 ${n(GEO.ai[f.c])} · 디지털 선도 ${n(GEO.dig[f.c])}`)}" style="pointer-events:all;">
+        <rect x="${(X - bw / 2).toFixed(1)}" y="${(Y - hh).toFixed(1)}" width="${bw}" height="${hh.toFixed(1)}" fill="#f59e0b"/>
+        <polygon points="${X + bw / 2},${Y - hh} ${X + bw / 2 + dx},${Y - hh - dy} ${X + bw / 2 + dx},${Y - dy} ${X + bw / 2},${Y}" fill="#b45309"/>
+        <polygon points="${X - bw / 2},${Y - hh} ${X - bw / 2 + dx},${Y - hh - dy} ${X + bw / 2 + dx},${Y - hh - dy} ${X + bw / 2},${Y - hh}" fill="#fcd34d"/></g>`});
+    });
+    // 지사 사무실 핀(로그인 화면): 같은 시군구에 여러 곳이면 옆으로 벌린다
+    const boxes = [], free = (x, y, w) => { const bx = [x, y - 11, x + w, y + 2]; if (boxes.some(o => bx[0] < o[2] && bx[2] > o[0] && bx[1] < o[3] && bx[3] > o[1])) return false; boxes.push(bx); return true; };
+    if (B) {
+      const atLoc = {};
+      (all ? G : R).forEach(g => [...g.locs].forEach(c => { (atLoc[c] = atLoc[c] || []).push(g); }));
+      Object.entries(atLoc).forEach(([c, gs]) => {
+        const f = FC[c]; if (!f || (!all && !fs.includes(f))) return;
+        gs.forEach((g, i) => {
+          const [X0, Y] = P(f.xy[0], f.xy[1]), X = X0 + (i - (gs.length - 1) / 2) * (all ? 5 : 11), ph = all ? 16 : 30;
+          const col = all ? 'var(--ink)' : (colorOf[g.code + g.area] || 'var(--ink)'), on = focus === g;
+          items.push({y: Y + .1, svg: `<g class="brPin" data-k="${h(g.code + g.area)}" style="cursor:pointer;" data-tip="${h(`<b>${g.names.map(x => h(x.type) + ' ' + h(x.name)).join('<br>')}</b><br>사무실: ${h(f.sd)} ${h(f.n)}<br>담당: ${h(g.area)}`)}">
+            <line x1="${X}" y1="${Y}" x2="${X}" y2="${Y - ph}" stroke="var(--ink)" stroke-width="${on ? 2 : 1.2}"/>
+            <circle cx="${X}" cy="${Y - ph}" r="${all ? 3 : on ? 7 : 5.5}" fill="${col}" stroke="var(--surface)" stroke-width="1.5"/>
+            ${!all && (() => { const t = g.names[0].name.replace(/\s*\(.*\)$/, ''); return on || free(X + 7, Y - ph - 6, t.length * 10.5); })() ? `<text x="${X + 7}" y="${Y - ph - 6}" font-size="10.5" font-weight="700" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="3">${h(g.names[0].name.replace(/\s*\(.*\)$/, ''))}</text>` : ''}</g>`});
+        });
+      });
+    }
+    items.sort((a, b) => a.y - b.y);
+    // 이름표: 시도 보기 = 시군구, 전체 보기 = 시도
+    let labels = '';
+    if (!all) labels = fs.filter(f => f.sd === sd).map(f => { const [X, Y] = P(f.xy[0], f.xy[1]); return `<text x="${X}" y="${Y + 12}" text-anchor="middle" font-size="9.5" fill="var(--ink-2)" paint-order="stroke" stroke="var(--surface)" stroke-width="2.5" style="pointer-events:none;">${h(f.n.replace(/^(.+?[시군])(.+구)$/, '$2'))}</text>`; }).join('');
+    else labels = SIDO.map(s2 => { const ff = F.filter(f => f.sd === s2); if (!ff.length) return ''; const cx = ff.reduce((a, f) => a + f.xy[0], 0) / ff.length, cy = ff.reduce((a, f) => a + f.xy[1], 0) / ff.length; const [X, Y] = P(cx, cy); return `<text x="${X}" y="${Y + 14}" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="3" style="pointer-events:none;">${s2} ${cnt(s2)}</text>`; }).join('');
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" aria-label="${h(sd)} 총판 담당 구역 지도">${base}${tops}${items.map(x => x.svg).join('')}${labels}</svg>`;
+    const unc = B ? fs.filter(f => (all || f.sd === sd) && !(sgg2g[f.c] || []).length).map(f => f.n) : [];
+    const sw = (c, t) => `<div style="display:flex;gap:6px;align-items:center;margin:3px 0;"><span style="width:12px;height:12px;border-radius:3px;background:${c};flex:none;"></span>${t}</div>`;
+    lg.innerHTML = `<div style="font-weight:700;margin-bottom:4px;">읽는 법</div>
+      ${B ? (all ? sw('color-mix(in srgb, var(--accent) 28%, var(--surface-2))', '총판 1곳 담당') + sw('color-mix(in srgb, var(--accent) 66%, var(--surface-2))', '총판 3곳 이상 겹침') : sw(PAL[0], '색 = 총판 담당 구역(표의 색 점과 같음)')) + sw('color-mix(in srgb, #ef4444 22%, var(--surface-2))', '연결된 총판 없음') + sw('var(--ink)', '핀 = 지사 사무실 위치(주소 기준 시군구)') : sw('color-mix(in srgb, var(--accent) 50%, var(--surface-2))', '색 = AI 중점·선도학교가 많을수록 진함')}
+      ${sec.querySelector('#brMetric').value !== 'none' ? sw('#f59e0b', '막대 = ' + sec.querySelector('#brMetric').selectedOptions[0].text.replace('막대: ', '') + ' 학교 수(시군구)') : ''}
+      ${unc.length ? `<div style="margin-top:8px;color:var(--ink-2);"><b>총판 미연결</b> ${unc.length}곳: ${h(unc.slice(0, 12).join(', '))}${unc.length > 12 ? ' 외' : ''}</div>` : ''}
+      ${pick ? `<div style="margin-top:8px;"><b>${h((FC[pick] || {}).n)}</b> 담당 총판만 표에 표시 중 <button type="button" class="pill" id="brClear" style="font-size:11px;">해제</button></div>` : ''}
+      <div style="margin-top:8px;color:var(--muted);">경계: 통계청 2018 시군구(공개본) · 인천 2026 개편·군위 편입은 옛 경계로 표시</div>`;
+    el.querySelectorAll('.brSgg').forEach(p => p.addEventListener('click', () => { pick = pick === p.dataset.c ? null : p.dataset.c; focus = null; draw(); }));
+    el.querySelectorAll('.brPin').forEach(p => p.addEventListener('click', e => { e.stopPropagation(); const g = G.find(x => x.code + x.area === p.dataset.k); focus = focus === g ? null : g; pick = null; draw(); }));
+    const cl = lg.querySelector('#brClear'); if (cl) cl.addEventListener('click', () => { pick = null; draw(); });
+    return colorOf;
+  }
+
   function draw(){
-    const sd = sel.value, q = sec.querySelector('#brQ').value.trim();
-    const S = (B && B.sido && B.sido[sd]) || {}, cnt = bySido[sd] || {};
-    const top = (S.top || []).map(t => `${h(t.topic)} <b>${t.score}</b>`).join(' · ') || '-';
+    const sd = sel.value, q = sec.querySelector('#brQ').value.trim(), all = sd === '전체';
+    const SS = (B && B.sido) || {};
+    const S = all ? Object.values(SS).reduce((a, x) => ({hq_bids: a.hq_bids + (x.hq_bids || 0), offices: a.offices + (x.offices || 0), covered: a.covered + (x.covered || 0), uncovered: a.uncovered.concat((x.uncovered || []).slice(0, 2))}), {hq_bids: 0, offices: 0, covered: 0, uncovered: []}) : (SS[sd] || {});
+    const c2 = all ? SIDO.reduce((a, s2) => ({학판: a.학판 + ((bySido[s2] || {})['학판'] || 0), 교판: a.교판 + ((bySido[s2] || {})['교판'] || 0)}), {학판: 0, 교판: 0}) : (bySido[sd] || {});
+    const topCells = all ? Object.entries(SS).flatMap(([s2, x]) => (x.top || []).map(t => ({...t, topic: s2 + ' ' + t.topic}))).sort((a, b) => b.score - a.score).slice(0, 3) : (S.top || []);
+    const top = topCells.map(t => `${h(t.topic)} <b>${t.score}</b>`).join(' · ') || '-';
     sec.querySelector('#brSidoCard').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;">${[
-      ['총판', `${n((cnt['학판'] || 0) + (cnt['교판'] || 0))}곳`, `학판 ${n(cnt['학판'])} · 교판 ${n(cnt['교판'])}`],
+      ['총판', `${n((c2['학판'] || 0) + (c2['교판'] || 0))}곳`, `학판 ${n(c2['학판'])} · 교판 ${n(c2['교판'])}`],
       ['교육청 본청·연수원 공고', `${n(S.hq_bids)}건`, '최근 12개월 · 시도 단위 영업 대상'],
       ['교육지원청 연결', S.offices ? `${n(S.covered)}/${n(S.offices)}` : '-', S.uncovered && S.uncovered.length ? '미연결: ' + S.uncovered.slice(0, 3).join(', ') : '전부 연결'],
-      ['기회점수 상위 주제', '', top]].map(([k, v, s]) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div>${v ? `<div style="font-size:17px;font-weight:800;">${v}</div>` : ''}<div style="font-size:11.5px;color:var(--ink-2);">${s}</div></div>`).join('')}</div>`;
-    if (!B) { sec.querySelector('#brBody').innerHTML = '<p style="color:var(--muted);font-size:13px;">총판 상세는 배포 키로 복호화될 때만 표시됩니다(로그인 화면).</p>'; return; }
-    const R = G.filter(g => g.sido === sd && (!q || (g.names.map(x => x.name).join(' ') + g.area + g.offices.join(' ')).includes(q)))
-      .sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3));
+      [all ? '기회점수 상위(시도·주제)' : '기회점수 상위 주제', '', top]].map(([k, v, s]) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div>${v ? `<div style="font-size:17px;font-weight:800;">${v}</div>` : ''}<div style="font-size:11.5px;color:var(--ink-2);">${s}</div></div>`).join('')}</div>`;
+    let R = G.filter(g => (all || g.sido === sd) && (!q || (g.names.map(x => x.name).join(' ') + g.area + g.offices.join(' ') + g.sido).includes(q)) && (!pick || g.sggs.has(pick)))
+      .sort((a, b) => all ? (SIDO.indexOf(a.sido) - SIDO.indexOf(b.sido)) || ((b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3)) : (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3));
+    const colorOf = drawMap(sd, all ? R : G.filter(g => g.sido === sd).sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3))) || {};
+    if (!B) { sec.querySelector('#brBody').innerHTML = '<p style="color:var(--muted);font-size:13px;">총판 상세(상호·담당 구역·사무실 위치)는 배포 키로 복호화될 때만 표시됩니다(로그인 화면).</p>'; return; }
     const tag = t => `<span style="display:inline-block;padding:0 6px;border-radius:99px;font-size:10.5px;font-weight:700;background:${t === '교판' ? 'color-mix(in srgb, #10b981 22%, var(--surface-2))' : 'color-mix(in srgb, var(--accent) 18%, var(--surface-2))'};margin-right:3px;">${t}</span>`;
-    sec.querySelector('#brBody').innerHTML = R.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:900px;"><thead><tr><th>총판</th><th>비상 담당</th><th>담당 지역</th><th>관할 교육지원청</th><th class="num">연수 공고 12개월(90일)</th><th class="num">AI 중점</th><th class="num">디지털 선도</th><th class="num" title="겨울방학 3주 전 안내 기한이 45일 안인 학교">안내 대상 45일</th><th>사무실 전화</th></tr></thead><tbody>
-      ${R.map((g, i) => `<tr class="brRow" data-i="${i}" style="cursor:pointer;"><td style="font-weight:700;min-width:150px;">${g.names.map(x => tag(x.type) + h(x.name)).join('<br>')}</td><td style="white-space:nowrap;">${h([...g.staff].join(', '))}</td><td style="font-size:12px;">${h(g.area)}</td>
+    const dot = g => all ? '' : `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${colorOf[g.code + g.area] || 'transparent'};margin-right:5px;vertical-align:middle;"></span>`;
+    const total = R.length, more = sec.dataset.more === '1';
+    if (all && !q && !pick && !more && R.length > 30) R = R.slice().sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3)).slice(0, 30);
+    sec.querySelector('#brBody').innerHTML = R.length ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">${all ? '전체' : h(sd)} 총판 묶음 ${total}개${R.length < total ? ` 중 우선순위 상위 ${R.length}개 <button type="button" class="pill" id="brMore" style="font-size:11px;">전체 ${total}개 보기</button>` : ''}(학판·교판이 같은 지역이면 한 줄) · 행을 누르면 지도 강조 + 최근 공고·주소</div><div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:960px;"><thead><tr>${all ? '<th style="white-space:nowrap;">시도</th>' : ''}<th style="min-width:170px;">총판</th><th>비상 담당</th><th>담당 지역</th><th>관할 교육지원청</th><th class="num">연수 공고 12개월(90일)</th><th class="num">AI 중점</th><th class="num">디지털 선도</th><th class="num" title="겨울방학 3주 전 안내 기한이 45일 안인 학교">안내 대상 45일</th><th>사무실 전화</th></tr></thead><tbody>
+      ${R.map((g, i) => `<tr class="brRow" data-i="${i}" style="cursor:pointer;${focus === g ? 'background:color-mix(in srgb, var(--accent) 12%, transparent);' : ''}">${all ? `<td style="white-space:nowrap;">${h(g.sido)}</td>` : ''}<td style="font-weight:700;">${dot(g)}${g.names.map(x => tag(x.type) + h(x.name)).join('<br>')}</td><td style="white-space:nowrap;">${h([...g.staff].join(', '))}</td><td style="font-size:12px;">${h(g.area)}</td>
         <td style="font-size:11.5px;color:var(--ink-2);">${h(g.offices.join(', '))}</td><td class="num">${g.bids12}(${g.bids90}) · ${won(g.bid_amt)}</td><td class="num">${n(g.ai)}</td><td class="num">${n(g.dig)}</td><td class="num"><b>${n(g.due45)}</b></td><td style="white-space:nowrap;font-size:12px;">${h([...g.tels][0] || '')}</td></tr>
-        <tr class="brDet" data-i="${i}" hidden><td colspan="9" style="font-size:12px;background:var(--surface-2);">${g.recent && g.recent.length ? '최근 관할 연수 공고: ' + g.recent.map(b => `${b.u ? `<a href="${h(b.u)}" target="_blank" rel="noopener">${h(b.t)}</a>` : h(b.t)} (${h(b.d)})`).join(' · ') : '최근 12개월 관할 교육지원청 연수 공고 없음 — 학교 단위(B2S) 영업 중심 지역'}${g.addr ? `<br>주소: ${h(g.addr)}` : ''}</td></tr>`).join('')}</tbody></table></div>`
+        <tr class="brDet" data-i="${i}" ${focus === g ? '' : 'hidden'}><td colspan="${all ? 10 : 9}" style="font-size:12px;background:var(--surface-2);">${g.recent && g.recent.length ? '최근 관할 연수 공고: ' + g.recent.map(b => `${b.u ? `<a href="${h(b.u)}" target="_blank" rel="noopener">${h(b.t)}</a>` : h(b.t)} (${h(b.d)})`).join(' · ') : '최근 12개월 관할 교육지원청 연수 공고 없음 — 학교 단위(B2S) 영업 중심 지역'}${g.addr ? `<br>주소: ${h(g.addr)}` : ''}<br>담당 시군구: ${h([...g.sggs].map(c => (FC[c] || {}).n).filter(Boolean).join(', '))}</td></tr>`).join('')}</tbody></table></div>`
       : '<p style="color:var(--muted);font-size:13px;">조건에 맞는 총판이 없습니다.</p>';
-    sec.querySelectorAll('.brRow').forEach(r => r.addEventListener('click', () => { const d = sec.querySelector(`.brDet[data-i="${r.dataset.i}"]`); d.hidden = !d.hidden; }));
-    const best = R.slice(0, 3).map(g => `${g.names[0].name}(AI 중점 ${g.ai}·안내 대상 ${g.due45})`);
-    sec.querySelector('#brBody').insertAdjacentHTML('beforeend', `<p class="tt-note" style="margin-top:10px;font-size:13px;line-height:1.6;"><b>그래서</b> ${h(sd)}는 교육청 본청·연수원 공고 ${n(S.hq_bids)}건을 본사가 직접 맡고, 학교 단위는 ${best.length ? `<b>${h(best.join(' · '))}</b> 순으로 총판과 동행 방문을 잡으세요` : '총판 정보를 최신화한 뒤 동선을 잡으세요'}. 교육지원청 공고가 뜨면 관할 총판에 현장 정보(담당 장학사·학교 반응)를 먼저 확인하고, B2S 발송 리스트의 기한 임박 학교를 총판 방문 일정에 넣으면 됩니다.</p>`);
+    sec.querySelectorAll('.brRow').forEach(r => r.addEventListener('click', () => { const g = R[+r.dataset.i]; focus = focus === g ? null : g; draw(); }));
+    const mb = sec.querySelector('#brMore'); if (mb) mb.addEventListener('click', () => { sec.dataset.more = '1'; draw(); });
+    const best = R.slice().sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3)).slice(0, 3).map(g => `${g.names[0].name}(${all ? g.sido + ' · ' : ''}AI 중점 ${g.ai}·안내 대상 ${g.due45})`);
+    sec.querySelector('#brBody').insertAdjacentHTML('beforeend', `<p class="tt-note" style="margin-top:10px;font-size:13px;line-height:1.6;"><b>그래서</b> ${all ? '전국' : h(sd)} 교육청 본청·연수원 공고 ${n(S.hq_bids)}건은 본사가 직접 맡고, 학교 단위는 ${best.length ? `<b>${h(best.join(' · '))}</b> 순으로 총판과 동행 방문을 잡으세요` : '총판 정보를 최신화한 뒤 동선을 잡으세요'}. 지도에서 붉은 구역(총판 미연결)은 본사 직접 영업 또는 인접 총판 배정 대상입니다.</p>`);
   }
-  sel.addEventListener('change', draw); let tm; sec.querySelector('#brQ').addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(draw, 200); });
+  sel.addEventListener('change', () => { pick = null; focus = null; sec.dataset.more = ''; draw(); });
+  sec.querySelector('#brMetric').addEventListener('change', draw);
+  sec.querySelector('#brView').addEventListener('click', e => { flat = !flat; e.target.textContent = flat ? '입체로' : '평면으로'; draw(); });
+  let tm; sec.querySelector('#brQ').addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(draw, 200); });
   draw();
 })();
 </script>

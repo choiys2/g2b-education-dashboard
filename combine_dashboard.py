@@ -46,7 +46,7 @@ def _branch(opp):
     try:
         import strategy_crypto, branch_network
         d = branch_network.build(strategy_crypto.decrypt(load(p), key), opp)
-        print(f"총판 연계: 복호화 · {len(d['rows'])}곳 · 기준 {d.get('as_of')}")
+        print(f"총판 연계: 복호화 · {len(d['rows'])}곳 · 기준 {d.get('as_of')} · 지도 위치 {sum(1 for r in d['rows'] if r.get('loc'))}곳")
         return d
     except Exception as e:
         print(f"총판 연계: 실패({type(e).__name__})")
@@ -639,6 +639,7 @@ def main():
         "__OPPORTUNITY_JSON__": _safe(lambda: __import__("opportunity").build(trend2027, data_rows, pipeline=pipeline_export), "통합 기회점수"),  # 통합 기회점수(시도×주제)
         "__BRANCH_JSON__": None,  # 아래에서 기회점수 계산 뒤 채움(총판 연계)
         "__BRANCH_SUMMARY_JSON__": load("static_data/branch_summary.json") if os.path.exists("static_data/branch_summary.json") else None,
+        "__BRANCH_GEO_JSON__": _safe(lambda: __import__("branch_network").geo_pack(), "총판 지도"),  # 공개 시군구 경계 + AI·선도학교 수
         "__FORECAST_JSON__": _safe(lambda: __import__("bid_forecast").build(), "발주 예측"),  # 발주 예측 캘린더
         "__FRESHNESS_JSON__": __import__("freshness").build(full_live),  # 데이터 신선도(상단 배지)
         "__AI_SCHOOL_UPDATES_JSON__": load("static_data/ai_school_updates.json") if os.path.exists("static_data/ai_school_updates.json") else None,  # AI 중점학교 최신 동향
@@ -682,7 +683,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:

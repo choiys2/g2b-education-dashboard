@@ -105,6 +105,12 @@ def _offices():
             if mm and b.get("r") in SIDO:
                 nm = re.sub(r"^.*?(특별자치도|특별자치시|광역시|특별시|도)(?=[가-힣]+교육지원청)", "", mm.group(1))
                 m.setdefault((b["r"], nm), set())
+    # 개편 전 구 이름도 함께(주소록은 옛 이름: 인천 서구·남구·중구) - 지도 보정표 GEO_ALIAS 재사용
+    for (sd, off), sgg in m.items():
+        for g in list(sgg):
+            for s2, old in GEO_ALIAS.get((sd, g), []):
+                if s2 == sd:
+                    sgg.add(old)
     return m
 
 
@@ -130,7 +136,7 @@ def _infer_sido(row, offices):
     return row["sido"]
 
 
-def _match(row, offices):
+def _match(row, offices, pairs=False):
     stems = _stems({**row, "tokens": [t for t in row["tokens"] if t != row["sido"]]})
     # '인천(부평,계양,서구)'처럼 시도명 뒤 소괄호면 그 안의 구만, '광주{화순,장성}'처럼 중괄호·쉼표면 시도 전역 + 추가 지역
     restricted = bool(re.match(rf"^\s*{row['sido']}\s*\(", row.get("area") or ""))
@@ -145,12 +151,102 @@ def _match(row, offices):
             continue
         on = off.replace("교육지원청", "")
         if any(st in on or any(g == st or g.startswith(st) for g in sgg if g) for st in stems):
-            hits.append(off)
+            hits.append((sd, off))
     if whole and (not hits or not restricted):
-        hits += [off for (sd, off) in offices if sd == row["sido"]]
+        hits += [(sd, off) for (sd, off) in offices if sd == row["sido"]]
     if not hits and row["sido"] in row["tokens"]:
-        hits = [f"{row['sido']} 전역(교육청 직속)"]  # 세종처럼 교육지원청 없이 교육청이 직접 관할
-    return sorted(set(hits))
+        hits = [(row["sido"], f"{row['sido']} 전역(교육청 직속)")]  # 세종처럼 교육지원청 없이 교육청이 직접 관할
+    return sorted(set(hits)) if pairs else sorted({o for _, o in hits})
+
+
+# ---------------- 지도(시군구) 연결: static_data/sigungu_geo.json ----------------
+SIDO_FULL = {"서울특별시": "서울", "부산광역시": "부산", "대구광역시": "대구", "인천광역시": "인천", "광주광역시": "광주", "대전광역시": "대전",
+             "울산광역시": "울산", "세종특별자치시": "세종", "경기도": "경기", "강원도": "강원", "강원특별자치도": "강원", "충청북도": "충북",
+             "충청남도": "충남", "전라북도": "전북", "전북특별자치도": "전북", "전라남도": "전남", "경상북도": "경북", "경상남도": "경남",
+             "제주특별자치도": "제주", "제주도": "제주"}
+_GEO = None
+# 지도(2018 경계) 이후 바뀐 행정구역: 인천 2026 개편(제물포·영종·검단·서해구), 미추홀구(옛 남구), 군위군(2023 경북 -> 대구)
+GEO_ALIAS = {("인천", "제물포구"): [("인천", "중구"), ("인천", "동구")], ("인천", "영종구"): [("인천", "중구")],
+             ("인천", "미추홀구"): [("인천", "남구")], ("인천", "검단구"): [("인천", "서구")], ("인천", "서해구"): [("인천", "서구")],
+             ("대구", "군위군"): [("경북", "군위군")]}
+
+
+def _geo():
+    global _GEO
+    if _GEO is None:
+        try:
+            _GEO = json.loads((HERE / "static_data/sigungu_geo.json").read_text(encoding="utf-8"))["features"]
+        except (OSError, ValueError, KeyError):
+            _GEO = []
+    return _GEO
+
+
+def sgg_codes(sd, name):
+    """(시도, 시군구 이름) -> 지도 시군구 코드들. '수원시'는 4개 구, '세종'은 세종시 전체."""
+    nm = re.sub(r"\s", "", name or "")
+    if not nm:
+        return []
+    if (sd, nm) in GEO_ALIAS:
+        return [f["c"] for s2, n2 in GEO_ALIAS[(sd, nm)] for f in _geo() if f["sd"] == s2 and f["n"] == n2]
+    fs = [f for f in _geo() if f["sd"] == sd]
+    hit = [f["c"] for f in fs if f["n"] == nm]
+    return hit or [f["c"] for f in fs if f["n"].startswith(nm) or (len(nm) >= 2 and f["n"].startswith(_stem(nm)) and len(_stem(nm)) >= 2)]
+
+
+def addr_code(addr):
+    """주소 -> 시군구 코드 1개(사무실·학교 위치). '경기도 수원시 팔달구 …' -> 수원시팔달구. 시도 생략·옛 시 이름(마산)도 처리."""
+    t = (addr or "").split()
+    i = next((k for k, w in enumerate(t[:4]) if SIDO_FULL.get(w) or w[:2] in SIDO), None)
+    sd = None
+    if i is not None:
+        sd = SIDO_FULL.get(t[i]) or t[i][:2]
+        t = t[i + 1:]
+    if sd == "세종":
+        c = sgg_codes("세종", "세종시")
+        return c[0] if c else None
+    if not t:
+        return None
+    fs = [f for f in _geo() if not sd or f["sd"] == sd]
+    w0 = ALIAS.get(_stem(t[0]), t[0])
+    for key in ([t[0] + t[1]] if len(t) >= 2 else []) + [t[0], w0]:
+        hit = [f["c"] for f in fs if f["n"] == key]
+        if len(hit) == 1:
+            return hit[0]
+    hit = [f["c"] for f in fs if len(_stem(w0)) >= 2 and f["n"].startswith(_stem(w0))]
+    return hit[0] if hit else None  # 구가 여러 개인 시(안산·천안)는 첫 구
+
+
+def office_codes(sd, off, sgg_names):
+    """교육지원청 -> 관할 시군구 코드. 시군구 목록이 없으면 이름(예: 화성오산·강남서초)을 2글자씩 나눠 맞춘다."""
+    if off.endswith("전역(교육청 직속)"):
+        return [f["c"] for f in _geo() if f["sd"] == sd]
+    out = set()
+    for g in sgg_names or []:
+        out.update(sgg_codes(sd, g))
+    # 교육지원청 이름에 든 시군 이름(구리남양주·군포의왕·광주하남) - 학교 명단에 빠진 시군 보강
+    stem = re.sub(r"^.*?(특별자치도|특별자치시|광역시|특별시|도)(?=[가-힣])", "", off.replace("교육지원청", ""))
+    for f in _geo():
+        fs = _stem(re.sub(r"(시|군)[가-힣]+구$", r"\1", f["n"]))
+        if f["sd"] == sd and len(fs) >= 2 and fs != f["n"] and fs in stem:
+            out.add(f["c"])
+    return sorted(out)
+
+
+def geo_pack():
+    """공개 지도 데이터: 시군구 경계 + 시군구별 AI 중점·디지털 선도학교 수(공개 명단, 학교 주소 기준)."""
+    feats = _geo()
+    if not feats:
+        return None
+    ai, dig = Counter(), Counter()
+    try:
+        for sc in json.loads((HERE / "static_data/ai_schools_2026.json").read_text(encoding="utf-8"))["schools"]:
+            c = addr_code(sc.get("addr")) or next(iter(sgg_codes(sc.get("소속지역"), sc.get("시군구"))), None)
+            if c:
+                ai[c] += "AI 중점" in (sc.get("사업") or [])
+                dig[c] += "디지털 선도" in (sc.get("사업") or [])
+    except (OSError, ValueError, KeyError):
+        pass
+    return {"features": feats, "ai": dict(ai), "dig": dict(dig)}
 
 
 def build(data, opp=None, today=None):
@@ -184,8 +280,15 @@ def build(data, opp=None, today=None):
         pass
     out = []
     for r in rows:
-        offs = _match(r, offices)
+        pairs = _match(r, offices, pairs=True)
+        offs = sorted({o for _, o in pairs})
         stems = _stems(r)
+        # 지도: 관할 교육지원청의 시군구 중 담당 지역 이름과 맞는 것만(교육지원청 일부만 맡는 총판), 없으면 교육지원청 전체
+        sgg, names = set(), {f["c"]: f["n"] for f in _geo()}
+        for sd_o, o in pairs:
+            cs = office_codes(sd_o, o, offices.get((sd_o, o)))
+            narrow = [c for c in cs if any(names.get(c, "").startswith(st) for st in stems if len(st) >= 2)]
+            sgg.update(narrow or cs)
         my_bids = [b for b in bids if b.get("r") == r["sido"] and any(o.replace("교육지원청", "") in (b.get("o") or "") for o in offs)]
         my_sch = [s for s in schools if s.get("소속지역") == r["sido"] and (s.get("교육지원청") in offs or any((s.get("시군구") or "").startswith(st) for st in stems))]
         due = 0
@@ -199,7 +302,7 @@ def build(data, opp=None, today=None):
                     "bid_amt": sum(b.get("a") or 0 for b in my_bids),
                     "recent": [{"t": b.get("t"), "o": b.get("o"), "d": b.get("d"), "u": b.get("u")} for b in sorted(my_bids, key=lambda b: b["d"], reverse=True)[:3]],
                     "ai": sum(1 for s in my_sch if "AI 중점" in (s.get("사업") or [])), "dig": sum(1 for s in my_sch if "디지털 선도" in (s.get("사업") or [])),
-                    "due45": due})
+                    "due45": due, "sgg": sorted(sgg), "loc": addr_code(r.get("addr"))})
     # 시도 단위: 교육청 본청 공고(교육지원청 아닌 발주), 기회점수 상위 주제
     sido = {}
     for sd in SIDO:
