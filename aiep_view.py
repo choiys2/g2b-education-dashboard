@@ -25,6 +25,68 @@ def _j(p, default=None):
         return default
 
 
+SIDO = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
+TREND_RE = NAMES_RE.replace(r"|AI\s?맞춤형", r"|AI\s?맞춤형\s?교수") + r"|AI\s?교수학습|교육청\s?AI\s?플랫폼|AI\s?교육비서|채움AI|폭스커넥트"
+
+
+def _plain(t):
+    return re.sub(r"<[^>]+>", "", t or "").strip()
+
+
+def _sidos(text, platforms):
+    hit = [sd for sd in SIDO if sd in text]
+    for p in platforms:
+        nm = re.sub(r"\(.*?\)|\s?2\.0", "", p["name"]).strip()
+        if len(nm) >= 2 and nm not in ("확인 필요", "AIDT 활용") and nm in text and p["sido"] not in hit:
+            hit.append(p["sido"])
+    if "11개" in text and ("AIEP" in text or "교수학습" in text):
+        hit += [p["sido"] for p in platforms if p["group"] == "AIEP 통합" and p["sido"] not in hit]
+    return hit
+
+
+def trends(platforms):
+    """AIEP·시도 AI 플랫폼 동향: 조간 브리핑 기사·시사점 + 발주계획 + 연수 공고(제목·요지·영향·관련 시도)."""
+    rx, out = re.compile(TREND_RE), []
+    for f in sorted((HERE / "briefings").glob("*.json")):
+        try:
+            d = json.loads(f.read_text(encoding="utf-8"))
+        except ValueError:
+            continue
+        day = d.get("date") or f.stem
+        imp = {_plain(i.get("news")): _plain(i.get("impact")) for i in d.get("implications") or []}
+        for sec in d.get("sections") or []:
+            for it in sec.get("items") or []:
+                txt = _plain(it.get("title")) + " " + _plain(it.get("body"))
+                if not rx.search(txt):
+                    continue
+                impact = next((v for k, v in imp.items() if k and (k[:8] in txt or any(t in k for t in it.get("tags") or []))), "")
+                out.append({"d": day, "src": "조간 브리핑", "t": _plain(it.get("title")), "b": _plain(it.get("body"))[:220], "impact": impact[:240],
+                            "tags": it.get("tags") or [], "sido": _sidos(txt, platforms), "u": f"../news/{day}.html"})
+        lead = d.get("lead") or {}
+        if rx.search(_plain(lead.get("headline"))) and not any(o["d"] == day and o["src"] == "조간 브리핑" for o in out):
+            out.append({"d": day, "src": "조간 브리핑", "t": _plain(lead.get("headline")), "b": _plain(lead.get("lede"))[:220], "impact": "",
+                        "tags": [], "sido": _sidos(_plain(lead.get("headline")), platforms), "u": f"../news/{day}.html"})
+    for f, src in (("history/order_plans.jsonl", "발주계획"), ("history/training_bids.jsonl", "연수 공고")):
+        p = HERE / f
+        if not p.exists():
+            continue
+        seen = set()
+        for line in p.read_text(encoding="utf-8").splitlines():
+            try:
+                b = json.loads(line)
+            except ValueError:
+                continue
+            t = b.get("t") or ""
+            if not re.search(NAMES_RE, t) or t in seen:
+                continue
+            seen.add(t)
+            out.append({"d": b.get("d") or "", "src": src, "t": t, "b": f"{b.get('o', '')} · {round((b.get('a') or 0) / 1e6)}백만 원", "impact": "",
+                        "tags": [], "sido": [b["r"]] if b.get("r") in SIDO else [], "u": b.get("u") or ""})
+    out.sort(key=lambda x: x["d"], reverse=True)
+    monthly = Counter(x["d"][:7] for x in out if x["d"])
+    return out[:80], dict(sorted(monthly.items()))
+
+
 def build(key=None):
     P = _j("static_data/aiep_platforms.json")
     if not P:
@@ -98,7 +160,12 @@ def build(key=None):
             keris.append({"k": k, "t": b.get("t", ""), "d": b.get("d", ""), "budget": b.get("budget"), "n": len(ps),
                           "rank": hit[0].get("rank"), "amt": hit[0].get("amt"), "winner": w.get("corp", ""),
                           "url": b.get("url") or f"https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo={k.split('-')[0]}&bidPbancOrd={k.split('-')[-1]}"})
-    out = {"note": P.get("note"), "sido": list(sido.values()), "market": rows[:300], "vendors": vendors, "keris_dev": keris,
+    tr, monthly = trends(P["platforms"])
+    for x in tr:
+        for sd in x["sido"]:
+            if sd in sido:
+                sido[sd]["news"] = sido[sd].get("news", 0) + 1
+    out = {"note": P.get("note"), "trend": tr, "monthly": monthly, "sido": list(sido.values()), "market": rows[:300], "vendors": vendors, "keris_dev": keris,
            "dev": DEV, "status": {**(M.get("status") or {}), "updated": M.get("updated"), "n_bids": len(bids), "n_awards": len(awards)},
            "dev_rows": [r for r in rows if r["dev"] or r["wv"] == DEV][:40]}
     key = key or os.environ.get("STRATEGY_KEY", "")

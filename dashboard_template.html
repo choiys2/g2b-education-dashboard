@@ -8986,8 +8986,10 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
       ['총판', `${n((c2['학판'] || 0) + (c2['교판'] || 0))}곳`, `학판 ${n(c2['학판'])} · 교판 ${n(c2['교판'])}`],
       ['교육청 본청·연수원 공고', `${n(S.hq_bids)}건`, '최근 12개월 · 시도 단위 영업 대상'],
       ['교육지원청 연결', S.offices ? `${n(S.covered)}/${n(S.offices)}` : '-', S.uncovered && S.uncovered.length ? '미연결: ' + S.uncovered.slice(0, 3).join(', ') : '전부 연결'],
+      ...(!all && window.__AIEP_P && window.__AIEP_P[sd] ? [(() => { const p = window.__AIEP_P[sd]; return ['시도 AI 플랫폼(AIEP)', `<a href="#" class="brAiep" data-s="${h(sd)}">${h(p.name)} →</a>`, h(p.group) + ' · 시도 AIEP 탭에서 동향·조달·연동 보기']; })()] : []),
       ...(AD() ? [(() => { const ks = Object.keys(AD()).filter(c => all || (FC[c] || {}).sd === sd), x = adoptOf(ks); return ['비상 교과서 채택(초·중·고)', `${x.u ? (x.a / x.u * 100).toFixed(1) : 0}%`, `${n(x.a)}/${n(x.u)}교 · 전환 대상 ${n(x.o)}교`]; })()] : []),
       [all ? '기회점수 상위(시도·주제)' : '기회점수 상위 주제', '', top]].map(([k, v, s]) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div>${v ? `<div style="font-size:17px;font-weight:800;">${v}</div>` : ''}<div style="font-size:11.5px;color:var(--ink-2);">${s}</div></div>`).join('')}</div>`;
+    sec.querySelectorAll('.brAiep').forEach(a => a.addEventListener('click', e => { e.preventDefault(); if (window.__goAiep) window.__goAiep(a.dataset.s); }));
     let R = G.filter(g => (all || g.sido === sd) && (!q || (g.names.map(x => x.name).join(' ') + g.area + g.offices.join(' ') + g.sido).includes(q)) && (!pick || g.sggs.has(pick)))
       .sort((a, b) => all ? (SIDO.indexOf(a.sido) - SIDO.indexOf(b.sido)) || ((b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3)) : (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3));
     const colorOf = drawMap(sd, all ? R : G.filter(g => g.sido === sd).sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3))) || {};
@@ -9108,6 +9110,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   const n = v => (v || 0).toLocaleString();
   const won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
   const GC = {'AIEP 통합': '#4f8cff', '독자 플랫폼': '#10b981', 'AIDT 활용': '#f59e0b', '확인 필요': '#94a3b8'};
+  window.__AIEP_P = {}; (A.sido || []).forEach(x => { window.__AIEP_P[x.sido] = x; }); if (window.__branchRedraw) setTimeout(window.__branchRedraw, 0);
   const PV = A.private || null, CT = {}; ((PV && PV.contacts) || []).forEach(c => { CT[c.sido] = c; });
   // 시도별 비상 교과서 채택률(교과서 채택 탭 데이터가 있을 때)
   const adopt = {}; if (AD) AD.schools.forEach(s => { if (!s.u || !s.sd) return; const x = adopt[s.sd] = adopt[s.sd] || {u: 0, a: 0}; x.u++; if (s.c) x.a++; });
@@ -9117,11 +9120,31 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">17개 시도교육청 AIEP — AI 맞춤형 교수학습 플랫폼 지도<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">공동 구축 ${cnt('AIEP 통합')}개 · 독자 ${cnt('독자 플랫폼')}개 · AIDT 활용 ${cnt('AIDT 활용')}개 · 조달 ${A.status && A.status.updated ? A.status.updated + ' 수집' : '수집 대기'}</span></p>
     <p class="panel-desc">${h(A.note || '')} 시도마다 플랫폼·AI 중점학교·비상 교과서 채택·지역 총판·AIEP 관련 나라장터 조달을 붙여, 콘텐츠·도구 연동과 활용 연수를 어디부터 제안할지 봅니다.${PV ? '' : ' 담당자·제휴 검토 메모는 로그인 화면에만 표시됩니다.'}</p></div></div>
     <div id="apTop" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;"><div id="apMap" style="flex:1 1 420px;min-width:0;"></div><div id="apCards" style="flex:1 1 460px;min-width:0;"></div></div>
-    <div id="apMarket" style="margin-top:14px;"></div><div id="apPriv" style="margin-top:14px;"></div>`;
+    <div id="apTrend" style="margin-top:14px;"></div><div id="apMarket" style="margin-top:14px;"></div><div id="apPriv" style="margin-top:14px;"></div>`;
   tab.prepend(sec);
   const $ = id => sec.querySelector('#' + id);
   let pick = '';
+  window.__goAiep = sd => { if (typeof activateTab === 'function') activateTab('aiep'); pick = sd || ''; draw(); sec.scrollIntoView({behavior: 'smooth', block: 'start'}); };
+  function drawTrend(){
+    const T = (A.trend || []).filter(x => !pick || x.sido.includes(pick)), MO = A.monthly || {};
+    const months = Object.keys(MO), mx = Math.max(1, ...Object.values(MO));
+    const SRC = {'조간 브리핑': '#4f8cff', '발주계획': '#f59e0b', '연수 공고': '#10b981'};
+    const by = {}; (A.trend || []).forEach(x => { const m = (x.d || '').slice(0, 7); by[m] = by[m] || {}; by[m][x.src] = (by[m][x.src] || 0) + 1; });
+    const W = 360, H = 120, bw = Math.max(10, Math.min(36, (W - 20) / (months.length || 1) - 6));
+    const chart = months.length ? `<svg viewBox="0 0 ${W} ${H + 20}" style="width:100%;max-width:420px;height:auto;" role="img" aria-label="월별 AIEP 동향 건수">${months.map((m, i) => { let y = H; const x = 10 + i * (bw + 6); return Object.keys(SRC).map(k => { const v = (by[m] || {})[k] || 0; if (!v) return ''; const hh = v / mx * (H - 14); y -= hh; return `<rect x="${x}" y="${y.toFixed(1)}" width="${bw}" height="${hh.toFixed(1)}" fill="${SRC[k]}" data-tip="${h(m + ' ' + k + ' ' + v + '건')}"/>`; }).join('') + `<text x="${x + bw / 2}" y="${H + 13}" text-anchor="middle" font-size="9.5" fill="var(--muted)">${m.slice(2).replace('-', '.')}</text><text x="${x + bw / 2}" y="${y - 3}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">${MO[m]}</text>`; }).join('')}</svg><div style="display:flex;gap:10px;font-size:11.5px;flex-wrap:wrap;">${Object.entries(SRC).map(([k, c]) => `<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${c};margin-right:3px;"></span>${k}</span>`).join('')}</div>` : '';
+    const imps = [...new Map((A.trend || []).filter(x => x.impact && (!pick || x.sido.includes(pick))).map(x => [x.impact.slice(0, 30), x])).values()].slice(0, 5);
+    const nUse = (A.trend || []).filter(x => /활용|연수|안착|컨설팅/.test(x.t)).length, nBuild = (A.trend || []).filter(x => /구축|유지관리|사용권|구매/.test(x.t)).length;
+    $('apTrend').innerHTML = `<div style="font-weight:800;font-size:14px;margin-bottom:6px;">AIEP 시장 동향·인사이트 ${pick ? `<span class="pill" style="font-size:11px;">${h(pick)}</span>` : ''} <span style="font-size:11.5px;color:var(--muted);font-weight:500;">조간 브리핑 기사·시사점 + 나라장터 발주계획·연수 공고에서 AIEP·시도 플랫폼 언급만 모음</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;">
+        <div style="flex:1 1 300px;min-width:0;">${chart}
+          <div style="font-size:12.5px;line-height:1.6;margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--surface-2);"><b>흐름 요약</b><br>· 2026년 10월에 언급이 몰렸습니다(국정감사: AIEP 학생정보 책임·11개 교육청 공동 플랫폼 투명성, 경기 하이러닝 358억 사업자 의혹).<br>· 제목 기준 '활용·연수·안착' ${nUse}건 vs '구축·유지·사용권' ${nBuild}건 — 발주 무게가 <b>새 플랫폼 구축에서 이미 만든 플랫폼 활용</b>으로 옮겨가는 중입니다.<br>· 교육청 자체 AI 도구(서울 채움AI → 세종·충남·경북 확대, 인천 AI 교육비서)도 늘어, 민간 몫은 <b>연계·활용 연수와 수업 설계 지원</b>입니다.</div></div>
+        <div style="flex:1 1 380px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:4px;">그래서 — 브리핑 시사점(최근순)</div>${imps.map(x => `<div style="font-size:12.5px;line-height:1.55;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);font-size:11px;">${h(x.d)} · ${h(x.t.slice(0, 36))}</span><br>${h(x.impact)}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">해당 시사점 없음</p>'}</div></div>
+      <div style="font-weight:700;font-size:13px;margin:12px 0 6px;">동향 타임라인 ${T.length}건 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">시도 칩을 누르면 그 시도만</span></div>
+      <div style="max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:10px;">${T.map(x => `<div style="display:grid;grid-template-columns:78px 1fr;gap:8px;padding:7px 10px;border-bottom:1px solid var(--border);font-size:12.5px;"><div><div style="font-weight:700;">${h((x.d || '').slice(5).replace('-', '.'))}</div><span style="display:inline-block;margin-top:2px;padding:0 6px;border-radius:99px;font-size:10.5px;color:#fff;background:${SRC[x.src] || '#94a3b8'};">${h(x.src)}</span></div><div>${x.u ? `<a href="${h(x.u)}" target="_blank" rel="noopener"><b>${h(x.t)}</b></a>` : `<b>${h(x.t)}</b>`}<div style="color:var(--ink-2);font-size:12px;">${h(x.b)}</div>${x.sido.length ? `<div style="margin-top:3px;">${x.sido.slice(0, 11).map(sd => `<button type="button" class="pill apChip" data-s="${h(sd)}" style="font-size:10.5px;padding:1px 7px;margin:1px;">${h(sd)}</button>`).join('')}</div>` : ''}</div></div>`).join('') || '<p style="padding:10px;color:var(--muted);font-size:12.5px;">해당 동향 없음</p>'}</div>`;
+    $('apTrend').querySelectorAll('.apChip').forEach(b => b.addEventListener('click', () => { pick = b.dataset.s; draw(); }));
+  }
   function draw(){
+    drawTrend();
     // 시도 지도(플랫폼 유형 색, 입체)
     if (GEO && GEO.features) {
       const F = GEO.features; let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
@@ -9147,7 +9170,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
         <div style="display:flex;justify-content:space-between;gap:6px;"><b style="font-size:13.5px;">${h(x.sido)} · ${x.url ? `<a href="${h(x.url)}" target="_blank" rel="noopener">${h(x.name)} ↗</a>` : h(x.name)}</b></div>
         <div style="color:var(--muted);font-size:11px;margin:2px 0 4px;">${h(x.group)}${x.role ? ' · ' + h(x.role) : ''}</div>
         <div>AI 중점 <b>${n(x.ai)}</b> · 디지털 선도 <b>${n(x.dig)}</b>${ad ? ` · 비상 채택 <b>${(ad.a / ad.u * 100).toFixed(0)}%</b>` : ''}</div>
-        <div>지역 총판 <b>${n(x.branch)}</b>곳 · AIEP 조달 <b>${n(x.bids)}</b>건${x.bid_amt ? ' · ' + won(x.bid_amt) : ''}</div>
+        <div>지역 총판 <b>${n(x.branch)}</b>곳 · AIEP 조달 <b>${n(x.bids)}</b>건${x.bid_amt ? ' · ' + won(x.bid_amt) : ''}${x.news ? ` · 동향 <b>${x.news}</b>건` : ''}</div>
         ${x.train.length ? `<div style="margin-top:3px;">활용 연수 공고: ${x.train.slice(0, 2).map(t => t.u ? `<a href="${h(t.u)}" target="_blank" rel="noopener">${h((t.t || '').slice(0, 30))}…</a>` : h(t.t)).join(' · ')}</div>` : ''}
         ${c ? `<div style="margin-top:4px;padding-top:4px;border-top:1px dashed var(--border);font-size:11.5px;">담당: ${h(c.dept)} ${h(c.person)} · ${h(c.tel)}${c.mail && c.mail.includes('@') ? ` · <a href="mailto:${h(c.mail)}">메일</a>` : ''}<br><span style="color:var(--muted);">${h(c.note)}</span></div>` : ''}</div>`; }).join('')}</div>`;
     const all = $('apAll'); if (all) all.addEventListener('click', () => { pick = ''; draw(); });
