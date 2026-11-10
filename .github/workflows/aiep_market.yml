@@ -1,0 +1,40 @@
+name: 시도교육청 AIEP 조달 수집
+
+on:
+  schedule:
+    - cron: "40 19 * * 1"   # 매주 화 04:40 KST - 06:00 대시보드 배포 전에 끝나도록
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aiep-market
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 설정 파일 준비(키는 환경변수로 덮어씀)
+        run: cp g2b_config.example.json g2b_config.json
+      # 첫 실행 3년치, 이후 최근 120일 재조회 + 누적(키: 공고번호-차수)
+      - name: AIEP 조달(공고·낙찰·참가업체) 수집
+        timeout-minutes: 32
+        continue-on-error: true
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python aiep_market.py --budget 1700
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          [ -f history/aiep_market.json ] && git add history/aiep_market.json
+          git diff --cached --quiet || git commit -m "chore: AIEP 조달 수집 $(date -u +%F)"
+          git pull --rebase origin main
+          git push

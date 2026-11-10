@@ -36,6 +36,8 @@ on:
       - "teacher_interest_trends.py"
       - ".github/workflows/keris.yml"
       - "keris_export.py"
+      - "aiep_market.py"
+      - ".github/workflows/aiep_market.yml"
       - "samall_partners.py"
       - "policy_partners_scrape.py"
       - "radar_collect.py"
