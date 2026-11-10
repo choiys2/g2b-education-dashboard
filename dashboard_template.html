@@ -9458,7 +9458,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   }
   html.vs-skin body{background:#fff;}
   html.vs-skin header.top{background:linear-gradient(120deg,#e9f8fd 0%,#f4f8ff 55%,#f6f1fa 100%) !important;color:var(--ink);border-radius:0 0 22px 22px;}
-  html.vs-skin header.top h1{color:#111827;letter-spacing:-.035em;}
+  html.vs-skin header.top h1{color:#111827;}  /* 글꼴·자간은 기본안 그대로(가독성) */
   html.vs-skin .palette-switch, html.vs-skin .theme-switch{display:none !important;}
   html.vs-skin .panel, html.vs-skin .kpi{border-radius:20px;}
   html.vs-skin .kpi .val{color:#0B3089;}
@@ -9483,7 +9483,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   .vhero{display:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 14px;}
   @media (max-width:900px){.vhero{grid-template-columns:repeat(2,minmax(0,1fr));}}
   .vhero > div{background:#fff;border:1px solid #eef2f7;border-radius:20px;padding:14px 16px;box-shadow:0 10px 28px -18px rgba(11,48,137,.3);}
-  .vhero .l{font-size:12px;color:var(--muted);font-weight:700;} .vhero .v{font-size:24px;font-weight:800;color:#0B3089;letter-spacing:-.03em;} .vhero .s{font-size:11.5px;color:var(--ink-2);}
+  .vhero .l{font-size:12px;color:var(--muted);font-weight:700;} .vhero .v{font-size:24px;font-weight:800;color:#0B3089;} .vhero .s{font-size:11.5px;color:var(--ink-2);}
   #viewBar{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap;}
   #viewBar .vlab{font-size:12px;color:var(--muted);}
   #viewBar .vseg{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);}
