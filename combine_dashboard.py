@@ -53,6 +53,22 @@ def _branch(opp):
         return None
 
 
+def _adoption():
+    """비상 교과서 채택(학교별 주문) 암호문 복호화 - 로그인 뒤 화면만. 학교명은 로그에 남기지 않는다."""
+    p, key = "static_data/textbook_adoption.enc.json", os.environ.get("STRATEGY_KEY", "")
+    if not os.path.exists(p) or not key:
+        print("교과서 채택:", "파일 없음" if not os.path.exists(p) else "STRATEGY_KEY 미설정 - 표시 안 함")
+        return None
+    try:
+        import strategy_crypto
+        d = strategy_crypto.decrypt(load(p), key)
+        print(f"교과서 채택: 복호화 · 학교 {len(d['schools'])}곳 · 채택 {sum(1 for r in d['schools'] if r[8])}곳 · 기준 {d.get('as_of')}")
+        return d
+    except Exception as e:
+        print(f"교과서 채택: 실패({type(e).__name__})")
+        return None
+
+
 def _pool_people():
     """강사풀 개인 정보(핵심 강사·단체 대표·활동 상위 강사) 복호화 - 이름은 로그에 남기지 않는다."""
     p = "static_data/pool_people.enc.json"
@@ -639,6 +655,7 @@ def main():
         "__OPPORTUNITY_JSON__": _safe(lambda: __import__("opportunity").build(trend2027, data_rows, pipeline=pipeline_export), "통합 기회점수"),  # 통합 기회점수(시도×주제)
         "__BRANCH_JSON__": None,  # 아래에서 기회점수 계산 뒤 채움(총판 연계)
         "__BRANCH_SUMMARY_JSON__": load("static_data/branch_summary.json") if os.path.exists("static_data/branch_summary.json") else None,
+        "__ADOPTION_JSON__": _adoption(),  # 비상 교과서 채택(암호문 -> 로그인 뒤 화면)
         "__BRANCH_GEO_JSON__": _safe(lambda: __import__("branch_network").geo_pack(), "총판 지도"),  # 공개 시군구 경계 + AI·선도학교 수
         "__FORECAST_JSON__": _safe(lambda: __import__("bid_forecast").build(), "발주 예측"),  # 발주 예측 캘린더
         "__FRESHNESS_JSON__": __import__("freshness").build(full_live),  # 데이터 신선도(상단 배지)
@@ -683,7 +700,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:

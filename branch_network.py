@@ -206,6 +206,9 @@ def addr_code(addr):
         return c[0] if c else None
     if not t:
         return None
+    if sd and (sd, t[0]) in GEO_ALIAS:  # 인천 2026 개편 구·대구 군위군 -> 지도(2018) 경계
+        c = sgg_codes(sd, t[0])
+        return c[0] if c else None
     fs = [f for f in _geo() if not sd or f["sd"] == sd]
     w0 = ALIAS.get(_stem(t[0]), t[0])
     for key in ([t[0] + t[1]] if len(t) >= 2 else []) + [t[0], w0]:

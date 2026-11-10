@@ -745,6 +745,7 @@ svg { max-width: 100%; }
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="trend2027">교사 트렌드 2027</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="branch">지역 총판</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="adopt">교과서 채택</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="content">콘텐츠·매출</button>
     <a class="tablink" id="poolLink" href="#" target="_blank" rel="noopener noreferrer" hidden title="강사풀(별도 페이지 · 초대된 계정만 열람)">강사풀 ↗</a>
@@ -2250,6 +2251,7 @@ svg { max-width: 100%; }
   </div><!-- /panel-competitor -->
 
   <div class="tabpanel" id="panel-branch"></div>
+  <div class="tabpanel" id="panel-adopt"></div>
 
   <div class="tabpanel" id="panel-b2s">
 
@@ -8852,8 +8854,9 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
    입체 지도: 시군구 경계(통계청 2018 공개본) 위에 총판 담당 구역(색)·지사 사무실(핀)·AI 중점·디지털 선도학교 수(막대) */
 (function renderBranch(){
   const B = __BRANCH_JSON__, SUM = __BRANCH_SUMMARY_JSON__, GEO = __BRANCH_GEO_JSON__;
+  window.__GEO = GEO;
   const tab = document.getElementById('panel-branch'); if (!tab || (!B && !SUM)) return;
-  window.__BRANCH = B;
+  window.__BRANCH = B; window.__GEO = GEO;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const n = v => (v || 0).toLocaleString();
   const won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
@@ -8865,7 +8868,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     <p class="panel-desc">총판(학판·교판)의 담당 지역을 교육지원청·시군구에 연결하고, 그 관할의 연수 공고·AI 중점·선도학교·겨울방학 안내 대상 학교를 붙였습니다. 지도에서 구역을 누르면 그 구역 총판만, 표에서 총판을 누르면 지도에 담당 구역이 강조됩니다.</p>
     <p style="margin:6px 0 0;font-size:12px;padding:6px 10px;border-radius:8px;background:color-mix(in srgb, var(--warning) 16%, transparent);"><b>주의</b> 주소록이 ${h(asOf)} 기준이라 상호·담당 지역·연락처가 바뀌었을 수 있습니다. 최신 주소록 파일을 같은 드라이브 폴더에 올리면 다시 변환합니다.</p></div></div>
     <div class="filter-row" style="gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center;"><select id="brSido"></select><input id="brQ" type="search" placeholder="총판·지역·교육지원청 검색" style="flex:1 1 200px;min-width:0;">
-      <select id="brMetric" title="지도 막대"><option value="sum">막대: AI 중점+디지털 선도</option><option value="ai">막대: AI 중점학교</option><option value="dig">막대: 디지털 선도학교</option><option value="none">막대 없음</option></select>
+      <select id="brMetric" title="지도 막대"><option value="sum">막대: AI 중점+디지털 선도</option><option value="ai">막대: AI 중점학교</option><option value="dig">막대: 디지털 선도학교</option><option value="adopt">막대: 비상 교과서 채택 학교</option><option value="open">막대: 전환 대상(미채택·비바샘 회원 있음)</option><option value="none">막대 없음</option></select>
       <button type="button" class="pill" id="brView">평면으로</button></div>
     <div id="brSidoCard" style="margin-top:10px;"></div>
     <div id="brMapWrap" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;"><div id="brMap" style="flex:1 1 560px;min-width:0;"></div><div id="brLegend" style="flex:0 1 240px;min-width:0;font-size:12px;"></div></div>
@@ -8888,7 +8891,9 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   sel.innerHTML = ['전체', ...SIDO].map(sd => `<option value="${sd}">${sd} · 총판 ${cnt(sd)}곳</option>`).join('');
   sel.value = '전체';
   let flat = false, pick = null, focus = null;  // pick: 지도에서 고른 시군구, focus: 표에서 고른 총판 묶음
-  const metricOf = c => { const m = sec.querySelector('#brMetric').value, a = (GEO && GEO.ai[c]) || 0, d = (GEO && GEO.dig[c]) || 0; return m === 'ai' ? a : m === 'dig' ? d : m === 'sum' ? a + d : 0; };
+  const AD = () => (window.__ADOPT && window.__ADOPT.bySgg) || null;
+  const metricOf = c => { const m = sec.querySelector('#brMetric').value, a = (GEO && GEO.ai[c]) || 0, d = (GEO && GEO.dig[c]) || 0, x = (AD() || {})[c] || {}; return m === 'ai' ? a : m === 'dig' ? d : m === 'sum' ? a + d : m === 'adopt' ? (x.a || 0) : m === 'open' ? (x.open || 0) : 0; };
+  const adoptOf = sggs => { const A = AD(); if (!A) return null; let u = 0, a = 0, o = 0, c = 0; sggs.forEach(k => { const x = A[k]; if (x) { u += x.u; a += x.a; o += x.open; c += x.c; } }); return {u, a, o, c}; };
 
   function drawMap(sd, R){
     const el = sec.querySelector('#brMap'), lg = sec.querySelector('#brLegend');
@@ -8920,14 +8925,16 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     }).join('');
     // 시도 경계 강조(전체 보기)
     const items = [];
+    const mv = sec.querySelector('#brMetric').value, BC = mv === 'adopt' ? ['#10b981', '#047857', '#6ee7b7'] : mv === 'open' ? ['#ef4444', '#b91c1c', '#fca5a5'] : ['#f59e0b', '#b45309', '#fcd34d'];
     const bw = all ? 3.2 : 7, hmax = all ? 70 : 110, mx = Math.max(1, ...fs.map(f => metricOf(f.c)));
     if (sec.querySelector('#brMetric').value !== 'none') fs.forEach(f => {
       const v = metricOf(f.c); if (!v) return;
       const [X, Y] = P(f.xy[0], f.xy[1]), hh = Math.max(3, v / mx * hmax), dx = bw * .55, dy = bw * .35;
-      items.push({y: Y, svg: `<g data-tip="${h(`<b>${h(f.n)}</b> · AI 중점 ${n(GEO.ai[f.c])} · 디지털 선도 ${n(GEO.dig[f.c])}`)}" style="pointer-events:all;">
-        <rect x="${(X - bw / 2).toFixed(1)}" y="${(Y - hh).toFixed(1)}" width="${bw}" height="${hh.toFixed(1)}" fill="#f59e0b"/>
-        <polygon points="${X + bw / 2},${Y - hh} ${X + bw / 2 + dx},${Y - hh - dy} ${X + bw / 2 + dx},${Y - dy} ${X + bw / 2},${Y}" fill="#b45309"/>
-        <polygon points="${X - bw / 2},${Y - hh} ${X - bw / 2 + dx},${Y - hh - dy} ${X + bw / 2 + dx},${Y - hh - dy} ${X + bw / 2},${Y - hh}" fill="#fcd34d"/></g>`});
+      const ax = (AD() || {})[f.c];
+      items.push({y: Y, svg: `<g data-tip="${h(`<b>${h(f.n)}</b> · AI 중점 ${n(GEO.ai[f.c])} · 디지털 선도 ${n(GEO.dig[f.c])}${ax ? `<br>비상 교과서 채택 ${n(ax.a)}/${n(ax.u)}교 · 전환 대상 ${n(ax.open)}교` : ''}`)}" style="pointer-events:all;">
+        <rect x="${(X - bw / 2).toFixed(1)}" y="${(Y - hh).toFixed(1)}" width="${bw}" height="${hh.toFixed(1)}" fill="${BC[0]}"/>
+        <polygon points="${X + bw / 2},${Y - hh} ${X + bw / 2 + dx},${Y - hh - dy} ${X + bw / 2 + dx},${Y - dy} ${X + bw / 2},${Y}" fill="${BC[1]}"/>
+        <polygon points="${X - bw / 2},${Y - hh} ${X - bw / 2 + dx},${Y - hh - dy} ${X + bw / 2 + dx},${Y - hh - dy} ${X + bw / 2},${Y - hh}" fill="${BC[2]}"/></g>`});
     });
     // 지사 사무실 핀(로그인 화면): 같은 시군구에 여러 곳이면 옆으로 벌린다
     const boxes = [], free = (x, y, w) => { const bx = [x, y - 11, x + w, y + 2]; if (boxes.some(o => bx[0] < o[2] && bx[2] > o[0] && bx[1] < o[3] && bx[3] > o[1])) return false; boxes.push(bx); return true; };
@@ -8956,7 +8963,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     const sw = (c, t) => `<div style="display:flex;gap:6px;align-items:center;margin:3px 0;"><span style="width:12px;height:12px;border-radius:3px;background:${c};flex:none;"></span>${t}</div>`;
     lg.innerHTML = `<div style="font-weight:700;margin-bottom:4px;">읽는 법</div>
       ${B ? (all ? sw('color-mix(in srgb, var(--accent) 28%, var(--surface-2))', '총판 1곳 담당') + sw('color-mix(in srgb, var(--accent) 66%, var(--surface-2))', '총판 3곳 이상 겹침') : sw(PAL[0], '색 = 총판 담당 구역(표의 색 점과 같음)')) + sw('color-mix(in srgb, #ef4444 22%, var(--surface-2))', '연결된 총판 없음') + sw('var(--ink)', '핀 = 지사 사무실 위치(주소 기준 시군구)') : sw('color-mix(in srgb, var(--accent) 50%, var(--surface-2))', '색 = AI 중점·선도학교가 많을수록 진함')}
-      ${sec.querySelector('#brMetric').value !== 'none' ? sw('#f59e0b', '막대 = ' + sec.querySelector('#brMetric').selectedOptions[0].text.replace('막대: ', '') + ' 학교 수(시군구)') : ''}
+      ${sec.querySelector('#brMetric').value !== 'none' ? sw(BC[0], '막대 = ' + sec.querySelector('#brMetric').selectedOptions[0].text.replace('막대: ', '') + ' 학교 수(시군구)') : ''}
       ${unc.length ? `<div style="margin-top:8px;color:var(--ink-2);"><b>총판 미연결</b> ${unc.length}곳: ${h(unc.slice(0, 12).join(', '))}${unc.length > 12 ? ' 외' : ''}</div>` : ''}
       ${pick ? `<div style="margin-top:8px;"><b>${h((FC[pick] || {}).n)}</b> 담당 총판만 표에 표시 중 <button type="button" class="pill" id="brClear" style="font-size:11px;">해제</button></div>` : ''}
       <div style="margin-top:8px;color:var(--muted);">경계: 통계청 2018 시군구(공개본) · 인천 2026 개편·군위 편입은 옛 경계로 표시</div>`;
@@ -8977,6 +8984,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
       ['총판', `${n((c2['학판'] || 0) + (c2['교판'] || 0))}곳`, `학판 ${n(c2['학판'])} · 교판 ${n(c2['교판'])}`],
       ['교육청 본청·연수원 공고', `${n(S.hq_bids)}건`, '최근 12개월 · 시도 단위 영업 대상'],
       ['교육지원청 연결', S.offices ? `${n(S.covered)}/${n(S.offices)}` : '-', S.uncovered && S.uncovered.length ? '미연결: ' + S.uncovered.slice(0, 3).join(', ') : '전부 연결'],
+      ...(AD() ? [(() => { const ks = Object.keys(AD()).filter(c => all || (FC[c] || {}).sd === sd), x = adoptOf(ks); return ['비상 교과서 채택(초·중·고)', `${x.u ? (x.a / x.u * 100).toFixed(1) : 0}%`, `${n(x.a)}/${n(x.u)}교 · 전환 대상 ${n(x.o)}교`]; })()] : []),
       [all ? '기회점수 상위(시도·주제)' : '기회점수 상위 주제', '', top]].map(([k, v, s]) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div>${v ? `<div style="font-size:17px;font-weight:800;">${v}</div>` : ''}<div style="font-size:11.5px;color:var(--ink-2);">${s}</div></div>`).join('')}</div>`;
     let R = G.filter(g => (all || g.sido === sd) && (!q || (g.names.map(x => x.name).join(' ') + g.area + g.offices.join(' ') + g.sido).includes(q)) && (!pick || g.sggs.has(pick)))
       .sort((a, b) => all ? (SIDO.indexOf(a.sido) - SIDO.indexOf(b.sido)) || ((b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3)) : (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3));
@@ -8986,10 +8994,10 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     const dot = g => all ? '' : `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${colorOf[g.code + g.area] || 'transparent'};margin-right:5px;vertical-align:middle;"></span>`;
     const total = R.length, more = sec.dataset.more === '1';
     if (all && !q && !pick && !more && R.length > 30) R = R.slice().sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3)).slice(0, 30);
-    sec.querySelector('#brBody').innerHTML = R.length ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">${all ? '전체' : h(sd)} 총판 묶음 ${total}개${R.length < total ? ` 중 우선순위 상위 ${R.length}개 <button type="button" class="pill" id="brMore" style="font-size:11px;">전체 ${total}개 보기</button>` : ''}(학판·교판이 같은 지역이면 한 줄) · 행을 누르면 지도 강조 + 최근 공고·주소</div><div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:960px;"><thead><tr>${all ? '<th style="white-space:nowrap;">시도</th>' : ''}<th style="min-width:170px;">총판</th><th>비상 담당</th><th>담당 지역</th><th>관할 교육지원청</th><th class="num">연수 공고 12개월(90일)</th><th class="num">AI 중점</th><th class="num">디지털 선도</th><th class="num" title="겨울방학 3주 전 안내 기한이 45일 안인 학교">안내 대상 45일</th><th>사무실 전화</th></tr></thead><tbody>
+    sec.querySelector('#brBody').innerHTML = R.length ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">${all ? '전체' : h(sd)} 총판 묶음 ${total}개${R.length < total ? ` 중 우선순위 상위 ${R.length}개 <button type="button" class="pill" id="brMore" style="font-size:11px;">전체 ${total}개 보기</button>` : ''}(학판·교판이 같은 지역이면 한 줄) · 행을 누르면 지도 강조 + 최근 공고·주소</div><div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:960px;"><thead><tr>${all ? '<th style="white-space:nowrap;">시도</th>' : ''}<th style="min-width:170px;">총판</th><th>비상 담당</th><th>담당 지역</th><th>관할 교육지원청</th><th class="num">연수 공고 12개월(90일)</th><th class="num">AI 중점</th><th class="num">디지털 선도</th><th class="num" title="겨울방학 3주 전 안내 기한이 45일 안인 학교">안내 대상 45일</th>${AD() ? '<th class="num" title="담당 시군구 일반 초·중·고 중 비상 교과서 주문 학교">비상 교과서 채택</th><th class="num" title="미채택이지만 비바샘 회원이 있는 학교">전환 대상</th>' : ''}<th>사무실 전화</th></tr></thead><tbody>
       ${R.map((g, i) => `<tr class="brRow" data-i="${i}" style="cursor:pointer;${focus === g ? 'background:color-mix(in srgb, var(--accent) 12%, transparent);' : ''}">${all ? `<td style="white-space:nowrap;">${h(g.sido)}</td>` : ''}<td style="font-weight:700;">${dot(g)}${g.names.map(x => tag(x.type) + h(x.name)).join('<br>')}</td><td style="white-space:nowrap;">${h([...g.staff].join(', '))}</td><td style="font-size:12px;">${h(g.area)}</td>
-        <td style="font-size:11.5px;color:var(--ink-2);">${h(g.offices.join(', '))}</td><td class="num">${g.bids12}(${g.bids90}) · ${won(g.bid_amt)}</td><td class="num">${n(g.ai)}</td><td class="num">${n(g.dig)}</td><td class="num"><b>${n(g.due45)}</b></td><td style="white-space:nowrap;font-size:12px;">${h([...g.tels][0] || '')}</td></tr>
-        <tr class="brDet" data-i="${i}" ${focus === g ? '' : 'hidden'}><td colspan="${all ? 10 : 9}" style="font-size:12px;background:var(--surface-2);">${g.recent && g.recent.length ? '최근 관할 연수 공고: ' + g.recent.map(b => `${b.u ? `<a href="${h(b.u)}" target="_blank" rel="noopener">${h(b.t)}</a>` : h(b.t)} (${h(b.d)})`).join(' · ') : '최근 12개월 관할 교육지원청 연수 공고 없음 — 학교 단위(B2S) 영업 중심 지역'}${g.addr ? `<br>주소: ${h(g.addr)}` : ''}<br>담당 시군구: ${h([...g.sggs].map(c => (FC[c] || {}).n).filter(Boolean).join(', '))}</td></tr>`).join('')}</tbody></table></div>`
+        <td style="font-size:11.5px;color:var(--ink-2);">${h(g.offices.join(', '))}</td><td class="num">${g.bids12}(${g.bids90}) · ${won(g.bid_amt)}</td><td class="num">${n(g.ai)}</td><td class="num">${n(g.dig)}</td><td class="num"><b>${n(g.due45)}</b></td>${(() => { const x = adoptOf(g.sggs); return x ? `<td class="num">${n(x.a)}/${n(x.u)} <span style="color:var(--muted);font-size:11px;">${x.u ? Math.round(x.a / x.u * 100) : 0}%</span></td><td class="num"><b>${n(x.o)}</b></td>` : ''; })()}<td style="white-space:nowrap;font-size:12px;">${h([...g.tels][0] || '')}</td></tr>
+        <tr class="brDet" data-i="${i}" ${focus === g ? '' : 'hidden'}><td colspan="${(all ? 10 : 9) + (AD() ? 2 : 0)}" style="font-size:12px;background:var(--surface-2);">${g.recent && g.recent.length ? '최근 관할 연수 공고: ' + g.recent.map(b => `${b.u ? `<a href="${h(b.u)}" target="_blank" rel="noopener">${h(b.t)}</a>` : h(b.t)} (${h(b.d)})`).join(' · ') : '최근 12개월 관할 교육지원청 연수 공고 없음 — 학교 단위(B2S) 영업 중심 지역'}${g.addr ? `<br>주소: ${h(g.addr)}` : ''}<br>담당 시군구: ${h([...g.sggs].map(c => (FC[c] || {}).n).filter(Boolean).join(', '))}</td></tr>`).join('')}</tbody></table></div>`
       : '<p style="color:var(--muted);font-size:13px;">조건에 맞는 총판이 없습니다.</p>';
     sec.querySelectorAll('.brRow').forEach(r => r.addEventListener('click', () => { const g = R[+r.dataset.i]; focus = focus === g ? null : g; draw(); }));
     const mb = sec.querySelector('#brMore'); if (mb) mb.addEventListener('click', () => { sec.dataset.more = '1'; draw(); });
@@ -8997,10 +9005,96 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     sec.querySelector('#brBody').insertAdjacentHTML('beforeend', `<p class="tt-note" style="margin-top:10px;font-size:13px;line-height:1.6;"><b>그래서</b> ${all ? '전국' : h(sd)} 교육청 본청·연수원 공고 ${n(S.hq_bids)}건은 본사가 직접 맡고, 학교 단위는 ${best.length ? `<b>${h(best.join(' · '))}</b> 순으로 총판과 동행 방문을 잡으세요` : '총판 정보를 최신화한 뒤 동선을 잡으세요'}. 지도에서 붉은 구역(총판 미연결)은 본사 직접 영업 또는 인접 총판 배정 대상입니다.</p>`);
   }
   sel.addEventListener('change', () => { pick = null; focus = null; sec.dataset.more = ''; draw(); });
+  window.__branchRedraw = draw;  // 교과서 채택 데이터가 뒤에 준비되면 다시 그린다
   sec.querySelector('#brMetric').addEventListener('change', draw);
   sec.querySelector('#brView').addEventListener('click', e => { flat = !flat; e.target.textContent = flat ? '입체로' : '평면으로'; draw(); });
   let tm; sec.querySelector('#brQ').addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(draw, 200); });
   draw();
+})();
+</script>
+<script>
+/* ---------------- 교과서 채택(비상교육 과목별 학교별 주문 명세) - '교과서 채택' 탭 + 지역 총판 연계(window.__ADOPT) ----------------
+   학교별 채택·주문 부수는 내부 영업 정보: 암호문(static_data/textbook_adoption.enc.json)을 배포 때 복호화 - 로그인 뒤 화면에만 */
+(function renderAdoption(){
+  const D = __ADOPTION_JSON__, GEO = window.__GEO || null;  // 지도 경계는 지역 총판 스크립트가 넘겨준다(중복 삽입 방지)
+  const tab = document.getElementById('panel-adopt'); if (!tab) return;
+  if (!D) { tab.innerHTML = '<section class="panel"><p class="panel-title">교과서 채택</p><p class="panel-desc">채택 데이터는 배포 키로 복호화될 때만 표시됩니다(로그인 화면).</p></section>'; return; }
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => (v || 0).toLocaleString(), pct = (a, b) => b ? (a / b * 100).toFixed(1) + '%' : '-';
+  const SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+  const LV = ['초', '중', '고'], SUBJ = D.subjects || [];
+  // 학교 행: [이름, 학교급, 시도, 시군구, 교육청, 비바샘회원, 교원, 교과비트, 교과서부수, 지도서, 전자책, 분모]
+  const SC = (D.schools || []).map(r => ({n: r[0], l: r[1], sd: r[2], g: r[3], o: r[4], m: r[5], t: r[6], b: r[7], c: r[8], gd: r[9], eb: r[10], u: r[11]}));
+  const FC = {}; ((GEO && GEO.features) || []).forEach(f => { FC[f.c] = f; });
+  // 지역 총판 탭 연계: 시군구별 채택 학교·분모 (총판 스크립트가 읽는다)
+  const bySgg = {};
+  SC.forEach(s => { if (!s.g) return; const x = bySgg[s.g] = bySgg[s.g] || {u: 0, a: 0, c: 0, m: 0, open: 0}; if (s.u) { x.u++; if (s.c) x.a++; else if (s.m) x.open++; } x.c += s.c; x.m += s.m; });
+  window.__ADOPT = {bySgg, schools: SC, subjects: SUBJ, period: D.period};
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'adoptPanel';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">교과서 채택 — 비상교육 교과서 주문 학교 · 교과 · 지역<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">주문 ${h(D.period || '')} · 학교·비바샘 회원 ${h(D.as_of)} 기준 · 로그인 뒤 화면에만</span></p>
+    <p class="panel-desc">채택 = 그 학교가 비상 교과서를 1권 이상 주문. 분모 = 비바샘 소속정보의 일반 초·중·고(대안·해외 제외). 비바샘 회원 수를 붙여 '비바샘은 쓰는데 비상 교과서는 안 쓰는 학교'(전환 대상)와 '교과서는 쓰는데 비바샘 활용이 낮은 학교'(연수·콘텐츠 연계 대상)를 찾습니다. 경쟁사 채택 정보는 없어 점유율이 아닌 '학교 채택률'입니다.</p></div></div>
+    <div class="filter-row" style="gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <select id="adLv"><option value="">학교급 전체</option>${LV.map((l, i) => `<option value="${i}">${l}</option>`).join('')}</select>
+      <select id="adSub"><option value="">교과 전체</option>${SUBJ.map((s, i) => `<option value="${i}">${h(s)}</option>`).join('')}</select>
+      <select id="adSd"><option value="">시도 전체</option>${SIDO.map(s => `<option>${s}</option>`).join('')}</select>
+      <input id="adQ" type="search" placeholder="학교·시군구 검색" style="flex:1 1 180px;min-width:0;"></div>
+    <div id="adKpi" style="margin-top:10px;"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;"><div id="adSido" style="flex:1 1 380px;min-width:0;"></div><div id="adSubj" style="flex:1 1 380px;min-width:0;"></div></div>
+    <div id="adMap" style="margin-top:12px;"></div>
+    <div id="adList" style="margin-top:12px;"></div>`;
+  tab.prepend(sec);
+  const $ = id => sec.querySelector('#' + id);
+  const bar = (label, a, b, sub, hi) => { const r = b ? a / b : 0; return `<div style="display:grid;grid-template-columns:64px 1fr 92px;gap:8px;align-items:center;margin:3px 0;font-size:12.5px;"><span style="white-space:nowrap;${hi ? 'font-weight:800;' : ''}">${h(label)}</span><span style="background:var(--surface-2);border-radius:4px;height:14px;position:relative;overflow:hidden;"><span style="position:absolute;inset:0 auto 0 0;width:${(r * 100).toFixed(1)}%;background:${hi ? 'var(--accent)' : 'color-mix(in srgb, var(--accent) 60%, var(--surface-2))'};"></span></span><span style="text-align:right;white-space:nowrap;"><b>${pct(a, b)}</b> <span style="color:var(--muted);font-size:11px;">${sub || ''}</span></span></div>`; };
+  function draw(){
+    const lv = $('adLv').value, sb = $('adSub').value, sd = $('adSd').value, q = $('adQ').value.trim();
+    const inLv = s => lv === '' || s.l === +lv;
+    const has = s => sb === '' ? s.c > 0 : (s.b >> +sb) & 1;
+    const U = SC.filter(s => s.u && inLv(s) && (!sd || s.sd === sd));
+    const A = U.filter(has);
+    const copies = U.reduce((a, s) => a + s.c, 0), mA = A.reduce((a, s) => a + s.m, 0), mN = U.filter(s => !has(s)).reduce((a, s) => a + s.m, 0);
+    const gdA = A.filter(s => s.gd || s.eb).length;
+    const card = (k, v, s) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div><div style="font-size:18px;font-weight:800;">${v}</div><div style="font-size:11.5px;color:var(--ink-2);">${s}</div></div>`;
+    $('adKpi').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;">${[
+      card('채택 학교', `${n(A.length)} / ${n(U.length)}`, `채택률 ${pct(A.length, U.length)}${sb !== '' ? ' · ' + h(SUBJ[+sb]) : ''}`),
+      card('교과서 주문 부수', n(copies), `학교당 ${n(Math.round(copies / (U.filter(s => s.c).length || 1)))}부`),
+      card('지도서·전자책 함께 주문', pct(gdA, A.length), `채택 학교 중 ${n(gdA)}곳 · 교사용 자료 수요`),
+      card('비바샘 회원(학교당)', `${(mA / (A.length || 1)).toFixed(1)} vs ${(mN / ((U.length - A.length) || 1)).toFixed(1)}`, '채택 학교 vs 미채택 학교')].join('')}</div>`;
+    // 시도별 채택률(현재 학교급·교과)
+    const rows = SIDO.map(s2 => { const u = SC.filter(s => s.u && inLv(s) && s.sd === s2); return {s2, u: u.length, a: u.filter(has).length}; }).filter(x => x.u).sort((a, b) => b.a / b.u - a.a / a.u);
+    $('adSido').innerHTML = `<div style="font-weight:700;font-size:13px;margin-bottom:6px;">시도별 채택률 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">${lv === '' ? '초·중·고' : LV[+lv]} · ${sb === '' ? '교과 무관' : h(SUBJ[+sb])}</span></div>${rows.map(x => bar(x.s2, x.a, x.u, `${n(x.a)}/${n(x.u)}`, x.s2 === sd)).join('')}`;
+    // 교과별 채택 학교(현재 학교급·시도)
+    const sub = SUBJ.map((s, i) => ({s, i, a: U.filter(x => (x.b >> i) & 1).length})).filter(x => x.a).sort((a, b) => b.a - a.a).slice(0, 14);
+    $('adSubj').innerHTML = `<div style="font-weight:700;font-size:13px;margin-bottom:6px;">교과별 채택 학교 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">${sd || '전국'} · ${lv === '' ? '초·중·고' : LV[+lv]} · 분모 ${n(U.length)}교</span></div>${sub.map(x => bar(x.s, x.a, U.length, `${n(x.a)}교`, String(x.i) === sb)).join('')}`;
+    // 시군구 지도(채택률 색)
+    if (GEO && GEO.features) {
+      const fs = GEO.features.filter(f => !sd || f.sd === sd), agg = {};
+      U.forEach(s => { if (!s.g) return; const x = agg[s.g] = agg[s.g] || {u: 0, a: 0}; x.u++; if (has(s)) x.a++; });
+      let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+      fs.forEach(f => f.r.forEach(r => { for (let i = 0; i < r.length; i += 2) { x0 = Math.min(x0, r[i]); x1 = Math.max(x1, r[i]); y0 = Math.min(y0, r[i + 1]); y1 = Math.max(y1, r[i + 1]); } }));
+      const W = 900, H = sd ? 520 : 600, tilt = .62, th = sd ? 8 : 5, s = Math.min((W - 40) / (x1 - x0 || 1), (H - 40 - th) / ((y1 - y0) * tilt || 1)), ox = (W - (x1 - x0) * s) / 2;
+      const P = (x, y) => [ox + (x - x0) * s, 20 + (y - y0) * tilt * s];
+      const path = f => f.r.map(r => { let d = ''; for (let i = 0; i < r.length; i += 2) { const [a, b] = P(r[i], r[i + 1]); d += (i ? 'L' : 'M') + a.toFixed(1) + ',' + b.toFixed(1); } return d + 'Z'; }).join('');
+      const col = r => r == null ? 'var(--surface-2)' : `color-mix(in srgb, ${r < .5 ? '#ef4444' : 'var(--accent)'} ${Math.round(r < .5 ? (0.5 - r) * 120 + 15 : (r - .5) * 150 + 15)}%, var(--surface-2))`;
+      $('adMap').innerHTML = `<div style="font-weight:700;font-size:13px;margin-bottom:4px;">시군구 채택률 지도 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">붉을수록 낮음(50% 미만) · 파랄수록 높음 · 구역에 마우스를 올리면 수치</span></div>
+        <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" aria-label="시군구 교과서 채택률 지도">
+        ${fs.map(f => `<path d="${path(f)}" transform="translate(0,${th})" fill="color-mix(in srgb, var(--ink) 22%, var(--surface-2))"/>`).join('')}
+        ${fs.map(f => { const x = agg[f.c]; const r = x && x.u ? x.a / x.u : null; return `<path d="${path(f)}" fill="${col(r)}" stroke="var(--surface)" stroke-width=".6" data-tip="${h(`<b>${h(f.sd)} ${h(f.n)}</b><br>채택 ${x ? n(x.a) : 0} / ${x ? n(x.u) : 0}교 (${x ? pct(x.a, x.u) : '-'})`)}"/>`; }).join('')}
+        ${sd ? fs.map(f => { const [X, Y] = P(f.xy[0], f.xy[1]), x = agg[f.c]; return x && x.u ? `<text x="${X}" y="${Y + 4}" text-anchor="middle" font-size="9.5" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="2.5" style="pointer-events:none;">${h(f.n.replace(/^(.+?[시군])(.+구)$/, '$2'))} ${Math.round(x.a / x.u * 100)}%</text>` : ''; }).join('') : ''}</svg>`;
+    }
+    // 영업 대상 학교
+    const BR = window.__BRANCH, brOf = s => { if (!BR || !s.g) return ''; const hit = (BR.rows || []).filter(r => (r.sgg || []).includes(s.g)); return [...new Set(hit.map(r => r.name.replace(/\s*\(.*\)$/, '')))].slice(0, 2).join(', '); };
+    const T1 = U.filter(s => !has(s) && s.m > 0 && (!q || (s.n + ((FC[s.g] || {}).n || '')).includes(q))).sort((a, b) => b.m - a.m).slice(0, 40);
+    const T2 = A.filter(s => (!q || (s.n + ((FC[s.g] || {}).n || '')).includes(q))).map(s => ({...s, ratio: s.t ? s.m / s.t : null})).filter(s => s.m <= 2).sort((a, b) => b.c - a.c).slice(0, 40);
+    const subjOf = s => SUBJ.filter((_, i) => (s.b >> i) & 1).join('·');
+    const tbl = (rows, extra) => rows.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>학교</th><th>급</th><th>시도·시군구</th><th class="num">비바샘 회원</th><th class="num">교원(초)</th><th>비상 채택 교과</th><th class="num">교과서 부수</th><th>관할 총판</th></tr></thead><tbody>${rows.map(s => `<tr><td style="font-weight:600;">${h(s.n)}</td><td>${LV[s.l]}</td><td style="white-space:nowrap;">${h(s.sd)} ${h(((FC[s.g] || {}).n || ''))}</td><td class="num"><b>${n(s.m)}</b></td><td class="num">${s.t ? n(s.t) : '-'}</td><td style="font-size:11.5px;">${h(subjOf(s)) || '<span style="color:var(--muted);">없음</span>'}</td><td class="num">${n(s.c)}</td><td style="font-size:11.5px;">${h(brOf(s))}</td></tr>`).join('')}</tbody></table></div>` : `<p style="color:var(--muted);font-size:13px;">${extra}</p>`;
+    $('adList').innerHTML = `<div style="font-weight:700;font-size:13px;margin:4px 0 6px;">① 전환 대상 — 비바샘은 쓰는데 ${sb === '' ? '비상 교과서가 없는' : h(SUBJ[+sb]) + ' 비상 교과서가 아닌'} 학교 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">비바샘 회원 많은 순 상위 ${T1.length}곳 · 다음 채택 시기 공략</span></div>${tbl(T1, '해당 학교가 없습니다.')}
+      <div style="font-weight:700;font-size:13px;margin:14px 0 6px;">② 활용 확대 대상 — ${sb === '' ? '비상 교과서' : h(SUBJ[+sb]) + ' 교과서'}는 쓰는데 비바샘 회원이 2명 이하 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">주문 부수 많은 순 상위 ${T2.length}곳 · 연수·차시 콘텐츠 안내로 이탈 방지</span></div>${tbl(T2, '해당 학교가 없습니다.')}
+      <p class="tt-note" style="font-size:13px;line-height:1.6;"><b>그래서</b> ${sd || '전국'} ${lv === '' ? '' : LV[+lv] + ' '}채택률은 ${pct(A.length, U.length)}이고, 채택 학교의 비바샘 회원이 학교당 ${(mA / (A.length || 1)).toFixed(1)}명으로 미채택 학교(${(mN / ((U.length - A.length) || 1)).toFixed(1)}명)보다 ${mA / (A.length || 1) >= mN / ((U.length - A.length) || 1) ? '많습니다 — 교과서 채택이 비바샘 사용으로 이어집니다' : '적습니다 — 채택 학교의 비바샘 연결을 먼저 챙겨야 합니다'}. ①은 총판과 함께 다음 채택 시기 전에 방문하고, ②는 교과서 연계 연수·차시 자료 안내(B2S)로 비바샘 가입을 늘리세요.${(D.groups || []).length ? ` 교사 단체(비바샘이간다) 채택 학교 ${D.groups.length}곳: ${h([...new Set(D.groups.map(g => g.group))].join(', '))}.` : ''}</p>`;
+  }
+  ['adLv', 'adSub', 'adSd'].forEach(id => $(id).addEventListener('change', draw));
+  let tm; $('adQ').addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(draw, 200); });
+  draw();
+  if (window.__branchRedraw) window.__branchRedraw();
 })();
 </script>
 <script>
