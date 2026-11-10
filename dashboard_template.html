@@ -4814,8 +4814,12 @@ window.__ownerQ.push(function renderAiBrief(){
     if (!T.rows || !T.rows.length) { el.innerHTML = empty('연수 입찰 누적이 없습니다.'); return; }
     const mx = Math.max(1, ...T.rows.flatMap(r => r.counts));
     el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>주제</th>${T.months.map(m => `<th style="text-align:center;">${h(m.slice(2).replace('-', '.'))}</th>`).join('')}<th class="num">합계</th></tr></thead><tbody>
-      ${T.rows.map(r => `<tr><td style="white-space:nowrap;">${h(r.name)}</td>${r.counts.map((c, i) => `<td style="padding:2px;"><div ${tipAttr(`${r.name} · ${T.months[i]}: ${c}건`)} style="height:22px;border-radius:4px;background:${c ? seq(c / mx) : 'var(--surface-2)'};display:flex;align-items:center;justify-content:center;color:${c / mx > .55 ? '#fff' : 'var(--ink-2)'};font-size:11px;">${c || ''}</div></td>`).join('')}<td class="num">${r.counts.reduce((a, b) => a + b, 0)}</td></tr>`).join('')}
-      </tbody></table></div>${so('진한 칸이 몰리는 달의 2~3개월 전에 해당 주제 과정·제안서를 준비하세요(발주는 주로 3~5월·8~9월에 몰립니다).')}`;
+      ${T.rows.map(r => `<tr${r.strength ? ' class="vstr-row"' : ''}><td style="white-space:nowrap;">${h(r.name)}${r.strength ? ' <span class="vstr">비상 강점</span>' : ''}</td>${r.counts.map((c, i) => `<td style="padding:2px;"><div ${tipAttr(`${r.name} · ${T.months[i]}: ${c}건`)} style="height:22px;border-radius:4px;background:${c ? seq(c / mx) : 'var(--surface-2)'};display:flex;align-items:center;justify-content:center;color:${c / mx > .55 ? '#fff' : 'var(--ink-2)'};font-size:11px;">${c || ''}</div></td>`).join('')}<td class="num">${r.counts.reduce((a, b) => a + b, 0)}</td></tr>`).join('')}
+      </tbody></table></div>${(() => { const S = T.rows.filter(r => r.strength); if (!S.length) return '';
+        const sum = r => r.counts.reduce((a, b) => a + b, 0), q = r => r.counts.slice(-3).reduce((a, b) => a + b, 0);
+        return `<div class="vstr-box"><b>비상 강점 분야 상시 모니터링</b> · 최근 12개월(최근 3개월) 발주: ${S.map(r => `${h(r.name)} <b>${sum(r)}</b>건(${q(r)})`).join(' · ')}
+          <div style="color:var(--muted);margin-top:3px;">교과서·교재 자산이 있는 분야입니다. 0건이 이어지는 분야는 교육청 특색사업·학교단위 발주·연수원 자체 공모에서 따로 찾아야 합니다.</div></div>`; })()}
+      ${so('진한 칸이 몰리는 달의 2~3개월 전에 해당 주제 과정·제안서를 준비하세요(발주는 주로 3~5월·8~9월에 몰립니다).')}`;
   });
   safe('rfpFunnel', () => {
     const F = V.rfp_funnel || {}, R = RFP_ANALYSIS || {}, items = R.items || [];
@@ -6311,7 +6315,7 @@ window.__ownerQ.push(function renderExec(){
       r.parts = {...r.score_parts, '수요': Math.round(40 * r.demand / maxD)};
       r.total = Object.values(r.parts).reduce((a, b) => a + b, 0);
     });
-    return rows.filter(r => r.demand > 0 || r.policy_weight === 3).sort((a, b) => b.total - a.total || b.demand - a.demand);
+    return rows.filter(r => r.demand > 0 || r.policy_weight === 3 || r.strength).sort((a, b) => b.total - a.total || b.demand - a.demand);
   };
 
   const growthChip = t => {
@@ -6332,7 +6336,7 @@ window.__ownerQ.push(function renderExec(){
       const props = lv ? t.proposals.filter(p => p.level === lv) : t.proposals.slice().sort((a, b) => b.demand - a.demand).slice(0, 2);
       const samples = t.samples.filter(s => !lv || !s.lv.length || s.lv.includes(lv)).slice(0, 3);
       return `<article class="tt-card">
-        <div class="hd"><span class="rk">${i + 1}</span><span class="nm">${h(t.name)}</span>
+        <div class="hd"><span class="rk">${i + 1}</span><span class="nm">${h(t.name)}${t.strength ? ' <span class="vstr">비상 강점</span>' : ''}</span>
           <span class="sc" title="${Object.entries(t.parts).map(([k, v]) => `${k} ${v}`).join(' · ')}">${t.total}<small>/100</small></span></div>
         <div class="tt-meta"><span>공고 ${fmt(t.demand)}건</span>${growthChip(t)}${t.amount ? `<span>예산 ${fmtWon(t.amount)}</span>` : ''}<span>정책 ${POLICY[t.policy_weight]}</span>${covChip(t)}</div>
         ${props.map(p => `<div class="tt-course"><div class="lv">${h(LV_NAME[p.level])} 추천 과정</div>
@@ -6346,7 +6350,7 @@ window.__ownerQ.push(function renderExec(){
     }).join('') || '<div class="tt-empty">이 학교급으로 분류된 공고가 없습니다.</div>';
 
     document.querySelector('#ttTable tbody').innerHTML = rows.map(t => `<tr>
-      <td><b>${h(t.name)}</b></td>
+      <td><b>${h(t.name)}</b>${t.strength ? ' <span class="vstr">비상 강점</span>' : ''}</td>
       <td class="num" title="${Object.entries(t.parts).map(([k, v]) => `${k} ${v}`).join(' · ')}">${t.total}</td>
       <td class="num">${fmt(t.demand)}</td>
       <td class="num">${t.n < 3 ? '-' : (t.growth > 0 ? '+' : '') + t.growth + '%'}</td>
@@ -9496,6 +9500,9 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   html.vs-skin .kpi .val{color:#041A72;}
   html.vs-skin .pill{border-radius:2px;}
   #vsBrand{display:none;}
+  .vstr{display:inline-block;margin-left:4px;padding:0 6px;border-radius:999px;font-size:10.5px;font-weight:800;line-height:17px;vertical-align:1px;color:#fff;background:#00B5E2;white-space:nowrap;}
+  tr.vstr-row td:first-child{box-shadow:inset 3px 0 0 #00B5E2;}
+  .vstr-box{margin:10px 0 0;padding:9px 12px;border:1px solid var(--border);border-left:3px solid #00B5E2;border-radius:6px;font-size:12.5px;color:var(--ink-2);background:var(--surface-2);}
   .vsub a.vextl{display:inline-block;padding:8px 10px;font-size:13.5px;font-weight:700;color:var(--accent-2,#041A72);text-decoration:none;border-bottom:2px solid transparent;}
   .vsub a.vextl:hover{color:var(--accent);border-bottom-color:var(--accent);}
   a.vcard.vext{display:block;text-decoration:none;font-weight:700;font-size:14px;color:var(--accent-2,#041A72);border-top-style:dashed;}

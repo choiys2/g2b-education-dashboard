@@ -45,8 +45,10 @@ def topic_month(today):
         n += 1
         for tid in tt.classify_topics(r.get("t")):
             grid[tid][mo] += 1
-    order = sorted(grid, key=lambda k: -sum(grid[k].values()))
-    return {"months": months, "rows": [{"id": k, "name": names.get(k, k), "counts": [grid[k][m] for m in months]} for k in order],
+    strong = getattr(tt, "STRENGTH", set())
+    # 비상 강점 분야(진로진학·인문소양·독서·한국사·과학·수학)는 발주가 없어도 맨 위에 항상 보인다(상시 모니터링)
+    order = sorted(set(grid) | strong, key=lambda k: (k not in strong, -sum(grid[k].values())))
+    return {"months": months, "rows": [{"id": k, "name": names.get(k, k), "strength": k in strong, "counts": [grid[k][m] for m in months]} for k in order],
             "bids": n}
 
 
