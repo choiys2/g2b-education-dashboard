@@ -68,11 +68,14 @@ def kind_of(t):
 
 
 def chunks(days):
-    end, cur = datetime.now(), datetime.now() - timedelta(days=days)
+    """최신 기간부터 거꾸로(키워드 검색이 오래된 기간에서 07 '입력범위값 초과'를 내면 그 지점에서 멈춘다)."""
+    end, start = datetime.now(), datetime.now() - timedelta(days=days)
+    out, cur = [], start
     while cur < end:
         nxt = min(cur + timedelta(days=28), end)
-        yield cur, nxt
+        out.append((cur, nxt))
         cur = nxt
+    return out[::-1]
 
 
 def safe(e):
@@ -92,13 +95,14 @@ def main():
     prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     bids, awards, parts = prev.get("bids", {}), prev.get("awards", {}), prev.get("participants", {})
     diag, iv = [], cfg.get("request_interval_sec", 0.15)
+    oldest = {}  # 연산|키워드 -> 07 이 난 기간 끝(그 이전은 키워드 검색 불가로 보고 기록)
     done = set((prev.get("status") or {}).get("done3", []))  # done3: 날짜 형식 수정 후 다시 백필  # 3년 백필을 끝낸 키워드 - 이후엔 최근 120일만 다시
     days = a.days
     over = lambda: time.time() - t0 > a.budget
 
     def save(note):
         OUT.write_text(json.dumps({"updated": date.today().isoformat(), "bids": bids, "awards": awards, "participants": parts,
-                                   "status": {"days": days, "done3": sorted(done), "diag": sorted(set(diag))[:40], "note": note, "sec": round(time.time() - t0)}},
+                                   "status": {"days": days, "done3": sorted(done), "stop07": oldest, "diag": sorted(set(diag))[:40], "note": note, "sec": round(time.time() - t0)}},
                                   ensure_ascii=False, indent=1), encoding="utf-8")
 
     for kw in KEYWORDS:
@@ -107,10 +111,13 @@ def main():
         for kind, sfx in KINDS.items():
             if kind == "물품" and kw not in THNG_KW:
                 continue
+            stop = set()  # 07 이 난 연산은 더 과거로 가지 않는다
             for begin, end in chunks(120 if kw in done else days):
-                if over():
+                if over() or len(stop) == 2:
                     break
                 for base, op, store in ((BID, f"getBidPblancListInfo{sfx}PPSSrch", "bid"), (SCS, f"getScsbidListSttus{sfx}PPSSrch", "award")):
+                    if op in stop:
+                        continue
                     items, page, total, failed = [], 1, None, False
                     while total is None or (page - 1) * 100 < total:  # 행 수 상한 100(500은 '입력범위값 초과' 07)
                         p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 100, "inqryDiv": 1, "type": "json",
@@ -118,9 +125,22 @@ def main():
                         try:
                             got, total = call_api(base, op, p, timeout=25, retries=1)
                         except Exception as e:
-                            diag.append(f"{op} {kw}: {safe(e)}")
-                            failed = True
-                            break
+                            msg = safe(e)
+                            if "429" in msg:  # 요청 과다 - 쉬었다가 한 번 더
+                                time.sleep(20)
+                                try:
+                                    got, total = call_api(base, op, p, timeout=25, retries=1)
+                                except Exception as e2:
+                                    diag.append(f"{op} {kw} {begin:%Y-%m}: {safe(e2)[:60]}")
+                                    failed = True
+                                    break
+                            else:
+                                if '"07"' in str(e) or "입력범위" in str(e):
+                                    stop.add(op)
+                                    oldest[op + "|" + kw] = f"{end:%Y-%m-%d}"
+                                diag.append(f"{op} {kw} {begin:%Y-%m}: {msg[msg.find('resultMsg'):][:40] or msg[:60]}")
+                                failed = True
+                                break
                         items += got
                         if not got or page >= 5:
                             break
@@ -145,7 +165,7 @@ def main():
                             awards[k] = {"t": t, "kind": kind, "org": dm, "r": guess_region(dm), "d": str(first(it, "rlOpengDt", "fnlSucsfDate"))[:10],
                                          "winner": w, "v": vendor_of(w), "amt": num(first(it, "sucsfbidAmt")), "n": num(first(it, "prtcptCnum"))}
                     time.sleep(iv)
-        if not over() and not any(kw in x for x in diag):
+        if not over() and not any(kw in x and "429" in x for x in diag):  # 07(과거 기간 검색 불가)은 완료로 본다
             done.add(kw)
         save(f"키워드 {kw}")
         print(f"  {kw}: 공고 {len(bids)} · 낙찰 {len(awards)} · {round(time.time() - t0)}초", flush=True)
