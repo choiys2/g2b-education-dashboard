@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08",
+ "updated": "2026-11-10",
  "inst": "한국교육학술정보원",
  "bids": {
   "20231035089-000": {
@@ -9966,8 +9966,8 @@
    "ntce": "한국교육학술정보원",
    "dmnd": "한국교육학술정보원",
    "d": "2026-10-28",
-   "close": "2026-11-09 14:00",
-   "open": "2026-11-09 15:00",
+   "close": "2026-11-09 15:20",
+   "open": "2026-11-09 16:20",
    "budget": 80000000,
    "est": 72727273,
    "method": "제한경쟁",
@@ -9984,8 +9984,8 @@
    "ntce": "한국교육학술정보원",
    "dmnd": "한국교육학술정보원",
    "d": "2026-10-29",
-   "close": "2026-11-09 14:00",
-   "open": "2026-11-09 15:00",
+   "close": "2026-11-09 15:20",
+   "open": "2026-11-09 16:20",
    "budget": 108000000,
    "est": 98181818,
    "method": "제한경쟁",
@@ -10603,6 +10603,24 @@
    "method": "제한경쟁",
    "award": "협상에의한계약-협상에 의한 낙찰자 결정",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01800811&bidPbancOrd=000"
+  },
+  "R26BK01818770-000": {
+   "no": "R26BK01818770",
+   "ord": "000",
+   "t": "2026년 독서교육·학교도서관 한마당 행사장 설치용역",
+   "kind": "용역",
+   "cat": "홍보·행사",
+   "rel": false,
+   "ntce": "한국교육학술정보원",
+   "dmnd": "한국교육학술정보원",
+   "d": "2026-11-09",
+   "close": "2026-11-20 10:00",
+   "open": "2026-11-20 11:00",
+   "budget": 108000000,
+   "est": 98181818,
+   "method": "제한경쟁",
+   "award": "협상에의한계약-협상에 의한 낙찰자 결정",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01818770&bidPbancOrd=000"
   }
  },
  "opening": {
@@ -17135,6 +17153,16 @@
    "first": "주식회사 멀티스퀘어",
    "first_amt": 83282510,
    "first_rate": "87.098"
+  },
+  "R26BK01798295-000": {
+   "t": "2026년 독서교육·학교도서관 한마당 행사장 설치용역",
+   "kind": "용역",
+   "d": "2026-11-09",
+   "n": 0,
+   "status": "유찰",
+   "first": "",
+   "first_amt": null,
+   "first_rate": ""
   }
  },
  "awards": {
@@ -25234,7 +25262,9 @@
  "status": {
   "covered_days": 1095,
   "target_days": 1095,
-  "diag": [],
+  "diag": [
+   "getBidPblancListInfoThngPPSSrch/dminsttCd: The read operation timed out"
+  ],
   "fields": {
    "bid": [
     "VAT",
