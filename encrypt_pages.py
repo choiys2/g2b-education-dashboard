@@ -30,25 +30,32 @@ GATE = """<!doctype html>
 <meta name="referrer" content="no-referrer">
 <title>(주)비상교육 B2G 대시보드</title>
 <style>
-  :root{--bg:#f6f7f9;--card:#fff;--ink:#1a1f2b;--muted:#6b7280;--line:#e2e5ea;--accent:#0075de;--bad:#d64545;}
-  @media (prefers-color-scheme: dark){:root{--bg:#0f141c;--card:#18202b;--ink:#e8ecf2;--muted:#94a0b2;--line:#2a3442;--accent:#4f8cff;}}
+  /* 비상 브랜드 잠금 화면: 흰 바탕 + visang/VIVA샘 로고 + 비상 하늘색(#00B5E2)·남색(#041A72) */
+  :root{color-scheme:light;--bg:#ffffff;--ink:#222;--muted:#666;--line:#dddddd;--accent:#00B5E2;--navy:#041A72;--bad:#d33;}
   *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;padding:16px;}
-  .card{width:100%;max-width:360px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 24px;text-align:center;}
-  h1{font-size:17px;margin:0 0 6px}p{font-size:13px;color:var(--muted);margin:0 0 18px}
-  input{width:100%;font:inherit;font-size:22px;letter-spacing:8px;text-align:center;padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--ink);}
-  input:focus{outline:2px solid var(--accent);outline-offset:1px}
-  button{width:100%;margin-top:12px;font:inherit;font-weight:700;padding:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+  body::before{content:"";position:fixed;left:0;right:0;top:0;height:4px;background:var(--accent);}
+  .card{width:100%;max-width:380px;background:#fff;text-align:center;padding:8px 8px 0;}
+  .logos{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:26px;}
+  .logos img.v{height:36px}.logos img.s{height:40px}.logos .bar{width:1px;height:28px;background:#cccccc}
+  h1{font-size:18px;margin:0 0 6px;color:var(--navy)}p{font-size:13px;color:var(--muted);margin:0 0 20px}
+  input{width:100%;font:inherit;font-size:22px;letter-spacing:8px;text-align:center;padding:12px;border:1px solid #cccccc;border-radius:4px;background:#fff;color:var(--ink);}
+  input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  button{width:100%;margin-top:12px;font:inherit;font-weight:700;padding:13px;border:0;border-radius:4px;background:var(--navy);color:#fff;cursor:pointer}
+  button:hover{background:var(--accent)}
   label.keep{display:flex;gap:6px;justify-content:center;align-items:center;font-size:12px;color:var(--muted);margin-top:12px}
   .err{color:var(--bad);font-size:13px;min-height:18px;margin-top:10px}
+  .foot{margin-top:28px;font-size:11px;color:#999}
 </style></head><body>
 <form class="card" id="gate" autocomplete="off">
-  <h1>(주)비상교육 B2G 시장 전략 대시보드</h1>
+  <div class="logos">__LOGO_V__<span class="bar"></span>__LOGO_S__</div>
+  <h1>B2G 시장 전략 대시보드</h1>
   <p>비밀번호를 입력하세요.</p>
   <input id="pw" type="password" inputmode="numeric" autocomplete="current-password" aria-label="비밀번호" autofocus>
   <button type="submit" id="go">열기</button>
   <label class="keep"><input type="checkbox" id="keep" checked style="width:auto;margin:0">이 브라우저에서 기억</label>
   <div class="err" id="err" role="alert"></div>
+  <div class="foot">(주)비상교육 · 비바샘 원격교육연수원 내부용</div>
 </form>
 <script>
 (function(){
@@ -83,12 +90,21 @@ GATE = """<!doctype html>
 """
 
 
+def _logo(k, cls, alt):
+    """잠금 화면 로고(static_data/brand). 없으면 글자로."""
+    f = Path(__file__).parent / "static_data" / "brand" / f"{k}_logo.png"
+    if not f.exists():
+        return f'<b style="font-size:22px;color:#00B5E2">{alt}</b>'
+    return f'<img class="{cls}" alt="{alt}" src="data:image/png;base64,{base64.b64encode(f.read_bytes()).decode()}">'
+
+
 def encrypt(html, pw):
     salt, iv = os.urandom(16), os.urandom(12)
     key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITER).derive(pw.encode())
     ct = AESGCM(key).encrypt(iv, html.encode("utf-8"), None)
     e = lambda b: base64.b64encode(b).decode()
-    return (GATE.replace("__MARK__", MARK).replace("__SALT__", e(salt)).replace("__IV__", e(iv))
+    return (GATE.replace("__LOGO_V__", _logo("visang", "v", "visang")).replace("__LOGO_S__", _logo("vivasam", "s", "비바샘 원격교육연수원"))
+            .replace("__MARK__", MARK).replace("__SALT__", e(salt)).replace("__IV__", e(iv))
             .replace("__ITER__", str(ITER)).replace("__CT__", e(ct)))
 
 
