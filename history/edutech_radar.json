@@ -1,9 +1,1079 @@
 {
- "collected_at": "2026-11-10 11:49",
+ "collected_at": "2026-11-11 07:04",
  "url": "https://edutech-radar.netlify.app/",
  "status": "ok",
  "method": "json",
  "items": [
+  {
+   "title": "서울시교육청, 학교 내 차별·혐오 해법 찾는다…학생·학부모 등 100명 숙의토론",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1VT0FfTHdLeGdIb1Nrd0Z2SlFvYWFaQ0ZPVktuWkVVdEE2SDE3LThpS2pkZXhERUZ3cFlzNGMwbVpzbnMzVGIxZ3FsUXd2M1VBUGh6S1BWbk1UU3Yy?oc=5",
+   "date": "2026-11-11 06:00",
+   "extra": {
+    "pubTimestamp": 1794344400000,
+    "popularity": 1
+   },
+   "source": "뉴스핌",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.newspim.com/news/view/20261110001177",
+   "orig_date": "2026-11-11T06:00:00+09:00"
+  },
+  {
+   "title": "[패트롤] 인천시-인천경제청-인천문화재단-인천시교육청",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5sTERJenhnLW1jcVY3Q3lhbFlfRThadmVuWjVhaGFOSmZxSHdZNjlDLVhwT0lpQnlWZzdQNWVucUlNWVgyeEJDMUFFM2pDdjNFWDEzdXF4Q0FzUXN6bV9hLUhfcw?oc=5",
+   "date": "2026-11-11 04:18",
+   "extra": {
+    "pubTimestamp": 1794338300000,
+    "popularity": 1
+   },
+   "source": "에너지경제신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.ekn.kr/web/view.php?key=20261111023018017",
+   "orig_date": "2026-11-11T04:18:20+09:00"
+  },
+  {
+   "title": "경기도교육청, 도내 중학교 4곳서 ‘찾아가는 생명존중 콘서트’ 개최",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFB5bnNQeldWdHh3Q2lKd2xISWtfQzBtMGR5QkEwN0xqV1pkOE1Sb2hTTURBSV9ZcnoxenNNalNueWhJenlGNlVlaXNnSlYwTE9uRnp3bVVLbGVFanZfRTdzRTBNMHhBQmpYbHNFWA?oc=5",
+   "date": "2026-11-11 01:34",
+   "extra": {
+    "pubTimestamp": 1794328467000,
+    "popularity": 1
+   },
+   "source": "베이비타임즈",
+   "summary": "",
+   "category": "정책",
+   "orig": "http://www.babytimes.co.kr/news/articleView.html?idxno=74625",
+   "orig_date": "2026-11-11T01:34:27+09:00"
+  },
+  {
+   "title": "경기도교육청, AI 시대 주도 사고력 중심 교육 대전환 선언",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9DX1o2RmxGZjZiVjJoZGMwWGNhdW16aEdtaWdJWTAzUlliaHVQUU9IOHdrVGVvY3hhaHl6TFlLU25nSkZPeDlpbE5FNkxOTDFUeHd6LWd4LTYzR2FtYjN0YmRJcnA4VGFnVkFYMw?oc=5",
+   "date": "2026-11-11 01:00",
+   "extra": {
+    "pubTimestamp": 1794326432000,
+    "popularity": 1
+   },
+   "source": "베이비타임즈",
+   "summary": "",
+   "category": "정책",
+   "orig": "http://www.babytimes.co.kr/news/articleView.html?idxno=74624",
+   "orig_date": "2026-11-11T01:00:32+09:00"
+  },
+  {
+   "title": "충남교육청, 학교지원센터 186개 사업 재편…공주·아산서 선도 운영",
+   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5zMTc5OFMyTnZQSHdHTTNsQnVZeld4ZGFac19MVlVnTTJpVnlCNDF0VW0tYUh4ZDRkUGVoSERtemxrRW5SYkZtTUwtQTRoYXFIbTl5YjYwN1RaN1JEVk9YYVQ1TjlLQQ?oc=5",
+   "date": "2026-11-10 23:41",
+   "extra": {
+    "pubTimestamp": 1794321660000,
+    "popularity": 1
+   },
+   "source": "교육을 비추다",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.kyobit.com/news/articleView.html?idxno=8079",
+   "orig_date": "2026-11-10T23:41:00+09:00"
+  },
+  {
+   "title": "한국, 대학 입학시험에서 AI 안경 사용에 대한 규제 강화.",
+   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNdE5UeURtQzBUZ1VoUjlCNHhQVlg1SUVENW4tZnpIUzNGeExJSGdudGE0b1ZsRWt2QzZRSlVSY1ZVWm56U3duT1hpbkRUc2p1bm02dnJFYThmTkgyMzJKUHAzbVR1Y1BETkwxX0ItRFZ0M2lJeDFyYi1jZzhrbkJJbw?oc=5",
+   "date": "2026-11-10 22:50",
+   "extra": {
+    "pubTimestamp": 1794318610000,
+    "popularity": 1
+   },
+   "source": "Vietnam.vn",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.vietnam.vn/ko/han-quoc-siet-kiem-soat-kinh-ai-trong-thi-dai-hoc",
+   "orig_date": "2026-11-10T13:04:00+00:00"
+  },
+  {
+   "title": "충남교육청 ‘교육정책 실효성 도마’…IB교육 단절·중복사업·예산 낭비 질타",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1uTzNOZV9LVkhuaEdqdnNsb1BBZWlHTmJEbGZuRElHRjY1MzBPSmUxNFNqaFJpdlhobkZoMVJjaEV1UGg3aE5zNkFPQm1yMUMzb0U0WnJOLXNzdFA5SDNlbDE0TWppUzM2?oc=5",
+   "date": "2026-11-10 21:50",
+   "extra": {
+    "pubTimestamp": 1794315059000,
+    "popularity": 1
+   },
+   "source": "녹색경제신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.greened.kr/news/articleView.html?idxno=354324",
+   "orig_date": "2026-11-10T21:50:59+09:00"
+  },
+  {
+   "title": "세종시교육청은 필수경비부터 확보하라",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9IRnBtb210bm9fWF9tRTdnd2RFb285dEFzenRpQVpuNWVkUy0xMmhTTERxZDRVRnpPdHAtNElsZllNNGU5X3dsOUptdHRyWkkzd0w5NUpRTzd2bFVuTURrdGVEbVFpZTN0MS1j?oc=5",
+   "date": "2026-11-10 21:45",
+   "extra": {
+    "pubTimestamp": 1794314709000,
+    "popularity": 1
+   },
+   "source": "충청메시지",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.ccmessage.kr/news/articleView.html?idxno=125062",
+   "orig_date": "2026-11-10T21:45:09+09:00"
+  },
+  {
+   "title": "충남교육청, 한국장애인고용공단과 장애 학생 직업교육·취업 지원 맞손",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5SSmZtamdDUTRyRmpYaWxEY2wyaFFUSGpxeVlCbDN3ckpfMXJGd0RLOFRLTndfVXpYMjV5YkJkTWdtaFdkRW9BZmoyNmhVdkVQaWl1UzRlZTF0MU42UnFmSU10Z3UzQzBlb0E?oc=5",
+   "date": "2026-11-10 21:25",
+   "extra": {
+    "pubTimestamp": 1794313544000,
+    "popularity": 2
+   },
+   "source": "천지일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.newscj.com/news/articleView.html?idxno=3447642",
+   "orig_date": "2026-11-10T21:25:44+09:00"
+  },
+  {
+   "title": "대전시교육청, 아이의 마음을 이해하는 건강한 부모 역할 제시",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5TbnlHNmhpQ2RhMTNSVmgxNUZTZm83S3cwT1Z0UlhJQW5RYlNxTGtzT3VNZGtKZ0Rfc0tQN1htcUt1czBSWFl2eXVWYl9nRktCaWMwUmdkeEtoUy1VVm83SnU1Ylp4Y2VOT0E?oc=5",
+   "date": "2026-11-10 21:18",
+   "extra": {
+    "pubTimestamp": 1794313132000,
+    "popularity": 2
+   },
+   "source": "천지일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.newscj.com/news/articleView.html?idxno=3447638",
+   "orig_date": "2026-11-10T21:18:52+09:00"
+  },
+  {
+   "title": "충남교육청 ‘관용차 14대에 운전원 정원 15명’…기관장 의전용 논란",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9DZElMSWVKWlR0cVd0elRJMDBhcGtFS2M4cjZ5YlZjMFJIS1FOTzVaaEpNMUZSU3VxTjJSeWhZaXJiR29Rb2RjN3dWaVpnYWtuRVFxWFUzQmwxaUJRUGcyVVQxaU9GdXQ0?oc=5",
+   "date": "2026-11-10 21:08",
+   "extra": {
+    "pubTimestamp": 1794312530000,
+    "popularity": 1
+   },
+   "source": "녹색경제신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.greened.kr/news/articleView.html?idxno=354321",
+   "orig_date": "2026-11-10T21:08:50+09:00"
+  },
+  {
+   "title": "\"서울시교육청의 작은 제안, 온라인행정심판시스템 개인정보 보호 선제적 강화 이끌어”",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5pWVhfRUV5U2RwajM2SkJTekJNaUwxLXF4R0paVU5yU2NvQTNlei1jek1ZbW9LMG0wMnA1X2xldXVhTTNMNHJXbHRwUFVRMk1mc0p6eEpvRWhwY2gxcXRiYjE2dGZxUS1seTAzSg?oc=5",
+   "date": "2026-11-10 20:34",
+   "extra": {
+    "pubTimestamp": 1794310484000,
+    "popularity": 1
+   },
+   "source": "중구신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.junggunews.com/news/articleView.html?idxno=42902",
+   "orig_date": "2026-11-10T20:34:44+09:00"
+  },
+  {
+   "title": "[단독]경남도교육청, 1억 2천만 원 청구했다가 \"오해였다?\"",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9DSy1UUFIxQ25taFA5SmxseVNBNE40RlFUT1R4d2ZPbzhqOG1GOVVBblBJSkZxeHJIbDU2dE1aeks4dTQ1N1d4MXdYZmRuSHFQeFVOaQ?oc=5",
+   "date": "2026-11-10 20:08",
+   "extra": {
+    "pubTimestamp": 1794308880000,
+    "popularity": 1
+   },
+   "source": "부산경남대표방송 KNN 뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://news.knn.co.kr/news/article/194286",
+   "orig_date": "2026-11-10 20:08:06"
+  },
+  {
+   "title": "계성여자고등학교, AI 실시간 번역 활용한 다국어 토론회 성료… \"미래형 국제교류 활짝\"",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1IS2VWTjVxVjBGQ3EzdUVHNFZrUnJNUm1NdGg1ZEdLNTBKa2VNMEhuTjV5RFBWbXJGWGtpcmNobGwtZDNmS0g0RWZVOFk5ZnBvbWp1MzBEVDVJX2pGUmxSWklocw?oc=5",
+   "date": "2026-11-10 20:06",
+   "extra": {
+    "pubTimestamp": 1794308771000,
+    "popularity": 1
+   },
+   "source": "대한민국교육신문",
+   "summary": "",
+   "category": "에듀테크",
+   "orig": "https://www.kedupress.com/news/article.html?no=530355"
+  },
+  {
+   "title": "아이포트폴리오 “어린이 위한 AI는 달라야… 영어교육 혁신 앞장” [AI 대상 2026]",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE50U0ZESUU1NWV0Wmp5MmxKZWw5aWk3RnRVSEliNGRtRXl5Sm1QVURheVN5X3Q2ei0zNFJjZGpkcWRvbHUweUJtRi1yUkJGc1o4YkREdTd5VDRaWXJsRkNzSDVRNkt2Q3VLb3RQVVNHWGjSAXRBVV95cUxPZnRwbjBpX29DQ0F1Y1NKS3c4VEZnQmttNUl4WnB2eTdidTZzSVUyX0RnVTRYaGRQRGFFdUFic250SEdPWmI5d21FYWNjS0s0eVQ0VW9TUmJoTGtOdTJMeTNmYnZRcHpKZHBVclluT2ZmNlRRSA?oc=5",
+   "date": "2026-11-10 20:02",
+   "extra": {
+    "pubTimestamp": 1794308530000,
+    "popularity": 1
+   },
+   "source": "IT조선",
+   "summary": "",
+   "category": "에듀테크",
+   "orig": "https://it.chosun.com/news/articleView.html?idxno=3000000000690",
+   "orig_date": "2026-11-10T20:02:10+09:00"
+  },
+  {
+   "title": "상주 폐교, 학교급식교육관으로 바뀐다…경북교육청 98억 들여 건립 추진",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBibUp6LWNnazd1cWV2M2NTRklpcEpxNFJsYnhNSnhsSEtXUzBncXBjTGd1S29pRkc4Q1dDdHNjcWtxTHUtMUszck14di1qSWdLRlFoOVYzd1hmQndPbTBqNGF0b1hQck5xZGt5OHh3QQ?oc=5",
+   "date": "2026-11-10 19:50",
+   "extra": {
+    "pubTimestamp": 1794307851000,
+    "popularity": 1
+   },
+   "source": "경북일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.kyongbuk.co.kr/news/articleView.html?idxno=4090357",
+   "orig_date": "2026-11-10T19:50:51+09:00"
+  },
+  {
+   "title": "세종시교육청, 내년 예산 1조 2060억 원 편성",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1mbWFydGpLZkstRzVHYVQ3WWF3WGJ4cHctd2pJWWNUZVV2YWhvYW15OGtTYTFmZXlmcGdqSnVBdEhfQ1VsUURqdENmemlubzFwaUFWTXhJX1hlQlYyMURCRFdrN09vSTJQTW1pYzJyUWw?oc=5",
+   "date": "2026-11-10 19:49",
+   "extra": {
+    "pubTimestamp": 1794307773000,
+    "popularity": 1
+   },
+   "source": "로컬투데이",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.localtoday.co.kr/news/articleView.html?idxno=417259",
+   "orig_date": "2026-11-10T19:49:33+09:00"
+  },
+  {
+   "title": "비주얼캠프 “AI 시선추적 기술, 글로벌 에듀테크 경쟁력” [AI 대상 2026]",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE41bTMzelNiSU1MREE1UllSV0xMaFE3NDFpTVJhMTdxUVVFVzlSUHRILVdNajZDUkZXSDNucU9uYTNHRGhyWEpQZllGbFllcVBWb1NSbUVjQ1VfMHhoSnY4Yk5QNTZYVEFGWlJiY1dZWjXSAXRBVV95cUxPTXhpLXRqc1dHczJkSUwtamVHNDBmY0FoVm04ajFNME9OemRUVEw4TzdESS03X2l0QXc3UGlXOXpnYm9jMkZyVl9LQi0wc3ZHMmJGU2FVVGNrdjNXNWU1c0JCYXZvQ2kyMXVRcWsxTVd4Wm5hZQ?oc=5",
+   "date": "2026-11-10 19:48",
+   "extra": {
+    "pubTimestamp": 1794307723000,
+    "popularity": 1
+   },
+   "source": "IT조선",
+   "summary": "",
+   "category": "에듀테크",
+   "orig": "https://it.chosun.com/news/articleView.html?idxno=3000000000600",
+   "orig_date": "2026-11-10T19:48:43+09:00"
+  },
+  {
+   "title": "\"세계를 교실로 옮겼다\"… 전북교육청, 14일 ‘2026 전북 외국어교육 박람회' 개최",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5pS29tNDNQak42WHlGdWg3SWxvd3B3VGdjNGJpdVpJbXdxN0JQOGRLbkthdnhRU0FQb0pDRHdMcllRdE1IZnhfUDI1bWMxNnNySTY4NmpXd0RTemNhMERr?oc=5",
+   "date": "2026-11-10 19:45",
+   "extra": {
+    "pubTimestamp": 1794307536000,
+    "popularity": 1
+   },
+   "source": "전북미래교육신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://edujb.com/news/articleView.html?idxno=9799",
+   "orig_date": "2026-11-10T19:45:36+09:00"
+  },
+  {
+   "title": "경남교육청 홍보비 투명성 도마 위…\"정책 효과 평가 필요\"",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE85NTNlRWRURkJCRFNzMGtqMnBXa2xyQ1FvWUdfeGJNcmNPblBzSUdNY0tYczBuNm0xYlRZbjZhVmprQXhFSUxaNmNwTFRTVkh6b3NVNXpsTkJqb0Zn?oc=5",
+   "date": "2026-11-10 19:29",
+   "extra": {
+    "pubTimestamp": 1794306540000,
+    "popularity": 1
+   },
+   "source": "뉴스핌",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.newspim.com/news/view/20261110001508",
+   "orig_date": "2026-11-10T19:29:00+09:00"
+  },
+  {
+   "title": "교육부, 외국대학 교수 국내대학 겸직 허용…AI·빅데이터 등 첨단산업 분야 해외 우수 석학 유치 위한 교육공무원 임용령 개정안 국무회의 의결",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFA1TkE5SW9EYnpjUEEtcWlHdTJBSUlXVWdlODAxNHp1UTNLZFZBSnRWb2ZuWmlveTFHdmJkalRuMTRwR0poR0paVlI5MjhUaFQwTHlOYnFZOE1rbGdEQmZCeGhVSWJtemVETDk5cXpBVQ?oc=5",
+   "date": "2026-11-10 19:23",
+   "extra": {
+    "pubTimestamp": 1794306237000,
+    "popularity": 1
+   },
+   "source": "월드장애인사랑뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.youcandonews.com/news/articleView.html?idxno=21512",
+   "orig_date": "2026-11-10T19:23:57+09:00"
+  },
+  {
+   "title": "인천시교육청, 한국방송통신대학교 인천지역대학 총동문회와 진로교육 협력",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1uOWtabVJSZWwxV1E2YVBuMTY0TlRjT2V4c2xlT1BQRmpmbkxscmlrYU1YeG43eHcwWjNlNTVnRVBBaUhFN1lhWUk5MVFVMDVUTEt3N3lqaFMyb3lZMXdadkRCQ0FNNTN0b1VJ?oc=5",
+   "date": "2026-11-10 19:21",
+   "extra": {
+    "pubTimestamp": 1794306064000,
+    "popularity": 1
+   },
+   "source": "일간투데이",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.dtoday.co.kr/news/articleView.html?idxno=802728",
+   "orig_date": "2026-11-10T19:21:04+09:00"
+  },
+  {
+   "title": "전남광주교육청, 취약계층 장학 지원 넓힌다···공익법인-학교 협력 강화",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBZZndKVHJoYlF6Xy1lMjVURUVxRDVDWnFxNy1DTlV3cHhfMGEzRFkwb3d3NjdKRVRvbEYtSXdHVFdZN3ZvVzNHM3VjRVhqSDZPMHdDWloxc3FSTmRLa2lJb1FGZm1CZ2xt?oc=5",
+   "date": "2026-11-10 18:40",
+   "extra": {
+    "pubTimestamp": 1794303624000,
+    "popularity": 1
+   },
+   "source": "녹색경제신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.greened.kr/news/articleView.html?idxno=354288",
+   "orig_date": "2026-11-10T18:40:24+09:00"
+  },
+  {
+   "title": "전북도교육청, 수능 D-9 시험 준비 마무리···천호성 교육감 수험생 격려",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5aLTFaLW5XRVpyZU5XUWRkVVdjWEtIQjJzRHluLUJjR2tjbGZEZGt5eWY2U3VSMk45MndxSnc4TjFrNGxFajFPY1FwekR6YThYaDFfdW12VlJRYUJmemN2V0t1eDYzLXBN?oc=5",
+   "date": "2026-11-10 18:40",
+   "extra": {
+    "pubTimestamp": 1794303624000,
+    "popularity": 1
+   },
+   "source": "녹색경제신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.greened.kr/news/articleView.html?idxno=354283",
+   "orig_date": "2026-11-10T18:40:24+09:00"
+  },
+  {
+   "title": "대구시교육청. ‘종교계와 함께 하는 수능 고득점 기원 행사’ 개최",
+   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE55LWVlOE5CeU5UY2hMc282UFFjTGNoWXQ4UTZxVDVnX1pwMEZGaExWdkZYSzUwMHpjUXNlYmJTMFpDdzExYkNuOHJ1ZW95ckZrV01vN1FqU0dyZE81clNfLU9mVGVDZw?oc=5",
+   "date": "2026-11-10 18:31",
+   "extra": {
+    "pubTimestamp": 1794303061000,
+    "popularity": 1
+   },
+   "source": "데일리대구경북뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.dailydgnews.com/news/article.html?no=268730"
+  },
+  {
+   "title": "전북교육청이 7년간 추진한 '전북교육기록원 설립' 돌연 취소 논란",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE0yUkR1MGRBOVVVNExpQjJhZEFSeGNIQkZBOGdDWFZMeERiQk9mS1hmM2NIcVhPaXhfODNzWFk2ZW1lQW9yU2s5RDVUUGVmZEE0VTJqZQ?oc=5",
+   "date": "2026-11-10 18:16",
+   "extra": {
+    "pubTimestamp": 1794302165000,
+    "popularity": 1
+   },
+   "source": "뉴스1",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.news1.kr/local/jeonbuk/6349637",
+   "orig_date": "2026-11-10T18:16:05+09:00"
+  },
+  {
+   "title": "경북교육청, 안동서 경북형 IB 학교 라운드테이블 개최…운영 성과와 협력 방안 논의",
+   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1sWHI3bV9BWVBHRDlzZzlFVUJrOElWdVhXRm1PYUFCXzFEZlpVSGcwMnJRNzhoZ1ZzLXVCTTktdkZvZi1MWDVZTG9wbzhrY0ZNYnlfWG5NQkl4OWlHczBXTGZWVlVIZw?oc=5",
+   "date": "2026-11-10 18:10",
+   "extra": {
+    "pubTimestamp": 1794301818000,
+    "popularity": 1
+   },
+   "source": "이로운넷",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.eroun.net/news/articleView.html?idxno=94921",
+   "orig_date": "2026-11-10T18:10:18+09:00"
+  },
+  {
+   "title": "대전시교육청 채용 검증 허술…범죄 경력조회 누락에 솜방망이 처분",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1DVFRVMEdiVlIxV3hOV1JNYnJjUmJMN3FRV3U4SUt4ZTNseUJKMWE0UElwU1VEbjdER2U5UmdubWRTYUlHbnh2aDk1Vk0tNnFMNW93RDJ1eUVubVZHT0tUa19XZ0dzWGxHdHJJV0VB?oc=5",
+   "date": "2026-11-10 18:00",
+   "extra": {
+    "pubTimestamp": 1794301200000,
+    "popularity": 1
+   },
+   "source": "충청투데이",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.cctoday.co.kr/news/articleView.html?idxno=2239989",
+   "orig_date": "2026-11-10T18:00:00+09:00"
+  },
+  {
+   "title": "한국장애인고용공단-충남교육청, 업무협약 체결",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0xQ3J0aW5Cd2tKRlZOYXFFXzVrQy1GbU80Qk1Ub091UUdZYkNHdEVTU3hhc2VIdmk1dzh6M204ZFRHaTR6djhVVjZUV0JPa2h5cG9uNm9BUFJHaWFYeGp2OHJlb0c0Yldobk9vUk5IODY?oc=5",
+   "date": "2026-11-10 17:56",
+   "extra": {
+    "pubTimestamp": 1794300993000,
+    "popularity": 1
+   },
+   "source": "소셜포커스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.socialfocus.co.kr/news/articleView.html?idxno=24385",
+   "orig_date": "2026-11-10T17:56:33+09:00"
+  },
+  {
+   "title": "인천교육청-방통대 인천총동문회, 중고생 진로교육 협력 맞손",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5KTElfenhYWUxPa1RpTEt3N1ZRbVhPSFBnZGItSW41b0l5MzZLdmdhYjhvdk0tbkk0QUdhdXBlal90bHlka1Y1eHZvS3NMajV1bDg0My14OHVEeFRqamJJZ3VfTU1Lcms4cGpJ?oc=5",
+   "date": "2026-11-10 17:52",
+   "extra": {
+    "pubTimestamp": 1794300745000,
+    "popularity": 1
+   },
+   "source": "인천in 시민의 손으로 만드는 인터넷신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "http://www.incheonin.com/news/articleView.html?idxno=122171",
+   "orig_date": "2026-11-10T17:52:25+09:00"
+  },
+  {
+   "title": "강원도교육청 ‘강원학원 정상화 전담팀’ 꾸린다",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFAyOFcxRDBwUWhFUlFJU3hhai02MWhQX1paSDdHWVJBM1gtb3pUTXpkcGJFVmNwR2R2Y3pGckR5SUdtOE83M2hHRWpiQXY2Q3lFMlM1RzA5ckJsZTA?oc=5",
+   "date": "2026-11-10 17:43",
+   "extra": {
+    "pubTimestamp": 1794300187000,
+    "popularity": 1
+   },
+   "source": "강원일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.kwnews.co.kr/article/20261110501653",
+   "orig_date": "2026-11-10T17:43:07+09:00"
+  },
+  {
+   "title": "해외대학 교수, 국내 대학 교원 겸직 가능…AI·빅데이터 등 첨단산업 분야 대상",
+   "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxOZUdyUmpHVzZfWXFKYlMzdzFoQ3JXZFRRT2FaaWxNNjdpazZGa3RBOGNQUTVBbHZMNXdNc2VjZFQ5bUtiSUhTVzBnY2c0QnlSOTN4QXVyRjhPZ192cGxuRGg5bndaTnRkZlo3ZjJFSm5PSXBXT2Fvck9MdzlqRFBRN0FsRDBzSk1SZnhTYWFqYnhXbXdqYU1NVnk1NHhEQlE1dXRaMFIxM2p6MjczSXZmRzgtSkVuS3M3bTBuNHZ3RmNZd092cFlpeU9DY1lxbU1TUmd5YkFHWGphZEt2Zm9NZUwxaE41dUFUd0RrMkVrMi1ld0UxNEo5R3pVMk5sUm5mVkszc3AxWWNnS0lE?oc=5",
+   "date": "2026-11-10 17:43",
+   "extra": {
+    "pubTimestamp": 1794300180000,
+    "popularity": 1
+   },
+   "source": "데일리안",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.dailian.co.kr/news/view/1713226/%ED%95%B4%EC%99%B8%EB%8C%80%ED%95%99-%EA%B5%90%EC%88%98-%EA%B5%AD%EB%82%B4-%EB%8C%80%ED%95%99-%EA%B5%90%EC%9B%90-%EA%B2%B8%EC%A7%81-2026",
+   "orig_date": "2026-11-10T17:43:00+09:00"
+  },
+  {
+   "title": "“AI시대 학생 탐구역량 기르자”…서울시교육청, 전문 센터 열었다",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE16allpNTd1Yl9xaHhLcTBrbjFaVk0tampaSk5NYkctMU0zNHU1Rk4tc0JlNXVYNkVlQlp6a1BPRDRWN3ZzeXNPbnVwSktWNk9ZSlVKU3h3?oc=5",
+   "date": "2026-11-10 17:26",
+   "extra": {
+    "pubTimestamp": 1794299213000,
+    "popularity": 1
+   },
+   "source": "중앙일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.joongang.co.kr/article/25477388",
+   "orig_date": "2026-11-10T17:26:53+09:00"
+  },
+  {
+   "title": "제주교총 \"제주도교육청 내년도 예산안, 교부금 늘었지만 학교살림은 제자리\"",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE4tZWZPSHQwVHFUSkV0dU92QVphd18yZG0zNk5haWRRNzYwOGpEXzBtZllzdGRMZXlzN3hnbUM0RENFRUZ2ZklpRTRDZU5tM1BfNG9lNHh4ZkNSZjN4SkdvdndLdTViazgyUVZZcm01cWdKeHc?oc=5",
+   "date": "2026-11-10 17:22",
+   "extra": {
+    "pubTimestamp": 1794298975000,
+    "popularity": 1
+   },
+   "source": "헤드라인제주",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.headlinejeju.co.kr/news/articleView.html?idxno=601920",
+   "orig_date": "2026-11-10T17:22:55+09:00"
+  },
+  {
+   "title": "경기도교육청 내년도 예산 7천550억 원 미편성…전국 3번째 규모",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9qMzB5RE1nakFJRFVBQkpYWVNjVHFVS3JCZE5HZU9FZFFreW1LeG14Q3lVRktPSVM0aktJVUt5eVVsdXhUOHVEdDFtUUgydXR2VFlmWTNnVXlxV2tjbUJaakVJdmNYNEx5bU1pbnZFYw?oc=5",
+   "date": "2026-11-10 17:19",
+   "extra": {
+    "pubTimestamp": 1794298773000,
+    "popularity": 1
+   },
+   "source": "기호일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.kihoilbo.co.kr/news/articleView.html?idxno=3040526",
+   "orig_date": "2026-11-10T17:19:33+09:00"
+  },
+  {
+   "title": "아이스크림에듀, `홈런`에 `문해력 통합 서비스` 도입",
+   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFB6R1YwNHFxVTkxLTNkUXVOSTBIRnduN1YxZDNXYXhfSkNEN2pPYVl6cFdGWTBBREdoN0tITmNvUll1STdEbTBVY3FGWFBKQVU1UXpVSzFXWkxBY2pIYkQxWVp5MEI?oc=5",
+   "date": "2026-11-10 17:15",
+   "extra": {
+    "pubTimestamp": 1794298530000,
+    "popularity": 1
+   },
+   "source": "디지털데일리",
+   "summary": "",
+   "category": "",
+   "orig": "https://www.ddaily.co.kr/page/view/2026111017080492319"
+  },
+  {
+   "title": "상지대, 재직자 대상 AID 30+ 집중캠프 '개최'…생성형 AI 실습·업무 자동화 교육",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5iMTJrVk53NGdZX1FkaVFmbDdLbURzQkFnS0RzWmxkNVRSc044SGtYc19aVWpoZUhmNVZkZzd1VHVsYmlFVGtzUkF5VnM4QXBrY1Y1REhsbmNsVnhpSkgzc1ZTVjdnLU04SEd1Tl93?oc=5",
+   "date": "2026-11-10 17:10",
+   "extra": {
+    "pubTimestamp": 1794298205000,
+    "popularity": 1
+   },
+   "source": "국제뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.gukjenews.com/news/articleView.html?idxno=3746868",
+   "orig_date": "2026-11-10T17:10:05+09:00"
+  },
+  {
+   "title": "아이스크림에듀, 초등생 문해력 강화 위한 '문해력완성' 탭 오픈",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBXajVhTlpjcFNHYkhBQnprV3htR09NbVZhZFVvV29FLTZfcUtFZmE4SXBkNHBmT20xa0dXLW9ISVR0VmVXbHF3NVVOeUliYWNLbzlseWpnZEg5X1NnQXR0aDF4ZHZ0REh4OHc?oc=5",
+   "date": "2026-11-10 17:02",
+   "extra": {
+    "pubTimestamp": 1794297761000,
+    "popularity": 1
+   },
+   "source": "컨슈머타임스",
+   "summary": "",
+   "category": "",
+   "orig": "https://www.cstimes.com/news/articleView.html?idxno=727325",
+   "orig_date": "2026-11-10T17:02:41+09:00"
+  },
+  {
+   "title": "충남교육청, 인공지능으로 여는 마을 교육의 새로운 가능성",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5wOU5pVURFWW1FTHk4c3FvbVRXank2UEptR21zRzdXcUQ5YnZBUndGR3pwU2VYU19jVnBsZjF2dmw2ajBCWGFhdzRRTGRIUDk2cm16a0RBY3pQdE5HVzZzakl5b0k5UTJk?oc=5",
+   "date": "2026-11-10 17:02",
+   "extra": {
+    "pubTimestamp": 1794297720000,
+    "popularity": 1
+   },
+   "source": "충청타임즈",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.cctimes.kr/news/articleView.html?idxno=936560",
+   "orig_date": "2026-11-10T17:02:00+09:00"
+  },
+  {
+   "title": "울산교육청 내년 교육공무직 채용 경쟁률 5.49대 1",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBkUGFpeV9KZC1Qd2xLR2t3YlZ2Mm1hcXlwNVJZcnBrek5GSGtrRmp6TUxOYVBod184RGs5eWE4ZjQ3ZkJtWU9DNUcxLVVscDZMZ19pZFRhaTdUZUnSAWBBVV95cUxQMFIzalZpcWxrelhjQWxLd3dVOVhHWlZBU1BvR0l3N2YwbkZzRmpUYUVqNUxxakZabWtGd0FINFBiVDltQ3pUUGFNN3pSSUtjd0RTUi1LLTZZM0ZzZnVZb2g?oc=5",
+   "date": "2026-11-10 16:58",
+   "extra": {
+    "pubTimestamp": 1794297511000,
+    "popularity": 1
+   },
+   "source": "연합뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.yna.co.kr/view/AKR20261110153600057",
+   "orig_date": "2026-11-10T16:58:31+09:00"
+  },
+  {
+   "title": "인천시교육청-방송대 인천지역대학 총동문회, 진로교육 협력",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE51SURra1pHN01RYTVMUmdCOGpncnJfRlJoY2ZKRTkyOE1hUkpOQ2pKRVRGQVBwRjdKSXFWLUVQOHBqejRFN1J4R0taQUhxVkZUUFdWWDB0cndLb2JFTjBoZzgxSEY4ZXhaZWtVdjMzQQ?oc=5",
+   "date": "2026-11-10 16:53",
+   "extra": {
+    "pubTimestamp": 1794297198000,
+    "popularity": 3
+   },
+   "source": "기호일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.kihoilbo.co.kr/news/articleView.html?idxno=3040506",
+   "orig_date": "2026-11-10T16:53:18+09:00"
+  },
+  {
+   "title": "전남광주교육청·광주회생법원, 교직원·학부모 채무 해결 지원",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1vNVk0ZkVHR1cyY0x2VVJBWWtHOHNueTdHS2dacnM0QlZDdGpyM2JENjZEWUYtWjNPT1lmaS1rZDRXU29SLWpqcG1IQTdKUTdOajZDSnpmblRRVnFCVUp2SDR6Vl9Ed00tT0c4?oc=5",
+   "date": "2026-11-10 16:46",
+   "extra": {
+    "pubTimestamp": 1794296790000,
+    "popularity": 1
+   },
+   "source": "BBS불교방송",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117748",
+   "orig_date": "2026-11-10T16:46:30+09:00"
+  },
+  {
+   "title": "전남광주교육청, 취약계층 학생·공익법인 장학금 연결",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1oNXY0bVhtLUctcDlpcjZNUkpWQjd3eUR0eWdQNmJzazZSWjJ0a2tIY3ZQWGlFVjYya3I0WkJPRXRMMmdJeEs3VEdYa3htX0FMR0NYZW9INW82ZkZyMUsxYzBxb0I2RHFnQ2JJ?oc=5",
+   "date": "2026-11-10 16:34",
+   "extra": {
+    "pubTimestamp": 1794296058000,
+    "popularity": 1
+   },
+   "source": "BBS불교방송",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117742",
+   "orig_date": "2026-11-10T16:34:18+09:00"
+  },
+  {
+   "title": "악성 민원에 전북교육청, 법적 대응 강화…교원 보호 확대",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBYTFNSa0x2aHJ3UHRTSUI4dTlEeUF3X0xYYXMzTWxXelhvMnN5WkRETi1CMVhaMFFRWUxlTlVfcFB5YnQ5ZU5rRzQtYmoyWTJ2b1N6UA?oc=5",
+   "date": "2026-11-10 16:33",
+   "extra": {
+    "pubTimestamp": 1794295980000,
+    "popularity": 1
+   },
+   "source": "이투데이",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.etoday.co.kr/news/view/2646442",
+   "orig_date": "2026-11-10T16:33:00+09:00"
+  },
+  {
+   "title": "충남교육청 직속기관 14곳에 운전직 정원 신설…\"의전용 우려\"",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE4xc1Q5MEpIQk1tLVZoYS01VkxVVFBWZkk2WGI5QjJoRGNKS3ZrTHlJWk1TSHJkMVZaRjl1aElyWHFNbDVjaEczYlo3dG9BdDZoekJkYUYxU3FjM3R5eTVrQtIBYEFVX3lxTE4xc1Q5MEpIQk1tLVZoYS01VkxVVFBWZkk2WGI5QjJoRGNKS3ZrTHlJWk1TSHJkMVZaRjl1aElyWHFNbDVjaEczYlo3dG9BdDZoekJkYUYxU3FjM3R5eTVrQg?oc=5",
+   "date": "2026-11-10 16:13",
+   "extra": {
+    "pubTimestamp": 1794294839000,
+    "popularity": 1
+   },
+   "source": "연합뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.yna.co.kr/amp/view/AKR20261110140100063",
+   "orig_date": "2026-11-10T16:13:59+09:00"
+  },
+  {
+   "title": "울산교육청, 2027년 예산 2조4098억원 편성",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBNTUFIRDlfQ2ZYdldWZlR5WFVXbkJFcnB0RHktUGRFM3Vma001NTlNTWMtSVJ3cmluMUw2b0FJRi1mT25MLTlBY29qc2IyUFlrSjdYRm5jaGtHM2RCSXBHOU10Q0ZiYk9SRXNV?oc=5",
+   "date": "2026-11-10 16:10",
+   "extra": {
+    "pubTimestamp": 1794294659000,
+    "popularity": 1
+   },
+   "source": "BBS불교방송",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117724",
+   "orig_date": "2026-11-10T16:10:59+09:00"
+  },
+  {
+   "title": "장애인고용공단, 충남교육청과 장애인 고용증진 업무협약",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9PZC00ZlcyUS1wTEViVW1wblVYdEQ2WU94eVpZSGdwcURzWElsSUY4NmZqbzZVbWZob0xES05wcnJCdGgtTVNiNkpRaWRSTHBn?oc=5",
+   "date": "2026-11-10 16:10",
+   "extra": {
+    "pubTimestamp": 1794294636000,
+    "popularity": 2
+   },
+   "source": "문화일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.munhwa.com/article/11630301",
+   "orig_date": "2026-11-10T16:10:36+09:00"
+  },
+  {
+   "title": "아이스크림에듀, 초등 스마트러닝에 '문해력완성' 서비스 신설",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE53dG43YTJ6cktFRXA5akZwV1lnSGR1THV2MVdNNDhUbHUyS0NYOWlvdklKMl8wRU9vVkN0TnlKdEREanBLOGpmaXFvZFBQOG5jVVVXLVpBXzE2UQ?oc=5",
+   "date": "2026-11-10 15:59",
+   "extra": {
+    "pubTimestamp": 1794293967000,
+    "popularity": 1
+   },
+   "source": "파이낸셜뉴스",
+   "summary": "",
+   "category": "",
+   "orig": "https://www.fnnews.com/news/202611101558033221",
+   "orig_date": "2026-11-10T15:59:27+09:00"
+  },
+  {
+   "title": "아이스크림에듀, 홈런 문해력 콘텐츠 통합…‘문해력완성’ 신설",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFA0UEFTLUxxclNDam1iZTlvTUN0RFJuV2NaVWlRYzl6cVlGNzVKQ0pIbXo4S3pXWWVGVUVkd3dqelR2TldUQkVBbU9BUWs5ZTZfakx4a3Z3Sk9XNTFxd2paTzJ5akhFc1BZOUZTSkNn?oc=5",
+   "date": "2026-11-10 15:30",
+   "extra": {
+    "pubTimestamp": 1794292217000,
+    "popularity": 1
+   },
+   "source": "아시아투데이",
+   "summary": "",
+   "category": "",
+   "orig": "https://www.asiatoday.co.kr/kn/view.php?key=20261110010003797",
+   "orig_date": "2026-11-10T15:30:17+09:00"
+  },
+  {
+   "title": "[똑똑한교육] 위버스브레인 ‘맥스AI 뉴스 튜터’, YBM, 아이스크림에듀, 에누마 코리아",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1mcEZKZE9PdjdOR041N2JreTdZUUhuN3UwTFlFcHVKRmJiWWFmTVJuRUozamc5MWp1STV0SncxN0xrc0NPWlZyNExtTWRrZFRlZElpM0RDYS1KTjVjblhWVzNPVQ?oc=5",
+   "date": "2026-11-10 15:30",
+   "extra": {
+    "pubTimestamp": 1794292200000,
+    "popularity": 2
+   },
+   "source": "에너지경제신문",
+   "summary": "",
+   "category": "",
+   "orig": "https://www.ekn.kr/web/view.php?key=20261110022217833",
+   "orig_date": "2026-11-10T15:30:00+09:00"
+  },
+  {
+   "title": "인천시교육청, 방송통신대 인천지역대학 총동문회와 진로교육 협력",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBJY2NHdk0yVWtUNmxBZS01LWZ6cGZXRzRfN1pGb0ZBckxYR3V2cVRrdlJtX0dnTDJxdlV1QThpWXNRbTRSZTcwaDA3ZjVzdlMzWkY4Ug?oc=5",
+   "date": "2026-11-10 15:26",
+   "extra": {
+    "pubTimestamp": 1794291991000,
+    "popularity": 1
+   },
+   "source": "뉴스1",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.news1.kr/local/incheon/6349270",
+   "orig_date": "2026-11-10T15:26:31+09:00"
+  },
+  {
+   "title": "학교 안전·돌봄 예산 줄어들까...서울시교육청, 교육재정 홍보 나선다",
+   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE05bC13VmdFUktoQkFEbDBWT0pONk9nRml3aDhiVlNwTG15Q25HT2YxR3BzVFRma25RODd3OXlvOE1JZnQ0V3JIcmZGN21xY3hkQ3A4aktwZkVka2pTc1FDdTFxNVZXUQ?oc=5",
+   "date": "2026-11-10 15:17",
+   "extra": {
+    "pubTimestamp": 1794291449000,
+    "popularity": 1
+   },
+   "source": "이로운넷",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.eroun.net/news/articleView.html?idxno=94969",
+   "orig_date": "2026-11-10T15:17:29+09:00"
+  },
+  {
+   "title": "세종시교육청, 2027년도 본예산안 1조 2,060억 원 편성",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5EekRqaVk4LVl4SkxmUUZoeDBzTkZKZl9GOGtKV2k1NnNXQTVmM2N3X0dlZnJ1bWdOdlpwS1ZxXzI4R2tZbkNadUN4QmN0Q3dSNW1aVjdKQ215SHlseXNCT25vTTFtN1FPY19R?oc=5",
+   "date": "2026-11-10 15:13",
+   "extra": {
+    "pubTimestamp": 1794291187000,
+    "popularity": 1
+   },
+   "source": "충청뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "http://www.ccnnews.co.kr/news/articleView.html?idxno=417522",
+   "orig_date": "2026-11-10T15:13:07+09:00"
+  },
+  {
+   "title": "서울시교육청, 지하철·방송으로 교육재정 알린다…교부금 개편 대응 홍보",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFB6bUdCQnl0cEtLNTNnb0M1ZWdwcUlTbGFDNTVLcGNpdU04a1pZcFJiZ25ST200QjNrWjVBVzR5a3RobmJoeGhZUVprYXZlYXNvejlXUG9CMGhoblUzRU5Wbg?oc=5",
+   "date": "2026-11-10 15:08",
+   "extra": {
+    "pubTimestamp": 1794290914000,
+    "popularity": 1
+   },
+   "source": "메트로신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.metroseoul.co.kr/article/20261110500328"
+  },
+  {
+   "title": "차량·식사비 덜고 체험활동 알차게…서울시교육청, 학급소풍 지원",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBuWVJma29KTjA3a1lLQ2FieE9laDRMMnItTVJkZXlZZC1XeFlkY1lWODhwcFRReVVENzZTcVh1ekxST0VwdW9WQmxQeVRENE5wZUpzbmZ6MjVhMXE5TnFNNQ?oc=5",
+   "date": "2026-11-10 15:07",
+   "extra": {
+    "pubTimestamp": 1794290852000,
+    "popularity": 1
+   },
+   "source": "메트로신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.metroseoul.co.kr/article/20261110500326"
+  },
+  {
+   "title": "인천교육청 대체강사 신청서, 교사 계정정보 필수 요구에 \"유출 우려\"",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9NdDBZbDFXVDBYVGhVTVZOZE9iUEVhWmtZemJ1U25CMy05aE55VlFsTEFCeDNDY0gtUTVoRjFJcE8yVDY4bkgtMVg1YVlxeW5teF9LOTFTc3hMTV9zdkl6Mkx2WUNnblRaUlJKSzltZG4?oc=5",
+   "date": "2026-11-10 15:05",
+   "extra": {
+    "pubTimestamp": 1794290734000,
+    "popularity": 1
+   },
+   "source": "인천투데이",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.incheontoday.com/news/articleView.html?idxno=326175",
+   "orig_date": "2026-11-10T15:05:34+09:00"
+  },
+  {
+   "title": "교육부, 전국 중·고교 전수조사 'AI 스마트안경 활용 내신평가 부정행위 4건 적발'",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBHWHdaZE5yaHptN1c4RXZNa1UxYWJCRWFWdnN4S1VDTURLSC1EdW5zMnRkVERybXFfZG1YU0lZMUZJLW14ZnU2dmFPem1vSzFQczJwdHJfS3BvSXVUMzNjTS1pSlhwSzdDaHRscktscjY?oc=5",
+   "date": "2026-11-10 15:03",
+   "extra": {
+    "pubTimestamp": 1794290580000,
+    "popularity": 1
+   },
+   "source": "한국강사신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.lecturernews.com/news/articleView.html?idxno=213515",
+   "orig_date": "2026-11-10T15:03:00+09:00"
+  },
+  {
+   "title": "한국전기공사협회 충북도회, 충북교육청에 장학금 500만원 기탁",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5BTkpXZ245aDRLYWwzeDZaRTItVjN2Y0ZXejlLa3Z3OS10MmMyWDNZODFkRExtNEVHSnlWUUwwd2loSkxHLVNvUEJSWDhJTkwyVC1Sb19HcC1jM3lVNTYtM1k3alp3ZzZPSHlN?oc=5",
+   "date": "2026-11-10 14:56",
+   "extra": {
+    "pubTimestamp": 1794290174000,
+    "popularity": 1
+   },
+   "source": "BBS불교방송",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117664",
+   "orig_date": "2026-11-10T14:56:14+09:00"
+  },
+  {
+   "title": "세종시교육청, 2027년 예산 1조 2,060억 편성… 전년 대비 2.1% 증가",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFAwZGhEMk41UjdFVV8zR1V4VjNhNzJScXluZThJNXRQYTdLT0FwWmpsZm9zR095NU1zUW8wanFJX19HOWk1ZWxZaGRjd1pheFdBclRicTZnTGl0Y0ZoeklSYm9pLWtPcnBzczh5dA?oc=5",
+   "date": "2026-11-10 14:45",
+   "extra": {
+    "pubTimestamp": 1794289535000,
+    "popularity": 1
+   },
+   "source": "백제뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.ebaekje.co.kr/news/articleView.html?idxno=210500",
+   "orig_date": "2026-11-10T14:45:35+09:00"
+  },
+  {
+   "title": "세종시교육청, 장애학생 체육 축제의 장 열어",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFB0bHVlNUJMdTB1U0pUSEdFQjZ6dk5PdXZnMTNCM3N0N0syTXhBVGxWZHFqc0RyaGZxeXlyc3pJTGVWRkpXZC0xcW1sYW50VC1KT2t3WFI1ZXdkaW5iR2lrU3ZYLTVjMEU?oc=5",
+   "date": "2026-11-10 14:36",
+   "extra": {
+    "pubTimestamp": 1794289018000,
+    "popularity": 1
+   },
+   "source": "세종의소리",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.sjsori.com/news/articleView.html?idxno=89587",
+   "orig_date": "2026-11-10T14:36:58+09:00"
+  },
+  {
+   "title": "충남교육청, 마을 학교 운영 내실 다진다",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBxWGU5a3A5bnk4RVFuRHFZRU12bm9HWDM3OWFrNnZRT3dEYzdMZXpMQUM1OVBYc0ZPT25jN3lDeDBXZjB3eWt6eHA5UVlOakhPeGpkZ294ZWtmbERQY015b0I2VHB4d1NtenpKRWhrWG0?oc=5",
+   "date": "2026-11-10 14:19",
+   "extra": {
+    "pubTimestamp": 1794287993000,
+    "popularity": 1
+   },
+   "source": "로컬투데이",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.localtoday.co.kr/news/articleView.html?idxno=417251",
+   "orig_date": "2026-11-10T14:19:53+09:00"
+  },
+  {
+   "title": "외국 대학 교수, 국내 대학 겸직 허용…AI·빅데이터 등 분야",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBRYmhweTQ2SDQzT09NdUl3MnEzVDhGYVVqMnIyZkFDN1l1bnlPVmsydDc4RnhIMjAxNS01NU5sNWJDZEU1LTVXTEtPa0g5eWRiX0NEb1ltcThFdnBKZHp6VjZn?oc=5",
+   "date": "2026-11-10 14:16",
+   "extra": {
+    "pubTimestamp": 1794287760000,
+    "popularity": 1
+   },
+   "source": "미주중앙일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.koreadaily.com/article/20261109214608727",
+   "orig_date": "2026-11-10T05:16:24Z"
+  },
+  {
+   "title": "인천시교육청, 방송대 인천동문회와 학생 진로교육 협력",
+   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9QYk1DSmV1YTZEZGo4U1pNbElLaUhxMENYSmlvNnNjQ3dZUV92MHB1d3g3T01HRUhKZlo3Z1FlOHNPNUJEWGFFczUyVjh1ZWlLNk1LMXZXV0FGT2pad29UTWtIMkU?oc=5",
+   "date": "2026-11-10 13:57",
+   "extra": {
+    "pubTimestamp": 1794286649000,
+    "popularity": 1
+   },
+   "source": "매일일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.m-i.kr/news/articleView.html?idxno=2016670",
+   "orig_date": "2026-11-10T13:57:29+09:00"
+  },
+  {
+   "title": "베트남 교육출판사는 김련중학교에 2,100권 이상의 교과서를 기증했습니다.",
+   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNYXhIQ3pFQktLdGREdUpnWV9TNFJCSk5HRk9aaFJjZjJkZTNrZlhINlVMQ0NQV19KOUw4ekdSdXpYR2lWY0lwQ05sMGtZMEU0MXFpcUxIbE9TTGpoQXJMZlpVN1FOVVBTQ2dEOGVGam44cXhkRmQxajRvSEZfaTNSS3B1bmdwalQtZnZhcWtoVndRM2tPNlJjcU11ZDdUUnlxSGN5M3poVmkydy10UVlIekNUMVZzenRBVkxCaFpvZlRaUQ?oc=5",
+   "date": "2026-11-10 13:52",
+   "extra": {
+    "pubTimestamp": 1794286368000,
+    "popularity": 1
+   },
+   "source": "Vietnam.vn",
+   "summary": "",
+   "category": "교과서",
+   "orig": "https://www.vietnam.vn/ko/nha-xuat-ban-giao-duc-viet-nam-trao-tang-hon-2-100-cuon-sach-giao-khoa-ho-tro-truong-thcs-kim-lien",
+   "orig_date": "2026-11-10T03:29:01+00:00"
+  },
+  {
+   "title": "전북교육청, 수능 준비 만전…스마트 안경 전담 인력도 배치",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5IN2xhXzVsWmRfZ0QtYUVDYVNOT3UyRG5VSGJyWVM0NWd0U2FhTW8xcm5KaFdxa2U4SUFWUU1qYmhwSUlVa0RudnVweTl1NC1OZmluTw?oc=5",
+   "date": "2026-11-10 13:47",
+   "extra": {
+    "pubTimestamp": 1794286060000,
+    "popularity": 1
+   },
+   "source": "뉴스1",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.news1.kr/local/jeonbuk/6349036",
+   "orig_date": "2026-11-10T13:47:40+09:00"
+  },
+  {
+   "title": "인천시교육청, 방통대 동문과 손잡고 중·고교생 진로교육 지원",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE41U1NraWp6Ty1Sclk0WkdvOUxOeGY5d0dxUUw2QWFodWxYMzRxMDhHRzBMSWEtb09ucVk1Vkh0SVY2RTVEbndOY1NNNlJPMUZZM1c5TWFHMWtlanV6REtpVDBB?oc=5",
+   "date": "2026-11-10 13:45",
+   "extra": {
+    "pubTimestamp": 1794285951000,
+    "popularity": 1
+   },
+   "source": "경기신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.kgnews.co.kr/news/article.html?no=918928"
+  },
+  {
+   "title": "경남교육청 겨울철 재난 대비 학교 안전망 가동",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1OYlZTR3RUMGZyVGJoV1UtMGl5b2VvbXpCTnJKSzNHaW9VWjYwa29vdVNrQ1JibjJ4ZkdNamgzNlpUTnRMZ0pLZDdvOUFvdm1yNWNaWGpteE5KTTltZ2VBdHRwcFRYcndnWHc?oc=5",
+   "date": "2026-11-10 13:26",
+   "extra": {
+    "pubTimestamp": 1794284783000,
+    "popularity": 1
+   },
+   "source": "경남도민일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.idomin.com/news/articleView.html?idxno=2019206",
+   "orig_date": "2026-11-10T13:26:23+09:00"
+  },
+  {
+   "title": "경기도교육청, 중등 교원 학생평가 전문성 강화",
+   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBrYzNoQXhWY2xLYXI3cl84RW1QUlJRRFZnVmR0b0JKM3NtZEJQanVMcXBJb0I2bXRFSkZEZTU3eG0xWFhzajBHRlFpeFF3Vy12ck1kRExDVlE0QUVDd3dxTU05Ymw?oc=5",
+   "date": "2026-11-10 13:23",
+   "extra": {
+    "pubTimestamp": 1794284630000,
+    "popularity": 1
+   },
+   "source": "경기인저널",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.gijn.kr/news/articleView.html?idxno=429801",
+   "orig_date": "2026-11-10T13:23:50+09:00"
+  },
+  {
+   "title": "선문대-충남도교육청, ‘온(ON)누리 AI·SW 한마당’으로 미래 인재 키운다",
+   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5UYnlDSnVTTHRXYlNRRWxMTHlXcnFBb3plYl9QSngwTFpEbzIwUVNsa3dVd1lQZ3Z2S29yN3E4Vk5BZXVHNmdLNlNaUm0tcVdyZk9pMUVMRk5CUHhPZUR5NnZGTEluYVNDeUNTdG9Dby1WbFBKWmtDcDg4Zw?oc=5",
+   "date": "2026-11-10 13:23",
+   "extra": {
+    "pubTimestamp": 1794284580000,
+    "popularity": 3
+   },
+   "source": "아산뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "http://www.asannews.co.kr/sub_read.html?uid=65997&section=sc4&section2="
+  },
+  {
+   "title": "세종시교육청, 내년 예산 1조2060억원 편성 ‘재정 압박 속 선택과 집중’",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1PQTVoYXRjOWM0OWhPU3hab2dOR3RNSVRURE5EMk9LRGFOM0Z1WXRBa3V0djE2eml0bWMxdnFMcVNvSUo0WjItNkd4Zm51OG1PVE1YLTMyQkFiWlg5Q1E5eVRfNWlxTHFI?oc=5",
+   "date": "2026-11-10 12:40",
+   "extra": {
+    "pubTimestamp": 1794282000000,
+    "popularity": 1
+   },
+   "source": "충청타임즈",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.cctimes.kr/news/articleView.html?idxno=936504",
+   "orig_date": "2026-11-10T12:40:00+09:00"
+  },
+  {
+   "title": "NH농협 인천본부-인천시교육청, 고교생 대상 ‘꿈이음대학’ 금융교육 성료",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1iS3FCNTlodE1jTjFSXzBVU1d2eE1qVjYySHFLTGdWbzJUNlFRODZYWjlFUXhOWk5TSHBxQ092ZldxNFdmMUlhVS1aRlEzRWhYNmwyVG5GNHd6aVRBbnJPSlJnWkZVTDFybGcxRlRDZw?oc=5",
+   "date": "2026-11-10 12:29",
+   "extra": {
+    "pubTimestamp": 1794281349000,
+    "popularity": 1
+   },
+   "source": "기호일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.kihoilbo.co.kr/news/articleView.html?idxno=3040426",
+   "orig_date": "2026-11-10T12:29:09+09:00"
+  },
+  {
+   "title": "해울산교육청, 내년도 예산안 2조4천98억원 편성…올해보다 6.1%↑",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE0yZldwM09WZUZBQ0FnWEExMGFGckR1ZjMyc0d6SkhCblo2UWtDVndzM3BxdVFJZmpodkZZSnB4NV93cW5sSjgyN1U0a09Ma0p4aGZFdHg1ZDJISnBfMmRieNIBYEFVX3lxTE0yZldwM09WZUZBQ0FnWEExMGFGckR1ZjMyc0d6SkhCblo2UWtDVndzM3BxdVFJZmpodkZZSnB4NV93cW5sSjgyN1U0a09Ma0p4aGZFdHg1ZDJISnBfMmRieA?oc=5",
+   "date": "2026-11-10 12:03",
+   "extra": {
+    "pubTimestamp": 1794279818000,
+    "popularity": 1
+   },
+   "source": "연합뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.yna.co.kr/amp/view/AKR20261110087000057",
+   "orig_date": "2026-11-10T12:03:38+09:00"
+  },
+  {
+   "title": "서울교육청, '위탁 국공립어린이집 호봉 반영하라' 권고 불수용",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5iZEFNZVRISHpWWDNDZjIwT3dsU25rZHIwRlpYdzQtZ2g3S0xJTDIwYkg3Qms0dkpuT1VWVmk5WnNuYVAyLU9vUE9CNnp5SmZ4X1FsNENtQlVZZFXSAWBBVV95cUxNYWdGLVFvUzI1X3N0NDNsWkFaRDlLMHR5aFpjNUpzUVdfYXRYQnVzRlllLUNJM0hBdkZXdnVNcFN3dmRYREM1STAxbFJlbjd3OTk2eTZNdm5HdFotblZuVF8?oc=5",
+   "date": "2026-11-10 12:00",
+   "extra": {
+    "pubTimestamp": 1794279619000,
+    "popularity": 1
+   },
+   "source": "연합뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.yna.co.kr/view/AKR20261110049000004",
+   "orig_date": "2026-11-10T12:00:19+09:00"
+  },
+  {
+   "title": "“아이들의 배움과 안전 지켜주세요” .. 서울시교육청, 교부금 사수 총력 홍보전",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBQZWxtbzdFRFg5RUFjMGp5VDR5cFhhQXh3RmlRQU8xNVZfZktLZkFKUlQ2WDVtWGFLNXhsY1hGYklWQXVNWktlT3U1S1VLVG9HWWQ4Sl9MT1VuR0VuVE1MVEgwLTE2QVVR?oc=5",
+   "date": "2026-11-10 12:00",
+   "extra": {
+    "pubTimestamp": 1794279600000,
+    "popularity": 1
+   },
+   "source": "에듀프레스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.edupress.kr/news/articleView.html?idxno=30601",
+   "orig_date": "2026-11-10T12:00:00+09:00"
+  },
+  {
+   "title": "서울시교육청 \"내년 교육수요 9657억원 미반영\"…교육재정 확보 시민 홍보 나선다",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9GS0hJYXlSSGpmel9oTkRtSlgxWFp0MjJ5R2JucUoxTWp4SEgxWHM2aXFJbzVzTGpaNDV4R19CY2x5dFRpXzlGdWVmWmthSlJoNTBSbkI5emstdXZH?oc=5",
+   "date": "2026-11-10 12:00",
+   "extra": {
+    "pubTimestamp": 1794279600000,
+    "popularity": 1
+   },
+   "source": "뉴스핌",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.newspim.com/news/view/20261110000083",
+   "orig_date": "2026-11-10T12:00:00+09:00"
+  },
+  {
+   "title": "전북교육청 내년 예산 2,029억 원 미편성… 인건비 1,381억 원이 68% 차지",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFB2dFdVY1dKalRBYzNmN1F6MzgwM3l5NGs4c0V3QlBLRUdCc0tzc0NHcHkxSVktYm9WVVRwaUloMkVscGZITzZDekk3TXpCSk5IbkFGaXQyZmstaG5vV0Q4?oc=5",
+   "date": "2026-11-10 11:50",
+   "extra": {
+    "pubTimestamp": 1794279006000,
+    "popularity": 1
+   },
+   "source": "전북미래교육신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://edujb.com/news/articleView.html?idxno=9796",
+   "orig_date": "2026-11-10T11:50:06+09:00"
+  },
+  {
+   "title": "교육부, 고액 유치원비 점검한다… AI 등 첨단 분야 외국교수 겸직 허용도",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE51aFFnTkcyaEdUVGJHSUxKZVVVd1dEZk5RMElRY3dlVmhEWXV5bU9naWFVc2ttTnNrczU1aGF6Q0xTczd3VWMxYmx0UFhaZ0tp?oc=5",
+   "date": "2026-11-10 11:34",
+   "extra": {
+    "pubTimestamp": 1794278040000,
+    "popularity": 1
+   },
+   "source": "cpbc News",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://news.cpbc.co.kr/article/1176893"
+  },
   {
    "title": "세종시교육청, 내년 예산 1조 2060억 편성… 필수 경비 436억 추경으로",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE51UkgxN19JOUpELVQtRFVTb3RfWEJVcDVUM1NlNFpZeFU5Zl8tSEtxRmxtMjRpSmpYZ05jcDg1bmVtZHFvVndXalU0cGRlbnlnVVBKSHQwbUFNb0lGcW1LSHRaUVpmc1k2UHJN?oc=5",
@@ -19,18 +1089,46 @@
    "orig_date": "2026-11-10T11:33:16+09:00"
   },
   {
+   "title": "동두천 한국문화영상고 KCM 윈드오케스트라, 교육부장관상 수상",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE80Ny1mWTducmp2TTcxTkV6NVI1RDVneFpLOWVfTWNYcVlfbkdDZEcxUXVBR052LVA4ODMtNmJYRmUtOWVXSFJXLUg0SEh2R1phbTB3a19xeUVsOHVOT1Q4VFhsdVV0YU54Q0lycDFIXzM?oc=5",
+   "date": "2026-11-10 11:33",
+   "extra": {
+    "pubTimestamp": 1794277980000,
+    "popularity": 1
+   },
+   "source": "인천일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.incheonilbo.com/news/articleView.html?idxno=1336408",
+   "orig_date": "2026-11-10T11:33:00+09:00"
+  },
+  {
    "title": "NH농협은행-인천교육청, ‘꿈이음대학’ 금융교육 성료",
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9JVjVVUWJkdDhSbUoyOU9JOHU5SkhoX1N4WV9IUXZlOG9pSkRHSDhpOGlIYmhrZE1BM083OUZSRXJoUlZDaVAyTUFQNmt2UERnNHRkUnUwWVVHQzQ2TFIzcl9FVENET21qSWxBNERuNA?oc=5",
    "date": "2026-11-10 11:20",
    "extra": {
-    "pubTimestamp": 1794277208000,
+    "pubTimestamp": 1794277200000,
     "popularity": 1
    },
    "source": "중부일보",
    "summary": "",
    "category": "정책",
    "orig": "https://www.joongboo.com/news/articleView.html?idxno=363742018",
-   "orig_date": "2026-11-10T11:20:08+09:00"
+   "orig_date": "2026-11-10T11:20:00+09:00"
+  },
+  {
+   "title": "울산교육청, 2027년도 예산 2조 4098억 원 편성…올해 대비 6.1%↑",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE13d2RRYTJROF9TQllyVFdSSHpieTNoMVpCeW5TV0JMd1czeXh5T0l0bllNdmYzTGJabDFwNU01U1dTUUdQUVZ5RU5hTWlYRHI1R0E?oc=5",
+   "date": "2026-11-10 11:15",
+   "extra": {
+    "pubTimestamp": 1794276902000,
+    "popularity": 1
+   },
+   "source": "뉴스1",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.news1.kr/local/ulsan/6348879",
+   "orig_date": "2026-11-10T11:15:02+09:00"
   },
   {
    "title": "'읽걷쓰' 외치며 책 살 돈은 깎아··· 인천교육청 도서관 예산 '엇박자'",
@@ -47,6 +1145,19 @@
    "orig_date": "2026-11-10T11:08:33+09:00"
   },
   {
+   "title": "한국능률교육평가원, 심리상담사 자격증 무료수강 지원",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5oYVNoaEdOcWE5WVdwUUprQ3RCY2dpMHFQVXExMVNvZ2VwN01lX19XZ1R5OWVfMUhDZFF4ZERMNzRWcWtDTHFSU3R0aUtESmpGRnQwRXhBOTNnQTZmdWo5V3Rzbi00Vk3SAWdBVV95cUxOaGFTaGhHTnFhOVlXcFFKa0N0QmNnaTBxUFVxMTFTb2dlcDdNZV9fV2dUeTllXzFIQ2RReGRETDc0VnFrQ0xxUlN0dGlLREpqRkZ0MEV4QTkzZ0E2ZnVqOVd0c24tNFZN?oc=5",
+   "date": "2026-11-10 11:04",
+   "extra": {
+    "pubTimestamp": 1794276250000,
+    "popularity": 1
+   },
+   "source": "ABC뉴스",
+   "summary": "",
+   "category": "",
+   "orig": "https://www.abcn.kr/news/articleViewAmp.html?idxno=94297"
+  },
+  {
    "title": "대전시교육청, 체험으로 배우는 학생 보건교육",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE8yWE9fNVZVWkhIbUhRZ3Vud0VHcHM4a1p2cmZEbExxeVR5UXF4OW9sSTVzbUY5Y2t4RTFMc1FuZkR5dWZfUVR1djRuaDJveHk3eGxzR25QZmZEejg1ZS1aNXVIWE9GeGZG?oc=5",
    "date": "2026-11-10 11:01",
@@ -59,20 +1170,6 @@
    "category": "정책",
    "orig": "https://www.cctimes.kr/news/articleView.html?idxno=936432",
    "orig_date": "2026-11-10T11:01:00+09:00"
-  },
-  {
-   "title": "선문대-충남교육청, ‘제7회 충남 온(ON)누리 AI·SW 학생동아리 한마당’ 성료",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBfUTE1a2I2TmZKTl93ZE53Yjh4LWpXeTlmQ2F0LVNNMU9IUElPTFp2RUJpV0pKbTdWQnAzSFpJcG5MbDFDOW8tblpMeVpHREtMWlE0ejRnRTBDR1JLVm5YamQ2MGgtcDhscGtJ?oc=5",
-   "date": "2026-11-10 10:57",
-   "extra": {
-    "pubTimestamp": 1794275859000,
-    "popularity": 2
-   },
-   "source": "충청뉴스",
-   "summary": "",
-   "category": "정책",
-   "orig": "http://www.ccnnews.co.kr/news/articleView.html?idxno=417491",
-   "orig_date": "2026-11-10T10:57:39+09:00"
   },
   {
    "title": "전북교육청, 교원 보호망 확대...악성민원·무고성 아동학대 대응 강화",
@@ -121,7 +1218,7 @@
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE93dXFmaGZpc05ZcEpFVWFfR09UT2ltSU5Sd2RrM3dkUVJYRlRGcXpjWU40NlVyRGkyS0FZSUJXeU9pek1qbzBWajJSaDRxYVZJb3daNlZQblNVR1ZFRVVnUWYwZk1GMkpSOTNGNy1PQQ?oc=5",
    "date": "2026-11-10 10:10",
    "extra": {
-    "pubTimestamp": 1794273024000,
+    "pubTimestamp": 1794273000000,
     "popularity": 1
    },
    "source": "중부일보",
@@ -129,6 +1226,34 @@
    "category": "정책",
    "orig": "https://www.joongboo.com/news/articleView.html?idxno=363742006",
    "orig_date": "2026-11-10T10:10:00+09:00"
+  },
+  {
+   "title": "제주도교육청, 제4회 교육감배 장애학생체육대회 개최",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5vTkstcXRhN3N3NHNkR0JLSGJYQ094X1lFdnZ5TWpWWkNzRnFCeEEwZ1VsQVJzN3VUa3FtN0NrODgzMFRGd055LXl5YVd3MTNxa3VsZzIxcjZxZ2FKV3hwLUZ5elpsVVpj?oc=5",
+   "date": "2026-11-10 10:06",
+   "extra": {
+    "pubTimestamp": 1794272814000,
+    "popularity": 1
+   },
+   "source": "제주환경일보",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.newsje.com/news/articleView.html?idxno=409932",
+   "orig_date": "2026-11-10T10:06:54+09:00"
+  },
+  {
+   "title": "서울시교육청, 체험학습 차량·식사 지원… 안전관리도 강화",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE40N0RFTGE4bjBMS3NVblRYSHpBNG1reXZBZlRZVk1FNkMwRGFPVlMyV3hkTVVYTDZCeEZWSzlSc2VkaEJFNkN5Nzl6clZJb3EtMktnRTNyNUNNaG9WX0FPVG00MXZaTXc0S2FHMVcyUm4?oc=5",
+   "date": "2026-11-10 10:04",
+   "extra": {
+    "pubTimestamp": 1794272669000,
+    "popularity": 1
+   },
+   "source": "안전신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.safetynews.co.kr/news/articleView.html?idxno=251453",
+   "orig_date": "2026-11-10T10:04:29+09:00"
   },
   {
    "title": "대학혁신지원사업 충청권역 성과포럼, 에듀테크·학생지원 맞춤 혁신 성과 공유…미래 고등교육 발전 방향 모색",
@@ -173,34 +1298,6 @@
    "orig_date": "2026-11-10T10:00:00+09:00"
   },
   {
-   "title": "전남광주교육청-광주교대, 기초학력 향상 지원 위한 협약 체결",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5XQmpPVURtM0NEMEdGdllfLThmaXJZcVdyaHB5LXNuWlRPa0ZfTnhsLWczMHZ0Z1QxMDZsb2s1OW44M1dHd0lEVW5mRUg3RUE5a19HVWk4eThhSXhya1ltbkZJbFhxUjFMZ2fSAW9BVV95cUxOUjJTa0VGRkxaYW1XM2FTMDZiUmF0MU5welRiUjBNdnVLOFg0Q1oyT1VnbWQtdTlsY25SMkxTVEtOSnJwUHBsdFlIcl9PSGM3Nm9kRElKTGs2SS1QRVBIYVQxYl9vQ2Q0Sk01YTJxYzQ?oc=5",
-   "date": "2026-11-10 09:59",
-   "extra": {
-    "pubTimestamp": 1794272374000,
-    "popularity": 2
-   },
-   "source": "머니투데이",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.mt.co.kr/policy/2026/11/10/2026111009530774296",
-   "orig_date": "2026-11-10T09:59:34+09:00"
-  },
-  {
-   "title": "경기도교육청, AI 교육 대전환…초등 단독 활용 제한·고교 출처 공개",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1ycTlyTm14NkZIeDBTRElnZ2NtWjYta3JNNjVtV1ZqU1h6akRkY1owOEdhU042S1V5SmNtQ3FETUFRaVRjWjBkUDNQUkxQN0NWOUFBaGVLNW96T081bElIUkxxQTJ1NllMOVHSAW9BVV95cUxOTUN2WHNJWm9zNHdlcmNocGJTbmJGZy1uc0ExT1ZyVTdXVlNxenJPVkVpVlExRXlFRVRQMzVKT3luWlZkaDkweVZzd3FmRDRaTURQUFBTYWg5ZU5mcXYxaWFUcFFCMy03UkIzU3k3LTQ?oc=5",
-   "date": "2026-11-10 09:47",
-   "extra": {
-    "pubTimestamp": 1794271626000,
-    "popularity": 1
-   },
-   "source": "머니투데이",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.mt.co.kr/policy/2026/11/10/2026111009011619430",
-   "orig_date": "2026-11-10T09:47:06+09:00"
-  },
-  {
    "title": "[칼럼 - 이규철] AI교과서(95) - 파인튜닝(Fine-Tuning)",
    "url": "https://news.google.com/rss/articles/CBMiQ0FVX3lxTE9qUHVKNmNHRGIzTEJ3YVM0dld1NDF5TVNOczNnT1hfRkZEUW5pbEplOE4tQlZmZnVVd3FrMW1TeExUT0k?oc=5",
    "date": "2026-11-10 09:32",
@@ -213,20 +1310,6 @@
    "category": "AIDT",
    "orig": "http://knpp.co.kr/news/583837",
    "orig_date": "2026-11-10T09:32:02+09:00"
-  },
-  {
-   "title": "[패트롤]경북도-경북교육청",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1tSXFxbi1Uc2haZmNiSVUxRmhDMzJIenl4dDZGajYtYXhRcGYtam83RnZlMDZFNkl4a05ja1RVRml0cDVES21UTjU4YTAtUEQyb2g5bllrNEM4U09iNUlRYmZzWQ?oc=5",
-   "date": "2026-11-10 09:22",
-   "extra": {
-    "pubTimestamp": 1794270150000,
-    "popularity": 2
-   },
-   "source": "에너지경제신문",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.ekn.kr/web/view.php?key=20261110023337596",
-   "orig_date": "2026-11-10T09:22:30+09:00"
   },
   {
    "title": "교원노조 한자리에…전남광주시교육청, 노사 소통 강화 나서",
@@ -272,9 +1355,9 @@
   {
    "title": "충북교육청, 한국전기공사협회 충청북도회로부터 장학금 500만 원 기탁받아 : 네이버 블로그",
    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNWlNXZ181aWttVU1sUHRDc2ZQMnVOZDhkZ0E3ekszT0RpNFozRnhKemhpclhXTXNqRUt3alZ2amowZ1paX0xNVzdwb2VlODVMYkVuTGdSU2Zjbi1kbWJjX0pVUHlrcTEtMjRPWTRQa19DODgwcmYyR29hQ0hQeEFjOGE1Wm1Kb2VmYTNubXJEbw?oc=5",
-   "date": "2026-11-10 08:58",
+   "date": "2026-11-10 09:01",
    "extra": {
-    "pubTimestamp": 1794268730000,
+    "pubTimestamp": 1794268910000,
     "popularity": 1
    },
    "source": "Naver Blog",
@@ -295,6 +1378,20 @@
    "category": "정책",
    "orig": "http://www.idojung.com/news/articleView.html?idxno=58124",
    "orig_date": "2026-11-10T08:55:07+09:00"
+  },
+  {
+   "title": "경기도교육청, 4개 중학교서 ‘생명존중 콘서트’ 개최",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5GNnJCM1BjakYtWDVnTFVjMWlzaFNDQ0dnUVVGTXY1WkNDdG81ZHZPdnloQ3VGdjZfMjNaVThBNlNQVFFQQVB0SHQ1VGtGUWthN21CYldwbmtnZ2JvMmp1RXRZcjM1UTJXOFRmYTJHOEU?oc=5",
+   "date": "2026-11-10 08:54",
+   "extra": {
+    "pubTimestamp": 1794268488000,
+    "popularity": 1
+   },
+   "source": "안전신문",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.safetynews.co.kr/news/articleView.html?idxno=251440",
+   "orig_date": "2026-11-10T08:54:48+09:00"
   },
   {
    "title": "아이스크림에듀, 홈런에 문해력 학습 통합 서비스 신설",
@@ -336,6 +1433,19 @@
    "orig": "https://www.dailydgnews.com/news/article.html?no=268598"
   },
   {
+   "title": "경북교육청, ‘세바공 오픈 아카이브’ 개최...학생 주도 탐구 성과 공유",
+   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE41RmtkV0JFUDRyVkNpaUtXOUN2TGhicVcyVUd1REYwMDhhd2w5MWtzNGZRVnBDNUdmSVkzcXNxSjhHNTFDU2h2a3RHWDlUYkV2eHk0d3ozQVlVX2F4WUVPZERKcDB1UQ?oc=5",
+   "date": "2026-11-10 08:38",
+   "extra": {
+    "pubTimestamp": 1794267487000,
+    "popularity": 1
+   },
+   "source": "데일리대구경북뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://www.dailydgnews.com/news/article.html?no=268597"
+  },
+  {
    "title": "아이스크림에듀, 아이스크림 홈런에 '문해력완성' 탭 신설",
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9lU2l2QjdXZHg0NERRYXI0UU5GcDZYZHp4cFB6RGttOExFOEc5Q2NZLVl5UGhCSjFzekt0Sm53ZEFmSVFlRDFzaTRfbFhSeWhXU2ozaDFRb29sQjZRNFh3clBn?oc=5",
    "date": "2026-11-10 08:21",
@@ -346,21 +1456,8 @@
    "source": "아시아경제",
    "summary": "",
    "category": "",
-   "orig": "https://view.asiae.co.kr/article/2026111008214384190"
-  },
-  {
-   "title": "전남광주교육청·광주교대, 기초학력 지원사업 협력 범위 전역으로 확대",
-   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1pdVhId1daMWlucXRwbnNjSXpuaDhKMVFKcjgxeGNCalR1dndzazZHaVhWN2plWXhHLUJsTGFmd0d4WW9pOGJENUtrdm92bTNMbmxfMVhiME5BT0l3Tmx4MThrc08?oc=5",
-   "date": "2026-11-10 06:56",
-   "extra": {
-    "pubTimestamp": 1794261400000,
-    "popularity": 1
-   },
-   "source": "매일일보",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.m-i.kr/news/articleView.html?idxno=2016393",
-   "orig_date": "2026-11-10T06:56:40+09:00"
+   "orig": "https://view.asiae.co.kr/article/2026111008214384190",
+   "orig_date": "2026-11-10T08:21:44+0900"
   },
   {
    "title": "세종시교육청, 2026 하반기 질문콘서트 개최",
@@ -405,34 +1502,6 @@
    "orig_date": "2026-11-10T06:00:00+09:00"
   },
   {
-   "title": "서울시교육청, 체험학습 차량·식사비 지원…70개교 모집에 413개교 신청",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9qYjkwUzdVUDhpZTRSYjE1Vm80dnFaNGJ1TlpfczFPQ0s5MFdNUW9FemRVb1phTVRlRjdmSkpxZFN5eEhlUGpYTU0yVjRQVDJJelN2MzJjRHFIZXNm?oc=5",
-   "date": "2026-11-10 06:00",
-   "extra": {
-    "pubTimestamp": 1794258000000,
-    "popularity": 1
-   },
-   "source": "뉴스핌",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.newspim.com/news/view/20261109001018",
-   "orig_date": "2026-11-10T06:00:00+09:00"
-  },
-  {
-   "title": "[패트롤] 인천시교육청, AI교육축제 1만2천명 참여-시민 4천명 가을걷기-기초학력 371학급 지원",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5pRTBnR2NYMGMtRHlKUnM5amk0OTdDWmtHbzZNa1JNWGFoZzFPUXAyQWZfcGRud2RsS3AyQVdNb0x5QmVxWFRmTG1pbnN1NTYwbzdFVXlfMmFxTUJNOURTSUs0dw?oc=5",
-   "date": "2026-11-10 02:19",
-   "extra": {
-    "pubTimestamp": 1794244765000,
-    "popularity": 1
-   },
-   "source": "에너지경제신문",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.ekn.kr/web/view.php?key=20261110024067502",
-   "orig_date": "2026-11-10T02:19:25+09:00"
-  },
-  {
    "title": "교육 경기도교육청 ‘AX 경기교육대전환’ 공청회…AI 교실 도입에 “평가 가이드라인·격차 해소 선행돼야”",
    "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBkbjRMQ0syUGI3aHhkblZzTzUyN2ZIZkY5akJoaExFTGdRaHVGOTFiQ3BON29SVGEta2VNcDlkTGFqb1lFZEJ5LXlfYkFtSlFPd01WTFVRd1lEcjRmVEhZNnhsa3Ezdw?oc=5",
    "date": "2026-11-10 00:41",
@@ -447,19 +1516,6 @@
    "orig_date": "2026-11-10T00:41:58+09:00"
   },
   {
-   "title": "겨울철 대설·한파 대응체계, 경남교육청 가동",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5jUFhiajQxZjlFX1RfbU45Nk56Zy1RLUFvdWhRMXNfclZEaDlqTTE3VHN4dzFpV3ludGFYSkJHYjNmdFg3YmVCLWQ1aS1BRUNrS0owbTY5eFVNbnBrdkhXS3pnZ0xMUzA?oc=5",
-   "date": "2026-11-10 00:14",
-   "extra": {
-    "pubTimestamp": 1794237251000,
-    "popularity": 1
-   },
-   "source": "팍스경제TV",
-   "summary": "",
-   "category": "정책",
-   "orig": "http://www.paxetv.com/news/articleView.html?idxno=286461"
-  },
-  {
    "title": "AI·디지털 사업 계약 편중 의혹에…강원도교육청 5년치 고강도 전수조사",
    "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBRY201TzQ2a1NWM0Q3eUt4SnRzUll3TTQ3MkE4MDFSMFQ0aTNwZ05pb1RhckR3T29nYkpoTUp6dUlOU2FJRTZkc0hSZGVyUTNvbE1DQkp6MzhUbGZBal8wdTdyLUlfRE0?oc=5",
    "date": "2026-11-10 00:02",
@@ -472,32 +1528,6 @@
    "category": "정책",
    "orig": "https://www.kado.net/news/articleView.html?idxno=2083777",
    "orig_date": "2026-11-10T00:02:01+09:00"
-  },
-  {
-   "title": "\"교실에서 바로 공장으로\"…충남교육청·레인보우로보틱스, 로봇 인재 양성 동맹",
-   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5hUGxISVRWd1dMY0ZDQlAyaWVtR25wUk1ZVUUyWGk5TmtJdjlvaTRfMFRIVFl5Zk9EUVE5ZW5GWmlWV1luTTd2ZGxuRG5XcUtjOVVLWGRxalQtWlVTSDVfcGxpa2RsVFpRSm9fM3d1Y1NMbUpGSlQwX2RUZw?oc=5",
-   "date": "2026-11-09 23:11",
-   "extra": {
-    "pubTimestamp": 1794233460000,
-    "popularity": 1
-   },
-   "source": "아산뉴스",
-   "summary": "",
-   "category": "정책",
-   "orig": "http://www.asannews.co.kr/sub_read.html?uid=65984&section=sc4&section2="
-  },
-  {
-   "title": "충북교육청, 2027학년도 수능 종합 지원 대책 : 네이버 블로그",
-   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQUExZOXhEYTMzN2tLbHlITTJFUWlFYmsyMTVGUjlSaHVDSVcyTnE3N084WmxaYWNTN2tDUTFnMVp2RzVjRlJvVEFBUUJEdU40dFVPYXN4cmZWdmptRXdXelVHX1JsVVR4RGtxa3VnNVNuVmdtTkVGaUF2OTNhU1M4c3ZVb2hIRWk4OHJqd2VDNA?oc=5",
-   "date": "2026-11-09 23:05",
-   "extra": {
-    "pubTimestamp": 1794233158000,
-    "popularity": 1
-   },
-   "source": "Naver Blog",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://blog.naver.com/PostView.naver?blogId=cbe_news&logNo=224469885523&redirect=Dlog"
   },
   {
    "title": "[행감]대전시의회 교육위원회, 9일 대전시교육청 행정사무감사 돌입",
@@ -542,6 +1572,19 @@
    "orig_date": "2026-11-09T22:06:05+09:00"
   },
   {
+   "title": "강원도교육청, 내년 예산안 3조 9,650억 원 편성",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE13MXQ4b0lac2RZMVdaSXp0d1RoWHNTUExVNGk2SUVSdjNtdkZoMEtGS2g0c1FwZ3NsVkE1aHZwMW9iWnBqcmIyWm9FZHJyS0NzdzNKaF9YZURoU0k?oc=5",
+   "date": "2026-11-09 21:41",
+   "extra": {
+    "pubTimestamp": 1794228060000,
+    "popularity": 1
+   },
+   "source": "KBS 뉴스",
+   "summary": "",
+   "category": "정책",
+   "orig": "https://news.kbs.co.kr/news/pc/error/error.do"
+  },
+  {
    "title": "인천시교육청, ‘2026 K-SDGs 청소년 포럼’ 개최",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1UQVM2T3g1eGw1YkRjeTJFeDVvTWdWVVBsNDZSSURfQVpaSzlucnZiOFpPTF8yWUR0T2xMTzAwUGJ3dWxMTkc4YWtpX3M5NmQ2dm95LTZ6d1RwVzJKc0ctbnhNOS1RRllYTUE?oc=5",
    "date": "2026-11-09 21:09",
@@ -554,20 +1597,6 @@
    "category": "정책",
    "orig": "https://www.kgdm.co.kr/news/articleView.html?idxno=2017500",
    "orig_date": "2026-11-09T21:09:41+09:00"
-  },
-  {
-   "title": "인천시교육청, 2026 을지연습 전국 최우수 기관 선정",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBmRkNsNTBqaDFFNUo0RGgyc180SC1FcEJQeGhTLXJvYkNORy1MdGI0SFNjQ2VJWlZ6bWlWam8taTRxVFlmZXBpb1luV2RvTE1Ja2xvOTlYVTY1Q19DaU9qRk9uWHZkVDJPMFE?oc=5",
-   "date": "2026-11-09 21:08",
-   "extra": {
-    "pubTimestamp": 1794226132000,
-    "popularity": 1
-   },
-   "source": "경기도민일보 미디어",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.kgdm.co.kr/news/articleView.html?idxno=2017496",
-   "orig_date": "2026-11-09T21:08:52+09:00"
   },
   {
    "title": "충남도교육청, 교권 보호 사례 공유 협의회 개최",
@@ -625,48 +1654,6 @@
    "orig_date": "2026-11-09 19:48:03"
   },
   {
-   "title": "수능 당일 AI 스마트안경 착용 시 내년까지 응시 자격 박탈",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1aWVYzVFFnYzBqWlhadEY2TjlSTDM0dTh2bVpiR1BlS1FBTmp6c0Vxa1M4SGNFaDBKZVFoeEQzS2tYUk4wRHctUFRMYkFFQUVobWhKV19ZeUlwZENhZG15LXloU0RNUWhJTzNn?oc=5",
-   "date": "2026-11-09 19:31",
-   "extra": {
-    "pubTimestamp": 1794220265000,
-    "popularity": 1
-   },
-   "source": "한국사회복지저널",
-   "summary": "",
-   "category": "정책",
-   "orig": "http://www.ksw-news.com/news/articleView.html?idxno=3058863",
-   "orig_date": "2026-11-09T19:31:05+09:00"
-  },
-  {
-   "title": "세종시교육청평생교육원, 「세종, 마을에서 만나는 수학」 개최",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB4dDJoSHhPNUs0YTZTTl9wVDNEeGFYWlZVc1hWWGQ4VVZiU050WmlKQk9GRHlMYW51T01xZHhuOERHbFpuaF9rYk9XMjlET3dSZ201eWJRcUt1UkI0cEtaUHpXeWhTREhFVXNQaU90UGw?oc=5",
-   "date": "2026-11-09 19:08",
-   "extra": {
-    "pubTimestamp": 1794218921000,
-    "popularity": 1
-   },
-   "source": "모빅경제",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.mobickeconomy.com/news/articleView.html?idxno=36881",
-   "orig_date": "2026-11-09T19:08:41+09:00"
-  },
-  {
-   "title": "충북교육청 진로교육원, AI 활용 진로전담교사 수업전문성 강화",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5NUGFXMUNaVjV5VEFsNDBSS3FoRjRQMVZTZlJNcUhyR2t3dElwNFpZQ1Zlb1BaTEFKV0hiNzYwa2FwM2ZKYXBLdzNQRjZkVWNWRVhtZFZjdmtNczNxNHI3ZDF6WllKcnJmSGlXbUhMNmt3QQ?oc=5",
-   "date": "2026-11-09 19:08",
-   "extra": {
-    "pubTimestamp": 1794218896000,
-    "popularity": 2
-   },
-   "source": "웹이코노미",
-   "summary": "",
-   "category": "에듀테크",
-   "orig": "https://www.webeconomy.co.kr/news/articleView.html?idxno=2367366",
-   "orig_date": "2026-11-09T19:08:16+09:00"
-  },
-  {
    "title": "경기도교육청, 학생 발달단계별 AI 활용 기준안 제시…초중고 차등 적용 논의",
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5ycjkzX3dxZVVPVzJtOW5vSGdHWl9uX0gxX2ZkQjQ5OUQtcXd0aE0zZWtIWHF1dGw5YzRweEZ0WnZMWXpHNHpXQkJoa3Q1VzY3ek9EOHJ1c2RlZ0RORzhvaEZMbzZXU2s4VmlHVWk4UQ?oc=5",
    "date": "2026-11-09 19:05",
@@ -691,7 +1678,7 @@
    "source": "KBS 뉴스",
    "summary": "",
    "category": "정책",
-   "orig": "https://news.kbs.co.kr/news/pc/view/view.do?ncd=8707725"
+   "orig": "https://news.kbs.co.kr/news/pc/error/error.do"
   },
   {
    "title": "저탄소 K-식단 요리경연…전북교육청, ‘붉은 장미 삼총사’ 대상",
@@ -722,50 +1709,8 @@
    "orig_date": "2026-11-09T18:54:00+09:00"
   },
   {
-   "title": "인천시교육청 기초학력 교재, 교사 93.6% ‘만족’…371학급 지원",
-   "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTE8zT2hGRGFYS0FmcW1SbTNxb2hrUG1iZy1fZzAzbWRtazRPMjNTZ29mdEplQnpnZVpPUHB0SGdLbVJoNl9u?oc=5",
-   "date": "2026-11-09 18:54",
-   "extra": {
-    "pubTimestamp": 1794218040000,
-    "popularity": 1
-   },
-   "source": "오늘뉴스",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.onulnews.com/102734",
-   "orig_date": "2026-11-09T18:54:00+09:00"
-  },
-  {
-   "title": "인천시교육청, AI 활용 ‘급여 점검 프로그램’ 학교 배포",
-   "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTE9raE1FV2xDUFlzYl9vLUlCeW9TeF8xU0NyRWxuSFJWUUljdHotejd5dTRvdi13cF9YcDNBVGxhWXN5ZXBr?oc=5",
-   "date": "2026-11-09 18:54",
-   "extra": {
-    "pubTimestamp": 1794218040000,
-    "popularity": 1
-   },
-   "source": "오늘뉴스",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.onulnews.com/102736",
-   "orig_date": "2026-11-09T18:54:00+09:00"
-  },
-  {
-   "title": "인천시교육청, 2026 을지연습 평가 전국 1위…최우수 기관 선정",
-   "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTE8zUVBReDJmeDZhaXZBS1hoWmtBS0p0UEladVVQQkhfU0htN1FGWG5UR1NuN0d0dTE5NUdNY2d1QzJQUE5K?oc=5",
-   "date": "2026-11-09 18:54",
-   "extra": {
-    "pubTimestamp": 1794218040000,
-    "popularity": 1
-   },
-   "source": "오늘뉴스",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.onulnews.com/102733",
-   "orig_date": "2026-11-09T18:54:00+09:00"
-  },
-  {
    "title": "중·고교 내신시험도 ‘AI 안경’에 뚫렸다…교육부 전수조사 4건 적발",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9HNWZjUmV5bnRzZndKaDN6ZGxUVXBvYXlvYWNNOUZYMHdKVGNFY3ZnRFd3dEJQbVpYV3RfSmhzMEQ2cmhXM2hWUVhEbVU2NjRKLV93VmpjVFFwLXpOYmRZTDVJSG5KOHpBMFBF0gFUQVVfeXFMTjd4RjY2U2kzOXplLXU0NU05NkE1SG9wTXpVX0dNaEVXbHViT1pGTlpGaExlWFZJTW9QY1lwVGJ5ckoyaVZQWWJDMDFzMW04M0kzYVZQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE90LThDdGhtYllrbWpJalB0M2ZPSlNUTVJIcTgxM252Z2ZKNHg2SWYtemV4aHJQdjFobG5QSjFxQVB6eDdUdWJUM2NnYXpIbDdydGdhcktDT3HSAVRBVV95cUxON3hGNjZTaTM5emUtdTQ1TTk2QTVIb3BNelVfR01oRVdsdWJPWkZOWkZoTGVYVklNb1BjWXBUYnlySjJpVlBZYkMwMXMxbTgzSTNhVlA?oc=5",
    "date": "2026-11-09 18:50",
    "extra": {
     "pubTimestamp": 1794217808000,
@@ -774,7 +1719,7 @@
    "source": "세계일보",
    "summary": "",
    "category": "정책",
-   "orig": "https://www.segye.com/newsView/20261109515402?OutUrl=google",
+   "orig": "https://www.segye.com/newsView/20261109515402",
    "orig_date": "2026-11-09T18:50:08+09:00"
   },
   {
@@ -818,20 +1763,6 @@
    "category": "정책",
    "orig": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003283300",
    "orig_date": "2026-11-09T18:32:00+09:00"
-  },
-  {
-   "title": "경남교육청, 겨울철 재난 대비 비상 대응 체계 가동…\"학생 안전 확보\"",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9TNkQ5TE1KYzRkcG5qSnBDWVdpUkRGOFkyMjZmeFRXZ0RVMFV5bm4zdllkTmxrY1oxV1lMT24yeVVhNUdLbktaSVdXNURPUTNGRGZ3ZGxWRWRYdldn?oc=5",
-   "date": "2026-11-09 18:15",
-   "extra": {
-    "pubTimestamp": 1794215700000,
-    "popularity": 1
-   },
-   "source": "뉴스핌",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.newspim.com/news/view/20261109001303",
-   "orig_date": "2026-11-09T18:15:00+09:00"
   },
   {
    "title": "경기도교육청, AI 시대 교육 방향 논의…\"생각을 먼저, AI는 나중에\"",
@@ -914,20 +1845,6 @@
    "summary": "",
    "category": "정책",
    "orig": "https://www.dnews.co.kr/uhtml/view.jsp?idxno=202611091743581580293"
-  },
-  {
-   "title": "서울시교육청, ‘기본교육’ 주제로 시민 참여 토론회 개최",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE53Vm9YODRoQ2ZhTlZNNi1pSW9oT0ozcm81Qk52enhVSkVCQ2FqcC04V25oZWVraU5ubEZMSnhTNWh0YVFyOU1ZSnR4MmtFMkVRN2ZEdk9BNURwTFdySmVRSDg1XzZXMkRtdURPeHYyVk3SAXRBVV95cUxPTmRzTkFqdnRGZDYtbGNYamxIY0Q2TFlSOFBDekFMMGRfdUdMZE5QMXo3dHloQ3YxNU5URVFLRG5GWXlJNkV0Z21iMFhIOXpsSzZ2Ym8za29MMXVTN1k1QW1wUDJ1Q29RdzBzeGdXZVpoSEpRVg?oc=5",
-   "date": "2026-11-09 17:50",
-   "extra": {
-    "pubTimestamp": 1794214228000,
-    "popularity": 1
-   },
-   "source": "주간한국",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://weekly.hankooki.com/news/articleView.html?idxno=7192961",
-   "orig_date": "2026-11-09T17:50:28+09:00"
   },
   {
    "title": "[2026 행정감사] 대구시교육청 `IB·AI 교육 성과` `학생 문해력 문제` 도마 위",
@@ -1027,34 +1944,6 @@
    "orig_date": "2026-11-09T17:11:44+09:00"
   },
   {
-   "title": "[포토] 충남교육청, 레인보우로보틱스와 맞손",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9iVW9VSTh6N2RkWVZRUFhYckhBZ2Y3RmN4bS1rRFhtaTNEWDRBa295Z25uVEFhM1FWbUsxTExwTXNuUGVVN3h2NU1IVHhzbEVpbk9mVDN3N0ZlenNXWmhkMFd3dXh3U3M2Y0F5X2l1QS1iMDQ?oc=5",
-   "date": "2026-11-09 17:10",
-   "extra": {
-    "pubTimestamp": 1794211859000,
-    "popularity": 1
-   },
-   "source": "충남일보",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.chungnamilbo.co.kr/news/articleView.html?idxno=919746",
-   "orig_date": "2026-11-09T17:10:59+09:00"
-  },
-  {
-   "title": "경기도교육청특수교육원, 학생 미술작품 달력으로 나온다",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE02ZWdHN2c2OU55TU54ekFkY2hmY1BFejdYNmIwTmc3dm4zQVJBMDZlSUlVQTBuNVg0Q3M3ZUJ0YXplc096T2VmUUhFeFoxVUU5NVhhYTJqZkFISUlDR1V0YjV4a0JpbEFWMzg4dg?oc=5",
-   "date": "2026-11-09 17:04",
-   "extra": {
-    "pubTimestamp": 1794211475000,
-    "popularity": 1
-   },
-   "source": "스마트비즈",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.smartbizn.com/news/articleView.html?idxno=158893",
-   "orig_date": "2026-11-09T17:04:35+09:00"
-  },
-  {
    "title": "대구시교육청. ‘2026 AI(인공지능)·디지털 페스타’ 개최",
    "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFAwUWxjWjlnNnRGY1NOTVU2MUJHX3BQTkYyTGJ4MThKRktNZmhrYkZPWDVieGFLbzRUTGFoaUZIM1FjWGYwcXkzdU9TQVJqbGtfaEc1c2dMWG5MYTE1RU5GNWRfTjVEdw?oc=5",
    "date": "2026-11-09 17:00",
@@ -1151,48 +2040,6 @@
    "orig": "https://www.kbmaeil.com/article/20261109500349"
   },
   {
-   "title": "세종시교육청, 로봇 챌린지 축제-로봇 챌린지 리그 개최",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1NS3FjWWZER2RWN2FXUkZhZ1BVbHBUX2V1VHdFV3NiYmdVcDVYQXFBeXRieTcweWRCb0tnQVFxeHJLVEZiVjJrUUZBNjhJTHJqU0F2R083TFpSU3QtZlNSN1RTTmFva2M?oc=5",
-   "date": "2026-11-09 16:12",
-   "extra": {
-    "pubTimestamp": 1794208369000,
-    "popularity": 1
-   },
-   "source": "세종의소리",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.sjsori.com/news/articleView.html?idxno=89586",
-   "orig_date": "2026-11-09T16:12:49+09:00"
-  },
-  {
-   "title": "충남교육청, 교권 보호 사례 공유 협의회 개최",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE44bllaWGZ4dVpfODR1TVpQS2xmemMwOGtydVRDczk4M3FoS290OVR6QUlkaWNWeXFfV0lyTVNhSmpKcGtKSmN4TkZSamx1Xzh1U0lCeWh0ci0wSFFtNHlxSlFqTkVlanVSekZB?oc=5",
-   "date": "2026-11-09 16:02",
-   "extra": {
-    "pubTimestamp": 1794207766000,
-    "popularity": 1
-   },
-   "source": "디트NEWS24",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.dtnews24.com/news/articleView.html?idxno=816992",
-   "orig_date": "2026-11-09T16:02:46+09:00"
-  },
-  {
-   "title": "충북교육청·NH농협은행, 청주 테니스 학생선수 24명에 재능기부…현역 선수 3명 원포인트 레슨",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1UZDZtbHg4UjJiendiUTBCdWNUNjhRQlh4bVJxSmp0ZjJrbU91cE9LQ0VWUURsX3RqT2hROGFnUXlqZHdRRU5HM1o1bFA4emo0cW5leHNseHdKQ2w3cm4xeGNya1l2dW9fbnfSAW5BVV95cUxPTjJITTYzaTg4a0VoNGhBQTRtMEJmZ2t1UFI3UHd6R1FvVlpvNW5fX1VsWnhhS0pvU1JMSy1KQ1ExYmtqdUdubmQ3cmNobmFEc3pSaEJXMVRVWTlBWHBHLWNqeGdyMWJNN2FEd2FUdw?oc=5",
-   "date": "2026-11-09 16:02",
-   "extra": {
-    "pubTimestamp": 1794207756000,
-    "popularity": 1
-   },
-   "source": "중부매일",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.jbnews.com/news/articleView.html?idxno=1515476",
-   "orig_date": "2026-11-09T16:02:36+09:00"
-  },
-  {
    "title": "[똑똑한교육] 미래엔, 교원 빨간펜, YBM, 아이스크림미디어, YBM인강, 천재교육,",
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFAtVl9IcS16dnJuWGk0WXlIZEEzRzRoTXZ5VHpTbEYyUldYbHJTM0Y1cVQ2ZHdZY1hVSXBMV05sUWk5cDlUYmlnTDJLMzlTalRoTFN1bWNpYVFzbnZPUzFZMU1XOA?oc=5",
    "date": "2026-11-09 16:00",
@@ -1235,20 +2082,6 @@
    "orig_date": "2026-11-09T15:42:57+09:00"
   },
   {
-   "title": "수능때 AI안경 갖고만 있어도 시험 무효 처리",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1fVkZTNHpoT0h3OFVvZ2I4OW16V0djakR0ZXViSU5sZUp5UVlfQ1BWSmRQZXVFQUd4Q3Z4OUVPVUhnU28xcldpUG4xZzVRVTR1bGVpdDlXVzZSbmtUZUlxQlM4QXBSMzAzVFpoTWYwZUM?oc=5",
-   "date": "2026-11-09 15:41",
-   "extra": {
-    "pubTimestamp": 1794206460000,
-    "popularity": 1
-   },
-   "source": "세명일보",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.smnews.co.kr/default/index_view_page.php?idx=307476",
-   "orig_date": "2026-11-09T15:41:35+00:00"
-  },
-  {
    "title": "[경북도의회 행감 초점] 경북교육청 행감서 학생 안전·특수교육·교권보호 등 지적",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5uV3UySi00c2F0QXlfeHBvNmlqb09BVmN2NGhlaGRSdGt5TjlnTnhnTHZvU201YVdmMTRMWkpkTVBLdWYyTHU0eHVBSEMwemlPZkt0R3ZiSnNDVlktN0MydW45VFowWGds?oc=5",
    "date": "2026-11-09 15:39",
@@ -1277,19 +2110,6 @@
    "orig_date": "2026-11-09T15:39:06+09:00"
   },
   {
-   "title": "울산시교육청, ‘초등 방과 후 돌봄’ 만족도 높아",
-   "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPdVRJa0VIWFBVSnZFa3pLMHBxbUdtSWZ3QXJ3S1RqREp2S0JkLWNFTXlGVWxyUkZWNWZHUGQwVHZPdE0zSXE2bVUybU5LVEVfSmFxM3dMVVZ5Y3ZXMVpjOFMtQVAybHlIc1JmWk1OTkFfbUpxLWNvUlMwbEpHSThnZTNzejBuN2Q3Yk9WS0p3?oc=5",
-   "date": "2026-11-09 15:35",
-   "extra": {
-    "pubTimestamp": 1794206100000,
-    "popularity": 1
-   },
-   "source": "국제신문",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20261109.99099002635"
-  },
-  {
    "title": "“경남교육청, 행복학교 일방적 폐지 방침 멈추라”",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9zSHpLTTVKQ1hqQllBZ2VnLXRHUjNqZzlSWkJBNTFMZXJaRlJNbERUUzFBWXhhYjcyaFVCQTgyZFFMdjBoTVlDWDNzUkJUZVN6eGJSQU9nSTd0ZDBGanloM0RGUUFQVUt0enc?oc=5",
    "date": "2026-11-09 15:29",
@@ -1302,6 +2122,19 @@
    "category": "정책",
    "orig": "https://www.idomin.com/news/articleView.html?idxno=2019126",
    "orig_date": "2026-11-09T15:29:25+09:00"
+  },
+  {
+   "title": "충북교육청 진로교육원, AI 활용 진로전담교사 수업전문성 강화",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE93TTE5TExibGhtZEM4NW02VzlmdWxyZXFtN2gwbS1ZRlFic0tKX0RXVVhkTnJ3V3UwTXVZaWk5R3RYUHhRSzVsNEFrV18zbjNHblRmWE14Yk1NV3BtU29pRGZxdTc2QnYwNnc?oc=5",
+   "date": "2026-11-09 15:24",
+   "extra": {
+    "pubTimestamp": 1794205499000,
+    "popularity": 1
+   },
+   "source": "청년투데이",
+   "summary": "",
+   "category": "에듀테크",
+   "orig": "https://www.fnnews21.com/news/articleView.html?idxno=59166"
   },
   {
    "title": "신고부터 사건 종결까지…경기도교육청, 교권 보호 법 개정 과제 제시",
@@ -1343,19 +2176,6 @@
    "category": "정책",
    "orig": "https://www.asiatoday.co.kr/kn/view.php?key=20261109010003286",
    "orig_date": "2026-11-09T15:19:57+09:00"
-  },
-  {
-   "title": "충북교육청·NH농협은행, 테니스 꿈나무 위한 재능기부 나눔 : 네이버 블로그",
-   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQUnJkZGxUall3M3JMdXk3c2Q2RlUzclZaUm1Nb19XZl84WUplcHVwajFwbTZrbzNEekJscFpSV1Q2Y3B6WElTczF6SHlMMEphNi01MjNxQkZCdFVIeVY4VUNtaTh1bVRXdFhyV2lNYTg4R3RsX1cxUTJaNEFlWXZaYnBjbndaQ0ppQ25qWE9MZw?oc=5",
-   "date": "2026-11-09 15:11",
-   "extra": {
-    "pubTimestamp": 1794204679000,
-    "popularity": 1
-   },
-   "source": "Naver Blog",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://blog.naver.com/PostView.naver?blogId=cbe_news&logNo=224468936461&redirect=Dlog"
   },
   {
    "title": "전북교육청, 학습연구년 연수 확대…'교육 회복' 분야 등 신설",
@@ -1407,9 +2227,7 @@
    },
    "source": "경북신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.kbsm.net/news/view.php?idx=540996",
-   "orig_date": "2026-11-09T14:25:17+00:00"
+   "category": "정책"
   },
   {
    "title": "인천시교육청, AI미래채움 교육페스티벌…1만 2000명 참여",
@@ -1421,8 +2239,7 @@
    },
    "source": "경기신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.kgnews.co.kr/news/article.html?no=918772"
+   "category": "정책"
   },
   {
    "title": "경북교육청, 영유아 ‘온(溫)누리 탐험지도’ 제작",
@@ -1434,23 +2251,19 @@
    },
    "source": "경북신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.kbsm.net/news/view.php?idx=540993",
-   "orig_date": "2026-11-09T14:22:16+00:00"
+   "category": "정책"
   },
   {
-   "title": "대전시교육청, 2027학년도 초등(유·특)교사 임용시험 응시율 82.2%",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE51RGxwbEMyWVdHSVJXT29vcG5lZjJ0QVpwYWFRMktKX0trOGFyNTFYUmwzdGFfTmZITE11ekdjMllCd2dsbWM0X0tyNjRGWlpWWWhKdXNsb1pxR09qTEZhMl9tWGZvaGM?oc=5",
+   "title": "울산교육청, 18일 2027학년도 수능 예비소집.. 1만1246명 응시",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5oSHBseko4V21LajZqUmZpanZNN2lFRE85bS1PazIyNUJMRlBuT0kyc2xYLVdidjhhVGc5cDQwRFpXZUNsZEx5QWxPMWN1T05TTEViTHFuOVNBcXNHM2EwVDA1c2NReVNzNGdV?oc=5",
    "date": "2026-11-09 14:55",
    "extra": {
-    "pubTimestamp": 1794203755000,
+    "pubTimestamp": 1794203721000,
     "popularity": 1
    },
-   "source": "코리아방송",
+   "source": "BBS불교방송",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.hnlife.kr/news/articleView.html?idxno=346998",
-   "orig_date": "2026-11-09T14:55:55+09:00"
+   "category": "정책"
   },
   {
    "title": "[패트롤] 경기도-경기도의회- 경기도교육청특수교육원-평택시의회",
@@ -1462,50 +2275,7 @@
    },
    "source": "에너지경제신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.ekn.kr/web/view.php?key=20261109026307167",
-   "orig_date": "2026-11-09T14:52:38+09:00"
-  },
-  {
-   "title": "\"로봇과 놀고 메타버스 걷는다\"…고창교육지원청, '2026 AI·디지털 페스타' 성료",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1mVUktLVo4XzB1SlJMd2o4amFwdFQzUXZhbTAteXJGcFB4WDZUV1k5emxxVmpKc3pzZTRPTm1TSVZPNVhwWnZrbXhua0hmVWVMczFFcUF3VnRqVUpyWWlkdXp3TQ?oc=5",
-   "date": "2026-11-09 14:49",
-   "extra": {
-    "pubTimestamp": 1794203384000,
-    "popularity": 1
-   },
-   "source": "더펜뉴스",
-   "summary": "",
-   "category": "에듀테크",
-   "orig": "https://www.thepennews.net/news/article.html?no=47122"
-  },
-  {
-   "title": "충북건축사회, 충북교육청에 장학금 500만원 기탁",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1jZG9SaVF6Y1BrYy1VcjBjbHp1STlXT0V6cVZuWl9IR2N0Nk43aHZua2tEa3ppa19Qd3JjMzhrWDViR18zekY5dGJZdUl2LW8wSU90emhUQnpTLVJvV2xYcllvRHVhYUVpY3Bj?oc=5",
-   "date": "2026-11-09 14:43",
-   "extra": {
-    "pubTimestamp": 1794202993000,
-    "popularity": 1
-   },
-   "source": "BBS불교방송",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117448",
-   "orig_date": "2026-11-09T14:43:13+09:00"
-  },
-  {
-   "title": "충북교육청·NH농협은행, 테니스 꿈나무 위한 재능기부",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE13cG4zT3ViOGZkcU44b0tua3gxbFkwcHBOcHNlQzR3Ukw4TnpuMER0bFFwMEhnOW9sTnlKZ205V1lwanRNcERjY0pIWVBlY3VSR3NhQ00zRExYOVR4R0dEWnA3TUNucFlzSlpN?oc=5",
-   "date": "2026-11-09 14:41",
-   "extra": {
-    "pubTimestamp": 1794202885000,
-    "popularity": 1
-   },
-   "source": "BBS불교방송",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117447",
-   "orig_date": "2026-11-09T14:41:25+09:00"
+   "category": "정책"
   },
   {
    "title": "인천시교육청, 존중문화 담은 그림책 12종 학교 보급",
@@ -1517,9 +2287,7 @@
    },
    "source": "매일일보",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.m-i.kr/news/articleView.html?idxno=2016172",
-   "orig_date": "2026-11-09T14:34:54+09:00"
+   "category": "정책"
   },
   {
    "title": "경북교육청, 지역 맞춤형 '온동네 돌봄·교육센터' 확대...늘봄안동 11일 개관",
@@ -1531,9 +2299,7 @@
    },
    "source": "BBS불교방송",
    "summary": "",
-   "category": "정책",
-   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117435",
-   "orig_date": "2026-11-09T14:34:16+09:00"
+   "category": "정책"
   },
   {
    "title": "경북교육청, '경북형 영유아 온누리 탐험지도' 보급...22개 시·군 체험 장소 수록",
@@ -1545,9 +2311,7 @@
    },
    "source": "BBS불교방송",
    "summary": "",
-   "category": "정책",
-   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117438",
-   "orig_date": "2026-11-09T14:34:13+09:00"
+   "category": "정책"
   },
   {
    "title": "경북교육청, '세바공 오픈 아카이브' 개최...지역사회 문제 해결 탐구 성과 공유",
@@ -1559,9 +2323,7 @@
    },
    "source": "BBS불교방송",
    "summary": "",
-   "category": "정책",
-   "orig": "https://news.bbsi.co.kr/news/articleView.html?idxno=4117441",
-   "orig_date": "2026-11-09T14:34:06+09:00"
+   "category": "정책"
   },
   {
    "title": "대구시교육청, ‘2026 AI·디지털 페스타’ 연다...인공지능 원리·윤리 탐구 프로그램 운영",
@@ -1573,9 +2335,7 @@
    },
    "source": "이로운넷",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.eroun.net/news/articleView.html?idxno=94812",
-   "orig_date": "2026-11-09T14:30:32+09:00"
+   "category": "정책"
   },
   {
    "title": "전국서 AI안경 부정행위 '4건' 적발…교육부, 수능도 \"반입 엄금·수사 의뢰\"",
@@ -1587,8 +2347,7 @@
    },
    "source": "메트로신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.metroseoul.co.kr/article/20261109500352"
+   "category": "정책"
   },
   {
    "title": "시민사회단체 \"경남교육청, 일방적 행복학교 폐지 멈춰야\"",
@@ -1600,9 +2359,7 @@
    },
    "source": "LG헬로비전",
    "summary": "",
-   "category": "정책",
-   "orig": "http://news.lghellovision.net/news/articleView.html?idxno=561527",
-   "orig_date": "2026-11-09T14:23:10+09:00"
+   "category": "정책"
   },
   {
    "title": "인천시교육청, 2026년 을지연습 평가 전국 최우수 기관 선정",
@@ -1614,23 +2371,7 @@
    },
    "source": "매일일보",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.m-i.kr/news/articleView.html?idxno=2016168",
-   "orig_date": "2026-11-09T14:22:55+09:00"
-  },
-  {
-   "title": "대전시교육청, 제10회 학교예술교육박람회 성료",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1wLTliTmZlM3RJZkFxUnNaXzZnN05RMC05ZV8tel9DNHNmc1NMVmJ5TXozdmtRaUlaM2pPa0U4c0RBTnFXc3p6eUVFaDdXajE5c194bXZ1WXUwdEg1dVBVNXA3WTBHTkhxU3FfQURmZWc?oc=5",
-   "date": "2026-11-09 14:20",
-   "extra": {
-    "pubTimestamp": 1794201651000,
-    "popularity": 2
-   },
-   "source": "신아일보",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.shinailbo.co.kr/news/articleView.html?idxno=5081273",
-   "orig_date": "2026-11-09T14:20:51+09:00"
+   "category": "정책"
   },
   {
    "title": "인천시교육청, 교육공동체·시민 걷기 한마당 개최…4000여명 참여",
@@ -1642,9 +2383,7 @@
    },
    "source": "매일일보",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.m-i.kr/news/articleView.html?idxno=2016164",
-   "orig_date": "2026-11-09T14:18:45+09:00"
+   "category": "정책"
   },
   {
    "title": "서울시교육청, '기본교육' 시민 토론회 개최…교육권 확장 논의",
@@ -1656,8 +2395,7 @@
    },
    "source": "메트로신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.metroseoul.co.kr/article/20261109500330"
+   "category": "정책"
   },
   {
    "title": "제주교육청 예산 인건비는 ↑, 학교 시설비는 ↓",
@@ -1669,9 +2407,7 @@
    },
    "source": "제주도민일보",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.jejudomin.co.kr/news/articleView.html?idxno=402110",
-   "orig_date": "2026-11-09T14:17:30+09:00"
+   "category": "정책"
   },
   {
    "title": "교육부, 일본과 AI 교육정책 협력 강화…초·중등부터 대학까지",
@@ -1683,9 +2419,7 @@
    },
    "source": "전자신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.etnews.com/20261109000276",
-   "orig_date": "2026-11-09T14:16:25+09:00"
+   "category": "정책"
   },
   {
    "title": "중·고등학교에서도 AI안경 부정행위 4건 적발…모두 0점 처리",
@@ -1697,9 +2431,7 @@
    },
    "source": "채널A",
    "summary": "",
-   "category": "정책",
-   "orig": "https://ichannela.com/news/detail/000000559052.do",
-   "orig_date": "2026-11-09T14:05:00+09:00"
+   "category": "정책"
   },
   {
    "title": "AI 교육부터 유학생 지원까지…한·일 교육당국 정책 교류",
@@ -1711,8 +2443,7 @@
    },
    "source": "메트로신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.metroseoul.co.kr/article/20261109500312"
+   "category": "정책"
   },
   {
    "title": "서울시교육청, 평생교육 10년 밑그림 그린다",
@@ -1724,21 +2455,7 @@
    },
    "source": "메트로신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.metroseoul.co.kr/article/20261109500310"
-  },
-  {
-   "title": "강원도교육청, 내년 예산 3조 9,653억 원 편성 ::::: 기사",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5DY3F3RVJ4NlFIaExOYWdxb1BDUm02TVpnX2MxOE1aMzRFRTFMVU9LTllwQTlsVFhRWW1fbnVUZUhMZ3dWSVNHa0NiSFpLRHl5UGc?oc=5",
-   "date": "2026-11-09 14:01",
-   "extra": {
-    "pubTimestamp": 1794200489000,
-    "popularity": 1
-   },
-   "source": "춘천MBC",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://chmbc.co.kr/article/GxIp78lN3wvU"
+   "category": "정책"
   },
   {
    "title": "수능 D-10, “AI 안경 쓰기만 해도 시험 무효”…교육부 \"모든 전자기기 반입 금지\"",
@@ -1750,9 +2467,7 @@
    },
    "source": "포커스타임즈",
    "summary": "",
-   "category": "정책",
-   "orig": "https://focustimes.co.kr/View.aspx?No=4303710",
-   "orig_date": "Mon, 09 Nov 2026 13:56:53"
+   "category": "정책"
   },
   {
    "title": "경북교육청, 포항·안동·영천지역 맞춤형 온동네 돌봄·교육센터 운영 본격 나선다",
@@ -1764,9 +2479,19 @@
    },
    "source": "이로운넷",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.eroun.net/news/articleView.html?idxno=94790",
-   "orig_date": "2026-11-09T13:52:34+09:00"
+   "category": "정책"
+  },
+  {
+   "title": "경남교육청, 수능 스마트안경 부정행위 막는다",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9KSHM4N0RzSlRXeXdMTU8wVndYTlVDV2I1V0VWMEYxdUVSNEhKYlZVaWZnQXdqV241dDBzcVJLc3VxTGo0TjI0c3JnYlJJNEQxUlZfN1V1SXBFYnlXc3B4QXRNQU5xMlpVeFE?oc=5",
+   "date": "2026-11-09 13:51",
+   "extra": {
+    "pubTimestamp": 1794199906000,
+    "popularity": 1
+   },
+   "source": "천지일보",
+   "summary": "",
+   "category": "정책"
   },
   {
    "title": "제주도교육청이 추진하는 '입학준비금' ... 환영과 우려가 동시에",
@@ -1778,9 +2503,7 @@
    },
    "source": "미디어제주",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.mediajeju.com/news/articleView.html?idxno=367261",
-   "orig_date": "2026-11-09T13:51:41+09:00"
+   "category": "정책"
   },
   {
    "title": "인천교육청, AI교육·시민 걷기로 미래역량·소통 강화",
@@ -1792,9 +2515,7 @@
    },
    "source": "천지일보",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.newscj.com/news/articleView.html?idxno=3447133",
-   "orig_date": "2026-11-09T13:46:29+09:00"
+   "category": "정책"
   },
   {
    "title": "중고교 AI 안경 내신 부정행위 4건 적발···시험 중 안경테 계속 만지작",
@@ -1806,9 +2527,7 @@
    },
    "source": "스마트비즈",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.smartbizn.com/news/articleView.html?idxno=158833",
-   "orig_date": "2026-11-09T13:45:21+09:00"
+   "category": "정책"
   },
   {
    "title": "경북교육청, 학생 주도 탐구 성과 공유 ‘세바공 오픈 아카이브’ 개최...중·고등학생 15개 팀 참가",
@@ -1820,9 +2539,7 @@
    },
    "source": "이로운넷",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.eroun.net/news/articleView.html?idxno=94786",
-   "orig_date": "2026-11-09T13:39:17+09:00"
+   "category": "정책"
   },
   {
    "title": "전북교육청, 2027학년도 학습연구년 교원 87명 선발",
@@ -1834,9 +2551,7 @@
    },
    "source": "전북미래교육신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://edujb.com/news/articleView.html?idxno=9771",
-   "orig_date": "2026-11-09T13:33:31+09:00"
+   "category": "정책"
   },
   {
    "title": "[현장영상] 전북교육청, 교육혁신선도지역 5곳 시작으로 14개 시군 전체 확대… “임기 내 전체 지정” 목표",
@@ -1848,9 +2563,7 @@
    },
    "source": "전북미래교육신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://edujb.com/news/articleView.html?idxno=9773",
-   "orig_date": "2026-11-09T13:33:06+09:00"
+   "category": "정책"
   },
   {
    "title": "미래엔, 초등 수학 심화 문제집 ‘수비수학 에이스’ 출간…3단계 학습 체계 완성",
@@ -1862,9 +2575,7 @@
    },
    "source": "파이낸셜투데이",
    "summary": "",
-   "category": "교재",
-   "orig": "http://www.ftoday.co.kr/news/articleView.html?idxno=369219",
-   "orig_date": "2026-11-09T13:31:49+09:00"
+   "category": "교재"
   },
   {
    "title": "제주교육청, 내년예산 1조6170억 편성…올해보다 2.4%↑",
@@ -1876,9 +2587,7 @@
    },
    "source": "뉴시스",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.newsis.com/view/NISX20261109_0003860391",
-   "orig_date": "2026-11-09T13:26:58+09:00"
+   "category": "정책"
   },
   {
    "title": "경기도교육청 ‘경기 수학 한마당’ 개최… AI 시대 수학교육 방향 모색",
@@ -1890,9 +2599,7 @@
    },
    "source": "천지일보",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.newscj.com/news/articleView.html?idxno=3446977",
-   "orig_date": "2026-11-09T13:26:51+09:00"
+   "category": "정책"
   },
   {
    "title": "경남교육청, 수능 104개 시험장에 스마트안경 전담 요원 배치",
@@ -1904,9 +2611,7 @@
    },
    "source": "경남미디어",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.mediagn.co.kr/news/articleView.html?idxno=31073",
-   "orig_date": "2026-11-09T13:23:06+09:00"
+   "category": "정책"
   },
   {
    "title": "미래엔, 수비수학 심화 학습서 출간",
@@ -1918,9 +2623,7 @@
    },
    "source": "한스경제",
    "summary": "",
-   "category": "",
-   "orig": "http://www.hansbiz.co.kr/news/articleView.html?idxno=881166",
-   "orig_date": "2026-11-09T13:22:05+09:00"
+   "category": ""
   },
   {
    "title": "로봇 기업 현직자가 직접 취업 상담…교육부, 로봇 부트캠프 학생 지원행사 6일 개최",
@@ -1932,9 +2635,7 @@
    },
    "source": "CCBS뉴스",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.toptvkorea.com/news/550999",
-   "orig_date": "2026-11-09T13:20:54+09:00"
+   "category": "정책"
   },
   {
    "title": "개인정보위·교육부, 스마트 안경 정조준",
@@ -1946,9 +2647,7 @@
    },
    "source": "더리포트",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.thereport.co.kr/news/articleView.html?idxno=93175",
-   "orig_date": "2026-11-09T13:17:17+09:00"
+   "category": "정책"
   },
   {
    "title": "교육부, 스마트 안경 관련 내신평가 부정행위 전수조사 결과",
@@ -1960,8 +2659,7 @@
    },
    "source": "누리일보",
    "summary": "",
-   "category": "정책",
-   "orig": "https://nuriilbo.com/news/article.html?no=938124"
+   "category": "정책"
   },
   {
    "title": "서울교육청, 서울 미래 교육 토론회 10일 개최… 기본 교육 방향 모색",
@@ -1973,50 +2671,7 @@
    },
    "source": "천지일보",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.newscj.com/news/articleView.html?idxno=3447114",
-   "orig_date": "2026-11-09T13:09:39+09:00"
-  },
-  {
-   "title": "\"수능보다 어려운 평가도구 만든다\"…충남교육청, 학생평가 전문가 300명 키운다",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE13Uzg5VW9fOVZMN3pfUXJ4NXFfSVU0dkNaQjhUUkNXaVM1RGlYb2djb2VOUmtiUC1tMl9JLXRyaVBMeUVkblA2b2NRTUxuSWtWMWxKXzF1WkxSQlo3NzJhNTZIaUo1R3B6aHNJNk80a28?oc=5",
-   "date": "2026-11-09 13:09",
-   "extra": {
-    "pubTimestamp": 1794197364000,
-    "popularity": 1
-   },
-   "source": "신아일보",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.shinailbo.co.kr/news/articleView.html?idxno=5081180",
-   "orig_date": "2026-11-09T13:09:24+09:00"
-  },
-  {
-   "title": "인천시교육청, AI 급여 점검 프로그램 학교에 보급",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9qYnp6WU8xU3o2R3B3RUZQVHNqcExvT0J4MnYwUWZCcWVQdnRnc05uTTRkYzZzYWNJV282Q015UUhvUHYzbmZTaVFsdHR1NUNLVXBILURyRU5GSk9nMUphRThR?oc=5",
-   "date": "2026-11-09 13:06",
-   "extra": {
-    "pubTimestamp": 1794197200000,
-    "popularity": 1
-   },
-   "source": "경인미래신문",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.kifuture.com/news/article.html?no=177980"
-  },
-  {
-   "title": "입학준비금 도입에 드림노트북 중단…디지털 교육 격차 비상",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBaYlJxY1ZhcVhvbmNtVnFEMmc5Q2dYRUYtdlAyU3hQV2ltb1d3TmE1NEZJU3BidEVJSnRSY05abDg3TzFSQ204VmFjWFduNElqQTc1NHFuYlQ0bjRNblJ3R2tLaTNtSEhYNWxzbg?oc=5",
-   "date": "2026-11-09 13:03",
-   "extra": {
-    "pubTimestamp": 1794197021000,
-    "popularity": 1
-   },
-   "source": "제주매일",
-   "summary": "",
-   "category": "",
-   "orig": "https://www.jejumaeil.net/news/articleView.html?idxno=406507",
-   "orig_date": "2026-11-09T13:03:41+09:00"
+   "category": "정책"
   },
   {
    "title": "서울시의회 윤유진 의원, 에듀테크 확대만큼 개인정보 보호와 수업 활용도 점검해야",
@@ -2028,8 +2683,7 @@
    },
    "source": "청년투데이",
    "summary": "",
-   "category": "에듀테크",
-   "orig": "https://www.fnnews21.com/news/articleView.html?idxno=59152"
+   "category": "에듀테크"
   },
   {
    "title": "인천시교육청, 기초학력 교재 371학급 지원",
@@ -2041,8 +2695,7 @@
    },
    "source": "경인미래신문",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.kifuture.com/news/article.html?no=177979"
+   "category": "정책"
   },
   {
    "title": "경남교육청, 2027 수능 '스마트안경' 부정 방지…104명 전담요원 배치",
@@ -2054,9 +2707,19 @@
    },
    "source": "www.gukjenews.com",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.gukjenews.com/news/articleView.html?idxno=3746172",
-   "orig_date": "2026-11-09T13:00:42+09:00"
+   "category": "정책"
+  },
+  {
+   "title": "부정행위 차단 … 경남교육청, 수능 시험장 '스마트안경 전담 요원' 배치",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1vRDdzajZCQjRINzdpLVdjbGZBenZBeFRpUkFubl94UEM3eTFSWDRDU25TSC1NeEdTSmdpcTNTbUNaYzZEbm5FMkd2QXFRaXRQdWRGX0tYeFJzZHczRW5iNw?oc=5",
+   "date": "2026-11-09 12:57",
+   "extra": {
+    "pubTimestamp": 1794196669000,
+    "popularity": 1
+   },
+   "source": "아시아경제",
+   "summary": "",
+   "category": "정책"
   },
   {
    "title": "제주도교육청 내년 예산 1조6170억원 편성",
@@ -2068,36 +2731,7 @@
    },
    "source": "제주매일",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.jejumaeil.net/news/articleView.html?idxno=406505",
-   "orig_date": "2026-11-09T12:55:40+09:00"
-  },
-  {
-   "title": "인천교육청 기초학력 교재 371학급 보급…교사 93.6% “만족”",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1qdVNJeU9FQTItQzhqbG9ZcW83TWpEYXZXc3JzVnVWekg3R1B3ZnctNlFlcFFJaDNiTi1DT3UxQXp5dm84RXBoZFVOSU1McFVidldtNXFzM21VQQ?oc=5",
-   "date": "2026-11-09 12:50",
-   "extra": {
-    "pubTimestamp": 1794196200000,
-    "popularity": 1
-   },
-   "source": "브릿지경제",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.viva100.com/article/20261109500682"
-  },
-  {
-   "title": "인천시교육청, K-SDGs 청소년 포럼 개최...미래 도시 해법 모색",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5VRHp4T0txTFFKNDRqdVlITXJKQ1VKaE9TdUdkMkstNThwbVl1Nzl1anViNDJJcERUbXlSMHduYnJydV82RWU1b045YnNHRWdsUW5PS0pVN0RwVVZsUVd1SUlQbDBqWTZx?oc=5",
-   "date": "2026-11-09 12:46",
-   "extra": {
-    "pubTimestamp": 1794195979000,
-    "popularity": 1
-   },
-   "source": "경인매일",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.kmaeil.com/news/articleView.html?idxno=657468",
-   "orig_date": "2026-11-09T12:46:19+09:00"
+   "category": "정책"
   },
   {
    "title": "제주교육청, 2027년 교육예산 1조 6170억 원 편성…“학교 현장 지원 최우선”",
@@ -2109,50 +2743,19 @@
    },
    "source": "뉴스N제주",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.newsnjeju.com/news/articleView.html?idxno=304052",
-   "orig_date": "2026-11-09T12:45:00+09:00"
+   "category": "정책"
   },
   {
-   "title": "인천시교육청, 시민 4천여 명과 읽·걷·쓰 연계 시민 걷기 행사 개최",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE43dnlHb3duWHJ2VkxZaTZZNV9jRTNJeVlUalZ4VnI1c0ZJZnY1d1BfNUZ6MFd4Y0lRQ2IyR2VFeFJudDh2dFI0X3pDUUtNdFBpSUE1c1pDVjFsMVVTZnVzZUQ1WVpBTDQ?oc=5",
-   "date": "2026-11-09 12:43",
+   "title": "경북교육청 ‘세바공 오픈 아카이브’ 학생 15개팀 탐구 성과 공유",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5keDV3S2h0ZWIyeGpqTHh0RHlCd0Z2WTlaSHRMRExvbEh3YjNxWDR5X1NWM0lfUG0tNEpKQXF3QkpjcWNoRnJkeFZIdVdfQmZpSjl6VzJ6ZDE2eHBfaTFDd0l2Z2NxS0ZsYnc?oc=5",
+   "date": "2026-11-09 12:44",
    "extra": {
-    "pubTimestamp": 1794195800000,
+    "pubTimestamp": 1794195865000,
     "popularity": 1
    },
-   "source": "팍스경제TV",
+   "source": "천지일보",
    "summary": "",
-   "category": "정책",
-   "orig": "http://www.paxetv.com/news/articleView.html?idxno=286380"
-  },
-  {
-   "title": "인천시교육청, 청소년 약물 사용 및 인식 실태조사",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1jU1BRZWJKdWlmUGJTQVUyWGlNMkt2alpQUGlnWDRYMkJOWW9VV2prZzlyU1ZjTTZmUnpOOURMLTlER19sNWJvUVZiRWpVR1Z2VUF0NlBNdlFBWjJ0V2RtM294dGw0TWhObmc?oc=5",
-   "date": "2026-11-09 12:41",
-   "extra": {
-    "pubTimestamp": 1794195710000,
-    "popularity": 1
-   },
-   "source": "미디어인천신문",
-   "summary": "",
-   "category": "정책",
-   "orig": "http://www.mediaic.co.kr/news/articleView.html?idxno=85605",
-   "orig_date": "2026-11-09T12:41:50+09:00"
-  },
-  {
-   "title": "인천시교육청, AI미래채움 교육페스티벌 개최",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1nTXJuM3VIVFdVYVBSRkJYWnlLaGJxaFNBM20yVmhDWEFNWnFNYnk1R1FaaU1KZ2JySEZSLXFQVWlRZmltVmwtUmtHWkgtaDBnQXhQeFFsUUt4UVpUeEtESkNYQjRSelZoZGxodXh5dkk?oc=5",
-   "date": "2026-11-09 12:38",
-   "extra": {
-    "pubTimestamp": 1794195529000,
-    "popularity": 1
-   },
-   "source": "신아일보",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.shinailbo.co.kr/news/articleView.html?idxno=5081225",
-   "orig_date": "2026-11-09T12:38:49+09:00"
+   "category": "정책"
   },
   {
    "title": "제주교육청 내년 예산 1조 6170억원 … \"학교 현장 지원 우선\"",
@@ -2164,9 +2767,7 @@
    },
    "source": "제주투데이",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.ijejutoday.com/news/articleView.html?idxno=403661",
-   "orig_date": "2026-11-09T12:23:01+09:00"
+   "category": "정책"
   },
   {
    "title": "제주교육청 내년 예산 1조6170억원 ‘사업 재원은 199억원’ 감소",
@@ -2178,37 +2779,7 @@
    },
    "source": "뉴스프리존",
    "summary": "",
-   "category": "정책",
-   "orig": "https://www.newsfreezone.co.kr/news/articleView.html?idxno=718324",
-   "orig_date": "2026-11-09T12:08:43+09:00"
-  },
-  {
-   "title": "서울시교육청, 행정심판 전문성 강화로 '시민 권익 보호' 앞장",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE13NENCR0JWNmx0X1c3RHhqaEVPSUNkUDNERl83X3Z1V1hiSTZMQWtMdjh1bDlvQ0t1aUlSaUUwVXdfeHVQc0oxR1ZyZnh0d2ZINzhILVRNMEVGcVBDN29KcjV0aE1EUXMwQlE?oc=5",
-   "date": "2026-11-09 12:07",
-   "extra": {
-    "pubTimestamp": 1794193664000,
-    "popularity": 1
-   },
-   "source": "관악신문",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.gtimes.co.kr/news/articleView.html?idxno=22149",
-   "orig_date": "2026-11-09T12:07:44+09:00"
-  },
-  {
-   "title": "세종시교육청, 로봇 챌린지 리그 개최",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1QclJvN3RISU53TDl2WmUxQnVZWUNweTFKeE4zMXoyaHlxR25McFExZUtVQllTbGZ3UEtTVmNzdEhFbEJRY1hTYVNtdGdBRUxyZVhNRWFxZWJ3dlNxS1pISlZDTnBUOEpXcWdVemZ3MnY0QzA?oc=5",
-   "date": "2026-11-09 12:02",
-   "extra": {
-    "pubTimestamp": 1794193354000,
-    "popularity": 1
-   },
-   "source": "세종시민일보",
-   "summary": "",
-   "category": "정책",
-   "orig": "https://www.sejongyeonhap.co.kr/news/articleView.html?idxno=58823",
-   "orig_date": "2026-11-09T12:02:34+09:00"
+   "category": "정책"
   },
   {
    "title": "교육부, 일본 문부과학성과 AI교육 등 협력 논의",
@@ -2271,14 +2842,14 @@
    "category": "정책"
   },
   {
-   "title": "AI 안경 바꿔 쓰고 초록 불빛에 들통…내신 부정행위 4건 적발",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE4zQ3lXcU1VZ2tVcHhVT3k0akhPWHdOMzFvY2lTUEpaR3M2c01INkVTQXR0SDVGN04wV3Y4R2VFakEyUzJDV1M0cGdIa20tSk01dmpJLUVZZE5fZw?oc=5",
+   "title": "“안경테 만지작”…중고교 번진 ‘AI 안경 컨닝’ 수능도 비상",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE54Y0w3WGtzLTdzeEVUMzZyODFXOFpTRkx4eUtkWGZzY0YtQWZCOHR0LVlOX1E5OEFDcy01c1h0SzBvZk5WVVNIUlNGT3RRRUJvQTlkbW1n?oc=5",
    "date": "2026-11-09 12:00",
    "extra": {
     "pubTimestamp": 1794193200000,
     "popularity": 1
    },
-   "source": "뉴스1",
+   "source": "중앙일보",
    "summary": "",
    "category": "정책"
   },
@@ -2307,30 +2878,6 @@
    "category": "정책"
   },
   {
-   "title": "“유아부터 노년까지 배울 권리 보장”…서울시교육청, 기본교육 토론회",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9oM2h2MjFTYklEZ1VlRENRSnZJN0t6X0E4ZzNqdnFudjJjc3pEdU5mRGJWSzM5MGxLbE1BWjV4SGd3dGVGSmVFb25nUlBwcVJOeEYwaGFOSU5aV180cTBxeGRQTE85bHh6?oc=5",
-   "date": "2026-11-09 12:00",
-   "extra": {
-    "pubTimestamp": 1794193200000,
-    "popularity": 1
-   },
-   "source": "에듀프레스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "서울교육청, '기본교육' 정책 구체화…시민 100명과 토론",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9PeDhVLWRtQWVHclZ4WWMtTVB6U3RQMVVKMlZGMUo1cVZBZzFnemxxQlYtS09OcXlhWmtaVzA2Y3pMLXpOb1JDNTQ3YnMzbE1HdHozN21NVlM5QQ?oc=5",
-   "date": "2026-11-09 12:00",
-   "extra": {
-    "pubTimestamp": 1794193200000,
-    "popularity": 1
-   },
-   "source": "뉴스1",
-   "summary": "",
-   "category": "정책"
-  },
-  {
    "title": "시험 중 안경테 만지작…중고교 AI 안경 부정행위 4건 적발",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1scjJjOWM1R0JDVmJuX0xMNmRfXzd0SXZIbUl0YUdIaVkwMGVUZzRVcXd6OEJRVUxyZXhOLVVQeHZKWlFFZVlGcjdZa2dHV2hUYmJlTlh3M1BZVVVxLTJvM3k0dEUwMF8tRTZv?oc=5",
    "date": "2026-11-09 11:59",
@@ -2351,30 +2898,6 @@
     "popularity": 1
    },
    "source": "느린인뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "[D-BIZ 지역뉴스] 금천구, AR 접목 보드게임 ‘기후재난 생존 원정대’ 개발…탄소중립 교육 새 바람",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFA4T2dJWnFFZFI1ZGg2OHFCYmNYaE1LN3djc1Vkb0pqZHFJV3c5UmVrZjBzd21GbXJlNUFhaDdlUkY3ZGJqVzhHS2dXcHVHZFdSclRqdVkzMHJVN1VYb3pMd3Fnc3BtYXJXMkxBMQ?oc=5",
-   "date": "2026-11-09 11:50",
-   "extra": {
-    "pubTimestamp": 1794192646000,
-    "popularity": 1
-   },
-   "source": "데일리비즈온",
-   "summary": "",
-   "category": "에듀테크"
-  },
-  {
-   "title": "인천시교육청, ‘2026 시민 걷기 한마당’ 개최…교육공동체 소통 입지 다졌다",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9venFXNkVKeHFmS1E2M0M2QWtPc1BEYWt2a1hZOXEyWXJjSkFWV0xoSUMya1k4UllIc243dG5yUkZrQW1BeDVuYmU1R2RwMllUZjFnS0tQaW1RdWlvVjg4cXgySWoxRngw?oc=5",
-   "date": "2026-11-09 11:50",
-   "extra": {
-    "pubTimestamp": 1794192646000,
-    "popularity": 1
-   },
-   "source": "한국NGO신문",
    "summary": "",
    "category": "정책"
   },
@@ -2411,6 +2934,18 @@
     "popularity": 1
    },
    "source": "헤드라인제주",
+   "summary": "",
+   "category": "정책"
+  },
+  {
+   "title": "[패트롤]경북도-경북교육청",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1KNXpTQkdieklWQV9WeXh0em56OUZiNGdYMGVVSnI2U1JUdlpTazZ5RGdRQXdtaHBVWkdBUlJndnJ2eGZaQVZyaVpxaGFtX0lSVE5mY0p1ZTJvc2c?oc=5",
+   "date": "2026-11-09 11:32",
+   "extra": {
+    "pubTimestamp": 1794191536000,
+    "popularity": 1
+   },
+   "source": "에너지경제신문",
    "summary": "",
    "category": "정책"
   },
@@ -2487,18 +3022,6 @@
    "category": "에듀테크"
   },
   {
-   "title": "서울시교육청, 학교장·학교운영위원장 공감·동행 콘서트 개최",
-   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9Lek5JQTBqYkJJU2luY3Q2TlktVXJ5bjRuRVUxaFFIdlVWcnh0OHF0eXd4ci1WV21XY0I0YjI1bm5OTGVSQnN3dWszcUxQMDR1QmtFZVdPRzZFTTBXWV9MR3lHbUU?oc=5",
-   "date": "2026-11-09 11:02",
-   "extra": {
-    "pubTimestamp": 1794189756000,
-    "popularity": 1
-   },
-   "source": "매일일보",
-   "summary": "",
-   "category": "정책"
-  },
-  {
    "title": "제주교육청, 내년 예산 1조6170억 편성…\"고강도 세출 구조조정\"",
    "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE15NmI5ZUJfUVkwVG9VNWlLLTVqWGpGY181eE9mZ2ZzVFZxUjVhU21SNHFlM3Z5cWJneU4tbG5EVjRiUGlFTWw3ZjYtZ2RraHp4?oc=5",
    "date": "2026-11-09 11:02",
@@ -2507,18 +3030,6 @@
     "popularity": 1
    },
    "source": "뉴스1",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "대전시교육청, 유치원·어린이집 찾아가는 문화예술 교육 운영",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1SSE1pTFlzYWYxMEx2NDFsSEhsRy02dkFXdzJVbVZPdC04VE51ajVyR1dld1hDZGNvREdySnVhSVZINFZieEFvbzdHNWs3Y25pUXhmdHFaWTdZeFgyMDd6YnRIV2wzblJMclE?oc=5",
-   "date": "2026-11-09 10:58",
-   "extra": {
-    "pubTimestamp": 1794189501000,
-    "popularity": 1
-   },
-   "source": "천지일보",
    "summary": "",
    "category": "정책"
   },
@@ -2543,18 +3054,6 @@
     "popularity": 1
    },
    "source": "국제뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "대전시교육청, 소규모 유치원·어린이집 찾아가는 맞춤형 문화예술 교육 실시",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBoREc5dVJWdFJSNFVrVTlEZ3NuU3FVcDcwNzhuLXhkdjVabjktbHJ6aDEyTXFwdDZHekxseFJNc0RTbk5ydGduN0h6QWVxTWZhNUpkTGlKY19wT3haczlXcThKcjJPOWVlN2x1dnRobzE?oc=5",
-   "date": "2026-11-09 10:15",
-   "extra": {
-    "pubTimestamp": 1794186932000,
-    "popularity": 1
-   },
-   "source": "신아일보",
    "summary": "",
    "category": "정책"
   },
@@ -2608,39 +3107,15 @@
   },
   {
    "title": "미래엔, 초등 수학 심화 문제집 ‘수비수학 ACE’ 출간… 3단계 학습 체계 완성",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1LR2ZKWGdRYWdRVFlnUVFjY2taVkFfVmtnanBsS3poZUZfU2ZVeGlzbHJkX2ZRQlFNYjA3MC1vQ0Q4YlY0ZVpMZjJFUUJqWEZCWi1rZDJNaU8tTlNDb1Yw?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE50eXZJTzRhblVLVEV1N2wwY0RGc1hyelFLazltU1NqWFZSTVlIUXV3ejNPRHFwSXlYNXJQNG5wV3c5VlZ4OEM1NXYwemlYZ0hxekR4bkNfR1EtaURRaTJR?oc=5",
    "date": "2026-11-09 09:23",
    "extra": {
-    "pubTimestamp": 1794183780000,
+    "pubTimestamp": 1794183807000,
     "popularity": 1
    },
-   "source": "https://press.theleader.kr/",
+   "source": "뉴스와이어",
    "summary": "",
    "category": "교재"
-  },
-  {
-   "title": "충남교육청평생교육원, ‘2026년 평생학습축제’ 성황",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5hWEpxVGp6dGdpXzRnWFFaOFRISWl5MWlhUWdBcWdnQllBaS1hOEZXVG9pZ0JaUzhOLXNfdjdiVkZydmVHWTBpYWE4bVZZSm8xcFZjc3FWeWpGeFhtZ3RDSERtekJaN1kyTHU2NTd2UkE?oc=5",
-   "date": "2026-11-09 09:15",
-   "extra": {
-    "pubTimestamp": 1794183332000,
-    "popularity": 1
-   },
-   "source": "로컬투데이",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "멘토와 함께 고민은 나누고, 걱정은 덜어내다..대전시교육청, 위(Wee) 센터 ‘드림’ 프로그램 운영",
-   "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTFBZajBJVXRYRlZ3VVZJaUZESlBUNzJScm05NGFFUUFaZEc3NXgxYmJOZFh5bjc4TWVzUG1kX09WZ0hTdmh4?oc=5",
-   "date": "2026-11-09 09:13",
-   "extra": {
-    "pubTimestamp": 1794183180000,
-    "popularity": 1
-   },
-   "source": "뉴스파고",
-   "summary": "",
-   "category": "정책"
   },
   {
    "title": "충북교육청, 충북건축사회로부터 장학금 500만 원 기탁받아 : 네이버 블로그",
@@ -2651,30 +3126,6 @@
     "popularity": 1
    },
    "source": "Naver Blog",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "대전시교육청, 유치원·어린이집에 문화예술 체험교육 지원",
-   "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTFBpS0N5WnZETG1FdmFGNVgwLUtlZFB6LWY5MG01UkczMW4yOF9VVVFsbExiX09XeFhLcDBidENyei1kamtx?oc=5",
-   "date": "2026-11-09 09:09",
-   "extra": {
-    "pubTimestamp": 1794182940000,
-    "popularity": 1
-   },
-   "source": "뉴스파고",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "경북교육청, 2027학년도 직장어린이집 원아 모집",
-   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9MRldjYnFlQzF2Rm5aTVNMNW9yWjJIY0RWalp5RW8wbTktbUZYRWhCNlozdXFWQlRHcjZMVHJZT0V4UnlYaUdrRjRIa3Q1dUxUczN3QWI1R21lT2JBM3BRWjdyZ0Z1QQ?oc=5",
-   "date": "2026-11-09 08:46",
-   "extra": {
-    "pubTimestamp": 1794181587000,
-    "popularity": 1
-   },
-   "source": "데일리대구경북뉴스",
    "summary": "",
    "category": "정책"
   },
@@ -2775,30 +3226,6 @@
    "category": ""
   },
   {
-   "title": "서울교육청 ‘평생교육 미래 10년’ 정책 포럼 16일 개최",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE82anUwMDFZY0QweUxreWZQWGJXN2tjQXhPM1M0TVRXOXdXeTZZRlM3MnBLenVsaksyOS11UGtqR2NfSlA0UExxdmxfRDdubzBJX2k1Ym92Mm1BMVY4Z0U5Z2N2eEdSVllrVUE?oc=5",
-   "date": "2026-11-09 06:00",
-   "extra": {
-    "pubTimestamp": 1794171600000,
-    "popularity": 1
-   },
-   "source": "천지일보",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "서울시교육청, 평생교육 10년 청사진 논의…공영형 교육시설·시니어 캠퍼스 추진",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1KS0NpXzFrLVh1VHpqZ3piYnJ6d21DVGFaRG5pcWV3c3VqamlPY0hQemRCQ1ZfSnFxazRwdGpZaFozeXhhaEN2NE85SG1FMkRKTk45dDduUjQzY1Nn?oc=5",
-   "date": "2026-11-09 06:00",
-   "extra": {
-    "pubTimestamp": 1794171600000,
-    "popularity": 1
-   },
-   "source": "뉴스핌",
-   "summary": "",
-   "category": "정책"
-  },
-  {
    "title": "현준우 아이스크림미디어 대표 “교실에 맞는 AI가 경쟁력…글로벌 시장 넓힐 것”",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5hcnlkblV4OS1FanZOSGpVOG4wSnRYMFlpV1JUQWdxQWxQaFdmaG8zeGwwcC0xeVJBZWNwWndDUmREVDJ6TzVfSERBb2kwMGRvWk9ySQ?oc=5",
    "date": "2026-11-09 06:00",
@@ -2809,30 +3236,6 @@
    "source": "이투데이",
    "summary": "",
    "category": ""
-  },
-  {
-   "title": "경기도교육청미래과학교육원, 학생이 기획한 수학 체험전 열어",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE81WFdmY290WV8yRXlubTNxbjZuQXVHMzVHcVA0SVZFRXdtX1drall1VU91UkpKX3NJdHl3WHBNSDY0M05icGRJZmhBbzk1REdMRVlCYk1KT1ZiYTJTaFhLaklXYWw4alJqT0E?oc=5",
-   "date": "2026-11-09 02:29",
-   "extra": {
-    "pubTimestamp": 1794158940000,
-    "popularity": 1
-   },
-   "source": "비즈월드",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "[패트롤] 인천시-인천시의회-인천시교육청-인천도시공사",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9qd0JRcTd5dENtTGR4eXlzVDRqSHhodTdFbjhhNlVRTHZvdHRHcDlLeVNUUkFXeEw4cmlXaV9QekhvR21Wd1hjbGtieW94OUF4a1pCaldtN2pRNEU?oc=5",
-   "date": "2026-11-09 00:38",
-   "extra": {
-    "pubTimestamp": 1794152312000,
-    "popularity": 2
-   },
-   "source": "에너지경제신문",
-   "summary": "",
-   "category": "정책"
   },
   {
    "title": "경북교육청연수원, 회복적 생활교육 직무연수 운영…중등교사 77명 참여",
@@ -2847,14 +3250,26 @@
    "category": "정책"
   },
   {
-   "title": "[패트롤]영천시-대구보건대-경북문화관광공사-대구시교육청",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1VanlhTGwzUXJXZ2RKcVZYbGNyRDItV2g3ZFVSUDM5LVFQcDBTYzVfN1ZCVlVEdXp4bHkzRi11NjdZZkw4N3oxVmVXZVJGelBOUkxSbURxRjBfRnc?oc=5",
-   "date": "2026-11-08 16:49",
+   "title": "충남교육청, 찾아가는 마을 학교 성장 배움 자리 운영",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE00VDJHWDBtaHUwXy1uUzZaZUxucmtnRkw0LWtQY21OZTMyN1lSS1hQUlZrLTNONTdZaHVzVFZtTjFYUjJWUkx6dWlqaDE2NjF2ZWgtZFRNWkYweC1DZkFzRTJGc3dCb0dfVHpvNUZ5VWtsa2M?oc=5",
+   "date": "2026-11-08 17:00",
    "extra": {
-    "pubTimestamp": 1794124183000,
+    "pubTimestamp": 1794124800000,
     "popularity": 1
    },
-   "source": "에너지경제신문",
+   "source": "충남일보",
+   "summary": "",
+   "category": "정책"
+  },
+  {
+   "title": "[포토] 충남교육청, 중학교 교육과정 성과 공유 학교장 배움 자리 개최",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9xLWVIVzdKd1FmRWpGS2JrSEREOXRUQnZtM3FCV0Z3SExpQWhJcFcwcDhfamVGSENwNWVoRXlYNUNEdU5ubkppaV82QlRIUFlEOTllVTVEWVNKa1dOYnhmbFpBdzFScVNiQ29MUTVaaUw4NTQ?oc=5",
+   "date": "2026-11-08 17:00",
+   "extra": {
+    "pubTimestamp": 1794124800000,
+    "popularity": 1
+   },
+   "source": "충남일보",
    "summary": "",
    "category": "정책"
   },
@@ -2867,30 +3282,6 @@
     "popularity": 1
    },
    "source": "KBS 뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "경남교육청·월드비전, 경남 학생 1954명 '꿈 지원'",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE40akU2dXNVbnp3dV9OYjQ1a0t2LTB3RTV4Wmh1S0cybGZ5Rm1mNG5rYkJBMnVJWGlyc2kzazluMkQ4eVBNdWUtc0tTQW0weHIzUEE?oc=5",
-   "date": "2026-11-08 16:18",
-   "extra": {
-    "pubTimestamp": 1794122297000,
-    "popularity": 1
-   },
-   "source": "노컷뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "대구시교육청, 미래교육 정책 방향 논의…AI·평가 혁신 등 전문가 의견 수렴",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE4weHFsMW9FQzh5cmV1Zl9qRGtVeWtZMWFfTWxBMTVVTUM1ZEZUSWE2RnZoekdSampXMkx5WGUyaFEyQlZJOGxvaGZwd3pnZC1IYjFjYXdkYUV5UQ?oc=5",
-   "date": "2026-11-08 16:05",
-   "extra": {
-    "pubTimestamp": 1794121500000,
-    "popularity": 1
-   },
-   "source": "경북매일",
    "summary": "",
    "category": "정책"
   },
@@ -2919,18 +3310,6 @@
    "category": "에듀테크"
   },
   {
-   "title": "전남광주교육청 \"수능 D-10, 시간표 맞춰 실전감각 유지\"",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBGSzlVbTRKcG5PRlBLZ3VvTy1ubUp0WnBTSzlZbDNpdUNGQ0g1ZHIxYnhzdVhiVDRxOUVOQUx6dVF5Z19adlI2a04yR3dsUTlmUzgyeVhRYXMwOEc1OVRletIBYEFVX3lxTFBGSzlVbTRKcG5PRlBLZ3VvTy1ubUp0WnBTSzlZbDNpdUNGQ0g1ZHIxYnhzdVhiVDRxOUVOQUx6dVF5Z19adlI2a04yR3dsUTlmUzgyeVhRYXMwOEc1OVRleg?oc=5",
-   "date": "2026-11-08 12:00",
-   "extra": {
-    "pubTimestamp": 1794106809000,
-    "popularity": 1
-   },
-   "source": "연합뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
    "title": "AI 안경 부정행위, 대학 입시 첫 형사 고소…시험장 감독 강화",
    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE14Yk1tUnJWUk1GeTZLeFFwbjhRZXQ5ZnYwSkZQbnU0Q0xuX3hRN0dQYWMyZG1QOGF5clZoSUthZzM5STJFNV92S3h3UUxKdG1LSklWWnlrWF9LV1Ytam4yQ2dnRDVxQnJwOFZMNF9n?oc=5",
    "date": "2026-11-08 11:58",
@@ -2939,18 +3318,6 @@
     "popularity": 1
    },
    "source": "https://www.seoulilbo.co.kr/",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "자카르타한국학교, 전북교육청과 손잡고 한국어 문해력 높인다",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1qblJVSHU3TXpJLWF5WktpNzAzUHRTZjlncG1iZE9WN25IYy1nY3BoRjMxRzMxTmFON2E1cXBOcEpBNzFoZWZGX1JUcWRvaXkzMDJUdlU5a0UwMWY2ZUZTSXZ5bHVGUUtITEVtZw?oc=5",
-   "date": "2026-11-08 10:25",
-   "extra": {
-    "pubTimestamp": 1794101134000,
-    "popularity": 1
-   },
-   "source": "재외동포신문",
    "summary": "",
    "category": "정책"
   },
@@ -2967,54 +3334,6 @@
    "category": "정책"
   },
   {
-   "title": "경북교육청, IB 교육 확산 거점 8개교 추가 선정",
-   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9CX2RSWjkwVVJTdG4wT3dzTWFrUnI4VG54NXFrdkx5UmVNTHFMVERQVVpaWFZqb3RTbTlJanBnY3BYVkpzdWdfS3Y5VWFxT2dPME9ra3BlNGNfWF8tUGNDdFJCeFhOMFE1N3JiRVdSbTVqbW1kVWtLSFF30gF_QVVfeXFMUGlLX0d1SF9pOUtBc1VQMDZ5ZHVJaDdBYTZfZC1YeUdMdWNBeDBrZ0NJaUZXc19qSWhYcDZHcHlGdFJDbEhKT0dyTl9ZS3NhT2NRZlpVcHdSRkhHMFpRbTQ3RTVNTWlZdEhKdXJzemFsbFI4aFI5dmtsR3E1eHdYQQ?oc=5",
-   "date": "2026-11-07 13:59",
-   "extra": {
-    "pubTimestamp": 1794027540000,
-    "popularity": 1
-   },
-   "source": "뉴데일리 대구경북",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "경북교육청, 4000만 원 미만 3자 단가계약 '차수배제' 제외",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBPckZHMFluNWYtOTRIQXFybnZNMjk0dTJNdlhnSHJIQkNCczNhSDFOZXBnYTJuVTA0RWtRME1GcWs5cXlsd3ZYQzZpZ2dqN0RJOHFsZFJjdExFQ1dJVnNR?oc=5",
-   "date": "2026-11-07 11:19",
-   "extra": {
-    "pubTimestamp": 1794017948000,
-    "popularity": 1
-   },
-   "source": "뉴스1",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "경남교육청 '어린이 교통안전 골든벨'…안전문화 체험 확산",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFAtdkNmSXU5dFNna3BUU1NTUXdXR1pEN2wxTVhzVkpYODRxRy1QdzJ6XzV5Q2htR2VoSnRzQjVzTnQ3WnE4SzZSU2ttX2pJUHh2Ri14dE0tWlhfeDTSAWBBVV95cUxNZmVETGFEbnBEcXVJdGMzOWk5dHRpZUIzNm85TVVBM0ZjcGJpQWZtcWZxc0FzTWVHTUJpdGtFd0d1eGNBQ3V5TXUtbm5XYXdQZ2N4bEZDMDdEUzZNWTZMMzQ?oc=5",
-   "date": "2026-11-07 09:05",
-   "extra": {
-    "pubTimestamp": 1794009900000,
-    "popularity": 1
-   },
-   "source": "연합뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "경북교육청, 2027학년도 IB 관심학교 8개교 선정…탐구 중심 교육 확대",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE8wYXBRLUtiRkM3ejM3X0FQbkNLaE9RS0J1SDQzS0U0dHpvM1MwZU9DOTBaQ05aak9CMmxGYVozdmE4Vm9GNzNCUlgzSHV4cEtVbnBoLXF2ajhJSldqX2tkN1JxSmlfQW5GTlM5OE9vSQ?oc=5",
-   "date": "2026-11-06 23:58",
-   "extra": {
-    "pubTimestamp": 1793977123000,
-    "popularity": 1
-   },
-   "source": "경북일보",
-   "summary": "",
-   "category": "정책"
-  },
-  {
    "title": "전북교육청, 초·중·고 42개교 대상 AI 리터러시 사제동행 교육 12월까지 운영",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9xUkdHdkp2RkQwbnBaamJDelNIWHo1ckl0bGgyX2NoZkxLY0l0NVRDOGVBX254MGN0VnhLbm5abkJHTENfV2lBZ0NHYWpOSktrY3VXNTBVcTZNQkExZWdR?oc=5",
    "date": "2026-11-06 19:36",
@@ -3025,30 +3344,6 @@
    "source": "전북미래교육신문",
    "summary": "",
    "category": "정책"
-  },
-  {
-   "title": "전북교육청, ‘초등어휘사전 1600’ 자카르타한국학교에 140권 전달",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFB1QVhCVTM5T2hlOGF3Z194QnlvT1p0ZXJObEZ2Zk9QLUpmTVhNSTRiM3UtMWtMaVNCNVhTOWJvaGg2Q2VvRTVyWjJYUXliM3M3dkFZeXBKVGljX1piaDQ4?oc=5",
-   "date": "2026-11-06 19:36",
-   "extra": {
-    "pubTimestamp": 1793961398000,
-    "popularity": 1
-   },
-   "source": "전북미래교육신문",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "교육부, 발달장애 학생 특성 고려 ‘AI·디지털 교육자료’ 신학기 보급",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBVRWNQYThCU0JqeFFXY0tJSXJfZVZEbDJyWS1uZm9ZaTlmZGpTc1NvTEtQYTlVazExYS1pZ0dQV2huM2FaSUtEbWZMMFduOE1VMndKZWw0RTdGMDdCNGlleU1lOUQwYlVoX3E2Znp30gFyQVVfeXFMTWthdzJDdWM1MEtSSFdYQ0xWUnY3bEljTXU5a21LUDFqWTBuaFpOb1FHMzRYQllxRzQ3VmM4eTBiSUZsVjNPTDJqNGtsblpRWF80dlhfSkxmMWstU2hqODR6dkNuOEtSM1R4cXlhRG9ZOFNR?oc=5",
-   "date": "2026-11-06 17:37",
-   "extra": {
-    "pubTimestamp": 1793954220000,
-    "popularity": 1
-   },
-   "source": "에이블뉴스",
-   "summary": "",
-   "category": "AIDT"
   },
   {
    "title": "전북도교육청, 도내 직업계고 취업률 54.8%…전년보다 3.2%p 상승",
@@ -3183,50 +3478,14 @@
    "category": "에듀테크"
   },
   {
-   "title": "제주도교육청, 학교 현장 지원 강화…교육전문직원 1대1 소통체계 활성화",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE84dFFwdWM5ZDhYOFRuMmdqcmFBY0dJSVdYdHNoX0l4eDV1Skl1ZC11a0FCTnlITHNsR1lDN3ZsN3VrSDlRcTZNX3V5enV3aWNMSlpEM3kwRXE1ZlQ4MFcxTFVmVDRhUm5xQ2fSAW5BVV95cUxQekg1WTRScm1IQ2lja2N1LTdUN3Bqc21kNmw4UjZCTTQtVWZ4YjdNeXhuRDJlOVd6V2V1NjNiNTJvalBCWTE4amQ1eDhtUi0yaTVad1RpdWxDM2lVMkU0UTJLNWY5Y3VtVEFkWWRYdw?oc=5",
-   "date": "2026-11-06 10:40",
+   "title": "경남교육청·월드비전, '꿈꾸는 아이들' 지원금…1천954명 대상",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBHY0VYTkY0WXZEbkpnTzVwTUQycEdyTTdQU0pCSlRxbnktakxiZGxkUGtBWGFUTTNocWx4ZjdEZzdpUVlNLVVZNGM3VWJPNTJYMjVjdGpXU1FDTGfSAWBBVV95cUxQZ2N6WlNUMVRRcGhNQTViWlFrUldHOW9PUHpWUUVUMFcxRlZYWFRyMUwzbUNGMmRBS3dCcm9kYmJoSUExQkJDaVYtTmszVFVSSnZreWRlNzdpRlY3TDVkcWU?oc=5",
+   "date": "2026-11-05 16:50",
    "extra": {
-    "pubTimestamp": 1793929215000,
+    "pubTimestamp": 1793865001000,
     "popularity": 1
    },
-   "source": "제주뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "제주도교육청, 교육전문직원 대상 소통관 연수",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1YQ3dDVW5FTll4Vzl2a0d3dUFzSVN2ajI1RTJjLWw2bXRNZUlENm9sanpFRklQeExaVV9BQVdST2FzR1Z4NHBwUDBZLXdUZDliSFdPMW9idlpHV25tSHp3NjFsNmdKVlpR?oc=5",
-   "date": "2026-11-06 10:32",
-   "extra": {
-    "pubTimestamp": 1793928732000,
-    "popularity": 1
-   },
-   "source": "제주환경일보",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "‘학교 현장 목소리 어떻게 담나’ 제주교육청, 소통관 워크숍",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9ld1hXT1k4LXFTTTR2MmFpcGgxeGFUOUxSbDNKN2hRUmJsazVnb2Q5dmQtWHFuR0dXNlI3Wk15ckpxMHV1SGs3N1JDRm5wZUdmXzE5OF9rQTJkcEZTNzZYY1VGRC1uSFVOSUkyTXVkclljc3PSAXdBVV95cUxPZHkzUUxmalJzSlRhUGxUaGZNQ05iUlR4U1dBWTh6R2ZkTXctbXlQWjB2b0lLSGlBajhXS2Vqd0VLTHppbDJWS1lvT3NndDhvZEdOWWFLSzZXbGxJVXZmbGJPemtSeWZjYzdsYm9MQTN4TjJmQmxtRQ?oc=5",
-   "date": "2026-11-06 09:40",
-   "extra": {
-    "pubTimestamp": 1793925612000,
-    "popularity": 1
-   },
-   "source": "뉴스프리존",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "국립경국대 의대 신설 확정···경북교육청 \"지역인재 선발 적극 협력\"",
-   "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE5HSkJBZHlhQXE0d0dsWHlhNlpYUHJic1pvRFVpSDdMMm1ZOTJaY0JDV1BqS1RmRGNPNVl0SXhZT0w2Y3pwMkJzekR5UTk?oc=5",
-   "date": "2026-11-05 16:08",
-   "extra": {
-    "pubTimestamp": 1793862484000,
-    "popularity": 1
-   },
-   "source": "대구MBC",
+   "source": "연합뉴스",
    "summary": "",
    "category": "정책"
   },
@@ -3255,74 +3514,14 @@
    "category": "에듀테크"
   },
   {
-   "title": "경북교육청, 국립경국대 의대 신설에 맞춰 지역인재 육성",
-   "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE1mamNmZWhHUGhMS191M20yd0IyN3doRVJKYTFkWHVSei1LR3I4cHlFYnpnbHNDYjladlRxanBobmhmMjJ6enJnNHlXd1I?oc=5",
-   "date": "2026-11-05 14:46",
+   "title": "전남광주교육청, 고3 대상 맞춤형 대입 모의 면접 운영",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFA3RjhpR0dvMnU5WjJVMnEzLWpOblM1QWZQa0FIdWcyeFFZX1luVExRckFnNkh5Unp5M2ZuM1pNd2llVkRyUXU0dU5UMFZoTEJ1Wnp1MFJXdTJpTW_SAWBBVV95cUxPRmZBQkxaNG5HTkwyMTF1d2pDcmE2YXBfaFNsZUFFLVhSTHhKSjVoczZadVkzTUNrQVZlWlJydFhKcTQ4SUdrUFFLUm5kblJfbWtwVEFwYlZVRUdiVGpLeDE?oc=5",
+   "date": "2026-11-05 11:37",
    "extra": {
-    "pubTimestamp": 1793857573000,
+    "pubTimestamp": 1793846229000,
     "popularity": 1
    },
-   "source": "대구MBC",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "\"바다 건너 섬 아이들도 첨단 에듀테크 지원\"…옹진군, 교육부 '교육혁신선도지역' 지정",
-   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE12NzAtWG1RSDNjbUJvWEpxUjFpTHlyc3laYjdRUTFMX1JpSW1MV0I2dHpvTjNpQWUtZTgyYm5CM1IySGpCWThWMlNqMWpaLVZIUTY1ZlVjb0tHMmtZa08tV1dSX1k?oc=5",
-   "date": "2026-11-05 14:02",
-   "extra": {
-    "pubTimestamp": 1793854923000,
-    "popularity": 1
-   },
-   "source": "중도일보",
-   "summary": "",
-   "category": "에듀테크"
-  },
-  {
-   "title": "국립한국교통대 충청북도 음성군 음성고등학교에서 '2026 에듀이음 임베디드 교육과정' 운영",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1TMVRtR0pObmFBbTFsYzhFaE5oTE9CbmlmQlhiY1hRa05vc3U0bUJUUmJfUk13a3ZMNFBFNGJnRWMyNWh5YzVJeE5XU3hLcVktQ3p1UHg2aW55V3hLbzYwbjFZcm5fN2RmUDFJMQ?oc=5",
-   "date": "2026-11-05 12:10",
-   "extra": {
-    "pubTimestamp": 1793848249000,
-    "popularity": 1
-   },
-   "source": "베리타스알파",
-   "summary": "",
-   "category": "에듀테크"
-  },
-  {
-   "title": "정서적 어려움 겪는 학생, 제주도교육청이 도움의 손길을",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1pS2tDREZyMXB2M0Q2N2trUkx3SVJYZE84bWE0Slhack5vZHlrYjVPUEMzWXdMYWI4NkxjdEx0ZjFhTUJEUXU0N082bDVZYW9IZUJQVXVLS2F0bVNORGw2akZPOVFaSmVuT0c2OdIBcEFVX3lxTE4tSzlNdHQtTjB3R21Yd0lVX2VwSUV1X2ZfYno1ZVpqVmFibmQ2SnlMS3ZmbThwbmtNdzZWZTVONEI0NFZTbjhHazIzaG41NmdqTDBlcmxrRkpSVkwxcy1ZcF9VVW10VzFmVUNiS0dhYVQ?oc=5",
-   "date": "2026-11-05 11:20",
-   "extra": {
-    "pubTimestamp": 1793845204000,
-    "popularity": 1
-   },
-   "source": "미디어제주",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "연천교육지원청, 특수교육대상학생 위한 '에듀테크 체험 프로그램' 운영",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5paHo1SVYzdC1QRUNHbUJXbWZkTnp3clpyVi1BcEltSjdJSkh5QVF5dWFwdkM5SnBkc2RBb2dkN3JxdHVQRDhNcmFLeUhaYjE1OVlYamxhcjBSMGM2RWJrNW5wQ3NPS0FLNzhRM2V3?oc=5",
-   "date": "2026-11-05 11:17",
-   "extra": {
-    "pubTimestamp": 1793845031000,
-    "popularity": 1
-   },
-   "source": "국제뉴스",
-   "summary": "",
-   "category": "에듀테크"
-  },
-  {
-   "title": "전북교육청·남원시, 지역교육 협력 정책간담회",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE0zV1FyMFB1cllMMnVUOUJSSFlhczkxenQxaWhOUEJxVHUxdjBGSXdMTUpDa3U5Um43UC1qVEVOSHRNVjlvc05mb0JPNGRZWGZOUWxla181cE42N19fQkZ1RDZPRV9FcjJyT2JR?oc=5",
-   "date": "2026-11-05 10:37",
-   "extra": {
-    "pubTimestamp": 1793842620000,
-    "popularity": 1
-   },
-   "source": "경북신문",
+   "source": "연합뉴스",
    "summary": "",
    "category": "정책"
   },
@@ -3351,18 +3550,6 @@
    "category": ""
   },
   {
-   "title": "안성교육지원청, AI·디지털 선도교사단과 '현장이 만드는 AI 교육자료' 개발 협의회 개최",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1VT29FbTY0MmNsdVZwZG9tTkJlLUFNMzJJMGJ2Ti1NZ0o2X3pUQVppa2FQSUNGNVZBV25tdE1TSGlPLV9ySmRVZlNnWkFaYkNGRGxDdnVPenVSMm9zT1ViaWdYd2M3R1JXblJEOQ?oc=5",
-   "date": "2026-11-05 06:49",
-   "extra": {
-    "pubTimestamp": 1793828947000,
-    "popularity": 1
-   },
-   "source": "시사안성",
-   "summary": "",
-   "category": "AIDT"
-  },
-  {
    "title": "전북교육청, 'AI 리터러시 교육 가이드라인' 해설·활용집 도내 전 학교 배포",
    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE16ZXFIOHFhQ2lYckxhcy1XWUF5WUYxWnlQdVF4Y1YtaW9aNmdDazAzN2RNbVZXYUtVU1FWa1FGYk5TZ2FBN0Ezd0liT2JFY3YtRHpfTnBwTy15bzBRVFJFRmpzYVdmN1N1UHRGSE5R?oc=5",
    "date": "2026-11-04 21:56",
@@ -3383,30 +3570,6 @@
     "popularity": 1
    },
    "source": "녹색경제신문",
-   "summary": "",
-   "category": ""
-  },
-  {
-   "title": "전북교육청·남원시, 교육협력 정책간담회 열고 지역 인재 양성 머리 맞대",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1lbHpzckdOdDROOUtHVzRSWGdYMFQwc3dxQ3pMRXdzX01pZklNdmhRaVRpZmwwTnBLVE1MRUZKRnA5amhCcFBCVVROM3pDWWk1bHhFeUsxbEVLbjNaMlRr?oc=5",
-   "date": "2026-11-04 16:39",
-   "extra": {
-    "pubTimestamp": 1793777961000,
-    "popularity": 1
-   },
-   "source": "전북미래교육신문",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "아이스크림에듀, 광주 ‘2026 AI미래교육박람회’ 참가해 AI 디지털 학습 ‘홈런’ 선봬",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE8xd2ItYUVWQjlSQm03ek8wZWJ1TmhKem95aEc2c2VjTzUyVnFTQW1fb3lkX3NYTWdsb21uMjl5eHJ2S0FzU19jOEIxenR3eldYTmtaNEJ1ZlBYNmlNbkE?oc=5",
-   "date": "2026-11-04 16:20",
-   "extra": {
-    "pubTimestamp": 1793776828000,
-    "popularity": 1
-   },
-   "source": "피앤피뉴스",
    "summary": "",
    "category": ""
   },
@@ -3471,6 +3634,18 @@
    "category": "정책"
   },
   {
+   "title": "경북교육청, 5개 시군 ‘지역 맞춤형 교육혁신’ 추진",
+   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5VOExaZWJSTDBobmZxekZMSUxRb29xby0zR0tKNzJ3TmtMaUR4cGxXc2c3N0g5emU0R1hXbEpkUlkzeE5YR01QWktEcVc0Sk5Ld1NXSUpHaktUSE50REVISlEtS2NkbVkyV3FZenlTV3ZMSkJ2SXpTa01B0gF_QVVfeXFMTk0xYXFOYjdhaDBaV3ktbEttRmFkTjV0TWx5V2VpOHdvVVdFVnAxcnR1SEtKdVA5OUhldm9VU1h4R1B2czZPNWZqT0t2bWpQRVhucWwtV0JNeUZKYWs4Zk9JMnhFQ3BjR2tlRV9aTTVnZlR0Y3Q4VW5iWE5DZzB5OA?oc=5",
+   "date": "2026-11-04 09:57",
+   "extra": {
+    "pubTimestamp": 1793753820000,
+    "popularity": 1
+   },
+   "source": "뉴데일리 대구경북",
+   "summary": "",
+   "category": "정책"
+  },
+  {
    "title": "아산시, 교육부 교육혁신선도지역 선정…충남 유일 - 보도자료 | 기사",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFB2OWxGVEZiejNYa2J5enF5YS1QSE9LVjUzX1llZ2xYY1lhbmRiTnhwTHRtMFN0N1lQalU0UDBudkpnUkQtRDJ3SnQ0d1FxbzJSaVRrUmJ2dzQ3MFNFSE1r?oc=5",
    "date": "2026-11-04 09:24",
@@ -3493,131 +3668,53 @@
    "source": "매일일보",
    "summary": "",
    "category": ""
-  },
-  {
-   "title": "경기도교육청, 을지연습 평가 우수기관 선정…교육부 장관 표창 - 보도자료 | 기사",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1vaGw3RkpMb21lVzI1SV9INGNsbkRiM1dNVWY1ajVWTUFLc3Zzcm1ZdmNUZ2MzenIxbXFiUWcwcGVOY3htYlRsaEpZanNqbWR5YVNYSVNqcVVjb3RSeE9j?oc=5",
-   "date": "2026-11-03 18:11",
-   "extra": {
-    "pubTimestamp": 1793697102000,
-    "popularity": 1
-   },
-   "source": "더팩트",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "교권 민원 느는데⋯전북교육청, 교사 지킬 변호사는 줄었다",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1qR1hONTg2MWFPZGM3dGJJLVpfY0N3c0FkaGNRTFEwRGMtNWl2ekZhXzIxTFhDczJaeE43N1hLOE1US2dtSEZoN0JnSVg2YUkwc3FmatIBWEFVX3lxTFBRZE1UWTltd0NVZ3Vya2t4UWZuZzJ5RUVtZGZZT1dJTVUyTF91dkx1VmliMno1bFVNX0xQT1JYMUVpbXpSZ1c2M1pkUlIxVjh4SlRHa1RfT08?oc=5",
-   "date": "2026-11-03 17:49",
-   "extra": {
-    "pubTimestamp": 1793695767000,
-    "popularity": 1
-   },
-   "source": "전북일보 인터넷신문",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "울산교육청, 교육혁신선도지역 탈락…\"이유 분석해 재도전\"",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE90bkpWUjFBU3Y1ZHdWdmsyaGZhUkpEVTlMWnBZNDh0UGpEVjhyeTljbThnWjROalFKaThnOVZPY2lWVzJzTWRFRG5LZUhycm5INWdGRHVQaXM1R2PSAWBBVV95cUxQbWZmMmhyYldOVjRuOEpudGJlM0tieWRNZGFVZGlyMlZXRjBRV2lBWGg4YWl6SHF3eHJzZWM0Ti1lTUtzNDY0dEtwTHVzYkFWR0Y1MGtTQjRVZngzLXBUU1U?oc=5",
-   "date": "2026-11-03 16:02",
-   "extra": {
-    "pubTimestamp": 1793689375000,
-    "popularity": 1
-   },
-   "source": "연합뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "전북교육청·장수군, 급식지원센터 공공형 전환·전북유학 주거 지원 논의",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1GX29tTG9sUjJ1akVUTFI0VV9aX1Jab2Vsc2JuUFREN0MzX1BjUlp4b1J2dlc0eVZRM0FXdjJPRjdpdFFJVmFKanRhV3FSbTlTdnpkS0hBN1NBUkFoU3dv?oc=5",
-   "date": "2026-11-03 16:01",
-   "extra": {
-    "pubTimestamp": 1793689313000,
-    "popularity": 1
-   },
-   "source": "전북미래교육신문",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "전북교육청 \"5개 시·군, 교육혁신선도지역 선정…값진 성과\"",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9wUVhNTUd2V2x1bGFwVDEwSlNwbl9QT0RpYXUwdjcyRUJQc3RlNHBzbmlrYS14LU1xRjVhMFMzbmIzSkhzeU50MkpUSU5rZm8tYTh0XzZYZVVpRVXSAWBBVV95cUxPZ1YtcnhFczlMbkNGNmFCWE1RMzRTXzZNaGJDMUhydmJ3Yk1XMVA4YVNwNmF1eTQ4eUc1RjA3VUZyTDZfeGtvR2ZOMUk4VkpIeGRoSEtRbTMxS3dzeVlvTkw?oc=5",
-   "date": "2026-11-03 15:18",
-   "extra": {
-    "pubTimestamp": 1793686735000,
-    "popularity": 1
-   },
-   "source": "연합뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "[똑똑한교육] 미래엔, 웅진컴퍼스 클래스박스, 데이원컴퍼니, 위버스브레인, 아이스크림미디어, 천재교과서",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1oNlBuLU9OMHdEM1BkVmpFT3VYT2xMRGtCdWJkN19vZnpxc2tDUXFnN1oyYkExWEFwZlk0TXd6aHdGYlNXVGVnZzdxQl9YSFBmc2tYREhIbGM2Uzg?oc=5",
-   "date": "2026-11-03 14:30",
-   "extra": {
-    "pubTimestamp": 1793683800000,
-    "popularity": 1
-   },
-   "source": "에너지경제신문",
-   "summary": "",
-   "category": ""
-  },
-  {
-   "title": "경찰, 전북교육청·교육감 자택 등 압색…변호사비 대납 의혹(종합)",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9fN3ZnQnMxZ1V6aEpucnhkVmEwVlpFWVIweTY3cExuNlV4T1hYWWZTbktEVU5VY01EOVlqLWNabnpEdFYwY1NJNEwtdEl3WG1oSU5ZUGwtQURSWjMxUmhELdIBeEFVX3lxTFBMT0dSVDZLMXVxeWdOaTgxbnBvVXYtVUNFQ3VWV050TWxOOHI1V0JOSVAwa0RLQ1VPVi00enZ0Rm5lcGJjTVFhZE1rakEtRHpTSXpieHh6Ymw3V0c2R2VKMzhlMkZtLUQtaVI5YTRuRU9tN0ZIWWVjaw?oc=5",
-   "date": "2026-11-03 13:47",
-   "extra": {
-    "pubTimestamp": 1793681276000,
-    "popularity": 1
-   },
-   "source": "뉴시스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "전북교육청, 전북학생 문학상 작품 공모…9∼13일 접수",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1McVZyTWtfbndPQ1NsQVN1clNpSW9rbmlQTEFKRnFoTkFjcWZTMWphQ0pKQk9uVVV1QVRSNkxKamJWYXlyVWFMRUY4aHEySUlxWVE5RjE5OHZidm_SAWBBVV95cUxQZUg1NUNsdE56dFRDSjh2SGVNOWRUNFRiTXFPNG5MTDZBblI5QUtqS1g4ZzZiMldCcjc1RW1KTElRRDd5YVl0SktiUGdPVktYZ0JxSnFVWC1ZVmxFa2NoS1U?oc=5",
-   "date": "2026-11-03 11:15",
-   "extra": {
-    "pubTimestamp": 1793672156000,
-    "popularity": 1
-   },
-   "source": "연합뉴스",
-   "summary": "",
-   "category": "정책"
-  },
-  {
-   "title": "이지희, 방송 끊겨 생활고-고3 딸 문제집 30만 원도 눈치",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5xY1hBcUwtZE9DMC0yRHN1eE52UTFqV1dQaHZkOVFkLTE1R1lRWVhZX1BtS3RQamNXZE1nVjVuOWhuZFZ1UTl5X3E3b203eFI2Rk9ZWm1nSDZaUWpxWU5VQjRxc1hlRHpYLXUxTUxB?oc=5",
-   "date": "2026-11-03 08:15",
-   "extra": {
-    "pubTimestamp": 1793661312000,
-    "popularity": 1
-   },
-   "source": "미디어파인",
-   "summary": "",
-   "category": "교재"
-  },
-  {
-   "title": "한세예스24 미래 쥔 3인방…에듀테크·로봇으로 매출 6조 판 짠다",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBkTFJFcjJvZl9KaGxHVU9OLWJweW8yQ3NFcDN1bzVfQmpuWVFTSHhuQ1NMT19FY2RDbkdBd0pDR0hDREtzSWE0UWhJa1RGU3BkV2xralFJQkFMUzFsdDF0OU5UVQ?oc=5",
-   "date": "2026-11-03 07:49",
-   "extra": {
-    "pubTimestamp": 1793659756000,
-    "popularity": 1
-   },
-   "source": "더구루",
-   "summary": "",
-   "category": ""
   }
  ],
  "http": 200,
  "channels": {
   "youtube": [
+   {
+    "title": "가장 현실적인 100살까지 월 500 만드는 현실적인 방법 #찍먹",
+    "url": "https://www.youtube.com/watch?v=wF6JMpSpbhw",
+    "date": "2026-11-10 19:48",
+    "extra": {
+     "id": "wF6JMpSpbhw",
+     "pubTimestamp": 1794307714000,
+     "viewCount": 355,
+     "type": "youtube"
+    },
+    "source": "YouTube",
+    "summary": "당신은 생각보다 오래 살 겁니다.\n지금 사면 돈 버는 ETF 리스트부터\n연금 투자 인사이트까지 🤑\n\n[찍먹 ep.19] 100살까지 월 500만 원 받는 ETF 연금 수업\n#미래엔 #현재엔 #찍먹 #ETF #연금",
+    "category": ""
+   },
+   {
+    "title": "67차 교사문화 프로그램 현장스케치",
+    "url": "https://www.youtube.com/watch?v=S7Yw51zbjpg",
+    "date": "2026-11-10 15:24",
+    "extra": {
+     "id": "S7Yw51zbjpg",
+     "pubTimestamp": 1794291884000,
+     "viewCount": 19,
+     "type": "youtube"
+    },
+    "source": "YouTube",
+    "summary": "선생님을 위한 특별한 쉼과 배움의 시간, 비바샘 67차 교사문화 프로그램 '나에게 어울림을 더하는 시간, 패션스타일링' 현장을 소개합니다.\n\n이번 교사문화 프로그램은 한국패션심리원 전문 강사님들과 함께 얼굴형과 헤어스타일, 메이크업 포인트부터 체형에 따른 패션 스타일링까지 나에게 꼭 맞는 스타일을 직접 알아보는 시간으로 진행되었습니다.\n\n전문가와의 1:1 ",
+    "category": ""
+   },
+   {
+    "title": "[비상라키비움] 대한민국 교육의 역사와 미래가 함께하는 곳",
+    "url": "https://www.youtube.com/watch?v=DUjZWdIAnHU",
+    "date": "2026-11-10 13:40",
+    "extra": {
+     "id": "DUjZWdIAnHU",
+     "pubTimestamp": 1794285613000,
+     "viewCount": 12,
+     "type": "youtube"
+    },
+    "source": "YouTube",
+    "summary": "배움의 형태는 달라져도\n배움의 본질과 기록의 가치는 사라지지 않습니다.\n\n대한민국 교육의 역사가 살아 숨쉬고\n미래가 시작되는 곳,\n비상라키비움을 소개합니다.\n\n▼비상라키비움 홈페이지 \nhttps://visang-larchiveum.qshop.ai/\n▼비상라키비움 온라인 전시관\nhttps://visang-larchiveum.qshop.ai/l7LzT",
+    "category": ""
+   },
    {
     "title": "[비상교육] 교과서로 떠나는 비상한 여행 시즌 2 EP.07 순천 편(비상교육 비바샘X상상그리다필름)",
     "url": "https://www.youtube.com/watch?v=BVPKyHpqzmg",
@@ -3625,7 +3722,7 @@
     "extra": {
      "id": "BVPKyHpqzmg",
      "pubTimestamp": 1794203411000,
-     "viewCount": 109,
+     "viewCount": 502,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3653,7 +3750,7 @@
     "extra": {
      "id": "zK0SAwjxFbw",
      "pubTimestamp": 1793952158000,
-     "viewCount": 146,
+     "viewCount": 150,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3667,7 +3764,7 @@
     "extra": {
      "id": "sKQJUDQ3YAo",
      "pubTimestamp": 1793843622000,
-     "viewCount": 149,
+     "viewCount": 156,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3681,7 +3778,7 @@
     "extra": {
      "id": "hHl2968DQTo",
      "pubTimestamp": 1793843448000,
-     "viewCount": 1603,
+     "viewCount": 1617,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3695,7 +3792,7 @@
     "extra": {
      "id": "8D6FfDVseWg",
      "pubTimestamp": 1793833762000,
-     "viewCount": 19,
+     "viewCount": 20,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3709,7 +3806,7 @@
     "extra": {
      "id": "QkE8ypRblIY",
      "pubTimestamp": 1793777493000,
-     "viewCount": 614,
+     "viewCount": 626,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3723,7 +3820,7 @@
     "extra": {
      "id": "CL_HrLqjG08",
      "pubTimestamp": 1793774492000,
-     "viewCount": 1569,
+     "viewCount": 1574,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3737,7 +3834,7 @@
     "extra": {
      "id": "KHJsMSVfYZs",
      "pubTimestamp": 1793774465000,
-     "viewCount": 1392,
+     "viewCount": 1394,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3751,7 +3848,7 @@
     "extra": {
      "id": "rGc1dfOY7q0",
      "pubTimestamp": 1793774454000,
-     "viewCount": 96,
+     "viewCount": 98,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3765,7 +3862,7 @@
     "extra": {
      "id": "EtOkF-ygx3U",
      "pubTimestamp": 1793771518000,
-     "viewCount": 112,
+     "viewCount": 116,
      "type": "youtube"
     },
     "source": "YouTube",
@@ -3779,81 +3876,11 @@
     "extra": {
      "id": "Cp4F1PlnU1E",
      "pubTimestamp": 1793750482000,
-     "viewCount": 42,
+     "viewCount": 46,
      "type": "youtube"
     },
     "source": "YouTube",
     "summary": "#지학사 #중학생국어 #중학국어 #드릴북 #개념있는",
-    "category": ""
-   },
-   {
-    "title": "불의한 세상에서 희망을 찾고 싶은 당신을 위해⚖️| 대신 읽어드립니다 l 100101 ep.19 [어뉴 클래식 2. 레 미제라블]",
-    "url": "https://www.youtube.com/watch?v=nVAPxSG-9qA",
-    "date": "2026-11-03 17:00",
-    "extra": {
-     "id": "nVAPxSG-9qA",
-     "pubTimestamp": 1793692833000,
-     "viewCount": 14369,
-     "type": "youtube"
-    },
-    "source": "YouTube",
-    "summary": "가난과 사회적 불평등 속에서도 불꽃처럼\n삶을 이겨내는 용기와 열정을 얻고 싶을 때\n더 나은 사람이 되고 싶은 당신에게\n\n📚100권의 책을 10분이면 1번에 이해 [100101]\n\n신작부터 베스트셀러까지 10분 안에 요약해 드릴게요!\n현재엔에서 추천하는 미래엔 명작 도서 100권 시리즈\n\n✅책 읽고 싶은데 시간 없는 분\n✅두꺼운 책 핵심만 알고 싶은 분\n\n",
-    "category": ""
-   },
-   {
-    "title": "[비바샘_초등] 에듀테크 테마관 - 비바샘 음악관",
-    "url": "https://www.youtube.com/watch?v=PW80JYJIoMI",
-    "date": "2026-11-03 16:47",
-    "extra": {
-     "id": "PW80JYJIoMI",
-     "pubTimestamp": 1793692037000,
-     "viewCount": 4104,
-     "type": "youtube"
-    },
-    "source": "YouTube",
-    "summary": "음악 수업에 바로 활용할 모든 자료를 한곳에!\n연주부터 감상, 창작까지, 풍성한 수업을 만들어 보세요.\n\n#비바샘 #비상교육 #비상교과서 #음악 #수업준비 #수업자료 #학교",
-    "category": ""
-   },
-   {
-    "title": "와이비엠 × 경인교육대학교 Y클라우드 활용 수업 설계 공모전",
-    "url": "https://www.youtube.com/watch?v=bHFs4MONs4I",
-    "date": "2026-11-03 16:16",
-    "extra": {
-     "id": "bHFs4MONs4I",
-     "pubTimestamp": 1793690188000,
-     "viewCount": 145,
-     "type": "youtube"
-    },
-    "source": "YouTube",
-    "summary": "👩‍🏫Y클라우드로 그리는 나만의 초등 수업! 👩‍🏫\n⬇️경인교대 Y클라우드 수업 설계 공모전 지금 바로 확인해 보세요!⬇️\n\n\n🏆공모전 안내\n- 참가 대상: 경인교육대학교 2~4학년 재학생\n- 응모 분야: 영어(초등 3학년)·수학(초등 4학년)·음악(초등 5학년)·체육(초등 6학년) 중 1개 교과\n- 접수 기간: 2026년 10월 1일(목) ~ 1",
-    "category": ""
-   },
-   {
-    "title": "[비바샘_초등] 교과 자료 - 음악",
-    "url": "https://www.youtube.com/watch?v=oqZLBEUGwgw",
-    "date": "2026-11-03 16:16",
-    "extra": {
-     "id": "oqZLBEUGwgw",
-     "pubTimestamp": 1793690179000,
-     "viewCount": 1889,
-     "type": "youtube"
-    },
-    "source": "YouTube",
-    "summary": "교과 자료에는 비상교과서의 알찬 수업 자료가 가득해요! 단원별 자료, 차시별 영상, 수업 PPT, 활동지, 학습지 등을 활용하여 간편하게 수업을 준비해 보세요.\n\n#비바샘 #비상교육 #비상교과서 #음악 #수업준비 #수업자료 #차시수업 #학교​",
-    "category": ""
-   },
-   {
-    "title": "호랑이 빵집ㅣ오디오북 생생한 녹음 현장 최초 공개!",
-    "url": "https://www.youtube.com/watch?v=ZwiVO0X1WQw",
-    "date": "2026-11-03 13:48",
-    "extra": {
-     "id": "ZwiVO0X1WQw",
-     "pubTimestamp": 1793681293000,
-     "viewCount": 290,
-     "type": "youtube"
-    },
-    "source": "YouTube",
-    "summary": "📢호랑이 빵집ㅣ오디오북\n생생한 녹음 현장 최초 공개!\n\n🎙️ '호랑이 빵집' 오디오북 캐릭터들의 목소리는 어떻게 탄생했을까요?\n\n호랑이 셰프부터 개성 넘치는 캐릭터들까지!\n실감 나는 성우들의 연기와 웃음 가득한 녹음 현장, 오디오북 제작 비하인드를 영상으로 공개합니다.\n\n🐯 '호랑이 빵집' 오디오북은 이렇게 만들어집니다! 지금 바로 영상에서 확인해 보",
     "category": ""
    }
   ],
@@ -3946,49 +3973,38 @@
     "source": "네이버 블로그",
     "summary": "선생님 안녕하세요 지학사 티솔루션 입니다 학교 영어 시험에서 서술형의 비중이 커지는 요즘!✏️ 어법 개념은 알고 있지만 막상 문장을 직접 쓰는 단계에서 어려워하는 학생들이 많은데요 그런 학생들을 위한 선생님들의 고민을 덜어드리기 위한 교재를 소개해 드립니다 핵심 어법부터 내신 서술형 실전까지 한 권에 담은 지학사 《고등 영어 어법·서술형》입니다! 지학사 《",
     "category": ""
-   },
-   {
-    "title": "[신간 출간] 고등 영어 어법 서술형┃핵심 개념 학습부터 내신 실전까지 대비!",
-    "url": "https://blog.naver.com/jihaksa1965/224463562006?fromRss=true&trackingCode=rss",
-    "date": "2026-11-03 15:32",
-    "extra": {
-     "id": "https://blog.naver.com/jihaksa1965/224463562006?fromRss=true&trackingCode=rss",
-     "pubTimestamp": 1793687530000,
-     "type": "blog"
-    },
-    "source": "네이버 블로그",
-    "summary": "막막하게 느껴지는 고등 어법과 서술형, 한 권으로 끝내는 법 많은 학생들이 영어 시험에서 가장 어렵게 느끼는 문제 바로 ‘서술형’ 문제일 텐데요. 어법 개념은 분명 공부했는데 막상 문장을 직접 쓰려고 하면 어디서부터 손을 대야 할지 막막해지죠. 오늘은 고등 영어 어법의 핵심 개념부터 내신 서술형 실전까지 한 권에 담은 지학사 《고등 영어 어법·서술형》을 소",
-    "category": ""
    }
   ]
  },
  "source_json": "https://edutech-radar.netlify.app/api/feed",
- "total_in_site": 1229,
+ "total_in_site": 1219,
  "page_title": "V 에듀 트렌드 보드",
- "page_text_head": "V 에듀 트렌드 보드 오늘의 교육 동향, 한 번에. 경쟁사 동향, 내가 다 봤음 😎 뉴스 · 유튜브 · 블로그 · 인스타까지 한 화면에 2026년 11월 10일 화요일 실시간 데이터 새로고침 CHANNEL · 교육 동향 및 경쟁사 분석 뉴스 1,229건 ↳ 상세 주제 전체 교과서 교재 AI 디지털 교육자료 에듀테크 정책 연수원 유튜브 439건 블로그 104건 경쟁사 이벤트 — 인스타그램 6건 교사 인플루언서 260건 REFERENCE · 참고 학사일정 36건 경쟁사 분석 보고서 BETA AI 인사이트 채팅 상세 필터 검색 상세 경쟁사 검색이 가능합니다 초기화 정렬 최신순 인기순 기간 전체 일별 월별 기간 직접 선택 카드 주간 요약 전체›뉴스 1,166 건 • 갱신: 오전 02:49 디트NEWS24 16분 전 세종시교육청, 내년 예산 1조 2060억 편성… 필수 경비 436억 추경으로 정책 중부일보 29분 전 NH농협은행-인천교육청, ‘꿈이음대학’ 금융교육 성료 정책 인천투데이 40분 전 '읽걷쓰' 외치며 책 살 돈은 깎아··· 인천교육청 도서관 예산 '엇박자' 정책 충청타임즈 48분 전 대전시교육청, 체험으로 배우는 학생 보건교육 정책 충청뉴스 51분 전 🔥 2개 매체 선문대-충남교육청, ‘제7회 충남 온(ON)누리 AI·SW 학생동아리 한마당’ 성료 정책 뉴스핌 53분 전 전북교육청, 교원 보호망 확대...악성민원·무고성 아동학대 대응 강화 정책 한국대학신문 55분 전 선문대·충남교육청, 아산서 AI·SW 학생동아리 한마당 개최 정책 진일보 | 전남일보 1시간 전 저소득층부터 학교 밖 청소년까지…전남광주교육청 장학 지원 확대 정책 중부일보 1시간 전 경기도교육청, 내년 세출예산 7천550억 원 부족…“피해는 학생 몫” 정책 아주경제 1시간 전 대학혁신지원사업 충청권역 성과포럼, 에듀테크·학생지원 맞춤 혁신 성과 공유…미래 고등교육 발전 방향 모색 에듀테크 한국경제 1시간 전 브이리스브이알, 발달장애인·느린학습자 맞춤형 AI 솔루션으로 CES 2027 에듀테크 혁신상 수상 에듀테크 천지일보 1시간 전 세종시교육청, 2027년 본예산 1조 2060억원 편성… 재정난 속 미래교육·학생 안전망 강화 정책 머니투데이 1시간 전 🔥 2개 매체 전남광주교육청-광주교대, 기초학력 향상 지원 위한 협약 체결 정책 머니투데이 2시간 전 경기도교육청, AI 교육 대전환…초등 단독 활용 제한·고교 출처 공개 정책 한국공공정책신문 2시간 전 [칼럼 - 이규철] AI교과서(95) - 파인튜닝(Fine-Tuning) AIDT 진일보 | 전남일보 2시간 전 교원노조 한자리에…전남광주시교육청, 노사 소통 강화 나서 정책 뉴시스 2시간 전 \"정답보다 질문하는 힘 키운다\"…경북교육청, IB 교육 확산 정책 천안신문 2시간 전 구형서 충남도의원 “관용차 한 대에 전담 운전원까지”…충남교육청 인력운용 지적 > 뉴스 정책 Naver Blog 2시간 전 충북교육청, 한국전기공사협회 충청북도회로부터 장학금 500만 원 기탁받아 : 네이버 블로그 정책 경기도정신문 2시간 전 학생",
+ "page_text_head": "V 에듀 트렌드 보드 오늘의 교육 동향, 한 번에. 경쟁사 동향, 내가 다 봤음 😎 뉴스 · 유튜브 · 블로그 · 인스타까지 한 화면에 2026년 11월 10일 화요일 실시간 데이터 새로고침 CHANNEL · 교육 동향 및 경쟁사 분석 뉴스 1,219건 ↳ 상세 주제 전체 교과서 교재 AI 디지털 교육자료 에듀테크 정책 연수원 유튜브 439건 블로그 104건 경쟁사 이벤트 — 인스타그램 6건 교사 인플루언서 260건 REFERENCE · 참고 학사일정 36건 경쟁사 분석 보고서 BETA AI 인사이트 채팅 상세 필터 검색 상세 경쟁사 검색이 가능합니다 초기화 정렬 최신순 인기순 기간 전체 일별 월별 기간 직접 선택 카드 주간 요약 전체›뉴스 1,152 건 • 갱신: 오후 10:04 뉴스핌 1시간 전 서울시교육청, 학교 내 차별·혐오 해법 찾는다…학생·학부모 등 100명 숙의토론 정책 베이비타임즈 5시간 전 경기도교육청, 도내 중학교 4곳서 ‘찾아가는 생명존중 콘서트’ 개최 정책 베이비타임즈 6시간 전 경기도교육청, AI 시대 주도 사고력 중심 교육 대전환 선언 정책 교육을 비추다 7시간 전 충남교육청, 학교지원센터 186개 사업 재편…공주·아산서 선도 운영 정책 녹색경제신문 9시간 전 충남교육청 ‘교육정책 실효성 도마’…IB교육 단절·중복사업·예산 낭비 질타 정책 충청메시지 9시간 전 세종시교육청은 필수경비부터 확보하라 정책 천지일보 9시간 전 🔥 2개 매체 충남교육청, 한국장애인고용공단과 장애 학생 직업교육·취업 지원 맞손 정책 천지일보 9시간 전 🔥 2개 매체 대전시교육청, 아이의 마음을 이해하는 건강한 부모 역할 제시 정책 녹색경제신문 9시간 전 충남교육청 ‘관용차 14대에 운전원 정원 15명’…기관장 의전용 논란 정책 중구신문 10시간 전 \"서울시교육청의 작은 제안, 온라인행정심판시스템 개인정보 보호 선제적 강화 이끌어” 정책 부산경남대표방송 KNN 뉴스 10시간 전 [단독]경남도교육청, 1억 2천만 원 청구했다가 \"오해였다?\" 정책 대한민국교육신문 10시간 전 계성여자고등학교, AI 실시간 번역 활용한 다국어 토론회 성료… \"미래형 국제교류 활짝\" 에듀테크 IT조선 11시간 전 아이포트폴리오 “어린이 위한 AI는 달라야… 영어교육 혁신 앞장” [AI 대상 2026] 에듀테크 경북일보 11시간 전 상주 폐교, 학교급식교육관으로 바뀐다…경북교육청 98억 들여 건립 추진 정책 로컬투데이 11시간 전 세종시교육청, 내년 예산 1조 2060억 원 편성 정책 IT조선 11시간 전 비주얼캠프 “AI 시선추적 기술, 글로벌 에듀테크 경쟁력” [AI 대상 2026] 에듀테크 전북미래교육신문 11시간 전 \"세계를 교실로 옮겼다\"… 전북교육청, 14일 ‘2026 전북 외국어교육 박람회' 개최 정책 뉴스핌 11시간 전 경남교육청 홍보비 투명성 도마 위…\"정책 효과 평가 필요\" 정책 월드장애인사랑뉴스 11시간 전 교육부, 외국대학 교수 국내대학 겸직 허용…AI·빅데이터 등 첨단산업 분야 해외 우수 석학 유치 위한 교육공무원 임용령 개정안 국무회의 의결",
  "json_urls": [
   "https://edutech-radar.netlify.app/api/calendar",
   "https://edutech-radar.netlify.app/api/youtube",
   "https://edutech-radar.netlify.app/api/blog",
   "https://edutech-radar.netlify.app/api/feed",
   "https://edutech-radar.netlify.app/api/neis",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMicEFVX3lxTE5XV2k5UENZRXlNbE5qUk1kbHRMakF3Y0ZtM3ljcV9MNmxHZ0hTblNNUDFSMVk0ZW9tX01veWpVTGlYUVV5OFBORElQOXNmMmJqSTdZZkNXXzlEVXhhTnpnRW1KbE8zNmNVYWUxay1ud3E%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiaEFVX3lxTE8yWE9fNVZVWkhIbUhRZ3Vud0VHcHM4a1p2cmZEbExxeVR5UXF4OW9sSTVzbUY5Y2t4RTFMc1FuZkR5dWZfUVR1djRuaDJveHk3eGxzR25QZmZEejg1ZS1aNXVIWE9GeGZG%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMib0FVX3lxTE9JVjVVUWJkdDhSbUoyOU9JOHU5SkhoX1N4WV9IUXZlOG9pSkRHSDhpOGlIYmhrZE1BM083OUZSRXJoUlZDaVAyTUFQNmt2UERnNHRkUnUwWVVHQzQ2TFIzcl9FVENET21qSWxBNERuNA%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMia0FVX3lxTE51UkgxN19JOUpELVQtRFVTb3RfWEJVcDVUM1NlNFpZeFU5Zl8tSEtxRmxtMjRpSmpYZ05jcDg1bmVtZHFvVndXalU0cGRlbnlnVVBKSHQwbUFNb0lGcW1LSHRaUVpmc1k2UHJN%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMia0FVX3lxTFBfUTE1a2I2TmZKTl93ZE53Yjh4LWpXeTlmQ2F0LVNNMU9IUElPTFp2RUJpV0pKbTdWQnAzSFpJcG5MbDFDOW8tblpMeVpHREtMWlE0ejRnRTBDR1JLVm5YamQ2MGgtcDhscGtJ%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMib0FVX3lxTFBqTlFiU3ZLWk9yZ2ctRVR3dVJQdmNmU1h1M0cySU5FdmYtVFl2bk9ZcUN1emNOX3dBNWhWd2Z3MjZCWlhTRVB5U0U3blNJaDhQOTZXNFpyTWo5aFpzWHM5NlNqMy1IZ0dsbFMxdWFkMA%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiZkFVX3lxTE5fTXAySC1GUzMySUQwUW5NaWlicTJYaDJTdjloSUtXek1EZEFuLVRRM3VqRnpRRmhNNVVDYVN1eUM4YmZhUWhmVHRTQWZZTWJNdGNwRlNCcGNpNXRoUDFSd1RwYTNQZw%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiXEFVX3lxTE9EcmJuRDUyWlNxb1BmN09rcDdnSEtQamxBbjhlSFhTSlhPcmx5R0NtOVRWdU41OVRIb0U2d0RXSDVnTHdZaklRT0V2Q0JpWFFvOUFtV1JSYkV6TVBt%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMib0FVX3lxTE93dXFmaGZpc05ZcEpFVWFfR09UT2ltSU5Sd2RrM3dkUVJYRlRGcXpjWU40NlVyRGkyS0FZSUJXeU9pek1qbzBWajJSaDRxYVZJb3daNlZQblNVR1ZFRVVnUWYwZk1GMkpSOTNGNy1PQQ%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiWkFVX3lxTE9aSWp4ZlBsdWIyOWhDdFZ5eGhJWjNSZzc5ZWJkTWNGaTNRSEx5RW94TERfQW5KcnM2WHVpWW5FQklvZllHS2tfeEw1a3BxMENPRlEta2txelgwUQ%3Foc%3D5",
-  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiWkFVX3lxTFBEQmc3LXRsZlBuaHczZ0Y1a3k2cTBsZ0owOVFhbVBodW1fRlRySnRja2M2TWs5d2diRExic3pTbExnaEJ6bU5rNnJHOFdRbDBNTHktU25zYWkyZ9IBWEFVX3lxTE8yNF9DWkRlamMzNk1vVHVYemhja1NacWdWUTZmOUN2RW04anUtYmtQWmQ2WjdsZWc0dDg5bW1BMnc0N3RoeDNibkxWYUkxX0thX09WdDBNLVI%3Foc%3D5"
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiXEFVX3lxTE1VT0FfTHdLeGdIb1Nrd0Z2SlFvYWFaQ0ZPVktuWkVVdEE2SDE3LThpS2pkZXhERUZ3cFlzNGMwbVpzbnMzVGIxZ3FsUXd2M1VBUGh6S1BWbk1UU3Yy%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiZkFVX3lxTE5zMTc5OFMyTnZQSHdHTTNsQnVZeld4ZGFac19MVlVnTTJpVnlCNDF0VW0tYUh4ZDRkUGVoSERtemxrRW5SYkZtTUwtQTRoYXFIbTl5YjYwN1RaN1JEVk9YYVQ1TjlLQQ%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMibEFVX3lxTFB5bnNQeldWdHh3Q2lKd2xISWtfQzBtMGR5QkEwN0xqV1pkOE1Sb2hTTURBSV9ZcnoxenNNalNueWhJenlGNlVlaXNnSlYwTE9uRnp3bVVLbGVFanZfRTdzRTBNMHhBQmpYbHNFWA%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMibEFVX3lxTE9DX1o2RmxGZjZiVjJoZGMwWGNhdW16aEdtaWdJWTAzUlliaHVQUU9IOHdrVGVvY3hhaHl6TFlLU25nSkZPeDlpbE5FNkxOTDFUeHd6LWd4LTYzR2FtYjN0YmRJcnA4VGFnVkFYMw%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMigAFBVV95cUxNdE5UeURtQzBUZ1VoUjlCNHhQVlg1SUVENW4tZnpIUzNGeExJSGdudGE0b1ZsRWt2QzZRSlVSY1ZVWm56U3duT1hpbkRUc2p1bm02dnJFYThmTkgyMzJKUHAzbVR1Y1BETkwxX0ItRFZ0M2lJeDFyYi1jZzhrbkJJbw%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiaEFVX3lxTE1uTzNOZV9LVkhuaEdqdnNsb1BBZWlHTmJEbGZuRElHRjY1MzBPSmUxNFNqaFJpdlhobkZoMVJjaEV1UGg3aE5zNkFPQm1yMUMzb0U0WnJOLXNzdFA5SDNlbDE0TWppUzM2%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMia0FVX3lxTE9IRnBtb210bm9fWF9tRTdnd2RFb285dEFzenRpQVpuNWVkUy0xMmhTTERxZDRVRnpPdHAtNElsZllNNGU5X3dsOUptdHRyWkkzd0w5NUpRTzd2bFVuTURrdGVEbVFpZTN0MS1j%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiakFVX3lxTE5SSmZtamdDUTRyRmpYaWxEY2wyaFFUSGpxeVlCbDN3ckpfMXJGd0RLOFRLTndfVXpYMjV5YkJkTWdtaFdkRW9BZmoyNmhVdkVQaWl1UzRlZTF0MU42UnFmSU10Z3UzQzBlb0E%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiakFVX3lxTE5TbnlHNmhpQ2RhMTNSVmgxNUZTZm83S3cwT1Z0UlhJQW5RYlNxTGtzT3VNZGtKZ0Rfc0tQN1htcUt1czBSWFl2eXVWYl9nRktCaWMwUmdkeEtoUy1VVm83SnU1Ylp4Y2VOT0E%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiaEFVX3lxTE9DZElMSWVKWlR0cVd0elRJMDBhcGtFS2M4cjZ5YlZjMFJIS1FOTzVaaEpNMUZSU3VxTjJSeWhZaXJiR29Rb2RjN3dWaVpnYWtuRVFxWFUzQmwxaUJRUGcyVVQxaU9GdXQ0%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMibEFVX3lxTE5pWVhfRUV5U2RwajM2SkJTekJNaUwxLXF4R0paVU5yU2NvQTNlei1jek1ZbW9LMG0wMnA1X2xldXVhTTNMNHJXbHRwUFVRMk1mc0p6eEpvRWhwY2gxcXRiYjE2dGZxUS1seTAzSg%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiY0FVX3lxTE5sTERJenhnLW1jcVY3Q3lhbFlfRThadmVuWjVhaGFOSmZxSHdZNjlDLVhwT0lpQnlWZzdQNWVucUlNWVgyeEJDMUFFM2pDdjNFWDEzdXF4Q0FzUXN6bV9hLUhfcw%3Foc%3D5",
+  "https://edutech-radar.netlify.app/api/news-image?u=https%3A%2F%2Fnews.google.com%2Frss%2Farticles%2FCBMiVEFVX3lxTE9DSy1UUFIxQ25taFA5SmxseVNBNE40RlFUT1R4d2ZPbzhqOG1GOVVBblBJSkZxeHJIbDU2dE1aeks4dTQ1N1d4MXdYZmRuSHFQeFVOaQ%3Foc%3D5"
  ],
  "resolve": {
   "tried": 160,
   "ok": 160,
-  "dated": 126,
-  "sec": 203,
+  "dated": 133,
+  "sec": 180,
   "hours": 96
  }
 }
