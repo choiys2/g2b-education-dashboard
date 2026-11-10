@@ -1,0 +1,23 @@
+{
+ "source": "사업총괄 정리(2026-11-10) · 각 시도교육청 공개 플랫폼 주소",
+ "note": "AIEP = AI 맞춤형 교수학습 플랫폼. 11개 시도교육청이 공동 구축(서울 주관), 경기·충북·충남은 독자 플랫폼, 대구는 AIDT 활용.",
+ "platforms": [
+  {"sido": "서울", "name": "SEN스쿨", "url": "https://senedu.kr/", "group": "AIEP 통합", "role": "주관 교육청"},
+  {"sido": "인천", "name": "에듀아이 2.0", "url": "https://icedu.kr/", "group": "AIEP 통합"},
+  {"sido": "강원", "name": "아이로", "url": "https://gwedu.kr/", "group": "AIEP 통합"},
+  {"sido": "대전", "name": "AI드림", "url": "https://ai.djsch.kr/", "group": "AIEP 통합"},
+  {"sido": "세종", "name": "세종 AI", "url": "https://sjeai.kr/", "group": "AIEP 통합"},
+  {"sido": "전북", "name": "아이든", "url": "https://ai.jbedu.kr/", "group": "AIEP 통합"},
+  {"sido": "광주", "name": "아이온(AI-ON)", "url": "https://genedu.kr/", "group": "AIEP 통합"},
+  {"sido": "전남", "name": "아이모두", "url": "https://ai.jne.kr/", "group": "AIEP 통합"},
+  {"sido": "경북", "name": "AI배움터", "url": "https://aiep.gbe.kr/", "group": "AIEP 통합"},
+  {"sido": "울산", "name": "우리아이", "url": "https://usedu.ai.kr/", "group": "AIEP 통합"},
+  {"sido": "제주", "name": "바당(BADANG)", "url": "https://aiep.jje.kr/indexJje.html", "group": "AIEP 통합"},
+  {"sido": "경기", "name": "하이러닝", "url": "https://hi.goe.go.kr/", "group": "독자 플랫폼"},
+  {"sido": "충북", "name": "다채움", "url": "https://dcu.cbe.go.kr", "group": "독자 플랫폼"},
+  {"sido": "충남", "name": "마주온", "url": "https://ai.cne.go.kr/", "group": "독자 플랫폼"},
+  {"sido": "대구", "name": "AIDT 활용", "url": "", "group": "AIDT 활용", "role": "별도 플랫폼 없이 AI 디지털교과서 활용"},
+  {"sido": "부산", "name": "확인 필요", "url": "", "group": "확인 필요"},
+  {"sido": "경남", "name": "확인 필요", "url": "", "group": "확인 필요"}
+ ]
+}

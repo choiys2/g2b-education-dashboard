@@ -655,6 +655,7 @@ def main():
         "__OPPORTUNITY_JSON__": _safe(lambda: __import__("opportunity").build(trend2027, data_rows, pipeline=pipeline_export), "통합 기회점수"),  # 통합 기회점수(시도×주제)
         "__BRANCH_JSON__": None,  # 아래에서 기회점수 계산 뒤 채움(총판 연계)
         "__BRANCH_SUMMARY_JSON__": load("static_data/branch_summary.json") if os.path.exists("static_data/branch_summary.json") else None,
+        "__AIEP_JSON__": _safe(lambda: __import__("aiep_view").build(), "시도 AIEP"),  # 17개 시도 AIEP·조달·제휴 메모(비공개는 키로)
         "__ADOPTION_JSON__": _adoption(),  # 비상 교과서 채택(암호문 -> 로그인 뒤 화면)
         "__BRANCH_GEO_JSON__": _safe(lambda: __import__("branch_network").geo_pack(), "총판 지도"),  # 공개 시군구 경계 + AI·선도학교 수
         "__FORECAST_JSON__": _safe(lambda: __import__("bid_forecast").build(), "발주 예측"),  # 발주 예측 캘린더
@@ -700,7 +701,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:
