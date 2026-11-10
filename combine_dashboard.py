@@ -53,6 +53,21 @@ def _branch(opp):
         return None
 
 
+def _region_programs():
+    """지역 연계 사업(교육혁신 선도지역 등) + 시군 -> 지도 시군구 코드(총판·채택·AI 중점 연결 키)."""
+    p = "static_data/region_programs.json"
+    if not os.path.exists(p):
+        return None
+    import branch_network as bn
+    d = load(p)
+    for pg in d.get("programs", []):
+        for r in pg.get("regions", []):
+            r["codes"] = bn.sgg_codes(r["sido"], r["sgg"])
+    n = sum(len(pg.get("regions", [])) for pg in d.get("programs", []))
+    print(f"지역 연계 사업: {len(d.get('programs', []))}개 · 시군 {n}곳 · 지도 연결 {sum(1 for pg in d['programs'] for r in pg['regions'] if r['codes'])}곳")
+    return d
+
+
 def _adoption():
     """비상 교과서 채택(학교별 주문) 암호문 복호화 - 로그인 뒤 화면만. 학교명은 로그에 남기지 않는다."""
     p, key = "static_data/textbook_adoption.enc.json", os.environ.get("STRATEGY_KEY", "")
@@ -655,6 +670,8 @@ def main():
         "__OPPORTUNITY_JSON__": _safe(lambda: __import__("opportunity").build(trend2027, data_rows, pipeline=pipeline_export), "통합 기회점수"),  # 통합 기회점수(시도×주제)
         "__BRANCH_JSON__": None,  # 아래에서 기회점수 계산 뒤 채움(총판 연계)
         "__BRANCH_SUMMARY_JSON__": load("static_data/branch_summary.json") if os.path.exists("static_data/branch_summary.json") else None,
+        "__INDUSTRY_JSON__": _safe(lambda: __import__("industry_view").build(), "기업·대학 트렌드"),  # 비공개 메모는 키로
+        "__REGION_PROGRAMS_JSON__": _safe(_region_programs, "지역 연계 사업"),
         "__AIEP_JSON__": _safe(lambda: __import__("aiep_view").build(), "시도 AIEP"),  # 17개 시도 AIEP·조달·제휴 메모(비공개는 키로)
         "__ADOPTION_JSON__": _adoption(),  # 비상 교과서 채택(암호문 -> 로그인 뒤 화면)
         "__BRANCH_GEO_JSON__": _safe(lambda: __import__("branch_network").geo_pack(), "총판 지도"),  # 공개 시군구 경계 + AI·선도학교 수
@@ -701,7 +718,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:

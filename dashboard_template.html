@@ -743,6 +743,7 @@ svg { max-width: 100%; }
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 중점·선도학교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="trend2027">교사 트렌드 2027</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="biz2027">기업·대학 트렌드 2027</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="aiep">시도 AIEP</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="branch">지역 총판</button>
@@ -2251,6 +2252,7 @@ svg { max-width: 100%; }
 
   </div><!-- /panel-competitor -->
 
+  <div class="tabpanel" id="panel-biz2027"></div>
   <div class="tabpanel" id="panel-aiep"></div>
   <div class="tabpanel" id="panel-branch"></div>
   <div class="tabpanel" id="panel-adopt"></div>
@@ -3562,6 +3564,8 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
 /* ---------------- 통합 지역 기회 스코어 (시장분석 + AI에듀테크 + 학교단위) ---------------- */
 (function renderTier1Summary(){
   const el = document.getElementById('tier1Grid');
+  const RP = __REGION_PROGRAMS_JSON__; window.__RP = RP;  // 지역 연계 사업(교육혁신 선도지역 등) - 아래 '지역 연계 사업' 패널·지도도 같이 쓴다
+  const rpOf = r => ((RP && RP.programs) || []).map(pg => ({pg, rs: (pg.regions || []).filter(x => x.sido === r)})).filter(x => x.rs.length);
   if (!el || typeof PIPE === 'undefined') return;
   const TIER1 = ['경기', '강원', '경남', '전북'];
   const REGIONS = Object.keys(REGION_SHORT2FULL);
@@ -3607,6 +3611,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
           <span>예산 여력(세입−세출) <b>${d.room != null ? fmtWon(d.room) : '-'}</b>${d.teachers ? ` · 교원 ${fmt(d.teachers)}명` : ''}</span>
           <span>자사 파이프라인 <b>${fmt(d.own)}건</b> · ${fmtWon(d.ownAmt)}${d.share != null ? ` · 점유 ${d.share}%` : ''}</span>
           <span>경쟁사 낙찰 이력 <b style="color:${d.comp > 0 ? 'var(--critical)' : 'inherit'};">${fmt(d.comp)}건</b></span>
+          ${rpOf(d.region).map(x => `<span style="margin-top:2px;padding:4px 7px;border-radius:7px;background:color-mix(in srgb, #8b5cf6 14%, transparent);"><a href="#rpPanel" style="font-weight:700;">◆ ${esc(x.pg.name)}</a> ${x.rs.length}곳 · ${esc(x.rs.map(r => r.sgg.replace(/(시|군)$/, '') + (r.type === '2유형' ? '(2)' : '')).join('·'))}</span>`).join('')}
         </div>
       </div>`).join('') || '<div style="color:var(--muted);font-size:13px;">조건에 맞는 시도가 없습니다.</div>';
   }
@@ -8955,6 +8960,11 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
         });
       });
     }
+    // 지역 연계 사업(교육혁신 선도지역 등) 시군 표시
+    ((window.__RP && window.__RP.programs) || []).forEach(pg => (pg.regions || []).forEach(r => (r.codes || []).forEach(c => {
+      const f = FC[c]; if (!f || (!all && !fs.includes(f))) return; const [X, Y] = P(f.xy[0], f.xy[1]);
+      items.push({y: Y - .2, svg: `<g data-tip="${h(`<b>◆ ${h(pg.name)}</b><br>${h(r.sido)} ${h(r.sgg)} · ${h(r.type)}<br>${h(r.pitch)}`)}"><polygon points="${X},${Y - 9} ${X + 6},${Y - 3} ${X},${Y + 3} ${X - 6},${Y - 3}" fill="#8b5cf6" stroke="var(--surface)" stroke-width="1.2"/></g>`});
+    })));
     items.sort((a, b) => a.y - b.y);
     // 이름표: 시도 보기 = 시군구, 전체 보기 = 시도
     let labels = '';
@@ -8965,6 +8975,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     const sw = (c, t) => `<div style="display:flex;gap:6px;align-items:center;margin:3px 0;"><span style="width:12px;height:12px;border-radius:3px;background:${c};flex:none;"></span>${t}</div>`;
     lg.innerHTML = `<div style="font-weight:700;margin-bottom:4px;">읽는 법</div>
       ${B ? (all ? sw('color-mix(in srgb, var(--accent) 28%, var(--surface-2))', '총판 1곳 담당') + sw('color-mix(in srgb, var(--accent) 66%, var(--surface-2))', '총판 3곳 이상 겹침') : sw(PAL[0], '색 = 총판 담당 구역(표의 색 점과 같음)')) + sw('color-mix(in srgb, #ef4444 22%, var(--surface-2))', '연결된 총판 없음') + sw('var(--ink)', '핀 = 지사 사무실 위치(주소 기준 시군구)') : sw('color-mix(in srgb, var(--accent) 50%, var(--surface-2))', '색 = AI 중점·선도학교가 많을수록 진함')}
+      ${window.__RP ? sw('#8b5cf6', '◆ = 지역 연계 사업 시군(교육혁신 선도지역 등)') : ''}
       ${sec.querySelector('#brMetric').value !== 'none' ? sw(BC[0], '막대 = ' + sec.querySelector('#brMetric').selectedOptions[0].text.replace('막대: ', '') + ' 학교 수(시군구)') : ''}
       ${unc.length ? `<div style="margin-top:8px;color:var(--ink-2);"><b>총판 미연결</b> ${unc.length}곳: ${h(unc.slice(0, 12).join(', '))}${unc.length > 12 ? ' 외' : ''}</div>` : ''}
       ${pick ? `<div style="margin-top:8px;"><b>${h((FC[pick] || {}).n)}</b> 담당 총판만 표에 표시 중 <button type="button" class="pill" id="brClear" style="font-size:11px;">해제</button></div>` : ''}
@@ -9199,6 +9210,107 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
       <p class="tt-note" style="font-size:13px;line-height:1.6;"><b>그래서</b> AIEP 통합 11개 시도는 개발사 한 곳과의 제휴로 한 번에 연동할 수 있는 시장입니다(독자 플랫폼 3곳은 개별 협의). SSO는 2차 고도화 때 공통으로 붙는 구조라, 지금은 ① 콘텐츠 메타데이터·LTI 연동 사양 합의 ② 활용 연수 공동 제안(강원처럼 공고가 나오는 시도부터) ③ 2차 고도화 공동 참여 순으로 잡으세요. AI 중점학교가 많고 비상 채택률이 높은 시도(카드 참고)를 시범 지역 후보로 고르면 됩니다.</p></div>`;
   }
   draw();
+})();
+</script>
+<script>
+/* ---------------- 지역 연계 사업(교육혁신 선도지역 등) - B2G영업 탭 '17개 시도교육청 영업 요약' 아래 ----------------
+   데이터: static_data/region_programs.json (사업·시군을 계속 추가). 시군 -> 지역 총판·비상 채택·AI 중점·시도 AIEP 연결 */
+(function renderRegionPrograms(){
+  const RP = window.__RP, grid = document.getElementById('tier1Grid');
+  if (!RP || !(RP.programs || []).length || !grid) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => (v || 0).toLocaleString();
+  const GEO = window.__GEO, BR = window.__BRANCH, AD = window.__ADOPT, AP = window.__AIEP_P || {};
+  const FC = {}; ((GEO && GEO.features) || []).forEach(f => { FC[f.c] = f; });
+  const LS = 'rpCheck.v1', load = () => { try { return JSON.parse(localStorage.getItem(LS) || '{}'); } catch (e) { return {}; } };
+  const save = v => { try { localStorage.setItem(LS, JSON.stringify(v)); } catch (e) { /* 저장 불가 환경 */ } };
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'rpPanel';
+  grid.closest('section').after(sec);
+  let pi = 0, sdF = '';
+  function draw(){
+    const pg = RP.programs[pi], chk = load();
+    const R = (pg.regions || []).filter(r => !sdF || r.sido === sdF).map(r => {
+      const cs = r.codes || [], bs = (BR && BR.rows || []).filter(b => (b.sgg || []).some(c => cs.includes(c)));
+      let u = 0, a = 0, open = 0; cs.forEach(c => { const x = AD && AD.bySgg[c]; if (x) { u += x.u; a += x.a; open += x.open; } });
+      const ai = cs.reduce((t, c) => t + ((GEO && GEO.ai[c]) || 0), 0), dig = cs.reduce((t, c) => t + ((GEO && GEO.dig[c]) || 0), 0);
+      return {...r, bs: [...new Set(bs.map(b => b.name.replace(/\s*\(.*\)$/, '')))], staff: [...new Set(bs.map(b => b.staff).filter(Boolean))], u, a, open, ai, dig, key: pg.id + '|' + r.sido + r.sgg};
+    });
+    const sidos = [...new Set((pg.regions || []).map(r => r.sido))];
+    const done = R.filter(r => chk[r.key]).length;
+    // 미니 지도: 해당 시군 강조
+    let map = '';
+    if (GEO && GEO.features) {
+      const on = new Set(R.flatMap(r => r.codes || [])), F = GEO.features; let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+      F.forEach(f => f.r.forEach(r => { for (let i = 0; i < r.length; i += 2) { x0 = Math.min(x0, r[i]); x1 = Math.max(x1, r[i]); y0 = Math.min(y0, r[i + 1]); y1 = Math.max(y1, r[i + 1]); } }));
+      const W = 360, H = 400, t = .62, s = Math.min((W - 20) / (x1 - x0), (H - 20) / ((y1 - y0) * t)), ox = (W - (x1 - x0) * s) / 2, P = (x, y) => [ox + (x - x0) * s, 8 + (y - y0) * t * s];
+      const path = f => f.r.map(r => { let d = ''; for (let i = 0; i < r.length; i += 2) { const [a, b] = P(r[i], r[i + 1]); d += (i ? 'L' : 'M') + a.toFixed(1) + ',' + b.toFixed(1); } return d + 'Z'; }).join('');
+      map = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:360px;height:auto;display:block;" role="img" aria-label="${h(pg.name)} 시군 지도">${F.map(f => `<path d="${path(f)}" transform="translate(0,5)" fill="color-mix(in srgb, var(--ink) 18%, var(--surface-2))"/>`).join('')}${F.map(f => { const r = R.find(x => (x.codes || []).includes(f.c)); return `<path d="${path(f)}" fill="${on.has(f.c) ? (r && r.type === '2유형' ? '#f59e0b' : r && r.type === '1유형' ? '#8b5cf6' : '#ec4899') : 'var(--surface-2)'}" stroke="var(--surface)" stroke-width=".4"${r ? ` data-tip="${h(`<b>${h(r.sido)} ${h(r.sgg)}</b> · ${h(r.type)}<br>${h(r.pitch)}`)}"` : ''}/>`; }).join('')}</svg>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11.5px;">${[['#8b5cf6', '1유형'], ['#f59e0b', '2유형'], ['#ec4899', '유형 확인 필요']].map(([c, t]) => `<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${c};margin-right:3px;"></span>${t}</span>`).join('')}</div>`;
+    }
+    sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">지역 연계 사업 — 교육청 연수 예산 밖의 영업 접점<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">${RP.programs.length}개 사업 · 계속 추가 · 시군별 총판·비상 채택·AI 중점·AIEP 연결</span></p>
+      <p class="panel-desc">교육청·지자체·대학이 함께 추진하는 지역 교육혁신 사업을 시군 단위로 모으고, 그 시군의 관할 총판과 학교 데이터를 붙였습니다. 방문·협의 체크는 이 브라우저에만 저장됩니다(담당자끼리는 공유되지 않음).</p></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">${RP.programs.length > 1 ? `<select id="rpPg">${RP.programs.map((p, i) => `<option value="${i}"${i === pi ? ' selected' : ''}>${h(p.name)}</option>`).join('')}</select>` : ''}<select id="rpSd"><option value="">시도 전체</option>${sidos.map(x => `<option${x === sdF ? ' selected' : ''}>${x}</option>`).join('')}</select></div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;">
+        <div style="flex:1 1 320px;min-width:0;"><div style="font-weight:800;font-size:15px;margin-bottom:6px;">◆ ${h(pg.name)} <span style="font-size:12px;color:var(--muted);font-weight:500;">${h(pg.owner || '')} · ${h(pg.added || '')} 추가</span></div>
+          <table class="data" style="font-size:12.5px;width:100%;min-width:0;table-layout:fixed;"><tbody>${(pg.facts || []).map(([k, v]) => `<tr><td style="white-space:nowrap;width:84px;font-weight:700;color:var(--ink-2);">${h(k)}</td><td style="white-space:normal;">${h(v)}</td></tr>`).join('')}</tbody></table>
+          <p style="font-size:12.5px;margin:8px 0;padding:8px 10px;border-radius:8px;background:color-mix(in srgb, #8b5cf6 12%, transparent);"><b>영업 관점</b> ${h(pg.sales_point || '')}</p>
+          <div style="font-size:11.5px;color:var(--muted);">출처: ${h(pg.source || '')}</div></div>
+        <div style="flex:0 1 360px;min-width:0;">${map}</div></div>
+      <div style="font-weight:700;font-size:13px;margin:12px 0 6px;">시군별 연결 ${R.length}곳 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">방문·협의 체크 ${done}/${R.length} · 지역 목록은 ${h(pg.region_status || '')} — 실제 선정은 공식 공고로 확인</span></div>
+      <div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:960px;"><thead><tr><th>체크</th><th>시도·시군</th><th>유형</th><th>비바샘 연계 방향</th><th>관할 총판(비상 담당)</th><th class="num">일반 초중고</th><th class="num">비상 채택</th><th class="num">전환 대상</th><th class="num">AI 중점·선도</th><th>시도 AIEP</th></tr></thead><tbody>
+        ${R.map(r => `<tr><td><input type="checkbox" class="rpChk" data-k="${h(r.key)}" ${chk[r.key] ? 'checked' : ''} aria-label="${h(r.sgg)} 방문·협의 체크"></td><td style="white-space:nowrap;"><b>${h(r.sido)} ${h(r.sgg)}</b>${r.note ? `<br><span style="font-size:11px;color:var(--muted);">${h(r.note)}</span>` : ''}</td><td style="white-space:nowrap;">${h(r.type)}</td><td>${h(r.pitch)}</td>
+          <td style="font-size:11.5px;">${BR ? (h(r.bs.join(', ')) || '<span style="color:var(--muted);">미연결</span>') + (r.staff.length ? `<br><span style="color:var(--muted);">담당 ${h(r.staff.join(', '))}</span>` : '') : '<span style="color:var(--muted);">로그인 화면</span>'}</td>
+          <td class="num">${AD ? n(r.u) : '-'}</td><td class="num">${AD && r.u ? `${n(r.a)} <span style="color:var(--muted);font-size:11px;">${Math.round(r.a / r.u * 100)}%</span>` : '-'}</td><td class="num">${AD ? `<b>${n(r.open)}</b>` : '-'}</td><td class="num">${n(r.ai)}·${n(r.dig)}</td>
+          <td style="font-size:11.5px;">${AP[r.sido] ? `<a href="#" class="rpAiep" data-s="${h(r.sido)}">${h(AP[r.sido].name)}</a>` : '-'}</td></tr>`).join('')}</tbody></table></div>
+      <p class="tt-note" style="font-size:13px;line-height:1.6;"><b>그래서</b> ${h(pg.name)} 시군은 학교 수가 적은 인구감소지역이 대부분이라 학교 단위 판매보다 <b>교육청·지자체·대학이 함께 쓰는 사업비(연간 최대 20억)</b>로 '지역 맞춤형 교원연수 + AI교육 + 지역강사 양성'을 묶어 제안하는 편이 맞습니다. 관할 총판과 함께 체크한 시군부터 방문하고, 전환 대상(비바샘 회원은 있는데 비상 교과서 미채택) 학교 수가 많은 시군은 교과서·연수 결합 제안을 같이 가져가세요. 새 사업이나 선정 결과가 나오면 region_programs.json 에 추가하면 이 패널과 시도 카드에 바로 반영됩니다.</p>`;
+    const ps = sec.querySelector('#rpPg'); if (ps) ps.addEventListener('change', e => { pi = +e.target.value; sdF = ''; draw(); });
+    sec.querySelector('#rpSd').addEventListener('change', e => { sdF = e.target.value; draw(); });
+    sec.querySelectorAll('.rpChk').forEach(c => c.addEventListener('change', () => { const v = load(); if (c.checked) v[c.dataset.k] = new Date().toISOString().slice(0, 10); else delete v[c.dataset.k]; save(v); draw(); }));
+    sec.querySelectorAll('.rpAiep').forEach(a => a.addEventListener('click', e => { e.preventDefault(); if (window.__goAiep) window.__goAiep(a.dataset.s); }));
+  }
+  draw();
+})();
+</script>
+<script>
+/* ---------------- 기업·대학 트렌드 2027 - AI 교육사업·RISE·협력 가능성 (교사 트렌드 2027 옆) ----------------
+   공개: static_data/industry_trend_2027.json · 비공개(업체별 현황·협력 방향): 암호문 -> 로그인 뒤 화면. 정보는 계속 추가한다 */
+(function renderBiz2027(){
+  const D = __INDUSTRY_JSON__;
+  const tab = document.getElementById('panel-biz2027'); if (!tab || !D) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
+  const PV = D.private || null, R = D.rise || {};
+  const box = (inner, extra) => `<div style="border:1px solid var(--border);border-radius:12px;padding:12px 14px;${extra || ''}">${inner}</div>`;
+  const ttl = (t, s) => `<div style="font-weight:800;font-size:14px;margin-bottom:8px;">${t}${s ? ` <span style="font-size:11.5px;color:var(--muted);font-weight:500;">${s}</span>` : ''}</div>`;
+  // KERIS AI 교원연수 위탁 낙찰 흐름(공개 조달)
+  const KA = D.keris_ai || [], mxA = Math.max(1, ...KA.map(a => a.amt || 0));
+  const keris = KA.length ? KA.slice(0, 10).map(a => `<div style="display:grid;grid-template-columns:70px 1fr 150px;gap:8px;align-items:center;font-size:12px;margin:4px 0;"><span style="color:var(--muted);">${h((a.d || '').slice(0, 7))}</span><span><a href="${h(a.u)}" target="_blank" rel="noopener">${h(a.t)}</a><span style="display:block;height:8px;margin-top:2px;border-radius:3px;width:${((a.amt || 0) / mxA * 100).toFixed(1)}%;background:${/네패스/.test(a.winner) ? '#8b5cf6' : /아이스크림/.test(a.winner) ? '#ef4444' : 'color-mix(in srgb, var(--accent) 55%, var(--surface-2))'};"></span></span><span style="text-align:right;"><b>${h(a.winner.replace(/주식회사|\(주\)|사단법인|\(사\)/g, '').trim())}</b><br>${won(a.amt)}${a.n ? ` · ${a.n}개사` : ''}</span></div>`).join('') : '<p style="color:var(--muted);font-size:12.5px;">KERIS 조달 수집분 없음</p>';
+  // 2027 예산 막대
+  const B = R.budget || [], mxB = Math.max(1, ...B.map(b => Math.max(b.y2026, b.y2027)));
+  const budget = B.map(b => `<div style="font-size:12px;margin:6px 0;"><div style="display:flex;justify-content:space-between;"><b>${h(b.k)}</b><span>${b.y2026 ? b.y2026.toLocaleString() + '억 → ' : '신규 '}<b style="color:var(--accent);">${b.y2027.toLocaleString()}억</b>${b.y2026 ? ` (+${Math.round((b.y2027 / b.y2026 - 1) * 100)}%)` : ''}</span></div>
+    <div style="position:relative;height:16px;margin-top:3px;"><span style="position:absolute;left:0;top:0;height:7px;width:${(b.y2026 / mxB * 100).toFixed(1)}%;background:var(--muted);border-radius:3px;opacity:.6;"></span><span style="position:absolute;left:0;top:8px;height:7px;width:${(b.y2027 / mxB * 100).toFixed(1)}%;background:var(--accent);border-radius:3px;"></span></div></div>`).join('') + `<div style="font-size:11px;color:var(--muted);">회색 2026 · 파랑 2027 예산안 · ${h(R.budget_note || '')}</div>`;
+  const flow = (R.flow || []).map(([k, v], i) => `<div style="flex:1 1 140px;min-width:0;border:1px solid var(--border);border-radius:10px;padding:8px;background:color-mix(in srgb, var(--accent) ${8 + i * 6}%, var(--surface));"><b style="font-size:12.5px;">${h(k)}</b><div style="font-size:11.5px;color:var(--ink-2);">${h(v)}</div></div>${i < (R.flow.length - 1) ? '<span style="align-self:center;color:var(--muted);">→</span>' : ''}`).join('');
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'bizPanel';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">${h(D.title || '기업·대학 트렌드 2027')}<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">업데이트 ${h(((D.log || [])[0] || {}).d || '')} · 정보를 계속 쌓는 공간${PV ? '' : ' · 업체별 현황은 로그인 화면에만'}</span></p>
+    <p class="panel-desc">기존 AI 교원연수 위탁 수주 경쟁 밖에서 기업·대학·학교를 잇는 AI 교육사업을 찾습니다. 공개 조달(KERIS AI 교원연수 낙찰)·교육부 예산안·RISE 구조에 업체 미팅 결과를 겹쳐 봅니다.</p></div></div>
+    ${PV ? box(`${ttl('핵심 결론')}<ol style="margin:0;padding-left:18px;font-size:13px;line-height:1.7;">${(PV.conclusion || []).map(x => `<li>${h(x)}</li>`).join('')}</ol>`, 'background:color-mix(in srgb, #8b5cf6 10%, var(--surface));margin-bottom:12px;') : ''}
+    <div style="display:flex;flex-wrap:wrap;gap:12px;">
+      <div style="flex:1 1 420px;min-width:0;">${box(`${ttl('AI 교원연수 위탁 낙찰 흐름', 'KERIS 나라장터 · 2026 초등 네패스(보라)·중등 아이스크림(빨강)')}${keris}<p class="tt-note">2024년 엘리스·아이헤이트플라잉버그스(에듀테크) → 2026년 네패스(반도체 중견기업)·아이스크림으로 낙찰 주체가 바뀌었습니다. 연수 위탁이 기업 산업교육 역량과 결합하는 흐름이라, 단독 응찰보다 컨소시엄·하도급 협력 구도가 현실적입니다.</p>`)}</div>
+      <div style="flex:1 1 360px;min-width:0;">${box(`${ttl('시장 변화 및 전망')}${(D.market || []).map(m => `<div style="font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--border);"><b>${h(m.k)}</b> — ${h(m.v)}</div>`).join('')}`)}</div></div>
+    ${PV ? box(`${ttl('업체·기관별 현황과 협력 방향', '업체 미팅 결과 · 로그인 화면 전용')}<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:760px;"><thead><tr><th>구분</th><th>현황</th><th>전망</th><th>비상교육 협력 방향</th></tr></thead><tbody>${(PV.companies || []).map(c => `<tr><td style="font-weight:700;white-space:nowrap;">${h(c.name)}</td><td>${h(c.now)}</td><td>${h(c.outlook)}</td><td><b>${h(c.coop)}</b></td></tr>`).join('')}</tbody></table></div><p class="tt-note">${h(PV.common || '')}</p>`, 'margin-top:12px;') : ''}
+    ${box(`${ttl('RISE(지역혁신중심 대학지원체계)', '2027 대학·첨단산업 교육시장')}<p style="font-size:12.5px;margin:0 0 8px;">${h(R.def || '')}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;"><div style="flex:1 1 300px;min-width:0;"><table class="data" style="font-size:12.5px;width:100%;min-width:0;table-layout:fixed;"><tbody>${(R.facts || []).map(([k, v]) => `<tr><td style="white-space:nowrap;width:80px;font-weight:700;color:var(--ink-2);">${h(k)}</td><td style="white-space:normal;">${h(v)}</td></tr>`).join('')}</tbody></table>
+        ${R.law ? `<div style="font-size:11.5px;margin-top:6px;">공식 근거: <a href="${h(R.law.u)}" target="_blank" rel="noopener">${h(R.law.t)} ↗</a></div>` : ''}</div>
+        <div style="flex:1 1 320px;min-width:0;"><div style="font-weight:700;font-size:12.5px;margin-bottom:4px;">2027 교육부 예산안(관련 분야)</div>${budget}</div></div>
+      <div style="font-weight:700;font-size:12.5px;margin:10px 0 6px;">예산 흐름 — 대학이 '사업비'로 교육과정 개발·강사비·운영비를 집행</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${flow}</div>`, 'margin-top:12px;')}
+    ${box(`${ttl('우선 검토 대학', h(D.universities_note || ''))}<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:560px;"><thead><tr><th>대학</th><th>주요 분야</th><th>비바샘 연계 가능성</th></tr></thead><tbody>${(D.universities || []).map(u => `<tr><td style="font-weight:700;white-space:nowrap;">${h(u.name)}</td><td>${h(u.field)}</td><td>${h(u.link)}</td></tr>`).join('')}</tbody></table></div>`, 'margin-top:12px;')}
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;">
+      <div style="flex:1 1 380px;min-width:0;">${box(`${ttl('관련 동향', '조간 브리핑에서 RISE·대학·기업 AI 교육 언급')}${(D.news || []).map(x => `<div style="font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);font-size:11px;">${h(x.d)}</span> <a href="${h(x.u)}" target="_blank" rel="noopener"><b>${h(x.t)}</b></a><div style="color:var(--ink-2);font-size:12px;">${h(x.b)}</div>${x.impact ? `<div style="font-size:12px;margin-top:2px;"><b>그래서</b> ${h(x.impact)}</div>` : ''}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">아직 관련 기사 없음 — 조간 브리핑이 쌓이면 자동으로 채워집니다.</p>'}`)}</div>
+      <div style="flex:1 1 300px;min-width:0;">${box(`${ttl('다음에 확인할 것')}<ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;">${(D.open_questions || []).map(q => `<li>${h(q)}</li>`).join('')}</ul>
+        <div style="font-weight:700;font-size:12.5px;margin:10px 0 4px;">업데이트 이력</div>${(D.log || []).map(l => `<div style="font-size:12px;"><span style="color:var(--muted);">${h(l.d)}</span> ${h(l.t)}</div>`).join('')}
+        <p class="tt-note">새 미팅 결과·공고·대학 정보를 대화로 보내 주시면 이 공간(공개 정보는 industry_trend_2027.json, 업체 정보는 암호문)에 추가합니다.</p>`)}</div></div>
+    <p class="tt-note" style="font-size:13px;line-height:1.6;"><b>그래서</b> 2027년 AI 교육 예산은 교원연수 위탁보다 <b>대학(첨단분야 인재양성 +37%, AI 재도약대학 2,070억 신규)</b>과 <b>지자체 RISE</b> 쪽에서 커집니다. 비바샘은 교과서·교원연수·학교 네트워크를 가진 쪽이므로, ① 반도체·AI 기업과 K-12 인재양성 모델(학생 진로·교사 연수 결합) ② RISE 사업단의 '지역 교원·학생 대상 프로그램' 위탁 ③ 2027 KERIS·교육청 AI 연수 용역 컨소시엄 순으로 접점을 만들고, 지역 연계 사업(B2G영업 탭 교육혁신 선도지역)과 같은 시군이 겹치는지 함께 보세요.</p>`;
+  tab.prepend(sec);
 })();
 </script>
 <script>
