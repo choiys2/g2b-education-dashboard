@@ -1,0 +1,36 @@
+name: 협력 후보 스크랩(대학·기업·독서 인문학)
+
+# 기업·대학 트렌드 2027 탭: 초등 교원양성대학 13곳·검토 대학·협력 기업·주제의 최근 180일 뉴스 제목
+on:
+  schedule:
+    - cron: "10 19 * * 0"   # 매주 월 04:10 KST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: partner-news
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 스크랩
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: python partner_news.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add history/partner_news.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: 협력 후보 스크랩 $(TZ=Asia/Seoul date +%F)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done

@@ -59,7 +59,78 @@ def build(key=None):
                                  "impact": impact[:220], "u": f"../news/{b.get('date') or f.stem}.html"})
         if len(news) >= 40:
             break
-    out = {**D, "keris_ai": awards[:20], "news": news}
+    # 독서·인문학: KERIS 독서·도서관 발주(누가 수행하나), 시도 연수 공고, 브리핑 기사
+    rrx = re.compile(r"독서|인문|문해|도서관|북토크")
+    kread = []
+    for k, bd in (K.get("bids") or {}).items():
+        if rrx.search(bd.get("t") or ""):
+            aw = (K.get("awards") or {}).get(k) or {}
+            kread.append({"d": bd.get("d"), "t": bd.get("t"), "budget": bd.get("budget"), "winner": aw.get("winner", ""),
+                          "u": bd.get("url") or f"https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo={k.split('-')[0]}&bidPbancOrd={k.split('-')[-1]}"})
+    seen_t, kr = set(), []
+    for x in sorted(kread, key=lambda x: (x["d"] or "", bool(x["winner"])), reverse=True):
+        t = re.sub(r"\(재공고\)|\(수의시담\)|\s", "", x["t"])
+        if t in seen_t:
+            continue
+        seen_t.add(t)
+        kr.append(x)
+    tread = []
+    p = HERE / "history/training_bids.jsonl"
+    if p.exists():
+        for line in p.read_text(encoding="utf-8").splitlines():
+            try:
+                b = json.loads(line)
+            except ValueError:
+                continue
+            if rrx.search(b.get("t") or "") and b.get("t") not in {x["t"] for x in tread}:
+                tread.append({"d": b.get("d"), "t": b.get("t"), "o": b.get("o"), "r": b.get("r"), "a": b.get("a"), "u": b.get("u")})
+    bread = []
+    for f in sorted((HERE / "briefings").glob("*.json"), reverse=True)[:120]:
+        try:
+            bb = json.loads(f.read_text(encoding="utf-8"))
+        except ValueError:
+            continue
+        for sec in bb.get("sections") or []:
+            if SKIP_SEC.search(sec.get("name") or ""):
+                continue
+            for it in sec.get("items") or []:
+                if rrx.search(_plain(it.get("title"))):
+                    bread.append({"d": bb.get("date") or f.stem, "t": _plain(it.get("title")), "b": _plain(it.get("body"))[:160], "u": f"../news/{bb.get('date') or f.stem}.html"})
+    # 초등 교원양성대학: KERIS 참가·낙찰, 브리핑 언급, 뉴스 스크랩
+    PN = (_j("history/partner_news.json", {}) or {}).get("items", {})
+    univ = []
+    for u in D.get("universities_edu") or []:
+        uk = u.get("match") or u["name"]  # (key 는 복호화 키 인자라 다른 이름)
+        ks = []
+        for k, ps in (K.get("participants") or {}).items():
+            for pp in ps:
+                if uk in (pp.get("corp") or ""):
+                    t = ((K.get("bids") or {}).get(k) or {}).get("t") or ((K.get("awards") or {}).get(k) or {}).get("t") or ""
+                    ks.append({"d": ((K.get("bids") or {}).get(k) or {}).get("d", ""), "t": t, "rank": pp.get("rank"), "amt": pp.get("amt")})
+        for k, aw in (K.get("awards") or {}).items():
+            if uk in (aw.get("winner") or "") and not any(x["t"] == aw.get("t") for x in ks):
+                ks.append({"d": aw.get("d"), "t": aw.get("t"), "rank": 1, "amt": aw.get("amt")})
+        ks.sort(key=lambda x: x["d"] or "", reverse=True)
+        brs = []
+        for f in sorted((HERE / "briefings").glob("*.json"), reverse=True)[:120]:
+            txt = f.read_text(encoding="utf-8")
+            if u["short"] in txt or u["name"] in txt:
+                try:
+                    bb = json.loads(txt)
+                except ValueError:
+                    continue
+                for sec in bb.get("sections") or []:
+                    for it in sec.get("items") or []:
+                        tt = _plain(it.get("title")) + " " + _plain(it.get("body"))
+                        if u["short"] in tt or u["name"] in tt:
+                            brs.append({"d": bb.get("date") or f.stem, "t": _plain(it.get("title")), "u": f"../news/{bb.get('date') or f.stem}.html"})
+        univ.append({**u, "keris": ks[:6], "keris_n": len(ks), "keris_win": sum(1 for x in ks if x.get("rank") == 1),
+                     "briefs": brs[:4], "scrap": (PN.get(uk) or {}).get("items", [])[:4]})
+    out = {**D, "keris_ai": awards[:20], "news": news,
+           "reading_data": {"keris": kr[:14], "keris_n": len(kr), "keris_amt": sum(x.get("budget") or 0 for x in kr), "train": tread[:10],
+                            "briefs": bread[:8], "scrap": {t: (PN.get(t) or {}).get("items", [])[:4] for t in (D.get("scrap_targets") or {}).get("topic", [])}},
+           "edu_univ": univ, "company_scrap": {c: (PN.get(c) or {}).get("items", [])[:4] for c in (D.get("scrap_targets") or {}).get("company", [])},
+           "scrap_updated": (_j("history/partner_news.json", {}) or {}).get("generated")}
     key = key or os.environ.get("STRATEGY_KEY", "")
     ep = HERE / "static_data/industry_trend_private.enc.json"
     if key and ep.exists():

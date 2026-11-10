@@ -90,7 +90,8 @@ def build(branch=None, adoption=None, aiep=None, programs=None, industry=None, o
         t = (kbids.get(k) or {}).get("t") or (K.get("awards", {}).get(k) or {}).get("t") or ""
         for p in ps:
             if p.get("corp"):
-                c = node("기업", corp(p["corp"]))
+                nm = corp(p["corp"])
+                c = node("대학", re.sub(r"^국립|\s*산학협력단$", "", nm).strip()) if "대학교" in nm else node("기업", nm)
                 link(c, keris, "KERIS 입찰", f"{'1순위' if p.get('rank') == 1 else '참가'} · {t[:46]}")
     # 4) 시도 AIEP: 플랫폼 - 시도, AIEP 조달 낙찰 기업
     for x in (aiep or {}).get("sido") or []:
@@ -122,6 +123,11 @@ def build(branch=None, adoption=None, aiep=None, programs=None, industry=None, o
     # 7) 기업·대학 트렌드: 기업 - 사업(RISE 등)
     if industry:
         rise = node("사업", "RISE(지역혁신중심 대학지원체계)", owner="교육부·광역지자체")
+        for u in industry.get("edu_univ") or []:  # 초등 교원양성대학 13곳: 시도 + KERIS 수행 과제
+            un = node("대학", u.get("match") or u["name"], sido=u.get("sido"))
+            link(un, f"시도:{u['sido']}", "기업·대학 트렌드", f"초등 교원양성대학 · KERIS 참여 {u.get('keris_n', 0)}건")
+            for b in u.get("briefs") or []:
+                link(un, node("사업", "조간 브리핑 언급"), "조간 브리핑", f"{b['d']} {b['t'][:46]}")
         for u in industry.get("universities") or []:
             link(node("대학", u["name"]), rise, "기업·대학 트렌드", f"{u['field']} → {u['link']}")
         for a in industry.get("keris_ai") or []:

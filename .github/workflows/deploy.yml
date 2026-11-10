@@ -38,6 +38,8 @@ on:
       - "keris_export.py"
       - "aiep_market.py"
       - "school_goods.py"
+      - "partner_news.py"
+      - ".github/workflows/partner_news.yml"
       - ".github/workflows/school_goods.yml"
       - ".github/workflows/aiep_market.yml"
       - "samall_partners.py"
