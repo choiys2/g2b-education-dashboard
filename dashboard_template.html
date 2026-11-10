@@ -5,7 +5,13 @@
    그룹 메뉴·로고·사진이 다 그려질 때까지(renderViews) 화면을 잠깐 가린다 - 기존 화면이 1초 보였다가 바뀌던 문제. 4초 안전장치 */
 (function(){var r=document.documentElement,v="group";try{v=localStorage.getItem("viewMode.v1")||"group";}catch(e){}
 if(v==="basic")return;r.classList.add("vs-skin","vs-boot");
-var st=document.createElement("style");st.textContent="html.vs-boot body{visibility:hidden}html.vs-boot{background:#fff}";(document.head||r).appendChild(st);
+var L=__BOOT_LOGO_JSON__||"";var st=document.createElement("style");
+st.textContent="html.vs-boot body{visibility:hidden}html.vs-boot{background:#fff}"
++"html.vs-boot::after{content:'';position:fixed;left:0;right:0;top:0;bottom:0;z-index:9;"+(L?"background:url('"+L+"') center 44%/170px auto no-repeat;":"")+"animation:vsBoot 1.2s ease-in-out infinite alternate}"
++"html.vs-boot::before{content:'대시보드를 여는 중…';position:fixed;left:0;right:0;top:calc(44% + 46px);z-index:10;text-align:center;font:600 13px -apple-system,'Pretendard','Malgun Gothic',sans-serif;color:#666;letter-spacing:.02em}"
++"html.vs-boot body::before{content:''}"
++"@keyframes vsBoot{from{opacity:.45}to{opacity:1}}"
++"html.vs-boot{border-top:4px solid #00B5E2}";(document.head||r).appendChild(st);
 setTimeout(function(){r.classList.remove("vs-boot");},4000);})();</script>
 <meta name="description" content="NEIS 개방포털 실측 데이터와 나라장터 발주 실적을 교차분석한 (주)비상교육 B2G 전략 대시보드">
 <link rel="preconnect" href="https://fonts.googleapis.com">

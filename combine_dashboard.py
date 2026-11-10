@@ -681,6 +681,8 @@ def main():
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)
         "__EXT_LINKS_JSON__": _ext_links(),  # 결과보고 등 바깥 링크(비공개 저장소)
+        "__BOOT_LOGO_JSON__": ("data:image/png;base64," + __import__("base64").b64encode(open("static_data/brand/visang_logo.png", "rb").read()).decode()
+                               if os.path.exists("static_data/brand/visang_logo.png") else ""),  # 여는 중 화면(비상 로고)
         "__TEACHER_GROUPS_JSON__": load("static_data/teacher_groups.json") if os.path.exists("static_data/teacher_groups.json") else None,  # 교사단체(공개 집계)
         "__GROUP_NEWS_JSON__": load("history/teacher_group_news.json") if os.path.exists("history/teacher_group_news.json") else None,  # 교사단체 소식
         "__POOL_PEOPLE_JSON__": _pool_people(),  # 강사 개인 정보(암호문 -> 로그인 뒤 화면만)
@@ -750,7 +752,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__BOOT_LOGO_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:
