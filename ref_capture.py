@@ -56,8 +56,13 @@ def main():
                 ctx = b.new_context(viewport=vp, locale="ko-KR", is_mobile=(mode == "mobile"))
                 page = ctx.new_page()
                 try:
-                    r = page.goto(url, wait_until="networkidle", timeout=45000)
-                    page.wait_for_timeout(3500)
+                    try:
+                        r = page.goto(url, wait_until="networkidle", timeout=30000)
+                    except Exception:  # 영상·추적 스크립트로 networkidle 이 끝나지 않는 사이트(예: visang.com) - 화면이 뜨면 진행
+                        r = None
+                        if page.url in ("about:blank", ""):
+                            r = page.goto(url, wait_until="domcontentloaded", timeout=45000)
+                    page.wait_for_timeout(6000)
                     page.screenshot(path=str(out / f"{i}_{mode}_top.png"))
                     page.screenshot(path=str(out / f"{i}_{mode}_full.png"), full_page=True)
                     if mode == "desktop":
