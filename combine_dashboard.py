@@ -696,6 +696,14 @@ def main():
         "__G2B_STALE_JSON__": load("live/g2b_stale.json") if os.path.exists("live/g2b_stale.json") else None,
     }
     subs["__BRANCH_JSON__"] = _branch(subs.get("__OPPORTUNITY_JSON__"))  # 총판 연계(기회점수 상위 주제 연결)
+    # 생태계 연결 층(관계망 탭): 이미 계산된 묶음들을 공통 키로 잇고 연결 인사이트를 뽑는다
+    subs["__ECOSYSTEM_JSON__"] = _safe(lambda: __import__("ecosystem").build(
+        branch=subs.get("__BRANCH_JSON__"), adoption=subs.get("__ADOPTION_JSON__"), aiep=subs.get("__AIEP_JSON__"),
+        programs=subs.get("__REGION_PROGRAMS_JSON__"), industry=subs.get("__INDUSTRY_JSON__"), opp=subs.get("__OPPORTUNITY_JSON__"),
+        geo=subs.get("__BRANCH_GEO_JSON__")), "생태계 연결")
+    if subs["__ECOSYSTEM_JSON__"]:
+        E = subs["__ECOSYSTEM_JSON__"]
+        print(f"생태계 연결: 노드 {len(E['nodes'])} · 연결 {len(E['edges'])} · 인사이트 {len(E['insights'])} · 출처 {len(E['sources'])}")
     for token, value in subs.items():
         if token not in html:
             print(f"WARNING: 템플릿에 {token} 없음", file=sys.stderr)
@@ -718,7 +726,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:

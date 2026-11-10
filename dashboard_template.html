@@ -752,7 +752,7 @@ svg { max-width: 100%; }
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="content">콘텐츠·매출</button>
     <a class="tablink" id="poolLink" href="#" target="_blank" rel="noopener noreferrer" hidden title="강사풀(별도 페이지 · 초대된 계정만 열람)">강사풀 ↗</a>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="search" hidden>통합검색</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">관계망</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">생태계·관계망</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="beta">베타 기능</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="admin">관리 🔒</button>
   </nav>
@@ -9311,6 +9311,58 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
         <p class="tt-note">새 미팅 결과·공고·대학 정보를 대화로 보내 주시면 이 공간(공개 정보는 industry_trend_2027.json, 업체 정보는 암호문)에 추가합니다.</p>`)}</div></div>
     <p class="tt-note" style="font-size:13px;line-height:1.6;"><b>그래서</b> 2027년 AI 교육 예산은 교원연수 위탁보다 <b>대학(첨단분야 인재양성 +37%, AI 재도약대학 2,070억 신규)</b>과 <b>지자체 RISE</b> 쪽에서 커집니다. 비바샘은 교과서·교원연수·학교 네트워크를 가진 쪽이므로, ① 반도체·AI 기업과 K-12 인재양성 모델(학생 진로·교사 연수 결합) ② RISE 사업단의 '지역 교원·학생 대상 프로그램' 위탁 ③ 2027 KERIS·교육청 AI 연수 용역 컨소시엄 순으로 접점을 만들고, 지역 연계 사업(B2G영업 탭 교육혁신 선도지역)과 같은 시군이 겹치는지 함께 보세요.</p>`;
   tab.prepend(sec);
+})();
+</script>
+<script>
+/* ---------------- 생태계 연결(관계망 탭 맨 위) - 시도·시군·기관·기업·사업·플랫폼·총판·대학을 공통 키로 잇고 연결 인사이트를 뽑는다 ----------------
+   ecosystem.py 가 매 배포 때 다시 계산(새 데이터가 들어오면 연결·인사이트가 자동으로 늘어난다) */
+(function renderEcosystem(){
+  const E = __ECOSYSTEM_JSON__;
+  const tab = document.getElementById('panel-network'); if (!tab || !E) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const KC = {'시도': '#4f8cff', '시군': '#60a5fa', '기관': '#10b981', '기업': '#ef4444', '사업': '#8b5cf6', '플랫폼': '#f59e0b', '총판': '#14b8a6', '대학': '#ec4899'};
+  const N = {}; (E.nodes || []).forEach(n => { N[n.id] = n; });
+  const adj = {}; (E.edges || []).forEach(e => { (adj[e.a] = adj[e.a] || []).push({to: e.b, n: e.n, src: e.src}); (adj[e.b] = adj[e.b] || []).push({to: e.a, n: e.n, src: e.src}); });
+  const TABN = {pipeline: 'B2G영업', aiep: '시도 AIEP', biz2027: '기업·대학 트렌드 2027', branch: '지역 총판', adopt: '교과서 채택'};
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'ecoPanel';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">생태계 연결 — 흩어진 데이터를 한 지도로<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">노드 ${(E.nodes || []).length.toLocaleString()} · 연결 ${(E.edges || []).length.toLocaleString()} · 출처 ${(E.sources || []).length}개 · 매 배포 때 자동 갱신</span></p>
+    <p class="panel-desc">연수 공고·경쟁사 낙찰·KERIS 입찰·시도 AIEP·지역 연계 사업·지역 총판·교과서 채택·기업·대학 트렌드를 시도·시군·기관·기업·사업·플랫폼 키로 이었습니다. 여러 데이터에 동시에 걸리는 지점을 '연결 인사이트'로 뽑고, 아래 탐색기에서 아무 항목이나 골라 연결된 모든 근거를 봅니다. 출처: ${(E.sources || []).map(h).join(' · ')}</p></div></div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px;margin-bottom:10px;">${Object.entries(E.kinds || {}).map(([k, v]) => `<span style="padding:2px 9px;border-radius:99px;background:color-mix(in srgb, ${KC[k] || '#94a3b8'} 20%, var(--surface-2));"><b>${h(k)}</b> ${v}</span>`).join('')}</div>
+    <div style="font-weight:800;font-size:14px;margin-bottom:6px;">연결 인사이트 <span style="font-size:11.5px;color:var(--muted);font-weight:500;">여러 데이터가 겹치는 곳 · 점수순 · 카드를 누르면 탐색기에서 연결을 봅니다</span></div>
+    <div id="ecoIns" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:8px;"></div>
+    <div style="font-weight:800;font-size:14px;margin:16px 0 6px;">연결 탐색기</div>
+    <div class="filter-row" style="gap:8px;flex-wrap:wrap;"><select id="ecoKind"><option value="">종류 전체</option>${Object.keys(E.kinds || {}).map(k => `<option>${h(k)}</option>`).join('')}</select><input id="ecoQ" type="search" list="ecoList" placeholder="시도·시군·기관·기업·사업 이름" style="flex:1 1 220px;min-width:0;"><datalist id="ecoList"></datalist></div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;"><div id="ecoGraph" style="flex:1 1 460px;min-width:0;"></div><div id="ecoFacts" style="flex:1 1 320px;min-width:0;"></div></div>`;
+  tab.prepend(sec);
+  const $ = id => sec.querySelector('#' + id);
+  $('ecoIns').innerHTML = (E.insights || []).slice(0, 12).map((x, i) => `<div class="ecoCard" data-i="${i}" style="border:1px solid var(--border);border-left:4px solid ${x.kind.includes('시군') ? KC['시군'] : x.kind.includes('AIEP') ? KC['플랫폼'] : x.kind.includes('기업') ? KC['기업'] : KC['사업']};border-radius:10px;padding:8px 10px;cursor:pointer;">
+    <div style="font-size:10.5px;color:var(--muted);font-weight:700;">${h(x.kind)}</div><div style="font-weight:700;font-size:13px;margin:2px 0;">${h(x.title)}</div><div style="font-size:12px;color:var(--ink-2);line-height:1.5;">${h(x.body)}</div>
+    ${x.tab ? `<button type="button" class="pill ecoGo" data-tab="${h(x.tab)}" data-a="${h(x.anchor || '')}" style="font-size:11px;margin-top:5px;">${h(TABN[x.tab] || x.tab)} 탭에서 보기 →</button>` : ''}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">아직 겹치는 지점이 없습니다.</p>';
+  let cur = (E.insights && E.insights[0] && E.insights[0].keys[0]) || 'sido:경기';
+  const fillList = () => { const k = $('ecoKind').value; $('ecoList').innerHTML = (E.nodes || []).filter(n => !k || n.kind === k).sort((a, b) => b.w - a.w).slice(0, 400).map(n => `<option value="${h(n.kind + ':' + n.name)}">`).join(''); };
+  function show(id){
+    const c = N[id]; if (!c) return; cur = id;
+    const nb = (adj[id] || []).slice().sort((a, b) => b.n - a.n), top = nb.slice(0, 28);
+    const W = 520, H = 420, cx = W / 2, cy = H / 2;
+    const pos = top.map((e, i) => { const a = (i / top.length) * Math.PI * 2 - Math.PI / 2, r = 150 + (i % 2) * 28; return {e, x: cx + Math.cos(a) * r * 1.15, y: cy + Math.sin(a) * r * .82}; });
+    $('ecoGraph').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" aria-label="${h(c.name)} 연결 그래프">
+      ${pos.map(p => `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="color-mix(in srgb, var(--ink) 25%, transparent)" stroke-width="${Math.min(5, 0.8 + p.e.n * .5)}"/>`).join('')}
+      ${pos.map(p => { const t = N[p.e.to] || {kind: '', name: p.e.to}; return `<g class="ecoN" data-id="${h(p.e.to)}" style="cursor:pointer;" data-tip="${h(`<b>${h(t.kind)} · ${h(t.name)}</b><br>근거 ${p.e.n}건 · ${h(p.e.src.join(', '))}`)}"><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${Math.min(14, 6 + Math.sqrt(t.w || 1))}" fill="${KC[t.kind] || '#94a3b8'}" stroke="var(--surface)" stroke-width="2"/><text x="${p.x.toFixed(1)}" y="${(p.y + 22).toFixed(1)}" text-anchor="middle" font-size="10" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="3">${h((t.name || '').slice(0, 12))}</text></g>`; }).join('')}
+      <circle cx="${cx}" cy="${cy}" r="26" fill="${KC[c.kind] || '#94a3b8'}" stroke="var(--surface)" stroke-width="3"/><text x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#fff">${h(c.kind)}</text>
+      <text x="${cx}" y="${cy + 44}" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="3">${h(c.name)}</text></svg>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:11px;">${Object.entries(KC).map(([k, v]) => `<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${v};margin-right:3px;"></span>${k}</span>`).join('')}</div>`;
+    const byK = {}; nb.forEach(e => { const t = N[e.to]; if (t) (byK[t.kind] = byK[t.kind] || []).push({t, e}); });
+    $('ecoFacts').innerHTML = `<div style="font-weight:800;font-size:14px;">${h(c.kind)} · ${h(c.name)} <span style="font-size:11.5px;color:var(--muted);font-weight:500;">연결 ${nb.length}곳</span></div>
+      ${Object.entries(byK).map(([k, a]) => `<div style="margin-top:6px;font-size:12px;"><b style="color:${KC[k] || 'inherit'};">${h(k)} ${a.length}</b> ${a.slice(0, 12).map(x => `<button type="button" class="pill ecoJump" data-id="${h(x.t.id)}" style="font-size:10.5px;padding:1px 7px;margin:1px;">${h(x.t.name)}${x.e.n > 1 ? ' ' + x.e.n : ''}</button>`).join('')}${a.length > 12 ? ' …' : ''}</div>`).join('')}
+      <div style="font-weight:700;font-size:12.5px;margin:10px 0 4px;">근거</div><div style="max-height:260px;overflow:auto;font-size:12px;">${(c.facts || []).map(f => `<div style="padding:3px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">${h(f.src)}</span> ${h(f.t)}</div>`).join('') || '<span style="color:var(--muted);">개별 근거 없음(연결만)</span>'}</div>`;
+    sec.querySelectorAll('.ecoN, .ecoJump').forEach(g => g.addEventListener('click', () => show(g.dataset.id)));
+    $('ecoQ').value = c.kind + ':' + c.name;
+  }
+  sec.querySelectorAll('.ecoCard').forEach(cd => cd.addEventListener('click', ev => { if (ev.target.closest('.ecoGo')) return; const x = E.insights[+cd.dataset.i]; show(x.keys[0]); $('ecoGraph').scrollIntoView({behavior: 'smooth', block: 'center'}); }));
+  sec.querySelectorAll('.ecoGo').forEach(b => b.addEventListener('click', () => { if (typeof activateTab === 'function') activateTab(b.dataset.tab); const a = document.getElementById(b.dataset.a); if (a) setTimeout(() => a.scrollIntoView({behavior: 'smooth', block: 'start'}), 50); }));
+  $('ecoKind').addEventListener('change', fillList);
+  $('ecoQ').addEventListener('change', () => { const v = $('ecoQ').value.trim(); const id = N[v] ? v : (E.nodes || []).find(n => (n.kind + ':' + n.name) === v || n.name === v || n.name.includes(v)); show(typeof id === 'string' ? id : id && id.id); });
+  fillList(); show(cur);
 })();
 </script>
 <script>
