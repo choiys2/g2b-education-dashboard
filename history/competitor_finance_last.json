@@ -1,0 +1,207 @@
+{
+ "data_source": "금융위원회 공시 재무정보 오픈API(GetFinaStatInfoService_V2)",
+ "note": "외부감사대상(상장 또는 일정 규모 이상 비상장) 법인만 조회됩니다. 연 1회 결산 공시 기준이라 최신 분기 실적은 반영되지 않습니다.",
+ "companies": {
+  "티처빌": {
+   "crno": "1101112163907",
+   "available": true,
+   "biz_year": 2024,
+   "standalone": {
+    "sales": 29668477000,
+    "operating_profit": 866869000,
+    "net_profit": 79933000,
+    "total_assets": 13258130000,
+    "total_debt": 10581525000,
+    "total_capital": 2676605000,
+    "debt_ratio": "395.3338277407"
+   },
+   "consolidated": null,
+   "history": [
+    {
+     "biz_year": 2021,
+     "consolidated": false,
+     "sales": 20887000000,
+     "operating_profit": 304000000,
+     "net_profit": 74000000,
+     "total_assets": 9049000000,
+     "total_debt": 6655000000,
+     "total_capital": 2394000000,
+     "debt_ratio": "277.99"
+    },
+    {
+     "biz_year": 2022,
+     "consolidated": false,
+     "sales": 18907000000,
+     "operating_profit": 328000000,
+     "net_profit": 98000000,
+     "total_assets": 9272000000,
+     "total_debt": 6780000000,
+     "total_capital": 2492000000,
+     "debt_ratio": "272.07"
+    },
+    {
+     "biz_year": 2023,
+     "consolidated": false,
+     "sales": 24908000000,
+     "operating_profit": 379000000,
+     "net_profit": 104000000,
+     "total_assets": 10089000000,
+     "total_debt": 7492000000,
+     "total_capital": 2597000000,
+     "debt_ratio": "288.49"
+    },
+    {
+     "biz_year": 2024,
+     "consolidated": false,
+     "sales": 29668477000,
+     "operating_profit": 866869000,
+     "net_profit": 79933000,
+     "total_assets": 13258130000,
+     "total_debt": 10581525000,
+     "total_capital": 2676605000,
+     "debt_ratio": "395.3338277407"
+    }
+   ],
+   "next_disclosure": {
+    "expected_year": 2025,
+    "expected_by": "2026-03-31",
+    "status": "법정기한 경과(공시 지연 또는 곧 반영 예정)"
+   }
+  },
+  "아이스크림": {
+   "crno": "1101112453184",
+   "available": true,
+   "biz_year": 2025,
+   "standalone": {
+    "sales": 195910648546,
+    "operating_profit": 61763104721,
+    "net_profit": 49169465369,
+    "total_assets": 266824535765,
+    "total_debt": 62380567227,
+    "total_capital": 204443968538,
+    "debt_ratio": "30.5123049964"
+   },
+   "consolidated": null,
+   "history": [
+    {
+     "biz_year": 2024,
+     "consolidated": false,
+     "sales": 152180302062,
+     "operating_profit": 46100544112,
+     "net_profit": 31075878895,
+     "total_assets": 222876130845,
+     "total_debt": 39608059970,
+     "total_capital": 183268070875,
+     "debt_ratio": "21.6120897551"
+    },
+    {
+     "biz_year": 2025,
+     "consolidated": false,
+     "sales": 195910648546,
+     "operating_profit": 61763104721,
+     "net_profit": 49169465369,
+     "total_assets": 266824535765,
+     "total_debt": 62380567227,
+     "total_capital": 204443968538,
+     "debt_ratio": "30.5123049964"
+    }
+   ],
+   "next_disclosure": {
+    "expected_year": 2026,
+    "expected_by": "2027-03-31",
+    "status": "대기중"
+   }
+  },
+  "비바샘연수원": {
+   "crno": "1101112427098",
+   "available": true,
+   "biz_year": 2025,
+   "standalone": {
+    "sales": 265695040273,
+    "operating_profit": 20686649465,
+    "net_profit": 23641807607,
+    "total_assets": 395245014284,
+    "total_debt": 198953672040,
+    "total_capital": 196291342244,
+    "debt_ratio": "101.356315447"
+   },
+   "consolidated": {
+    "sales": 268775672567,
+    "operating_profit": 21618190019,
+    "net_profit": 21290435096,
+    "total_assets": 399442193970,
+    "total_debt": 199682486524,
+    "total_capital": 199759707446,
+    "debt_ratio": "99.9613430942"
+   },
+   "history": [
+    {
+     "biz_year": 2021,
+     "consolidated": false,
+     "sales": 167741564718,
+     "operating_profit": 14312514575,
+     "net_profit": 11008256857,
+     "total_assets": 277125935970,
+     "total_debt": 56626474940,
+     "total_capital": 220499461030,
+     "debt_ratio": "25.6810037882"
+    },
+    {
+     "biz_year": 2022,
+     "consolidated": false,
+     "sales": 208542776633,
+     "operating_profit": 1992557896,
+     "net_profit": -1036286770,
+     "total_assets": 306759391334,
+     "total_debt": 109664473170,
+     "total_capital": 197094918164,
+     "debt_ratio": "55.6404366949"
+    },
+    {
+     "biz_year": 2023,
+     "consolidated": false,
+     "sales": 238316846067,
+     "operating_profit": -13450414975,
+     "net_profit": -20202899048,
+     "total_assets": 352005758015,
+     "total_debt": 178673986486,
+     "total_capital": 173331771529,
+     "debt_ratio": "103.0820748613"
+    },
+    {
+     "biz_year": 2024,
+     "consolidated": false,
+     "sales": 238269552424,
+     "operating_profit": 6044175882,
+     "net_profit": -762654713,
+     "total_assets": 381596513371,
+     "total_debt": 209756544229,
+     "total_capital": 171839969142,
+     "debt_ratio": "122.0650499859"
+    },
+    {
+     "biz_year": 2025,
+     "consolidated": false,
+     "sales": 265695040273,
+     "operating_profit": 20686649465,
+     "net_profit": 23641807607,
+     "total_assets": 395245014284,
+     "total_debt": 198953672040,
+     "total_capital": 196291342244,
+     "debt_ratio": "101.356315447"
+    }
+   ],
+   "next_disclosure": {
+    "expected_year": 2026,
+    "expected_by": "2027-03-31",
+    "status": "대기중"
+   }
+  },
+  "한교원": {
+   "crno": "9991168170154",
+   "available": false,
+   "history": []
+  }
+ },
+ "captured": "2026-11-10"
+}
