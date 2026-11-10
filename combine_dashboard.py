@@ -674,7 +674,9 @@ def main():
         "__SCHOOL_GOODS_JSON__": (load("history/school_goods.json") if os.path.exists("history/school_goods.json") else {}).get("rows", []),  # 학교단위 발주(주 1회 수집)
         "__SCHOOL_GOODS_META_JSON__": {k: v for k, v in (load("history/school_goods.json") if os.path.exists("history/school_goods.json") else {}).items() if k != "rows"},
         "__BRAND_LOGOS_JSON__": {k: "data:image/png;base64," + __import__("base64").b64encode(open(f"static_data/brand/{k}_logo.png", "rb").read()).decode()
-                                 for k in ("visang", "vivasam") if os.path.exists(f"static_data/brand/{k}_logo.png")},  # 비상 디자인 보기(그룹·카드·책장) 로고
+                                 for k in ("visang", "vivasam") if os.path.exists(f"static_data/brand/{k}_logo.png")}
+                               | {k: "data:image/jpeg;base64," + __import__("base64").b64encode(open(f"static_data/brand/space_{k}.jpg", "rb").read()).decode()
+                                  for k in ("hero1", "hero2", "hero3") if os.path.exists(f"static_data/brand/space_{k}.jpg")},  # 비상 디자인 보기 로고 + 사옥 공간 사진(머리글 배경)
         "__REGION_PROGRAMS_JSON__": _safe(_region_programs, "지역 연계 사업"),
         "__AIEP_JSON__": _safe(lambda: __import__("aiep_view").build(), "시도 AIEP"),  # 17개 시도 AIEP·조달·제휴 메모(비공개는 키로)
         "__ADOPTION_JSON__": _adoption(),  # 비상 교과서 채택(암호문 -> 로그인 뒤 화면)

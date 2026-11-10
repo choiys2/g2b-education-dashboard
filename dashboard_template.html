@@ -9459,8 +9459,19 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     --shadow: none;
   }
   html.vs-skin body{background:#fff;}
-  html.vs-skin header.top{background:#f3f3f3 !important;color:var(--ink);border-radius:0;border-top:4px solid #00B5E2;}
-  html.vs-skin header.top h1{color:#222;}  /* 글꼴·자간은 기본안 그대로(가독성) */
+  /* 머리글: 비상 사옥 공간 사진 + 어두운 덧칠(visang.com 히어로와 같은 방식). 글자는 흰색 계열로 고정 -
+     색 맛보기(라임 등) 팔레트가 머리글 글자를 흰색으로 바꾸므로 밝은 바탕을 쓰면 글자가 사라졌다 */
+  html.vs-skin.vs-skin.vs-skin header.top{
+    background:linear-gradient(90deg,rgba(3,12,40,.86) 0%,rgba(3,12,40,.70) 50%,rgba(3,12,40,.45) 100%),var(--vs-hero,#041A72) center 40%/cover no-repeat !important;
+    border-radius:0;border-top:4px solid #00B5E2;padding:28px 28px 22px;color:#fff;
+    --ink:#ffffff; --ink-2:rgba(255,255,255,.88); --muted:rgba(255,255,255,.72);
+    --surface:rgba(255,255,255,.16); --surface-2:rgba(255,255,255,.12); --border:rgba(255,255,255,.24);
+    --accent:#5fd3f3; --hero-accent:#5fd3f3;
+  }
+  html.vs-skin.vs-skin.vs-skin header.top h1{color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35);}  /* 글꼴·자간은 기본안 그대로(가독성) */
+  html.vs-skin.vs-skin.vs-skin header.top .wx-c{background:rgba(3,12,40,.45);border-color:rgba(255,255,255,.22);backdrop-filter:blur(2px);}
+  html.vs-skin.vs-skin.vs-skin header.top .wx-c .p{color:#ffe066;}
+  html.vs-skin.vs-skin.vs-skin header.top .search-box::placeholder{color:rgba(255,255,255,.78);}
   html.vs-skin .palette-switch, html.vs-skin .theme-switch{display:none !important;}
   html.vs-skin .panel, html.vs-skin .kpi, html.vs-skin .segment-card{border-radius:4px;box-shadow:none;border-color:#dddddd;}
   html.vs-skin .kpi{border-top:3px solid #00B5E2;}
@@ -9584,6 +9595,8 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     bar.querySelector('.vreset').hidden = mode === 'basic';
     nav.style.display = mode === 'basic' ? '' : 'none';  // .tabnav{display:flex} 가 hidden 속성을 덮으므로 직접
     document.documentElement.classList.toggle('vs-skin', mode !== 'basic');  // 그룹·카드·책장 = 비상 디자인, 기본 = 기존 스타일
+    const HI = {group: LG.hero1, card: LG.hero2, shelf: LG.hero3 || LG.hero1}[mode];  // 보기마다 다른 사옥 공간 사진
+    if (HI) document.documentElement.style.setProperty('--vs-hero', `url("${HI}")`); else document.documentElement.style.removeProperty('--vs-hero');
     if (mode === 'basic') { box.innerHTML = ''; return; }
     if (mode === 'group') {
       box.innerHTML = `<div class="vgroups">${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${i === g}">${i + 1}. ${h(G[0])}<small>${G[2].length}개 탭</small></button>`).join('')}</div>
