@@ -1,10 +1,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>17개 시도교육청 초·중등 교육시장 입체 분석</title>
-<script>/* 처음 화면 깜빡임 방지: 저장된 보기가 기본이 아니면(처음은 그룹) 비상 디자인으로 바로.
+<script>/* 처음 화면 깜빡임 방지: 저장된 보기가 기본이 아니면(처음은 그룹) 비상 디자인으로 바로, 어느 보기든 다 그려질 때까지 비상 로고 화면.
    그룹 메뉴·로고·사진이 다 그려질 때까지(renderViews) 화면을 잠깐 가린다 - 기존 화면이 1초 보였다가 바뀌던 문제. 4초 안전장치 */
 (function(){var r=document.documentElement,v="group";try{v=localStorage.getItem("viewMode.v1")||"group";}catch(e){}
-if(v==="basic")return;r.classList.add("vs-skin","vs-boot");
+r.classList.add("vs-boot");if(v!=="basic")r.classList.add("vs-skin");  /* 여는 중 로고는 모든 보기(그룹·카드·책장·기본) 공통 */
 var L=__BOOT_LOGO_JSON__||"";var st=document.createElement("style");
 st.textContent="html.vs-boot body{visibility:hidden}html.vs-boot{background:#fff}"
 +"html.vs-boot::after{content:'';position:fixed;left:0;right:0;top:0;bottom:0;z-index:9;"+(L?"background:url('"+L+"') center 44%/170px auto no-repeat;":"")+"animation:vsBoot 1.2s ease-in-out infinite alternate}"
