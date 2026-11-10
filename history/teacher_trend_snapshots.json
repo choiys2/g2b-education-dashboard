@@ -1,6 +1,6 @@
 {
  "2026Q4": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "rank": [
    {
     "id": "ai",
@@ -18,14 +18,14 @@
     "stage": "확산"
    },
    {
-    "id": "inclusive",
-    "score": 36,
-    "stage": "성숙"
-   },
-   {
     "id": "credit",
     "score": 35,
     "stage": "확산"
+   },
+   {
+    "id": "inclusive",
+    "score": 35,
+    "stage": "성숙"
    },
    {
     "id": "safety",
