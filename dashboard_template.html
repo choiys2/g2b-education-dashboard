@@ -9459,7 +9459,40 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     --good:#0f9d58; --warning:#e08a00; --critical:#d33;
     --shadow: none;
   }
-  html.vs-skin body{background:#fff;}
+  html.vs-skin body{background:var(--page);}
+  /* 비상 디자인의 다크 모드. 하늘색·남색은 그대로 쓰되 바탕·글자만 반전한다 -
+     라이트 쪽과 똑같이 자동(시스템 다크)·강제(data-theme="dark") 두 경로를 다 잡는다 */
+  @media (prefers-color-scheme: dark){
+    html.vs-skin.vs-skin.vs-skin.vs-skin:not([data-theme="light"]){
+      color-scheme: dark;
+      --page:#0a1428; --surface:#11213f; --surface-2:#182a4c;
+      --ink:#eef3fb; --ink-2:#b9c6dc; --muted:#7e8fac;
+      --grid:#1d3155; --border:rgba(0,181,226,0.18);
+      --accent:#00B5E2; --accent-2:#5fd3f3; --accent-light:#7fe0fa; --accent-dark:#0a2a8f;
+      --accent-purple:#b388cc; --accent-pink:#e67ab8;
+      --neutral-top:#1d3155; --neutral-front:#152543; --neutral-side:#0d1c34;
+      --good:#3ecf5e; --warning:#ff8a3d; --critical:#ff5c4d;
+      --shadow: none;
+    }
+    /* 변수 하나로 못 돌리는 곳들(라이트 전용 하드코딩 남색/하늘색) */
+    html.vs-skin:not([data-theme="light"]) .kpi .val{color:#5fd3f3;}
+    html.vs-skin:not([data-theme="light"]) #viewBar .vseg button[aria-pressed="true"]{background:#00B5E2;}
+    html.vs-skin:not([data-theme="light"]) .vcard .k{color:#5fd3f3;}
+  }
+  html.vs-skin.vs-skin.vs-skin.vs-skin[data-theme="dark"]{
+    color-scheme: dark;
+    --page:#0a1428; --surface:#11213f; --surface-2:#182a4c;
+    --ink:#eef3fb; --ink-2:#b9c6dc; --muted:#7e8fac;
+    --grid:#1d3155; --border:rgba(0,181,226,0.18);
+    --accent:#00B5E2; --accent-2:#5fd3f3; --accent-light:#7fe0fa; --accent-dark:#0a2a8f;
+    --accent-purple:#b388cc; --accent-pink:#e67ab8;
+    --neutral-top:#1d3155; --neutral-front:#152543; --neutral-side:#0d1c34;
+    --good:#3ecf5e; --warning:#ff8a3d; --critical:#ff5c4d;
+    --shadow: none;
+  }
+  html.vs-skin[data-theme="dark"] .kpi .val{color:#5fd3f3;}
+  html.vs-skin[data-theme="dark"] #viewBar .vseg button[aria-pressed="true"]{background:#00B5E2;}
+  html.vs-skin[data-theme="dark"] .vcard .k{color:#5fd3f3;}
   /* 머리글: 비상 사옥 공간 사진 + 어두운 덧칠(visang.com 히어로와 같은 방식). 글자는 흰색 계열로 고정 -
      색 맛보기(라임 등) 팔레트가 머리글 글자를 흰색으로 바꾸므로 밝은 바탕을 쓰면 글자가 사라졌다 */
   html.vs-skin.vs-skin.vs-skin header.top{
@@ -9473,36 +9506,36 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   html.vs-skin.vs-skin.vs-skin header.top .wx-c{background:rgba(3,12,40,.45);border-color:rgba(255,255,255,.22);backdrop-filter:blur(2px);}
   html.vs-skin.vs-skin.vs-skin header.top .wx-c .p{color:#ffe066;}
   html.vs-skin.vs-skin.vs-skin header.top .search-box::placeholder{color:rgba(255,255,255,.78);}
-  html.vs-skin .palette-switch, html.vs-skin .theme-switch{display:none !important;}
-  html.vs-skin .panel, html.vs-skin .kpi, html.vs-skin .segment-card{border-radius:4px;box-shadow:none;border-color:#dddddd;}
+  html.vs-skin .palette-switch{display:none !important;}
+  html.vs-skin .panel, html.vs-skin .kpi, html.vs-skin .segment-card{border-radius:4px;box-shadow:none;border-color:var(--border);}
   html.vs-skin .kpi{border-top:3px solid #00B5E2;}
   html.vs-skin .kpi .val{color:#041A72;}
   html.vs-skin .pill{border-radius:2px;}
   #vsBrand{display:none;}
   html.vs-skin #vsBrand{display:flex;align-items:center;gap:16px;padding:12px 0 14px;margin-bottom:0;}
-  #vsBrand img.v{height:30px;} #vsBrand img.s{height:34px;} #vsBrand .bar{width:1px;height:26px;background:#cccccc;}
-  #vsBrand .t{margin-left:auto;font-size:12px;color:#666;}
-  html.vs-skin #viewBar .vseg, html.vs-skin #viewBar .vreset{border-radius:2px;border-color:#cccccc;}
+  #vsBrand img.v{height:30px;} #vsBrand img.s{height:34px;} #vsBrand .bar{width:1px;height:26px;background:var(--border);}
+  #vsBrand .t{margin-left:auto;font-size:12px;color:var(--muted);}
+  html.vs-skin #viewBar .vseg, html.vs-skin #viewBar .vreset{border-radius:2px;border-color:var(--border);}
   html.vs-skin #viewBar .vseg button[aria-pressed="true"]{background:#041A72;}
-  html.vs-skin .vgroups{gap:34px;border-bottom:1px solid #dddddd;margin-bottom:0;}
-  html.vs-skin .vgroups button{border:0;background:transparent;border-radius:0;padding:14px 0 16px;font-size:17px;color:#222;position:relative;}
+  html.vs-skin .vgroups{gap:34px;border-bottom:1px solid var(--border);margin-bottom:0;}
+  html.vs-skin .vgroups button{border:0;background:transparent;border-radius:0;padding:14px 0 16px;font-size:17px;color:var(--ink);position:relative;}
   html.vs-skin .vgroups button small{display:none;}
   html.vs-skin .vgroups button[aria-pressed="true"]{background:transparent;color:#00B5E2;}
   html.vs-skin .vgroups button[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:#00B5E2;}
-  html.vs-skin .vsub{border:0;background:#f3f3f3;border-radius:0;padding:4px 14px;margin-bottom:6px;}
-  html.vs-skin .vsub button{font-size:13.5px;color:#353535;}
+  html.vs-skin .vsub{border:0;background:var(--surface-2);border-radius:0;padding:4px 14px;margin-bottom:6px;}
+  html.vs-skin .vsub button{font-size:13.5px;color:var(--ink-2);}
   html.vs-skin .vsub button[aria-current="page"]{color:#00B5E2;font-weight:800;border-bottom-color:#00B5E2;}
   html.vs-skin .vtoday{background:#041A72;color:#fff;border:0;border-radius:0;}
   html.vs-skin .vtoday b{color:#fff;} html.vs-skin .vtoday button{color:#7fdcf3;}
-  html.vs-skin .vcard{border-radius:0;border:1px solid #dddddd;border-top:3px solid var(--gc);box-shadow:none;}
+  html.vs-skin .vcard{border-radius:0;border:1px solid var(--border);border-top:3px solid var(--gc);box-shadow:none;}
   html.vs-skin .vcard:hover{border-color:#00B5E2;}
   html.vs-skin .vcard .k{color:#041A72;}
   html.vs-skin .vhero{display:grid;}
-  .vhero{display:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0 0 14px;border:1px solid #dddddd;}
+  .vhero{display:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0 0 14px;border:1px solid var(--border);}
   @media (max-width:900px){.vhero{grid-template-columns:repeat(2,minmax(0,1fr));}}
-  .vhero > div{background:#fff;padding:14px 18px;border-right:1px solid #eeeeee;}
+  .vhero > div{background:var(--surface);padding:14px 18px;border-right:1px solid var(--border);}
   .vhero > div:last-child{border-right:0;}
-  .vhero .l{font-size:12px;color:#666;font-weight:700;} .vhero .v{font-size:26px;font-weight:800;color:#00B5E2;} .vhero .s{font-size:11.5px;color:#353535;}
+  .vhero .l{font-size:12px;color:var(--muted);font-weight:700;} .vhero .v{font-size:26px;font-weight:800;color:#00B5E2;} .vhero .s{font-size:11.5px;color:var(--ink-2);}
   #viewBar{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap;}
   #viewBar .vlab{font-size:12px;color:var(--muted);}
   #viewBar .vseg{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);}
