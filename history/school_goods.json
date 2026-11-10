@@ -348,39 +348,36 @@
  "status": {
   "backfilled": false,
   "window": "2026-01-01~2026-11-10",
-  "new": 6,
+  "new": 0,
   "done": [
    "AI"
   ],
   "stop07": {
-   "getBidPblancListInfoThngPPSSrch|AI": "2026-11-05",
-   "getScsbidListSttusThngPPSSrch|AI": "2026-11-05",
+   "getBidPblancListInfoThngPPSSrch|AI": "2026-11-10",
+   "getScsbidListSttusThngPPSSrch|AI": "2026-11-10",
    "getBidPblancListInfoThngPPSSrch|인공지능": "2026-11-05",
    "getScsbidListSttusThngPPSSrch|인공지능": "2026-11-05"
   },
   "note": "시간 예산 - 다음 실행에서 이어서",
-  "sec": 1238,
+  "sec": 1282,
   "diag": [
-   "getBidPblancListInfoServcPPSSrch AI 2026-01: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AI 2026-02: 네트워크 오류: <urlopen error timed out> url=https://apis.data.go.kr/1230000/ad/BidPub",
-   "getBidPblancListInfoServcPPSSrch AI 2026-03: 네트워크 오류: <urlopen error timed out> url=https://apis.data.go.kr/1230000/ad/BidPub",
-   "getBidPblancListInfoServcPPSSrch AI 2026-04: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation timed out> url=https",
-   "getBidPblancListInfoServcPPSSrch AI 2026-05: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AI 2026-06: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AI 2026-07: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AI 2026-08: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AI 2026-09: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
    "getBidPblancListInfoServcPPSSrch AI 2026-10: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
    "getBidPblancListInfoServcPPSSrch AI 2026-11: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch 인공지능 2026-11: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation ",
-   "getBidPblancListInfoThngPPSSrch AI 2026-10: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\":",
+   "getBidPblancListInfoServcPPSSrch 인공지능 2026-09: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
+   "getBidPblancListInfoServcPPSSrch 인공지능 2026-10: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation ",
+   "getBidPblancListInfoServcPPSSrch 인공지능 2026-10: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation timed out> url=https",
+   "getBidPblancListInfoServcPPSSrch 인공지능 2026-10: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
+   "getBidPblancListInfoServcPPSSrch 인공지능 2026-11: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
+   "getBidPblancListInfoThngPPSSrch AI 2026-11: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\":",
    "getBidPblancListInfoThngPPSSrch 인공지능 2026-10: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\":",
-   "getScsbidListSttusServcPPSSrch AI 2026-01: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getScsbidListSttusServcPPSSrch AI 2026-02: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getScsbidListSttusServcPPSSrch AI 2026-03: 네트워크 오류: <urlopen error timed out> url=https://apis.data.go.kr/1230000/as/Scsbid",
-   "getScsbidListSttusServcPPSSrch AI 2026-04: 네트워크 오류: <urlopen error timed out> url=https://apis.data.go.",
-   "getScsbidListSttusServcPPSSrch AI 2026-05: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getScsbidListSttusServcPPSSrch AI 2026-06: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis."
+   "getScsbidListSttusServcPPSSrch AI 2026-10: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
+   "getScsbidListSttusServcPPSSrch AI 2026-11: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
+   "getScsbidListSttusServcPPSSrch 인공지능 2026-09: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
+   "getScsbidListSttusServcPPSSrch 인공지능 2026-10: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation timed out> url=https",
+   "getScsbidListSttusServcPPSSrch 인공지능 2026-10: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
+   "getScsbidListSttusServcPPSSrch 인공지능 2026-11: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
+   "getScsbidListSttusThngPPSSrch AI 2026-11: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\":",
+   "getScsbidListSttusThngPPSSrch 인공지능 2026-10: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\":"
   ]
  }
 }
