@@ -55,11 +55,13 @@ def grade(name):
 
 
 def chunks(begin, end, days=28):
-    cur = begin
+    """최신 기간부터 거꾸로(키워드 검색이 오래된 기간에서 07 '입력범위값 초과'를 내면 그 지점에서 멈춘다)."""
+    out, cur = [], begin
     while cur < end:
         nxt = min(cur + timedelta(days=days), end)
-        yield cur, nxt
+        out.append((cur, nxt))
         cur = nxt
+    return out[::-1]
 
 
 def safe(e):
@@ -70,6 +72,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--days", type=int, default=35)
     ap.add_argument("--since", default="")
+    ap.add_argument("--budget", type=int, default=1200, help="초 - 넘기면 모은 만큼 저장하고 끝냄")
     a = ap.parse_args()
     cfg = load_config()
     if not cfg.get("service_key") or "YOUR_" in cfg.get("service_key", ""):
@@ -86,10 +89,29 @@ def main():
     else:
         begin = end - timedelta(days=a.days)
     t0, diag, n_new, iv = time.time(), [], 0, cfg.get("request_interval_sec", 0.15)
+    stop07, done_kw = {}, []
+
+    def save(note):
+        out = sorted(rows.values(), key=lambda r: r.get("공고일") or "", reverse=True)
+        OUT.write_text(json.dumps({"updated": date.today().isoformat(), "source": prev.get("source") or "나라장터 입찰공고·낙찰(물품·용역) - 학교 직접 발주 AI·에듀테크",
+                                   "rows": out, "status": {"backfilled": len(done_kw) == len(KEYWORDS) or bool(st.get("backfilled")),
+                                                           "window": f"{begin:%Y-%m-%d}~{end:%Y-%m-%d}", "new": n_new, "done": done_kw,
+                                                           "stop07": stop07, "note": note, "sec": round(time.time() - t0), "diag": sorted(set(diag))[:20]}},
+                                  ensure_ascii=False, indent=1), encoding="utf-8")
+        return out
+
     for kw in KEYWORDS:
+        if time.time() - t0 > a.budget:
+            break
         for kind, sfx in KINDS.items():
-            for b, e in chunks(begin, end):
+            stop = set()
+            kw_begin = max(begin, end - timedelta(days=a.days)) if kw in (st.get("done") or []) and not a.since else begin  # 이미 백필한 키워드는 최근만
+            for b, e in chunks(kw_begin, end):
+                if time.time() - t0 > a.budget or len(stop) == 2:
+                    break
                 for base, op, src in ((BID, f"getBidPblancListInfo{sfx}PPSSrch", "입찰공고(진행중/예정)"), (SCS, f"getScsbidListSttus{sfx}PPSSrch", "낙찰완료")):
+                    if op in stop:
+                        continue
                     page, total = 1, None
                     while total is None or (page - 1) * 100 < total:
                         p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 100, "inqryDiv": 1, "type": "json",
@@ -97,8 +119,19 @@ def main():
                         try:
                             items, total = call_api(base, op, p, timeout=25, retries=1)
                         except Exception as ex:
-                            diag.append(f"{op} {kw}: {safe(ex)}")
-                            break
+                            if "429" in str(ex):  # 요청 과다 - 쉬었다가 한 번 더
+                                time.sleep(20)
+                                try:
+                                    items, total = call_api(base, op, p, timeout=25, retries=1)
+                                except Exception as ex2:
+                                    diag.append(f"{op} {kw} {b:%Y-%m}: {safe(ex2)[:60]}")
+                                    break
+                            else:
+                                if '"07"' in str(ex) or "입력범위" in str(ex):
+                                    stop.add(op)
+                                    stop07[f"{op}|{kw}"] = f"{e:%Y-%m-%d}"
+                                diag.append(f"{op} {kw} {b:%Y-%m}: {safe(ex)[:80]}")
+                                break
                         for it in items:
                             org = first(it, "dminsttNm", "ntceInsttNm")
                             t = first(it, "bidNtceNm")
@@ -123,11 +156,11 @@ def main():
                         page += 1
                         time.sleep(iv)
                 time.sleep(iv)
-    out = sorted(rows.values(), key=lambda r: r.get("공고일") or "", reverse=True)
-    OUT.write_text(json.dumps({"updated": date.today().isoformat(), "source": prev.get("source") or "나라장터 입찰공고·낙찰(물품·용역) - 학교 직접 발주 AI·에듀테크",
-                               "rows": out, "status": {"backfilled": True, "window": f"{begin:%Y-%m-%d}~{end:%Y-%m-%d}", "new": n_new,
-                                                       "sec": round(time.time() - t0), "diag": sorted(set(diag))[:20]}},
-                              ensure_ascii=False, indent=1), encoding="utf-8")
+        if time.time() - t0 <= a.budget:
+            done_kw.append(kw)
+        save(f"키워드 {kw}")
+        print(f"  {kw}: 누적 {len(rows)}건 · 신규 {n_new} · {round(time.time() - t0)}초", flush=True)
+    out = save("완료" if len(done_kw) == len(KEYWORDS) else "시간 예산 - 다음 실행에서 이어서")
     print(f"학교단위 발주: 총 {len(out)}건(신규 {n_new}) · 조회 {begin:%Y-%m-%d}~{end:%Y-%m-%d} · {round(time.time() - t0)}초 · 진단 {len(set(diag))}")
     return 0
 
