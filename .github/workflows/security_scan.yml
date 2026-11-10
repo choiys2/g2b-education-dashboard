@@ -1,0 +1,22 @@
+name: 보안 점검 (푸시마다)
+
+# 저장소에 비밀값(API 키·토큰·개인키)이나 휴대폰 번호가 들어오면 바로 빨간불.
+# 값은 출력하지 않는다(파일·줄·종류만). 배포 때는 deploy.yml 이 배포본(_site)을 따로 점검한다.
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 비밀값·개인정보 점검
+        run: python security_check.py repo
