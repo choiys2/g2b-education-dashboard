@@ -9443,6 +9443,47 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
 })();
 </script>
 <style>
+
+  /* ---- 비상 디자인(그룹·카드·책장 보기에서만). 기본 보기는 기존 스타일 그대로 ---- */
+  html.vs-skin.vs-skin.vs-skin.vs-skin{
+    color-scheme: light;
+    --page:#ffffff; --surface:#ffffff; --surface-2:#f3f7fb;
+    --ink:#111827; --ink-2:#4b5563; --muted:#8a94a6;
+    --grid:#e7ebf0; --border:#e3e8ef;
+    --accent:#00B3E3; --accent-2:#0060AE; --accent-light:#5ccdf0; --accent-dark:#0060AE;
+    --accent-purple:#8A55A0; --accent-pink:#c93f96;
+    --neutral-top:#eef3f8; --neutral-front:#d7e1ec; --neutral-side:#b9c7d8;
+    --good:#0f9d58; --warning:#e08a00; --critical:#d33;
+    --shadow: 0 10px 28px -18px rgba(11,48,137,.35);
+  }
+  html.vs-skin body{background:#fff;}
+  html.vs-skin header.top{background:linear-gradient(120deg,#e9f8fd 0%,#f4f8ff 55%,#f6f1fa 100%) !important;color:var(--ink);border-radius:0 0 22px 22px;}
+  html.vs-skin header.top h1{color:#111827;letter-spacing:-.035em;}
+  html.vs-skin .palette-switch, html.vs-skin .theme-switch{display:none !important;}
+  html.vs-skin .panel, html.vs-skin .kpi{border-radius:20px;}
+  html.vs-skin .kpi .val{color:#0B3089;}
+  #vsBrand{display:none;}
+  html.vs-skin #vsBrand{display:flex;align-items:center;gap:16px;padding:12px 0 14px;border-bottom:1px solid var(--border);margin-bottom:12px;}
+  #vsBrand img.v{height:30px;} #vsBrand img.s{height:34px;} #vsBrand .bar{width:1px;height:26px;background:var(--border);}
+  #vsBrand .t{margin-left:auto;font-size:12px;color:var(--muted);}
+  html.vs-skin #viewBar .vseg button[aria-pressed="true"]{background:#111827;}
+  html.vs-skin #viewBar .vseg, html.vs-skin #viewBar .vreset{border-radius:99px;}
+  html.vs-skin .vgroups{gap:28px;border-bottom:1px solid var(--border);margin-bottom:0;}
+  html.vs-skin .vgroups button{border:0;background:transparent;border-radius:0;padding:12px 0 14px;font-size:16px;color:#111827;position:relative;}
+  html.vs-skin .vgroups button small{display:none;}
+  html.vs-skin .vgroups button[aria-pressed="true"]{background:transparent;color:#00B3E3;}
+  html.vs-skin .vgroups button[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px;background:#00B3E3;}
+  html.vs-skin .vsub{border:0;background:#f5f8fb;border-radius:0 0 16px 16px;padding:4px 14px;margin-bottom:6px;}
+  html.vs-skin .vsub button{font-size:13.5px;}
+  html.vs-skin .vsub button[aria-current="page"]{color:#00B3E3;font-weight:800;}
+  html.vs-skin .vtoday{background:linear-gradient(120deg,#e9f8fd,#f6f1fa);border-radius:18px;}
+  html.vs-skin .vcard{border-radius:16px;border-left-width:1px;border-top:3px solid var(--gc);box-shadow:0 10px 26px -20px rgba(11,48,137,.4);}
+  html.vs-skin .vcard .k{color:#0B3089;}
+  html.vs-skin .vhero{display:grid;}
+  .vhero{display:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 14px;}
+  @media (max-width:900px){.vhero{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .vhero > div{background:#fff;border:1px solid #eef2f7;border-radius:20px;padding:14px 16px;box-shadow:0 10px 28px -18px rgba(11,48,137,.3);}
+  .vhero .l{font-size:12px;color:var(--muted);font-weight:700;} .vhero .v{font-size:24px;font-weight:800;color:#0B3089;letter-spacing:-.03em;} .vhero .s{font-size:11.5px;color:var(--ink-2);}
   #viewBar{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap;}
   #viewBar .vlab{font-size:12px;color:var(--muted);}
   #viewBar .vseg{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);}
@@ -9525,12 +9566,17 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   bar.innerHTML = `<span class="vlab">보기</span><div class="vseg" role="group" aria-label="목차 보기 방식">${[['basic', '기본'], ['group', '그룹'], ['card', '카드'], ['shelf', '책장']].map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join('')}</div><button type="button" class="vreset" title="처음 상태(기본 탭 줄)로 되돌리고 기억도 지웁니다">↺ 초기화</button>`;
   const box = document.createElement('div'); box.id = 'viewNav';
   nav.before(bar); nav.after(box);
+  const LG = __BRAND_LOGOS_JSON__ || {};
+  const brand = document.createElement('div'); brand.id = 'vsBrand';
+  brand.innerHTML = `${LG.visang ? `<img class="v" src="${LG.visang}" alt="visang">` : '<b style="color:#00B3E3;font-size:22px;">visang</b>'}<span class="bar"></span>${LG.vivasam ? `<img class="s" src="${LG.vivasam}" alt="비바샘 원격교육연수원">` : '<b>비바샘 원격교육연수원</b>'}<span class="t">비상 디자인 보기 · '↺ 초기화'를 누르면 기본(기존) 화면으로</span>`;
+  const hdr = document.querySelector('header.top'); (hdr || bar).before(brand);
   let mode = load(), gsel = null, folded = false;
   function draw(){
     const t = cur(), gi = GROUPS.findIndex(g => g[2].includes(t)), g = gsel != null ? gsel : (gi < 0 ? 0 : gi);
     bar.querySelectorAll('.vseg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === mode)));
     bar.querySelector('.vreset').hidden = mode === 'basic';
     nav.style.display = mode === 'basic' ? '' : 'none';  // .tabnav{display:flex} 가 hidden 속성을 덮으므로 직접
+    document.documentElement.classList.toggle('vs-skin', mode !== 'basic');  // 그룹·카드·책장 = 비상 디자인, 기본 = 기존 스타일
     if (mode === 'basic') { box.innerHTML = ''; return; }
     if (mode === 'group') {
       box.innerHTML = `<div class="vgroups">${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${i === g}">${i + 1}. ${h(G[0])}<small>${G[2].length}개 탭</small></button>`).join('')}</div>
@@ -9539,7 +9585,8 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
       box.innerHTML = `<div class="vmini">${mode === 'card' ? '카드' : '책장'} 보기 · 지금: <b>${h(name(t))}</b> <button type="button" class="vopen">${mode === 'card' ? '카드' : '책장'} 펼치기</button></div>`;
     } else if (mode === 'card') {
       const E = window.__ECO_TOP || [];
-      box.innerHTML = `${E.length ? `<div class="vtoday"><b>오늘 볼 것</b> ${E.slice(0, 3).map(x => `· <button type="button" data-t="${h(x.tab)}">${h(x.title)}</button>`).join(' ')}</div>` : ''}
+      const HK = ['g2bfull', 'adopt', 'branch', 'aiep'].filter(x => btn[x]).map(x => { const [k, sub] = num(x); return k ? `<div><div class="l">${h(name(x))}</div><div class="v">${h(k)}</div><div class="s">${h(sub)}</div></div>` : ''; }).join('');
+      box.innerHTML = `${HK ? `<div class="vhero">${HK}</div>` : ''}${E.length ? `<div class="vtoday"><b>오늘 볼 것</b> ${E.slice(0, 3).map(x => `· <button type="button" data-t="${h(x.tab)}">${h(x.title)}</button>`).join(' ')}</div>` : ''}
         <div class="vcards">${GROUPS.map(G => `<div class="vcol"><h4 style="color:${G[1]}">${h(G[0])}</h4>${G[2].map(x => { const [k, s] = num(x), f = fresh(x), c = f && FC[f.state];
           return `<button type="button" class="vcard" data-t="${x}" style="--gc:${G[1]}" ${x === t ? 'aria-current="page"' : ''}>${c ? `<span class="vfresh" style="background:${c[0]};color:${c[1]}" title="${h(f.name)} · ${h(f.last || '')}">${c[2]}</span>` : ''}<div class="n">${h(name(x))}</div><div class="k">${h(k)}</div><div class="s">${h(s)}</div></button>`; }).join('')}</div>`).join('')}</div>
         <div class="vmini" style="border:0;"><button type="button" class="vfold">카드 접기</button></div>`;

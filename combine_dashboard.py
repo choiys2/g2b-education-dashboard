@@ -673,6 +673,8 @@ def main():
         "__INDUSTRY_JSON__": _safe(lambda: __import__("industry_view").build(), "기업·대학 트렌드"),  # 비공개 메모는 키로
         "__SCHOOL_GOODS_JSON__": (load("history/school_goods.json") if os.path.exists("history/school_goods.json") else {}).get("rows", []),  # 학교단위 발주(주 1회 수집)
         "__SCHOOL_GOODS_META_JSON__": {k: v for k, v in (load("history/school_goods.json") if os.path.exists("history/school_goods.json") else {}).items() if k != "rows"},
+        "__BRAND_LOGOS_JSON__": {k: "data:image/png;base64," + __import__("base64").b64encode(open(f"static_data/brand/{k}_logo.png", "rb").read()).decode()
+                                 for k in ("visang", "vivasam") if os.path.exists(f"static_data/brand/{k}_logo.png")},  # 비상 디자인 보기(그룹·카드·책장) 로고
         "__REGION_PROGRAMS_JSON__": _safe(_region_programs, "지역 연계 사업"),
         "__AIEP_JSON__": _safe(lambda: __import__("aiep_view").build(), "시도 AIEP"),  # 17개 시도 AIEP·조달·제휴 메모(비공개는 키로)
         "__ADOPTION_JSON__": _adoption(),  # 비상 교과서 채택(암호문 -> 로그인 뒤 화면)
@@ -728,7 +730,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:
