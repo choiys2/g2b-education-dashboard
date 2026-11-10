@@ -9444,46 +9444,53 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
 </script>
 <style>
 
-  /* ---- 비상 디자인(그룹·카드·책장 보기에서만). 기본 보기는 기존 스타일 그대로 ---- */
+  /* ---- 비상 디자인(그룹·카드·책장 보기에서만). 기본 보기는 기존 스타일 그대로 ----
+     visang.com 실측(2026-11-10 캡처): 하늘색 #00B5E2 · 남색 #041A72 · 글자 #222/#353535/#666 · 회색 바탕 #F3F3F3 · 테두리 #CCC
+     그림자 없음 · 모서리 거의 없음(평면형) · 본문 폭 1200px. 글꼴·자간은 기본안 그대로(가독성) */
   html.vs-skin.vs-skin.vs-skin.vs-skin{
     color-scheme: light;
-    --page:#ffffff; --surface:#ffffff; --surface-2:#f3f7fb;
-    --ink:#111827; --ink-2:#4b5563; --muted:#8a94a6;
-    --grid:#e7ebf0; --border:#e3e8ef;
-    --accent:#00B3E3; --accent-2:#0060AE; --accent-light:#5ccdf0; --accent-dark:#0060AE;
+    --page:#ffffff; --surface:#ffffff; --surface-2:#f3f3f3;
+    --ink:#222222; --ink-2:#353535; --muted:#666666;
+    --grid:#e5e5e5; --border:#dddddd;
+    --accent:#00B5E2; --accent-2:#041A72; --accent-light:#5ccdf0; --accent-dark:#041A72;
     --accent-purple:#8A55A0; --accent-pink:#c93f96;
-    --neutral-top:#eef3f8; --neutral-front:#d7e1ec; --neutral-side:#b9c7d8;
+    --neutral-top:#f3f3f3; --neutral-front:#dcdcdc; --neutral-side:#c4c4c4;
     --good:#0f9d58; --warning:#e08a00; --critical:#d33;
-    --shadow: 0 10px 28px -18px rgba(11,48,137,.35);
+    --shadow: none;
   }
   html.vs-skin body{background:#fff;}
-  html.vs-skin header.top{background:linear-gradient(120deg,#e9f8fd 0%,#f4f8ff 55%,#f6f1fa 100%) !important;color:var(--ink);border-radius:0 0 22px 22px;}
-  html.vs-skin header.top h1{color:#111827;}  /* 글꼴·자간은 기본안 그대로(가독성) */
+  html.vs-skin header.top{background:#f3f3f3 !important;color:var(--ink);border-radius:0;border-top:4px solid #00B5E2;}
+  html.vs-skin header.top h1{color:#222;}  /* 글꼴·자간은 기본안 그대로(가독성) */
   html.vs-skin .palette-switch, html.vs-skin .theme-switch{display:none !important;}
-  html.vs-skin .panel, html.vs-skin .kpi{border-radius:20px;}
-  html.vs-skin .kpi .val{color:#0B3089;}
+  html.vs-skin .panel, html.vs-skin .kpi, html.vs-skin .segment-card{border-radius:4px;box-shadow:none;border-color:#dddddd;}
+  html.vs-skin .kpi{border-top:3px solid #00B5E2;}
+  html.vs-skin .kpi .val{color:#041A72;}
+  html.vs-skin .pill{border-radius:2px;}
   #vsBrand{display:none;}
-  html.vs-skin #vsBrand{display:flex;align-items:center;gap:16px;padding:12px 0 14px;border-bottom:1px solid var(--border);margin-bottom:12px;}
-  #vsBrand img.v{height:30px;} #vsBrand img.s{height:34px;} #vsBrand .bar{width:1px;height:26px;background:var(--border);}
-  #vsBrand .t{margin-left:auto;font-size:12px;color:var(--muted);}
-  html.vs-skin #viewBar .vseg button[aria-pressed="true"]{background:#111827;}
-  html.vs-skin #viewBar .vseg, html.vs-skin #viewBar .vreset{border-radius:99px;}
-  html.vs-skin .vgroups{gap:28px;border-bottom:1px solid var(--border);margin-bottom:0;}
-  html.vs-skin .vgroups button{border:0;background:transparent;border-radius:0;padding:12px 0 14px;font-size:16px;color:#111827;position:relative;}
+  html.vs-skin #vsBrand{display:flex;align-items:center;gap:16px;padding:12px 0 14px;margin-bottom:0;}
+  #vsBrand img.v{height:30px;} #vsBrand img.s{height:34px;} #vsBrand .bar{width:1px;height:26px;background:#cccccc;}
+  #vsBrand .t{margin-left:auto;font-size:12px;color:#666;}
+  html.vs-skin #viewBar .vseg, html.vs-skin #viewBar .vreset{border-radius:2px;border-color:#cccccc;}
+  html.vs-skin #viewBar .vseg button[aria-pressed="true"]{background:#041A72;}
+  html.vs-skin .vgroups{gap:34px;border-bottom:1px solid #dddddd;margin-bottom:0;}
+  html.vs-skin .vgroups button{border:0;background:transparent;border-radius:0;padding:14px 0 16px;font-size:17px;color:#222;position:relative;}
   html.vs-skin .vgroups button small{display:none;}
-  html.vs-skin .vgroups button[aria-pressed="true"]{background:transparent;color:#00B3E3;}
-  html.vs-skin .vgroups button[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px;background:#00B3E3;}
-  html.vs-skin .vsub{border:0;background:#f5f8fb;border-radius:0 0 16px 16px;padding:4px 14px;margin-bottom:6px;}
-  html.vs-skin .vsub button{font-size:13.5px;}
-  html.vs-skin .vsub button[aria-current="page"]{color:#00B3E3;font-weight:800;}
-  html.vs-skin .vtoday{background:linear-gradient(120deg,#e9f8fd,#f6f1fa);border-radius:18px;}
-  html.vs-skin .vcard{border-radius:16px;border-left-width:1px;border-top:3px solid var(--gc);box-shadow:0 10px 26px -20px rgba(11,48,137,.4);}
-  html.vs-skin .vcard .k{color:#0B3089;}
+  html.vs-skin .vgroups button[aria-pressed="true"]{background:transparent;color:#00B5E2;}
+  html.vs-skin .vgroups button[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:#00B5E2;}
+  html.vs-skin .vsub{border:0;background:#f3f3f3;border-radius:0;padding:4px 14px;margin-bottom:6px;}
+  html.vs-skin .vsub button{font-size:13.5px;color:#353535;}
+  html.vs-skin .vsub button[aria-current="page"]{color:#00B5E2;font-weight:800;border-bottom-color:#00B5E2;}
+  html.vs-skin .vtoday{background:#041A72;color:#fff;border:0;border-radius:0;}
+  html.vs-skin .vtoday b{color:#fff;} html.vs-skin .vtoday button{color:#7fdcf3;}
+  html.vs-skin .vcard{border-radius:0;border:1px solid #dddddd;border-top:3px solid var(--gc);box-shadow:none;}
+  html.vs-skin .vcard:hover{border-color:#00B5E2;}
+  html.vs-skin .vcard .k{color:#041A72;}
   html.vs-skin .vhero{display:grid;}
-  .vhero{display:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 14px;}
+  .vhero{display:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0 0 14px;border:1px solid #dddddd;}
   @media (max-width:900px){.vhero{grid-template-columns:repeat(2,minmax(0,1fr));}}
-  .vhero > div{background:#fff;border:1px solid #eef2f7;border-radius:20px;padding:14px 16px;box-shadow:0 10px 28px -18px rgba(11,48,137,.3);}
-  .vhero .l{font-size:12px;color:var(--muted);font-weight:700;} .vhero .v{font-size:24px;font-weight:800;color:#0B3089;} .vhero .s{font-size:11.5px;color:var(--ink-2);}
+  .vhero > div{background:#fff;padding:14px 18px;border-right:1px solid #eeeeee;}
+  .vhero > div:last-child{border-right:0;}
+  .vhero .l{font-size:12px;color:#666;font-weight:700;} .vhero .v{font-size:26px;font-weight:800;color:#00B5E2;} .vhero .s{font-size:11.5px;color:#353535;}
   #viewBar{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap;}
   #viewBar .vlab{font-size:12px;color:var(--muted);}
   #viewBar .vseg{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);}
