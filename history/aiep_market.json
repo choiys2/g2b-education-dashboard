@@ -1,0 +1,135 @@
+{
+ "updated": "2026-11-10",
+ "bids": {
+  "R26BK01597241-000": {
+   "t": "인공지능 맞춤형 교수학습 플랫폼(AIEP) 연계 통합 포털 임차 및 계정 관리 용역 사업",
+   "kind": "용역",
+   "cat": "구축·운영",
+   "org": "인천광역시교육청 인천광역시교육청AI융합교육원",
+   "r": "인천",
+   "d": "2026-06-24",
+   "budget": 163695320,
+   "method": "제한경쟁",
+   "kw": "AIEP",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01597241&bidPbancOrd=000"
+  },
+  "R26BK01634676-000": {
+   "t": "인공지능 맞춤형 교수학습 플랫폼(AIEP) 연계 통합 포털 임차 및 계정 관리 용역 사업",
+   "kind": "용역",
+   "cat": "구축·운영",
+   "org": "인천광역시교육청 인천광역시교육청AI융합교육원",
+   "r": "인천",
+   "d": "2026-07-16",
+   "budget": 163695320,
+   "method": "제한경쟁",
+   "kw": "AIEP",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01634676&bidPbancOrd=000"
+  },
+  "R26BK01675207-000": {
+   "t": "인공지능 맞춤형 교수학습 플랫폼(AIEP) 연계 통합 포털 임차 및 계정 관리 용역 사업",
+   "kind": "용역",
+   "cat": "구축·운영",
+   "org": "인천광역시교육청 인천광역시교육청AI융합교육원",
+   "r": "인천",
+   "d": "2026-08-11",
+   "budget": 163695320,
+   "method": "수의계약",
+   "kw": "AIEP",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01675207&bidPbancOrd=000"
+  },
+  "R26BK01802851-000": {
+   "t": "2026 하반기 강원아이로(AI-ro) 및 AIEP 활용 교원·업무담당자 역량강화 연수 위탁 용역",
+   "kind": "용역",
+   "cat": "연수·활용",
+   "org": "강원특별자치도교육청",
+   "r": "강원",
+   "d": "2026-11-03",
+   "budget": 160500000,
+   "method": "제한경쟁",
+   "kw": "AIEP",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01802851&bidPbancOrd=000"
+  }
+ },
+ "awards": {
+  "R26BK01675207-000": {
+   "t": "인공지능 맞춤형 교수학습 플랫폼(AIEP) 연계 통합 포털 임차 및 계정 관리 용역 사업",
+   "kind": "용역",
+   "org": "인천광역시교육청 인천광역시교육청AI융합교육원",
+   "r": "인천",
+   "d": "2026-08-18",
+   "winner": "주식회사 에이마스",
+   "v": "",
+   "amt": 159470000,
+   "n": 1
+  },
+  "20231242918-000": {
+   "t": "인공지능 기반 디지털 교수학습 플랫폼 다채움 유지관리 용역",
+   "kind": "용역",
+   "org": "충청북도교육청 충청북도교육연구정보원",
+   "r": "충북",
+   "d": "2024-01-23",
+   "winner": "주식회사 데이타이음",
+   "v": "",
+   "amt": 277000000,
+   "n": 3
+  },
+  "20241010400-000": {
+   "t": "인공지능(AI) 교수학습 플랫폼 콘퍼런스 행사 기획 및 운영 용역",
+   "kind": "용역",
+   "org": "울산광역시교육청",
+   "r": "울산",
+   "d": "2024-10-25",
+   "winner": "주식회사 에이블플레이",
+   "v": "",
+   "amt": 152226000,
+   "n": 3
+  },
+  "R25BK00758918-000": {
+   "t": "2025 인공지능 교수학습 플랫폼 활용 전문가양성과정 위탁 용역(수의시담)",
+   "kind": "용역",
+   "org": "울산광역시교육청",
+   "r": "울산",
+   "d": "2025-04-02",
+   "winner": "주식회사 라이프스킬즈",
+   "v": "",
+   "amt": 81000000,
+   "n": 1
+  }
+ },
+ "participants": {},
+ "status": {
+  "days": 1095,
+  "done": [
+   "AIEP",
+   "교수·학습 플랫폼",
+   "교수학습 플랫폼",
+   "교수학습지원 플랫폼",
+   "교수학습플랫폼"
+  ],
+  "diag": [
+   "getBidPblancListInfoServcPPSSrch AI 맞춤형: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoServcPPSSrch 교수·학습 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoServcPPSSrch 교수학습 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoServcPPSSrch 교수학습지원 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoServcPPSSrch 교수학습플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoThngPPSSrch AI 맞춤형: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoThngPPSSrch AIEP: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoThngPPSSrch 교수·학습 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoThngPPSSrch 교수학습 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoThngPPSSrch 교수학습지원 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getBidPblancListInfoThngPPSSrch 교수학습플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusServcPPSSrch AI 맞춤형: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusServcPPSSrch 교수·학습 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusServcPPSSrch 교수학습 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusServcPPSSrch 교수학습지원 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusServcPPSSrch 교수학습플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusThngPPSSrch AI 맞춤형: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusThngPPSSrch 교수·학습 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusThngPPSSrch 교수학습 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusThngPPSSrch 교수학습지원 플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api",
+   "getScsbidListSttusThngPPSSrch 교수학습플랫폼: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://api"
+  ],
+  "note": "완료",
+  "sec": 1702
+ }
+}
