@@ -1,6 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>17개 시도교육청 초·중등 교육시장 입체 분석</title>
+<script>/* 처음 화면 깜빡임 방지: 저장된 보기가 기본이 아니면(처음은 그룹) 비상 디자인으로 바로 */try{if((localStorage.getItem("viewMode.v1")||"group")!=="basic")document.documentElement.classList.add("vs-skin");}catch(e){document.documentElement.classList.add("vs-skin");}</script>
 <meta name="description" content="NEIS 개방포털 실측 데이터와 나라장터 발주 실적을 교차분석한 (주)비상교육 B2G 전략 대시보드">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -9545,8 +9546,9 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
 (function renderViews(){
   const nav = document.querySelector('nav.tabnav'); if (!nav || typeof activateTab !== 'function') return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const KEY = 'viewMode.v1', load = () => { try { return localStorage.getItem(KEY) || 'basic'; } catch (e) { return 'basic'; } };
-  const save = v => { try { v === 'basic' ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, v); } catch (e) { /* 저장 불가 환경 */ } };
+  const DEF = 'group';  // 처음 보기 = 그룹(비상 디자인). 초기화도 그룹으로
+  const KEY = 'viewMode.v1', load = () => { try { return localStorage.getItem(KEY) || DEF; } catch (e) { return DEF; } };
+  const save = v => { try { v === DEF ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, v); } catch (e) { /* 저장 불가 환경 */ } };
   const GROUPS = [
     ['시장·정책', '#4f8cff', ['market', 'strategy', 'trend2027', 'biz2027']],
     ['조달·발주', '#f59e0b', ['g2bfull', 'keris', 'g2b', 'school', 'aiep']],
@@ -9581,18 +9583,18 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   const FC = {'정상': ['#10b98133', '#34d399', '최신'], '지연': ['#f59e0b33', '#fbbf24', '지연'], '대체본': ['#f59e0b33', '#fbbf24', '대체본'], '중단': ['#ef444433', '#f87171', '갱신 필요'], '없음': ['#94a3b833', '#94a3b8', '없음']};
   const PAL = {'#4f8cff': ['#2f5fb3', '#3b74d6', '#4f8cff', '#6aa0ff'], '#f59e0b': ['#b45309', '#d97706', '#f59e0b', '#c2710c', '#e08a1e'], '#10b981': ['#047857', '#0f766e', '#10b981', '#14b8a6', '#059669'], '#ef4444': ['#b91c1c', '#dc2626', '#ef4444'], '#8b5cf6': ['#6d28d9', '#7c3aed', '#8b5cf6', '#a78bfa']};
   const bar = document.createElement('div'); bar.id = 'viewBar';
-  bar.innerHTML = `<span class="vlab">보기</span><div class="vseg" role="group" aria-label="목차 보기 방식">${[['basic', '기본'], ['group', '그룹'], ['card', '카드'], ['shelf', '책장']].map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join('')}</div><button type="button" class="vreset" title="처음 상태(기본 탭 줄)로 되돌리고 기억도 지웁니다">↺ 초기화</button>`;
+  bar.innerHTML = `<span class="vlab">보기</span><div class="vseg" role="group" aria-label="목차 보기 방식">${[['group', '그룹'], ['card', '카드'], ['shelf', '책장'], ['basic', '기본']].map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join('')}</div><button type="button" class="vreset" title="처음 상태(그룹 보기)로 되돌리고 기억도 지웁니다">↺ 초기화</button>`;
   const box = document.createElement('div'); box.id = 'viewNav';
   nav.before(bar); nav.after(box);
   const LG = __BRAND_LOGOS_JSON__ || {};
   const brand = document.createElement('div'); brand.id = 'vsBrand';
-  brand.innerHTML = `${LG.visang ? `<img class="v" src="${LG.visang}" alt="visang">` : '<b style="color:#00B3E3;font-size:22px;">visang</b>'}<span class="bar"></span>${LG.vivasam ? `<img class="s" src="${LG.vivasam}" alt="비바샘 원격교육연수원">` : '<b>비바샘 원격교육연수원</b>'}<span class="t">비상 디자인 보기 · '↺ 초기화'를 누르면 기본(기존) 화면으로</span>`;
+  brand.innerHTML = `${LG.visang ? `<img class="v" src="${LG.visang}" alt="visang">` : '<b style="color:#00B3E3;font-size:22px;">visang</b>'}<span class="bar"></span>${LG.vivasam ? `<img class="s" src="${LG.vivasam}" alt="비바샘 원격교육연수원">` : '<b>비바샘 원격교육연수원</b>'}<span class="t">비상 디자인 보기 · '기본'을 누르면 기존 화면, '↺ 초기화'는 그룹 보기로</span>`;
   const hdr = document.querySelector('header.top'); (hdr || bar).before(brand);
   let mode = load(), gsel = null, folded = false;
   function draw(){
     const t = cur(), gi = GROUPS.findIndex(g => g[2].includes(t)), g = gsel != null ? gsel : (gi < 0 ? 0 : gi);
     bar.querySelectorAll('.vseg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === mode)));
-    bar.querySelector('.vreset').hidden = mode === 'basic';
+    bar.querySelector('.vreset').hidden = mode === DEF;
     nav.style.display = mode === 'basic' ? '' : 'none';  // .tabnav{display:flex} 가 hidden 속성을 덮으므로 직접
     document.documentElement.classList.toggle('vs-skin', mode !== 'basic');  // 그룹·카드·책장 = 비상 디자인, 기본 = 기존 스타일
     const HI = {group: LG.hero1, card: LG.hero2, shelf: LG.hero3 || LG.hero1}[mode];  // 보기마다 다른 사옥 공간 사진
@@ -9621,7 +9623,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     const fo = box.querySelector('.vfold'); if (fo) fo.addEventListener('click', () => { folded = true; draw(); });
   }
   bar.querySelectorAll('.vseg button').forEach(b => b.addEventListener('click', () => { mode = b.dataset.v; save(mode); folded = false; gsel = null; draw(); }));
-  bar.querySelector('.vreset').addEventListener('click', () => { mode = 'basic'; save('basic'); folded = false; gsel = null; draw(); });
+  bar.querySelector('.vreset').addEventListener('click', () => { mode = DEF; save(DEF); folded = false; gsel = null; draw(); });
   nav.addEventListener('click', () => setTimeout(draw, 0));  // 기본 탭 줄에서 바꿔도 다른 보기 상태가 따라오게
   window.addEventListener('hashchange', () => setTimeout(draw, 0));
   draw();
