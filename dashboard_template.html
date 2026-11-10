@@ -8716,7 +8716,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     body.innerHTML = out;
   }
   const sel = sec.querySelector('#bmBid'), txt = sec.querySelector('#bmText');
-  sel.addEventListener('change', () => { const b = BIDS[+sel.value]; if (!sel.value || !b) { body.innerHTML = ''; return; } txt.value = ''; run((b.t || '') + ' ' + (b.o || ''), b.r || ''); body.insertAdjacentHTML('afterbegin', `<p style="font-size:12px;margin:0 0 6px;color:var(--ink-2);">${h(b.o || '')} · 공고일 ${h(b.d || '')}${b.a ? ` · 예산 ${(b.a / 1e6).toFixed(0)}백만 원` : ''}${b.u ? ` · <a href="${h(b.u)}" target="_blank" rel="noopener">공고 ↗</a>` : ''}${b.k ? ` <button type="button" class="pill" data-draft="${h((b.k || '').split('-')[0])}" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}</p>`); });
+  sel.addEventListener('change', () => { const b = BIDS[+sel.value]; if (!sel.value || !b) { body.innerHTML = ''; return; } txt.value = ''; run((b.t || '') + ' ' + (b.o || ''), b.r || ''); body.insertAdjacentHTML('afterbegin', `<p style="font-size:12px;margin:0 0 6px;color:var(--ink-2);">${h(b.o || '')} · 공고일 ${h(b.d || '')}${b.a ? ` · 예산 ${(b.a / 1e6).toFixed(0)}백만 원` : ''}${b.u ? ` · <a href="${h(b.u)}" target="_blank" rel="noopener">공고 ↗</a>` : ''}${b.k ? ` <button type="button" class="pill" data-draft="${h((b.k || '').split('-')[0])}" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}${(() => { const BR = window.__BRANCH; if (!BR) return ''; const hit = (BR.rows || []).filter(r => r.sido === b.r && r.offices.some(o => (b.o || '').includes(o.replace('교육지원청', '')))); return hit.length ? `<br>관할 총판: ${hit.map(r => h(r.name) + '(' + h(r.type) + (r.staff ? ' · 담당 ' + h(r.staff) : '') + ')').join(', ')}` : ''; })()}</p>`); });
   let tm; txt.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => { sel.value = ''; if (txt.value.trim().length >= 2) run(txt.value.trim(), ''); else body.innerHTML = ''; }, 250); });
 })();
 
@@ -8840,6 +8840,64 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     }));
   }
   sec.querySelector('#fcR').addEventListener('change', draw); sec.querySelector('#fcHit').addEventListener('change', draw);
+  draw();
+})();
+</script>
+<script>
+/* ---------------- 지역 총판 연계: B2G(교육청·교육지원청) ↔ B2S(학교) 다리 (B2G영업 탭, 공략 Top 10 아래) ----------------
+   총판 상세는 암호문(static_data/branch_network.enc.json)을 배포 때 복호화 - 로그인 뒤 화면에만. 휴대폰·계좌·대표자 이름은 없음 */
+(function renderBranch(){
+  const B = __BRANCH_JSON__, SUM = __BRANCH_SUMMARY_JSON__;
+  const tab = document.getElementById('panel-pipeline'); if (!tab || (!B && !SUM)) return;
+  window.__BRANCH = B;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => (v || 0).toLocaleString();
+  const won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'branchPanel';
+  const asOf = (B && B.as_of) || (SUM && SUM.as_of) || '';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">지역 총판 연계 — 교육청 영업(B2G) ↔ 학교 영업(B2S)<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">비상교육 지사 주소록 ${h(asOf)} 기준 · ${B ? '총판 상세는 로그인 뒤 화면에만' : '시도별 집계만 표시'}</span></p>
+    <p class="panel-desc">총판(학판·교판)의 담당 지역을 교육지원청에 연결하고, 그 관할의 연수 공고·AI 중점·선도학교·겨울방학 안내 대상 학교를 붙였습니다. 교육청 공고는 시도 단위, 학교 영업은 총판 단위로 보면서 '교육청 영업 → 관할 총판 → 학교' 동선을 짭니다.</p>
+    <p style="margin:6px 0 0;font-size:12px;padding:6px 10px;border-radius:8px;background:color-mix(in srgb, var(--warning) 16%, transparent);"><b>주의</b> 주소록이 ${h(asOf)} 기준이라 상호·담당 지역·연락처가 바뀌었을 수 있습니다. 최신 주소록 파일을 같은 드라이브 폴더에 올리면 다시 변환합니다.</p></div></div>
+    <div class="filter-row" style="gap:8px;flex-wrap:wrap;margin-top:8px;"><select id="brSido"></select><input id="brQ" type="search" placeholder="총판·지역·교육지원청 검색" style="flex:1 1 200px;min-width:0;"></div>
+    <div id="brSidoCard" style="margin-top:10px;"></div><div id="brBody" style="margin-top:10px;"></div>`;
+  const opp = document.getElementById('oppPanel'); opp ? opp.after(sec) : tab.prepend(sec);
+  const SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+  // 학판·교판이 같은 지역을 맡으면 한 줄로 묶는다
+  const groups = {};
+  ((B && B.rows) || []).forEach(r => {
+    const k = r.sido + '|' + r.offices.join(',') + '|' + r.area.replace(/\s/g, '');
+    const g = groups[k] = groups[k] || {...r, names: [], staff: new Set(), tels: new Set()};
+    g.names.push({type: r.type, name: r.name}); if (r.staff) g.staff.add(r.staff); if (r.tel) g.tels.add(r.tel);
+  });
+  const G = Object.values(groups);
+  const bySido = {}; (SUM && SUM.by_sido || []).forEach(x => { bySido[x.sido] = x; });
+  const sel = sec.querySelector('#brSido');
+  const score = sd => (B && B.sido && B.sido[sd]) ? (B.sido[sd].hq_bids || 0) : 0;
+  sel.innerHTML = SIDO.map(sd => `<option value="${sd}">${sd} · 총판 ${(bySido[sd] ? bySido[sd]['학판'] + bySido[sd]['교판'] : 0)}곳</option>`).join('');
+  sel.value = '경기';
+  function draw(){
+    const sd = sel.value, q = sec.querySelector('#brQ').value.trim();
+    const S = (B && B.sido && B.sido[sd]) || {}, cnt = bySido[sd] || {};
+    const top = (S.top || []).map(t => `${h(t.topic)} <b>${t.score}</b>`).join(' · ') || '-';
+    sec.querySelector('#brSidoCard').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;">${[
+      ['총판', `${n((cnt['학판'] || 0) + (cnt['교판'] || 0))}곳`, `학판 ${n(cnt['학판'])} · 교판 ${n(cnt['교판'])}`],
+      ['교육청 본청·연수원 공고', `${n(S.hq_bids)}건`, '최근 12개월 · 시도 단위 영업 대상'],
+      ['교육지원청 연결', S.offices ? `${n(S.covered)}/${n(S.offices)}` : '-', S.uncovered && S.uncovered.length ? '미연결: ' + S.uncovered.slice(0, 3).join(', ') : '전부 연결'],
+      ['기회점수 상위 주제', '', top]].map(([k, v, s]) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div>${v ? `<div style="font-size:17px;font-weight:800;">${v}</div>` : ''}<div style="font-size:11.5px;color:var(--ink-2);">${s}</div></div>`).join('')}</div>`;
+    if (!B) { sec.querySelector('#brBody').innerHTML = '<p style="color:var(--muted);font-size:13px;">총판 상세는 배포 키로 복호화될 때만 표시됩니다(로그인 화면).</p>'; return; }
+    const R = G.filter(g => g.sido === sd && (!q || (g.names.map(x => x.name).join(' ') + g.area + g.offices.join(' ')).includes(q)))
+      .sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3));
+    const tag = t => `<span style="display:inline-block;padding:0 6px;border-radius:99px;font-size:10.5px;font-weight:700;background:${t === '교판' ? 'color-mix(in srgb, #10b981 22%, var(--surface-2))' : 'color-mix(in srgb, var(--accent) 18%, var(--surface-2))'};margin-right:3px;">${t}</span>`;
+    sec.querySelector('#brBody').innerHTML = R.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:900px;"><thead><tr><th>총판</th><th>비상 담당</th><th>담당 지역</th><th>관할 교육지원청</th><th class="num">연수 공고 12개월(90일)</th><th class="num">AI 중점</th><th class="num">디지털 선도</th><th class="num" title="겨울방학 3주 전 안내 기한이 45일 안인 학교">안내 대상 45일</th><th>사무실 전화</th></tr></thead><tbody>
+      ${R.map((g, i) => `<tr class="brRow" data-i="${i}" style="cursor:pointer;"><td style="font-weight:700;min-width:150px;">${g.names.map(x => tag(x.type) + h(x.name)).join('<br>')}</td><td style="white-space:nowrap;">${h([...g.staff].join(', '))}</td><td style="font-size:12px;">${h(g.area)}</td>
+        <td style="font-size:11.5px;color:var(--ink-2);">${h(g.offices.join(', '))}</td><td class="num">${g.bids12}(${g.bids90}) · ${won(g.bid_amt)}</td><td class="num">${n(g.ai)}</td><td class="num">${n(g.dig)}</td><td class="num"><b>${n(g.due45)}</b></td><td style="white-space:nowrap;font-size:12px;">${h([...g.tels][0] || '')}</td></tr>
+        <tr class="brDet" data-i="${i}" hidden><td colspan="9" style="font-size:12px;background:var(--surface-2);">${g.recent && g.recent.length ? '최근 관할 연수 공고: ' + g.recent.map(b => `${b.u ? `<a href="${h(b.u)}" target="_blank" rel="noopener">${h(b.t)}</a>` : h(b.t)} (${h(b.d)})`).join(' · ') : '최근 12개월 관할 교육지원청 연수 공고 없음 — 학교 단위(B2S) 영업 중심 지역'}${g.addr ? `<br>주소: ${h(g.addr)}` : ''}</td></tr>`).join('')}</tbody></table></div>`
+      : '<p style="color:var(--muted);font-size:13px;">조건에 맞는 총판이 없습니다.</p>';
+    sec.querySelectorAll('.brRow').forEach(r => r.addEventListener('click', () => { const d = sec.querySelector(`.brDet[data-i="${r.dataset.i}"]`); d.hidden = !d.hidden; }));
+    const best = R.slice(0, 3).map(g => `${g.names[0].name}(AI 중점 ${g.ai}·안내 대상 ${g.due45})`);
+    sec.querySelector('#brBody').insertAdjacentHTML('beforeend', `<p class="tt-note" style="margin-top:10px;font-size:13px;line-height:1.6;"><b>그래서</b> ${h(sd)}는 교육청 본청·연수원 공고 ${n(S.hq_bids)}건을 본사가 직접 맡고, 학교 단위는 ${best.length ? `<b>${h(best.join(' · '))}</b> 순으로 총판과 동행 방문을 잡으세요` : '총판 정보를 최신화한 뒤 동선을 잡으세요'}. 교육지원청 공고가 뜨면 관할 총판에 현장 정보(담당 장학사·학교 반응)를 먼저 확인하고, B2S 발송 리스트의 기한 임박 학교를 총판 방문 일정에 넣으면 됩니다.</p>`);
+  }
+  sel.addEventListener('change', draw); let tm; sec.querySelector('#brQ').addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(draw, 200); });
   draw();
 })();
 </script>

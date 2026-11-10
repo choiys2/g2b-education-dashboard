@@ -37,6 +37,22 @@ def _safe(fn, name):
         return None
 
 
+def _branch(opp):
+    """비상 지사(총판) 주소록 암호문 복호화 -> 교육지원청·공고·학교 연결(로그인 뒤 화면만, 이름·전화는 로그에 남기지 않음)."""
+    p, key = "static_data/branch_network.enc.json", os.environ.get("STRATEGY_KEY", "")
+    if not os.path.exists(p) or not key:
+        print("총판 연계:", "파일 없음" if not os.path.exists(p) else "STRATEGY_KEY 미설정 - 시도별 집계만 표시")
+        return None
+    try:
+        import strategy_crypto, branch_network
+        d = branch_network.build(strategy_crypto.decrypt(load(p), key), opp)
+        print(f"총판 연계: 복호화 · {len(d['rows'])}곳 · 기준 {d.get('as_of')}")
+        return d
+    except Exception as e:
+        print(f"총판 연계: 실패({type(e).__name__})")
+        return None
+
+
 def _pool_people():
     """강사풀 개인 정보(핵심 강사·단체 대표·활동 상위 강사) 복호화 - 이름은 로그에 남기지 않는다."""
     p = "static_data/pool_people.enc.json"
@@ -621,6 +637,8 @@ def main():
         "__POOL_PEOPLE_JSON__": _pool_people(),  # 강사 개인 정보(암호문 -> 로그인 뒤 화면만)
         "__MATCH_BIDS_JSON__": _match_bids(),  # 공고-강사 매칭 대상
         "__OPPORTUNITY_JSON__": _safe(lambda: __import__("opportunity").build(trend2027, data_rows, pipeline=pipeline_export), "통합 기회점수"),  # 통합 기회점수(시도×주제)
+        "__BRANCH_JSON__": None,  # 아래에서 기회점수 계산 뒤 채움(총판 연계)
+        "__BRANCH_SUMMARY_JSON__": load("static_data/branch_summary.json") if os.path.exists("static_data/branch_summary.json") else None,
         "__FORECAST_JSON__": _safe(lambda: __import__("bid_forecast").build(), "발주 예측"),  # 발주 예측 캘린더
         "__FRESHNESS_JSON__": __import__("freshness").build(full_live),  # 데이터 신선도(상단 배지)
         "__AI_SCHOOL_UPDATES_JSON__": load("static_data/ai_school_updates.json") if os.path.exists("static_data/ai_school_updates.json") else None,  # AI 중점학교 최신 동향
@@ -641,6 +659,7 @@ def main():
         # 나라장터 API 장애로 마지막 정상 수집분을 대신 쓴 날: {"date": "YYYY-MM-DD"}, 평소엔 null
         "__G2B_STALE_JSON__": load("live/g2b_stale.json") if os.path.exists("live/g2b_stale.json") else None,
     }
+    subs["__BRANCH_JSON__"] = _branch(subs.get("__OPPORTUNITY_JSON__"))  # 총판 연계(기회점수 상위 주제 연결)
     for token, value in subs.items():
         if token not in html:
             print(f"WARNING: 템플릿에 {token} 없음", file=sys.stderr)
@@ -663,7 +682,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__POOL_URL_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:
