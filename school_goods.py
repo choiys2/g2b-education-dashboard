@@ -54,7 +54,7 @@ def grade(name):
     return "기타"
 
 
-def chunks(begin, end, days=28):
+def chunks(begin, end, days=7):  # 키워드 검색은 28일 구간에서 07(입력범위 초과) - 7일로 나눔(2026-11-10 실측)
     """최신 기간부터 거꾸로(키워드 검색이 오래된 기간에서 07 '입력범위값 초과'를 내면 그 지점에서 멈춘다)."""
     out, cur = [], begin
     while cur < end:
@@ -88,7 +88,7 @@ def main():
         begin = datetime(end.year, 1, 1)  # 첫 자동 수집: 올해 1월부터
     else:
         begin = end - timedelta(days=a.days)
-    t0, diag, n_new, iv = time.time(), [], 0, cfg.get("request_interval_sec", 0.15)
+    t0, diag, n_new, iv = time.time(), [], 0, max(0.4, cfg.get("request_interval_sec", 0.15))  # 429 방지
     stop07, done_kw = {}, []
 
     def save(note):
@@ -120,7 +120,7 @@ def main():
                             items, total = call_api(base, op, p, timeout=25, retries=1)
                         except Exception as ex:
                             if "429" in str(ex):  # 요청 과다 - 쉬었다가 한 번 더
-                                time.sleep(20)
+                                time.sleep(30)
                                 try:
                                     items, total = call_api(base, op, p, timeout=25, retries=1)
                                 except Exception as ex2:

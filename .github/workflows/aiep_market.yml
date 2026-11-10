@@ -2,7 +2,7 @@ name: 시도교육청 AIEP 조달 수집
 
 on:
   schedule:
-    - cron: "40 19 * * 1"   # 매주 화 04:40 KST - 06:00 대시보드 배포 전에 끝나도록
+    - cron: "40 19 * * *"   # 매일 04:40 KST(3년 백필은 7일 단위라 여러 번에 나눠 이어감, 끝나면 최근 120일만)
   workflow_dispatch:
 
 permissions:

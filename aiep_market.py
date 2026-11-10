@@ -72,7 +72,7 @@ def chunks(days):
     end, start = datetime.now(), datetime.now() - timedelta(days=days)
     out, cur = [], start
     while cur < end:
-        nxt = min(cur + timedelta(days=28), end)
+        nxt = min(cur + timedelta(days=7), end)  # 키워드 검색은 28일 구간에서 07 - 7일 단위(2026-11-10 실측)
         out.append((cur, nxt))
         cur = nxt
     return out[::-1]
@@ -94,15 +94,15 @@ def main():
     t0 = time.time()
     prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     bids, awards, parts = prev.get("bids", {}), prev.get("awards", {}), prev.get("participants", {})
-    diag, iv = [], cfg.get("request_interval_sec", 0.15)
+    diag, iv = [], max(0.4, cfg.get("request_interval_sec", 0.15))  # 429 방지
     oldest = {}  # 연산|키워드 -> 07 이 난 기간 끝(그 이전은 키워드 검색 불가로 보고 기록)
-    done = set((prev.get("status") or {}).get("done3", []))  # done3: 날짜 형식 수정 후 다시 백필  # 3년 백필을 끝낸 키워드 - 이후엔 최근 120일만 다시
+    done = set((prev.get("status") or {}).get("done4", []))  # done3: 날짜 형식 수정 후 다시 백필  # 3년 백필을 끝낸 키워드 - 이후엔 최근 120일만 다시
     days = a.days
     over = lambda: time.time() - t0 > a.budget
 
     def save(note):
         OUT.write_text(json.dumps({"updated": date.today().isoformat(), "bids": bids, "awards": awards, "participants": parts,
-                                   "status": {"days": days, "done3": sorted(done), "stop07": oldest, "diag": sorted(set(diag))[:40], "note": note, "sec": round(time.time() - t0)}},
+                                   "status": {"days": days, "done4": sorted(done), "stop07": oldest, "diag": sorted(set(diag))[:40], "note": note, "sec": round(time.time() - t0)}},
                                   ensure_ascii=False, indent=1), encoding="utf-8")
 
     for kw in KEYWORDS:
@@ -127,7 +127,7 @@ def main():
                         except Exception as e:
                             msg = safe(e)
                             if "429" in msg:  # 요청 과다 - 쉬었다가 한 번 더
-                                time.sleep(20)
+                                time.sleep(30)
                                 try:
                                     got, total = call_api(base, op, p, timeout=25, retries=1)
                                 except Exception as e2:
