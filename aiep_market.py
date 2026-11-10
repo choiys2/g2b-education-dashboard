@@ -22,6 +22,7 @@ OUT = Path(__file__).parent / "history" / "aiep_market.json"
 BID = "https://apis.data.go.kr/1230000/ad/BidPublicInfoService"
 SCS = "https://apis.data.go.kr/1230000/as/ScsbidInfoService"
 KINDS = {"용역": "Servc", "물품": "Thng"}
+THNG_KW = {"AIEP", "교수학습 플랫폼", "하이러닝", "다채움", "아이모두"}  # 물품(사용권·구독 구매)은 이 키워드만 - 호출 수 절약
 KEYWORDS = ["AIEP", "교수학습 플랫폼", "교수학습플랫폼", "교수·학습 플랫폼", "교수학습지원 플랫폼", "AI 맞춤형", "AI맞춤형",
             "AI 교육플랫폼", "AI교육플랫폼", "AI 교육 플랫폼", "하이러닝", "다채움", "마주온", "에듀아이", "아이로", "SEN스쿨",
             "바당", "아이온", "아이든", "아이모두", "AI배움터", "우리아이", "AI드림"]
@@ -91,29 +92,40 @@ def main():
     prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     bids, awards, parts = prev.get("bids", {}), prev.get("awards", {}), prev.get("participants", {})
     diag, iv = [], cfg.get("request_interval_sec", 0.15)
-    done = set((prev.get("status") or {}).get("done", []))  # 3년 백필을 끝낸 키워드 - 이후엔 최근 120일만 다시
+    done = set((prev.get("status") or {}).get("done2", []))  # done2: 행 수 상한 오류(07) 수정 후 다시 백필  # 3년 백필을 끝낸 키워드 - 이후엔 최근 120일만 다시
     days = a.days
     over = lambda: time.time() - t0 > a.budget
 
     def save(note):
         OUT.write_text(json.dumps({"updated": date.today().isoformat(), "bids": bids, "awards": awards, "participants": parts,
-                                   "status": {"days": days, "done": sorted(done), "diag": sorted(set(diag))[:40], "note": note, "sec": round(time.time() - t0)}},
+                                   "status": {"days": days, "done2": sorted(done), "diag": sorted(set(diag))[:40], "note": note, "sec": round(time.time() - t0)}},
                                   ensure_ascii=False, indent=1), encoding="utf-8")
 
     for kw in KEYWORDS:
         if over():
             break
         for kind, sfx in KINDS.items():
+            if kind == "물품" and kw not in THNG_KW:
+                continue
             for begin, end in chunks(120 if kw in done else days):
                 if over():
                     break
                 for base, op, store in ((BID, f"getBidPblancListInfo{sfx}PPSSrch", "bid"), (SCS, f"getScsbidListSttus{sfx}PPSSrch", "award")):
-                    p = {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 500, "inqryDiv": 1, "type": "json",
-                         "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": end.strftime("%Y%m%d2359"), "bidNtceNm": kw}
-                    try:
-                        items, _ = call_api(base, op, p, timeout=25, retries=1)
-                    except Exception as e:
-                        diag.append(f"{op} {kw}: {safe(e)}")
+                    items, page, total, failed = [], 1, None, False
+                    while total is None or (page - 1) * 100 < total:  # 행 수 상한 100(500은 '입력범위값 초과' 07)
+                        p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 100, "inqryDiv": 1, "type": "json",
+                             "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": end.strftime("%Y%m%d2359"), "bidNtceNm": kw}
+                        try:
+                            got, total = call_api(base, op, p, timeout=25, retries=1)
+                        except Exception as e:
+                            diag.append(f"{op} {kw}: {safe(e)}")
+                            failed = True
+                            break
+                        items += got
+                        if not got or page >= 5:
+                            break
+                        page += 1
+                    if failed and not items:
                         continue
                     for it in items:
                         t = first(it, "bidNtceNm")
@@ -133,7 +145,7 @@ def main():
                             awards[k] = {"t": t, "kind": kind, "org": dm, "r": guess_region(dm), "d": str(first(it, "rlOpengDt", "fnlSucsfDate"))[:10],
                                          "winner": w, "v": vendor_of(w), "amt": num(first(it, "sucsfbidAmt")), "n": num(first(it, "prtcptCnum"))}
                     time.sleep(iv)
-        if not over():
+        if not over() and not any(kw in x for x in diag):
             done.add(kw)
         save(f"키워드 {kw}")
         print(f"  {kw}: 공고 {len(bids)} · 낙찰 {len(awards)} · {round(time.time() - t0)}초", flush=True)
