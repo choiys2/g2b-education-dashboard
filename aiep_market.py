@@ -92,13 +92,13 @@ def main():
     prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     bids, awards, parts = prev.get("bids", {}), prev.get("awards", {}), prev.get("participants", {})
     diag, iv = [], cfg.get("request_interval_sec", 0.15)
-    done = set((prev.get("status") or {}).get("done2", []))  # done2: 행 수 상한 오류(07) 수정 후 다시 백필  # 3년 백필을 끝낸 키워드 - 이후엔 최근 120일만 다시
+    done = set((prev.get("status") or {}).get("done3", []))  # done3: 날짜 형식 수정 후 다시 백필  # 3년 백필을 끝낸 키워드 - 이후엔 최근 120일만 다시
     days = a.days
     over = lambda: time.time() - t0 > a.budget
 
     def save(note):
         OUT.write_text(json.dumps({"updated": date.today().isoformat(), "bids": bids, "awards": awards, "participants": parts,
-                                   "status": {"days": days, "done2": sorted(done), "diag": sorted(set(diag))[:40], "note": note, "sec": round(time.time() - t0)}},
+                                   "status": {"days": days, "done3": sorted(done), "diag": sorted(set(diag))[:40], "note": note, "sec": round(time.time() - t0)}},
                                   ensure_ascii=False, indent=1), encoding="utf-8")
 
     for kw in KEYWORDS:
@@ -114,7 +114,7 @@ def main():
                     items, page, total, failed = [], 1, None, False
                     while total is None or (page - 1) * 100 < total:  # 행 수 상한 100(500은 '입력범위값 초과' 07)
                         p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 100, "inqryDiv": 1, "type": "json",
-                             "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": end.strftime("%Y%m%d2359"), "bidNtceNm": kw}
+                             "inqryBgnDt": begin.strftime("%Y%m%d%H%M"), "inqryEndDt": end.strftime("%Y%m%d%H%M"), "bidNtceNm": kw}  # 기존 수집기와 같은 형식(끝 시각 23:59 고정은 미래 시각 -> 07 오류)
                         try:
                             got, total = call_api(base, op, p, timeout=25, retries=1)
                         except Exception as e:
