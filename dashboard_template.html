@@ -8661,7 +8661,7 @@ window.__draft = function(k, btn){
 document.addEventListener('click', e => { const b = e.target.closest('[data-draft]'); if (b) { e.preventDefault(); window.__draft(b.dataset.draft, b); } });
 /* ---------------- ③ 데이터 신선도 배지(상단) ---------------- */
 (function renderFreshness(){
-  const F = __FRESHNESS_JSON__;
+  const F = __FRESHNESS_JSON__; window.__FRESH = F;
   const b = document.getElementById('freshBadge'); if (!b || !F || !(F.rows || []).length) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const COL = {'정상': '#10b981', '지연': '#f59e0b', '대체본': '#f59e0b', '중단': '#ef4444', '없음': '#94a3b8'};
@@ -9342,6 +9342,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
    ecosystem.py 가 매 배포 때 다시 계산(새 데이터가 들어오면 연결·인사이트가 자동으로 늘어난다) */
 (function renderEcosystem(){
   const E = __ECOSYSTEM_JSON__;
+  window.__ECO_TOP = (E && E.insights) || [];
   const tab = document.getElementById('panel-network'); if (!tab || !E) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const KC = {'시도': '#4f8cff', '시군': '#60a5fa', '기관': '#10b981', '기업': '#ef4444', '사업': '#8b5cf6', '플랫폼': '#f59e0b', '총판': '#14b8a6', '대학': '#ec4899'};
@@ -9439,5 +9440,123 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     pick.addEventListener('change', () => draw(+pick.value));
   }
   draw(0);
+})();
+</script>
+<style>
+  #viewBar{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap;}
+  #viewBar .vlab{font-size:12px;color:var(--muted);}
+  #viewBar .vseg{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);}
+  #viewBar .vseg button{appearance:none;border:0;background:transparent;color:var(--ink-2);font:inherit;font-size:12.5px;padding:6px 12px;cursor:pointer;}
+  #viewBar .vseg button[aria-pressed="true"]{background:var(--accent);color:#fff;font-weight:700;}
+  #viewBar .vreset{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;padding:5px 10px;border-radius:8px;cursor:pointer;}
+  #viewNav{margin:0 0 18px;}
+  .vgroups{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+  .vgroups button{appearance:none;font:inherit;cursor:pointer;text-align:left;padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font-size:13.5px;font-weight:700;}
+  .vgroups button small{display:block;font-weight:500;font-size:11px;color:var(--muted);}
+  .vgroups button[aria-pressed="true"]{border-color:var(--gc,var(--accent));background:color-mix(in srgb,var(--gc,var(--accent)) 18%,var(--surface));color:var(--ink);}
+  .vsub{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
+  .vsub button{appearance:none;border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:var(--ink-2);padding:10px 8px;margin-right:10px;border-bottom:2px solid transparent;cursor:pointer;}
+  .vsub button[aria-current="page"]{color:var(--accent);border-bottom-color:var(--accent);}
+  .vcards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;}
+  @media (max-width:1100px){.vcards{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media (max-width:560px){.vcards{grid-template-columns:1fr;}}
+  .vcol h4{margin:0 0 6px;font-size:13px;}
+  .vcard{position:relative;display:block;width:100%;text-align:left;appearance:none;font:inherit;cursor:pointer;border:1px solid var(--border);border-left:3px solid var(--gc);border-radius:12px;background:var(--surface);color:var(--ink);padding:9px 12px;margin-bottom:8px;}
+  .vcard[aria-current="page"]{outline:2px solid var(--gc);}
+  .vcard .n{font-size:12.5px;font-weight:700;padding-right:52px;}.vcard .k{font-size:19px;font-weight:800;margin-top:2px;min-height:24px;}.vcard .s{font-size:11px;color:var(--muted);}
+  .vfresh{position:absolute;top:8px;right:9px;font-size:10px;padding:1px 6px;border-radius:99px;font-weight:700;}
+  .vtoday{border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:10px;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 14%,transparent),color-mix(in srgb,#8b5cf6 12%,transparent));font-size:12.5px;}
+  .vtoday button{appearance:none;border:0;background:transparent;color:var(--accent);font:inherit;cursor:pointer;padding:0;text-align:left;}
+  .vshelfwrap{border-radius:16px;padding:14px 16px 4px;background:linear-gradient(#2a1d14,#1d140e);border:1px solid #3b2a1d;overflow-x:auto;}
+  .vshelf{display:flex;align-items:flex-end;gap:6px;padding:22px 8px 0 132px;min-height:196px;border-bottom:11px solid #5a3e28;box-shadow:0 10px 12px -8px #000;margin-bottom:14px;position:relative;min-width:max-content;}
+  .vshelf .nm{position:absolute;left:6px;bottom:12px;width:120px;font-size:13.5px;color:#f1e3d3;font-weight:800;line-height:1.35;}
+  .vshelf .nm small{display:block;font-size:11px;color:#b69c82;font-weight:600;}
+  .vbook{appearance:none;border:0;font:inherit;position:relative;width:52px;border-radius:4px 4px 2px 2px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 0 6px;color:#fff;box-shadow:inset -6px 0 0 #0002,inset 2px 0 0 #fff2,0 2px 4px #0006;cursor:pointer;transition:transform .18s;}
+  .vbook:hover{transform:translateY(-6px);}
+  .vbook .t{writing-mode:vertical-rl;text-orientation:upright;font-size:11.5px;font-weight:800;line-height:1.05;text-shadow:0 1px 2px #0005;}
+  .vbook .v{font-size:10px;font-weight:800;background:#0004;border-radius:4px;padding:1px 3px;}
+  .vbook.new{transform:translateY(-10px);} .vbook.new::after{content:"NEW";position:absolute;top:-15px;font-size:9px;font-weight:900;color:#fbbf24;}
+  .vbook[aria-current="page"]{transform:translateY(-12px) rotate(-5deg);outline:2px solid #fbbf24;}
+  .vmini{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);padding:6px 0;border-bottom:1px solid var(--border);}
+  .vmini button{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;padding:4px 10px;border-radius:8px;cursor:pointer;}
+</style>
+<script>
+/* ---------------- 보기 전환: 기본(지금 탭 줄) · 그룹 · 카드 · 책장 ----------------
+   탭 화면은 하나 - 바뀌는 건 '목차'뿐(activateTab 그대로 사용). 선택은 이 브라우저에만 기억, '초기화'로 기본으로 */
+(function renderViews(){
+  const nav = document.querySelector('nav.tabnav'); if (!nav || typeof activateTab !== 'function') return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const KEY = 'viewMode.v1', load = () => { try { return localStorage.getItem(KEY) || 'basic'; } catch (e) { return 'basic'; } };
+  const save = v => { try { v === 'basic' ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, v); } catch (e) { /* 저장 불가 환경 */ } };
+  const GROUPS = [
+    ['시장·정책', '#4f8cff', ['market', 'strategy', 'trend2027', 'biz2027']],
+    ['조달·발주', '#f59e0b', ['g2bfull', 'keris', 'g2b', 'school', 'aiep']],
+    ['영업 B2G·B2S', '#10b981', ['pipeline', 'branch', 'adopt', 'leading', 'b2s']],
+    ['경쟁·성과', '#ef4444', ['competitor', 'neti', 'content']],
+    ['연결·관리', '#8b5cf6', ['network', 'beta', 'admin']]];
+  const SHORT = {strategy: '전략브리핑', trend2027: '교사트렌드2027', biz2027: '기업·대학2027', g2bfull: '나라장터종합', g2b: 'AI발주', school: '학교단위발주',
+    aiep: '시도AIEP', pipeline: 'B2G영업', branch: '지역총판', adopt: '교과서채택', leading: 'AI중점학교', b2s: 'B2S·샘몰', competitor: '경쟁사분석',
+    neti: '이수현황', content: '콘텐츠·매출', network: '생태계', beta: '베타', admin: '관리'};
+  const btn = {}; nav.querySelectorAll('.tabbtn').forEach(b => { if (!b.hidden) btn[b.dataset.tab] = b; });
+  const name = t => (btn[t] ? btn[t].textContent.trim() : t);
+  GROUPS.forEach(g => { g[2] = g[2].filter(t => btn[t]); });
+  const grouped = new Set(GROUPS.flatMap(g => g[2])); const rest = Object.keys(btn).filter(t => !grouped.has(t));
+  if (rest.length) GROUPS[GROUPS.length - 1][2].push(...rest);  // 새 탭이 생기면 '연결·관리'에 자동 포함
+  const cur = () => (document.querySelector('.tabbtn.active') || {}).dataset ? document.querySelector('.tabbtn.active').dataset.tab : 'market';
+  const go = t => { activateTab(t); if (typeof writeHashState === 'function') writeHashState({tab: t}); draw(); window.scrollTo({top: nav.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth'}); };
+  // 카드·책장 숫자: 탭별 대표 숫자(있으면) -> 없으면 그 탭 첫 KPI
+  const num = t => { try {
+    const AD = window.__ADOPT, BR = window.__BRANCH, AP = window.__AIEP_P;
+    if (t === 'adopt' && AD) { const u = AD.schools.filter(s => s.u), a = u.filter(s => s.c).length; return [`${(a / u.length * 100).toFixed(1)}%`, '비상 교과서 채택률']; }
+    if (t === 'branch' && AD) { const o = Object.values(AD.bySgg).reduce((x, v) => x + v.open, 0); return [`전환 ${o.toLocaleString()}`, '비바샘 회원 있는 미채택 학교']; }
+    if (t === 'branch' && BR) return [`${BR.rows.length}곳`, '지역 총판'];
+    if (t === 'aiep' && AP) return [`${Object.values(AP).filter(x => x.group === 'AIEP 통합').length}개 시도`, 'AIEP 공동 플랫폼'];
+    if (t === 'school' && typeof SCHOOL_GOODS !== 'undefined') return [`${SCHOOL_GOODS.length}건`, '학교 직접 발주(AI·에듀테크)'];
+    const k = document.querySelector(`#panel-${t} .kpi`); if (k) return [(k.querySelector('.val') || {}).textContent || '', (k.querySelector('.lbl') || {}).textContent || ''];
+    const p = document.querySelector(`#panel-${t} .panel-title`); if (p) return ['', p.childNodes[0] ? p.childNodes[0].textContent.slice(0, 26) : ''];
+  } catch (e) { /* 숫자 없이 */ } return ['', '']; };
+  // 신선도: 데이터 신선도 표(F.rows.tab)와 탭 이름을 느슨하게 맞춘다
+  const F = (typeof window.__FRESH !== 'undefined' && window.__FRESH) || null;
+  const fresh = t => { if (!F) return null; const nm = name(t).replace(/\s/g, ''); const rs = (F.rows || []).filter(r => { const tb = (r.tab || '').replace(/\s/g, ''); return tb && (nm.includes(tb) || tb.includes(nm.slice(0, 4))); });
+    if (!rs.length) return null; const order = ['중단', '대체본', '지연', '없음', '정상']; return rs.sort((a, b) => order.indexOf(a.state) - order.indexOf(b.state))[0]; };
+  const FC = {'정상': ['#10b98133', '#34d399', '최신'], '지연': ['#f59e0b33', '#fbbf24', '지연'], '대체본': ['#f59e0b33', '#fbbf24', '대체본'], '중단': ['#ef444433', '#f87171', '갱신 필요'], '없음': ['#94a3b833', '#94a3b8', '없음']};
+  const PAL = {'#4f8cff': ['#2f5fb3', '#3b74d6', '#4f8cff', '#6aa0ff'], '#f59e0b': ['#b45309', '#d97706', '#f59e0b', '#c2710c', '#e08a1e'], '#10b981': ['#047857', '#0f766e', '#10b981', '#14b8a6', '#059669'], '#ef4444': ['#b91c1c', '#dc2626', '#ef4444'], '#8b5cf6': ['#6d28d9', '#7c3aed', '#8b5cf6', '#a78bfa']};
+  const bar = document.createElement('div'); bar.id = 'viewBar';
+  bar.innerHTML = `<span class="vlab">보기</span><div class="vseg" role="group" aria-label="목차 보기 방식">${[['basic', '기본'], ['group', '그룹'], ['card', '카드'], ['shelf', '책장']].map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join('')}</div><button type="button" class="vreset" title="처음 상태(기본 탭 줄)로 되돌리고 기억도 지웁니다">↺ 초기화</button>`;
+  const box = document.createElement('div'); box.id = 'viewNav';
+  nav.before(bar); nav.after(box);
+  let mode = load(), gsel = null, folded = false;
+  function draw(){
+    const t = cur(), gi = GROUPS.findIndex(g => g[2].includes(t)), g = gsel != null ? gsel : (gi < 0 ? 0 : gi);
+    bar.querySelectorAll('.vseg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === mode)));
+    bar.querySelector('.vreset').hidden = mode === 'basic';
+    nav.style.display = mode === 'basic' ? '' : 'none';  // .tabnav{display:flex} 가 hidden 속성을 덮으므로 직접
+    if (mode === 'basic') { box.innerHTML = ''; return; }
+    if (mode === 'group') {
+      box.innerHTML = `<div class="vgroups">${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${i === g}">${i + 1}. ${h(G[0])}<small>${G[2].length}개 탭</small></button>`).join('')}</div>
+        <div class="vsub">${GROUPS[g][2].map(x => `<button type="button" data-t="${x}" ${x === t ? 'aria-current="page"' : ''}>${h(name(x))}</button>`).join('')}</div>`;
+    } else if (folded) {
+      box.innerHTML = `<div class="vmini">${mode === 'card' ? '카드' : '책장'} 보기 · 지금: <b>${h(name(t))}</b> <button type="button" class="vopen">${mode === 'card' ? '카드' : '책장'} 펼치기</button></div>`;
+    } else if (mode === 'card') {
+      const E = window.__ECO_TOP || [];
+      box.innerHTML = `${E.length ? `<div class="vtoday"><b>오늘 볼 것</b> ${E.slice(0, 3).map(x => `· <button type="button" data-t="${h(x.tab)}">${h(x.title)}</button>`).join(' ')}</div>` : ''}
+        <div class="vcards">${GROUPS.map(G => `<div class="vcol"><h4 style="color:${G[1]}">${h(G[0])}</h4>${G[2].map(x => { const [k, s] = num(x), f = fresh(x), c = f && FC[f.state];
+          return `<button type="button" class="vcard" data-t="${x}" style="--gc:${G[1]}" ${x === t ? 'aria-current="page"' : ''}>${c ? `<span class="vfresh" style="background:${c[0]};color:${c[1]}" title="${h(f.name)} · ${h(f.last || '')}">${c[2]}</span>` : ''}<div class="n">${h(name(x))}</div><div class="k">${h(k)}</div><div class="s">${h(s)}</div></button>`; }).join('')}</div>`).join('')}</div>
+        <div class="vmini" style="border:0;"><button type="button" class="vfold">카드 접기</button></div>`;
+    } else {
+      box.innerHTML = `<div class="vshelfwrap">${GROUPS.map(G => `<div class="vshelf">${G[2].map((x, i) => { const [k] = num(x), f = fresh(x), P = PAL[G[1]];
+          return `<button type="button" class="vbook ${f && f.state === '정상' && i % 2 === 0 ? 'new' : ''}" data-t="${x}" ${x === t ? 'aria-current="page"' : ''} style="height:${168 + ((i * 37) % 26)}px;background:${P[i % P.length]}" title="${h(name(x))}"><span class="t">${h(SHORT[x] || name(x)).replace(/\s/g, '')}</span>${k ? `<span class="v">${h(String(k).slice(0, 9))}</span>` : '<span></span>'}</button>`; }).join('')}<span class="nm">${h(G[0])}<small>${G[2].length}권</small></span></div>`).join('')}</div>
+        <div class="vmini" style="border:0;"><button type="button" class="vfold">책장 접기</button> 책을 누르면 그 화면이 펼쳐집니다</div>`;
+    }
+    box.querySelectorAll('[data-g]').forEach(b => b.addEventListener('click', () => { gsel = +b.dataset.g; draw(); }));
+    box.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => { gsel = null; if (mode !== 'group') folded = true; go(b.dataset.t); }));
+    const o = box.querySelector('.vopen'); if (o) o.addEventListener('click', () => { folded = false; draw(); });
+    const fo = box.querySelector('.vfold'); if (fo) fo.addEventListener('click', () => { folded = true; draw(); });
+  }
+  bar.querySelectorAll('.vseg button').forEach(b => b.addEventListener('click', () => { mode = b.dataset.v; save(mode); folded = false; gsel = null; draw(); }));
+  bar.querySelector('.vreset').addEventListener('click', () => { mode = 'basic'; save('basic'); folded = false; gsel = null; draw(); });
+  nav.addEventListener('click', () => setTimeout(draw, 0));  // 기본 탭 줄에서 바꿔도 다른 보기 상태가 따라오게
+  window.addEventListener('hashchange', () => setTimeout(draw, 0));
+  draw();
 })();
 </script>
