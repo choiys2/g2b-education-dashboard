@@ -79,7 +79,12 @@ def chunks(days):
 
 
 def safe(e):
-    return re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:140]
+    """API 오류는 resultCode·resultMsg 만 남긴다(본문 앞부분에서 잘려 원인 판정이 안 되던 문제)."""
+    s = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))
+    c, m = re.search(r'resultCode"?\s*:\s*"?(\w+)', s), re.search(r'resultMsg"?\s*:\s*"?([^"\n}]+)', s)
+    if c:
+        return f"code {c.group(1)} {(m.group(1).strip() if m else '')}"[:80]
+    return s[:140]
 
 
 def main():
@@ -138,7 +143,7 @@ def main():
                                 if '"07"' in str(e) or "입력범위" in str(e):
                                     stop.add(op)
                                     oldest[op + "|" + kw] = f"{end:%Y-%m-%d}"
-                                diag.append(f"{op} {kw} {begin:%Y-%m}: {msg[msg.find('resultMsg'):][:40] or msg[:60]}")
+                                diag.append(f"{op} {kw} {begin:%m-%d}~{end:%m-%d}: {msg}")
                                 failed = True
                                 break
                         items += got
