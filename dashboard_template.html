@@ -744,6 +744,7 @@ svg { max-width: 100%; }
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="trend2027">교사 트렌드 2027</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="branch">지역 총판</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="content">콘텐츠·매출</button>
     <a class="tablink" id="poolLink" href="#" target="_blank" rel="noopener noreferrer" hidden title="강사풀(별도 페이지 · 초대된 계정만 열람)">강사풀 ↗</a>
@@ -2247,6 +2248,8 @@ svg { max-width: 100%; }
     </section>
 
   </div><!-- /panel-competitor -->
+
+  <div class="tabpanel" id="panel-branch"></div>
 
   <div class="tabpanel" id="panel-b2s">
 
@@ -8844,11 +8847,11 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
 })();
 </script>
 <script>
-/* ---------------- 지역 총판 연계: B2G(교육청·교육지원청) ↔ B2S(학교) 다리 (B2G영업 탭, 공략 Top 10 아래) ----------------
+/* ---------------- 지역 총판 연계: B2G(교육청·교육지원청) ↔ B2S(학교) 다리 (지역 총판 탭: B2G영업과 B2S 사이) ----------------
    총판 상세는 암호문(static_data/branch_network.enc.json)을 배포 때 복호화 - 로그인 뒤 화면에만. 휴대폰·계좌·대표자 이름은 없음 */
 (function renderBranch(){
   const B = __BRANCH_JSON__, SUM = __BRANCH_SUMMARY_JSON__;
-  const tab = document.getElementById('panel-pipeline'); if (!tab || (!B && !SUM)) return;
+  const tab = document.getElementById('panel-branch'); if (!tab || (!B && !SUM)) return;
   window.__BRANCH = B;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const n = v => (v || 0).toLocaleString();
@@ -8860,7 +8863,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     <p style="margin:6px 0 0;font-size:12px;padding:6px 10px;border-radius:8px;background:color-mix(in srgb, var(--warning) 16%, transparent);"><b>주의</b> 주소록이 ${h(asOf)} 기준이라 상호·담당 지역·연락처가 바뀌었을 수 있습니다. 최신 주소록 파일을 같은 드라이브 폴더에 올리면 다시 변환합니다.</p></div></div>
     <div class="filter-row" style="gap:8px;flex-wrap:wrap;margin-top:8px;"><select id="brSido"></select><input id="brQ" type="search" placeholder="총판·지역·교육지원청 검색" style="flex:1 1 200px;min-width:0;"></div>
     <div id="brSidoCard" style="margin-top:10px;"></div><div id="brBody" style="margin-top:10px;"></div>`;
-  const opp = document.getElementById('oppPanel'); opp ? opp.after(sec) : tab.prepend(sec);
+  tab.prepend(sec);
   const SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
   // 학판·교판이 같은 지역을 맡으면 한 줄로 묶는다
   const groups = {};
