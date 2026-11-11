@@ -44,11 +44,33 @@ def search(kind, q, cid, sec):
         return json.loads(r.read().decode("utf-8")).get("items", [])
 
 
+def google(q):
+    """네이버 검색 키가 없거나 권한이 없을 때: 구글 뉴스 RSS(언론 보도) 최근 30일."""
+    import xml.etree.ElementTree as ET
+    from email.utils import parsedate_to_datetime
+    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode({"q": f'"{q}" when:30d', "hl": "ko", "gl": "KR", "ceid": "KR:ko"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (dashboard-collector)"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        root = ET.fromstring(r.read())
+    out = []
+    for it in root.iter("item"):
+        try:
+            d = parsedate_to_datetime(it.findtext("pubDate")).date()
+        except Exception:  # noqa: BLE001
+            continue
+        out.append({"title": it.findtext("title") or "", "link": it.findtext("link") or "", "postdate": d.strftime("%Y%m%d"), "description": ""})
+    return out
+
+
 def main():
     cid, sec = os.environ.get("NAVER_CLIENT_ID", ""), os.environ.get("NAVER_CLIENT_SECRET", "")
-    if not cid or not sec:
-        print("NAVER 키 없음 - 건너뜀")
-        return 0
+    mode = "naver" if cid and sec else "google"
+    if mode == "naver":  # 키 권한 확인(검색 API 미승인이면 401/403) - 안 되면 구글 뉴스로
+        try:
+            search("blog", "교과서", cid, sec)
+        except Exception as e:  # noqa: BLE001
+            print("네이버 검색 사용 불가:", getattr(e, "code", type(e).__name__), "- 구글 뉴스로 대체")
+            mode = "google"
     today = date.today()
     since = today - timedelta(days=30)
     prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
@@ -57,11 +79,11 @@ def main():
     seen = set()
     for brand, qs in BRANDS.items():
         for q in qs:
-            for kind in ("blog", "cafearticle"):
+            for kind in (("blog", "cafearticle") if mode == "naver" else ("news",)):
                 try:
-                    items = search(kind, q, cid, sec)
+                    items = search(kind, q, cid, sec) if mode == "naver" else google(q)
                 except Exception as e:  # noqa: BLE001
-                    diag.append(f"{kind} {q}: {type(e).__name__}")
+                    diag.append(f"{kind} {q}: {getattr(e, 'code', type(e).__name__)}")
                     continue
                 for it in items:
                     link = it.get("link") or ""
@@ -69,7 +91,7 @@ def main():
                         continue
                     pd = it.get("postdate") or ""
                     d = datetime.strptime(pd, "%Y%m%d").date() if re.fullmatch(r"\d{8}", pd) else None
-                    if kind == "blog" and (not d or d < since):
+                    if kind in ("blog", "news") and (not d or d < since):
                         continue
                     seen.add(link)
                     counts[brand] += 1
@@ -85,7 +107,7 @@ def main():
                         tone["긍정"] += bool(POS.search(body))
                         tone["부정"] += bool(NEG.search(body))
                         if link.startswith("https://") and len(recent) < 40:
-                            recent.append({"d": d.isoformat() if d else "", "t": t[:120], "u": link, "src": "블로그" if kind == "blog" else "카페"})
+                            recent.append({"d": d.isoformat() if d else "", "t": t[:120], "u": link, "src": {"blog": "블로그", "cafearticle": "카페", "news": "언론"}[kind]})
                 time.sleep(0.15)
     total = sum(counts.values()) or 1
     keep = (today - timedelta(weeks=26)).isoformat()
@@ -94,9 +116,10 @@ def main():
                                "share": [{"brand": b, "n": counts[b], "pct": round(counts[b] / total * 100, 1)} for b in BRANDS],
                                "weekly": weekly, "tags": tags.most_common(), "tone": dict(tone),
                                "recent": sorted(recent, key=lambda x: x["d"], reverse=True)[:30], "diag": diag[:20],
-                               "note": "네이버 블로그(최근 30일)·카페 검색 결과 기준, 검색어 묶음이 같은 기준으로 비교한 상대 언급량"},
+                               "mode": mode,
+                               "note": ("네이버 블로그(최근 30일)·카페 검색 결과 기준" if mode == "naver" else "구글 뉴스 최근 30일 언론 보도 기준(네이버 검색 키 미승인 - 교사 커뮤니티 글은 키 승인 후)") + ", 같은 검색어 묶음으로 비교한 상대 언급량"},
                               ensure_ascii=False, indent=1), encoding="utf-8")
-    print("여론 레이더:", dict(counts), "· 진단", len(diag))
+    print("여론 레이더:", mode, dict(counts), "· 진단", len(diag))
     return 0
 
 
