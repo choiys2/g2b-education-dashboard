@@ -1,0 +1,35 @@
+name: 학원·교습소 시군구 집계(나이스 공개)
+
+# 관리 > PDF 전략 ⑤ 학원 수요 지도: 시군구 × 분야 개수만(학원 이름·연락처 저장 안 함)
+on:
+  schedule:
+    - cron: "30 20 * * 0"   # 매주 월 05:30 KST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: academy-stats
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 집계
+        env:
+          NEIS_KEY: ${{ secrets.NEIS_KEY }}
+        run: python academy_stats.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add history/academy_stats.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: 학원·교습소 집계 $(TZ=Asia/Seoul date +%F)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done

@@ -144,6 +144,29 @@ def _ext_links():
     return d
 
 
+def _pdf_strategy():
+    """관리 > PDF 전략: 기준 문서 수치(STRATEGY_KEY 복호화) + 학원·여론 집계 -> 관리 비밀번호로 다시 암호화. 내용은 로그에 남기지 않는다."""
+    p, key = "static_data/pdf_strategy.enc.json", os.environ.get("STRATEGY_KEY", "")
+    if not os.path.exists(p) or not key:
+        print("PDF 전략:", "파일 없음" if not os.path.exists(p) else "STRATEGY_KEY 미설정 - 싣지 않음")
+        return None
+    try:
+        import strategy_crypto
+        d = strategy_crypto.decrypt(load(p), key)
+    except Exception as e:  # noqa: BLE001
+        print(f"PDF 전략: 복호화 실패({type(e).__name__})")
+        return None
+    for k, f in (("academy", "history/academy_stats.json"), ("opinion", "history/opinion_radar.json")):
+        if os.path.exists(f):
+            try:
+                d[k] = load(f)
+            except Exception:  # noqa: BLE001
+                d[k] = None
+    blob = __import__("admin_structure").encrypted_json(d)
+    print("PDF 전략:", "관리 비밀번호로 암호화" if blob else "ADMIN_PASSWORD 미설정 - 싣지 않음")
+    return blob
+
+
 def _strategy():
     """에듀테크 전략 브리핑 복호화 - 결과 상태만 로그에 남긴다(내용은 출력하지 않음)."""
     import strategy_crypto
@@ -685,6 +708,7 @@ def main():
         "__STRENGTH_JSON__": strength,  # 비상 강점 분야(분야 단위 집계만 - 학교 정보 없음)
         "__BUDGET_CAL_JSON__": _safe(lambda: __import__("budget_calendar").build(), "교육청 예산 캘린더"),  # 공개 기사 제목·발주 집계
         "__BUNDLE_SIM_JSON__": _safe(lambda: __import__("bundle_sim").build(strength), "묶음 가격 시뮬레이터"),  # 공개 강좌 가격
+        "__PDF_JSON__": _pdf_strategy(),  # 관리 > PDF 전략(관리 비밀번호 암호문)
         "__EXT_LINKS_JSON__": _ext_links(),  # 결과보고 등 바깥 링크(비공개 저장소)
         "__BOOT_LOGO_JSON__": ("data:image/png;base64," + __import__("base64").b64encode(open("static_data/brand/visang_logo.png", "rb").read()).decode()
                                if os.path.exists("static_data/brand/visang_logo.png") else ""),  # 여는 중 화면(비상 로고)
@@ -757,7 +781,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__BOOT_LOGO_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__PDF_JSON__", "__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__BOOT_LOGO_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:

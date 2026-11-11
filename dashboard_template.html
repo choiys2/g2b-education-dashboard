@@ -2697,6 +2697,7 @@ const OPS = __OPS_JSON__;
 const EDU_CNTR = __EDU_CNTR_JSON__;
 const VIZ = __VIZ_JSON__;
 const ADMIN = __ADMIN_JSON__;
+const PDFX = __PDF_JSON__;  // 관리 > 전략 실행판(관리 비밀번호 암호문, 내용·용어는 암호문 안에만)
 const G2B_STALE = __G2B_STALE_JSON__;  // 나라장터 API 장애로 이전 정상 수집분을 쓴 날만 값이 있다
 (function g2bStaleNote(){
   const el = document.getElementById('g2bStaleNote');
@@ -6041,6 +6042,12 @@ function renderCompWatch(el, C){
           openOwner(JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name: 'AES-GCM', iv: b64(OWNER.i)}, k2, b64(OWNER.c)))), body);
         } catch (e2) { console.warn('owner', e2); }
       }
+      if (PDFX && window.__renderPdfx) {  // 전략 실행판: 같은 관리 비밀번호, 별도 암호문
+        try {
+          const k3 = await crypto.subtle.deriveKey({name: 'PBKDF2', salt: b64(PDFX.s), iterations: PDFX.n, hash: 'SHA-256'}, base, {name: 'AES-GCM', length: 256}, false, ['decrypt']);
+          window.__renderPdfx(body, JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name: 'AES-GCM', iv: b64(PDFX.i)}, k3, b64(PDFX.c)))));
+        } catch (e3) { console.warn('pdfx', e3); }
+      }
       body.querySelectorAll('[data-goto]').forEach(g => g.addEventListener('click', () => {
         activateTab(g.getAttribute('data-goto'));
         const a = g.getAttribute('data-anchor'), t = a && document.getElementById(a);
@@ -9135,7 +9142,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
    ③ B2S·샘몰 기획 탭: 샘몰 상품화 우선순위(분야 집계 - 공개 지표만)
    ① 교과서 채택 탭: 강점 교과 채택 학교 → 연수 고객 전환 목록(학교 단위 - 로그인 뒤 채택 데이터로 화면에서만 계산) */
 (function renderStrength(){
-  const S = __STRENGTH_JSON__; if (!S || !(S.rows || []).length) return;
+  const S = __STRENGTH_JSON__; window.__STRENGTH = S; if (!S || !(S.rows || []).length) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const n = v => (v || 0).toLocaleString(), won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
   const VC = {'샘몰 단독 상품 1순위': '#00B5E2', '교재 묶음으로 차별화': '#f59e0b', '샘몰 대표 상품 전면 배치': '#10b981', '신규 개척(시장 미성숙)': '#8b5cf6', '판단 보류': '#94a3b8'};
@@ -9321,6 +9328,233 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   $('bsP').addEventListener('input', () => { touched = true; calc(); });
   calc();
 })();
+</script>
+<script>
+/* ---------------- 관리 > 전략 실행판 ----------------
+   관리 비밀번호로 연 뒤에만 그린다. 제목·기준 수치·문구는 모두 암호문(P) 안에 있고, 여기에는 계산식만 둔다.
+   학교·총판 데이터는 로그인 뒤 화면에 이미 복호화된 window.__ADOPT / __BRANCH / __GEO 를 재사용(새로 싣지 않음). */
+window.__renderPdfx = function(root, P){
+  if (!root || !P) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => Math.round(v || 0).toLocaleString(), pc = (a, b, d = 1) => b ? (a / b * 100).toFixed(d) + '%' : '-';
+  const T = P.titles || {}, A = window.__ADOPT || null, BR = window.__BRANCH || null, GEO = window.__GEO || null, ST = window.__STRENGTH || null;
+  const FC = {}; ((GEO && GEO.features) || []).forEach(f => { FC[f.c] = f; });
+  const chip = (t, c) => `<span style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:800;color:#fff;background:${c};white-space:nowrap;">${h(t)}</span>`;
+  const card = (k, v, s2) => `<div style="flex:1;min-width:160px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${h(k)}</div><div style="font-size:18px;font-weight:800;">${v}</div><div style="font-size:11.5px;color:var(--ink-2);">${s2 || ''}</div></div>`;
+  const cards = xs => `<div style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;">${xs.join('')}</div>`;
+  const so = t => `<p class="tt-note" style="font-size:13px;line-height:1.6;"><b>그래서</b> ${t}</p>`;
+  const NT = k => h((P.notes || {})[k] || '');
+  const tbl = (head, rows, minw) => `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;${minw ? 'min-width:' + minw + 'px;' : ''}"><thead><tr>${head.map(x => `<th${/^#/.test(x) ? ' class="num"' : ''}>${h(x.replace(/^#/, ''))}</th>`).join('')}</tr></thead><tbody>${rows.join('') || `<tr><td colspan="${head.length}" style="color:var(--muted);">데이터 없음</td></tr>`}</tbody></table></div>`;
+  const bar = (r, c) => `<span style="display:inline-block;width:80px;height:8px;border-radius:4px;background:var(--surface-2);vertical-align:middle;overflow:hidden;"><span style="display:block;height:100%;width:${Math.max(0, Math.min(100, r * 100)).toFixed(1)}%;background:${c || 'var(--accent)'};"></span></span>`;
+  const pct = (xs, v) => { const s2 = xs.filter(x => x != null).sort((a, b) => a - b); if (!s2.length || v == null) return .5; let k = 0; while (k < s2.length && s2[k] <= v) k++; return k / s2.length; };
+
+  // ---- 총판(이름 기준) × 학교 집계(공통) ----
+  const nm = r => (r.name || '').replace(/\s*\(.*\)$/, '').trim();
+  const SC = (A && A.schools || []).filter(s => s.u);
+  const SUBJ = (A && A.subjects) || [];
+  const SRX = ST && ST.rows ? new RegExp(ST.rows.map(r => r.subject_re).join('|')) : null;
+  const strongIdx = SRX ? SUBJ.map((s, i) => SRX.test(s) ? i : -1).filter(i => i >= 0) : [];
+  const isStrongA = s => s.c && s.m >= 5 && strongIdx.some(i => (s.b >> i) & 1);
+  const totT = SC.reduce((a, s) => a + (s.t || 0), 0) || 1;
+  const vol = {}; ((P.volume || {}).branches || []).forEach(b => { vol[b.name] = b.vol; });
+  function branches(type){
+    const map = {};
+    ((BR && BR.rows) || []).filter(r => !type || r.type === type).forEach(r => {
+      const k = nm(r); const x = map[k] = map[k] || {name: k, sido: r.sido, sgg: new Set(), types: new Set()};
+      (r.sgg || []).forEach(g => x.sgg.add(g)); x.types.add(r.type);
+    });
+    const out = Object.values(map).map(x => {
+      const ss = SC.filter(s => s.g && x.sgg.has(s.g));
+      const U = ss.length, Tt = ss.reduce((a, s) => a + (s.t || 0), 0), M = ss.reduce((a, s) => a + (s.m || 0), 0);
+      const Ad = ss.filter(s => s.c).length, Gd = ss.filter(s => s.c && (s.gd || s.eb)).length, Mem = ss.filter(s => s.m > 0).length, SA = ss.filter(isStrongA).length;
+      const v = Object.keys(vol).find(k => x.name.includes(k));
+      return {...x, sgg: [...x.sgg], U, T: Tt, M, Ad, Gd, Mem, SA, share: Tt / totT * 100, ar: U ? Ad / U : null, ur: Tt ? M / Tt : null, vol: v ? vol[v] : null};
+    }).filter(x => x.U);
+    return out;
+  }
+
+  // ---- 화면 골격 ----
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'pdfxPanel';
+  const mods = ['m0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7'];
+  const lab = {m0: '개요', m1: '①', m2: '②', m3: '③', m4: '④', m5: '⑤', m6: '⑥', m7: '⑦'};
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">${h(P.codename || '전략 실행판')} <span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:6px;">관리 비밀번호 영역 · 기준 문서: ${h(P.source || '')}</span></p>
+    <p class="panel-desc">기준 문서의 단계·목표와 지금 대시보드 데이터(교과서 채택·비바샘 회원·총판 관할·학원·여론)를 한 화면에서 맞춰 봅니다. 총판 관할은 주소록 기준(최신 목록을 받으면 갱신).</p></div>
+    <button type="button" class="btn-csv" id="pdfxToggle" style="margin:0;">PDF 전략 열기</button></div>
+    <div id="pdfxBody" hidden><div class="vseg" id="pdfxNav" style="display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 10px;">${mods.map(m => `<button type="button" data-m="${m}" title="${h(T[m] || '개요')}" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer;font:inherit;font-size:13px;">${lab[m]} ${h(m === 'm0' ? '' : (T[m] || '').replace(/^[①-⑦]\s*/, '').split(' — ')[0])}</button>`).join('')}</div><div id="pdfxView"></div></div>`;
+  root.prepend(sec);
+  const view = sec.querySelector('#pdfxView');
+  sec.querySelector('#pdfxToggle').addEventListener('click', e => { const b = sec.querySelector('#pdfxBody'); b.hidden = !b.hidden; e.target.textContent = b.hidden ? 'PDF 전략 열기' : 'PDF 전략 닫기'; if (!b.hidden && !view.innerHTML) show('m0'); });
+  sec.querySelectorAll('#pdfxNav button').forEach(b => b.addEventListener('click', () => show(b.dataset.m)));
+  function show(m){
+    sec.querySelectorAll('#pdfxNav button').forEach(b => { const on = b.dataset.m === m; b.style.background = on ? 'var(--accent-2,#041A72)' : 'var(--surface)'; b.style.color = on ? '#fff' : 'var(--ink)'; });
+    try { R[m](); } catch (e) { view.innerHTML = `<p style="color:var(--muted);">표시 오류: ${h(e.message)}</p>`; console.warn('pdfx', m, e); }
+  }
+  const need = () => (!A || !BR) ? `<p style="color:var(--muted);font-size:13px;">교과서 채택·총판 데이터가 로그인 화면에서 복호화될 때 계산됩니다.</p>` : '';
+  const R = {};
+
+  // 개요
+  R.m0 = () => {
+    const pop = P.population || [], mx = Math.max(1, ...pop.map(x => x[1]));
+    view.innerHTML = `<h3 style="margin:4px 0 8px;font-size:15px;">${h(T.m0 || '개요')}</h3>
+      <ul style="margin:0 0 10px 18px;font-size:13px;">${(P.core || []).map(x => `<li>${h(x)}</li>`).join('')}</ul>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;">${(P.stages || []).map((s, i) => `<div style="border:1px solid var(--border);border-top:3px solid ${['#00B5E2', '#f59e0b', '#10b981'][i % 3]};border-radius:8px;padding:10px 12px;"><b style="font-size:13.5px;">${h(s.k)}</b><ul style="margin:6px 0 0 16px;padding:0;font-size:12.5px;">${(s.items || []).map(x => `<li>${h(x)}</li>`).join('')}</ul></div>`).join('')}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;">
+        <div style="flex:1 1 320px;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">학령인구(만 명)</div><div style="display:flex;align-items:flex-end;gap:6px;height:110px;">${pop.map(([y, v]) => `<div style="flex:1;text-align:center;font-size:10.5px;"><div style="height:${v / mx * 90}px;background:${y >= 2030 ? '#f59e0b' : 'var(--accent)'};border-radius:3px 3px 0 0;" title="${y} ${v}"></div>${y}<br><b>${v}</b></div>`).join('')}</div></div>
+        <div style="flex:1 1 320px;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">타사 사례(15→22개정 점유율)</div>${(P.cases || []).map(c => `<div style="font-size:12.5px;margin:4px 0;">${h(c.k)}: ${c.from}% → ${c.to}% ${chip((c.chg > 0 ? '+' : '') + c.chg + '%', c.chg < 0 ? '#ef4444' : '#10b981')}</div>`).join('')}
+          <div style="font-size:12px;color:var(--muted);margin-top:6px;">준비 없는 구조 변화는 충격이 그대로 결과에 반영 — 단계 전환은 데이터로 근거를 쌓고 진행</div></div></div>
+      ${so(NT('m0'))}`;
+  };
+
+  // ① 퍼널
+  R.m1 = () => {
+    if (need()) { view.innerHTML = need(); return; }
+    const by = sec.dataset.fby || 'sido';
+    const groups = {};
+    if (by === 'sido') SC.forEach(s => { (groups[s.sd] = groups[s.sd] || []).push(s); });
+    else branches('').forEach(b => { groups[b.name] = SC.filter(s => s.g && b.sgg.includes(s.g)); });
+    const st = ss => ({U: ss.length, Mem: ss.filter(s => s.m > 0).length, Ad: ss.filter(s => s.c).length, AdM: ss.filter(s => s.c && s.m > 0).length, Gd: ss.filter(s => s.c && (s.gd || s.eb)).length, SA: ss.filter(isStrongA).length, T: ss.reduce((a, s) => a + (s.t || 0), 0), M: ss.reduce((a, s) => a + (s.m || 0), 0)});
+    const all = st(SC);
+    const rows = Object.entries(groups).map(([k, ss]) => ({k, ...st(ss)})).filter(x => x.U).sort((a, b) => (b.Ad / b.U) - (a.Ad / a.U));
+    const steps = [['비바샘 회원 있는 학교', all.Mem], ['교과서 채택 학교', all.Ad], ['채택 + 비바샘 사용', all.AdM], ['채택 + 교사용 자료 주문', all.Gd], ['강점 교과 A단계(회원 5+)', all.SA]];
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m1 || '')}</h3>
+      <div class="filter-row" style="gap:8px;"><select id="fBy"><option value="sido" ${by === 'sido' ? 'selected' : ''}>시도별</option><option value="br" ${by === 'br' ? 'selected' : ''}>총판별</option></select></div>
+      <div style="margin:10px 0;">${steps.map(([k, v]) => `<div style="display:grid;grid-template-columns:200px 1fr 120px;gap:8px;align-items:center;margin:4px 0;font-size:12.5px;"><span>${h(k)}</span><span style="background:var(--surface-2);border-radius:4px;height:16px;overflow:hidden;"><span style="display:block;height:100%;width:${(v / all.U * 100).toFixed(1)}%;background:var(--accent);"></span></span><span style="text-align:right;"><b>${n(v)}</b>교 · ${pc(v, all.U)}</span></div>`).join('')}
+        <div style="font-size:11.5px;color:var(--muted);">분모 일반 초·중·고 ${n(all.U)}교 · 자사 서비스 활용률(비바샘 회원/교원) ${pc(all.M, all.T)} · 연수 이수·교재 구매 단계는 학교 단위 데이터가 오면 추가</div></div>
+      ${tbl([by === 'sido' ? '시도' : '총판', '#학교', '#회원 있는 학교', '#채택률', '#채택→비바샘 사용', '#채택→교사용 자료', '#강점 A단계', '#서비스 활용률'], rows.map(r => `<tr><td>${h(r.k)}</td><td class="num">${n(r.U)}</td><td class="num">${pc(r.Mem, r.U)}</td><td class="num"><b>${pc(r.Ad, r.U)}</b></td><td class="num">${pc(r.AdM, r.Ad)}</td><td class="num">${pc(r.Gd, r.Ad)}</td><td class="num">${n(r.SA)}</td><td class="num">${pc(r.M, r.T)}</td></tr>`), 820)}
+      ${so(`채택 학교 중 비바샘 사용 ${pc(all.AdM, all.Ad)}, 교사용 자료 주문 ${pc(all.Gd, all.Ad)} · 채택했지만 비바샘 미사용 ${n(all.Ad - all.AdM)}교. ` + NT('m1'))}`;
+    view.querySelector('#fBy').addEventListener('change', e => { sec.dataset.fby = e.target.value; R.m1(); });
+  };
+
+  // ② 광역화 시뮬레이터
+  R.m2 = () => {
+    if (need()) { view.innerHTML = need(); return; }
+    const tg = P.targets || {}, type = sec.dataset.btype || '학판', thr = +(sec.dataset.thr || tg.share_min || 2);
+    const B = branches(type);
+    const bySd = {}; B.forEach(b => { (bySd[b.sido || '기타'] = bySd[b.sido || '기타'] || []).push(b); });
+    const groups = [];
+    Object.entries(bySd).forEach(([sd, bs]) => {
+      let gs = bs.map(b => ({sd, members: [b], share: b.share}));
+      gs.sort((a, b) => a.share - b.share);
+      while (gs.length > 1 && gs[0].share < thr) {  // 가장 작은 묶음을 다음으로 작은 묶음과 합친다(같은 시도 안)
+        const a = gs.shift(), b = gs.shift();
+        gs.push({sd, members: a.members.concat(b.members), share: a.share + b.share});
+        gs.sort((x, y) => x.share - y.share);
+      }
+      groups.push(...gs);
+    });
+    const cov = new Set(B.flatMap(b => b.sgg)), gap = ((GEO && GEO.features) || []).filter(f => !cov.has(f.c));
+    const agg = g => { const U = g.members.reduce((a, b) => a + b.U, 0), Ad = g.members.reduce((a, b) => a + b.Ad, 0), M = g.members.reduce((a, b) => a + b.M, 0), Tt = g.members.reduce((a, b) => a + b.T, 0); return {U, ar: U ? Ad / U : 0, ur: Tt ? M / Tt : 0}; };
+    const ok = groups.filter(g => g.share >= thr).length;
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m2 || '')}</h3>
+      <div class="filter-row" style="gap:10px;align-items:center;"><select id="bType"><option ${type === '학판' ? 'selected' : ''}>학판</option><option ${type === '교판' ? 'selected' : ''}>교판</option></select>
+        <label style="font-size:12.5px;">총판당 최소 점유율 <input id="bThr" type="range" min="0.5" max="4" step="0.25" value="${thr}"> <b>${thr}%</b></label></div>
+      ${cards([card('주소록 기준 총판', n(B.length) + '곳', `${type} · 기준 문서 현재 ${tg.n_now || '-'}개`), card('시뮬레이션 결과', n(groups.length) + '곳', `목표 ${tg.n_target || '-'}개 이하 ${groups.length <= (tg.n_target || 1e9) ? chip('충족', '#10b981') : chip('초과', '#ef4444')}`), card(`점유율 ${thr}% 이상`, `${n(ok)} / ${n(groups.length)}`, '교원 수 기준(학령인구 대용)'), card('관할 공백 시군구', n(gap.length) + '곳', gap.slice(0, 6).map(f => f.sd + ' ' + f.n).join(', '))])}
+      ${tbl(['시도', '광역 묶음(현 총판)', '#점유율', '#학교', '#채택률', '#서비스 활용률'], groups.sort((a, b) => a.sd.localeCompare(b.sd) || b.share - a.share).map(g => { const x = agg(g); return `<tr><td>${h(g.sd)}</td><td style="white-space:normal;font-size:12px;">${h(g.members.map(m => m.name).join(' + '))}</td><td class="num">${g.share.toFixed(2)}% ${g.share >= thr ? '' : chip('미달', '#f59e0b')}</td><td class="num">${n(x.U)}</td><td class="num">${(x.ar * 100).toFixed(1)}%</td><td class="num">${(x.ur * 100).toFixed(1)}%</td></tr>`; }), 860)}
+      ${so(`${n(B.length)}곳 → ${n(groups.length)}곳 · 공백 시군구 ${n(gap.length)}곳. ` + NT('m2'))}`;
+    view.querySelector('#bType').addEventListener('change', e => { sec.dataset.btype = e.target.value; R.m2(); });
+    view.querySelector('#bThr').addEventListener('change', e => { sec.dataset.thr = e.target.value; R.m2(); });
+  };
+
+  // ③ 등급판
+  R.m3 = () => {
+    if (need()) { view.innerHTML = need(); return; }
+    const type = sec.dataset.gtype || '학판', B = branches(type);
+    const ars = B.map(b => b.ar), urs = B.map(b => b.ur), sas = B.map(b => b.U ? b.SA / b.U : 0), vs = B.map(b => b.vol);
+    const hasV = B.some(b => b.vol != null);
+    B.forEach(b => {
+      const parts = {채택률: pct(ars, b.ar), 활용률: pct(urs, b.ur), 강점전환: pct(sas, b.U ? b.SA / b.U : 0)};
+      if (hasV) parts.물동량 = b.vol == null ? .5 : pct(vs, b.vol);
+      const w = hasV ? {채택률: .3, 활용률: .3, 강점전환: .15, 물동량: .25} : {채택률: .4, 활용률: .4, 강점전환: .2};
+      b.score = Math.round(Object.entries(parts).reduce((a, [k, v]) => a + v * w[k], 0) * 100); b.parts = parts;
+    });
+    B.sort((a, b) => b.score - a.score);
+    const k1 = Math.ceil(B.length / 3), k2 = Math.ceil(B.length * 2 / 3);
+    B.forEach((b, i) => { b.g = i < k1 ? 'A' : i < k2 ? 'B' : 'C'; });
+    const GC = {A: '#10b981', B: '#f59e0b', C: '#94a3b8'}, gr = P.grade_rule || {};
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m3 || '')}</h3>
+      <div class="filter-row" style="gap:8px;"><select id="gType"><option ${type === '학판' ? 'selected' : ''}>학판</option><option ${type === '교판' ? 'selected' : ''}>교판</option></select><button type="button" class="btn-csv" id="gCsv">CSV</button></div>
+      ${cards(['A', 'B', 'C'].map(g => card(`${g}등급 ${B.filter(b => b.g === g).length}곳`, chip(g, GC[g]), gr[g] || '')))}
+      <div style="font-size:11.5px;color:var(--muted);margin-bottom:6px;">점수 = 관할 채택률·자사 서비스 활용률(비바샘 회원/교원)·강점 교과 A단계 학교 비율${hasV ? '·물동량(기준 문서 상위 총판만)' : ''}의 백분위 가중합 → 상·중·하 1/3. <b>${h(NT('m3x'))}</b></div>
+      ${tbl(['#순위', '총판', '시도', '등급', '#점수', '#채택률', '#활용률', '#강점 A단계', '#물동량(부)'], B.map((b, i) => `<tr><td class="num">${i + 1}</td><td>${h(b.name)}</td><td>${h(b.sido)}</td><td>${chip(b.g, GC[b.g])}</td><td class="num" title="${h(Object.entries(b.parts).map(([k, v]) => k + ' ' + Math.round(v * 100)).join(' · '))}"><b>${b.score}</b></td><td class="num">${b.ar == null ? '-' : (b.ar * 100).toFixed(1) + '%'}</td><td class="num">${b.ur == null ? '-' : (b.ur * 100).toFixed(1) + '%'}</td><td class="num">${n(b.SA)}</td><td class="num">${b.vol == null ? '-' : n(b.vol)}</td></tr>`), 900)}
+      ${so(NT('m3'))}`;
+    view.querySelector('#gType').addEventListener('change', e => { sec.dataset.gtype = e.target.value; R.m3(); });
+    view.querySelector('#gCsv').addEventListener('click', () => {
+      const esc = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+      const lines = [['순위', '총판', '시도', '등급', '점수', '채택률', '활용률', '강점A', '물동량'].map(esc).join(',')].concat(B.map((b, i) => [i + 1, b.name, b.sido, b.g, b.score, b.ar == null ? '' : (b.ar * 100).toFixed(1), b.ur == null ? '' : (b.ur * 100).toFixed(1), b.SA, b.vol == null ? '' : b.vol].map(esc).join(',')));
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\n')], {type: 'text/csv'})); a.download = 'grade.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    });
+  };
+
+  // ④ 파일럿
+  R.m4 = () => {
+    if (need()) { view.innerHTML = need(); return; }
+    const B = branches('학판'), cau = (P.caution || {}).sido || [];
+    const urs = B.map(b => b.ur), ars = B.map(b => b.ar);
+    B.forEach(b => { b.ps = Math.round((pct(urs, b.ur) * .4 + (1 - pct(ars, b.ar)) * .3 + (b.U >= 30 && b.U <= 250 ? 1 : .5) * .3) * 100); b.caution = cau.includes(b.sido); });
+    const pick = B.filter(b => !b.caution).sort((a, b) => b.ps - a.ps).slice(0, 3);
+    const rest = B.slice().sort((a, b) => b.ps - a.ps).slice(0, 15);
+    const asof = (A && A.period) || '';
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m4 || '')}</h3>
+      <div style="font-size:12px;color:var(--muted);">후보 점수 = 자사 서비스 활용률 높음(경험 기반 있음) 40 + 채택 여지(채택률 낮음) 30 + 관리 가능한 규모(학교 30~250) 30. ${h((P.caution || {}).note || '')}: ${h(cau.join('·'))}는 주의 표시.</div>
+      ${cards(pick.map((b, i) => card(`추천 ${i + 1}. ${b.name}`, b.ps + '점', `${h(b.sido)} · 학교 ${n(b.U)} · 채택률 ${(b.ar * 100).toFixed(1)}% · 활용률 ${(b.ur * 100).toFixed(1)}%`)))}
+      <div style="font-weight:700;font-size:13px;margin:10px 0 6px;">성과 측정 기준선(전환 전) <span style="color:var(--muted);font-weight:500;font-size:11.5px;">채택 데이터 ${h(asof)} 기준 · 다음 채택 데이터가 들어오면 같은 지표로 전후 비교</span></div>
+      ${tbl(['총판', '시도', '#후보 점수', '#학교', '#채택률', '#채택→비바샘', '#교사용 자료', '#활용률', '#강점 A단계', '주의'], rest.map(b => `<tr${pick.includes(b) ? ' style="background:color-mix(in srgb, #00B5E2 10%, transparent);"' : ''}><td><b>${h(b.name)}</b></td><td>${h(b.sido)}</td><td class="num">${b.ps}</td><td class="num">${n(b.U)}</td><td class="num">${(b.ar * 100).toFixed(1)}%</td><td class="num">${pc(SC.filter(s => s.g && b.sgg.includes(s.g) && s.c && s.m > 0).length, b.Ad)}</td><td class="num">${pc(b.Gd, b.Ad)}</td><td class="num">${(b.ur * 100).toFixed(1)}%</td><td class="num">${n(b.SA)}</td><td>${b.caution ? chip('주의', '#ef4444') : ''}</td></tr>`), 900)}
+      ${so(`추천: ${pick.map(b => h(b.name)).join('·')}. ` + NT('m4'))}`;
+  };
+
+  // ⑤ 학원 수요 지도
+  R.m5 = () => {
+    const AC = P.academy;
+    if (!AC || !(AC.rows || []).length) { view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m5 || '')}</h3><p style="color:var(--muted);font-size:13px;">학원·교습소 집계(나이스, 주 1회)가 들어오면 표시됩니다.</p>`; return; }
+    const sch = {}; SC.forEach(s => { if (s.g) sch[s.g] = (sch[s.g] || 0) + 1; });
+    const bmap = {}; (BR ? branches('학판') : []).forEach(b => b.sgg.forEach(g => { (bmap[g] = bmap[g] || []).push(b.name); }));
+    const rows = AC.rows.map(r => { const s2 = r.sgg.reduce((a, g) => a + (sch[g] || 0), 0), bo = (r.ord || []).filter(([k]) => /보습|입시/.test(k)).reduce((a, [, v]) => a + v, 0) + (r.realm || []).filter(([k]) => /입시|보습/.test(k)).reduce((a, [, v]) => a + v, 0);
+      return {...r, sch: s2, per: s2 ? r.n / s2 : null, bo: Math.min(r.n, bo), br: [...new Set(r.sgg.flatMap(g => bmap[g] || []))].slice(0, 2).join(', ')}; }).sort((a, b) => b.n - a.n);
+    const bySd = {}; rows.forEach(r => { const x = bySd[r.sd] = bySd[r.sd] || {n: 0, sch: 0}; x.n += r.n; x.sch += r.sch; });
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m5 || '')}</h3>
+      ${cards([card('학원·교습소(개원)', n(AC.total) + '곳', `${h(AC.generated || '')} 기준 · ${h(AC.source || '')}`), card('시군구', n(rows.length) + '곳', '이름·연락처는 저장하지 않음'), card('학원 많은 시도', Object.entries(bySd).sort((a, b) => b[1].n - a[1].n).slice(0, 3).map(([k, v]) => `${h(k)} ${n(v.n)}`).join(' · '), '')])}
+      ${tbl(['시도', '시군구', '#학원·교습소', '#보습·입시', '#학교', '#학교당 학원', '관할 총판'], rows.slice(0, 40).map(r => `<tr><td>${h(r.sd)}</td><td>${h(r.gu)}</td><td class="num"><b>${n(r.n)}</b></td><td class="num">${n(r.bo)}</td><td class="num">${n(r.sch)}</td><td class="num">${r.per == null ? '-' : r.per.toFixed(1)}</td><td style="font-size:11.5px;">${h(r.br)}</td></tr>`), 820)}
+      ${so(NT('m5'))}`;
+  };
+
+  // ⑥ 직거래·공급율
+  R.m6 = () => {
+    const V = P.volume || {}, ch = V.channels || [], sup = P.supply || {};
+    const sel = JSON.parse(sec.dataset.conv || 'null') || ch.filter(c => c.convert || c.now === '직거래').map(c => c.name);
+    const perRev = V.uplift && V.uplift.vol ? V.uplift.rev_eok * 1e8 / V.uplift.vol : 0, perOp = V.uplift && V.uplift.vol ? V.uplift.op_eok * 1e8 / V.uplift.vol : 0;
+    const direct = ch.filter(c => sel.includes(c.name)).reduce((a, c) => a + c.vol, 0), moved = ch.filter(c => sel.includes(c.name) && c.now !== '직거래').reduce((a, c) => a + c.vol, 0);
+    const mix = JSON.parse(sec.dataset.mix || 'null') || {school: 60, self: 30, teacher: 10}, cur = +(sec.dataset.cur || 0);
+    const uni = (mix.school * sup.school + mix.self * sup.self_study + mix.teacher * sup.teacher) / Math.max(1, mix.school + mix.self + mix.teacher);
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m6 || '')}</h3>
+      <div style="font-size:12px;color:var(--muted);">기준 문서 수치로 시작(전체 물동량 ${n(V.total)}부 · 온라인 ${n(V.online)}부). 체크한 채널을 본사 직거래로 보고 다시 계산합니다.</div>
+      <div class="filter-row" style="gap:12px;margin:8px 0;flex-wrap:wrap;">${ch.map(c => `<label style="font-size:12.5px;"><input type="checkbox" class="cv" value="${h(c.name)}" ${sel.includes(c.name) ? 'checked' : ''}> ${h(c.name)} <span style="color:var(--muted);">${n(c.vol)}부 · 현재 ${h(c.now)}${c.via ? '(' + h(c.via) + ')' : ''}</span></label>`).join('')}</div>
+      ${cards([card('직거래 물동량', n(direct) + '부', `전체 중 ${pc(direct, V.total)} (현재 ${pc(V.direct_now, V.total)})`), card('온라인 중 직거래', pc(direct, V.online), `현재 ${pc(V.direct_now, V.online)}`), card('추가 전환 물동량', n(moved) + '부', `총판 경유 → 직거래`), card('예상 효과(문서 단가 기준)', `매출 +${(moved * perRev / 1e8).toFixed(1)}억`, `영업이익 +${(moved * perOp / 1e8).toFixed(1)}억 · 부당 매출 ${n(perRev)}원·이익 ${n(perOp)}원`)])}
+      ${tbl(['총판', '#현재 물동량', '#전환 후', '#증감'], ((V.branches || []).map(b => { const lost = ch.filter(c => sel.includes(c.name) && c.via && b.name === c.via && c.now !== '직거래').reduce((a, c) => a + c.vol, 0); return `<tr><td>${h(b.name)}</td><td class="num">${n(b.vol)}</td><td class="num">${n(b.vol - lost)}</td><td class="num" style="color:${lost ? '#ef4444' : 'inherit'};">${lost ? '-' + n(lost) : '-'}</td></tr>`; })), 520)}
+      <div style="font-weight:700;font-size:13px;margin:14px 0 6px;">통합 공급율(${h(sup.from || '')}부터) — 학교판 ${sup.school}% · 자습서/평가 ${sup.self_study}% · 교사용 ${sup.teacher}%</div>
+      <div class="filter-row" style="gap:10px;flex-wrap:wrap;font-size:12.5px;">물량 구성(%) 학교판 <input id="mS" type="number" value="${mix.school}" style="width:60px;"> 자습서/평가 <input id="mE" type="number" value="${mix.self}" style="width:60px;"> 교사용 <input id="mT" type="number" value="${mix.teacher}" style="width:60px;"> · 현재 평균 공급율 <input id="cur" type="number" step="0.1" value="${cur || ''}" placeholder="예: 52" style="width:70px;">%</div>
+      ${cards([card('통합 후 가중 평균 공급율', uni.toFixed(1) + '%', '물량 구성 가중'), card('현재 대비', cur ? ((uni - cur) > 0 ? '+' : '') + (uni - cur).toFixed(1) + '%p' : '현재값 입력', cur ? `오프라인 ${n(V.offline)}부 기준 단가 차이가 영업이익에 직결` : '')])}
+      ${so(`직거래 점유율 ${pc(V.direct_now, V.total)} → ${pc(direct, V.total)}. ` + NT('m6'))}`;
+    view.querySelectorAll('.cv').forEach(x => x.addEventListener('change', () => { sec.dataset.conv = JSON.stringify([...view.querySelectorAll('.cv:checked')].map(y => y.value)); R.m6(); }));
+    ['mS', 'mE', 'mT', 'cur'].forEach(id => view.querySelector('#' + id).addEventListener('change', () => { sec.dataset.mix = JSON.stringify({school: +view.querySelector('#mS').value || 0, self: +view.querySelector('#mE').value || 0, teacher: +view.querySelector('#mT').value || 0}); sec.dataset.cur = view.querySelector('#cur').value; R.m6(); }));
+  };
+
+  // ⑦ 여론 레이더
+  R.m7 = () => {
+    const O = P.opinion;
+    if (!O || !(O.share || []).length) { view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m7 || '')}</h3><p style="color:var(--muted);font-size:13px;">교과서 선정 여론(네이버 블로그·카페, 주 1회)이 들어오면 표시됩니다.</p>`; return; }
+    const mx = Math.max(1, ...O.share.map(x => x.n)), tone = O.tone || {};
+    const wk = Object.keys((O.weekly || {})['비상'] || {}).sort().slice(-12);
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">${h(T.m7 || '')}</h3>
+      <div style="font-size:12px;color:var(--muted);">${h(O.note || '')} · ${h(O.generated || '')}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;"><div style="flex:1 1 320px;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">출판사별 언급 점유(최근 30일)</div>
+        ${O.share.map(x => `<div style="display:grid;grid-template-columns:70px 1fr 90px;gap:8px;align-items:center;margin:4px 0;font-size:12.5px;"><span ${x.brand === '비상' ? 'style="font-weight:800;"' : ''}>${h(x.brand)}</span><span style="background:var(--surface-2);border-radius:4px;height:14px;overflow:hidden;"><span style="display:block;height:100%;width:${x.n / mx * 100}%;background:${x.brand === '비상' ? '#00B5E2' : 'color-mix(in srgb, var(--ink) 30%, var(--surface-2))'};"></span></span><span style="text-align:right;">${n(x.n)} · ${x.pct}%</span></div>`).join('')}</div>
+        <div style="flex:1 1 280px;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">비상 언급 주제 · 어조</div>${(O.tags || []).map(([k, v]) => `<span class="pill" style="margin:2px;">${h(k)} ${n(v)}</span>`).join('')}<div style="font-size:12.5px;margin-top:8px;">긍정 표현 ${n(tone['긍정'])} · 부정 표현 ${n(tone['부정'])}</div>
+        ${wk.length ? `<div style="display:flex;align-items:flex-end;gap:3px;height:60px;margin-top:8px;">${wk.map(w => { const v = O.weekly['비상'][w], m2 = Math.max(...wk.map(x => O.weekly['비상'][x])); return `<div title="${h(w)} ${v}" style="flex:1;height:${v / Math.max(1, m2) * 56}px;background:#00B5E2;border-radius:2px 2px 0 0;"></div>`; }).join('')}</div><div style="font-size:10.5px;color:var(--muted);">주별 비상 언급(최근 12주)</div>` : ''}</div></div>
+      <div style="font-weight:700;font-size:13px;margin:12px 0 6px;">최근 비상 관련 글</div>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:12.5px;">${(O.recent || []).slice(0, 15).map(x => `<li>${h(x.d)} [${h(x.src)}] <a href="${h(x.u)}" target="_blank" rel="noopener noreferrer">${h(x.t)}</a></li>`).join('')}</ul>
+      ${so(NT('m7'))}`;
+  };
+};
 </script>
 <script>
 /* ---------------- 시도 AIEP(AI 맞춤형 교수학습 플랫폼) - 17개 시도 플랫폼 · 나라장터 AIEP 조달 · 개발사 이력 · 제휴 검토(로그인) ---------------- */

@@ -29,6 +29,8 @@ SOURCES = [
     ("학교단위 발주(나라장터)", "history/school_goods.json", "updated", 8, "학교단위 발주"),
     ("시도 AIEP 조달", "history/aiep_market.json", "updated", 8, "시도 AIEP"),
     ("협력 후보 스크랩", "history/partner_news.json", "generated", 8, "기업·대학 트렌드 2027"),
+    ("학원·교습소 집계(나이스)", "history/academy_stats.json", "generated", 8, "관리"),
+    ("교과서 선정 여론(네이버)", "history/opinion_radar.json", "generated", 8, "관리"),
     ("교사 관심 검색어(데이터랩)", "history/teacher_interest_trends.json", "buzz_date", 8, "교사 트렌드 2027"),
     ("교사 크리에이터 유튜브", "history/teacher_creator_trends.json", "youtube.captured_date", 8, "교사 트렌드 2027"),
     ("일일 지표 누적", "history/daily_stats.jsonl", "date", 1, "경영 종합"),
