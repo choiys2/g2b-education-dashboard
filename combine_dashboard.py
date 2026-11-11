@@ -683,6 +683,8 @@ def main():
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)
         "__STRENGTH_JSON__": strength,  # 비상 강점 분야(분야 단위 집계만 - 학교 정보 없음)
+        "__BUDGET_CAL_JSON__": _safe(lambda: __import__("budget_calendar").build(), "교육청 예산 캘린더"),  # 공개 기사 제목·발주 집계
+        "__BUNDLE_SIM_JSON__": _safe(lambda: __import__("bundle_sim").build(strength), "묶음 가격 시뮬레이터"),  # 공개 강좌 가격
         "__EXT_LINKS_JSON__": _ext_links(),  # 결과보고 등 바깥 링크(비공개 저장소)
         "__BOOT_LOGO_JSON__": ("data:image/png;base64," + __import__("base64").b64encode(open("static_data/brand/visang_logo.png", "rb").read()).decode()
                                if os.path.exists("static_data/brand/visang_logo.png") else ""),  # 여는 중 화면(비상 로고)

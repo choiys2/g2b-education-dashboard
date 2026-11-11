@@ -9236,6 +9236,93 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
 })();
 </script>
 <script>
+/* ---------------- C. 교육청 예산 캘린더(B2G영업 탭) · D. 샘몰 묶음 상품 가격 시뮬레이터(B2S·샘몰 탭) ---------------- */
+(function renderBudgetCal(){
+  const B = __BUDGET_CAL_JSON__, tab = document.getElementById('panel-pipeline'); if (!B || !tab || !(B.rows || []).length) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const now = new Date(), cm = now.getMonth() + 1;
+  const ORD = Array.from({length: 12}, (_, i) => (cm - 1 + i) % 12 + 1);  // 이번 달부터 12개월
+  const CY = {}; (B.cycle || []).forEach(c => { (CY[c.m] = CY[c.m] || []).push(c); });
+  const inProp = (r, m) => { const [a, z] = r.propose; return a <= z ? m >= a && m <= z : m >= a || m <= z; };
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'budgetCalPanel';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">교육청 예산 캘린더 — 본예산 · 추경 · 연수 발주 · 제안 시점<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">이번 달부터 12개월 · 예산 소식 ${B.n_news}건</span></p>
+    <p class="panel-desc">칸 숫자 = 최근 12개월 그 달의 나라장터 연수 발주 건수(색이 진할수록 많음). <b style="color:#00B5E2;">하늘색 테두리</b> = 제안·과정 준비 권장 달(발주 집중 달의 2~3개월 전, 미편성 지역은 1회 추경 편성 전). 맨 윗줄 = 지방교육재정 일반 일정(의회 ● · 추경 ◆, 시도별 공식 일정 아님). ${h(B.note)}</p></div></div>
+    <div class="filter-row" style="gap:8px;margin-top:6px;"><label style="font-size:12.5px;"><input type="checkbox" id="bcShort"> 추경 대기형(미편성·긴축 기사 있음)만</label></div>
+    <div class="tbl-wrap" style="margin-top:8px;"><table class="data" style="font-size:12px;min-width:1100px;"><thead>
+      <tr><th style="width:70px;">시도</th>${ORD.map(m => `<th style="text-align:center;padding:4px 2px;${m === cm ? 'color:var(--accent);' : ''}">${m}월<div style="font-size:10px;font-weight:600;color:var(--muted);">${(CY[m] || []).map(c => `<span title="${h(c.label)}">${c.kind === '의회' ? '●' : '◆'}</span>`).join('')}</div></th>`).join('')}<th>유형 · 제안 시점</th><th>최근 예산 소식(기사 제목)</th></tr></thead><tbody id="bcBody"></tbody></table></div>
+    <p class="tt-note" id="bcSo" style="font-size:13px;"></p>`;
+  tab.prepend(sec);
+  const mx = Math.max(1, ...B.rows.flatMap(r => r.months));
+  const cell = (r, m) => { const v = r.months[m - 1], t = v / mx, p = inProp(r, m);
+    return `<td style="padding:2px;"><div title="${h(r.sido)} ${m}월 · 발주 ${v}건${p ? ' · 제안 권장' : ''}" style="height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;background:${v ? `color-mix(in srgb, var(--accent) ${Math.round(10 + t * 75)}%, var(--surface-2))` : 'var(--surface-2)'};color:${t > .55 ? '#fff' : 'var(--ink-2)'};${p ? 'box-shadow:inset 0 0 0 2px #00B5E2;' : ''}">${v || ''}</div></td>`; };
+  function draw(){
+    const only = sec.querySelector('#bcShort').checked;
+    const rows = B.rows.filter(r => !only || r.short).sort((a, z) => (z.short - a.short) || z.n - a.n);
+    sec.querySelector('#bcBody').innerHTML = rows.map(r => `<tr><td><b>${h(r.sido)}</b><div style="font-size:10.5px;color:var(--muted);">12개월 ${r.n}건</div></td>${ORD.map(m => cell(r, m)).join('')}
+      <td style="white-space:normal;word-break:keep-all;min-width:170px;font-size:11.5px;">${r.short ? '<span class="vstr" style="background:#ef4444;margin:0 4px 0 0;">추경 대기형</span>' : '<span class="vstr" style="background:#10b981;margin:0 4px 0 0;">본예산 반영형</span>'}<div style="margin-top:3px;">${h(r.advice)}</div></td>
+      <td style="white-space:normal;min-width:260px;font-size:11.5px;">${r.news.slice(0, 2).map(x => `<div style="margin-bottom:3px;">${h(x.d.slice(5))} ${x.u ? `<a href="${h(x.u)}" target="_blank" rel="noopener noreferrer">${h(x.t)}</a>` : h(x.t)}${x.amt.length ? ` <b>${h(x.amt.join(' · '))}</b>` : ''}</div>`).join('') || '<span style="color:var(--muted);">최근 기사 없음</span>'}</td></tr>`).join('');
+    const S = B.rows.filter(r => r.short).map(r => r.sido), nowP = B.rows.filter(r => inProp(r, cm) || inProp(r, cm % 12 + 1)).map(r => r.sido);
+    sec.querySelector('#bcSo').innerHTML = `<b>그래서</b> ${S.length ? `<b>${h(S.join('·'))}</b>는 2027 예산 미편성·긴축 기사가 있어 신규 연수 사업이 1회 추경(보통 3월 편성·5~6월 의결)으로 밀릴 가능성이 큽니다 — 1~2월에 추경 반영용 제안을 넣으세요. ` : ''}${nowP.length ? `이번 달·다음 달이 제안 권장 시점인 곳: <b>${h(nowP.join('·'))}</b>.` : ''} 12월 본예산 의결 직후 시도별 연수·에듀테크 항목 증감을 확인하면 정확도가 올라갑니다.`;
+  }
+  sec.querySelector('#bcShort').addEventListener('change', draw);
+  draw();
+})();
+(function renderBundleSim(){
+  const D = __BUNDLE_SIM_JSON__, tab = document.getElementById('panel-b2s'); if (!D || !D.available || !tab) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const won = v => v == null ? '-' : Math.round(v).toLocaleString() + '원';
+  const S = (typeof __STRENGTH_JSON__ !== 'undefined' && __STRENGTH_JSON__) ? __STRENGTH_JSON__.rows || [] : [];
+  const TOP = [['', '주제 무관'], ...S.map(r => [r.id, r.name + ' (강점)'])];
+  const CH = Object.keys((D.single[D.self] || {})).concat(Object.keys(D.single['티처빌'] || {})).filter((v, i, a) => a.indexOf(v) === i).map(Number).sort((a, b) => a - b);
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'bundleSimPanel';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">샘몰 묶음 상품 가격 시뮬레이터<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">경쟁사 공개 강좌 ${h(D.captured || '')} 기준 · 결합상품 ${D.bundles.length}개</span></p>
+    <p class="panel-desc">연수 차시와 함께 넣을 구성(교재·도서/교구/이용권/수업자료집)을 고르면, 경쟁사 결합상품이 같은 차시 단품보다 얼마나 비싸게 파는지(프리미엄 중앙값)로 적정가 범위를 계산하고, 내가 넣은 가격이 비슷한 경쟁 상품 중 어디쯤인지 보여 줍니다.</p></div></div>
+    <div class="filter-row" style="gap:10px;flex-wrap:wrap;align-items:center;">
+      <select id="bsT">${TOP.map(([v, l]) => `<option value="${v}">${h(l)}</option>`).join('')}</select>
+      <select id="bsC">${CH.map(c => `<option value="${c}" ${c === 15 ? 'selected' : ''}>${c}차시</option>`).join('')}</select>
+      ${D.comps.map(c => `<label style="font-size:12.5px;"><input type="checkbox" class="bsK" value="${h(c)}" ${c === '교재·도서' ? 'checked' : ''}> ${h(c)}</label>`).join('')}
+      <label style="font-size:12.5px;">내 가격 <input id="bsP" type="number" step="1000" min="0" style="width:110px;"> 원</label></div>
+    <div id="bsOut" style="margin-top:10px;"></div><div id="bsLine" style="margin-top:12px;"></div>`;
+  const anc = document.getElementById('strengthMallPanel'); if (anc) anc.after(sec); else tab.prepend(sec);
+  const $ = id => sec.querySelector('#' + id);
+  let touched = false;
+  function calc(){
+    const t = $('bsT').value, ch = +$('bsC').value, K = [...sec.querySelectorAll('.bsK:checked')].map(x => x.value);
+    const own = (D.single[D.self] || {})[ch], tv = (D.single['티처빌'] || {})[ch];
+    const base = (own && own.med) || (tv && tv.med) || null;
+    const pm = k => K.reduce((a, c) => a + (((D.premium[c] || {})[k]) || 0), 0);
+    const sim = D.bundles.filter(b => b.price).map(b => ({...b, s: (t && b.topics.includes(t) ? 3 : 0) + (b.chasi === ch ? 2 : b.chasi && Math.abs(b.chasi - ch) <= 5 ? 1 : 0) + b.comps.filter(c => K.includes(c)).length})).sort((a, z) => z.s - a.s || a.price - z.price);
+    // 비교 대상: 같은 차시 + 구성이 정확히 같은 상품(3개 미만이면 구성이 하나라도 겹치는 상품)
+    const same = sim.filter(b => b.chasi === ch && b.comps.length === K.length && K.every(c => b.comps.includes(c)));
+    const comp = same.length >= 3 ? same : sim.filter(b => b.chasi === ch && b.comps.some(c => K.includes(c)));
+    // 적정가: 같은 구성 실제 판매가가 3개 이상이면 그 분포(25~75%), 아니면 단품 × 구성 프리미엄 합(추정 - 여러 구성을 더하면 과대 추정 경향)
+    const q = (xs, p2) => { xs = xs.slice().sort((a, z) => a - z); const k = (xs.length - 1) * p2, f = Math.floor(k), c2 = Math.min(f + 1, xs.length - 1); return xs[f] + (xs[c2] - xs[f]) * (k - f); };
+    const real = same.length >= 3, sp = same.map(b => b.price);
+    const lo = real ? q(sp, .25) : base && base * (1 + pm('p25') / 100), mid = real ? q(sp, .5) : base && base * (1 + pm('med') / 100), hi = real ? q(sp, .75) : base && base * (1 + pm('p75') / 100);
+    if (!touched && mid) $('bsP').value = Math.round(mid / 1000) * 1000;
+    const P = +$('bsP').value || 0;
+    const below = comp.filter(b => b.price <= P).length, pos = comp.length ? Math.round(below / comp.length * 100) : null;
+    const card = (k, v, s2) => `<div style="flex:1;min-width:170px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div><div style="font-size:18px;font-weight:800;">${v}</div><div style="font-size:11.5px;color:var(--ink-2);">${s2}</div></div>`;
+    $('bsOut').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;">${[
+      card(`${ch}차시 연수 단품`, won(base), `자사 중앙값 ${own ? won(own.med) : '-'} · 티처빌 ${tv ? won(tv.med) : '-'}`),
+      card('구성 프리미엄(경쟁사)', K.length ? `+${pm('med')}%` : '-', K.length ? `범위 +${pm('p25')}% ~ +${pm('p75')}% · ${K.map(c => `${c} ${(D.premium[c] || {}).n || 0}건`).join(' · ')}` : '구성을 고르세요'),
+      card('적정가 범위', mid ? won(Math.round(mid / 1000) * 1000) : '-', lo ? `${won(Math.round(lo / 1000) * 1000)} ~ ${won(Math.round(hi / 1000) * 1000)} · ${real ? `같은 구성 실제 판매가 ${same.length}개` : '단품 × 프리미엄 추정'}` : ''),
+      card('내 가격 위치', pos == null ? '비교 상품 없음' : pos >= 50 ? `비싼 쪽 상위 ${Math.max(1, 100 - pos)}%` : `저렴한 쪽 하위 ${Math.max(1, pos)}%`, comp.length ? `${same.length >= 3 ? '같은 차시·같은 구성' : '같은 차시·구성 일부 겹침'} 경쟁 상품 ${comp.length}개 중 ${below}개가 내 가격 이하` : '차시나 구성을 바꿔 보세요')].join('')}</div>
+      <div style="font-weight:700;font-size:13px;margin:12px 0 6px;">비슷한 경쟁 결합상품</div>
+      <div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>회사</th><th>상품</th><th>구성</th><th class="num">차시</th><th class="num">가격</th><th class="num">단품 대비</th></tr></thead><tbody>
+      ${sim.slice(0, 8).map(b => `<tr><td>${h(b.co)}</td><td style="white-space:normal;">${b.url ? `<a href="${h(b.url)}" target="_blank" rel="noopener noreferrer">${h(b.t)}</a>` : h(b.t)}</td><td>${h(b.comps.join('·'))}</td><td class="num">${b.chasi || '-'}</td><td class="num">${won(b.price)}</td><td class="num">${b.premium == null ? '-' : (b.premium >= 0 ? '+' : '') + b.premium + '%'}</td></tr>`).join('')}</tbody></table></div>
+      <p class="tt-note" style="font-size:13px;"><b>그래서</b> ${mid ? `${ch}차시 + ${h(K.join('·') || '구성 없음')}은 ${won(Math.round(lo / 1000) * 1000)}~${won(Math.round(hi / 1000) * 1000)}가 경쟁사 관행 범위입니다. ` : ''}${pos == null ? '' : pos > 75 ? '내 가격이 비슷한 상품 대부분보다 높습니다 — 비상 교재의 교과서 연계성을 상세 페이지 첫 줄에 내세우거나 가격을 낮추세요.' : pos < 25 ? '내 가격이 낮은 편입니다 — 교재 원가를 확인하고 마진을 점검하세요.' : '경쟁 범위 안입니다 — 교과서 연계 자료로 차별점을 보여 주면 됩니다.'}</p>`;
+  }
+  $('bsLine').innerHTML = (D.lineup || []).length ? `<div style="font-weight:700;font-size:13px;margin:4px 0 6px;">강점 분야 첫 라인업 초안 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">15차시 자사 단품 중앙값 × 경쟁사 구성 프리미엄 · 상품화 판단과 연결</span></div>
+    <div class="tbl-wrap"><table class="data" style="font-size:12.5px;"><thead><tr><th>상품안</th><th>상품화 판단</th><th class="num">기준 단품</th><th class="num">프리미엄</th><th class="num">제안가</th><th class="num">경쟁 결합상품</th></tr></thead><tbody>
+    ${D.lineup.map(l => `<tr><td><b>${h(l.title)}</b></td><td style="font-size:11.5px;">${h(l.verdict || '-')}</td><td class="num">${won(l.base)}</td><td class="num">+${l.premium}%</td><td class="num"><b>${won(l.price)}</b><div style="font-size:10.5px;color:var(--muted);">${h(l.basis || '')}</div></td><td class="num">${l.competitors}개</td></tr>`).join('')}</tbody></table></div>` : '';
+  ['bsT', 'bsC'].forEach(id => $(id).addEventListener('change', () => { touched = false; calc(); }));
+  sec.querySelectorAll('.bsK').forEach(x => x.addEventListener('change', () => { touched = false; calc(); }));
+  $('bsP').addEventListener('input', () => { touched = true; calc(); });
+  calc();
+})();
+</script>
+<script>
 /* ---------------- 시도 AIEP(AI 맞춤형 교수학습 플랫폼) - 17개 시도 플랫폼 · 나라장터 AIEP 조달 · 개발사 이력 · 제휴 검토(로그인) ---------------- */
 (function renderAiep(){
   const A = __AIEP_JSON__, GEO = window.__GEO || null, AD = window.__ADOPT || null;
