@@ -1,5 +1,5 @@
 {
- "date": "2026-11-10",
+ "date": "2026-11-11",
  "jbe": {
   "pages": 24,
   "rows": 231,
@@ -50,7 +50,7 @@
   ]
  },
  "fetched": 336,
- "training": 156,
- "new": 0,
- "total": 794
+ "training": 155,
+ "new": 2,
+ "total": 796
 }

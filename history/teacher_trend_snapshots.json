@@ -1,40 +1,40 @@
 {
  "2026Q4": {
-  "date": "2026-11-10",
+  "date": "2026-11-11",
   "rank": [
    {
     "id": "ai",
-    "score": 69,
+    "score": 70,
     "stage": "확산"
    },
    {
     "id": "subject",
-    "score": 57,
+    "score": 51,
     "stage": "성숙"
    },
    {
     "id": "lesson",
-    "score": 44,
-    "stage": "확산"
-   },
-   {
-    "id": "credit",
-    "score": 35,
+    "score": 47,
     "stage": "확산"
    },
    {
     "id": "inclusive",
-    "score": 35,
+    "score": 37,
     "stage": "성숙"
    },
    {
+    "id": "credit",
+    "score": 33,
+    "stage": "확산"
+   },
+   {
     "id": "safety",
-    "score": 22,
+    "score": 23,
     "stage": "성숙"
    },
    {
     "id": "care",
-    "score": 19,
+    "score": 20,
     "stage": "성숙"
    },
    {
@@ -43,28 +43,53 @@
     "stage": "성숙"
    },
    {
-    "id": "neulbom",
+    "id": "basic",
     "score": 16,
-    "stage": "관망"
+    "stage": "성숙"
    },
    {
-    "id": "basic",
-    "score": 15,
-    "stage": "관망"
+    "id": "neulbom",
+    "score": 16,
+    "stage": "성숙"
+   },
+   {
+    "id": "humanities",
+    "score": 16,
+    "stage": "성숙"
    },
    {
     "id": "citizen",
-    "score": 13,
+    "score": 14,
+    "stage": "관망"
+   },
+   {
+    "id": "career",
+    "score": 14,
     "stage": "관망"
    },
    {
     "id": "parent",
-    "score": 11,
+    "score": 12,
     "stage": "부상"
    },
    {
     "id": "rights",
     "score": 7,
+    "stage": "관망"
+   },
+   {
+    "id": "history",
+    "score": 4,
+    "stage": "관망"
+   },
+   {
+    "id": "science",
+    "score": 4,
+    "stage": "관망"
+   },
+   {
+    "id": "math",
+    "score": 4,
     "stage": "관망"
    }
   ]
