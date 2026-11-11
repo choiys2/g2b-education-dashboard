@@ -9131,6 +9131,111 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
 })();
 </script>
 <script>
+/* ---------------- 비상 강점 분야(진로진학·인문소양독서·한국사·과학·수학) ----------------
+   ③ B2S·샘몰 기획 탭: 샘몰 상품화 우선순위(분야 집계 - 공개 지표만)
+   ① 교과서 채택 탭: 강점 교과 채택 학교 → 연수 고객 전환 목록(학교 단위 - 로그인 뒤 채택 데이터로 화면에서만 계산) */
+(function renderStrength(){
+  const S = __STRENGTH_JSON__; if (!S || !(S.rows || []).length) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => (v || 0).toLocaleString(), won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
+  const VC = {'샘몰 단독 상품 1순위': '#00B5E2', '교재 묶음으로 차별화': '#f59e0b', '샘몰 대표 상품 전면 배치': '#10b981', '신규 개척(시장 미성숙)': '#8b5cf6', '판단 보류': '#94a3b8'};
+  const chip = (t, c) => `<span style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:800;color:#fff;background:${c};white-space:nowrap;">${h(t)}</span>`;
+  const R = S.rows;
+
+  // ③ 샘몰 상품화 우선순위
+  const b2s = document.getElementById('panel-b2s');
+  if (b2s) {
+    const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'strengthMallPanel';
+    // 데이터랩 지수는 묶음마다 기준이 달라 분야끼리 크기를 비교하지 않고 '직전 8주 대비 증감'만 보인다
+    const it = r => r.interest && r.interest.trend != null ? `<span style="color:${r.interest.trend >= 0 ? 'var(--good,#10b981)' : '#ef4444'};font-weight:800;">${r.interest.trend >= 0 ? '▲' : '▼'}${Math.abs(r.interest.trend)}%</span>${r.interest.approx ? '<div style="color:var(--muted);font-size:10.5px;">근사(교과 묶음)</div>' : ''}` : '<span style="color:var(--muted);">다음 주 수집</span>';
+    const top = R.filter(r => r.verdict === '샘몰 단독 상품 1순위').map(r => r.name);
+    sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">비상 강점 분야 — 샘몰 상품화 우선순위 <span class="vstr">비상 강점</span><span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">B2G 발주 · 교사 검색 · 교사몰 · 경쟁사 강좌를 한 줄로</span></p>
+      <p class="panel-desc">교과서·교재 자산이 있는 5개 분야를 상품 관점에서 봅니다. 판단 규칙: 자사 강좌 0개·경쟁사 있음 = 단독 상품 1순위 / 자사 &lt; 경쟁사 평균 = 비상 교재 묶음으로 차별화 / 자사 ≥ 경쟁사 = 대표 상품 전면 배치. 검색 관심은 네이버 데이터랩 교사 연령대 검색량의 최근 8주 평균을 직전 8주와 비교한 증감입니다.</p></div></div>
+      <div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:860px;table-layout:fixed;width:100%;"><colgroup><col style="width:11%"><col style="width:11%"><col style="width:10%"><col style="width:9%"><col style="width:11%"><col style="width:22%"><col style="width:26%"></colgroup><thead><tr><th>분야</th><th class="num">나라장터 연수<br>12개월(3개월)</th><th class="num">교사 검색 관심<br><span style="font-weight:500;font-size:11px;">최근 8주 증감</span></th><th class="num">교사몰 인기 상품</th><th class="num">자사 / 경쟁사<br>평균 강좌</th><th>판단</th><th>추천 상품(연수 + 비상 교재)</th></tr></thead><tbody>
+      ${R.map(r => `<tr><td style="white-space:nowrap;"><b>${h(r.name)}</b></td>
+        <td class="num" title="${h((r.g2b && r.g2b.samples || []).map(x => x.d + ' ' + x.o + ' · ' + x.t).join('\n'))}">${n(r.g2b && r.g2b.n)}건 (${n(r.g2b && r.g2b.n3)})<div style="font-size:11px;color:var(--muted);">${won(r.g2b && r.g2b.amt)}</div></td>
+        <td class="num">${it(r)}</td>
+        <td class="num" title="${h((r.mall.products || []).map(x => x.n).join('\n'))}">${n(r.mall.n_prod)}</td>
+        <td class="num">${r.own == null ? '-' : `${n(r.own)} / ${r.comp_avg}`}</td>
+        <td style="white-space:normal;word-break:keep-all;">${chip(r.verdict, VC[r.verdict] || '#94a3b8')}<div style="font-size:11px;color:var(--ink-2);margin-top:3px;">${h(r.why)}</div></td>
+        <td style="font-size:11.5px;white-space:normal;word-break:keep-all;">${r.proposals.slice(0, 2).map(p => `<div>· ${h(p.title)} <span style="color:var(--muted);">+ 비상 ${h(r.name.split('·')[0])} 교재·교과서 연계 활동지</span></div>`).join('')}</td></tr>`).join('')}
+      </tbody></table></div>
+      <p class="tt-note" style="font-size:13px;"><b>그래서</b> ${top.length ? `<b>${h(top.join('·'))}</b>는 경쟁사만 강좌가 있어 샘몰 첫 상품 후보입니다. ` : ''}강좌 수로 경쟁하기보다 '연수 + 비상 교과서 연계 수업자료·교재' 묶음으로 내면 티처몰·아이스크림몰과 겹치지 않습니다. 교사 검색 관심이 오르는(▲) 분야부터 샘몰 첫 화면에 배치하세요.</p>`;
+    b2s.prepend(sec);
+  }
+
+  // ① 교과서 채택 학교 → 강점 분야 연수 고객 전환
+  const ad = document.getElementById('panel-adopt'), A = window.__ADOPT;
+  if (!ad || !A || !(A.schools || []).length) return;
+  const SUBJ = A.subjects || [], LV = ['초', '중', '고'], LVK = ['초', '중', '고'];
+  const RX = Object.fromEntries(R.map(r => [r.id, new RegExp(r.subject_re)]));
+  const SB = Object.fromEntries(R.map(r => [r.id, SUBJ.map((s, i) => RX[r.id].test(s) ? i : -1).filter(i => i >= 0)]));
+  const BR = window.__BRANCH, brOf = s => { if (!BR || !s.g) return ''; const hit = (BR.rows || []).filter(r => (r.sgg || []).includes(s.g)); return [...new Set(hit.map(r => r.name.replace(/\s*\(.*\)$/, '')))].slice(0, 2).join(', '); };
+  const BRN = BR ? [...new Set((BR.rows || []).map(r => r.name.replace(/\s*\(.*\)$/, '')))].sort() : [];
+  const SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+  const FC = {}; ((window.__GEO && window.__GEO.features) || []).forEach(f => { FC[f.c] = f.n; });
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'strengthAdoptPanel';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">강점 교과 채택 학교 → 연수 고객 전환 <span class="vstr">비상 강점</span><span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">로그인 뒤 화면 · 학교 단위</span></p>
+    <p class="panel-desc">비상 교과서를 채택한 학교 중 강점 교과(진로·국어/독서·역사·과학·수학)를 쓰는 학교를 연수 고객으로 봅니다. 단계: <b>A 바로 제안</b>(비바샘 회원 5명+ → 교과 연수 단체 수강·교내 연수 제안) · <b>C 육성</b>(3~4명) · <b>B 가입부터</b>(2명 이하 → 교과서 연계 수업자료·무료 체험 연수로 비바샘 가입 유도). 우선순위 = 강점 교과 수·회원·교원 규모.</p></div></div>
+    <div class="filter-row" style="gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <select id="stF"><option value="">강점 분야 전체</option>${R.map(r => `<option value="${r.id}">${h(r.name)}</option>`).join('')}</select>
+      <select id="stB"><option value="">총판 전체</option>${BRN.map(b => `<option>${h(b)}</option>`).join('')}</select>
+      <select id="stS"><option value="">시도 전체</option>${SIDO.map(x => `<option>${x}</option>`).join('')}</select>
+      <select id="stL"><option value="">학교급 전체</option>${LV.map((l, i) => `<option value="${i}">${l}</option>`).join('')}</select>
+      <select id="stG"><option value="">단계 전체</option><option>A 바로 제안</option><option>C 육성</option><option>B 가입부터</option></select>
+      <button type="button" class="btn-csv" id="stCsv">목록 CSV</button></div>
+    <div id="stKpi" style="margin-top:10px;"></div><div id="stSum" style="margin-top:10px;"></div><div id="stList" style="margin-top:10px;"></div>`;
+  const anc = document.getElementById('adoptPanel'); if (anc) anc.after(sec); else ad.prepend(sec);
+  const $ = id => sec.querySelector('#' + id);
+  const stage = s => s.m >= 5 ? 'A 바로 제안' : s.m <= 2 ? 'B 가입부터' : 'C 육성';
+  const SCOL = {'A 바로 제안': '#10b981', 'C 육성': '#f59e0b', 'B 가입부터': '#00B5E2'};
+  let cur = [];
+  function draw(){
+    const f = $('stF').value, b = $('stB').value, sd = $('stS').value, lv = $('stL').value, g = $('stG').value;
+    const ids = f ? [f] : R.map(r => r.id);
+    const rows = [];
+    A.schools.forEach(s => {
+      if (!s.u || !s.c || (sd && s.sd !== sd) || (lv !== '' && s.l !== +lv)) return;
+      const hit = ids.filter(id => SB[id].some(i => (s.b >> i) & 1)); if (!hit.length) return;
+      const br = brOf(s); if (b && !br.split(', ').includes(b)) return;
+      const st = stage(s); if (g && st !== g) return;
+      const subs = [...new Set(ids.flatMap(id => SB[id].filter(i => (s.b >> i) & 1).map(i => SUBJ[i])))];
+      rows.push({...s, hit, br, st, subs, score: subs.length * 10 + Math.min(s.m, 40) + (s.t ? Math.min(s.t, 80) / 4 : 0)});
+    });
+    rows.sort((a, z) => z.score - a.score);
+    cur = rows;
+    const cnt = k => rows.filter(r => r.st === k).length, T = rows.reduce((a, r) => a + (r.t || 0), 0), M = rows.reduce((a, r) => a + (r.m || 0), 0);
+    const card = (k, v, s2) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:10px;padding:8px 12px;"><div style="font-size:12px;color:var(--muted);">${k}</div><div style="font-size:18px;font-weight:800;">${v}</div><div style="font-size:11.5px;color:var(--ink-2);">${s2}</div></div>`;
+    $('stKpi').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;">${[
+      card('강점 교과 채택 학교', n(rows.length) + '교', f ? h(R.find(r => r.id === f).name) : '5개 분야 합계'),
+      card('A 바로 제안', n(cnt('A 바로 제안')) + '교', '비바샘 회원 5명 이상'),
+      card('B 가입부터', n(cnt('B 가입부터')) + '교', '회원 2명 이하 · 가입 유도'),
+      card('연결 가능한 교원', n(T) + '명', `비바샘 회원 ${n(M)}명 · 침투율 ${T ? (M / T * 100).toFixed(1) + '%' : '-'}`)].join('')}</div>`;
+    // 분야별 · 총판별 요약
+    const byF = R.map(r => { const x = rows.filter(s => s.hit.includes(r.id)); return {r, n: x.length, a: x.filter(s => s.st === 'A 바로 제안').length, bb: x.filter(s => s.st === 'B 가입부터').length, t: x.reduce((a, s) => a + (s.t || 0), 0), m: x.reduce((a, s) => a + (s.m || 0), 0)}; });
+    const byB = {}; rows.forEach(s => (s.br ? s.br.split(', ') : ['(총판 미지정)']).forEach(k => { const x = byB[k] = byB[k] || {n: 0, a: 0, bb: 0}; x.n++; if (s.st === 'A 바로 제안') x.a++; if (s.st === 'B 가입부터') x.bb++; }));
+    const topB = Object.entries(byB).sort((a, z) => z[1].a - a[1].a || z[1].n - a[1].n).slice(0, 10);
+    $('stSum').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:14px;">
+      <div style="flex:1 1 440px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">분야별</div><div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>분야</th><th class="num">채택 학교</th><th class="num">A</th><th class="num">B</th><th class="num">교원</th><th class="num">침투율</th><th class="num">나라장터 12개월</th></tr></thead><tbody>
+        ${byF.map(x => `<tr><td>${h(x.r.name)}</td><td class="num">${n(x.n)}</td><td class="num">${n(x.a)}</td><td class="num">${n(x.bb)}</td><td class="num">${n(x.t)}</td><td class="num">${x.t ? (x.m / x.t * 100).toFixed(1) + '%' : '-'}</td><td class="num">${n(x.r.g2b && x.r.g2b.n)}건</td></tr>`).join('')}</tbody></table></div></div>
+      <div style="flex:1 1 320px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">총판별 바로 제안(A) 상위</div><div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>총판</th><th class="num">학교</th><th class="num">A</th><th class="num">B</th></tr></thead><tbody>
+        ${topB.map(([k, x]) => `<tr><td>${h(k)}</td><td class="num">${n(x.n)}</td><td class="num"><b>${n(x.a)}</b></td><td class="num">${n(x.bb)}</td></tr>`).join('') || '<tr><td colspan="4" style="color:var(--muted);">총판 정보 없음</td></tr>'}</tbody></table></div></div></div>`;
+    const prop = s => { for (const id of s.hit) { const r = R.find(x => x.id === id), p = r && r.proposals.find(p2 => p2.level === LVK[s.l]); if (p) return p.title; } return ''; };  // 학교급에 맞는 과정만(초등에 중3 과정 추천 금지)
+    $('stList').innerHTML = `<div style="font-weight:700;font-size:13px;margin:4px 0 6px;">방문·제안 목록 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">우선순위 상위 ${Math.min(40, rows.length)}곳 / ${n(rows.length)}곳 · 전체는 CSV</span></div>
+      ${rows.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:980px;"><thead><tr><th>학교</th><th>급</th><th>시도·시군구</th><th>총판</th><th>강점 채택 교과</th><th class="num">비바샘 회원 / 교원</th><th>단계</th><th>추천 연수</th></tr></thead><tbody>
+      ${rows.slice(0, 40).map(s => `<tr><td style="font-weight:600;">${h(s.n)}</td><td>${LV[s.l]}</td><td style="white-space:nowrap;">${h(s.sd)} ${h(FC[s.g] || '')}</td><td style="font-size:11.5px;">${h(s.br)}</td><td style="font-size:11.5px;">${h(s.subs.join('·'))}</td><td class="num">${n(s.m)} / ${s.t ? n(s.t) : '-'}</td><td>${chip(s.st, SCOL[s.st])}</td><td style="font-size:11.5px;">${h(prop(s))}</td></tr>`).join('')}</tbody></table></div>` : '<p style="color:var(--muted);font-size:13px;">조건에 맞는 학교가 없습니다.</p>'}
+      <p class="tt-note" style="font-size:13px;"><b>그래서</b> ${b || sd || '전국'} 강점 교과 채택 학교 ${n(rows.length)}곳 중 <b>A ${n(cnt('A 바로 제안'))}곳</b>은 이번 학기 안에 교과 연수 단체 수강을 제안하고, <b>B ${n(cnt('B 가입부터'))}곳</b>은 교과서 연계 수업자료·무료 체험 연수로 비바샘 가입부터 늘리세요. 총판별 A 상위 지역부터 방문 일정을 잡으면 됩니다.</p>`;
+  }
+  ['stF', 'stB', 'stS', 'stL', 'stG'].forEach(id => $(id).addEventListener('change', draw));
+  $('stCsv').addEventListener('click', () => {
+    const esc = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const lines = [['학교', '학교급', '시도', '시군구', '총판', '강점 채택 교과', '비바샘 회원', '교원', '단계'].map(esc).join(',')].concat(cur.map(s => [s.n, LV[s.l], s.sd, FC[s.g] || '', s.br, s.subs.join('·'), s.m, s.t || '', s.st].map(esc).join(',')));
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\n')], {type: 'text/csv'})); a.download = '강점교과_전환대상.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  });
+  draw();
+})();
+</script>
+<script>
 /* ---------------- 시도 AIEP(AI 맞춤형 교수학습 플랫폼) - 17개 시도 플랫폼 · 나라장터 AIEP 조달 · 개발사 이력 · 제휴 검토(로그인) ---------------- */
 (function renderAiep(){
   const A = __AIEP_JSON__, GEO = window.__GEO || null, AD = window.__ADOPT || null;

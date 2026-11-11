@@ -544,6 +544,8 @@ def main():
     trend2027 = __import__("teacher_trend2027").build(training_topic_data, competitor_training.get("teacher_trends"),
                                                        competitor_training.get("mall"))
 
+    # 비상 강점 분야(진로진학·인문독서·한국사·과학·수학): 샘몰 상품화 우선순위 + 채택 학교 전환 규칙
+    strength = _safe(lambda: __import__("strength_view").build(training_topic_data, competitor_training.get("mall")), "비상 강점 분야")
     # B2S 학교 타깃 레이더 + 샘몰 상품 기획 보드(B2S·샘몰 기획 탭) - 위 데이터 재조합, API 호출 없음
     import b2s_board
     b2s = b2s_board.build(full_live, new_courses["courses"], new_courses["rows"], training_topic_data, "비바샘연수원")
@@ -680,6 +682,7 @@ def main():
         "__GG_B2S_JSON__": load("history/gg_b2s.json") if os.path.exists("history/gg_b2s.json") else None,  # B2S 경기 시군
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)
+        "__STRENGTH_JSON__": strength,  # 비상 강점 분야(분야 단위 집계만 - 학교 정보 없음)
         "__EXT_LINKS_JSON__": _ext_links(),  # 결과보고 등 바깥 링크(비공개 저장소)
         "__BOOT_LOGO_JSON__": ("data:image/png;base64," + __import__("base64").b64encode(open("static_data/brand/visang_logo.png", "rb").read()).decode()
                                if os.path.exists("static_data/brand/visang_logo.png") else ""),  # 여는 중 화면(비상 로고)
