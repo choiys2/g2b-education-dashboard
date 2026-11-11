@@ -1,0 +1,58 @@
+{
+ "generated": "2026-11-11",
+ "window_days": 30,
+ "share": [
+  {
+   "brand": "비상",
+   "n": 0,
+   "pct": 0.0
+  },
+  {
+   "brand": "천재",
+   "n": 0,
+   "pct": 0.0
+  },
+  {
+   "brand": "미래엔",
+   "n": 0,
+   "pct": 0.0
+  },
+  {
+   "brand": "동아",
+   "n": 0,
+   "pct": 0.0
+  },
+  {
+   "brand": "지학사",
+   "n": 0,
+   "pct": 0.0
+  }
+ ],
+ "weekly": {},
+ "tags": [],
+ "tone": {},
+ "recent": [],
+ "diag": [
+  "blog 비상 교과서: HTTPError",
+  "cafearticle 비상 교과서: HTTPError",
+  "blog 비상교육 교과서: HTTPError",
+  "cafearticle 비상교육 교과서: HTTPError",
+  "blog 비상 지도서: HTTPError",
+  "cafearticle 비상 지도서: HTTPError",
+  "blog 비바샘 수업자료: HTTPError",
+  "cafearticle 비바샘 수업자료: HTTPError",
+  "blog 천재 교과서: HTTPError",
+  "cafearticle 천재 교과서: HTTPError",
+  "blog 천재교육 교과서: HTTPError",
+  "cafearticle 천재교육 교과서: HTTPError",
+  "blog 티셀파 수업자료: HTTPError",
+  "cafearticle 티셀파 수업자료: HTTPError",
+  "blog 미래엔 교과서: HTTPError",
+  "cafearticle 미래엔 교과서: HTTPError",
+  "blog 엠티처 수업자료: HTTPError",
+  "cafearticle 엠티처 수업자료: HTTPError",
+  "blog 동아출판 교과서: HTTPError",
+  "cafearticle 동아출판 교과서: HTTPError"
+ ],
+ "note": "네이버 블로그(최근 30일)·카페 검색 결과 기준, 검색어 묶음이 같은 기준으로 비교한 상대 언급량"
+}
