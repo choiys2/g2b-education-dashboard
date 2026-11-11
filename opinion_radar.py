@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-교과서·교사용 콘텐츠 여론 레이더 -> history/opinion_radar.json (네이버 블로그·카페 공개 검색 결과)
+교과서·교사용 콘텐츠 여론 레이더 -> history/opinion_radar.json (다음(카카오) 블로그·카페 공개 검색, 없으면 구글 뉴스)
 
   - 출판사별 교과서·교사용 콘텐츠 언급량(최근 30일·주별)과 비상 관련 최근 글 제목·링크만 저장
   - 글쓴이 이름·아이디·본문은 저장하지 않는다. 링크는 https 만.
-  - 주 1회(opinion_radar.yml). 키: NAVER_CLIENT_ID / NAVER_CLIENT_SECRET
+  - 주 1회(opinion_radar.yml). 키: KAKAO_REST_KEY(네이버 검색 API 는 중단)
   python opinion_radar.py
 """
 import html
@@ -37,11 +37,21 @@ def strip(s):
     return html.unescape(re.sub(r"<[^>]+>", "", s or "")).strip()
 
 
-def search(kind, q, cid, sec):
-    url = f"https://openapi.naver.com/v1/search/{kind}.json?" + urllib.parse.urlencode({"query": q, "display": 100, "sort": "date"})
-    req = urllib.request.Request(url, headers={"X-Naver-Client-Id": cid, "X-Naver-Client-Secret": sec})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        return json.loads(r.read().decode("utf-8")).get("items", [])
+def kakao(kind, q, key):
+    """카카오(다음) 블로그·카페 검색 - 최신순 50건씩 2쪽. 블로그명·카페명·본문은 저장하지 않는다."""
+    out = []
+    for page in (1, 2):
+        url = f"https://dapi.kakao.com/v2/search/{kind}?" + urllib.parse.urlencode({"query": q, "sort": "recency", "size": 50, "page": page})
+        req = urllib.request.Request(url, headers={"Authorization": "KakaoAK " + key})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            d = json.loads(r.read().decode("utf-8"))
+        for it in d.get("documents", []):
+            out.append({"title": it.get("title", ""), "link": it.get("url", ""), "postdate": (it.get("datetime") or "")[:10].replace("-", ""),
+                        "description": it.get("contents", "")})
+        if (d.get("meta") or {}).get("is_end"):
+            break
+        time.sleep(0.2)
+    return out
 
 
 def google(q):
@@ -63,13 +73,14 @@ def google(q):
 
 
 def main():
-    cid, sec = os.environ.get("NAVER_CLIENT_ID", ""), os.environ.get("NAVER_CLIENT_SECRET", "")
-    mode = "naver" if cid and sec else "google"
-    if mode == "naver":  # 키 권한 확인(검색 API 미승인이면 401/403) - 안 되면 구글 뉴스로
+    # 우선순위: 카카오(다음) 블로그·카페 → 구글 뉴스(언론). 네이버 검색 API 는 중단돼 쓰지 않는다.
+    kkey = os.environ.get("KAKAO_REST_KEY", "")
+    mode = "kakao" if kkey else "google"
+    if mode == "kakao":
         try:
-            search("blog", "교과서", cid, sec)
+            kakao("blog", "교과서", kkey)
         except Exception as e:  # noqa: BLE001
-            print("네이버 검색 사용 불가:", getattr(e, "code", type(e).__name__), "- 구글 뉴스로 대체")
+            print("카카오 검색 사용 불가:", getattr(e, "code", type(e).__name__), "- 구글 뉴스로 대체")
             mode = "google"
     today = date.today()
     since = today - timedelta(days=30)
@@ -79,9 +90,9 @@ def main():
     seen = set()
     for brand, qs in BRANDS.items():
         for q in qs:
-            for kind in (("blog", "cafearticle") if mode == "naver" else ("news",)):
+            for kind in (("blog", "cafe") if mode == "kakao" else ("news",)):
                 try:
-                    items = search(kind, q, cid, sec) if mode == "naver" else google(q)
+                    items = kakao(kind, q, kkey) if mode == "kakao" else google(q)
                 except Exception as e:  # noqa: BLE001
                     diag.append(f"{kind} {q}: {getattr(e, 'code', type(e).__name__)}")
                     continue
@@ -91,7 +102,7 @@ def main():
                         continue
                     pd = it.get("postdate") or ""
                     d = datetime.strptime(pd, "%Y%m%d").date() if re.fullmatch(r"\d{8}", pd) else None
-                    if kind in ("blog", "news") and (not d or d < since):
+                    if not d or d < since:  # 블로그·카페·뉴스 모두 최근 30일만
                         continue
                     seen.add(link)
                     counts[brand] += 1
@@ -107,7 +118,7 @@ def main():
                         tone["긍정"] += bool(POS.search(body))
                         tone["부정"] += bool(NEG.search(body))
                         if link.startswith("https://") and len(recent) < 40:
-                            recent.append({"d": d.isoformat() if d else "", "t": t[:120], "u": link, "src": {"blog": "블로그", "cafearticle": "카페", "news": "언론"}[kind]})
+                            recent.append({"d": d.isoformat() if d else "", "t": t[:120], "u": link, "src": {"blog": "블로그", "cafe": "카페", "news": "언론"}[kind]})
                 time.sleep(0.15)
     total = sum(counts.values()) or 1
     keep = (today - timedelta(weeks=26)).isoformat()
@@ -117,7 +128,7 @@ def main():
                                "weekly": weekly, "tags": tags.most_common(), "tone": dict(tone),
                                "recent": sorted(recent, key=lambda x: x["d"], reverse=True)[:30], "diag": diag[:20],
                                "mode": mode,
-                               "note": ("네이버 블로그(최근 30일)·카페 검색 결과 기준" if mode == "naver" else "구글 뉴스 최근 30일 언론 보도 기준(네이버 검색 키 미승인 - 교사 커뮤니티 글은 키 승인 후)") + ", 같은 검색어 묶음으로 비교한 상대 언급량"},
+                               "note": ("다음(카카오) 블로그·카페 최근 30일 글 기준" if mode == "kakao" else "구글 뉴스 최근 30일 언론 보도 기준(카카오 키 없음)") + ", 같은 검색어 묶음으로 비교한 상대 언급량"},
                               ensure_ascii=False, indent=1), encoding="utf-8")
     print("여론 레이더:", mode, dict(counts), "· 진단", len(diag))
     return 0

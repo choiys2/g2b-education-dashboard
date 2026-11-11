@@ -1,4 +1,4 @@
-name: 교과서 선정 여론 레이더(네이버 블로그·카페)
+name: 교과서 선정 여론 레이더(다음 블로그·카페)
 
 # 관리 > PDF 전략 ⑦: 출판사별 교과서·교사용 콘텐츠 언급량과 비상 관련 최근 글 제목(글쓴이·본문 저장 안 함)
 on:
@@ -24,8 +24,7 @@ jobs:
           python-version: "3.12"
       - name: 스크랩
         env:
-          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
-          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
         run: python opinion_radar.py
       - name: 결과 커밋
         run: |
