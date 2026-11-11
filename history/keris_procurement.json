@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-10",
+ "updated": "2026-11-11",
  "inst": "한국교육학술정보원",
  "bids": {
   "20231035089-000": {
@@ -25263,7 +25263,30 @@
   "covered_days": 1095,
   "target_days": 1095,
   "diag": [
-   "getBidPblancListInfoThngPPSSrch/dminsttCd: The read operation timed out"
+   "getBidPblancListInfoServcPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getBidPblancListInfoServcPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getBidPblancListInfoServcPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getBidPblancListInfoServcPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getBidPblancListInfoThngPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getBidPblancListInfoThngPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getBidPblancListInfoThngPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getBidPblancListInfoThngPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getOpengResultListInfoServcPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getOpengResultListInfoServcPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getOpengResultListInfoServcPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getOpengResultListInfoServcPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getOpengResultListInfoThngPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getOpengResultListInfoThngPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getOpengResultListInfoThngPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getOpengResultListInfoThngPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getScsbidListSttusServcPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getScsbidListSttusServcPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getScsbidListSttusServcPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getScsbidListSttusServcPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getScsbidListSttusThngPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getScsbidListSttusThngPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getScsbidListSttusThngPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
+   "getScsbidListSttusThngPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000"
   ],
   "fields": {
    "bid": [
