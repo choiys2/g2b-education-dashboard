@@ -4,23 +4,23 @@
  "share": [
   {
    "brand": "비상",
-   "n": 0,
-   "pct": 0.0
+   "n": 3,
+   "pct": 7.9
   },
   {
    "brand": "천재",
-   "n": 0,
-   "pct": 0.0
+   "n": 27,
+   "pct": 71.1
   },
   {
    "brand": "미래엔",
-   "n": 0,
-   "pct": 0.0
+   "n": 6,
+   "pct": 15.8
   },
   {
    "brand": "동아",
-   "n": 0,
-   "pct": 0.0
+   "n": 2,
+   "pct": 5.3
   },
   {
    "brand": "지학사",
@@ -28,31 +28,57 @@
    "pct": 0.0
   }
  ],
- "weekly": {},
- "tags": [],
- "tone": {},
- "recent": [],
- "diag": [
-  "blog 비상 교과서: HTTPError",
-  "cafearticle 비상 교과서: HTTPError",
-  "blog 비상교육 교과서: HTTPError",
-  "cafearticle 비상교육 교과서: HTTPError",
-  "blog 비상 지도서: HTTPError",
-  "cafearticle 비상 지도서: HTTPError",
-  "blog 비바샘 수업자료: HTTPError",
-  "cafearticle 비바샘 수업자료: HTTPError",
-  "blog 천재 교과서: HTTPError",
-  "cafearticle 천재 교과서: HTTPError",
-  "blog 천재교육 교과서: HTTPError",
-  "cafearticle 천재교육 교과서: HTTPError",
-  "blog 티셀파 수업자료: HTTPError",
-  "cafearticle 티셀파 수업자료: HTTPError",
-  "blog 미래엔 교과서: HTTPError",
-  "cafearticle 미래엔 교과서: HTTPError",
-  "blog 엠티처 수업자료: HTTPError",
-  "cafearticle 엠티처 수업자료: HTTPError",
-  "blog 동아출판 교과서: HTTPError",
-  "cafearticle 동아출판 교과서: HTTPError"
+ "weekly": {
+  "비상": {
+   "2026-10-12": 1,
+   "2026-10-26": 1,
+   "2026-11-09": 1
+  },
+  "천재": {
+   "2026-10-12": 1,
+   "2026-10-19": 12,
+   "2026-10-26": 14
+  },
+  "미래엔": {
+   "2026-10-26": 3,
+   "2026-11-02": 2,
+   "2026-11-09": 1
+  },
+  "동아": {
+   "2026-10-26": 2
+  }
+ },
+ "tags": [
+  [
+   "선정·채택",
+   1
+  ]
  ],
- "note": "네이버 블로그(최근 30일)·카페 검색 결과 기준, 검색어 묶음이 같은 기준으로 비교한 상대 언급량"
+ "tone": {
+  "긍정": 0,
+  "부정": 0
+ },
+ "recent": [
+  {
+   "d": "2026-11-10",
+   "t": "[단독] 미래엔 교과서, 채택 1위 \"이념 논란 적고 무난\" - JTBC",
+   "u": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5lTkJERmd1NGhoWFFKdWFiOUkyNG00aTBwOF80UUVfRGdtWWxaN3dRcUlaTjdPTEZCVFEtZFBhZDRSbWFVcENfdGtnZU5BRmM5aS1mbA?oc=5",
+   "src": "언론"
+  },
+  {
+   "d": "2026-10-28",
+   "t": "비상교육, 교육서비스주 저PER 1위... 1.82배 - 버핏연구소",
+   "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1Ia05STXRtNlpLRk5jN3RUalFPVlJsNDQydUdva3hMVXdTQWVObFAyaS1vekFqSVBEbVNkcXNnWWw2N0JRQ1lNUUg4NzlYNEVfNFNTV1RjbWZ5WkRTUlIzU1lR?oc=5",
+   "src": "언론"
+  },
+  {
+   "d": "2026-10-13",
+   "t": "\"출판인들의 헌신과 노력, 출판의 희망찬 미래 만들 것\" - 내외방송",
+   "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9BY1B3MG9rNm9iR2luSGpJcVVKRTNkV09fY1FCbDRoVGxsQkJTMHhiYjZfMnM1cV9tRC16dkhFM1d4b0pqUDE5UVhyTl9wZnhQbUFmSlYySTdkZVNyNWhLRjlyWV84UGhZ?oc=5",
+   "src": "언론"
+  }
+ ],
+ "diag": [],
+ "mode": "google",
+ "note": "구글 뉴스 최근 30일 언론 보도 기준(네이버 검색 키 미승인 - 교사 커뮤니티 글은 키 승인 후), 같은 검색어 묶음으로 비교한 상대 언급량"
 }
