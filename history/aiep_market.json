@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-10",
+ "updated": "2026-11-11",
  "bids": {
   "R26BK01597241-000": {
    "t": "인공지능 맞춤형 교수학습 플랫폼(AIEP) 연계 통합 포털 임차 및 계정 관리 용역 사업",
@@ -96,28 +96,192 @@
    "n": 1
   }
  },
- "participants": {},
+ "participants": {
+  "R26BK01675207-000": [
+   {
+    "corp": "주식회사 에이마스",
+    "rank": 1,
+    "amt": 159470000,
+    "v": ""
+   }
+  ],
+  "R25BK00758918-000": [
+   {
+    "corp": "주식회사 라이프스킬즈",
+    "rank": 1,
+    "amt": 81000000,
+    "v": ""
+   }
+  ],
+  "20241010400-000": [
+   {
+    "corp": "주식회사 에이블플레이",
+    "rank": 1,
+    "amt": 152226000,
+    "v": ""
+   },
+   {
+    "corp": "비전기획",
+    "rank": 2,
+    "amt": 170250000,
+    "v": ""
+   },
+   {
+    "corp": "주식회사 김스애드",
+    "rank": null,
+    "amt": null,
+    "v": ""
+   }
+  ],
+  "20231242918-000": [
+   {
+    "corp": "주식회사 데이타이음",
+    "rank": 1,
+    "amt": 277000000,
+    "v": ""
+   },
+   {
+    "corp": "주식회사 퓨처플랫폼",
+    "rank": 2,
+    "amt": 265980000,
+    "v": ""
+   },
+   {
+    "corp": "(주)해피타임",
+    "rank": 3,
+    "amt": 274386280,
+    "v": ""
+   }
+  ]
+ },
  "status": {
   "days": 1095,
-  "done4": [],
-  "stop07": {},
+  "done4": [
+   "AI 교육 플랫폼",
+   "AI 교육플랫폼",
+   "AI 맞춤형",
+   "AIEP",
+   "AI교육플랫폼",
+   "AI드림",
+   "AI맞춤형",
+   "AI배움터",
+   "SEN스쿨",
+   "교수·학습 플랫폼",
+   "교수학습 플랫폼",
+   "교수학습지원 플랫폼",
+   "교수학습플랫폼",
+   "다채움",
+   "마주온",
+   "바당",
+   "아이든",
+   "아이로",
+   "아이모두",
+   "아이온",
+   "에듀아이",
+   "우리아이",
+   "하이러닝"
+  ],
+  "stop07": {
+   "getBidPblancListInfoServcPPSSrch|AIEP": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|AIEP": "2026-11-08",
+   "getBidPblancListInfoThngPPSSrch|AIEP": "2026-11-08",
+   "getScsbidListSttusThngPPSSrch|AIEP": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|교수학습 플랫폼": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|교수학습 플랫폼": "2026-11-08",
+   "getBidPblancListInfoThngPPSSrch|교수학습 플랫폼": "2026-11-08",
+   "getScsbidListSttusThngPPSSrch|교수학습 플랫폼": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|교수학습플랫폼": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|교수학습플랫폼": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|교수·학습 플랫폼": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|교수·학습 플랫폼": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|교수학습지원 플랫폼": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|교수학습지원 플랫폼": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|AI 맞춤형": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|AI 맞춤형": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|AI맞춤형": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|AI맞춤형": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|AI 교육플랫폼": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|AI 교육플랫폼": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|AI교육플랫폼": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|AI교육플랫폼": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|AI 교육 플랫폼": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|AI 교육 플랫폼": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|하이러닝": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|하이러닝": "2026-11-08",
+   "getBidPblancListInfoThngPPSSrch|하이러닝": "2026-11-08",
+   "getScsbidListSttusThngPPSSrch|하이러닝": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|다채움": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|다채움": "2026-11-08",
+   "getBidPblancListInfoThngPPSSrch|다채움": "2026-11-08",
+   "getScsbidListSttusThngPPSSrch|다채움": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|마주온": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|마주온": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|에듀아이": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|에듀아이": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|아이로": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|아이로": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|SEN스쿨": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|SEN스쿨": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|바당": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|바당": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|아이온": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|아이온": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|아이든": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|아이든": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|아이모두": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|아이모두": "2026-11-08",
+   "getBidPblancListInfoThngPPSSrch|아이모두": "2026-11-08",
+   "getScsbidListSttusThngPPSSrch|아이모두": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|AI배움터": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|AI배움터": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|우리아이": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|우리아이": "2026-11-08",
+   "getBidPblancListInfoServcPPSSrch|AI드림": "2026-11-08",
+   "getScsbidListSttusServcPPSSrch|AI드림": "2026-11-08"
+  },
   "diag": [
-   "getBidPblancListInfoServcPPSSrch AIEP 2026-07: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AIEP 2026-08: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation ",
-   "getBidPblancListInfoServcPPSSrch AIEP 2026-08: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AIEP 2026-09: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AIEP 2026-10: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getBidPblancListInfoServcPPSSrch AIEP 2026-11: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getScsbidListSttusServcPPSSrch AIEP 08-08~08-15: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation timed out> url=https://apis.data.go.kr/1230000/as/ScsbidInfoService/getScsbidLis",
-   "getScsbidListSttusServcPPSSrch AIEP 08-22~08-29: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation timed out> url=https://apis.data.go.kr/1230000/as/ScsbidInfoService/getScsbidLis",
-   "getScsbidListSttusServcPPSSrch AIEP 09-26~10-03: 네트워크 오류: <urlopen error _ssl.c:994: The handshake operation timed out> url=https://apis.data.go.kr/1230000/as/ScsbidInfoService/getScsbidLis",
-   "getScsbidListSttusServcPPSSrch AIEP 2026-07: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getScsbidListSttusServcPPSSrch AIEP 2026-08: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getScsbidListSttusServcPPSSrch AIEP 2026-09: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getScsbidListSttusServcPPSSrch AIEP 2026-10: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis.",
-   "getScsbidListSttusServcPPSSrch AIEP 2026-11: 네트워크 오류: HTTP Error 429: Too Many Requests url=https://apis."
+   "getBidPblancListInfoServcPPSSrch AI 교육 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch AI 교육플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch AI 맞춤형 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch AIEP 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch AI교육플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch AI드림 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch AI맞춤형 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch AI배움터 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch SEN스쿨 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 교수·학습 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 교수학습 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 교수학습지원 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 교수학습플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 다채움 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 마주온 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 바당 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 아이든 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 아이로 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 아이모두 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 아이온 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 에듀아이 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 우리아이 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoServcPPSSrch 하이러닝 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoThngPPSSrch AIEP 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoThngPPSSrch 교수학습 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoThngPPSSrch 다채움 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoThngPPSSrch 아이모두 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getBidPblancListInfoThngPPSSrch 하이러닝 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch AI 교육 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch AI 교육플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch AI 맞춤형 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch AIEP 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch AI교육플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch AI드림 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch AI맞춤형 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch AI배움터 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch SEN스쿨 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch 교수·학습 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch 교수학습 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러",
+   "getScsbidListSttusServcPPSSrch 교수학습지원 플랫폼 11-01~11-08: code 07 입력범위값 초과 에러"
   ],
   "note": "완료",
-  "sec": 1797
+  "sec": 150
  }
 }
