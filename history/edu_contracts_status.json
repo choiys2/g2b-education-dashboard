@@ -1,11 +1,11 @@
 {
- "date": "2026-11-11",
+ "date": "2026-11-12",
  "jbe": {
   "pages": 24,
-  "rows": 231,
+  "rows": 223,
   "per_variant": {
-   "base": 120,
-   "school": 111
+   "base": 111,
+   "school": 112
   },
   "head": [
    "No.",
@@ -49,8 +49,8 @@
    "계약대상자"
   ]
  },
- "fetched": 336,
- "training": 155,
- "new": 2,
- "total": 796
+ "fetched": 328,
+ "training": 152,
+ "new": 5,
+ "total": 801
 }
