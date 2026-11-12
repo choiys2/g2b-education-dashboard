@@ -700,6 +700,17 @@ svg { max-width: 100%; }
 
 <div class="wrap">
 
+<script>
+/* 링크 방어막: 외부 데이터에 javascript:·data: 같은 주소가 섞여도 눌러서 실행되지 않게(https·http·mailto·tel·#·내려받기 blob 만 허용) */
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest ? e.target.closest('a[href]') : null; if (!a) return;
+  var raw = (a.getAttribute('href') || '').trim(); if (!raw || raw.charAt(0) === '#') return;
+  var pr = ''; try { pr = new URL(raw, location.href).protocol; } catch (x) { pr = 'bad:'; }
+  if (pr === 'https:' || pr === 'http:' || pr === 'mailto:' || pr === 'tel:') return;
+  if ((pr === 'blob:' || pr === 'data:') && a.hasAttribute('download')) return;
+  e.preventDefault(); e.stopPropagation();
+}, true);
+</script>
   <header class="top">
     <div class="header-top-row">
       <div class="eyebrow">(주)비상교육 · B2G 시장 전략 대시보드</div>

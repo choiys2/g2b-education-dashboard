@@ -282,7 +282,8 @@ jobs:
         continue-on-error: true
         env:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
-        run: python competitor_g2b_export.py --days ${{ github.event.inputs.competitor_days || '60' }} --out live/competitor_g2b_export.json
+          DAYS: ${{ github.event.inputs.competitor_days || '60' }}
+        run: python competitor_g2b_export.py --days "${DAYS//[^0-9]/}" --out live/competitor_g2b_export.json
 
       # 경쟁사 홈페이지 비로그인 공개 화면의 진행중 이벤트 목록만 읽는다(robots.txt 확인:
       # teacherville.co.kr, teacher.i-scream.co.kr, t.vivasam.com 모두 Allow: / - 자동화 허용).

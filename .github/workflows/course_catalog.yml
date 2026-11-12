@@ -32,9 +32,10 @@ jobs:
 
       # 로그인 없이 보이는 공개 목록 페이지만 본다(robots.txt는 스크립트가 실행 시 재확인).
       - name: 3사 직무연수 카탈로그 크롤링
+        env:
+          MAX_ITEMS: ${{ inputs.max_items }}
+          SITES: ${{ inputs.sites }}
         run: |
-          MAX_ITEMS="${{ inputs.max_items }}"
-          SITES="${{ inputs.sites }}"
           python competitor_course_catalog_scrape.py \
             --max-items "${MAX_ITEMS:-2000}" \
             --sites "${SITES}" \
