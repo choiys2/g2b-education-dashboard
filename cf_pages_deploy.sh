@@ -35,3 +35,11 @@ probe() {
 probe "https://$PROJECT.pages.dev/full/"
 PREV=$(grep -o -E "https://[a-z0-9]+\.$PROJECT\.pages\.dev" /tmp/cf_deploy.txt | head -1)
 if [ -n "$PREV" ]; then probe "$PREV/full/" preview; probe "$PREV/full/report.pdf" preview; fi
+# 지난 배포 미리보기 주소(미들웨어 이전 배포)는 Access 와일드카드(*.$PROJECT.pages.dev)로만 닫힌다 - 하나 골라 실측(주소는 출력 안 함)
+OLD=$(npx --yes wrangler@3 pages deployment list --project-name="$PROJECT" 2>/dev/null | grep -o -E "https://[a-z0-9]+\.$PROJECT\.pages\.dev" | grep -v -F "${PREV:-none}" | tail -1)
+if [ -n "$OLD" ]; then
+  c=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 "$OLD/full/report.pdf" || echo 000)
+  l=$(curl -s -o /dev/null -w "%{redirect_url}" --max-time 15 "$OLD/full/report.pdf" || true)
+  if [[ "$l" == *cloudflareaccess.com* ]] || [ "$c" = "401" ] || [ "$c" = "403" ] || [ "$c" = "404" ]; then echo "Access 보호: 정상 ($c · 지난 배포)"
+  else echo "::warning::지난 배포 미리보기 주소가 로그인 없이 열립니다($c) - Access 앱에 *.$PROJECT.pages.dev 추가 필요"; echo "Access 보호: 미적용 ($c · 지난 배포)"; fi
+fi
