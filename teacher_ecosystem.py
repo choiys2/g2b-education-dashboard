@@ -32,7 +32,7 @@ TARGETS = [
     ("YBM", "YBM 교과서", "https://www.ybmbooks.com"),
     ("금성", "금성출판사", "https://www.kumsung.co.kr"),
     ("티처빌", "티처빌", "https://www.teacherville.co.kr"),
-    ("티처빌", "쌤동네", "https://www.ssamdongne.com"),
+    ("티처빌", "쌤동네(엠티처 채널)", "https://www.teacherville.co.kr/ssam/channel/tabContents.edu?channelId=mteacher"),
     ("인디스쿨", "인디스쿨", "https://indischool.com"),
 ]
 FEATURES = {
@@ -48,6 +48,8 @@ FEATURES = {
     "학급운영": r"학급|출결|알림장|생활기록|업무",
 }
 LINK_RE = re.compile(r"라이브|LIVE|OTT|연수|강의|강좌|클래스|세미나|크리에이터")
+# 공개 출력에서 빼는 항목: 개인 채널명·별칭(OO쌤·OO선생님 등) -> 암호문 쪽으로만
+PERSONAL_RE = re.compile(r"쌤|선생|교사|강사|작가|교수|박사|[가-힣]{2,4}\s?(TV|tv)\b|@")
 NAME_RE = re.compile(r"([가-힣]{2,4})\s?(선생님|쌤|교사|강사|교수|작가|박사)(?![가-힣])")
 STOP = set("우리 모든 현직 초등 중등 고등 담임 신규 예비 교과 수석 전문 대표 우수 담당 학교 학급 국어 수학 영어 과학 사회 미술 음악 체육 도덕 "
            "기술 가정 정보 한국 세계 역사 진로 상담 특수 보건 사서 영양 유치원 교육 연수 학습 수업 연구 지역 우리반 모두의 함께 나의 "
@@ -78,7 +80,11 @@ def main():
             rec = {"co": co, "svc": svc, "url": url, "ok": False}
             pg = ctx.new_page()
             try:
-                pg.goto(url, wait_until="domcontentloaded", timeout=30000)
+                try:
+                    pg.goto(url, wait_until="domcontentloaded", timeout=45000)
+                except Exception:  # noqa: BLE001 - 느린 사이트는 첫 응답만 받고 진행
+                    pg.goto(url, wait_until="commit", timeout=60000)
+                    pg.wait_for_timeout(8000)
                 try:
                     pg.wait_for_load_state("networkidle", timeout=12000)
                 except Exception:  # noqa: BLE001
@@ -100,9 +106,13 @@ def main():
                         continue
                 feats = {k: len(re.findall(v, body)) for k, v in FEATURES.items()}
                 names = Counter(m.group(1) for m in NAME_RE.finditer(body) if m.group(1) not in STOP and not re.search(r"[0-9]", m.group(1)))
-                people[svc] = [n for n, _ in names.most_common(60)]
-                rec.update(ok=True, final=g["url"], title=g["title"][:80], nav=g["nav"][:40], heads=g["heads"][:50],
-                           subs=subs, features=feats, n_people=len(names), chars=len(body))
+                pub = lambda xs: [x for x in xs if not PERSONAL_RE.search(x)]
+                chans = sorted({x for x in g["nav"] + g["heads"] + [y for sb in subs for y in sb["heads"]] if PERSONAL_RE.search(x) and len(x) <= 30})
+                people[svc] = [n for n, _ in names.most_common(60)] + [c for c in chans if c not in names][:60]
+                for sb in subs:
+                    sb["heads"] = pub(sb["heads"])
+                rec.update(ok=True, final=g["url"], title=g["title"][:80], nav=pub(g["nav"])[:40], heads=pub(g["heads"])[:50],
+                           subs=subs, features=feats, n_people=len(people[svc]), n_channels=len(chans), chars=len(body))
             except Exception as e:  # noqa: BLE001
                 rec["error"] = type(e).__name__ + ": " + str(e)[:80]
             finally:

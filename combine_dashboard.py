@@ -153,9 +153,12 @@ def _teacher_eco():
         c = load("history/teacher_ecosystem.json")
         d["crawl"] = {"generated": c.get("generated"), "services": [
             {k: r.get(k) for k in ("co", "svc", "url", "ok", "title", "nav", "features", "n_people", "subs")} for r in c.get("services", [])]}
+        import re as _re
+        pr = _re.compile(r"쌤|선생|교사|강사|작가|교수|박사|[가-힣]{2,4}\s?(TV|tv)\b|@")
+        pub = lambda xs: [x for x in (xs or []) if not pr.search(x)]
         for r in d["crawl"]["services"]:
-            r["subs"] = [{"t": x.get("t"), "url": x.get("url"), "heads": (x.get("heads") or [])[:12]} for x in (r.get("subs") or [])]
-            r["nav"] = (r.get("nav") or [])[:30]
+            r["subs"] = [{"t": x.get("t"), "url": x.get("url"), "heads": pub(x.get("heads"))[:12]} for x in (r.get("subs") or [])]
+            r["nav"] = pub(r.get("nav"))[:30]
     print("교사 생태계:", len(d.get("companies", [])), "곳", "· 수집 " + str(d["crawl"]["generated"]) if d.get("crawl") else "· 수집 전")
     return d
 

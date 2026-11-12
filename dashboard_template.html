@@ -10062,10 +10062,10 @@ window.__renderPdfx = function(root, P){
   const cr = (E.crawl && E.crawl.services) || [];
   const mcr = cr.filter(r => r.co === '미래엔');
   const b5 = mk('⑥ 미래엔 엠티처 라이브·OTT', '사용자 요청 페이지 집중 분석');
-  b5.innerHTML = (M ? `<div style="font-size:13px;line-height:1.7;"><b>구성</b> ${(M.svc || []).map(s => A(s[0], s[1])).join(' · ')}<br><b>강사</b> ${h(M.pool)}<br><b>조건</b> ${h(M.price)}<br><b>의미</b> ${h(M.edge)}</div>` : '')
+  b5.innerHTML = (M ? `<div style="font-size:13px;line-height:1.7;"><b>구성</b> ${(M.svc || []).map(s => A(s[0], s[1])).join(' · ')}<br>${(M.menu || []).length ? `<b>메뉴</b> ${M.menu.map(h).join(' · ')}<br>` : ''}<b>강사</b> ${h(M.pool)}<br><b>조건</b> ${h(M.price)}<br><b>의미</b> ${h(M.edge)}</div>` : '')
     + (mcr.length ? mcr.map(r => `<div style="margin-top:8px;font-size:12px;"><b>${h(r.svc)}</b> ${r.ok ? '' : '<span style="color:#ef4444;">수집 실패</span>'}${(r.nav || []).length ? `<div style="color:var(--muted);">메뉴: ${(r.nav || []).slice(0, 20).map(h).join(' · ')}</div>` : ''}${(r.subs || []).map(s => `<div>↳ ${A(s.t, s.url)} <span style="color:var(--muted);">${(s.heads || []).slice(0, 6).map(h).join(' · ')}</span></div>`).join('')}</div>`).join('')
       : '<p style="font-size:12px;color:var(--muted);margin-top:8px;">주간 수집(월 06:20) 결과가 들어오면 메뉴·강연 목록이 여기에 붙습니다.</p>')
-    + note('대응: 비바샘 원격교육연수원에 "월 1회 무료 라이브(강사풀 강사) → 시청 이력으로 학점 연수 할인 → 우수 시청·참여 교사를 강사풀 후보로" 경로를 시범 운영.');
+    + note('대응: ① 강사풀 핵심 강사 채널을 비바샘 안에 입점(비상판 교사 채널관) ② 월 1회 무료 라이브 → 시청 이력으로 학점 연수 할인 ③ 우수 참여 교사를 강사풀 후보·과정 개발자로 - 미래엔에 없는 "학점"을 성장 경로 끝에 붙인다.');
 
   // ⑦ 주간 수집 - 기능 키워드
   if (cr.length) {
