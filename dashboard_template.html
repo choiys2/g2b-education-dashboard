@@ -9389,12 +9389,13 @@ window.__renderPdfx = function(root, P){
 
   // ---- 화면 골격 ----
   const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'pdfxPanel';
-  const mods = ['m0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7'];
-  const lab = {m0: '개요', m1: '①', m2: '②', m3: '③', m4: '④', m5: '⑤', m6: '⑥', m7: '⑦'};
+  const mods = ['m0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10'];
+  const lab = {m0: '개요', m1: '①', m2: '②', m3: '③', m4: '④', m5: '⑤', m6: '⑥', m7: '⑦', m8: '⑧', m9: '⑨', m10: '⑩'};
+  const TT = {m8: '최신 주소록 재계산', m9: '파일럿 비교판', m10: '학원 수요×총판'};
   sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">${h(P.codename || '전략 실행판')} <span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:6px;">관리 비밀번호 영역 · 기준 문서: ${h(P.source || '')}</span></p>
     <p class="panel-desc">기준 문서의 단계·목표와 지금 대시보드 데이터(교과서 채택·비바샘 회원·총판 관할·학원·여론)를 한 화면에서 맞춰 봅니다. 총판 관할은 주소록 기준(최신 목록을 받으면 갱신).</p></div>
     <button type="button" class="btn-csv" id="pdfxToggle" style="margin:0;">PDF 전략 열기</button></div>
-    <div id="pdfxBody" hidden><div class="vseg" id="pdfxNav" style="display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 10px;">${mods.map(m => `<button type="button" data-m="${m}" title="${h(T[m] || '개요')}" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer;font:inherit;font-size:13px;">${lab[m]} ${h(m === 'm0' ? '' : (T[m] || '').replace(/^[①-⑦]\s*/, '').split(' — ')[0])}</button>`).join('')}</div><div id="pdfxView"></div></div>`;
+    <div id="pdfxBody" hidden><div class="vseg" id="pdfxNav" style="display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 10px;">${mods.map(m => `<button type="button" data-m="${m}" title="${h(T[m] || TT[m] || '개요')}" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer;font:inherit;font-size:13px;">${lab[m]} ${h(m === 'm0' ? '' : (T[m] || TT[m] || '').replace(/^[①-⑦]\s*/, '').split(' — ')[0])}</button>`).join('')}</div><div id="pdfxView"></div></div>`;
   root.prepend(sec);
   const view = sec.querySelector('#pdfxView');
   sec.querySelector('#pdfxToggle').addEventListener('click', e => { const b = sec.querySelector('#pdfxBody'); b.hidden = !b.hidden; e.target.textContent = b.hidden ? 'PDF 전략 열기' : 'PDF 전략 닫기'; if (!b.hidden && !view.innerHTML) show('m0'); });
@@ -9568,6 +9569,79 @@ window.__renderPdfx = function(root, P){
       <ul style="margin:0 0 0 18px;padding:0;font-size:12.5px;">${(O.recent || []).slice(0, 15).map(x => `<li>${h(x.d)} [${h(x.src)}] <a href="${h(x.u)}" target="_blank" rel="noopener noreferrer">${h(x.t)}</a></li>`).join('')}</ul>
       ${so(NT('m7'))}`;
   };
+  // ---- 공통: 시군구별 학원 수(학원 집계는 시군구 묶음 단위 - 코드 수로 나눠 배분) ----
+  const ACG = {}; ((P.academy && P.academy.rows) || []).forEach(r => { const k = (r.sgg || []).length || 1; (r.sgg || []).forEach(g => { const x = ACG[g] = ACG[g] || {n: 0, bo: 0};
+    const bo = Math.min(r.n, (r.ord || []).filter(([q]) => /보습|입시/.test(q)).reduce((a, [, v]) => a + v, 0) + (r.realm || []).filter(([q]) => /입시|보습/.test(q)).reduce((a, [, v]) => a + v, 0));
+    x.n += r.n / k; x.bo += bo / k; }); });
+  const acOf = b => b.sgg.reduce((a, g) => a + ((ACG[g] || {}).n || 0), 0), boOf = b => b.sgg.reduce((a, g) => a + ((ACG[g] || {}).bo || 0), 0);
+
+  // ⑧ 최신 주소록 기준 재계산(C1)
+  R.m8 = () => {
+    if (need()) { view.innerHTML = need(); return; }
+    const tg = P.targets || {}, thr = +(tg.share_min || 2), rows = (BR.rows || []);
+    const uniq = new Set(rows.map(r => nm(r) + '|' + (r.addr || r.sido))).size, hak = branches('학판'), gyo = branches('교판');
+    const ty = t => rows.filter(r => r.type === t).length;
+    const grade = B => { const ars = B.map(b => b.ar), urs = B.map(b => b.ur), sas = B.map(b => b.U ? b.SA / b.U : 0);
+      B.forEach(b => { b.sc = pct(ars, b.ar) * .4 + pct(urs, b.ur) * .4 + pct(sas, b.U ? b.SA / b.U : 0) * .2; }); B.sort((a, b) => b.sc - a.sc);
+      const k1 = Math.ceil(B.length / 3), k2 = Math.ceil(B.length * 2 / 3); return {A: k1, B: k2 - k1, C: B.length - k2}; };
+    const gh = grade(hak.slice()), gg = grade(gyo.slice());
+    const under = hak.filter(b => b.share < thr), cov = new Set(hak.flatMap(b => b.sgg)), gap = ((GEO && GEO.features) || []).filter(f => !cov.has(f.c));
+    const sdMap = {}; hak.forEach(b => { const x = sdMap[b.sido] = sdMap[b.sido] || {n: 0, under: 0, sh: 0}; x.n++; x.sh += b.share; if (b.share < thr) x.under++; });
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">⑧ 최신 주소록 기준 재계산</h3>
+      <div style="font-size:12px;color:var(--muted);">주소록 기준일 ${h(BR.as_of || '-')} · 채택 데이터 ${h((A && A.period) || '-')} · 등급·광역화 모듈(②·③)도 이 주소록으로 다시 계산됩니다.</div>
+      ${cards([card('지사(주소록)', n(uniq) + '곳', `기준 문서 ${tg.n_now || '-'}개 → 목표 ${tg.n_target || '-'}개 이하`), card('학판 · 교판 · 알찬', `${ty('학판')} · ${ty('교판')} · ${ty('알찬')}`, '코드 기준'),
+        card(`점유율 ${thr}% 미달 학판`, n(under.length) + ' / ' + n(hak.length), '교원 수 기준'), card('관할 공백 시군구', n(gap.length) + '곳', gap.slice(0, 5).map(f => f.sd + ' ' + f.n).join(', '))])}
+      ${cards([card('학판 등급 A·B·C', `${gh.A} · ${gh.B} · ${gh.C}`, '채택률·활용률·강점 A단계 백분위'), card('교판 등급 A·B·C', `${gg.A} · ${gg.B} · ${gg.C}`, ''), card('목표까지', tg.n_target ? n(Math.max(0, uniq - tg.n_target)) + '곳 감축' : '-', '광역 묶음 시뮬레이션은 ②')])}
+      ${tbl(['시도', '#학판', '#점유율 합', `#${thr}% 미달`, '판단'], Object.entries(sdMap).sort((a, b) => b[1].under - a[1].under).map(([sd, x]) => `<tr><td>${h(sd)}</td><td class="num">${x.n}</td><td class="num">${x.sh.toFixed(1)}%</td><td class="num">${x.under}</td><td>${x.under >= 2 ? chip('광역 묶음 우선', '#f59e0b') : x.under ? chip('검토', '#94a3b8') : chip('유지', '#10b981')}</td></tr>`), 600)}
+      ${so(`최신 주소록은 지사 ${n(uniq)}곳(기준 문서 ${tg.n_now || '-'}개). 점유율 미달 학판이 2곳 이상인 시도부터 ② 광역 묶음 시뮬레이션으로 확인합니다.`)}`;
+  };
+
+  // ⑨ 파일럿 비교판(C2): 추천 3곳 + 비슷한 대조 지역 + 출발점
+  R.m9 = () => {
+    if (need()) { view.innerHTML = need(); return; }
+    const cau = (P.caution || {}).sido || [], B = branches('학판');
+    const urs = B.map(b => b.ur), ars = B.map(b => b.ar);
+    B.forEach(b => { b.ps = Math.round((pct(urs, b.ur) * .4 + (1 - pct(ars, b.ar)) * .3 + (b.U >= 30 && b.U <= 250 ? 1 : .5) * .3) * 100); b.caution = cau.includes(b.sido); b.ac = acOf(b); b.acs = b.U ? b.ac / b.U : 0; });
+    const pick = B.filter(b => !b.caution).sort((a, b) => b.ps - a.ps).slice(0, 3);
+    const used = new Set(pick.map(b => b.name));
+    const z = (k) => { const xs = B.map(b => b[k] || 0), m = xs.reduce((a, x) => a + x, 0) / xs.length, sd = Math.sqrt(xs.reduce((a, x) => a + (x - m) ** 2, 0) / xs.length) || 1; return v => ((v || 0) - m) / sd; };
+    const zar = z('ar'), zur = z('ur'), zU = (() => { const f = z('U'); return v => f(v); })(), zac = z('acs');
+    const pairs = pick.map(p => { const c = B.filter(b => !used.has(b.name) && !b.caution).map(b => ({b, d: Math.hypot(zar(b.ar) - zar(p.ar), zur(b.ur) - zur(p.ur), (zU(b.U) - zU(p.U)) * .7, (zac(b.acs) - zac(p.acs)) * .5)})).sort((a, b) => a.d - b.d)[0];
+      if (c) used.add(c.b.name); return {p, c: c && c.b, d: c && c.d}; });
+    const asof = (A && A.period) || '';
+    const line = (lab, b) => b ? `<tr><td>${lab}</td><td><b>${h(b.name)}</b></td><td>${h(b.sido)}</td><td class="num">${n(b.U)}</td><td class="num">${(b.ar * 100).toFixed(1)}%</td><td class="num">${(b.ur * 100).toFixed(1)}%</td><td class="num">${n(b.M)}</td><td class="num">${n(b.SA)}</td><td class="num">${n(b.ac)}</td><td class="num">${b.acs.toFixed(1)}</td></tr>` : `<tr><td>${lab}</td><td colspan="9" style="color:var(--muted);">비슷한 대조 지역 없음</td></tr>`;
+    const head = ['구분', '총판', '시도', '#학교', '#채택률', '#활용률', '#회원(교사)', '#강점 A단계', '#학원', '#학교당 학원'];
+    const csvRows = [];
+    pairs.forEach((x, i) => { [['파일럿 ' + (i + 1), x.p], ['대조 ' + (i + 1), x.c]].forEach(([l, b]) => { if (b) csvRows.push([asof, l, b.name, b.sido, b.U, (b.ar * 100).toFixed(1), (b.ur * 100).toFixed(1), b.M, b.SA, Math.round(b.ac)]); }); });
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">⑨ 파일럿 비교판</h3>
+      <div style="font-size:12px;color:var(--muted);">파일럿 후보 = ④의 점수 상위 3곳(주의 지역 제외). 대조 지역 = 채택률·활용률·학교 규모·학교당 학원 수가 가장 비슷한 다른 총판. 출발점 기준일: 채택 데이터 ${h(asof)}.</div>
+      ${tbl(head, pairs.map((x, i) => line(`<span style="color:#00B5E2;font-weight:800;">파일럿 ${i + 1}</span>`, x.p) + line(`대조 ${i + 1}${x.d != null ? ` <span style="font-size:11px;color:var(--muted);">(유사도 거리 ${x.d.toFixed(2)})</span>` : ''}`, x.c)), 1000)}
+      <div class="filter-row" style="margin-top:6px;"><button type="button" class="btn-csv" id="pilotCsv">출발점 CSV 저장</button></div>
+      ${so(`파일럿은 새 방식(데이터 기반 제안·서비스 활용 평가)을 적용하고, 대조 지역은 그대로 둔 채 다음 채택 데이터가 들어오면 같은 지표의 변화 폭을 비교합니다(차이의 차이). 출발점 CSV를 저장해 두면 다음 비교 때 기준선이 됩니다. 후보 변경은 채팅으로 말씀해 주시면 고정합니다.`)}`;
+    view.querySelector('#pilotCsv').addEventListener('click', () => {
+      const esc = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+      const L = [['기준일', '구분', '총판', '시도', '학교', '채택률', '활용률', '회원', '강점A', '학원'].map(esc).join(',')].concat(csvRows.map(r => r.map(esc).join(',')));
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + L.join('\n')], {type: 'text/csv'})); a.download = 'pilot_baseline.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    });
+  };
+
+  // ⑩ 학원 수요 × 총판(C5): 학원 영업 우선 총판
+  R.m10 = () => {
+    if (need()) { view.innerHTML = need(); return; }
+    if (!Object.keys(ACG).length) { view.innerHTML = '<p style="color:var(--muted);font-size:13px;">학원·교습소 집계가 들어오면 표시됩니다.</p>'; return; }
+    const B = branches('학판'); B.forEach(b => { b.ac = acOf(b); b.bo = boOf(b); b.acs = b.U ? b.ac / b.U : 0; });
+    const acs = B.map(b => b.ac), bos = B.map(b => b.bo), urs = B.map(b => b.ur);
+    B.forEach(b => { b.sc = Math.round((pct(acs, b.ac) * .4 + pct(bos, b.bo) * .3 + pct(urs, b.ur) * .3) * 100); });
+    B.sort((a, b) => b.sc - a.sc);
+    const top = B.slice(0, 25), tot = B.reduce((a, b) => a + b.ac, 0);
+    const act = b => b.ur >= .3 && b.bo >= 300 ? '학원 교재 직주문 시범(회원 기반 있음)' : b.bo >= 300 ? '보습·입시 학원 대상 교재 설명회' : b.ur >= .3 ? '비바샘 회원 교사 → 학원 연계 소개' : '현황 관찰';
+    view.innerHTML = `<h3 style="margin:4px 0 6px;font-size:15px;">⑩ 학원 수요 × 총판</h3>
+      <div style="font-size:12px;color:var(--muted);">점수 = 관할 학원·교습소 수 40 + 보습·입시 학원 30 + 비바샘 활용률 30(백분위). 학원 집계는 시군구 단위(이름·연락처 없음).</div>
+      ${cards([card('학판 총판', n(B.length) + '곳', ''), card('관할 학원 합', n(tot), (P.academy && P.academy.generated) || ''), card('상위 10곳 비중', (B.slice(0, 10).reduce((a, b) => a + b.ac, 0) / (tot || 1) * 100).toFixed(1) + '%', '학원 수 기준')])}
+      ${tbl(['#순위', '총판', '시도', '#점수', '#학원·교습소', '#보습·입시', '#학교당 학원', '#활용률', '권장 행동'], top.map((b, i) => `<tr><td class="num">${i + 1}</td><td><b>${h(b.name)}</b></td><td>${h(b.sido)}</td><td class="num"><b>${b.sc}</b></td><td class="num">${n(b.ac)}</td><td class="num">${n(b.bo)}</td><td class="num">${b.acs.toFixed(1)}</td><td class="num">${b.ur == null ? '-' : (b.ur * 100).toFixed(1) + '%'}</td><td style="font-size:12px;">${h(act(b))}</td></tr>`), 980)}
+      ${so('학원이 많고 비바샘 활용률도 높은 총판부터 학원 수요 플랫폼·직주문 시범을 붙이면, 학원 데이터를 본사로 모으는 1단계 과제를 가장 빨리 검증할 수 있습니다.')}`;
+  };
+
 };
 </script>
 <script>
@@ -10008,6 +10082,61 @@ window.__renderPdfx = function(root, P){
   .vmini button{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;padding:4px 10px;border-radius:8px;cursor:pointer;}
 </style>
 <script>
+/* ---------------- 지역 총판 > 총판 성적표(A1) ----------------
+   로그인 뒤 복호화된 총판(__BRANCH)·채택 학교(__ADOPT)를 브라우저에서만 합친다(새 데이터를 싣지 않음). */
+(function renderBranchScore(){
+  const tab = document.getElementById('panel-branch'), BR = window.__BRANCH, AD = window.__ADOPT;
+  if (!tab || !BR || !BR.rows) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const N = v => (v == null ? '-' : Math.round(v).toLocaleString()), P1 = v => v == null ? '-' : (v * 100).toFixed(1) + '%';
+  const SC = ((AD && AD.schools) || []).filter(s => s.u);
+  const nm = r => (r.name || '').replace(/\s*\(.*\)$/, '').trim();
+  const rows = BR.rows.filter(r => r.type === '학판' || r.type === '교판').map(r => {
+    const g = new Set(r.sgg || []), ss = SC.filter(s => s.g && g.has(s.g));
+    const U = ss.length, Ad = ss.filter(s => s.c).length, Mem = ss.filter(s => s.m > 0).length, M = ss.reduce((a, s) => a + (s.m || 0), 0), T = ss.reduce((a, s) => a + (s.t || 0), 0);
+    const open = ss.filter(s => !s.c && s.m >= 5).length;
+    return {name: nm(r), full: r.name, type: r.type, sido: r.sido, staff: r.staff, U, ar: U ? Ad / U : null, mr: U ? Mem / U : null, M, ur: T ? M / T : null, open,
+            bids12: r.bids12 || 0, bids90: r.bids90 || 0, ai: (r.ai || 0) + (r.dig || 0), due: r.due45 || 0};
+  }).filter(r => r.U);
+  const avg = {}; rows.forEach(r => { const a = avg[r.sido] = avg[r.sido] || {ar: [], mr: []}; if (r.ar != null) a.ar.push(r.ar); if (r.mr != null) a.mr.push(r.mr); });
+  const mean = xs => xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null;
+  Object.values(avg).forEach(a => { a.ar = mean(a.ar); a.mr = mean(a.mr); });
+  const pr = (arr, v) => { const s2 = arr.filter(x => x != null).sort((a, b) => a - b); let k = 0; while (k < s2.length && s2[k] <= v) k++; return s2.length ? k / s2.length : .5; };
+  const sec = document.createElement('section'); sec.className = 'panel viz-panel'; sec.id = 'branchScore';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">총판 성적표<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">주소록 ${h(BR.as_of || '')} · 채택 ${h((AD && AD.period) || '-')} · 로그인 뒤 화면</span></p>
+    <p class="panel-desc">총판마다 관할 학교의 비상 교과서 채택률, 비바샘 회원이 있는 학교 비율, 최근 연수 공고를 한 줄로 봅니다. ▲▼는 같은 시도 총판 평균 대비. 종합 점수 = 채택률 40 + 회원 학교 비율 40 + 연수 공고(12개월) 20의 백분위.</p></div></div>
+    <div class="filter-row" style="gap:8px;flex-wrap:wrap;"><select id="bsSd"><option value="">전체 시도</option>${[...new Set(rows.map(r => r.sido))].sort().map(s => `<option>${h(s)}</option>`).join('')}</select>
+    <select id="bsTy"><option value="">학판·교판</option><option>학판</option><option>교판</option></select>
+    <select id="bsSort"><option value="score">종합 점수순</option><option value="ar">채택률순</option><option value="mr">회원 학교 비율순</option><option value="open">전환 후보 학교순</option><option value="bids12">연수 공고순</option></select>
+    <button type="button" class="btn-csv" id="bsCsv">CSV</button></div><div id="bsBody"></div>`;
+  tab.appendChild(sec);
+  const body = sec.querySelector('#bsBody');
+  function draw(){
+    const sd = sec.querySelector('#bsSd').value, ty = sec.querySelector('#bsTy').value, so = sec.querySelector('#bsSort').value;
+    const R = rows.filter(r => (!sd || r.sido === sd) && (!ty || r.type === ty));
+    const ars = R.map(r => r.ar), mrs = R.map(r => r.mr), bs = R.map(r => r.bids12);
+    R.forEach(r => { r.score = Math.round((pr(ars, r.ar) * .4 + pr(mrs, r.mr) * .4 + pr(bs, r.bids12) * .2) * 100); });
+    R.sort((a, b) => (b[so] || 0) - (a[so] || 0));
+    const k = Math.max(1, Math.round(R.length * .2));
+    const cmp = (v, a) => v == null || a == null ? '' : v >= a ? ` <span style="color:#10b981;">▲</span>` : ` <span style="color:#ef4444;">▼</span>`;
+    const tot = R.reduce((a, r) => ({U: a.U + r.U, open: a.open + r.open, b: a.b + r.bids90}), {U: 0, open: 0, b: 0});
+    body.innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;">${[['총판(코드)', N(R.length)], ['관할 학교', N(tot.U)], ['전환 후보 학교(미채택·회원 5명+)', N(tot.open)], ['최근 90일 연수 공고', N(tot.b)]].map(([a, b]) => `<div style="flex:1;min-width:140px;border:1px solid var(--border);border-radius:10px;padding:6px 10px;"><div style="font-size:11px;color:var(--muted);">${a}</div><div class="num" style="font-size:17px;font-weight:800;">${b}</div></div>`).join('')}</div>
+      <div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:980px;"><thead><tr><th class="num">#</th><th>총판</th><th>유형</th><th>시도</th><th>비상 담당</th><th class="num">점수</th><th class="num">학교</th><th class="num">채택률</th><th class="num">회원 학교</th><th class="num">회원(교사)</th><th class="num">전환 후보</th><th class="num">공고 12개월/90일</th><th class="num">AI·디지털 학교</th><th class="num">방학 안내 대상</th></tr></thead><tbody>
+      ${R.map((r, i) => { const a = avg[r.sido] || {}, band = i < k ? 'background:color-mix(in srgb, #10b981 9%, transparent);' : i >= R.length - k ? 'background:color-mix(in srgb, #ef4444 8%, transparent);' : '';
+        return `<tr style="${band}"><td class="num">${i + 1}</td><td><b>${h(r.name)}</b></td><td>${h(r.type)}</td><td>${h(r.sido)}</td><td style="font-size:12px;">${h(r.staff || '')}</td><td class="num"><b>${r.score}</b></td><td class="num">${N(r.U)}</td><td class="num">${P1(r.ar)}${cmp(r.ar, a.ar)}</td><td class="num">${P1(r.mr)}${cmp(r.mr, a.mr)}</td><td class="num">${N(r.M)}</td><td class="num">${N(r.open)}</td><td class="num">${r.bids12}/${r.bids90}</td><td class="num">${N(r.ai)}</td><td class="num">${N(r.due)}</td></tr>`; }).join('')}</tbody></table></div>
+      <p class="tt-note" style="font-size:13px;margin-top:8px;"><b>그래서</b> 초록 줄(상위 20%)은 성공 사례 공유 대상, 빨간 줄(하위 20%)은 '전환 후보 학교'가 많은 순으로 방문 지원을 먼저 붙입니다. 교과서 채택 탭의 A단계 목록과 같은 학교 기준입니다.</p>`;
+    sec._rows = R;
+  }
+  sec.querySelectorAll('select').forEach(x => x.addEventListener('change', draw));
+  sec.querySelector('#bsCsv').addEventListener('click', () => {
+    const esc = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const L = [['순위', '총판', '유형', '시도', '비상 담당', '점수', '학교', '채택률', '회원학교비율', '회원', '전환후보', '공고12', '공고90'].map(esc).join(',')].concat((sec._rows || []).map((r, i) => [i + 1, r.name, r.type, r.sido, r.staff, r.score, r.U, r.ar == null ? '' : (r.ar * 100).toFixed(1), r.mr == null ? '' : (r.mr * 100).toFixed(1), r.M, r.open, r.bids12, r.bids90].map(esc).join(',')));
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + L.join('\n')], {type: 'text/csv'})); a.download = 'branch_score.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  });
+  draw();
+})();
+</script>
+<script>
 /* ---------------- 교사 생태계 비교: 출판사·교사 플랫폼 서비스 · 교사 성장 경로 · 강사풀 구성 ----------------
    공개 정리표(static_data/teacher_ecosystem.json) + 주간 수집(history/teacher_ecosystem.json, 이름 없음)
    + 경쟁사 강사 이름 후보(암호문 -> 배포 때 복호화, 로그인 뒤 화면에만) + 우리 강사풀 집계(window.__TG.pool) */
@@ -10181,8 +10310,8 @@ window.__renderPdfx = function(root, P){
     const SC = {'계획': '#94a3b8', '진행': '#f59e0b', '완료': '#10b981', '보류': '#ef4444'};
     b.innerHTML = `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">${[['비상 점수', us != null ? us.toFixed(1) + '/9' : '-'], ['선두', lead ? `${lead[0]} ${lead[1].toFixed(1)}` : '-'], ['격차', lead && us != null ? (lead[1] - us).toFixed(1) : '-'], ['목표(2027 상반기)', '8.0/9']].map(([k, v]) => `<div style="flex:1;min-width:110px;border:1px solid var(--border);border-radius:10px;padding:6px 10px;"><div style="font-size:11px;color:var(--muted);">${k}</div><div class="num" style="font-size:17px;font-weight:800;">${h(v)}</div></div>`).join('')}</div>
       ${ds.length > 1 ? `<div style="font-size:12px;margin-bottom:8px;">${Object.keys(last).map(co => `<span style="display:inline-block;margin:2px 10px 2px 0;">${h(co)} ${svg(spark(co))}</span>`).join('')}</div>` : `<p style="font-size:12px;color:var(--muted);">점수 기록 ${ds.length}주 - 매주 월요일 수집 때 쌓여 추이 선이 생깁니다.</p>`}
-      ${tbl(['채울 칸', '과제', '담당', '기한', '상태', 'KPI'], T.map(t => [h(AXN[t.axis] || t.axis), h(t.task), h(t.owner), h(t.due), `<span style="padding:1px 8px;border-radius:999px;background:${SC[t.status] || '#94a3b8'}33;font-weight:700;font-size:12px;">${h(t.status)}</span>`, h(t.kpi)]))}`
-      + note('과제 상태·기한 변경은 말씀해 주시면 반영합니다(정리표 static_data/eco_tasks.json). 과제가 완료되면 해당 칸을 ◐→● 로 올려 점수에 반영합니다.');
+      ${(E.bumped || []).length ? `<p style="font-size:13px;color:#10b981;font-weight:700;">완료로 올라간 칸: ${E.bumped.map(a => h(AXN[a] || a)).join(', ')} (◐ → ●)</p>` : ''}${tbl(['채울 칸', '과제', '담당', '기한', '상태', 'KPI', '메모', '갱신'], T.map(t => [h(AXN[t.axis] || t.axis), h(t.task), h(t.owner), h(t.due), `<span style="padding:1px 8px;border-radius:999px;background:${SC[t.status] || '#94a3b8'}33;font-weight:700;font-size:12px;">${h(t.status)}</span>`, h(t.kpi), h(t.note || ''), h(t.updated || '')]))}`
+      + note('상태·기한·메모 변경은 채팅으로 말씀해 주시면 반영합니다(예: "채널관 과제 진행, 3채널 입점"). 한 칸의 과제가 모두 완료되면 비교표의 그 칸이 자동으로 ◐→● 로 올라가 점수에 반영됩니다.');
   }
 
   // ⑮ 채택 학교 × 경쟁 플랫폼 노출(추정)
@@ -10228,6 +10357,57 @@ window.__renderPdfx = function(root, P){
       return `<div style="display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12.5px;"><span style="width:170px;">${h(k)}</span><span style="flex:1;background:var(--border);border-radius:4px;height:14px;"><i style="display:block;height:14px;border-radius:4px;background:#00B3E3;width:${Math.max(1, Math.sqrt(v / mx) * 100)}%;"></i></span><span class="num" style="width:70px;text-align:right;font-weight:700;">${N(v)}</span><span style="width:70px;text-align:right;color:var(--muted);">${prev && [1, 4, 5].includes(i) ? (v / prev * 100).toFixed(1) + '%' : ''}</span></div>`; }).join('')
       + note(`강사풀은 1회 참여 ${N(TR['1회참여강사'])}명 → 핵심 ${N(TR['핵심강사'])}명 구조입니다. 학교 회원(교사) 규모에 비해 강사풀 진입이 작아 "회원 → 라이브 강연자 → 강사풀" 중간 단계가 필요합니다. 연수 수강 단계는 비바샘연수원 수강 집계(숫자만)를 연결하면 채워집니다.`)
       : '<p style="font-size:12px;color:var(--muted);">집계가 없습니다.</p>';
+  }
+
+  // ⑱ (B1) 경쟁사 라이브·강연 편성표 + 비바샘 대응 편성 제안
+  {
+    const EV = E.events || [], today = new Date().toISOString().slice(0, 10);
+    const b = mk('⑱ 경쟁사 라이브·강연 편성표', '주간 수집(홈페이지 날짜가 붙은 라이브·강연·연수 글) + 공개 보도 · 강사 이름은 OO 처리');
+    const gapStr = (C.strength || []).filter(t => !EV.some(e => e.d >= today && (e.topics || []).includes(t)));
+    const addDays = (d, k) => { const x = new Date(d + 'T00:00:00'); x.setDate(x.getDate() + k); return x.toISOString().slice(0, 10); };
+    const rec = e => { const st = (e.topics || []).filter(t => STR.has(t)); if (st.length) return `같은 주제 선점: <b>${addDays(e.d, -7)}</b> 비바샘 무료 라이브(${st.map(t => h(TN[t] || t)).join('·')}) + 학점 연수 안내`;
+      const alt = gapStr[0]; return alt ? `겹치지 않게 <b>${addDays(e.d, 3)}</b> 비상 강점 '${h(TN[alt] || alt)}' 라이브로 대안 편성` : '관찰'; };
+    const up = EV.filter(e => e.d >= today), past = EV.filter(e => e.d < today).slice(-6).reverse();
+    const row = e => [h(e.d), `<b>${h(e.co)}</b> ${h(e.svc)}`, h(e.t) + (e.src && safeUrl(e.src) ? ` ${A('출처', e.src)}` : ''), (e.topics || []).map(t => (STR.has(t) ? '★' : '') + h(TN[t] || t)).join(', ') || '-', e.d >= today ? rec(e) : '<span style="color:var(--muted)">지난 일정</span>'];
+    b.innerHTML = `<p style="font-size:13px;margin:0 0 6px;">앞으로 <b>${up.length}</b>건 · 지난 30일 ${EV.length - up.length}건 · 경쟁 라이브가 없는 비상 강점 분야: <b>${gapStr.map(t => h(TN[t] || t)).join(', ') || '없음'}</b></p>`
+      + (EV.length ? tbl(['날짜', '회사·서비스', '내용', '주제', '비바샘 대응 제안'], up.concat(past).map(row)) : '<p style="font-size:12px;color:var(--muted);">다음 주간 수집(월 06:20)부터 날짜가 붙은 일정을 모읍니다.</p>')
+      + note('경쟁 라이브와 같은 강점 주제는 1주 먼저 열어 선점하고, 겹치는 비강점 주제는 날짜를 비켜 강점 분야로 대안 편성합니다. 일정은 홈페이지 글에 날짜가 적힌 것만 잡혀 실제보다 적을 수 있습니다.');
+  }
+
+  // ⑲ (B2) 비상판 교사 채널관 섭외 후보 TOP 20
+  {
+    const CR = (E.creators && E.creators.channels) || [];
+    const ott = ((PP && PP.people) ? Object.entries(PP.people).filter(([k]) => /OTT|엠티처/.test(k)).flatMap(([, v]) => v) : []);
+    const inOtt = c => ott.some(o => o && c.title && (c.title.includes(o) || o.includes(c.title.slice(0, 6))));
+    const b = mk('⑲ 교사 채널관 섭외 후보 TOP 20', '미래엔 쌤OTT 미입점 교사 유튜버 · 점수 = 구독자 50 + 강점 분야 일치 30 + 최근 30일 업로드 20');
+    const C2 = CR.filter(c => !inOtt(c));
+    const pr = (arr, v) => { const s2 = arr.slice().sort((a, b2) => a - b2); let k = 0; while (k < s2.length && s2[k] <= v) k++; return s2.length ? k / s2.length : 0; };
+    const subsL = C2.map(c => Math.log10((c.subs || 0) + 1)), recL = C2.map(c => c.recent30 || 0);
+    C2.forEach(c => { const st = (c.topics || []).filter(t => STR.has(t)); c.fit = st.length ? 1 : (c.topics || []).length ? .4 : 0; c.st = st;
+      c.score = Math.round((pr(subsL, Math.log10((c.subs || 0) + 1)) * .5 + c.fit * .3 + pr(recL, c.recent30 || 0) * .2) * 100); });
+    const top = C2.sort((a, b2) => b2.score - a.score).slice(0, 20);
+    b.innerHTML = top.length ? tbl(['#', '채널', '점수', '구독자', '최근 30일 영상', '주제(★ 강점)', '제안 방식'], top.map((c, i) => [i + 1, h(c.title), `<b>${c.score}</b>`, N(c.subs), N(c.recent30), (c.topics || []).map(t => (STR.has(t) ? '★' : '') + h(TN[t] || t)).join(', ') || '-',
+        c.st.length ? `강점 '${h(TN[c.st[0]] || c.st[0])}' 라이브 공동 진행 → 채널관 입점` : c.subs >= 50000 ? '대형 채널: 공동 기획 1편으로 시작' : '연구회·단체 경유 입점 제안']))
+      + note(`미입점 ${C2.length}개 중 상위 20개입니다(쌤OTT 입점 추정 ${CR.length - C2.length}개 제외). 개인에게 바로 연락하지 않고 소속 연구회·교사단체를 통해 제안합니다.`)
+      : '<p style="font-size:12px;color:var(--muted);">교사 유튜버 수집 데이터가 없습니다.</p>';
+  }
+
+  // ⑳ (B4) 플랫폼별 여론 핵심 문구 → 비바샘 개선 과제
+  {
+    const O = (E.opinion && E.opinion.platforms) || {}, KIND = (E.opinion && E.opinion.phrase_kind) || {};
+    const ks = Object.keys(O).filter(k => O[k].phrases);
+    const b = mk('⑳ 교사 반응 핵심 문구', '플랫폼별 블로그·카페 글에 나온 문구 빈도 · 글 문장·글쓴이는 저장하지 않음');
+    const FIX = {'로그인·인증 불편': '교사 인증·로그인 단계 줄이기(간편 로그인, 인증 유지 기간 연장)', '오류·접속 문제': '접속 오류·속도 점검(학기 초 트래픽 대비)', '유료·가격 부담': '무료 체험 범위 명확화 + 학점 연수 묶음 할인',
+      '광고·홍보성': '체험단·협찬 글 비중 점검 - 교사 자발 후기 유도', '자료 부족·업데이트': '자료 업데이트 일정 공지·요청 게시판', '개인정보·보안 우려': '보안 안내 페이지·인증 표시 노출'};
+    if (!ks.length) b.innerHTML = '<p style="font-size:12px;color:var(--muted);">다음 여론 수집(주 1회)부터 문구 빈도가 쌓입니다.</p>';
+    else {
+      const names = [...new Set(ks.flatMap(k => Object.keys(O[k].phrases)))].sort((a, b2) => ((KIND[a] === 'neg') - (KIND[b2] === 'neg')) || a.localeCompare(b2));
+      const col = k => KIND[k] === 'neg' ? '#ef4444' : KIND[k] === 'pos' ? '#10b981' : 'var(--muted)';
+      b.innerHTML = tbl(['문구', ...ks.map(h)], names.map(nm => [`<span style="color:${col(nm)};font-weight:700;">${h(nm)}</span>`, ...ks.map(k => { const v = O[k].phrases[nm] || 0, r = O[k].n ? v / O[k].n * 100 : 0; return v ? `${v} <span style="color:var(--muted);font-size:11px;">(${r.toFixed(0)}%)</span>` : '<span style="color:var(--muted)">0</span>'; })]))
+        + (() => { const v = O['비바샘']; if (!v) return ''; const neg = Object.entries(v.phrases).filter(([k, n]) => KIND[k] === 'neg' && n).sort((a, b2) => b2[1] - a[1]);
+          return `<div style="margin-top:8px;font-size:13px;"><b>비바샘 개선 과제(부정 문구 순)</b><ol style="margin:4px 0 0 18px;">${neg.map(([k, n]) => `<li>${h(k)} ${n}건 → ${h(FIX[k] || '원인 확인')}</li>`).join('') || '<li>부정 문구 없음</li>'}</ol></div>`; })()
+        + note('경쟁 플랫폼에서 많이 나온 긍정 문구(예: 자료 풍부·무료)는 비바샘 홍보 문구의 근거로, 부정 문구는 개선 과제로 씁니다.');
+    }
   }
 
   // 탭 안 바로가기(섹션이 많아 위에서 골라 이동)

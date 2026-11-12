@@ -37,6 +37,15 @@ PLATFORMS = {
     "아이스크림S·쌤튜브": ["아이스크림S", "쌤튜브"],
     "티처빌·쌤동네": ["티처빌 연수", "쌤동네"],
 }
+# B4: 플랫폼별 핵심 문구(빈도만 저장 - 글 문장·글쓴이는 저장하지 않음)
+PHRASES = [
+    ("자료 풍부", "pos", r"자료\s?(가|도)?\s?(많|풍부|다양)"), ("수업자료·PPT 호평", "pos", r"(PPT|피피티|수업\s?자료|활동지).{0,8}(좋|유용|편리|최고|감사)"),
+    ("무료", "pos", r"무료"), ("편리·간편", "pos", r"편리|편해|간편|쉽게"), ("연수 만족", "pos", r"연수.{0,10}(좋|추천|만족|유익|알차)"),
+    ("AI 기능", "neu", r"AI|인공지능|챗GPT"), ("디지털교과서", "neu", r"디지털\s?교과서|AIDT"), ("공유·커뮤니티", "neu", r"공유|나눔|커뮤니티|카페"),
+    ("로그인·인증 불편", "neg", r"(로그인|인증|가입|교사\s?인증).{0,8}(불편|어렵|안\s?돼|안\s?되|번거)"), ("오류·접속 문제", "neg", r"오류|에러|접속\s?(안|불가)|먹통|느림|느려|버벅"),
+    ("유료·가격 부담", "neg", r"유료|비싸|가격.{0,4}(부담|올)"), ("광고·홍보성", "neg", r"광고|협찬|홍보|체험단"), ("자료 부족·업데이트", "neg", r"자료.{0,6}(없|부족)|업데이트.{0,4}(안|늦)"),
+    ("개인정보·보안 우려", "neg", r"개인정보|유출|해킹|보안"),
+]
 POS = re.compile(r"좋|추천|편해|편리|유용|최고|만족|도움|알차|깔끔")
 NEG = re.compile(r"불편|아쉽|별로|어렵|오류|불만|부족|비싸")
 TAGS = [("선정·채택", r"선정|채택|심의|협의회"), ("수업자료", r"자료|PPT|활동지|수업"), ("평가", r"평가|문제|시험"), ("디지털", r"디지털|AI|온라인|플랫폼|AIDT")]
@@ -131,7 +140,7 @@ def main():
                 time.sleep(0.15)
     plat = {}
     for pn, qs in PLATFORMS.items():
-        ps, pc, ptone, pw, ptags = set(), 0, Counter(), Counter(), Counter()
+        ps, pc, ptone, pw, ptags, pph = set(), 0, Counter(), Counter(), Counter(), Counter()
         for q in qs:
             for kind in (("blog", "cafe") if mode == "kakao" else ("news",)):
                 try:
@@ -153,14 +162,18 @@ def main():
                     for name, rx in TAGS:
                         if re.search(rx, body):
                             ptags[name] += 1
+                    for name, _, rx in PHRASES:
+                        if re.search(rx, body):
+                            pph[name] += 1
                 time.sleep(0.15)
-        plat[pn] = {"n": pc, "pos": ptone["긍정"], "neg": ptone["부정"], "weekly": dict(sorted(pw.items())[-6:]), "tags": ptags.most_common(4)}
+        plat[pn] = {"n": pc, "pos": ptone["긍정"], "neg": ptone["부정"], "weekly": dict(sorted(pw.items())[-6:]), "tags": ptags.most_common(4),
+                    "phrases": dict(pph)}
     total = sum(counts.values()) or 1
     keep = (today - timedelta(weeks=26)).isoformat()
     weekly = {b: {w: n for w, n in sorted(v.items()) if w >= keep} for b, v in weekly.items()}
     OUT.write_text(json.dumps({"generated": today.isoformat(), "window_days": 30,
                                "share": [{"brand": b, "n": counts[b], "pct": round(counts[b] / total * 100, 1)} for b in BRANDS],
-                               "weekly": weekly, "tags": tags.most_common(), "tone": dict(tone), "platforms": plat,
+                               "weekly": weekly, "tags": tags.most_common(), "tone": dict(tone), "platforms": plat, "phrase_kind": {n: k for n, k, _ in PHRASES},
                                "recent": sorted(recent, key=lambda x: x["d"], reverse=True)[:30], "diag": diag[:20],
                                "mode": mode,
                                "note": ("다음(카카오) 블로그·카페 최근 30일 글 기준" if mode == "kakao" else "구글 뉴스 최근 30일 언론 보도 기준(카카오 키 없음)") + ", 같은 검색어 묶음으로 비교한 상대 언급량"},

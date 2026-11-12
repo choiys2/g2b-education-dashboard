@@ -59,6 +59,46 @@ STOP = set("우리 모든 현직 초등 중등 고등 담임 신규 예비 교�
            "멘토 원어민 외부 선배 동료 강의 담임교 선생 우리학교 학생 학부모 행복한 좋은 최고의 인기".split())
 
 
+EV_WORD = re.compile(r"라이브|LIVE|Live|강연|세미나|특강|웨비나|연수|토크|설명회|박람회|워크숍|모집|신청")
+DATE_RES = [re.compile(r"(20\d\d)\s?[.\-/년]\s?(\d{1,2})\s?[.\-/월]\s?(\d{1,2})"), re.compile(r"(?<![\d.])(\d{1,2})\s?월\s?(\d{1,2})\s?일"),
+            re.compile(r"(?<![\d.])(\d{1,2})\.(\d{1,2})\s?\((?:월|화|수|목|금|토|일)\)")]
+MASK = re.compile(r"[가-힣]{2,4}\s?(쌤|선생님|교사|강사|교수|작가|박사)")
+
+
+def events(body, co, svc, today):
+    """화면 글자에서 날짜가 붙은 라이브·강연·연수 줄을 뽑는다(최근 30일~앞으로 120일). 개인 이름·별칭은 OO 로 가린다."""
+    out, seen = [], set()
+    for line in body.splitlines():
+        t = re.sub(r"\s+", " ", line).strip()
+        if not (6 <= len(t) <= 120) or not EV_WORD.search(t):
+            continue
+        d = None
+        for i, rx in enumerate(DATE_RES):
+            m = rx.search(t)
+            if not m:
+                continue
+            try:
+                if i == 0:
+                    d = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+                else:
+                    mo, dd = int(m.group(1)), int(m.group(2))
+                    d = date(today.year, mo, dd)
+                    if (d - today).days < -200:
+                        d = date(today.year + 1, mo, dd)
+            except ValueError:
+                d = None
+            break
+        if not d or not (-30 <= (d - today).days <= 120):
+            continue
+        t = MASK.sub(lambda m: "OO" + m.group(1), t)[:90]
+        k = (d.isoformat(), t[:40])
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append({"co": co, "svc": svc, "d": d.isoformat(), "t": t})
+    return out[:30]
+
+
 def grab(page):
     return page.evaluate("""() => {
       const vis = e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
@@ -138,7 +178,7 @@ def snapshot_scores():
 def main():
     from playwright.sync_api import sync_playwright
     sys.path.insert(0, str(HERE))
-    out, people, t0, chan_all = [], {}, time.time(), {}
+    out, people, t0, chan_all, evs = [], {}, time.time(), {}, []
     with sync_playwright() as p:
         br = p.chromium.launch()
         ctx = br.new_context(locale="ko-KR", viewport={"width": 1366, "height": 900},
@@ -183,6 +223,7 @@ def main():
                 except Exception:  # noqa: BLE001
                     tc = Counter()
                 rec["topics"] = dict(tc)
+                evs.extend(events(body, co, svc, date.today()))
                 chan_all[svc] = chans
                 for sb in subs:
                     sb["heads"] = pub(sb["heads"])
@@ -209,7 +250,7 @@ def main():
         lines = OUT_CHG.read_text(encoding="utf-8").splitlines()[-26:]
         OUT_CHG.write_text("\n".join(lines) + "\n", encoding="utf-8")
     snapshot_scores()
-    OUT.write_text(json.dumps({"generated": date.today().isoformat(), "sec": round(time.time() - t0), "services": out, "changes": changes,
+    OUT.write_text(json.dumps({"generated": date.today().isoformat(), "sec": round(time.time() - t0), "services": out, "changes": changes, "events": sorted(evs, key=lambda e: e["d"]),
                                "note": "공개 첫 화면·라이브/연수 링크 1단계의 메뉴·제목·기능 키워드 빈도. 강사 이름은 암호문에만."},
                               ensure_ascii=False, indent=1), encoding="utf-8")
     try:

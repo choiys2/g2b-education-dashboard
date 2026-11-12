@@ -189,7 +189,7 @@ def _teacher_eco():
     d = load("static_data/teacher_ecosystem.json")
     if os.path.exists("history/teacher_ecosystem.json"):
         c = load("history/teacher_ecosystem.json")
-        d["crawl"] = {"generated": c.get("generated"), "services": [
+        d["crawl"] = {"generated": c.get("generated"), "events": c.get("events") or [], "services": [
             {k: r.get(k) for k in ("co", "svc", "url", "ok", "title", "nav", "features", "n_people", "subs")} for r in c.get("services", [])]}
         import re as _re
         pr = _re.compile(r"쌤|선생|교사|강사|작가|교수|박사|[가-힣]{2,4}\s?(TV|tv)\b|@")
@@ -204,11 +204,38 @@ def _teacher_eco():
         d["changes"] = [json.loads(x) for x in open("history/teacher_eco_changes.jsonl", encoding="utf-8").read().splitlines() if x.strip()][-8:][::-1]
     if os.path.exists("history/opinion_radar.json"):
         o = load("history/opinion_radar.json")
-        d["opinion"] = {"generated": o.get("generated"), "mode": o.get("mode"), "platforms": o.get("platforms") or {}}
+        d["opinion"] = {"generated": o.get("generated"), "mode": o.get("mode"), "platforms": o.get("platforms") or {}, "phrase_kind": o.get("phrase_kind") or {}}
+    import training_topics as _tt
+    from datetime import date as _date, timedelta as _td
     if os.path.exists("history/teacher_creator_trends.json"):
         y = (load("history/teacher_creator_trends.json").get("youtube") or {})
-        d["creators"] = {"captured": y.get("captured_date"), "channels": [{"title": c.get("title"), "subs": c.get("subs"), "videos": c.get("videos"),
-                         "recent": len([v for v in c.get("recent") or [] if (v.get("d") or "") >= (y.get("captured_date") or "")[:7]])} for c in (y.get("channels") or [])]}
+        cut = ((_date.fromisoformat(y["captured_date"]) if y.get("captured_date") else _date.today()) - _td(30)).isoformat()
+        chs = []
+        for c in (y.get("channels") or []):
+            txt = " ".join([c.get("title") or ""] + [v.get("t") or "" for v in (c.get("recent") or [])])
+            chs.append({"title": c.get("title"), "subs": c.get("subs"), "videos": c.get("videos"),
+                        "recent30": sum(1 for v in (c.get("recent") or []) if (v.get("d") or "") >= cut), "topics": sorted(set(_tt.classify_topics(txt)))})
+        d["creators"] = {"captured": y.get("captured_date"), "channels": chs}
+    # B1: 경쟁사 라이브·강연 일정(주간 수집 + 공개 보도 기준 정리분) -> 주제 분류
+    evs = list(d.get("events") or []) + list((d.get("crawl") or {}).get("events") or [])
+    seen, ev2 = set(), []
+    for e in evs:
+        k = (e.get("d"), (e.get("t") or "")[:30])
+        if k in seen or not e.get("d"):
+            continue
+        seen.add(k)
+        ev2.append({**e, "topics": _tt.classify_topics(e.get("t") or "")})
+    d["events"] = sorted(ev2, key=lambda e: e["d"])
+    # B5: 한 축의 과제가 모두 '완료'면 비상 그 축을 ◐ -> ● 로 올린다
+    us = next((c for c in d.get("companies", []) if c.get("us")), None)
+    bumped = []
+    if us:
+        for ax in {t.get("axis") for t in d.get("tasks") or []}:
+            ts = [t for t in d["tasks"] if t.get("axis") == ax]
+            if ts and all(t.get("status") == "완료" for t in ts) and us["m"].get(ax) == "△":
+                us["m"][ax] = "O"
+                bumped.append(ax)
+    d["bumped"] = bumped
     print("교사 생태계:", len(d.get("companies", [])), "곳", "· 수집 " + str(d["crawl"]["generated"]) if d.get("crawl") else "· 수집 전")
     return d
 
