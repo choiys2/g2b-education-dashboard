@@ -10081,6 +10081,153 @@ window.__renderPdfx = function(root, P){
     ? `<details><summary style="cursor:pointer;font-size:13px;">펼쳐 보기 (${Object.values(PE).reduce((s, v) => s + v.length, 0)}건 · ${h(PP.generated || '')})</summary>${tbl(['서비스', '이름 후보(빈도순)'], Object.entries(PE).filter(([, v]) => v.length).map(([k, v]) => [h(k), v.slice(0, 40).map(h).join(', ')]))}
        <p style="font-size:12px;color:var(--muted);">홈페이지 글자에서 "OOO 선생님/강사" 형태를 뽑은 후보입니다. 섭외·접촉 전 반드시 공식 이력으로 확인하고, 개인에게 직접 접촉하지 않고 단체·연구회를 통해 제안합니다.</p></details>`
     : '<p style="font-size:12px;color:var(--muted);">아직 수집 전이거나 복호화 키가 없습니다(배포 때 자동 복호화).</p>';
+
+  /* ---------- 고도화 ①~⑨ ---------- */
+  const N = v => (v == null ? '-' : (+v).toLocaleString());
+  const won = v => (v == null ? '-' : (v / 10000).toFixed(1) + '만');
+  const C = E.courses || {}, CC = C.companies || {}, TN = C.topic_names || {}, STR = new Set(C.strength || []);
+  const ours = '비바샘연수원';
+
+  // ⑨ 연수 상품 실측(학점·가격·분야)
+  if (Object.keys(CC).length) {
+    const b = mk('⑨ 연수 상품 실측: 학점·가격', `경쟁사·자사 연수 목록 수집 ${C.captured || ''} · '확인 필요' 칸을 실제 숫자로`);
+    const cos = Object.keys(CC);
+    const buckets = ['1학점', '2학점', '3학점', '4학점', '모듈·15차시 미만'];
+    b.innerHTML = tbl(['연수원', '강좌 수', '가격 중앙값', '1학점당', ...buckets.map(x => `${x}<br><span style="font-weight:400;font-size:11px;">강좌·중앙가</span>`)],
+      cos.map(co => { const v = CC[co], cr = Object.fromEntries((v.credit || []).map(x => [x[0], x])); return [`<b>${h(co)}</b>${co === ours ? ' <span style="font-size:10px;background:#00B3E3;color:#fff;border-radius:6px;padding:1px 5px;">우리</span>' : ''}`, N(v.n), won(v.med), won(v.per_credit),
+        ...buckets.map(k => cr[k] ? `${N(cr[k][1])} · ${won(cr[k][2])}` : '<span style="color:var(--muted)">–</span>')]; }))
+      + (() => { const o = CC[ours] || {}, oth = cos.filter(c => c !== ours).map(c => CC[c].per_credit).filter(Boolean); if (!o.per_credit || !oth.length) return '';
+        const avg = oth.reduce((a, x) => a + x, 0) / oth.length, gap = (o.per_credit / avg - 1) * 100;
+        return note(`1학점당 가격: 우리 ${won(o.per_credit)} vs 경쟁 평균 ${won(avg)} (${gap >= 0 ? '+' : ''}${gap.toFixed(0)}%). 강좌 수는 경쟁사가 ${cos.filter(c => c !== ours).map(c => `${c} ${N(CC[c].n)}`).join(' · ')}, 우리 ${N(o.n)}. ${gap > 5 ? '가격이 높은 만큼 "라이브+학점" 묶음 같은 차별 가치를 함께 보여야 합니다.' : '가격 경쟁력은 있으니 강좌 수와 노출 경로(라이브·채널)를 늘리는 쪽이 우선입니다.'}`); })();
+  }
+
+  // ⑩ 경쟁사 변화 감지(주간)
+  {
+    const b = mk('⑩ 경쟁사 변화 감지', '주간 수집 비교 · 새 메뉴·사라진 메뉴·새 제목(교사 이름류 제외)');
+    const CH = E.changes || [];
+    b.innerHTML = CH.length ? CH.map(w => `<div style="margin:6px 0;"><b>${h(w.d)}</b> · ${w.items.length}개 서비스 변화${w.items.map(it => `<div style="margin:4px 0 0 10px;font-size:12.5px;"><b>${h(it.co)}</b> ${h(it.svc)}${it.new_nav.length ? ` · <span style="color:#10b981;">새 메뉴</span> ${it.new_nav.map(h).join(', ')}` : ''}${it.gone_nav.length ? ` · <span style="color:#ef4444;">사라짐</span> ${it.gone_nav.map(h).join(', ')}` : ''}${it.new_titles.length ? `<div style="color:var(--muted);font-size:12px;">새 제목: ${it.new_titles.slice(0, 6).map(h).join(' / ')}</div>` : ''}</div>`).join('')}</div>`).join('')
+      : '<p style="font-size:12px;color:var(--muted);">다음 주간 수집(월 06:20)부터 지난주와 비교해 표시합니다. 변화는 아침 브리핑에도 반영됩니다.</p>';
+  }
+
+  // ⑪ 주제 공백 지도
+  {
+    const ids = Object.keys(TN); const cos = Object.keys(CC);
+    const cr = (E.crawl && E.crawl.services) || [];
+    const liveTop = {}; cr.forEach(r => Object.entries(r.topics || {}).forEach(([t, n]) => { liveTop[r.co] = liveTop[r.co] || {}; liveTop[r.co][t] = (liveTop[r.co][t] || 0) + n; }));
+    const liveCos = Object.keys(liveTop);
+    if (ids.length && (cos.length || liveCos.length)) {
+      const b = mk('⑪ 연수·라이브 주제 공백 지도', '강좌 목록 주제 비중(%) + 홈페이지·라이브 제목 주제 건수 · ★ = 비상 강점 분야');
+      const share = (co, t) => { const v = CC[co]; if (!v || !v.n) return 0; return (v.topics[t] || 0) / v.n * 100; };
+      const order = ids.slice().sort((a, b) => (STR.has(b) - STR.has(a)) || (cos.reduce((s, c) => s + share(c, b), 0) - cos.reduce((s, c) => s + share(c, a), 0)));
+      const heat = p => `background:color-mix(in srgb, #00B3E3 ${Math.min(80, p * 4)}%, transparent);`;
+      b.innerHTML = tbl(['주제', ...cos.map(c => h(c) + ' %'), ...liveCos.map(c => h(c) + ' 라이브·홈'), '판단'], order.map(t => {
+        const o = share(ours, t), comp = cos.filter(c => c !== ours).map(c => share(c, t)), mx = Math.max(0, ...comp), lv = liveCos.reduce((s, c) => s + (liveTop[c][t] || 0), 0);
+        const verdict = STR.has(t) && o >= mx ? '<span style="color:#10b981;font-weight:700;">우리 우위 - 라이브로 선점</span>' : STR.has(t) ? '<span style="color:#ef4444;font-weight:700;">강점인데 비중 낮음</span>' : (mx > o * 2 && mx >= 3 ? '<span style="color:#f59e0b;">경쟁사 집중</span>' : '');
+        return [`${STR.has(t) ? '★ ' : ''}${h(TN[t])}`, ...cos.map(c => `<span class="num" style="display:inline-block;min-width:38px;padding:1px 4px;border-radius:4px;${heat(share(c, t))}">${share(c, t).toFixed(1)}</span>`), ...liveCos.map(c => liveTop[c][t] ? `<b>${liveTop[c][t]}</b>` : '<span style="color:var(--muted)">0</span>'), verdict + (STR.has(t) && !lv ? ' <span style="font-size:11px;color:var(--muted);">· 경쟁 라이브 0</span>' : '')];
+      })) + note('★ 강점 분야 중 경쟁 라이브가 0인 주제가 "무료 라이브"로 먼저 잡을 자리입니다. 비중이 낮은 강점 분야는 강좌 개발부터 해야 합니다.');
+    }
+  }
+
+  // ⑫ 강사 겹침 지도(로그인 뒤 · 이름)
+  {
+    const b = mk('⑫ 강사 겹침 지도', '우리 강사풀 × 경쟁사 강연자 이름 후보 · 로그인 뒤 화면 · 동명이인 가능 - 확인 후 활용');
+    const POOL = window.__POOL || null, PE = (PP && PP.people) || null;
+    if (!POOL || !PE) { b.innerHTML = '<p style="font-size:12px;color:var(--muted);">강사풀 또는 경쟁사 이름 후보가 아직 없습니다(배포 때 자동 복호화).</p>'; }
+    else {
+      const idx = {}; (POOL.all || []).forEach(a => { idx[a[0]] = {aff: a[1], tier: a[2], lv: a[3], total: a[6], main: a[7]}; });
+      (POOL.core || []).forEach(c => { idx[c.name] = Object.assign(idx[c.name] || {}, {core: c.field}); });
+      const hit = {}; Object.entries(PE).forEach(([svc, arr]) => arr.forEach(x => { Object.keys(idx).forEach(nm => { if (nm && nm.length >= 2 && (x === nm || x.includes(nm + '쌤') || x.includes(nm + ' 선생') || x.startsWith(nm + ' '))) (hit[nm] = hit[nm] || new Set()).add(svc); }); }));
+      const rows = Object.entries(hit).map(([nm, s]) => ({nm, s: [...s], ...idx[nm]})).sort((a, b) => (b.core ? 1 : 0) - (a.core ? 1 : 0) || (b.total || 0) - (a.total || 0));
+      b.innerHTML = rows.length ? `<details open><summary style="cursor:pointer;font-size:13px;">겹침 ${rows.length}명 (핵심 강사 ${rows.filter(r => r.core).length}명)</summary>${tbl(['강사', '우리 등급', '소속', '강의', '경쟁 서비스', '조치'], rows.map(r => [`<b>${h(r.nm)}</b>`, h(r.core ? '핵심 · ' + r.core : (r.tier || '')), h(r.aff || ''), N(r.total), r.s.map(h).join(', '), r.core || (r.total || 0) >= 10 ? ('<span style="color:#ef4444;font-weight:700;">전속·협약 우선</span>') : '협업 제안']))}</details>`
+        + note('겹침 강사는 "이탈 위험"이자 "경쟁사 성장 경로를 이미 경험한 사람"입니다. 개인 직접 접촉 대신 소속 연구회를 통해 라이브 강연자·채널 입점을 먼저 제안합니다.')
+        : `<p style="font-size:13px;">이번 수집에서 우리 강사풀(${N((POOL.all || []).length)}명)과 이름이 겹치는 경쟁사 강연자는 없습니다.</p><p style="font-size:12px;color:var(--muted);">경쟁사 화면은 채널 별칭(OO쌤) 위주라 실명 확인이 어렵습니다 - ⑯ 교사 채널 영향력과 함께 봅니다.</p>`;
+    }
+  }
+
+  // ⑬ 교사 플랫폼별 여론
+  {
+    const O = (E.opinion && E.opinion.platforms) || {};
+    const b = mk('⑬ 교사 플랫폼별 반응', `${E.opinion && E.opinion.mode === 'kakao' ? '다음 블로그·카페' : '언론'} 최근 30일 · 제목·요약 문장 기준 긍정/부정 단어`);
+    const ks = Object.keys(O);
+    if (!ks.length) b.innerHTML = '<p style="font-size:12px;color:var(--muted);">다음 여론 수집(주 1회)부터 플랫폼별로 표시합니다.</p>';
+    else {
+      const mx = Math.max(1, ...ks.map(k => O[k].n));
+      b.innerHTML = tbl(['플랫폼', '언급(30일)', '긍정', '부정', '순호감', '많이 나온 주제'], ks.sort((a, b) => O[b].n - O[a].n).map(k => { const o = O[k], net = o.n ? ((o.pos - o.neg) / o.n * 100) : 0;
+        return [`<b>${h(k)}</b>`, `<span style="display:inline-block;width:${Math.round(o.n / mx * 120)}px;height:8px;background:${k === '비바샘' ? '#00B3E3' : '#94a3b8'};border-radius:4px;margin-right:6px;"></span>${N(o.n)}`, N(o.pos), N(o.neg), `<b style="color:${net >= 0 ? '#10b981' : '#ef4444'}">${net >= 0 ? '+' : ''}${net.toFixed(0)}</b>`, (o.tags || []).map(t => `${h(t[0])} ${t[1]}`).join(' · ')]; }))
+        + note('비바샘 언급량이 엠티처·아이스크림보다 낮으면 "교사가 스스로 공유하는 경험"(라이브·채널)이 부족하다는 신호입니다.');
+    }
+  }
+
+  // ⑭ 9축 점수 추이 + 격차 해소 과제판
+  {
+    const S = E.scores || {}, ds = Object.keys(S).sort(), T = E.tasks || [];
+    const b = mk('⑭ 구성 점수 추이 · 격차 해소 과제', '9축 점수 주별 기록 · 비상 약한 3칸(라이브·크리에이터·커뮤니티) 실행 관리');
+    const last = ds.length ? S[ds[ds.length - 1]] : {};
+    const us = last['비상'], lead = Object.entries(last).filter(([k]) => k !== '비상').sort((a, b) => b[1] - a[1])[0];
+    const spark = co => ds.map(d => S[d][co]).filter(v => v != null);
+    const svg = arr => { if (arr.length < 2) return ''; const mn = Math.min(...arr), mxx = Math.max(...arr), w = 90, hh = 22; return `<svg width="${w}" height="${hh}" style="vertical-align:middle;"><polyline fill="none" stroke="#00B3E3" stroke-width="2" points="${arr.map((v, i) => `${(i / (arr.length - 1) * w).toFixed(1)},${(hh - 2 - (mxx > mn ? (v - mn) / (mxx - mn) : .5) * (hh - 4)).toFixed(1)}`).join(' ')}"/></svg>`; };
+    const AXN = Object.fromEntries(AX);
+    const SC = {'계획': '#94a3b8', '진행': '#f59e0b', '완료': '#10b981', '보류': '#ef4444'};
+    b.innerHTML = `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">${[['비상 점수', us != null ? us.toFixed(1) + '/9' : '-'], ['선두', lead ? `${lead[0]} ${lead[1].toFixed(1)}` : '-'], ['격차', lead && us != null ? (lead[1] - us).toFixed(1) : '-'], ['목표(2027 상반기)', '8.0/9']].map(([k, v]) => `<div style="flex:1;min-width:110px;border:1px solid var(--border);border-radius:10px;padding:6px 10px;"><div style="font-size:11px;color:var(--muted);">${k}</div><div class="num" style="font-size:17px;font-weight:800;">${h(v)}</div></div>`).join('')}</div>
+      ${ds.length > 1 ? `<div style="font-size:12px;margin-bottom:8px;">${Object.keys(last).map(co => `<span style="display:inline-block;margin:2px 10px 2px 0;">${h(co)} ${svg(spark(co))}</span>`).join('')}</div>` : `<p style="font-size:12px;color:var(--muted);">점수 기록 ${ds.length}주 - 매주 월요일 수집 때 쌓여 추이 선이 생깁니다.</p>`}
+      ${tbl(['채울 칸', '과제', '담당', '기한', '상태', 'KPI'], T.map(t => [h(AXN[t.axis] || t.axis), h(t.task), h(t.owner), h(t.due), `<span style="padding:1px 8px;border-radius:999px;background:${SC[t.status] || '#94a3b8'}33;font-weight:700;font-size:12px;">${h(t.status)}</span>`, h(t.kpi)]))}`
+      + note('과제 상태·기한 변경은 말씀해 주시면 반영합니다(정리표 static_data/eco_tasks.json). 과제가 완료되면 해당 칸을 ◐→● 로 올려 점수에 반영합니다.');
+  }
+
+  // ⑮ 채택 학교 × 경쟁 플랫폼 노출(추정)
+  {
+    const AD = window.__ADOPT;
+    const b = mk('⑮ 교과서 채택 × 경쟁 플랫폼 노출', '비상 미채택 학교 = 경쟁사 교과서·교사 플랫폼을 쓰는 학교(추정) · 로그인 뒤 데이터');
+    if (!AD || !AD.schools) b.innerHTML = '<p style="font-size:12px;color:var(--muted);">채택 데이터가 없습니다(로그인 뒤 복호화).</p>';
+    else {
+      const U = AD.schools.filter(s => s.u), by = {};
+      U.forEach(s => { const x = by[s.sd] = by[s.sd] || {n: 0, a: 0, lock: 0, open: 0}; x.n++; if (s.c) x.a++; else if (s.m) x.open++; else x.lock++; });
+      const rows = Object.entries(by).sort((a, b) => b[1].lock / b[1].n - a[1].lock / a[1].n);
+      const tot = rows.reduce((t, [, x]) => ({n: t.n + x.n, lock: t.lock + x.lock, open: t.open + x.open}), {n: 0, lock: 0, open: 0});
+      b.innerHTML = `<p style="font-size:13px;margin:0 0 6px;">전체 ${N(tot.n)}개교 중 <b style="color:#ef4444;">미채택·비바샘 회원 0 = ${N(tot.lock)}개교(${(tot.lock / tot.n * 100).toFixed(1)}%)</b> - 경쟁 플랫폼에 묶였을 가능성이 높은 학교 · <b style="color:#10b981;">미채택·회원 있음 = ${N(tot.open)}개교</b> - 우리 성장 경로로 끌어올 수 있는 학교</p>`
+        + tbl(['시도', '학교', '비상 채택', '경쟁 고착(추정)', '전환 기회', '고착 비율'], rows.map(([sd, x]) => [h(sd), N(x.n), N(x.a), N(x.lock), N(x.open), `<span style="display:inline-block;width:${Math.round(x.lock / x.n * 100)}px;height:8px;background:#ef4444aa;border-radius:4px;margin-right:6px;"></span>${(x.lock / x.n * 100).toFixed(1)}%`]))
+        + note('고착 비율이 높은 시도는 교과서 영업만으로는 어렵습니다 - 무료 라이브·교사 채널 같은 "교과서와 무관한 입구"를 먼저 열고, 전환 기회 학교는 교과서 채택 탭의 A/C 단계 목록으로 바로 제안합니다.');
+    }
+  }
+
+  // ⑯ 교사 채널 영향력
+  {
+    const CR = (E.creators && E.creators.channels) || [], YT = (PP && PP.yt) || [];
+    const ott = new Set(((PP && PP.people) ? Object.entries(PP.people).filter(([k]) => /OTT|엠티처/.test(k)).flatMap(([, v]) => v) : []));
+    const b = mk('⑯ 교사 채널 영향력', `교사 유튜버 ${CR.length}채널(${(E.creators || {}).captured || ''}) · 미래엔 쌤OTT 입점 여부는 로그인 뒤 이름 대조`);
+    const rows = CR.map(c => ({...c, ott: [...ott].some(o => o && c.title && (c.title.includes(o) || o.includes(c.title.slice(0, 6))))}));
+    YT.forEach(y => { if (!rows.some(r => r.title === y.title)) rows.push({title: y.title, subs: y.subs, videos: y.videos, ott: true, src: 'yt'}); });
+    rows.sort((a, b) => (b.subs || 0) - (a.subs || 0));
+    const o = rows.filter(r => r.ott), sum = a => a.reduce((s, r) => s + (r.subs || 0), 0);
+    b.innerHTML = `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">${[['조사 채널', rows.length], ['미래엔 입점(추정)', o.length], ['입점 채널 구독자 합', N(sum(o))], ['전체 구독자 합', N(sum(rows))]].map(([k, v]) => `<div style="flex:1;min-width:110px;border:1px solid var(--border);border-radius:10px;padding:6px 10px;"><div style="font-size:11px;color:var(--muted);">${k}</div><div class="num" style="font-size:17px;font-weight:800;">${h(v)}</div></div>`).join('')}</div>`
+      + `<details><summary style="cursor:pointer;font-size:13px;">채널 목록(구독자 순)</summary>${tbl(['채널', '구독자', '영상', '미래엔 입점'], rows.slice(0, 50).map(r => [h(r.title), N(r.subs), N(r.videos), r.ott ? '<b style="color:#ef4444;">입점</b>' : '<span style="color:#10b981;">미입점 - 제안 대상</span>']))}</details>`
+      + note(`미래엔 쌤OTT에 들어가지 않은 구독자 상위 채널이 "비상판 교사 채널관" 1차 섭외 대상입니다(연구회·단체 경유).${YT.length ? '' : ' 유튜브 키로 쌤OTT 채널 통계를 매주 추가 수집합니다.'}`);
+  }
+
+  // ⑰ 비상 성장 경로 전환 퍼널
+  {
+    const PL = ((window.__TG || {}).pool) || {}, TR = Object.fromEntries(PL.tier || []), AD = window.__ADOPT;
+    const b = mk('⑰ 비상 교사 성장 경로 퍼널', '학교 회원 → 강사풀 → 주강사 단계별 전환 · 회원→수강 단계는 사내 수강 데이터 연결 후');
+    const st = [];
+    if (AD && AD.schools) { const U = AD.schools.filter(s => s.u); st.push(['대상 학교', U.length], ['비바샘 회원 있는 학교', U.filter(s => s.m).length], ['비바샘 회원(교사)', U.reduce((a, s) => a + (s.m || 0), 0)]); }
+    const pn = (PL.kpi || {}).total_instructors;
+    if (pn) st.push(['강사풀 등록', pn], ['활동 이상(활동+핵심)', (TR['활동강사'] || 0) + (TR['핵심강사'] || 0)], ['핵심 강사', TR['핵심강사'] || 0], ['주강사 경험', (PL.kpi || {}).main_instructors || 0]);
+    const mx = Math.max(1, ...st.map(x => x[1]));
+    b.innerHTML = st.length ? st.map(([k, v], i) => { const prev = i ? st[i - 1][1] : null;
+      return `<div style="display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12.5px;"><span style="width:170px;">${h(k)}</span><span style="flex:1;background:var(--border);border-radius:4px;height:14px;"><i style="display:block;height:14px;border-radius:4px;background:#00B3E3;width:${Math.max(1, Math.sqrt(v / mx) * 100)}%;"></i></span><span class="num" style="width:70px;text-align:right;font-weight:700;">${N(v)}</span><span style="width:70px;text-align:right;color:var(--muted);">${prev && [1, 4, 5].includes(i) ? (v / prev * 100).toFixed(1) + '%' : ''}</span></div>`; }).join('')
+      + note(`강사풀은 1회 참여 ${N(TR['1회참여강사'])}명 → 핵심 ${N(TR['핵심강사'])}명 구조입니다. 학교 회원(교사) 규모에 비해 강사풀 진입이 작아 "회원 → 라이브 강연자 → 강사풀" 중간 단계가 필요합니다. 연수 수강 단계는 비바샘연수원 수강 집계(숫자만)를 연결하면 채워집니다.`)
+      : '<p style="font-size:12px;color:var(--muted);">집계가 없습니다.</p>';
+  }
+
+  // 탭 안 바로가기(섹션이 많아 위에서 골라 이동)
+  {
+    const secs = [...tab.querySelectorAll('section.panel')];
+    const nav = document.createElement('div');
+    nav.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px;';
+    nav.innerHTML = secs.map((sec, i) => { const t = (sec.querySelector('.panel-title') || {}).childNodes; const nm = t && t[0] ? t[0].textContent : ''; return `<button type="button" class="pill" data-i="${i}" style="font-size:12px;">${h(nm)}</button>`; }).join('');
+    nav.addEventListener('click', e => { const b = e.target.closest('button[data-i]'); if (b) secs[+b.dataset.i].scrollIntoView({behavior: 'smooth', block: 'start'}); });
+    tab.prepend(nav);
+  }
 })();
 </script>
 <script>

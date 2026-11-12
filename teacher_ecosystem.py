@@ -19,6 +19,9 @@ from pathlib import Path
 HERE = Path(__file__).parent
 OUT = HERE / "history" / "teacher_ecosystem.json"
 OUT_ENC = HERE / "history" / "teacher_ecosystem_people.enc.json"
+OUT_CHG = HERE / "history" / "teacher_eco_changes.jsonl"   # 주간 변화(새 메뉴·제목) - 이름류는 걸러서
+OUT_SCORE = HERE / "history" / "teacher_eco_scores.json"   # 9축 구성 점수 주별 기록
+MATRIX = HERE / "static_data" / "teacher_ecosystem.json"
 TARGETS = [
     ("비상", "비바샘", "https://www.vivasam.com"),
     ("비상", "비바샘원격교육연수원", "https://t.vivasam.com"),
@@ -68,10 +71,73 @@ def grab(page):
     }""")
 
 
+def youtube(chan_all):
+    """쌤OTT 등 교사 채널 후보 -> 유튜브 공개 통계(구독자·영상 수). 키 없으면 건너뜀. 결과는 암호문 쪽에만 이름과 함께."""
+    import os
+    import urllib.parse
+    import urllib.request
+    key = os.environ.get("YOUTUBE_API_KEY", "")
+    if not key:
+        print("유튜브: 키 미설정 - 건너뜀")
+        return []
+    def get(path, **q):
+        q["key"] = key
+        with urllib.request.urlopen("https://www.googleapis.com/youtube/v3/" + path + "?" + urllib.parse.urlencode(q), timeout=20) as r:
+            return json.loads(r.read().decode("utf-8"))
+    res, used = [], 0
+    for svc, chans in chan_all.items():
+        for c in [x for x in chans if 2 <= len(x) <= 25 and not re.search(r"[#|\[\]]", x)][:25]:
+            if used >= 40:  # 검색 1회 100단위 - 하루 한도 안에서 넉넉히
+                break
+            try:
+                used += 1
+                it = (get("search", part="snippet", type="channel", maxResults=1, q=c).get("items") or [])
+                if not it:
+                    continue
+                cid = it[0]["snippet"]["channelId"]
+                st = (get("channels", part="statistics,snippet", id=cid).get("items") or [{}])[0]
+                s_ = st.get("statistics", {})
+                res.append({"svc": svc, "q": c, "title": st.get("snippet", {}).get("title", "")[:60], "subs": int(s_.get("subscriberCount", 0) or 0),
+                            "videos": int(s_.get("videoCount", 0) or 0), "views": int(s_.get("viewCount", 0) or 0)})
+            except Exception as e:  # noqa: BLE001 - 키·한도 문제는 값 없이 이유만
+                print("유튜브 조회 중단:", getattr(e, "code", type(e).__name__))
+                return res
+    print(f"유튜브: 채널 {len(res)}개 통계")
+    return res
+
+
+def diff(prev, out):
+    """지난 수집 대비 새로 생긴/사라진 메뉴, 새 제목(공개 가능 항목만)."""
+    old = {r.get("svc"): r for r in (prev.get("services") or []) if r.get("ok")}
+    items = []
+    for r in out:
+        o = old.get(r["svc"])
+        if not r.get("ok") or not o:
+            continue
+        nn, on = set(r.get("nav") or []), set(o.get("nav") or [])
+        nh = [x for x in (r.get("heads") or []) + [y for sb in r.get("subs") or [] for y in sb.get("heads", [])]
+              if x not in set((o.get("heads") or []) + [y for sb in o.get("subs") or [] for y in sb.get("heads", [])]) and 6 <= len(x) <= 60]
+        if nn - on or on - nn or nh:
+            items.append({"co": r["co"], "svc": r["svc"], "new_nav": sorted(nn - on)[:15], "gone_nav": sorted(on - nn)[:15], "new_titles": nh[:12]})
+    return items
+
+
+def snapshot_scores():
+    """정리표(9축) 구성 점수를 주별로 기록 - 비상 격차 추이."""
+    try:
+        m = json.loads(MATRIX.read_text(encoding="utf-8"))
+        sc = {c["co"]: round(sum(1 if c["m"].get(k) == "O" else 0.5 if c["m"].get(k) == "△" else 0 for k, _ in m["axes"]), 1) for c in m["companies"]}
+        hist = json.loads(OUT_SCORE.read_text(encoding="utf-8")) if OUT_SCORE.exists() else {}
+        hist[date.today().isoformat()] = sc
+        OUT_SCORE.write_text(json.dumps(dict(sorted(hist.items())[-52:]), ensure_ascii=False, indent=1), encoding="utf-8")
+    except Exception as e:  # noqa: BLE001
+        print("점수 기록 생략:", type(e).__name__)
+
+
 def main():
     from playwright.sync_api import sync_playwright
     sys.path.insert(0, str(HERE))
-    out, people, t0 = [], {}, time.time()
+    out, people, t0, chan_all = [], {}, time.time(), {}
     with sync_playwright() as p:
         br = p.chromium.launch()
         ctx = br.new_context(locale="ko-KR", viewport={"width": 1366, "height": 900},
@@ -109,6 +175,14 @@ def main():
                 pub = lambda xs: [x for x in xs if not PERSONAL_RE.search(x)]
                 chans = sorted({x for x in g["nav"] + g["heads"] + [y for sb in subs for y in sb["heads"]] if PERSONAL_RE.search(x) and len(x) <= 30})
                 people[svc] = [n for n, _ in names.most_common(60)] + [c for c in chans if c not in names][:60]
+                raw_titles = g["heads"] + [y for sb in subs for y in sb["heads"]]
+                try:
+                    import training_topics as tt
+                    tc = Counter(t for x in raw_titles for t in tt.classify_topics(x))
+                except Exception:  # noqa: BLE001
+                    tc = Counter()
+                rec["topics"] = dict(tc)
+                chan_all[svc] = chans
                 for sb in subs:
                     sb["heads"] = pub(sb["heads"])
                 rec.update(ok=True, final=g["url"], title=g["title"][:80], nav=pub(g["nav"])[:40], heads=pub(g["heads"])[:50],
@@ -120,12 +194,26 @@ def main():
             out.append(rec)
             print(f"  {svc}: {'ok' if rec['ok'] else rec.get('error')} · 강사 후보 {rec.get('n_people', 0)}", flush=True)
         br.close()
-    OUT.write_text(json.dumps({"generated": date.today().isoformat(), "sec": round(time.time() - t0), "services": out,
+    yt = youtube(chan_all)
+    for r in out:
+        y = [c for c in yt if c["svc"] == r["svc"]]
+        if y:
+            subs_ = sorted(c["subs"] for c in y)
+            r["yt"] = {"n": len(y), "subs_sum": sum(subs_), "subs_med": subs_[len(subs_) // 2], "videos_sum": sum(c["videos"] for c in y)}
+    prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
+    changes = diff(prev, out)
+    if changes:
+        with OUT_CHG.open("a", encoding="utf-8") as f:
+            f.write(json.dumps({"d": date.today().isoformat(), "items": changes}, ensure_ascii=False) + "\n")
+        lines = OUT_CHG.read_text(encoding="utf-8").splitlines()[-26:]
+        OUT_CHG.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    snapshot_scores()
+    OUT.write_text(json.dumps({"generated": date.today().isoformat(), "sec": round(time.time() - t0), "services": out, "changes": changes,
                                "note": "공개 첫 화면·라이브/연수 링크 1단계의 메뉴·제목·기능 키워드 빈도. 강사 이름은 암호문에만."},
                               ensure_ascii=False, indent=1), encoding="utf-8")
     try:
         import strategy_crypto
-        OUT_ENC.write_text(json.dumps(strategy_crypto.encrypt({"generated": date.today().isoformat(), "people": people}), ensure_ascii=False), encoding="utf-8")
+        OUT_ENC.write_text(json.dumps(strategy_crypto.encrypt({"generated": date.today().isoformat(), "people": people, "yt": yt}), ensure_ascii=False), encoding="utf-8")
     except Exception as e:  # noqa: BLE001
         print("강사 이름 암호화 생략:", type(e).__name__)
     print(f"교사 생태계: {sum(1 for r in out if r['ok'])}/{len(out)} 서비스 · {round(time.time() - t0)}초")

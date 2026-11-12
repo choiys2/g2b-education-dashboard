@@ -28,6 +28,15 @@ BRANDS = {
     "동아": ["동아출판 교과서", "두클래스 수업자료"],
     "지학사": ["지학사 교과서"],
 }
+# 교사 플랫폼별 반응(교사 생태계 비교 탭) - 같은 방식, 제목·링크·날짜만
+PLATFORMS = {
+    "비바샘": ["비바샘"],
+    "엠티처": ["엠티처"],
+    "T셀파": ["티셀파", "T셀파"],
+    "두클래스": ["두클래스"],
+    "아이스크림S·쌤튜브": ["아이스크림S", "쌤튜브"],
+    "티처빌·쌤동네": ["티처빌 연수", "쌤동네"],
+}
 POS = re.compile(r"좋|추천|편해|편리|유용|최고|만족|도움|알차|깔끔")
 NEG = re.compile(r"불편|아쉽|별로|어렵|오류|불만|부족|비싸")
 TAGS = [("선정·채택", r"선정|채택|심의|협의회"), ("수업자료", r"자료|PPT|활동지|수업"), ("평가", r"평가|문제|시험"), ("디지털", r"디지털|AI|온라인|플랫폼|AIDT")]
@@ -120,12 +129,38 @@ def main():
                         if link.startswith("https://") and len(recent) < 40:
                             recent.append({"d": d.isoformat() if d else "", "t": t[:120], "u": link, "src": {"blog": "블로그", "cafe": "카페", "news": "언론"}[kind]})
                 time.sleep(0.15)
+    plat = {}
+    for pn, qs in PLATFORMS.items():
+        ps, pc, ptone, pw, ptags = set(), 0, Counter(), Counter(), Counter()
+        for q in qs:
+            for kind in (("blog", "cafe") if mode == "kakao" else ("news",)):
+                try:
+                    items = kakao(kind, q, kkey) if mode == "kakao" else google(q)
+                except Exception as e:  # noqa: BLE001
+                    diag.append(f"{kind} {q}: {getattr(e, 'code', type(e).__name__)}")
+                    continue
+                for it in items:
+                    link, pd = it.get("link") or "", it.get("postdate") or ""
+                    d = datetime.strptime(pd, "%Y%m%d").date() if re.fullmatch(r"\d{8}", pd) else None
+                    if link in ps or not d or d < since:
+                        continue
+                    ps.add(link)
+                    pc += 1
+                    body = strip(it.get("title")) + " " + strip(it.get("description"))
+                    ptone["긍정"] += bool(POS.search(body))
+                    ptone["부정"] += bool(NEG.search(body))
+                    pw[(d - timedelta(days=d.weekday())).isoformat()] += 1
+                    for name, rx in TAGS:
+                        if re.search(rx, body):
+                            ptags[name] += 1
+                time.sleep(0.15)
+        plat[pn] = {"n": pc, "pos": ptone["긍정"], "neg": ptone["부정"], "weekly": dict(sorted(pw.items())[-6:]), "tags": ptags.most_common(4)}
     total = sum(counts.values()) or 1
     keep = (today - timedelta(weeks=26)).isoformat()
     weekly = {b: {w: n for w, n in sorted(v.items()) if w >= keep} for b, v in weekly.items()}
     OUT.write_text(json.dumps({"generated": today.isoformat(), "window_days": 30,
                                "share": [{"brand": b, "n": counts[b], "pct": round(counts[b] / total * 100, 1)} for b in BRANDS],
-                               "weekly": weekly, "tags": tags.most_common(), "tone": dict(tone),
+                               "weekly": weekly, "tags": tags.most_common(), "tone": dict(tone), "platforms": plat,
                                "recent": sorted(recent, key=lambda x: x["d"], reverse=True)[:30], "diag": diag[:20],
                                "mode": mode,
                                "note": ("다음(카카오) 블로그·카페 최근 30일 글 기준" if mode == "kakao" else "구글 뉴스 최근 30일 언론 보도 기준(카카오 키 없음)") + ", 같은 검색어 묶음으로 비교한 상대 언급량"},

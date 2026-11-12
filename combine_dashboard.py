@@ -144,6 +144,44 @@ def _ext_links():
     return d
 
 
+def _eco_courses():
+    """교사 생태계 ① 실측: 경쟁사·자사 연수 강좌 목록(공개 수집)에서 학점·가격·분야·연수 주제 분포."""
+    import re as _re
+    import statistics as st
+    import training_topics as tt
+    c = load("history/competitor_course_catalog.json")
+    out = {"captured": c.get("captured_date"), "companies": {}}
+    for co, v in (c.get("companies") or {}).items():
+        rows = v.get("courses") or []
+        bk, cat, top, per, norm = {}, {}, {}, [], []
+        for r in rows:
+            if (r.get("title") or "") in ("상세보기", "") and r.get("context"):  # 목록 글자에서 차시·가격·제목 복원(아이스크림 형식)
+                cx = r["context"]
+                ch = _re.search(r"(\d+)\s?차시", cx)
+                won = [int(x.replace(",", "")) for x in _re.findall(r"([\d,]{4,})\s?원", cx)]
+                k = int(ch.group(1)) // 15 if ch else 0
+                r = dict(r, credit=(f"{k}학점, {ch.group(1)}차시" if k else (f"{ch.group(1)}차시" if ch else "")), price=(won[0] if won else None),
+                         title=_re.sub(r"미리보기|상세보기|\d+\s?차시|신규|할인중|마감임박|인기|\d+%|[\d,]{4,}\s?원", " ", cx).strip())
+            norm.append(r)
+            m = _re.search(r"(\d)\s?학점", r.get("credit") or "")
+            b = f"{m.group(1)}학점" if m else ("모듈·15차시 미만" if (r.get("credit") or "").strip() else "표기 없음")
+            bk.setdefault(b, []).append(r.get("price") or 0)
+            if m and r.get("price"):
+                per.append(r["price"] / int(m.group(1)))
+            cat[r.get("category") or "기타"] = cat.get(r.get("category") or "기타", 0) + 1
+            for t in tt.classify_topics(r.get("title") or ""):
+                top[t] = top.get(t, 0) + 1
+        pr = [r.get("price") for r in norm if r.get("price")]
+        out["companies"][co] = {
+            "n": len(rows), "priced": len(pr), "free": sum(1 for r in norm if r.get("price") == 0),
+            "med": int(st.median(pr)) if pr else None, "per_credit": int(st.median(per)) if per else None,
+            "credit": sorted([[k, len(v), int(st.median([x for x in v if x])) if any(v) else None] for k, v in bk.items()], key=lambda x: -x[1]),
+            "cat": sorted(cat.items(), key=lambda x: -x[1])[:8], "topics": top}
+    out["topic_names"] = {t[0]: t[1] for t in tt.TOPICS}
+    out["strength"] = sorted(tt.STRENGTH)
+    return out
+
+
 def _teacher_eco():
     """교사 생태계 비교: 정리표(static_data) + 주간 수집(공개 집계). 이름 없음."""
     if not os.path.exists("static_data/teacher_ecosystem.json"):
@@ -159,6 +197,18 @@ def _teacher_eco():
         for r in d["crawl"]["services"]:
             r["subs"] = [{"t": x.get("t"), "url": x.get("url"), "heads": pub(x.get("heads"))[:12]} for x in (r.get("subs") or [])]
             r["nav"] = pub(r.get("nav"))[:30]
+    d["courses"] = _safe(_eco_courses, "교사 생태계 연수 실측")
+    d["scores"] = load("history/teacher_eco_scores.json") if os.path.exists("history/teacher_eco_scores.json") else {}
+    d["tasks"] = load("static_data/eco_tasks.json") if os.path.exists("static_data/eco_tasks.json") else []
+    if os.path.exists("history/teacher_eco_changes.jsonl"):
+        d["changes"] = [json.loads(x) for x in open("history/teacher_eco_changes.jsonl", encoding="utf-8").read().splitlines() if x.strip()][-8:][::-1]
+    if os.path.exists("history/opinion_radar.json"):
+        o = load("history/opinion_radar.json")
+        d["opinion"] = {"generated": o.get("generated"), "mode": o.get("mode"), "platforms": o.get("platforms") or {}}
+    if os.path.exists("history/teacher_creator_trends.json"):
+        y = (load("history/teacher_creator_trends.json").get("youtube") or {})
+        d["creators"] = {"captured": y.get("captured_date"), "channels": [{"title": c.get("title"), "subs": c.get("subs"), "videos": c.get("videos"),
+                         "recent": len([v for v in c.get("recent") or [] if (v.get("d") or "") >= (y.get("captured_date") or "")[:7]])} for c in (y.get("channels") or [])]}
     print("교사 생태계:", len(d.get("companies", [])), "곳", "· 수집 " + str(d["crawl"]["generated"]) if d.get("crawl") else "· 수집 전")
     return d
 

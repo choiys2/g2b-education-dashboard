@@ -27,11 +27,13 @@ jobs:
           pip install playwright cryptography
           timeout 420 python -m playwright install --with-deps chromium || timeout 300 python -m playwright install chromium
       - name: 수집
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}   # 없으면 유튜브 통계만 건너뜀
         run: python teacher_ecosystem.py
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add history/teacher_ecosystem.json history/teacher_ecosystem_people.enc.json 2>/dev/null || true
+          git add history/teacher_ecosystem.json history/teacher_ecosystem_people.enc.json history/teacher_eco_changes.jsonl history/teacher_eco_scores.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: 교사 생태계 비교 수집 $(TZ=Asia/Seoul date +%F)"
           for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done
