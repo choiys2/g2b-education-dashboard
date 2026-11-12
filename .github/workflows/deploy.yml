@@ -40,6 +40,8 @@ on:
       - "school_goods.py"
       - "partner_news.py"
       - "academy_stats.py"
+      - "teacher_ecosystem.py"
+      - ".github/workflows/teacher_ecosystem.yml"
       - "opinion_radar.py"
       - ".github/workflows/academy.yml"
       - ".github/workflows/opinion_radar.yml"
