@@ -1,0 +1,22 @@
+name: 나라장터 API 상태 점검
+
+# 서비스별 1건 호출 결과코드만 출력(키는 가림). 수동 실행.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 점검
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python g2b_probe.py
