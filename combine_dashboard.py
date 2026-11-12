@@ -144,6 +144,38 @@ def _ext_links():
     return d
 
 
+def _teacher_eco():
+    """교사 생태계 비교: 정리표(static_data) + 주간 수집(공개 집계). 이름 없음."""
+    if not os.path.exists("static_data/teacher_ecosystem.json"):
+        return None
+    d = load("static_data/teacher_ecosystem.json")
+    if os.path.exists("history/teacher_ecosystem.json"):
+        c = load("history/teacher_ecosystem.json")
+        d["crawl"] = {"generated": c.get("generated"), "services": [
+            {k: r.get(k) for k in ("co", "svc", "url", "ok", "title", "nav", "features", "n_people", "subs")} for r in c.get("services", [])]}
+        for r in d["crawl"]["services"]:
+            r["subs"] = [{"t": x.get("t"), "url": x.get("url"), "heads": (x.get("heads") or [])[:12]} for x in (r.get("subs") or [])]
+            r["nav"] = (r.get("nav") or [])[:30]
+    print("교사 생태계:", len(d.get("companies", [])), "곳", "· 수집 " + str(d["crawl"]["generated"]) if d.get("crawl") else "· 수집 전")
+    return d
+
+
+def _teacher_eco_people():
+    """경쟁사 강사 이름 후보(암호문) 복호화 - 로그인 뒤 화면에만. 이름은 로그에 남기지 않는다."""
+    p, key = "history/teacher_ecosystem_people.enc.json", os.environ.get("STRATEGY_KEY", "")
+    if not os.path.exists(p) or not key:
+        print("경쟁사 강사 이름:", "파일 없음" if not os.path.exists(p) else "STRATEGY_KEY 미설정")
+        return None
+    try:
+        import strategy_crypto
+        d = strategy_crypto.decrypt(load(p), key)
+        print("경쟁사 강사 이름: 복호화 ·", sum(len(v) for v in (d.get("people") or {}).values()), "건")
+        return d
+    except Exception as e:
+        print(f"경쟁사 강사 이름: 복호화 실패({type(e).__name__})")
+        return None
+
+
 def _pdf_strategy():
     """관리 > PDF 전략: 기준 문서 수치(STRATEGY_KEY 복호화) + 학원·여론 집계 -> 관리 비밀번호로 다시 암호화. 내용은 로그에 남기지 않는다."""
     p, key = "static_data/pdf_strategy.enc.json", os.environ.get("STRATEGY_KEY", "")
@@ -714,7 +746,9 @@ def main():
                                if os.path.exists("static_data/brand/visang_logo.png") else ""),  # 여는 중 화면(비상 로고)
         "__TEACHER_GROUPS_JSON__": load("static_data/teacher_groups.json") if os.path.exists("static_data/teacher_groups.json") else None,  # 교사단체(공개 집계)
         "__GROUP_NEWS_JSON__": load("history/teacher_group_news.json") if os.path.exists("history/teacher_group_news.json") else None,  # 교사단체 소식
-        "__POOL_PEOPLE_JSON__": _pool_people(),  # 강사 개인 정보(암호문 -> 로그인 뒤 화면만)
+        "__POOL_PEOPLE_JSON__": _pool_people(),
+        "__TEACHER_ECO_JSON__": _teacher_eco(),  # 교사 생태계 비교(공개 정리표·집계)
+        "__TEACHER_ECO_PEOPLE_JSON__": _teacher_eco_people(),  # 경쟁사 강사 이름(암호문 -> 로그인 뒤 화면만)
         "__MATCH_BIDS_JSON__": _match_bids(),  # 공고-강사 매칭 대상
         "__OPPORTUNITY_JSON__": _safe(lambda: __import__("opportunity").build(trend2027, data_rows, pipeline=pipeline_export), "통합 기회점수"),  # 통합 기회점수(시도×주제)
         "__BRANCH_JSON__": None,  # 아래에서 기회점수 계산 뒤 채움(총판 연계)
@@ -781,7 +815,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__PDF_JSON__", "__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__BOOT_LOGO_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__TEACHER_ECO_PEOPLE_JSON__", "__PDF_JSON__", "__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__BOOT_LOGO_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:

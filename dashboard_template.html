@@ -763,6 +763,7 @@ svg { max-width: 100%; }
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="content">콘텐츠·매출</button>
     <a class="tablink" id="poolLink" data-after="content" href="#" target="_blank" rel="noopener noreferrer" hidden title="강사풀(별도 페이지 · 초대된 계정만 열람)">강사풀 ↗</a>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="eco">교사 생태계 비교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="search" hidden>통합검색</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="network">생태계·관계망</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="beta">베타 기능</button>
@@ -2440,6 +2441,8 @@ svg { max-width: 100%; }
     </section>
 
   </div><!-- /panel-network -->
+
+  <div class="tabpanel" id="panel-eco"></div>
 
   <div class="tabpanel" id="panel-content">
     <div class="callout"><div class="icon">i</div><div>
@@ -9994,6 +9997,93 @@ window.__renderPdfx = function(root, P){
   .vmini button{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;padding:4px 10px;border-radius:8px;cursor:pointer;}
 </style>
 <script>
+/* ---------------- 교사 생태계 비교: 출판사·교사 플랫폼 서비스 · 교사 성장 경로 · 강사풀 구성 ----------------
+   공개 정리표(static_data/teacher_ecosystem.json) + 주간 수집(history/teacher_ecosystem.json, 이름 없음)
+   + 경쟁사 강사 이름 후보(암호문 -> 배포 때 복호화, 로그인 뒤 화면에만) + 우리 강사풀 집계(window.__TG.pool) */
+(function renderTeacherEco(){
+  const E = __TEACHER_ECO_JSON__, PP = __TEACHER_ECO_PEOPLE_JSON__;
+  const tab = document.getElementById('panel-eco'); if (!tab) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const safeUrl = u => /^https:\/\/[^\s"'<>]+$/.test(u || '') ? u : '';
+  const A = (t, u) => safeUrl(u) ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t)}</a>` : h(t);
+  const mk = (title, sub) => { const s = document.createElement('section'); s.className = 'panel viz-panel';
+    s.innerHTML = `<div class="panel-head"><div><p class="panel-title">${h(title)}${sub ? `<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">${h(sub)}</span>` : ''}</p></div></div><div class="viz-body"></div>`;
+    tab.appendChild(s); return s.querySelector('.viz-body'); };
+  if (!E || !E.companies) { mk('교사 생태계 비교', '데이터 준비 중').innerHTML = '<p style="color:var(--muted)">정리표가 아직 없습니다.</p>'; return; }
+  const CS = E.companies, AX = E.axes;
+  const cell = v => v === 'O' ? '<span title="있음" style="color:#10b981;font-weight:800;">●</span>' : v === '△' ? '<span title="일부·약함" style="color:#f59e0b;font-weight:800;">◐</span>'
+    : v === '?' ? '<span title="공개 자료로 확인 못함" style="color:var(--muted);font-size:11px;">확인 필요</span>' : '<span style="color:var(--muted);">–</span>';
+  const tag = c => c.us ? ' <span style="font-size:10px;background:#00B3E3;color:#fff;border-radius:6px;padding:1px 5px;">우리</span>' : c.platform ? ' <span style="font-size:10px;background:#8b5cf633;border-radius:6px;padding:1px 5px;">비출판</span>' : '';
+  const tbl = (head, rows) => `<div style="overflow-x:auto;"><table class="data-table" style="width:100%;font-size:13px;border-collapse:collapse;"><thead><tr>${head.map(x => `<th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;">${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(x => `<td style="padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top;">${x}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const note = t => `<p class="tt-note" style="margin-top:10px;font-size:13px;line-height:1.6;"><b>그래서</b> ${h(t)}</p>`;
+
+  // ① 핵심 요약
+  const b0 = mk('① 핵심 요약', `기준 ${E.as_of || ''} · 공개 홈페이지·보도`);
+  const score = c => AX.reduce((s, [k]) => s + (c.m[k] === 'O' ? 1 : c.m[k] === '△' ? 0.5 : 0), 0);
+  b0.innerHTML = `<ul style="margin:0;padding-left:18px;line-height:1.7;font-size:13px;">${(E.insight || []).map(t => `<li>${h(t)}</li>`).join('')}</ul>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;">${h(E.note || '')}</p>`;
+
+  // ② 서비스 구성 비교
+  const b1 = mk('② 서비스 구성 비교', '● 있음 · ◐ 일부·약함 · – 없음 · 확인 필요 = 공개 자료로 미확정');
+  const sorted = [...CS].sort((a, b) => (b.us ? 99 : 0) - (a.us ? 99 : 0) || (a.platform ? 1 : 0) - (b.platform ? 1 : 0) || score(b) - score(a));
+  b1.innerHTML = tbl(['회사·플랫폼', '서비스', ...AX.map(a => h(a[1])), '구성 점수'],
+    sorted.map(c => [`<b>${h(c.co)}</b>${tag(c)}`, (c.svc || []).map(s => A(s[0], s[1])).join('<br>') || '<span style="color:var(--muted)">단체</span>', ...AX.map(([k]) => cell(c.m[k])), `<b class="num">${score(c).toFixed(1)}</b>/${AX.length}`]))
+    + note('비상은 인가 연수원(학점)·오프라인이 강하고, 라이브·OTT·교사 크리에이터·커뮤니티가 ◐ - 미래엔·천재·티처빌이 채운 칸입니다.');
+
+  // ③ 교사 성장 경로
+  const b2 = mk('③ 교사 성장 경로', '회원 → 참여 → 제작·강연 → 리더');
+  b2.innerHTML = sorted.filter(c => (c.growth || []).length).map(c => `<div style="margin:8px 0;padding:8px 10px;border:1px solid var(--border);border-radius:10px;${c.us ? 'border-color:#00B3E3;' : ''}">
+    <div style="font-weight:800;font-size:13px;margin-bottom:6px;">${h(c.co)}${tag(c)}</div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:12px;">${c.growth.map((g, i) => `${i ? '<span style="color:var(--muted);">→</span>' : ''}<span style="padding:3px 8px;border-radius:999px;background:color-mix(in srgb, var(--accent) ${12 + i * 10}%, transparent);">${i + 1}. ${h(g)}</span>`).join('')}</div>
+    ${c.edge ? `<div style="font-size:12px;margin-top:6px;"><b>핵심</b> ${h(c.edge)}</div>` : ''}${c.watch ? `<div style="font-size:12px;color:#ef4444;margin-top:2px;"><b>주의</b> ${h(c.watch)}</div>` : ''}</div>`).join('')
+    + note('미래엔은 학점 없이 무료 라이브·출연으로 "성장 경험"을, 천재는 도구 사용 교사를 방문 연수 강사로 키웁니다. 비상은 라이브 시청 → 학점 연수 → 강사풀 → 교육청 사업까지 이어지는 유일한 경로를 만들 수 있습니다.');
+
+  // ④ 강사풀 구성 비교
+  const b3 = mk('④ 강사풀 구성 비교', '우리 = 강사풀 집계(이름 없음) · 경쟁사 = 공개 자료 기준');
+  const TG = window.__TG || {}, PL = TG.pool || {}, K = PL.kpi || {};
+  const bars = (arr) => { const mx = Math.max(1, ...arr.map(x => x[1])); return arr.map(([k, v]) => `<div style="display:flex;align-items:center;gap:6px;font-size:12px;margin:2px 0;"><span style="width:84px;">${h(k)}</span><span style="flex:1;background:var(--border);border-radius:4px;height:10px;"><i style="display:block;height:10px;border-radius:4px;background:#00B3E3;width:${v / mx * 100}%;"></i></span><span class="num" style="width:48px;text-align:right;">${(v || 0).toLocaleString()}</span></div>`).join(''); };
+  const tiles = [['강사', K.total_instructors], ['강의', K.total_lectures], ['주강사', K.main_instructors], ['보조강사', K.assist_instructors], ['지역', K.total_regions]].filter(x => x[1] != null)
+    .map(([k, v]) => `<div style="flex:1;min-width:96px;border:1px solid var(--border);border-radius:10px;padding:6px 10px;"><div style="font-size:11px;color:var(--muted);">${k}</div><div class="num" style="font-size:17px;font-weight:800;">${(+v).toLocaleString()}</div></div>`).join('');
+  const comp = {}; (TG.national || []).forEach(g => (g.comp || []).forEach(c => { (comp[c] = comp[c] || []).push(g.name); }));
+  b3.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
+     <div><div style="font-weight:800;font-size:13px;margin-bottom:6px;">비상(우리) 강사풀</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">${tiles || '<span style="color:var(--muted)">집계 없음</span>'}</div>
+       ${PL.tier ? `<div style="font-size:12px;color:var(--muted);margin:4px 0;">등급</div>${bars(PL.tier)}` : ''}${PL.levels ? `<div style="font-size:12px;color:var(--muted);margin:6px 0 4px;">학교급</div>${bars(PL.levels)}` : ''}</div>
+     <div><div style="font-weight:800;font-size:13px;margin-bottom:6px;">경쟁사 강사 구성(공개 자료)</div>${tbl(['회사', '강사 구성'], sorted.filter(c => !c.us).map(c => [`<b>${h(c.co)}</b>`, h(c.pool || '')]))}</div></div>
+   ${Object.keys(comp).length ? `<div style="margin-top:10px;font-size:12px;"><b>전국 교사단체가 협업 중인 경쟁사</b> ${Object.entries(comp).sort((a, b) => b[1].length - a[1].length).map(([c, l]) => `<span style="display:inline-block;margin:2px 4px;padding:2px 8px;border-radius:999px;background:#ef444422;" title="${h(l.join(', '))}">${h(c)} ${l.length}곳</span>`).join('')}</div>` : ''}`
+   + note('우리 풀은 1회 참여 강사 비중이 커서 "주강사·과정 개발자"로 올리는 단계가 약합니다. 경쟁사는 교사 크리에이터·라이브 강연자를 강사로 씁니다 - 강사풀 1회 참여자를 라이브 강연자로 먼저 세우는 단계를 넣으면 됩니다.');
+
+  // ⑤ 가격·학점·이용 조건
+  const b4 = mk('⑤ 가격·학점·이용 조건', '공개 안내 기준 - 확인 필요 항목은 영업 확인');
+  b4.innerHTML = tbl(['회사', '이용 조건·가격·학점', '인가 연수원'], sorted.map(c => [`<b>${h(c.co)}</b>${tag(c)}`, h(c.price || ''), cell(c.m.acad)]))
+    + note('학점 인정 연수원을 가진 곳은 비상·아이스크림·티처빌뿐입니다. 미래엔·천재·동아는 무료 체험으로 관계를 만들고 학점은 외부(티처빌 등)에 의존 - 비상은 "무료 라이브 + 학점" 묶음으로 두 장점을 함께 줄 수 있습니다.');
+
+  // ⑥ 미래엔 엠티처 라이브·OTT 집중
+  const M = CS.find(c => c.co === '미래엔');
+  const cr = (E.crawl && E.crawl.services) || [];
+  const mcr = cr.filter(r => r.co === '미래엔');
+  const b5 = mk('⑥ 미래엔 엠티처 라이브·OTT', '사용자 요청 페이지 집중 분석');
+  b5.innerHTML = (M ? `<div style="font-size:13px;line-height:1.7;"><b>구성</b> ${(M.svc || []).map(s => A(s[0], s[1])).join(' · ')}<br><b>강사</b> ${h(M.pool)}<br><b>조건</b> ${h(M.price)}<br><b>의미</b> ${h(M.edge)}</div>` : '')
+    + (mcr.length ? mcr.map(r => `<div style="margin-top:8px;font-size:12px;"><b>${h(r.svc)}</b> ${r.ok ? '' : '<span style="color:#ef4444;">수집 실패</span>'}${(r.nav || []).length ? `<div style="color:var(--muted);">메뉴: ${(r.nav || []).slice(0, 20).map(h).join(' · ')}</div>` : ''}${(r.subs || []).map(s => `<div>↳ ${A(s.t, s.url)} <span style="color:var(--muted);">${(s.heads || []).slice(0, 6).map(h).join(' · ')}</span></div>`).join('')}</div>`).join('')
+      : '<p style="font-size:12px;color:var(--muted);margin-top:8px;">주간 수집(월 06:20) 결과가 들어오면 메뉴·강연 목록이 여기에 붙습니다.</p>')
+    + note('대응: 비바샘 원격교육연수원에 "월 1회 무료 라이브(강사풀 강사) → 시청 이력으로 학점 연수 할인 → 우수 시청·참여 교사를 강사풀 후보로" 경로를 시범 운영.');
+
+  // ⑦ 주간 수집 - 기능 키워드
+  if (cr.length) {
+    const FK = Object.keys((cr.find(r => r.features) || {}).features || {});
+    const b6 = mk('⑦ 홈페이지 기능 키워드(주간 수집)', `수집 ${E.crawl.generated || ''} · 첫 화면+연수/라이브 링크 1단계 · 글자 빈도`);
+    b6.innerHTML = tbl(['서비스', '상태', ...FK.map(h)], cr.map(r => [`${h(r.co)} · ${A(r.svc, r.url)}`, r.ok ? '✓' : '<span style="color:#ef4444;">실패</span>', ...FK.map(k => { const v = (r.features || {})[k] || 0; return v ? `<span class="num" style="opacity:${0.35 + Math.min(1, v / 40) * 0.65};">${v}</span>` : '<span style="color:var(--muted)">0</span>'; })]));
+  }
+
+  // ⑧ 경쟁사 강사 이름 후보(암호문 복호화 - 로그인 뒤 화면)
+  const b7 = mk('⑧ 경쟁사 강사·강연자 이름 후보', '암호화 보관 · 로그인 뒤 화면만 · 자동 추출(검증 전)');
+  const PE = (PP && PP.people) || null;
+  b7.innerHTML = PE && Object.values(PE).some(v => v.length)
+    ? `<details><summary style="cursor:pointer;font-size:13px;">펼쳐 보기 (${Object.values(PE).reduce((s, v) => s + v.length, 0)}건 · ${h(PP.generated || '')})</summary>${tbl(['서비스', '이름 후보(빈도순)'], Object.entries(PE).filter(([, v]) => v.length).map(([k, v]) => [h(k), v.slice(0, 40).map(h).join(', ')]))}
+       <p style="font-size:12px;color:var(--muted);">홈페이지 글자에서 "OOO 선생님/강사" 형태를 뽑은 후보입니다. 섭외·접촉 전 반드시 공식 이력으로 확인하고, 개인에게 직접 접촉하지 않고 단체·연구회를 통해 제안합니다.</p></details>`
+    : '<p style="font-size:12px;color:var(--muted);">아직 수집 전이거나 복호화 키가 없습니다(배포 때 자동 복호화).</p>';
+})();
+</script>
+<script>
 /* ---------------- 보기 전환: 기본(지금 탭 줄) · 그룹 · 카드 · 책장 ----------------
    탭 화면은 하나 - 바뀌는 건 '목차'뿐(activateTab 그대로 사용). 선택은 이 브라우저에만 기억, '초기화'로 기본으로 */
 (function renderViews(){
@@ -10006,11 +10096,11 @@ window.__renderPdfx = function(root, P){
     ['시장·정책', '#4f8cff', ['market', 'strategy', 'trend2027', 'biz2027']],
     ['조달·발주', '#f59e0b', ['g2bfull', 'keris', 'g2b', 'school', 'aiep']],
     ['영업 B2G·B2S', '#10b981', ['pipeline', 'branch', 'adopt', 'leading', 'b2s']],
-    ['경쟁·성과', '#ef4444', ['competitor', 'neti', 'content']],
+    ['경쟁·성과', '#ef4444', ['competitor', 'neti', 'content', 'eco']],
     ['연결·관리', '#8b5cf6', ['network', 'beta', 'admin']]];
   const SHORT = {strategy: '전략브리핑', trend2027: '교사트렌드2027', biz2027: '기업·대학2027', g2bfull: '나라장터종합', g2b: 'AI발주', school: '학교단위발주',
     aiep: '시도AIEP', pipeline: 'B2G영업', branch: '지역총판', adopt: '교과서채택', leading: 'AI중점학교', b2s: 'B2S·샘몰', competitor: '경쟁사분석',
-    neti: '이수현황', content: '콘텐츠·매출', network: '생태계', beta: '베타', admin: '관리'};
+    neti: '이수현황', content: '콘텐츠·매출', eco: '교사생태계', network: '생태계', beta: '베타', admin: '관리'};
   const btn = {}; nav.querySelectorAll('.tabbtn').forEach(b => { if (!b.hidden) btn[b.dataset.tab] = b; });
   const name = t => (btn[t] ? btn[t].textContent.trim() : t);
   GROUPS.forEach(g => { g[2] = g[2].filter(t => btn[t]); });
