@@ -26,6 +26,35 @@ def safe(s):
     return re.sub(r"serviceKey=[^&\s\"']+", "serviceKey=***", str(s))
 
 
+def one(name, url, q):
+    try:
+        with urllib.request.urlopen(url + "?" + urllib.parse.urlencode(q), timeout=25) as r:
+            raw = r.read().decode("utf-8", "replace")
+        d = json.loads(raw)
+        h = (d.get("response") or {}).get("header") or (d.get("nkoneps.com.response.ResponseError") or {}).get("header") or {}
+        tc = ((d.get("response") or {}).get("body") or {}).get("totalCount")
+        print(f"  {name}: {h.get('resultCode')} {h.get('resultMsg')} · 건수 {tc}")
+    except Exception as e:  # noqa: BLE001
+        print(f"  {name}: {type(e).__name__} {safe(str(e))[:100]}")
+
+
+def variants():
+    """입찰공고 조회 조건별 허용 여부(07 입력범위값 초과 원인 찾기)"""
+    url = "https://apis.data.go.kr/1230000/ad/BidPublicInfoService/getBidPblancListInfoServc"
+    now = datetime.now()
+    base = {"serviceKey": KEY, "pageNo": 1, "type": "json"}
+    for label, extra in [
+        ("1일·10건", {"numOfRows": 10, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=1)).strftime("%Y%m%d%H%M"), "inqryEndDt": now.strftime("%Y%m%d%H%M")}),
+        ("1일·100건", {"numOfRows": 100, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=1)).strftime("%Y%m%d%H%M"), "inqryEndDt": now.strftime("%Y%m%d%H%M")}),
+        ("3일·10건", {"numOfRows": 10, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=3)).strftime("%Y%m%d0000"), "inqryEndDt": now.strftime("%Y%m%d2359")}),
+        ("어제 하루(00~23:59)", {"numOfRows": 10, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=1)).strftime("%Y%m%d0000"), "inqryEndDt": (now - timedelta(days=1)).strftime("%Y%m%d2359")}),
+        ("종료=지금(분)", {"numOfRows": 10, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=2)).strftime("%Y%m%d%H%M"), "inqryEndDt": now.strftime("%Y%m%d%H%M")}),
+        ("inqryDiv 2(개찰일)", {"numOfRows": 10, "inqryDiv": 2, "inqryBgnDt": (now - timedelta(days=2)).strftime("%Y%m%d0000"), "inqryEndDt": now.strftime("%Y%m%d2359")}),
+        ("날짜 없이", {"numOfRows": 10, "inqryDiv": 1}),
+    ]:
+        one(label, url, {**base, **extra})
+
+
 def main():
     print("키:", "설정됨" if KEY else "미설정")
     for name, url, extra in CHECKS:
@@ -47,3 +76,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print("입찰공고 조건별:")
+    variants()
