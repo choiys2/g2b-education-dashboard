@@ -54,9 +54,56 @@ def _stem(t):
     return s if len(s) >= 2 else t
 
 
+def _tel(v):
+    """'02 .945 .7444' -> '02-945-7444' (사무실 전화·팩스만, 휴대폰은 받지 않는다)"""
+    d = re.sub(r"[^0-9]+", "-", (v or "").strip()).strip("-")
+    return "" if d.startswith("01") else d
+
+
+def convert_v2(s):
+    """2026 통합본 형식: 지사 1줄에 학판·교판·알찬 코드가 함께 있다 -> 코드별 1줄(기존 학판/교판 구조 유지).
+    대표자·핸드폰 열은 읽지 않는다."""
+    rows, reg, head = [], "", None
+    for r in range(s.nrows):
+        v = [str(c.value).strip() for c in s.row(r)]
+        if head is None:
+            if any("상호" in x for x in v):
+                head = {k: next((i for i, x in enumerate(v) if k in x), None) for k in ("권역", "상호", "영업전략", "담당 지역", "전화번호", "팩스", "주")}
+            continue
+        codes = [x for x in v[2:5]]
+        if not any(re.match(r"^[A-Z]\d{4,6}$", x) for x in codes):
+            continue
+        if v[head["권역"]]:
+            reg = v[head["권역"]].split("\n")[0].strip()
+        name, area = v[head["상호"]], v[head["담당 지역"]].replace("\n", " ")
+        addr = v[head["주"]] if head["주"] is not None else ""
+        sido = reg if reg in SIDO else ""
+        if not sido:
+            blob = f"{name} {area} {addr}"
+            sido = next((x for x in ("부산", "대구", "울산", "인천", "광주", "대전", "세종") if x in blob), "")
+        main_area = re.sub(r"\[[^\]]*\]", " ", area)  # [ ] = 알찬(FC) 담당 - 학판·교판 구역에서는 뺀다
+        for typ, code in (("학판", codes[0]), ("교판", codes[1]), ("알찬", codes[2])):
+            if not re.match(r"^[A-Z]\d{4,6}$", code):
+                continue
+            if typ == "알찬" and (re.match(r"^[A-Z]\d{4,6}$", codes[0]) or re.match(r"^[A-Z]\d{4,6}$", codes[1])):
+                continue  # 학판·교판 지사가 알찬도 겸하면 별도 줄을 만들지 않는다(코드만 기록)
+            ar = area if typ == "알찬" else main_area
+            rows.append({"type": typ, "code": code, "fc": codes[2] if typ != "알찬" else "", "region": reg, "sido": sido, "name": name,
+                         "staff": v[head["영업전략"]], "area": re.sub(r"\s+", " ", ar).strip(" ,"), "tokens": _toks(ar),
+                         "tel": _tel(v[head["전화번호"]]), "fax": _tel(v[head["팩스"]]), "addr": addr})
+    offices = _offices()
+    for r in rows:
+        r["sido"] = _infer_sido(r, offices)
+        if r["region"] == "광역" and r["tokens"] and _stem(r["tokens"][0]) in WHOLE:  # '광주시,담양군…' = 광주광역시 총판
+            r["sido"] = _stem(r["tokens"][0])
+    return rows
+
+
 def convert(xls):
     import xlrd
     s = xlrd.open_workbook(xls).sheet_by_index(0)
+    if any("상호" in str(c.value) for r in range(min(6, s.nrows)) for c in s.row(r)):
+        return convert_v2(s)
     rows, sec, reg = [], "", ""
     for r in range(s.nrows):
         v = [str(c.value).strip() for c in s.row(r)]
@@ -325,14 +372,17 @@ def main():
     if len(sys.argv) >= 3 and sys.argv[1] == "convert":
         import strategy_crypto
         rows = convert(sys.argv[2])
+        as_of = sys.argv[3] if len(sys.argv) > 3 else "2014-11-03"
         bad = [r for r in rows if not r["sido"]]
         offices = _offices()
         cnt = Counter((r["sido"], r["type"]) for r in rows)
-        summ = {"as_of": "2014-11-03", "source": "비상교육 지사 주소록(학판·교판) - 상세는 암호문(로그인 뒤 화면)",
-                "total": len(rows), "by_sido": [{"sido": sd, "학판": cnt[(sd, "학판")], "교판": cnt[(sd, "교판")]} for sd in SIDO],
+        summ = {"as_of": as_of, "source": "비상교육 지사 주소록(학판·교판) - 상세는 암호문(로그인 뒤 화면)",
+                "total": sum(1 for r in rows if r["type"] in ("학판", "교판")), "alchan": sum(1 for r in rows if r["type"] == "알찬"),
+                "branches": len({(r["name"], r["addr"]) for r in rows}),
+                "by_sido": [{"sido": sd, "학판": cnt[(sd, "학판")], "교판": cnt[(sd, "교판")], "알찬": cnt[(sd, "알찬")]} for sd in SIDO],
                 "matched_rows": sum(1 for r in rows if _match(r, offices)), "unknown_sido": len(bad)}
         (HERE / "static_data/branch_summary.json").write_text(json.dumps(summ, ensure_ascii=False, indent=1), encoding="utf-8")
-        blob = {"as_of": "2014-11-03", "rows": rows}
+        blob = {"as_of": as_of, "rows": rows}
         txt = json.dumps(blob, ensure_ascii=False)
         assert not re.search(r"01[016789]-\d{3,4}-\d{4}", txt), "휴대폰 번호가 섞였습니다"
         (HERE / "static_data/branch_network.enc.json").write_text(json.dumps(strategy_crypto.encrypt(blob)), encoding="utf-8")
