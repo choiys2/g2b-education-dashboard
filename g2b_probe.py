@@ -39,20 +39,14 @@ def one(name, url, q):
 
 
 def variants():
-    """입찰공고 조회 조건별 허용 여부(07 입력범위값 초과 원인 찾기)"""
-    url = "https://apis.data.go.kr/1230000/ad/BidPublicInfoService/getBidPblancListInfoServc"
+    """조회 기간 한도 찾기: 서비스별 1~7일"""
     now = datetime.now()
-    base = {"serviceKey": KEY, "pageNo": 1, "type": "json"}
-    for label, extra in [
-        ("1일·10건", {"numOfRows": 10, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=1)).strftime("%Y%m%d%H%M"), "inqryEndDt": now.strftime("%Y%m%d%H%M")}),
-        ("1일·100건", {"numOfRows": 100, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=1)).strftime("%Y%m%d%H%M"), "inqryEndDt": now.strftime("%Y%m%d%H%M")}),
-        ("3일·10건", {"numOfRows": 10, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=3)).strftime("%Y%m%d0000"), "inqryEndDt": now.strftime("%Y%m%d2359")}),
-        ("어제 하루(00~23:59)", {"numOfRows": 10, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=1)).strftime("%Y%m%d0000"), "inqryEndDt": (now - timedelta(days=1)).strftime("%Y%m%d2359")}),
-        ("종료=지금(분)", {"numOfRows": 10, "inqryDiv": 1, "inqryBgnDt": (now - timedelta(days=2)).strftime("%Y%m%d%H%M"), "inqryEndDt": now.strftime("%Y%m%d%H%M")}),
-        ("inqryDiv 2(개찰일)", {"numOfRows": 10, "inqryDiv": 2, "inqryBgnDt": (now - timedelta(days=2)).strftime("%Y%m%d0000"), "inqryEndDt": now.strftime("%Y%m%d2359")}),
-        ("날짜 없이", {"numOfRows": 10, "inqryDiv": 1}),
-    ]:
-        one(label, url, {**base, **extra})
+    svc = [("입찰공고 검색", "https://apis.data.go.kr/1230000/ad/BidPublicInfoService/getBidPblancListInfoServcPPSSrch", {"bidNtceNm": "연수"}),
+           ("낙찰 검색", "https://apis.data.go.kr/1230000/as/ScsbidInfoService/getScsbidListSttusServcPPSSrch", {"bidNtceNm": "연수"})]
+    for name, url, ex in svc:
+        for d in (1, 2, 3, 4, 5, 6, 7, 14):
+            one(f"{name} {d}일", url, {"serviceKey": KEY, "pageNo": 1, "numOfRows": 10, "type": "json", "inqryDiv": 1,
+                                        "inqryBgnDt": (now - timedelta(days=d)).strftime("%Y%m%d%H%M"), "inqryEndDt": now.strftime("%Y%m%d%H%M"), **ex})
 
 
 def main():
