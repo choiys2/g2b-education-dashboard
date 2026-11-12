@@ -85,9 +85,10 @@ def youtube(chan_all):
         with urllib.request.urlopen("https://www.googleapis.com/youtube/v3/" + path + "?" + urllib.parse.urlencode(q), timeout=20) as r:
             return json.loads(r.read().decode("utf-8"))
     res, used = [], 0
-    for svc, chans in chan_all.items():
+    # 미래엔 쌤OTT 등 경쟁 플랫폼 채널을 먼저(검색 한도 안에서 비교 대상 우선), 자사는 뒤로
+    for svc, chans in sorted(chan_all.items(), key=lambda kv: (0 if "OTT" in kv[0] or "채널" in kv[0] else 2 if kv[0].startswith("비바샘") else 1)):
         for c in [x for x in chans if 2 <= len(x) <= 25 and not re.search(r"[#|\[\]]", x)][:25]:
-            if used >= 40:  # 검색 1회 100단위 - 하루 한도 안에서 넉넉히
+            if used >= 45:  # 검색 1회 100단위 - 하루 한도 안에서 넉넉히
                 break
             try:
                 used += 1
