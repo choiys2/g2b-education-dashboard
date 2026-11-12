@@ -178,17 +178,6 @@
      "total_debt": 209756544229,
      "total_capital": 171839969142,
      "debt_ratio": "122.0650499859"
-    },
-    {
-     "biz_year": 2025,
-     "consolidated": false,
-     "sales": 265695040273,
-     "operating_profit": 20686649465,
-     "net_profit": 23641807607,
-     "total_assets": 395245014284,
-     "total_debt": 198953672040,
-     "total_capital": 196291342244,
-     "debt_ratio": "101.356315447"
     }
    ],
    "next_disclosure": {
@@ -203,5 +192,5 @@
    "history": []
   }
  },
- "captured": "2026-11-11"
+ "captured": "2026-11-12"
 }
