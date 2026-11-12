@@ -16,15 +16,17 @@ npx --yes wrangler@3 pages project create "$PROJECT" --production-branch=main >/
 if [ -f "$DIR/index.html" ]; then mkdir -p "$DIR/summary" && cp "$DIR/index.html" "$DIR/summary/index.html"; fi
 printf '/ /full/ 302\n' > "$DIR/_redirects"
 npx --yes wrangler@3 pages deploy "$DIR" --project-name="$PROJECT" --branch=main --commit-dirty=true 2>&1 \
-  | grep -v -i "token" | tail -5 | tee /tmp/cf_deploy.txt
+  | grep -v -i "token" | tail -5 > /tmp/cf_deploy.txt
+# 미리보기 주소는 공개 로그에 남기지 않는다(해시 부분 가림)
+sed -E 's#https://[a-z0-9]+\.([a-z0-9-]+)\.pages\.dev#https://********.\1.pages.dev#g' /tmp/cf_deploy.txt
 echo "Cloudflare Pages: https://$PROJECT.pages.dev"
 # 보안 실측: 로그인 없이 열면 Cloudflare Access 로그인으로 넘어가야 한다(본 주소·배포별 미리보기 주소 모두)
 probe() {
-  local u="$1" code loc
+  local u="$1" kind="${2:-main}" code loc
   code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 "$u" || echo 000)
   loc=$(curl -s -o /dev/null -w "%{redirect_url}" --max-time 15 "$u" || true)
-  if [[ "$loc" == *cloudflareaccess.com* ]] || [ "$code" = "401" ] || [ "$code" = "403" ]; then
-    echo "Access 보호: 정상 ($code) - ${u%%.pages.dev*}.pages.dev 계열"
+  if [[ "$loc" == *cloudflareaccess.com* ]] || [ "$code" = "401" ] || [ "$code" = "403" ] || { [ "$kind" = "preview" ] && [ "$code" = "404" ]; }; then
+    echo "Access 보호: 정상 ($code · $kind)"
   else
     echo "::warning::Access 보호 미적용으로 보임($code) - 로그인 없이 열리는 주소가 있습니다(페이지 암호는 유지). Cloudflare Zero Trust > Access 앱에 *.$PROJECT.pages.dev 를 추가하세요"
     echo "Access 보호: 미적용 ($code)"
@@ -32,4 +34,4 @@ probe() {
 }
 probe "https://$PROJECT.pages.dev/full/"
 PREV=$(grep -o -E "https://[a-z0-9]+\.$PROJECT\.pages\.dev" /tmp/cf_deploy.txt | head -1)
-if [ -n "$PREV" ]; then echo "미리보기 주소 점검:"; probe "$PREV/full/"; fi
+if [ -n "$PREV" ]; then probe "$PREV/full/" preview; probe "$PREV/full/report.pdf" preview; fi
