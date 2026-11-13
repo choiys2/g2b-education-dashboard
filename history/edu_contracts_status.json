@@ -1,5 +1,5 @@
 {
- "date": "2026-11-12",
+ "date": "2026-11-13",
  "jbe": {
   "pages": 24,
   "rows": 223,
@@ -33,7 +33,7 @@
  },
  "pen": {
   "pages": 16,
-  "rows": 5,
+  "rows": 6,
   "months": 2,
   "diag": {
    "first_text": "('data-nm'); var paramUrl = $(this).attr('data-url'); $(\"#paramVal\").val(paramVal); $(\"#paramNm\").val(paramNm); setTrimMenuId(); $(\"#mainMenuForm\").attr('action', paramUrl).submit(); }); }); //파라미터 페이지 이동 function goParamPage( setVal, setNm, setUrl ) { $(\"#paramNm\").val(setNm); $(\"#paramVal\").val(setVal); setTrimMenuId(); $(\"#mainMenuForm\").attr('action', setUrl).submit(); }; //메뉴 아이디 공백제거 function setTrimMenuId(){ var nowMenuId = $.trim($(\"#nowMenuId\").val()); $(\"nowMenuId\").val(nowMenuId); }; "
@@ -49,8 +49,8 @@
    "계약대상자"
   ]
  },
- "fetched": 328,
- "training": 152,
- "new": 5,
- "total": 801
+ "fetched": 329,
+ "training": 154,
+ "new": 3,
+ "total": 804
 }
