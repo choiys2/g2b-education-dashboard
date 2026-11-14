@@ -133,6 +133,7 @@ def build(own_courses, own_name="비바샘연수원", weeks=8):
                        "n_best": len(best), "n_cat": len(cats)},
                       {"name": isc.get("name", "아이스크림몰"), "operator": isc.get("operator", ""),
                        "status": isc.get("status", "수집 불가"), "note": isc.get("note", "")}],
+            "isc": {k: isc[k] for k in ("goods", "pick", "trials", "notices", "categories", "services", "captured", "via") if isc.get(k)},
             "keywords": kws, "categories": cats, "best": best[:30], "new": new[:20], "new_weekly": weekly,
             "sets": sets[:20], "pairs": pairs[:10], "own_name": own_name}
 

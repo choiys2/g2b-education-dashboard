@@ -19,7 +19,11 @@ jobs:
           python-version: "3.12"
       - run: pip install playwright && python -m playwright install --with-deps chromium
       # 공개 목록만, robots.txt 허용 경로만 연다(스크립트가 실행 때마다 재확인).
-      - name: 티처몰 상품 동향 수집(아이스크림몰은 접속 상태만 기록)
+      # 아이스크림몰은 해외 접속을 끊어 한국 경유(Firecrawl)로 첫 화면만 읽는다(robots Allow·Crawl-delay 30초). 키 없으면 상태만.
+      - name: 티처몰·아이스크림몰 상품 동향 수집
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          FIRECRAWL_MAX_CALLS: "5"
         run: python competitor_mall_scrape.py
       # 키가 없으면 해당 출처만 건너뛴다(Secrets: YOUTUBE_API_KEY).
       - name: 교사 트렌드 수집(유튜브 교사 채널)

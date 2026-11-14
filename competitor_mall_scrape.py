@@ -11,7 +11,8 @@
 
 robots.txt: shop.teacherville.co.kr 은 기본 Disallow / 에 /goods·/promotion·/main 만 허용한다.
 허용 경로만 열고, 메뉴의 /click/hyperlink 추적 링크는 따라가지 않고 move= 목적지로 바로 간다.
-아이스크림몰(i-screammall.co.kr)은 해외(GitHub 러너) 접속을 끊어 지금은 '수집 불가'로 기록만 한다.
+아이스크림몰(i-screammall.co.kr)은 해외(GitHub 러너) 접속을 끊는다. FIRECRAWL_API_KEY 가 있으면 한국 경유(firecrawl_kr.py)로
+첫 화면(쌤PICK·체험단·추천 상품·공지)을 읽는다 - robots.txt Allow, Crawl-delay 30초. 키가 없으면 상태만 기록.
 """
 import json
 import re
@@ -238,6 +239,73 @@ def probe_iscream(page):
                 "note": "해외 서버 접속 차단(" + str(e).splitlines()[0].split("net::")[-1][:40] + ")"}
 
 
+ISC_GOODS = re.compile(r"\[((?:[^\[\]]|\[[^\[\]]*\])*)\]\((https://i-screammall\.co\.kr/goods/detail/(\d+))[^)]*\)")
+ISC_EVENT = re.compile(r"\[\\?\[체험단\\?\]\s*([^\\\]]+?)\\*\n(?:.|\n)*?모집기간\s*([\d-]+\s*~\s*[\d-]+)(?:.|\n)*?체험단인원\s*(\d+)명\]\((https://i-screammall\.co\.kr/event/\d+)\)")
+ISC_NOTICE = re.compile(r"- \[(.+?)\]\((https://i-screammall\.co\.kr/customer/notice/\d+)\)", re.S)
+
+
+def _isc_lines(t):
+    t = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", t)
+    return [x.strip(" \\*") for x in re.split(r"(?:\\+)?\n", t) if x.strip(" \\*")]
+
+
+def parse_iscream(md):
+    """아이스크림몰 첫 화면(한국 경유 수집본) -> 쌤PICK·체험단 상품·카테고리·공지. 공개 목록만, 회원 정보 없음."""
+    goods = {}
+    for m in ISC_GOODS.finditer(md):
+        lines = _isc_lines(m.group(1))
+        if not lines:
+            continue
+        prices = [int(x.replace(",", "").replace("원", "")) for x in lines if re.fullmatch(r"[\d,]+원", x)]
+        disc = next((int(x[:-1]) for x in lines if re.fullmatch(r"\d{1,2}%", x)), None)
+        names = [x for x in lines if not re.fullmatch(r"[\d,]+원|\d{1,2}%|상품 바로가기", x)]
+        name = max(names, key=len) if names else ""
+        if not name:
+            continue
+        seller = names[0] if len(names) > 1 and names[0] != name and len(names[0]) <= 20 else ""
+        no = m.group(3)
+        cur = goods.get(no, {})
+        if len(name) >= len(cur.get("name", "")):
+            goods[no] = {"no": no, "name": name[:80], "price": prices[0] if prices else cur.get("price"),
+                         "orig": prices[1] if len(prices) > 1 else cur.get("orig"), "disc": disc if disc is not None else cur.get("disc"),
+                         "seller": seller or cur.get("seller", "")}
+    trials = [{"title": re.sub(r"\s+", " ", m.group(1)).strip()[:60], "period": m.group(2), "n": int(m.group(3)), "url": m.group(4)}
+              for m in ISC_EVENT.finditer(md)]
+    notices = []
+    for m in ISC_NOTICE.finditer(md):
+        ls = _isc_lines(m.group(1).replace("\\[", "[").replace("\\]", "]"))
+        if len(ls) >= 2 and re.fullmatch(r"\d{4}\.\d{2}\.\d{2}", ls[-1]):
+            notices.append({"title": ls[0][:60], "date": ls[-1].replace(".", "-")})
+    head = md.split("## 30초")[0]
+    cats = [x.strip() for x in head.split("\n") if x.strip() and not x.startswith(("#", "[", "!")) and len(x.strip()) <= 20 and x.strip() != "전체"]
+    pick = next(iter(goods.values()), None) if "30초 쌤 PICK" in md else None
+    return {"goods": list(goods.values())[:40], "pick": pick, "trials": trials[:10], "notices": notices[:8], "categories": cats[:20]}
+
+
+def scrape_iscream(prev_isc):
+    """FIRECRAWL_API_KEY 가 있으면 한국 경유로 첫 화면을 읽는다(robots.txt Allow·Crawl-delay 30초 준수, 요청 1~2건).
+    키가 없거나 실패하면 지난 수집분을 유지하고 상태만 바꾼다."""
+    base = {"name": "아이스크림몰", "operator": "아이스크림미디어", "url": IS}
+    try:
+        import firecrawl_kr as fc
+    except Exception:  # noqa: BLE001
+        fc = None
+    if not (fc and fc.enabled()):
+        return None
+    try:
+        d = fc.scrape(IS, ("markdown",), main_only=True, wait=3000)
+        if d is None:
+            return dict(base, status="수집 불가", note="robots.txt 금지")
+        r = parse_iscream(d.get("markdown") or "")
+        if not (r["goods"] or r["trials"]):
+            raise RuntimeError("상품 0건(화면 구조 변경 의심)")
+        return dict(base, status="수집 중", via="firecrawl(한국 경유)", services=(prev_isc or {}).get("services", []), **r)
+    except Exception as e:  # noqa: BLE001
+        msg = fc.safe(e)[:80]
+        keep = {k: v for k, v in (prev_isc or {}).items() if k in ("goods", "pick", "trials", "notices", "categories", "services", "captured")}
+        return dict(base, status="수집 불가", note="한국 경유 수집 실패: " + msg, **keep)
+
+
 def main():
     today = date.today().isoformat()
     prev = {}
@@ -255,6 +323,19 @@ def main():
         page2 = b.new_context(user_agent=UA, locale="ko-KR").new_page()
         isc = probe_iscream(page2)
         b.close()
+    fc_isc = scrape_iscream((prev.get("malls") or {}).get("iscream"))
+    if fc_isc:
+        isc = fc_isc
+        if isc.get("status") == "수집 중":
+            isc["captured"] = today
+            first_isc = not any(k.startswith("isc:") for k in seen)
+            for g in isc.get("goods", []):
+                key = "isc:" + g["no"]
+                if key not in seen:
+                    seen[key] = today
+                    if not first_isc:
+                        with NEW_PATH.open("a", encoding="utf-8") as f:
+                            f.write(json.dumps({"first_seen": today, "mall": "아이스크림몰", "no": g["no"], "name": g["name"], "price": g.get("price")}, ensure_ascii=False) + "\n")
     if tm["status"] != "ok" or not (tm["best"] or tm["categories"]):
         print("티처몰 수집 결과가 비어 기존 파일을 유지합니다.", file=sys.stderr)
         if prev:

@@ -29,6 +29,8 @@ jobs:
       - name: 수집
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}   # 없으면 유튜브 통계만 건너뜀
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}   # 없으면 한국 경유 재시도 생략(직접 접속 실패 사이트는 실패로 기록)
+          FIRECRAWL_MAX_CALLS: "20"
         run: python teacher_ecosystem.py
       - name: 결과 커밋
         run: |

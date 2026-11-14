@@ -179,6 +179,11 @@ def main():
     from playwright.sync_api import sync_playwright
     sys.path.insert(0, str(HERE))
     out, people, t0, chan_all, evs = [], {}, time.time(), {}, []
+    try:
+        import firecrawl_kr as fc
+        print("한국 경유(Firecrawl):", "사용" if fc.enabled() else "키 미설정 - 직접 접속만", flush=True)
+    except Exception:  # noqa: BLE001
+        fc = None
     with sync_playwright() as p:
         br = p.chromium.launch()
         ctx = br.new_context(locale="ko-KR", viewport={"width": 1366, "height": 900},
@@ -187,26 +192,43 @@ def main():
             rec = {"co": co, "svc": svc, "url": url, "ok": False}
             pg = ctx.new_page()
             try:
+                via_fc = False
                 try:
-                    pg.goto(url, wait_until="domcontentloaded", timeout=45000)
-                except Exception:  # noqa: BLE001 - 느린 사이트는 첫 응답만 받고 진행
-                    pg.goto(url, wait_until="commit", timeout=60000)
-                    pg.wait_for_timeout(8000)
-                try:
-                    pg.wait_for_load_state("networkidle", timeout=12000)
-                except Exception:  # noqa: BLE001
-                    pass
-                pg.wait_for_timeout(2500)
-                g = grab(pg)
+                    try:
+                        pg.goto(url, wait_until="domcontentloaded", timeout=45000)
+                    except Exception:  # noqa: BLE001 - 느린 사이트는 첫 응답만 받고 진행
+                        pg.goto(url, wait_until="commit", timeout=60000)
+                        pg.wait_for_timeout(8000)
+                    try:
+                        pg.wait_for_load_state("networkidle", timeout=12000)
+                    except Exception:  # noqa: BLE001
+                        pass
+                    pg.wait_for_timeout(2500)
+                    g = grab(pg)
+                    if len(g["body"]) < 300:
+                        raise RuntimeError("본문이 거의 비어 있음")
+                except Exception as e0:  # noqa: BLE001 - 해외 접속 차단·시간 초과 → 한국 경유(Firecrawl)로 재시도
+                    if not (fc and fc.enabled()):
+                        raise
+                    print(f"    {svc}: 직접 접속 실패({type(e0).__name__}) → 한국 경유 재시도", flush=True)
+                    g = fc.grab(url)
+                    if g is None:
+                        raise RuntimeError("robots.txt 금지") from None
+                    via_fc = True
                 body = g["body"]
                 subs = []
                 host = re.sub(r"^https?://", "", g["url"]).split("/")[0]
                 cand = [l for l in g["links"] if LINK_RE.search(l["t"]) and host.split(".")[-2] in l["h"] and l["h"].startswith("http")]
-                for l in cand[:3]:  # 라이브·연수 링크 한 단계만
+                for l in cand[:(1 if via_fc else 3)]:  # 라이브·연수 링크 한 단계만(한국 경유는 비용 때문에 1개)
                     try:
-                        pg.goto(l["h"], wait_until="domcontentloaded", timeout=25000)
-                        pg.wait_for_timeout(2500)
-                        s = grab(pg)
+                        if via_fc:
+                            s = fc.grab(l["h"], main_only=True)
+                            if s is None:
+                                continue
+                        else:
+                            pg.goto(l["h"], wait_until="domcontentloaded", timeout=25000)
+                            pg.wait_for_timeout(2500)
+                            s = grab(pg)
                         subs.append({"t": l["t"], "url": s["url"], "heads": s["heads"][:40]})
                         body += "\n" + s["body"]
                     except Exception:  # noqa: BLE001
@@ -227,6 +249,8 @@ def main():
                 chan_all[svc] = chans
                 for sb in subs:
                     sb["heads"] = pub(sb["heads"])
+                if via_fc:
+                    rec["via"] = "firecrawl(한국 경유)"
                 rec.update(ok=True, final=g["url"], title=g["title"][:80], nav=pub(g["nav"])[:40], heads=pub(g["heads"])[:50],
                            subs=subs, features=feats, n_people=len(people[svc]), n_channels=len(chans), chars=len(body))
             except Exception as e:  # noqa: BLE001
@@ -258,7 +282,8 @@ def main():
         OUT_ENC.write_text(json.dumps(strategy_crypto.encrypt({"generated": date.today().isoformat(), "people": people, "yt": yt}), ensure_ascii=False), encoding="utf-8")
     except Exception as e:  # noqa: BLE001
         print("강사 이름 암호화 생략:", type(e).__name__)
-    print(f"교사 생태계: {sum(1 for r in out if r['ok'])}/{len(out)} 서비스 · {round(time.time() - t0)}초")
+    print(f"교사 생태계: {sum(1 for r in out if r['ok'])}/{len(out)} 서비스 · {round(time.time() - t0)}초"
+          + (f" · 한국 경유 {fc.calls()}건" if fc and fc.enabled() else ""))
     return 0
 
 
