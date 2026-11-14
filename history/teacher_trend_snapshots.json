@@ -29,12 +29,12 @@
    },
    {
     "id": "safety",
-    "score": 23,
+    "score": 24,
     "stage": "성숙"
    },
    {
     "id": "care",
-    "score": 20,
+    "score": 19,
     "stage": "성숙"
    },
    {
@@ -58,13 +58,13 @@
     "stage": "성숙"
    },
    {
-    "id": "citizen",
-    "score": 14,
+    "id": "career",
+    "score": 15,
     "stage": "관망"
    },
    {
-    "id": "career",
-    "score": 14,
+    "id": "citizen",
+    "score": 13,
     "stage": "관망"
    },
    {
