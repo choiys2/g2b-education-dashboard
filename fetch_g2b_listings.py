@@ -27,7 +27,8 @@ data.go.kr 조달청 나라장터 OpenAPI 실데이터 수집기
   - 사전규격정보서비스 getPublicPrcureThngInfoServc: prdctClsfcNoNm 파라미터를
     넘겨도 결과가 전혀 바뀌지 않음(무시됨) -> 이 서비스는 전체 목록을 받아
     클라이언트에서 제목 키워드로 걸러낸다.
-  - 조회 기간(inqryBgnDt~inqryEndDt)이 약 30일을 넘으면 "입력범위값 초과 에러"
+  - 2026-11-11부터 입찰공고·낙찰 조회 기간 한도가 6일로 줄었다(7일부터 07 에러, 사전규격은 그대로 ~30일).
+  - 조회 기간(inqryBgnDt~inqryEndDt)이 한도를 넘으면 "입력범위값 초과 에러"
     발생 -> date_chunks()로 g2b_config.json의 date_range_chunk_days 단위로 분할 호출.
   - 발주계획현황서비스(2026-07-28 활성화): 오퍼레이션명은 getOrderPlanSttusListServc
     ("Info"를 끼워 넣은 이름들은 전부 API not found였음). orderBgnYm/orderEndYm은
@@ -230,7 +231,7 @@ def fetch_bid_announcements(cfg, keywords=SEARCH_KEYWORDS, days_back=21):
 
 def fetch_pre_specs(cfg, keywords=SEARCH_KEYWORDS, days_back=21):
     svc = cfg["services"]["pre_spec"]
-    chunk_days = cfg.get("date_range_chunk_days", 28)
+    chunk_days = cfg.get("pre_spec_chunk_days", 28)
     interval = cfg.get("request_interval_sec", 0.15)
     all_items = []
     for begin, end in date_chunks(days_back, chunk_days):
@@ -404,6 +405,57 @@ def is_open(deadline_str, today=None):
     return d >= today
 
 
+CACHE_PATH = os.path.join("history", "g2b_ytd_cache.json")
+
+
+def _incremental(cfg, analytics_days):
+    from datetime import date as _d
+    y0 = f"{_d.today().year}-01-01"
+    try:
+        with open(CACHE_PATH, encoding="utf-8") as f:
+            cache = json.load(f)
+    except (OSError, ValueError):
+        cache = {}
+    if cache.get("year") != _d.today().year:
+        cache = {}
+    if not cache:  # 첫 실행: 누적 기록(연수 입찰공고·경쟁사 낙찰)으로 연초~최근을 채우고, 그 뒤만 API 로
+        try:
+            import g2b_history_fallback as fb
+            a = fb.build()["analytics"]
+            bids = [dict(r, _key=r.get("_bid_key", "")) for r in a["입찰공고"]]
+            wins = [dict(r, _key=(r.get("_bid_key", "") + "-" + r.get("낙찰업체", ""))) for r in a["낙찰정보"]]
+            last = max([r.get("공고일") or "" for r in bids] or [""])
+            cache = {"year": _d.today().year, "bids": bids, "wins": wins, "through": last or "", "seeded": "history"}
+            print(f"  캐시 시작: 누적 기록 입찰공고 {len(bids)} · 낙찰 {len(wins)} (~{last})")
+        except Exception as e:  # noqa: BLE001
+            print(f"  [경고] 누적 기록 시드 실패: {e}", file=sys.stderr)
+            cache = {"year": _d.today().year, "bids": [], "wins": [], "through": ""}
+    through = cache.get("through") or ""
+    if through:
+        days = max(3, (_d.today() - _d.fromisoformat(through[:10])).days + 3)
+    else:
+        days = analytics_days
+    days = min(days, analytics_days)
+    new_b = fetch_bid_announcements(cfg, days_back=days)
+    new_w = fetch_scsbid_intel(cfg, days_back=days)
+    bm = {r.get("_key") or r.get("_bid_key"): r for r in cache.get("bids", [])}
+    for r in new_b:
+        bm[r.get("_key") or r.get("_bid_key")] = r
+    wm = {r.get("_key") or r.get("_bid_key"): r for r in cache.get("wins", [])}
+    for r in new_w:
+        wm[r.get("_key") or r.get("_bid_key")] = r
+    bids = [r for r in bm.values() if (r.get("공고일") or "9999") >= y0]
+    wins = [r for r in wm.values() if (r.get("개찰일") or "9999") >= y0]
+    if new_b or new_w or not through:
+        cache.update(bids=bids, wins=wins, through=_d.today().isoformat(), updated=datetime.now().strftime("%Y-%m-%d %H:%M"))
+        os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
+        with open(CACHE_PATH, "w", encoding="utf-8") as f:
+            json.dump(cache, f, ensure_ascii=False)
+    print(f"  누적 캐시: 최근 {days}일 새로 조회(입찰공고 {len(new_b)} · 낙찰 {len(new_w)}) -> 합계 입찰공고 {len(bids)} · 낙찰 {len(wins)}")
+    wins.sort(key=lambda r: r.get("개찰일") or "", reverse=True)
+    return bids, wins
+
+
 def build_full_digest(cfg, analytics_days=200):
     """
     단일 광역 조회(analytics_days, 기본 연초~오늘)로 입찰공고/사전규격/낙찰정보를
@@ -413,9 +465,11 @@ def build_full_digest(cfg, analytics_days=200):
       {"action": {"입찰공고":[...], "사전규격":[...]},
        "analytics": {"입찰공고":[...], "사전규격":[...], "낙찰정보":[...]}}
     """
-    bid_rows = fetch_bid_announcements(cfg, days_back=analytics_days)
+    # 2026-11-11부터 나라장터가 입찰공고·낙찰 조회 기간 한도를 며칠 단위로 줄였다(30일 -> date_range_chunk_days).
+    # 매일 연초부터 다시 받으면 호출 수가 수천 건이 되므로, 받은 결과를 history/g2b_ytd_cache.json 에 쌓고
+    # 마지막 수집일 3일 전부터만 새로 받아 합친다(첫 실행은 누적 기록으로 채운 뒤 최근분만).
+    bid_rows, win_rows = _incremental(cfg, analytics_days)
     spec_rows = fetch_pre_specs(cfg, days_back=analytics_days)
-    win_rows = fetch_scsbid_intel(cfg, days_back=analytics_days)
     try:
         plan_rows = fetch_order_plan(cfg)
     except Exception as e:

@@ -31,7 +31,9 @@
       "비고": "기존에 'API not found'였던 원인은 오퍼레이션명에 없는 'Info'를 끼워 넣었기 때문(getOrderPlanSttusListInfoServc 등은 전부 실패, Info 뺀 getOrderPlanSttusListServc가 정답). inqryDiv=1 필수 파라미터. orderBgnYm/orderEndYm(YYYYMM)은 값을 바꿔도 결과가 동일해 서버가 사실상 무시함(사전규격 서비스와 같은 패턴) - 이 서비스는 연간 전체 계획 조회가 아니라 '조회일 기준으로 등록/갱신된 발주계획'만 돌려주는 롤링 스냅샷이다. 물품(Thng)·공사(Cnstwk)·외자(Frgcpt)도 같은 패턴으로 존재하나 교원연수 사업 특성상 용역(Servc)만 사용."
     }
   },
-  "date_range_chunk_days": 28,
+  "date_range_chunk_days": 6,
+  "pre_spec_chunk_days": 28,
+  "_chunk_설명": "2026-11-11 나라장터 변경: 입찰공고·낙찰·계약 조회 기간 최대 6일(7일부터 07 입력범위값 초과). 사전규격은 28일 그대로.",
   "default_lookback_days": 21,
   "request_interval_sec": 0.15,
   "org_filter_keywords": ["교육청", "연수원"],

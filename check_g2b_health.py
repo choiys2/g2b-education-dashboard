@@ -28,6 +28,11 @@ def main():
         total = 0
 
     healthy = total >= MIN_TOTAL
+    try:  # 사전규격만 들어오고 입찰공고·낙찰이 0이면(2026-11-11 조회 기간 한도 변경 때처럼) 통과는 시키되 경고를 남긴다
+        if not a["입찰공고"] or not a["낙찰정보"]:
+            print(f"::warning::입찰공고 {len(a['입찰공고'])}건 · 낙찰 {len(a['낙찰정보'])}건 - 나라장터 조회 조건 변경 여부 확인 필요(g2b_probe_api.yml)")
+    except Exception:  # noqa: BLE001
+        pass
     print(f"수집 건수 합계: {total} (기준치 {MIN_TOTAL}) -> {'정상' if healthy else '비정상'}")
     if not healthy:
         print("::warning::G2B 수집 건수가 비정상적으로 적어 이번 실행은 배포를 건너뜁니다 - data.go.kr 장애 가능성")
