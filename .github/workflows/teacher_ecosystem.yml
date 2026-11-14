@@ -36,6 +36,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add history/teacher_ecosystem.json history/teacher_ecosystem_people.enc.json history/teacher_eco_changes.jsonl history/teacher_eco_scores.json 2>/dev/null || true
+          git add history/teacher_ecosystem.json history/teacher_ecosystem_people.enc.json history/teacher_eco_changes.jsonl history/teacher_eco_scores.json history/firecrawl_usage.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: 교사 생태계 비교 수집 $(TZ=Asia/Seoul date +%F)"
           for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done

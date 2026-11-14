@@ -6,7 +6,9 @@ Firecrawl(한국 경유) 공통 수집 도구 - 해외 서버(GitHub 러너) 접
   - 접속 위치: 한국(location.country=KR). 로그인 없이 보이는 공개 페이지만.
   - robots.txt: 호스트마다 먼저 읽어(Firecrawl 경유) 금지 경로는 요청하지 않는다. Crawl-delay 를 지킨다.
     학교장터(s2b.kr)처럼 전체 금지(Disallow: /)인 곳은 이 도구로도 열지 않는다.
-  - 비용: 호출 1건 = 크레딧 1(대략). 실행 1회당 상한 FIRECRAWL_MAX_CALLS(기본 30).
+  - 비용: 무료 요금제(월 1,000 크레딧) 안에서만 쓴다. 호출 1건 = 크레딧 1(대략).
+    실행 1회당 상한 FIRECRAWL_MAX_CALLS(기본 30), 자동 수집 월 상한 FIRECRAWL_MONTH_CAP(기본 500 - 나머지는 수동 확인용 여유).
+    월 사용량은 history/firecrawl_usage.json 에 누적(크레딧 수만, 주소·내용 없음). 상한에 닿으면 호출하지 않고 기존 방식으로 넘어간다.
   - 로그에는 키를 남기지 않는다(safe()).
   - 받은 내용은 데이터로만 쓴다(페이지 안의 문구를 지시로 해석하지 않음).
 """
@@ -22,6 +24,8 @@ from urllib.parse import urlparse
 API = "https://api.firecrawl.dev/v2/scrape"
 KEY = os.environ.get("FIRECRAWL_API_KEY", "").strip()
 MAX_CALLS = int(os.environ.get("FIRECRAWL_MAX_CALLS", "30") or 30)
+MONTH_CAP = int(os.environ.get("FIRECRAWL_MONTH_CAP", "500") or 500)
+USAGE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "history", "firecrawl_usage.json")
 _calls = 0
 _robots = {}      # host -> (RobotFileParser|None, delay)
 _last = {}        # host -> 마지막 요청 시각
@@ -43,16 +47,45 @@ def safe(s):
     return re.sub(r"fc-[A-Za-z0-9]{8,}", "fc-***", s)
 
 
+def _month():
+    return time.strftime("%Y-%m", time.gmtime(time.time() + 9 * 3600))
+
+
+def _usage():
+    try:
+        with open(USAGE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def month_used():
+    return int(_usage().get(_month(), 0))
+
+
+def _bump(n):
+    u = _usage()
+    m = _month()
+    u[m] = int(u.get(m, 0)) + n
+    u = {k: u[k] for k in sorted(u)[-12:]}
+    with open(USAGE, "w", encoding="utf-8") as f:
+        json.dump(u, f, ensure_ascii=False, indent=1)
+
+
 def _post(body, timeout=90):
     global _calls
     if _calls >= MAX_CALLS:
-        raise RuntimeError(f"Firecrawl 호출 상한({MAX_CALLS}) 도달")
+        raise RuntimeError(f"Firecrawl 실행당 상한({MAX_CALLS}) 도달")
+    if month_used() >= MONTH_CAP:
+        raise RuntimeError(f"Firecrawl 이번 달 자동 수집 상한({MONTH_CAP}) 도달 - 무료 한도 보호")
     _calls += 1
     req = urllib.request.Request(API, data=json.dumps(body).encode(), method="POST",
                                  headers={"Authorization": "Bearer " + KEY, "Content-Type": "application/json"})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            return json.loads(r.read().decode("utf-8", "replace"))
+            d = json.loads(r.read().decode("utf-8", "replace"))
+        _bump(int(((d.get("data") or {}).get("metadata") or {}).get("creditsUsed") or 1))
+        return d
     except urllib.error.HTTPError as e:
         raise RuntimeError(f"HTTP {e.code} {safe(e.read()[:200])}") from None
 
@@ -137,7 +170,7 @@ def from_doc(d, url=""):
 
 if __name__ == "__main__":
     import sys
-    print("키:", "설정됨" if enabled() else "미설정")
+    print("키:", "설정됨" if enabled() else "미설정", f"· 이번 달 {month_used()}/{MONTH_CAP}")
     if enabled() and len(sys.argv) > 1:
         g = grab(sys.argv[1])
         print(json.dumps({k: (v[:10] if isinstance(v, list) else str(v)[:200]) for k, v in (g or {}).items() if k != "md"}, ensure_ascii=False, indent=1))

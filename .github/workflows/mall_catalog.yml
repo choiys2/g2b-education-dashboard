@@ -49,6 +49,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           touch history/competitor_mall_new.jsonl
           git add history/competitor_mall_catalog.json history/competitor_mall_new.jsonl
+          [ -f history/firecrawl_usage.json ] && git add history/firecrawl_usage.json
           [ -f history/teacher_creator_trends.json ] && git add history/teacher_creator_trends.json
           [ -f history/teacher_interest_trends.json ] && git add history/teacher_interest_trends.json
           [ -f history/policy_partners.json ] && git add history/policy_partners.json
