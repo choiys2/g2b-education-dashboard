@@ -291,7 +291,11 @@ def scrape_iscream(prev_isc):
     except Exception:  # noqa: BLE001
         fc = None
     if not (fc and fc.enabled()):
-        return None
+        print("아이스크림몰 한국 경유: FIRECRAWL_API_KEY 미설정 - 지난 수집분 유지", flush=True)
+        keep = {k: v for k, v in (prev_isc or {}).items() if k in ("goods", "pick", "trials", "notices", "categories", "services", "captured", "via")}
+        return dict(base, status="수집 중" if keep.get("goods") else "수집 불가",
+                    note=("지난 수집분 " + keep.get("captured", "") + " · 키 미설정") if keep.get("goods") else "해외 서버 접속 차단 · 키 미설정", **keep) if keep.get("goods") else None
+    print(f"아이스크림몰 한국 경유: 키 설정됨 · 이번 달 사용 {fc.month_used()}/{fc.MONTH_CAP}", flush=True)
     try:
         d = fc.scrape(IS, ("markdown",), main_only=True, wait=3000)
         if d is None:
