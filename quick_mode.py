@@ -17,7 +17,7 @@ import re
 from pathlib import Path
 
 ALWAYS_FULL = {".github/workflows/deploy.yml", "requirements.txt", "g2b_config.example.json", "run_pipeline.py",
-               "check_g2b_health.py", "g2b_history_fallback.py"}
+               "check_g2b_health.py", "g2b_history_fallback.py", "fetch_g2b_listings.py", "quick_mode.py"}
 
 
 def step_scripts():
@@ -48,7 +48,7 @@ def main():
             for k in ("added", "modified", "removed"):
                 files.update(c.get(k) or [])
         heavy = sorted(f for f in files if f in ALWAYS_FULL or f in step_scripts())
-        if not payload.get("commits"):
+        if not payload.get("commits") or not files:
             reason = "푸시 커밋 목록 없음 - 전체 수집"
         elif heavy:
             reason = "수집 스크립트 변경: " + ", ".join(heavy[:5])
