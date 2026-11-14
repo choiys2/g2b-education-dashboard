@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./**/*.enc.json)",
+      "Read(./history/**)",
+      "Read(./g2b_config.json)",
+      "Read(./_private/**)",
+      "Read(./weekly_data.local/**)",
+      "Read(./**/*.local.json)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}
