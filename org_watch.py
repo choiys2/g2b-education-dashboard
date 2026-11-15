@@ -30,11 +30,11 @@ GROUP_COLOR = {"비상 컨소 파트너": "#8b5cf6", "교과서사": "#f59e0b", 
 WATCH = {
     "한국능률협회": ("비상 컨소 파트너", ["한국능률협회"], "한국능률협회"),
     "알파코": ("비상 컨소 파트너", ["알파코"], "알파코"),
-    "KTcs": ("비상 컨소 파트너", ["케이티씨에스", "KTcs", "케이티 씨에스"], "케이티씨에스"),
+    "KTcs": ("비상 컨소 파트너", ["케이티씨에스", "KTcs", "케이티 씨에스"], "KTcs"),
     "엘리스": ("비상 컨소 파트너", ["엘리스그룹", "엘리스 그룹"], "엘리스그룹"),
     "천재교육": ("교과서사", ["천재교육", "천재교과서"], "천재교육"),
     "창비교육": ("교과서사", ["창비교육"], "창비교육"),
-    "SLI 평생교육원": ("평생교육", ["SLI평생교육원", "SLI 평생교육원", "에스엘아이"], "SLI 평생교육원"),
+    "SLI 평생교육원": ("평생교육", ["SLI평생교육원", "SLI 평생교육원", "에스엘아이"], "에스엘아이평생교육원"),
     "티처빌": ("연수원 경쟁사", ["테크빌교육"], "티처빌"),
     "아이스크림": ("연수원 경쟁사", ["아이스크림미디어", "아이스크림에듀"], "아이스크림미디어"),
     "네패스": ("기업", ["네패스"], "네패스"),
@@ -43,7 +43,7 @@ WATCH = {
 SIDO = [("서울", r"서울"), ("부산", r"부산"), ("대구", r"대구"), ("인천", r"인천"), ("광주", r"광주"), ("대전", r"대전"), ("울산", r"울산"),
         ("세종", r"세종"), ("경기", r"경기"), ("강원", r"강원"), ("충북", r"충북|충청북"), ("충남", r"충남|충청남"), ("전북", r"전북|전라북"),
         ("전남", r"전남|전라남"), ("경북", r"경북|경상북"), ("경남", r"경남|경상남"), ("제주", r"제주")]
-UNIV_RE = re.compile(r"([가-힣]{2,12}(?:대학교|교대|대학))")
+UNIV_RE = re.compile(r"([가-힣]{2,14}(?:대학교|교육대|교대|대학))")
 EDU_RE = re.compile(r"교육청|교육지원청|교육연수원|교육원")
 _BUF = {}
 
@@ -118,12 +118,12 @@ def gather():
                                         "win": p.get("rank") == 1, "univ": [u for u in univ_in if u not in (p.get("corp") or "")]})
     PN = (_j("history/partner_news.json", {}) or {}).get("items") or {}
     for o, (_, _, q) in WATCH.items():
-        for it in (PN.get(q) or PN.get(o) or {}).get("items", []):
+        for it in (PN.get(q) or PN.get(o) or {}).get("items", []):  # 검색어를 바꿔도 이전 수집분은 이름으로 찾는다
             t = it.get("t") or ""
             rec[o]["news"].append({"d": it.get("d") or "", "t": t, "u": it.get("u") or "", "src": it.get("src") or "",
                                    "sido": sido_of(t),
                                    "univ": (UNIV_RE.search(t).group(1) if UNIV_RE.search(t) else ""),
-                                   "mou": bool(re.search(r"협약|MOU|업무협약|맞손|손잡", t))})
+                                   "mou": bool(re.search(r"협약|MOU|업무협약|맞손|손잡|협력", t))})
     for r in _jsonl("history/edu_office_signals.jsonl"):
         for o, (_, aliases, q) in WATCH.items():
             if any(a in (r.get("t") or "") for a in aliases + [o, q]):
