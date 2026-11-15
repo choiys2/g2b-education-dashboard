@@ -291,7 +291,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -335,6 +335,12 @@ def build_html(exec_sources=None):
     except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 관리 탭 인사이트 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         ins_edu = ins_ops = ""
+    try:  # 27 전략실(시장 판도→인사이트→2027 방향→셀별 실행→월별 점검) + 결정 후보(자동)
+        sr = __import__("strategy_room")
+        strat_html, cand_html = sr.build_strategy(sec), sr.build_candidates(sec)
+    except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 27 전략실 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        strat_html = cand_html = ""
     pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
@@ -359,12 +365,13 @@ def build_html(exec_sources=None):
                   + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
     return (css + '<div class="adm">' + nav
             + pane("exec", blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
-            + pane("decide", blocks["decide"])
+            + pane("decide", blocks["decide"] + cand_html)
             + pane("weekly", weekly_html)
             + pane("schedule", schedule_html)
             + pane("actions", actions + extra["roles"] + mg_settle + quick_links())
             + pane("comp", mg_comp + comp)
             + pane("edu", ins_edu)
+            + pane("strat", strat_html)
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{ins_ops}{sys_html}")
             + "</div>")
