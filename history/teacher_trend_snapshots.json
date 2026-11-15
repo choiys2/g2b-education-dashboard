@@ -25,11 +25,16 @@
    {
     "id": "credit",
     "score": 33,
-    "stage": "성숙"
+    "stage": "확산"
    },
    {
     "id": "safety",
     "score": 24,
+    "stage": "성숙"
+   },
+   {
+    "id": "care",
+    "score": 20,
     "stage": "성숙"
    },
    {
@@ -38,13 +43,8 @@
     "stage": "성숙"
    },
    {
-    "id": "care",
-    "score": 19,
-    "stage": "성숙"
-   },
-   {
     "id": "humanities",
-    "score": 19,
+    "score": 20,
     "stage": "성숙"
    },
    {
@@ -53,13 +53,13 @@
     "stage": "부상"
    },
    {
-    "id": "citizen",
+    "id": "basic",
     "score": 15,
     "stage": "관망"
    },
    {
-    "id": "basic",
-    "score": 14,
+    "id": "citizen",
+    "score": 15,
     "stage": "관망"
    },
    {
