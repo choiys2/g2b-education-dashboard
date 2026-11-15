@@ -6102,6 +6102,8 @@ function renderCompWatch(el, C){
       planSimInit(body);
       const act = body.querySelector('#admActions');
       if (act && window.renderAdminActions) { try { window.renderAdminActions(act); } catch (e) { console.warn('admin actions', e); } }
+      const bsc = body.querySelector('#admBranchScore');
+      if (bsc && window.renderBranchScore) { try { window.renderBranchScore(bsc); } catch (e) { console.warn('branch score', e); } }
     } catch (ex) {
       err.textContent = '비밀번호가 맞지 않습니다.';
     } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
@@ -10115,9 +10117,12 @@ window.__renderPdfx = function(root, P){
 <script>
 /* ---------------- 지역 총판 > 총판 성적표(A1) ----------------
    로그인 뒤 복호화된 총판(__BRANCH)·채택 학교(__ADOPT)를 브라우저에서만 합친다(새 데이터를 싣지 않음). */
-(function renderBranchScore(){
-  const tab = document.getElementById('panel-branch'), BR = window.__BRANCH, AD = window.__ADOPT;
-  if (!tab || !BR || !BR.rows) return;
+// 2026-11-15: 예민정보라 일반 화면에서 빼고 🔒 관리 탭 '총판 성적표' 칸에서만 그린다(관리 비밀번호 해제 뒤 호출).
+window.renderBranchScore = function(tab){
+  const BR = window.__BRANCH, AD = window.__ADOPT;
+  if (!tab) return;
+  if (!BR || !BR.rows) { tab.innerHTML = '<p style="color:var(--muted);font-size:13px;">총판 데이터가 아직 없습니다.</p>'; return; }
+  tab.innerHTML = '';
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const N = v => (v == null ? '-' : Math.round(v).toLocaleString()), P1 = v => v == null ? '-' : (v * 100).toFixed(1) + '%';
   const SC = ((AD && AD.schools) || []).filter(s => s.u);
@@ -10165,7 +10170,7 @@ window.__renderPdfx = function(root, P){
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + L.join('\n')], {type: 'text/csv'})); a.download = 'branch_score.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   });
   draw();
-})();
+};
 </script>
 <script>
 /* ---------------- 교사 생태계 비교: 출판사·교사 플랫폼 서비스 · 교사 성장 경로 · 강사풀 구성 ----------------
