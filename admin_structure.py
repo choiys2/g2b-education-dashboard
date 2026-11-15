@@ -291,7 +291,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -346,6 +346,11 @@ def build_html(exec_sources=None):
     except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 샘몰 SET 후보 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         samall_html = ""
+    try:  # B2C 매출 전략(실시간 핫토픽 심화 × AI 역량 3단계) - 관리 탭 전용
+        b2c_html = __import__("b2c_strategy").build(sec)
+    except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] B2C 매출 전략 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        b2c_html = ""
     pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
@@ -378,6 +383,7 @@ def build_html(exec_sources=None):
             + pane("edu", ins_edu)
             + pane("strat", strat_html)
             + pane("samall", samall_html)
+            + pane("b2c", b2c_html)
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{ins_ops}{sys_html}")
             + "</div>")
