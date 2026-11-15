@@ -30,6 +30,15 @@ _ISCREAM_RE = re.compile(
     r"(?P<title>.+)$"
 )
 
+# 2026-11 아이스크림 목록 개편: '미리보기 상세보기 N차시 [배지…] 제목 [NN%] 판매가 [정가] | 무료' (카테고리 표기 없음)
+_ISCREAM_RE2 = re.compile(
+    r"^(?:미리보기\s*)?(?:상세보기\s*)?"
+    r"(?P<credit>\d+차시(?:\(\d+학점\))?)\s*"
+    r"(?:(?:할인중|신규|베스트|교재|연수.\S*SET)\s*)*"
+    r"(?P<title>.+?)\s*(?:\d+%\s*)?"
+    r"(?:(?P<price1>[\d,]+원)(?:\s*(?P<price2>[\d,]+원))?|(?P<free>무료))\s*$"
+)
+
 _VIVASAM_RE = re.compile(
     r"^(?P<teaser>.*?)\s*직무/(?P<credit>\d+차시(?:\([^)]*\))?)\s*"
     r"미리보기\s*상세보기\s*"
@@ -73,6 +82,18 @@ def parse_fields(site, title, context):
             # 교과서 연계 무료 연수는 가격 대신 '무료'로 표기된다(2026-09-27 실측 8건)
             out["price"] = 0 if m.group("free") else (p2 if p2 is not None else p1)
             out["orig_price"] = p1 if p2 is not None else None
+            return out
+        m = _ISCREAM_RE2.match(context or "")
+        if m:
+            out["title"] = m.group("title").strip()
+            out["credit"] = m.group("credit")
+            p1, p2 = _price_int(m.group("price1")), _price_int(m.group("price2"))
+            if m.group("free"):
+                out["price"] = 0
+            elif p2 is not None:  # 새 배치는 '판매가 정가' 순서
+                out["price"], out["orig_price"] = min(p1, p2), max(p1, p2)
+            else:
+                out["price"] = p1
         return out
 
     if site == "비바샘연수원":
