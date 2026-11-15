@@ -291,7 +291,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -341,6 +341,11 @@ def build_html(exec_sources=None):
     except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 27 전략실 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         strat_html = cand_html = ""
+    try:  # 샘몰 SET 후보(주제별 점수·Top 10 묶음안·공백) - 관리 탭 전용, CP 에는 원자료만
+        samall_html = __import__("samall_set").build_admin(sec)
+    except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 샘몰 SET 후보 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        samall_html = ""
     pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
@@ -372,6 +377,7 @@ def build_html(exec_sources=None):
             + pane("comp", mg_comp + comp)
             + pane("edu", ins_edu)
             + pane("strat", strat_html)
+            + pane("samall", samall_html)
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{ins_ops}{sys_html}")
             + "</div>")

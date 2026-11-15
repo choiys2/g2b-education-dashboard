@@ -688,6 +688,11 @@ def main():
         "teacher_trends": __import__("teacher_trends_view").build(new_courses["courses"].get("비바샘연수원", [])),
     }
 
+    # 테마별 교사몰 상품 지도(CP 원자료 - 점수·추천 없음. 해석은 관리 탭 '샘몰 SET 후보')
+    try:
+        competitor_training["mall"]["themes"] = __import__("samall_set").theme_map()
+    except Exception as e:  # noqa: BLE001 - 한 칸 오류가 전체를 막지 않게
+        print(f"[경고] 테마별 상품 지도 실패: {type(e).__name__}")
     # 샘몰 협력사 우선 협의 리스트(티처몰 입점사 × 인기 상품 판매자/제조자, B2S·샘몰 기획 탭)
     competitor_training["partners"] = __import__("samall_partners").build(
         new_courses["courses"].get("비바샘연수원", []), trends=competitor_training.get("teacher_trends"))
