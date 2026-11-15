@@ -171,8 +171,8 @@ def scores():
     return rows, cap
 
 
-def _bar(v, w=90):
-    return (f"<span style='display:inline-block;width:{w}px;height:8px;background:var(--surface-2);border-radius:4px;vertical-align:middle;'>"
+def _bar(v, w=None):
+    return (f"<span style='display:inline-block;width:100%;max-width:110px;height:8px;background:var(--surface-2);border-radius:4px;vertical-align:middle;'>"
             f"<span style='display:block;height:100%;width:{max(0, min(100, v * 100)):.0f}%;background:var(--accent);border-radius:4px;'></span></span>")
 
 
@@ -207,20 +207,23 @@ def build_admin(sec):
     kinds = {}
     for r in rows:
         kinds[r["kind"]] = kinds.get(r["kind"], 0) + 1
-    tiles = "".join(f"<div style='flex:1;min-width:140px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;'>"
-                    f"<div style='{NOTE}'>{E(k)}</div><div style='font-size:22px;font-weight:800;'>{kinds.get(k, 0)}<span style='font-size:13px;font-weight:600;'> 주제</span></div></div>"
+    tiles = "".join(f"<div style='padding:8px 10px;border:1px solid var(--border);border-radius:10px;min-width:0;'>"
+                    f"<div style='{NOTE}white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{E(k)}</div><div style='font-size:20px;font-weight:800;line-height:1.3;'>{kinds.get(k, 0)}<span style='font-size:13px;font-weight:600;'> 주제</span></div></div>"
                     for k in ("즉시 SET", "과정 개발 후 SET", "자체 상품 기획", "관찰"))
-    body1 = (f"<div style='display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;'>{tiles}</div>"
-             "<div class='tbl-wrap'><table><thead><tr><th class='num'>#</th><th>연수 주제</th><th>유형</th><th class='num'>점수</th>"
+    body1 = (f"<div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px;'>{tiles}</div>"
+             "<div class='tbl-wrap'><table class='sset' style='table-layout:fixed;min-width:920px;font-size:12.5px;'>"
+             "<colgroup><col style='width:36px'><col style='width:170px'><col style='width:118px'><col style='width:56px'>"
+             "<col style='width:86px'><col style='width:86px'><col style='width:86px'><col></colgroup>"
+             "<thead><tr><th class='num'>#</th><th>연수 주제</th><th>유형</th><th class='num'>점수</th>"
              "<th>교사 관심</th><th>연수 수요</th><th>상품 연계</th><th>SET 묶음안 (자사 과정 + 상품)</th></tr></thead><tbody>"
              + "".join(
-                 f"<tr><td class='num'>{i}</td><td style='white-space:nowrap;'><b>{E(r['name'])}</b>"
+                 f"<tr><td class='num'>{i}</td><td><b>{E(r['name'])}</b>"
                  f"<div style='{NOTE}'>관심 {('+' if (r['mom'] or 0) >= 0 else '')}{round((r['mom'] or 0) * 100)}% · 공고 {r['bids']} · 경쟁 과정 {r['rival']}</div></td>"
                  f"<td>{_chip(r['kind'])}</td><td class='num'><b>{r['score']}</b></td>"
                  f"<td>{_bar(r['I'])}</td><td>{_bar(r['D'])}</td><td>{_bar(r['P'])}</td>"
-                 f"<td style='font-size:12.5px;'>"
-                 + ("<div>📘 " + "<br>📘 ".join(_clink(c) for c in r["own"]) + "</div>" if r["own"] else f"<div style='{NOTE}'>📘 자사 과정 없음 → 과정 개발 필요</div>")
-                 + ("<div style='margin-top:3px;'>🎁 " + " · ".join(_plink(p) for p in r["prods"]) + "</div>" if r["prods"] else f"<div style='{NOTE}'>🎁 연계 상품 없음 → 자체 상품 기획</div>")
+                 f"<td class='sset-b'>"
+                 + ("".join(f"<div class='l1'>📘 {_clink(c)}</div>" for c in r["own"]) if r["own"] else f"<div style='{NOTE}'>📘 자사 과정 없음 → 과정 개발 필요</div>")
+                 + ("".join(f"<div class='l1'>🎁 {_plink(p)}</div>" for p in r["prods"]) if r["prods"] else f"<div style='{NOTE}'>🎁 연계 상품 없음 → 자체 상품 기획</div>")
                  + "</td></tr>" for i, r in enumerate(top, 1))
              + "</tbody></table></div>"
              f"<p style='{NOTE}margin-top:6px;'>점수 = 교사 관심 30(최근 4주 추세 60%·수준 40%) + 연수 수요 30(최근 1년 연수 공고 50%·경쟁 연수원 과정 수 50%) + 상품 연계 20(교사몰 해당 주제 상품 수) + 자사 과정 보유 20(없으면 8). "
@@ -233,7 +236,7 @@ def build_admin(sec):
           f"② <b>{E(' · '.join(dev) or '-')}</b>은 시장 수요가 확인됐지만 자사 과정이 없어 1·2셀 과정 개발과 함께 묶어야 합니다. "
           f"③ <b>{E(' · '.join(own_p) or '-')}</b>은 교사몰 상품이 부족한 공백이라 샘몰 자체(협력사) 상품 기획 기회입니다.</div>")
     gap_rows = sorted(rows, key=lambda r: -(r["rival"] - r["own_n"] * 3))
-    body2 = ("<div class='tbl-wrap'><table><thead><tr><th>연수 주제</th><th class='num'>티처몰 상품</th><th class='num'>아이스크림몰 상품</th>"
+    body2 = ("<div class='tbl-wrap'><table style='table-layout:fixed;min-width:640px;font-size:12.5px;'><colgroup><col style='width:150px'><col style='width:84px'><col style='width:96px'><col style='width:72px'><col style='width:110px'><col></colgroup><thead><tr><th>연수 주제</th><th class='num'>티처몰 상품</th><th class='num'>아이스크림몰 상품</th>"
              "<th class='num'>자사 과정</th><th class='num'>경쟁 연수원 과정(2사)</th><th>공백</th></tr></thead><tbody>"
              + "".join(
                  f"<tr><td>{E(r['name'])}</td><td class='num'>{r['tm_n']}</td><td class='num'>{r['isc_n']}</td>"
@@ -246,7 +249,10 @@ def build_admin(sec):
                  + "</td></tr>" for r in gap_rows if r["prod_n"] or r["rival"] or r["own_n"])
              + "</tbody></table></div>"
              f"<p style='{NOTE}margin-top:6px;'>아이스크림몰은 첫 화면 노출 상품만 반영해 실제 상품 수보다 적습니다. 자사 과정은 공개 목록 일부만 확인된 경우가 있어 '자사 과정 0'은 확인 필요입니다.</p>")
-    return (sec("샘몰 SET 후보 Top 10", f"연수+상품 SET을 어느 주제부터 묶을지 점수로 정렬했습니다. 상품 {E(cap)} 기준 · 관리 탭 전용.", body1 + so)
+    css = ("<style>.sset td,.sset th{vertical-align:middle;padding:7px 8px;} .sset td{word-break:keep-all;overflow-wrap:anywhere;}"
+           " .sset-b .l1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.55;font-size:12.5px;}"
+           " .sset-b .l1 a{color:inherit;text-decoration:underline;text-decoration-color:var(--border);}</style>")
+    return (css + sec("샘몰 SET 후보 Top 10", f"연수+상품 SET을 어느 주제부터 묶을지 점수로 정렬했습니다. 상품 {E(cap)} 기준 · 관리 탭 전용.", body1 + so)
             + sec("경쟁 몰·연수원 대비 공백", "주제별로 교사몰 상품과 연수 과정이 어디에 몰려 있고 어디가 비었는지.", body2))
 
 

@@ -207,6 +207,86 @@ def badge_map():
     return m
 
 
+# ---------------------------------------------------------------- AI 자동화 판정(2026-11-16 사용자 요청)
+# (정규식, 수준, 방법, 지금 쓸 수 있는 것, 다음 연결) - 위에서부터 먼저 맞는 규칙 하나만 적용
+#   수준: "자동화" = 사람 승인만 남기고 AI·스크립트가 처리 / "AI 보조" = AI 초안·추천 + 사람이 판단·수정
+AI_RULES = [
+    (r"경쟁사 분석|시장 및 경쟁사", "자동화", "경쟁사 과정·가격·낙찰·신규 출시를 매일 수집하고, 주 1회 변화 요약을 자동 작성", "경쟁사 연수 분석 탭 · 핫토픽 선점 경보 · 가격 포지셔닝", "주간 요약을 결정 보드에 자동 게시"),
+    (r"교사 요구|트렌드 분석|수요 조사", "자동화", "교사 관심 검색 추세·크리에이터·기사에서 뜨는 주제를 매주 자동 집계", "교사 트렌드 2027 · B2C 매출 전략(이번 주 라이브 후보)", "만족도·문의 내용까지 합치면 수요 근거 완성"),
+    (r"정책\+?예산 분석|정책.*분석", "자동화", "교육청 기사·발주계획·지난해 공고로 시도별 발주 가능성 점수를 자동 계산", "교육청 인사이트(발주 예측·정책 신호)", "교육청 2027 업무계획 원문(1~2월) 자동 반영"),
+    (r"아이템 발굴|과정 선정|우선순위|과정 선택", "AI 보조", "수요·관심·공백·보유 과정을 점수로 정렬한 후보 목록을 AI가 제시, 최종 선정은 회의", "샘몰 SET 후보 · 2027 연수 개발 추천", "선정 결과를 결정 보드에 기록하면 다음 점수에 반영"),
+    (r"커리큘럼|학습목표|차시명|과정명", "AI 보조", "주제·대상(L1~L3)을 넣으면 차시 구성·학습목표 초안을 생성", "AI 기획서 초안", "자사 과정 목록과 중복 검사 자동화"),
+    (r"품의|계획서|요구안|제안서|공문|연간 콘텐츠 개발 계획|운영 계획", "AI 보조", "양식(HWPX)에 맞춰 근거 수치·문단을 AI가 채운 초안 → 담당자 검토·결재", "제안요청서 AI 분석 · AI 기획서 초안", "공문·품의 HWPX 자동 작성 연결"),
+    (r"결과보고|결과 보고|결과서|성과 분석", "AI 보조", "운영 데이터·이수 인원·만족도로 결과보고서 초안을 자동 작성", "결과보고서 AI 초안", "이수 현황·만족도 시트 연동 시 빈칸 자동 채움"),
+    (r"원고 검토|검수|저작권|초상권", "AI 보조", "맞춤법·용어 통일·출처 누락·이미지 저작권 의심 항목을 AI가 1차 표시", "없음", "검수 체크리스트를 문서 업로드 한 번으로 자동 생성"),
+    (r"홍보|마케팅|이벤트|공고|배너|과정소개", "AI 보조", "과정 정보로 홍보 문구·배너 카피·SNS 문안을 자동 생성, 게시는 사람 승인", "모집률 조기경보·AI 홍보 문구 · 연수 배너 시장", "채널별 반응(조회·신청)으로 문구 자동 개선"),
+    (r"안내문자|문자|이수 통보|입과 안내", "자동화", "일정·대상이 정해지면 안내 문자를 템플릿으로 자동 작성·예약, 발송만 승인", "없음", "문자 발송 시스템 연결(발송 전 승인 단계 유지)"),
+    (r"모집현황|모집 결과|목표 달성|모집 인원", "자동화", "신청률·경과율을 매일 계산해 경보·주간 모집 보고를 자동 작성", "모집률 조기경보 · 모집 위험 구역", "보고 문서를 주간보고에 자동 첨부"),
+    (r"만족도|설문|진단|결과 취합", "자동화", "설문 폼 자동 생성 → 응답 자동 집계 → AI가 주관식 의견을 주제별로 요약", "없음", "설문 도구 연결(무료 폼) 후 결과를 관리 탭에 표시"),
+    (r"문의|응대|질의응답|CS", "AI 보조", "자주 묻는 질문은 AI 챗봇이 1차 응대, 어려운 문의만 담당자에게 넘김(기록 자동)", "없음(비바샘 AI 챗봇 오픈)", "문의 기록을 주간 수요 분석에 연결"),
+    (r"견적", "자동화", "학교 규모·과정 선택으로 견적서를 자동 생성", "학교 견적 가이드", "견적서 파일(PDF) 자동 발급"),
+    (r"출결|진도율|이수 독려|참여도", "자동화", "진도율이 낮은 학습자를 자동으로 찾아 독려 문자 후보를 만든다", "없음", "LMS 진도 데이터 연동 필요"),
+    (r"교육장|장소|대관", "자동화", "지역·인원·날짜로 연수 장소 후보와 날씨를 자동 추천", "집합연수 장소 찾기 · 장소·날씨 지도", "견적 요청 메일 초안 자동 작성"),
+    (r"강사 섭외|SME 섭외|강사 협의", "AI 보조", "주제에 맞는 강사 후보를 강사풀에서 추천(경력·지역·이력)", "강사풀 집계", "섭외 이력·평가 기록 시트 연결"),
+    (r"매출자료|매출파일|데이터 관리|매출 관리", "자동화", "매출 시트를 자동 집계해 일·월 매출과 채널 비중을 계산", "월×분야 콘텐츠 매출 · 채널 매출 비교", "일별 매출 시트 연동"),
+    (r"세금계산서|계산서|지출결의|정산|입금", "AI 보조", "청구·계산서·전표 누락을 규칙으로 자동 경보, 서류 작성은 사람", "청구·계산서 경보", "ERP 연동 시 상태 자동 갱신"),
+    (r"LMS|등록|등재|거래처|탑재", "AI 보조", "반복 입력은 자동 입력(RPA) 후보 — 입력값 목록을 자동으로 준비", "없음", "입력 대상 시스템별 자동 입력 검토"),
+    (r"회의|킥오프|협의", "AI 보조", "회의록을 AI가 요약하고 결정·할 일을 뽑아 결정 보드·셀 지시에 제안", "결정 보드 · 27 전략실", "회의 기록 도구 연결"),
+    (r"백업|데이터 수급|이력 관리", "자동화", "정해진 주기로 자동 백업·이력 기록", "없음", "저장 위치 지정"),
+    (r"보증보험|인지세", "자동화", "계약 확정 시 보증보험·인지세 처리 체크를 자동 생성하고 기한 경보", "없음", "계약 시트에 처리 여부 열 추가"),
+    (r"이수자 명단|이수자료", "자동화", "LMS 이수 데이터에서 명단·이수자료를 양식대로 자동 추출", "없음", "LMS 이수 데이터 연동"),
+    (r"단가 기준", "AI 보조", "경쟁사 15차시 환산 가격·차시 단가와 자사 개발 단가를 나란히 비교", "가격·할인·SET 포지셔닝", "개발 단가 기준표(엑셀) 연동"),
+    (r"요청 수렴|요구 분석", "AI 보조", "부서별 제작 요청을 한 양식으로 모으고 AI가 중복·우선순위를 정리", "없음", "요청 접수 폼 연결"),
+    (r"개발사 선정|외주", "AI 보조", "개발사 견적·이력·과거 품질을 비교표로 자동 정리", "없음", "개발사 이력 시트 연결"),
+    (r"계약 초안|전자계약|나라장터|학교장터|수의계약", "AI 보조", "공고문·과업지시서를 AI가 읽고 제출 서류 체크리스트와 계약서 초안을 준비", "제안요청서 AI 분석 · 자사 입찰 결과 분석", "입찰 서류 폴더와 연결"),
+    (r"스토리보드|프로토타입|UI 검토", "AI 보조", "원고로 스토리보드·화면 구성 초안을 생성", "없음", "제작 템플릿 연결"),
+    (r"장학사 보고|차기 연수", "AI 보조", "운영 결과를 장학사 보고용 요약과 차년도 제안으로 자동 정리", "결과보고서 AI 초안(장학사 보고 요지·차년도 제안)", "이수·만족도 데이터 연동"),
+]
+_AIR = [(__import__("re").compile(r), lv, how, now, nxt) for r, lv, how, now, nxt in AI_RULES]
+
+
+def ai_of(text):
+    for rx, lv, how, now, nxt in _AIR:
+        if rx.search(text or ""):
+            return {"lv": lv, "how": how, "now": now, "next": nxt}
+    return None
+
+
+def _tasks(lane):
+    """레인 한 줄에서 작업 이름들(판단 노드는 질문만)."""
+    out = []
+    for tok in lane.split(" > "):
+        tok = tok.strip()
+        if tok.startswith("="):
+            continue
+        if tok.startswith("?"):
+            parts = tok[1:].split("|")
+            out.append(parts[0])
+            for b in parts[1:]:
+                out += [x.strip() for x in (b.split(":", 1)[1] if ":" in b else "").split("→") if x.strip() and not x.strip().startswith("=")]
+            continue
+        out.append(tok.partition(":")[2] or tok)
+    return out
+
+
+def ai_summary():
+    rows = []
+    for w in WORKFLOWS:
+        seen, a, b, n = set(), 0, 0, 0
+        for p in w["phases"]:
+            for ln in p["lanes"]:
+                for t in _tasks(ln):
+                    if t in seen:
+                        continue
+                    seen.add(t)
+                    n += 1
+                    r = ai_of(t)
+                    a += bool(r and r["lv"] == "자동화")
+                    b += bool(r and r["lv"] == "AI 보조")
+        rows.append({"id": w["id"], "name": w["name"], "n": n, "auto": a, "assist": b})
+    return rows
+
+
 TAGC = {"분석": "#4f8cff", "조사": "#4f8cff", "기획": "#8b5cf6", "설계": "#8b5cf6", "문서작성": "#64748b", "결재": "#64748b", "선정": "#14b8a6",
         "계약": "#f59e0b", "정산": "#f59e0b", "지출결의": "#f59e0b", "등록": "#0ea5e9", "운영": "#10b981", "홍보": "#ec4899", "제작": "#eab308"}
 
@@ -226,7 +306,9 @@ def _node(tok):
     if not txt:
         tag, txt = "", tag
     c = TAGC.get(tag, "#94a3b8")
-    return f'<span class="wf-n">{f"<span class=wf-t style=background:{c}>{E(tag)}</span>" if tag else ""}{E(txt)}</span>'
+    ai = ai_of(txt)
+    mark = (f'<span class="wf-ai-m {"a" if ai["lv"] == "자동화" else "b"}" title="{E(ai["lv"])}">AI</span>' if ai else "")
+    return f'<span class="wf-n">{f"<span class=wf-t style=background:{c}>{E(tag)}</span>" if tag else ""}{E(txt)}{mark}</span>'
 
 
 def render():
@@ -240,6 +322,10 @@ def render():
 .wf-lk{display:inline-block;font-size:11.5px;margin:2px 3px 2px 0;padding:2px 8px;border-radius:999px;cursor:pointer;border:1px solid var(--border);}
 .wf-lk.auto{background:color-mix(in srgb,#10b981 18%,transparent);border-color:#10b981;} .wf-lk.part{background:color-mix(in srgb,#f59e0b 16%,transparent);border-color:#f59e0b;}
 .wf-gap{font-size:11.5px;color:var(--muted);margin-top:6px;padding-left:8px;border-left:3px solid #ef4444;}
+.wf-ai-m{font-size:9.5px;font-weight:800;color:#fff;border-radius:4px;padding:0 4px;margin-left:2px;} .wf-ai-m.a{background:#10b981;} .wf-ai-m.b{background:#3b82f6;}
+.wf-aibox{margin-top:6px;font-size:12px;} .wf-aibox > summary{cursor:pointer;font-weight:700;color:var(--ink-2);}
+.wf-aiit{margin:4px 0 0 4px;border-left:3px solid var(--border);padding-left:8px;} .wf-aiit > summary{cursor:pointer;}
+.wf-aiit[open]{border-left-color:var(--accent);} .wf-aiit .bd{margin:4px 0 6px;line-height:1.6;color:var(--ink-2);}
 @media (max-width:900px){.wf-ph{grid-template-columns:1fr;}}
 </style>"""
     cov = coverage()
@@ -248,6 +334,14 @@ def render():
         f'<span style="flex:{c["auto"]};background:#10b981;"></span><span style="flex:{c["part"]};background:#f59e0b;"></span><span style="flex:{c["none"]};background:var(--surface-2);"></span></div>'
         f'<div style="font-size:12px;color:var(--muted);">단계 {c["n"]}개 · 자동 연계 {c["auto"]} · 부분 {c["part"]} · 미연계 {c["none"]}</div></div>' for c in cov)
     body = [css, '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:10px;">' + covh + "</div>",
+            '<div style="margin:4px 0 12px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;">'
+            '<div style="font-weight:800;font-size:13.5px;margin-bottom:6px;">🤖 AI 자동화 가능 업무</div>'
+            + "".join(f'<div style="display:flex;align-items:center;gap:8px;font-size:12px;margin:3px 0;"><span style="width:130px;">{E(r["name"])}</span>'
+                      f'<span style="flex:1;display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--surface-2);">'
+                      f'<span style="width:{r["auto"] / max(1, r["n"]) * 100:.0f}%;background:#10b981;"></span><span style="width:{r["assist"] / max(1, r["n"]) * 100:.0f}%;background:#3b82f6;"></span></span>'
+                      f'<span style="width:190px;color:var(--muted);">업무 {r["n"]} · 자동화 {r["auto"]} · AI 보조 {r["assist"]}</span></div>' for r in ai_summary())
+            + '<div style="font-size:12px;color:var(--muted);margin-top:6px;"><span class="wf-ai-m a">AI</span> 자동화(승인만 남김) · <span class="wf-ai-m b">AI</span> AI 보조(초안·추천). '
+              '각 단계 아래 \'🤖 AI 자동화 후보\'를 누르면 업무별 방법·지금 쓸 수 있는 화면·다음 연결이 펼쳐집니다.</div></div>'
             '<div style="font-size:12px;margin-bottom:14px;"><span class="wf-lk auto">자동 연계</span> 이 단계 판단에 바로 쓰는 화면 · <span class="wf-lk part">부분 연계</span> 참고용 · '
             '<span style="border-left:3px solid #ef4444;padding-left:6px;">갭</span> 아직 시스템 밖(연동 후보). 초록·주황 칩을 누르면 해당 화면으로 이동합니다.</div>']
     for w in WORKFLOWS:
@@ -256,6 +350,19 @@ def render():
             lanes = "".join('<div class="wf-lane">' + '<span class="wf-ar">→</span>'.join(_node(t) for t in ln.split(" > ")) + "</div>" for ln in p["lanes"])
             links = "".join(f'<span class="wf-lk {lvl}" data-goto="{F[k][0]}" data-anchor="{F[k][1]}">{E(F[k][2])}</span>' for k, lvl in p["links"]) or '<span style="font-size:12px;color:var(--muted);">연계 화면 없음</span>'
             gaps = "".join(f'<div class="wf-gap">{E(g)}</div>' for g in p["gaps"])
+            seen, items = set(), []
+            for ln in p["lanes"]:
+                for t in _tasks(ln):
+                    r = ai_of(t)
+                    if r and t not in seen:
+                        seen.add(t)
+                        items.append((t, r))
+            if items:
+                items.sort(key=lambda x: x[1]["lv"] != "자동화")
+                lanes += (f'<details class="wf-aibox"><summary>🤖 AI 자동화 후보 {len(items)}건 (자동화 {sum(1 for _, r in items if r["lv"] == "자동화")} · AI 보조 {sum(1 for _, r in items if r["lv"] == "AI 보조")}) — 눌러서 방법 보기</summary>'
+                          + "".join(f'<details class="wf-aiit"><summary><span class="wf-ai-m {"a" if r["lv"] == "자동화" else "b"}">{E(r["lv"])}</span> {E(t)}</summary>'
+                                    f'<div class="bd"><b>방법</b> {E(r["how"])}<br><b>지금 쓸 수 있는 것</b> {E(r["now"])}<br><b>다음 연결</b> {E(r["next"])}</div></details>' for t, r in items)
+                          + "</details>")
             body.append(f'<div class="wf-ph"><div class="wf-pn">{E(p["name"])}</div><div>{lanes}</div><div><div style="font-size:11.5px;color:var(--muted);margin-bottom:3px;">시스템 연계</div>{links}{gaps}</div></div>')
         body.append("</div>")
     return "".join(body)

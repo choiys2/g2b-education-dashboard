@@ -79,7 +79,18 @@ def match_competitor(bidwinnr_name):
     return None
 
 
-def fetch_competitor_wins(cfg, days_back, keywords=COMPETITOR_KEYWORDS):
+def _window_chunks(days_back, until_days, chunk_days):
+    """[오늘-days_back, 오늘-until_days] 구간을 chunk_days 씩 나눈다(과거분 나눠 채우기용)."""
+    from datetime import datetime, timedelta
+    end = datetime.now() - timedelta(days=until_days)
+    cur = datetime.now() - timedelta(days=days_back)
+    while cur < end:
+        nxt = min(cur + timedelta(days=chunk_days), end)
+        yield cur, nxt
+        cur = nxt
+
+
+def fetch_competitor_wins(cfg, days_back, keywords=COMPETITOR_KEYWORDS, until_days=0):
     svc = cfg["services"]["scsbid"]
     chunk_days = cfg.get("date_range_chunk_days", 28)
     interval = cfg.get("request_interval_sec", 0.15)
@@ -87,7 +98,7 @@ def fetch_competitor_wins(cfg, days_back, keywords=COMPETITOR_KEYWORDS):
 
     rows = []
     for kw in keywords:
-        for begin, end in date_chunks(days_back, chunk_days):
+        for begin, end in (_window_chunks(days_back, until_days, chunk_days) if until_days else date_chunks(days_back, chunk_days)):
             # 이전엔 1페이지(200건)만 읽고 totalCount를 버려서, "역량강화"처럼 교육 외
             # 기관까지 수백 건 걸리는 키워드는 200건 뒤의 낙찰이 통째로 누락됐다.
             items = []
@@ -233,12 +244,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--days", type=int, default=60, help="이번 실행에서 조회할 최근 일수(기본 60, 백필 시 크게)")
     ap.add_argument("--out", default="live/competitor_g2b_export.json")
+    ap.add_argument("--until-days", type=int, default=0, help="이 일수보다 오래된 구간만 조회(과거분 나눠 채우기, 기본 0=오늘까지)")
     args = ap.parse_args()
 
     from datetime import date
 
     cfg = load_config()
-    new_rows = fetch_competitor_wins(cfg, days_back=args.days)
+    new_rows = fetch_competitor_wins(cfg, days_back=args.days, until_days=args.until_days)
 
     org_watch.save()
     history = load_history()

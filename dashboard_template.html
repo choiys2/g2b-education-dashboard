@@ -5864,7 +5864,7 @@ window.__ownerQ.push(function renderAiBrief(){
     ((O.recontract || {}).items || []).filter(x => !x.renewed).forEach(x => { const d = dOf(x.contact); if (d != null && d >= -7 && d <= 30) items.push({d, k: x.kind === '방어' ? '재계약 방어' : '재계약 탈환', c: x.kind === '방어' ? '#10b981' : '#4f8cff', t: x.course, s: `${x.org || ''} · 예상 재발주 ${x.ann} · ${fmtWon(x.amount)}`, tab: 'pipeline', a: 'recontractPanel'}); });
     ((S.settle || {}).rows || []).filter(r => r.flag).forEach(r => items.push({d: 0, k: r.flag, c: '#d64545', t: r.course || r.org, s: `${r.org || ''} · 청구 ${fmtWon(r.claim || 0)}`, tab: 'pipeline', a: 'pipeTable'}));
     ((S.bids || {}).recent || []).filter(r => !/수주|실패|탈락|아웃|포기/.test(r.result || '')).forEach(r => { const d = dOf(r.posted); if (d != null && d >= -30) items.push({d: 1, k: '입찰 결과 미기재', c: '#94a3b8', t: r.title, s: `${r.region || ''} · ${r.org || ''} · 공고 ${r.posted}`, tab: 'pipeline', a: 'recontractPanel'}); });
-    ((S.blended || {}).rows || []).filter(r => (r.ready ?? 100) < 50).forEach(r => { const d = dOf(r.first_date); if (d == null || d <= 30) items.push({d: d ?? 15, k: '집합연수 준비', c: '#f59e0b', t: r.course, s: `${r.org || ''} · 준비율 ${r.ready}% · ${r.schedule || ''}`, tab: 'pipeline', a: 'opsPlanPanel'}); });
+    ((S.blended || {}).rows || []).filter(r => (r.ready ?? 100) < 50 && !(dOf(r.last_date || r.first_date) < 0)).forEach(r => { const d = dOf(r.first_date); if (d == null || d <= 30) items.push({d: d ?? 15, k: '집합연수 준비', c: '#f59e0b', t: r.course, s: `${r.org || ''} · 준비율 ${r.ready}% · ${r.schedule || ''}`, tab: 'pipeline', a: 'opsPlanPanel'}); });
     // 관리 탭(별도 비밀번호) 안에서만 그린다: 관리 탭을 연 뒤 adminGate 가 window.renderAdminActions(el) 호출
     window.renderAdminActions = el => {
       if (!items.length) { el.innerHTML = empty('오늘 처리할 경보가 없습니다.'); return; }
@@ -9943,6 +9943,29 @@ window.__renderPdfx = function(root, P){
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:8px;">${cards}</div>
     <div style="font-weight:800;font-size:14px;margin:14px 0 6px;">기관 × 시도 활동 지도 <span style="font-size:11.5px;color:var(--muted);font-weight:500;">숫자 = 낙찰·계약 건수, 위첨자 = 기사 속 지역 언급 · 색이 진할수록 활동 많음</span></div>${heat}
     <p class="tt-note">낙찰·계약은 교원연수·교육 용역 기준(누적), KERIS는 입찰 참가·낙찰 기록, 기사는 최근 180일 제목 기준입니다.${W.news_updated ? ' 기사 ' + h(String(W.news_updated).slice(0, 10)) + ' 기준.' : ''}</p>`;
+  tab.appendChild(sec);
+})();
+/* ---------------- 기업·대학 트렌드 2027 > 연수원 공식 유튜브 채널 비교(원자료) ---------------- */
+(function renderYtCompanies(){
+  const D = window.__IND, Y = D && D.yt_companies;
+  const tab = document.getElementById('panel-biz2027'); if (!tab || !Y) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const n = v => v == null ? '-' : Number(v).toLocaleString();
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'ytCompanies';
+  const R = Y.rows || [];
+  const head = `<div class="panel-head"><div><p class="panel-title">연수원 공식 유튜브 채널 비교<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">구독자·조회수·최근 영상 · 매주 갱신${Y.captured ? ' · ' + h(Y.captured) + ' 기준' : ''}</span></p></div></div>`;
+  if (!R.length) { sec.innerHTML = head + '<p style="color:var(--muted);font-size:13px;">데이터 준비 중</p>'; tab.appendChild(sec); return; }
+  const mx = Math.max(1, ...R.map(r => r.subs || 0));
+  const delta = r => { const k = Object.keys(r.hist || {}).sort(); if (k.length < 2) return '<span style="color:var(--muted);">첫 주</span>';
+    const d = r.hist[k[k.length - 1]] - r.hist[k[k.length - 2]]; return `<b style="color:${d >= 0 ? '#10b981' : '#ef4444'};">${d >= 0 ? '+' : ''}${n(d)}</b>`; };
+  const avg = r => (r.recent || []).length ? Math.round(r.recent.reduce((a, v) => a + (v.v || 0), 0) / r.recent.length) : null;
+  sec.innerHTML = head + `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:720px;"><thead><tr><th>연수원</th><th>채널</th><th style="width:28%;">구독자</th><th class="num">지난주 대비</th><th class="num">누적 조회수</th><th class="num">영상 수</th><th class="num">최근 5개 평균 조회</th></tr></thead><tbody>
+    ${R.map(r => `<tr><td><b>${h(r.co)}</b></td><td style="font-size:12px;">${h(r.title || '')}<div style="color:var(--muted);">${h(r.handle || '')}</div></td>
+      <td><div style="display:flex;align-items:center;gap:6px;"><span style="flex:1;height:9px;background:var(--surface-2);border-radius:5px;"><span style="display:block;height:100%;width:${(r.subs || 0) / mx * 100}%;background:${r.co === '비바샘연수원' ? 'var(--accent)' : '#94a3b8'};border-radius:5px;"></span></span><span class="num" style="min-width:64px;text-align:right;">${n(r.subs)}</span></div></td>
+      <td class="num">${delta(r)}</td><td class="num">${n(r.views)}</td><td class="num">${n(r.videos)}</td><td class="num">${n(avg(r))}</td></tr>`).join('')}
+    </tbody></table></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:8px;margin-top:10px;">${R.map(r => `<div style="border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-size:12px;min-width:0;"><b>${h(r.co)} 최근 영상</b>
+      ${(r.recent || []).map(v => `<div style="display:flex;gap:6px;margin-top:3px;"><span style="color:var(--muted);white-space:nowrap;">${h((v.d || '').slice(5))}</span><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${/^[A-Za-z0-9_-]{6,20}$/.test(v.id || '') ? `<a href="https://www.youtube.com/watch?v=${h(v.id)}" target="_blank" rel="noopener noreferrer">${h(v.t)}</a>` : h(v.t)}</span><span class="num" style="white-space:nowrap;">${n(v.v)}회</span></div>`).join('') || '<div style="color:var(--muted);">영상 없음</div>'}</div>`).join('')}</div>`;
   tab.appendChild(sec);
 })();
 </script>

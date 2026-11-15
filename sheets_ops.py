@@ -73,6 +73,27 @@ def pdate(s, year=2026):
         return None
 
 
+def plast(s, year=2026):
+    """일정 문자열 속 날짜 중 가장 늦은 날(예: '11.5~11.6', '10/15, 10/22', '11.5~6') - 종료 판정용."""
+    s = str(s or "")
+    first = pdate(s, year)
+    if not first:
+        return None
+    out = [first]
+    for m in re.finditer(r"(?<!\d)(\d{1,2})\s?[./월]\s?(\d{1,2})", s):
+        try:
+            out.append(date(first.year, int(m.group(1)), int(m.group(2))))
+        except ValueError:
+            pass
+    m = re.search(r"[~\-–]\s?(\d{1,2})\s?일?\s*$", s)  # '11.5~6' 처럼 끝 날짜만 적은 경우
+    if m:
+        try:
+            out.append(date(first.year, first.month, int(m.group(1))))
+        except ValueError:
+            pass
+    return max(out)
+
+
 def vocab(vals, n=12):
     """짧은 범주값만(사람 이름 형태 2~3자 한글 단독은 제외) 상위 n개"""
     c = Counter(v.strip() for v in vals if v and len(v.strip()) <= 8 and not re.fullmatch(r"[가-힣]{2,3}", v.strip()))
@@ -238,6 +259,7 @@ def blended(status):
         rows.append({"course": g("course").strip()[:60], "org": g("org").strip()[:30], "region": g("region").strip()[:4],
                      "field": g("field").strip()[:12], "venue_name": g("venue_name").strip()[:30], "schedule": g("schedule").strip()[:30],
                      "first_date": (pdate(g("schedule")) or "") and pdate(g("schedule")).isoformat(),
+                     "last_date": (plast(g("schedule")) or "") and plast(g("schedule")).isoformat(),
                      "target": tgt, "applied": app, "budget": num(g("budget")), "checks": st,
                      "ready": round(sum(1 for v in st.values() if v == "완료") / len(st) * 100) if st else None})
     status["blended"] = {"tab_gid": gid, "header_row": hi + 1, "roles": sorted(ix), "rows": len(rows),

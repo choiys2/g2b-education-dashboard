@@ -131,6 +131,13 @@ def build(key=None):
                             "briefs": bread[:8], "scrap": {t: (PN.get(t) or {}).get("items", [])[:4] for t in (D.get("scrap_targets") or {}).get("topic", [])}},
            "edu_univ": univ, "company_scrap": {c: (PN.get(c) or {}).get("items", [])[:4] for c in (D.get("scrap_targets") or {}).get("company", [])},
            "scrap_updated": (_j("history/partner_news.json", {}) or {}).get("generated")}
+    try:  # 연수원 공식 유튜브 채널(경쟁 3사) - 원자료만
+        yt = (_j("history/teacher_creator_trends.json", {}) or {}).get("youtube") or {}
+        out["yt_companies"] = {"captured": yt.get("captured_date"), "rows": [
+            {"co": co, "title": v.get("title"), "handle": v.get("handle"), "subs": v.get("subs"), "views": v.get("views"), "videos": v.get("videos"),
+             "hist": v.get("hist") or {}, "recent": (v.get("recent") or [])[:5]} for co, v in (yt.get("companies") or {}).items()]}
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 연수원 공식 채널 실패: {type(e).__name__}")
     try:  # 수행기관 모니터링(원자료·그룹 표시, 해석은 관리 탭)
         out["org_watch"] = __import__("org_watch").build_cp()
     except Exception as e:  # noqa: BLE001

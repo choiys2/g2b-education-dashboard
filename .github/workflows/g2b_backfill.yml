@@ -1,0 +1,39 @@
+name: 나라장터 낙찰 과거분 나눠 채우기
+
+# 수행기관 모니터링·경쟁사 매트릭스의 과거 2년치를 하루 1구간(180일)씩 채운다(조회 과부하 방지).
+# 매일 06:00 정기 배포와 겹치지 않게 14:00 KST. 4구간이 끝나면 실행돼도 아무것도 하지 않는다.
+on:
+  schedule:
+    - cron: "0 5 * * *"   # 매일 14:00 KST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: g2b-backfill
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 설정
+        run: cp g2b_config.example.json g2b_config.json
+      - name: 구간 1개 채우기
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+        run: python g2b_backfill.py
+      - name: 결과 커밋
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for f in history/competitor_wins.jsonl history/org_watch.jsonl history/g2b_backfill_state.json; do [ -f "$f" ] && git add "$f"; done
+          git diff --cached --quiet || git commit -m "chore: 나라장터 낙찰 과거분 채우기 $(TZ=Asia/Seoul date +%F)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done
