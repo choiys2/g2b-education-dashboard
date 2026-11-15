@@ -26,7 +26,9 @@ jobs:
           fail=0
           ok(){ echo "✅ $1"; }
           bad(){ echo "::error::❌ $1"; fail=1; }
-          get(){ curl -sS -o body -w '%{http_code} %{redirect_url}' --max-time 30 "$1" || echo "000"; }
+          get1(){ curl -sS -o body -w '%{http_code} %{redirect_url}' --max-time 30 "$1" || echo "000"; }
+          # GitHub·Cloudflare 일시 오류(5xx·000)는 30초 간격 최대 3번 다시 확인한다(2026-11-16: 503 오탐)
+          get(){ local r i; for i in 1 2 3; do r=$(get1 "$1"); case "${r%% *}" in 5*|000) sleep 30;; *) break;; esac; done; echo "$r"; }
 
           for p in "/" "/full/" "/full/weekly.html"; do
             r=$(get "$GH$p")

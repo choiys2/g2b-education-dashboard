@@ -1346,7 +1346,7 @@ document.addEventListener('click', function (e) {
               <th data-key="교육지원청">교육지원청<span class="arrow">▾</span></th>
               <th data-key="유형">사업·유형<span class="arrow">▾</span></th>
               <th data-key="설립">설립<span class="arrow">▾</span></th>
-              <th data-key="teachers" class="num" title="학교알리미 직위별 교원 현황(공시)">교원<span class="arrow">▾</span></th>
+              <th data-key="teachers" class="num" title="교원 수(공시 기준)">교원<span class="arrow">▾</span></th>
               <th data-key="tel">전화</th>
               <th data-key="addr">주소</th>
             </tr>
@@ -1656,7 +1656,7 @@ document.addEventListener('click', function (e) {
     <div class="callout">
       <div class="icon">i</div>
       <div>
-        <h3>B2G영업 — (주)비상교육 자체 영업 파이프라인 (구글시트 26운영DT 매일 연동)</h3>
+        <h3>B2G영업 — (주)비상교육 자체 영업 파이프라인 (매일 갱신)</h3>
         <p>담당 영업자는 &ldquo;영업자 A/B/C&rdquo;로 익명 표기했습니다. 목표금액·계약방식 등 사업 단위 정보는 시장 데이터(나라장터 종합·시장분석 탭)와 교차분석하기 위해 그대로 남겨뒀습니다.</p>
         <p>기준: 최신 전체 건수(아래 &lsquo;전체 사업 리스트&rsquo; 제목에 표시). 지역별 점유율과 기회점수는 이 표본과 앞선 탭들의 시장 전체 데이터를 비교해 계산한 것입니다.</p>
       </div>
@@ -1785,16 +1785,15 @@ document.addEventListener('click', function (e) {
         <div>
           <p class="panel-title" id="pipeListTitle">전체 사업 리스트</p>
           <p class="panel-desc" id="pipeSource" style="font-weight:700;"></p>
-          <p class="panel-desc">상태 칩을 클릭하면 드롭다운으로 바로 변경할 수 있습니다(연동 설정 시 구글시트에 즉시 반영).</p>
+          <p class="panel-desc">상태 칩을 클릭하면 드롭다운으로 바로 변경할 수 있습니다(연동 설정 시 원본 기록에 즉시 반영).</p>
         </div>
         <button class="btn-ghost" id="pipeSyncSettingsBtn" type="button">⚙ 상태연동 설정</button>
       </div>
 
       <div class="sync-settings" id="pipeSyncSettings" hidden>
         <p class="sync-settings-desc">
-          대시보드에서 상태를 바꾸면 구글시트에 바로 반영되게 하려면, <code>pipeline_status_webhook.gs.txt</code>를
-          해당 시트의 Apps Script로 배포한 뒤(SETUP_ADVANCED.md 참고) 아래에 웹앱 URL과 토큰을 입력하세요.
-          입력값은 이 브라우저에만 저장되고(localStorage) 서버로 전송되지 않습니다.
+          대시보드에서 바꾼 상태를 원본 기록에 바로 반영하려면 관리자에게 받은 연결 주소와 토큰을 입력하세요.
+          입력값은 이 브라우저에만 저장되고 서버로 전송되지 않습니다.
         </p>
         <div class="sync-settings-row">
           <label>웹앱 URL <input type="text" id="pipeSyncUrl" placeholder="https://script.google.com/macros/s/.../exec"></label>
@@ -2018,7 +2017,7 @@ document.addEventListener('click', function (e) {
       <div class="panel-head">
         <div>
           <p class="panel-title">계약 기준 B2G 점유 (수의계약·협상계약 포함)</p>
-          <p class="panel-desc" id="contractDesc">나라장터 계약정보서비스(용역)에서 연수·역량강화·원격 관련 계약을 모아 업체별로 집계합니다. 낙찰정보(경쟁입찰만)로는 보이지 않던 수의·협상 계약이 포함됩니다.</p>
+          <p class="panel-desc" id="contractDesc">연수·역량강화·원격 관련 계약을 업체별로 집계합니다. 낙찰정보(경쟁입찰만)로는 보이지 않던 수의·협상 계약이 포함됩니다.</p>
         </div>
       </div>
       <div class="tbl-wrap">
@@ -2303,13 +2302,12 @@ document.addEventListener('click', function (e) {
     <section class="panel" id="b2sMarketPanel">
       <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
         <div>
-          <p class="panel-title">B2S 학교 잠재 수요<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">학교알리미 교원 수 &middot; 전국 초&middot;중&middot;고</span></p>
+          <p class="panel-title">B2S 학교 잠재 수요<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">교원 수(공시) &middot; 전국 초&middot;중&middot;고</span></p>
           <p class="panel-desc" id="bmDesc"></p>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;">
           <label>참여율 <input id="bmRate" type="number" min="1" max="100" value="20" style="width:56px;font:inherit;padding:4px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);">%</label>
           <label>1인 객단가 <input id="bmPrice" type="number" min="1000" step="5000" value="60000" style="width:88px;font:inherit;padding:4px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);">원</label>
-          <a class="btn-csv" id="bmCsv" href="b2s_schools.csv" download style="margin:0;text-decoration:none;">전체 학교 CSV</a>
         </div>
       </div>
       <div class="kpis" id="bmKpis" style="margin-bottom:14px;"></div>
@@ -2435,7 +2433,7 @@ document.addEventListener('click', function (e) {
   <div class="tabpanel" id="panel-content">
     <div class="callout"><div class="icon">i</div><div>
       <h3>콘텐츠·매출 — 연수개발 실행 추적</h3>
-      <p>구글시트 26 콘텐츠DT를 매일 읽어 과정별 인증·서비스 단계, 월별 매출, 분야별 강사 보유 수를 보여줍니다. 강사·담당자 이름은 싣지 않습니다.</p>
+      <p>과정별 인증·서비스 단계, 월별 매출, 분야별 강사 보유 수를 보여줍니다(매일 갱신). 강사·담당자 이름은 싣지 않습니다.</p>
     </div></div>
   </div><!-- /panel-content -->
 
@@ -4315,7 +4313,7 @@ window.__ownerQ.push(function renderAiBrief(){
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const desc = document.getElementById('rfpDesc'), list = document.getElementById('rfpList');
   if (!R.items.length) {
-    desc.textContent = '교원 연수 입찰공고의 제안요청서·과업지시서를 AI가 읽어 대상·차시·평가방식·요구사항·제안 포인트를 정리합니다. 다음 자동 배포부터 하루 최대 8건씩 채워집니다.';
+    desc.textContent = '교원 연수 입찰공고의 제안요청서·과업지시서를 AI가 읽어 대상·차시·평가방식·요구사항·제안 포인트를 정리합니다. 데이터 준비 중(매일 갱신).';
     list.innerHTML = '';
     return;
   }
@@ -4360,7 +4358,7 @@ window.__ownerQ.push(function renderAiBrief(){
   const desc = document.getElementById('venueDesc'), sel = document.getElementById('venueSido');
   const tbody = document.querySelector('#venueTable tbody');
   if (!sidos.length) {
-    desc.textContent = '한국관광공사 관광정보로 시도별 숙박·연수원·컨벤션 위치를 모읍니다. 다음 자동 배포 후 채워집니다' + ((V.errors || [])[0] ? ` (최근 상태: ${V.errors[0]})` : '.');
+    desc.textContent = '시도별 숙박·연수원·컨벤션 위치를 보여줍니다. 데이터 준비 중.';
     sel.hidden = true;
     return;
   }
@@ -4405,11 +4403,11 @@ window.__ownerQ.push(function renderAiBrief(){
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const desc = document.getElementById('bmDesc');
   if (!M.available) {
-    desc.textContent = '학교알리미에서 전국 초·중·고의 교원 수를 모아 시도·시군구·학교별 교원연수 잠재 시장을 계산합니다. 다음 자동 배포(주 1회 전국 수집) 후 채워집니다.';
-    document.getElementById('bmCsv').hidden = true;
+    desc.textContent = '전국 초·중·고 교원 수로 시도·시군구·학교별 교원연수 잠재 시장을 계산합니다. 데이터 준비 중(매주 갱신).';
+    const bmc = document.getElementById('bmCsv'); if (bmc) bmc.hidden = true;
     return;
   }
-  desc.innerHTML = `${h(M.year)} 공시 · ${h(M.collected)} 수집 · 전국 <b>${fmt(M.n_schools)}개 학교, 교원 ${fmt(M.n_teachers)}명</b>. 시도 행을 누르면 아래 시군구·학교 목록이 그 시도로 바뀝니다.`;
+  desc.innerHTML = `${h(M.year)} 공시 · ${h(M.collected)} 기준 · 전국 <b>${fmt(M.n_schools)}개 학교, 교원 ${fmt(M.n_teachers)}명</b>. 시도 행을 누르면 아래 시군구·학교 목록이 그 시도로 바뀝니다.`;
   const st = {s: ''};
   const rate = () => Math.max(0, +document.getElementById('bmRate').value || 0) / 100;
   const price = () => Math.max(0, +document.getElementById('bmPrice').value || 0);
@@ -4461,7 +4459,7 @@ window.__ownerQ.push(function renderAiBrief(){
   document.getElementById('pipeListTitle').textContent = `전체 사업 리스트 (${n}건)`;
   const el = document.getElementById('pipeSource');
   if (S.tab) {
-    el.textContent = `데이터 기준: 구글시트 '${S.tab}' · ${S.fetched} 조회 · ${n}건`;
+    el.textContent = `데이터 기준: ${S.fetched} · ${n}건`;
   } else {
     el.style.color = 'var(--warning)';
     el.textContent = '영업 데이터를 불러오지 못했습니다. 관리자에게 문의하세요.';
@@ -4475,14 +4473,14 @@ window.__ownerQ.push(function renderAiBrief(){
   const desc = document.getElementById('commsDesc');
   const recs = (PIPE && PIPE.records) || [];
   if (!C.available) {
-    desc.textContent = '구글시트 영업 소통 내역(26영업소통 DT)을 사업별로 연결해 소통 빈도·경과일·이슈 분류를 숫자로 보여줍니다. ' + (C.error ? `아직 연동되지 않았습니다(${String(C.error).slice(0, 80)}).` : '다음 자동 배포 후 채워집니다.');
+    desc.textContent = '영업 소통 내역을 사업별로 연결해 소통 빈도·경과일·이슈 분류를 숫자로 보여줍니다. ' + '데이터 준비 중.';
     document.getElementById('commsFilter').hidden = true;
     return;
   }
   const rows = recs.map((r, i) => ({r, c: (C.per || {})[i] || {n: 0, signal: '기록 없음'}}));
   const active = rows.filter(x => x.c.signal !== '종료');
   const by = sig => active.filter(x => x.c.signal === sig);
-  desc.textContent = `구글시트 '${C.tab}' · ${C.fetched} 조회 · 소통 기록 ${fmt(C.rows)}건 중 사업 연결 ${fmt(C.rows - C.unlinked)}건(사업 ${C.linked}개).`;
+  desc.textContent = `${C.fetched} 기준 · 소통 기록 ${fmt(C.rows)}건 중 사업 연결 ${fmt(C.rows - C.unlinked)}건(사업 ${C.linked}개).`;
   const n30 = active.reduce((a, x) => a + (x.c.n30 || 0), 0), p30 = active.reduce((a, x) => a + (x.c.prev30 || 0), 0);
   document.getElementById('commsKpis').innerHTML = [
     ['진행 중 사업', active.length + '건', `전체 ${recs.length}건 중 완료·종료 제외`],
@@ -4589,7 +4587,7 @@ window.__ownerQ.push(function renderAiBrief(){
   // ---- B. 소통 → 수주 전환
   (function(){
     const V = (PIPE_COMMS || {}).conversion || {}, desc = document.getElementById('cvDesc');
-    if (!V.orgs) { desc.textContent = '영업소통DT 기록을 기관 단위로 묶어 소통 횟수·활동(현장방문·계획서전달 등)과 수주 여부의 관계를 봅니다. 다음 자동 배포 후 채워집니다.'; return; }
+    if (!V.orgs) { desc.textContent = '영업소통DT 기록을 기관 단위로 묶어 소통 횟수·활동(현장방문·계획서전달 등)과 수주 여부의 관계를 봅니다. 데이터 준비 중.'; return; }
     desc.textContent = `소통 기록이 있는 기관 ${fmt(V.orgs)}곳 중 수주 기관 ${fmt(V.won_orgs)}곳.`;
     kpis('cvKpis', [
       ['전체 전환율', V.rate + '%', `${fmt(V.won_orgs)} / ${fmt(V.orgs)}개 기관`],
@@ -4615,7 +4613,7 @@ window.__ownerQ.push(function renderAiBrief(){
   // ---- A. 시도 예산 여력
   (function(){
     const B = O.budget || {}, desc = document.getElementById('bgDesc');
-    if (!B.available) { desc.textContent = B.error ? `계산 오류: ${B.error}` : '지방교육재정알리미(EDUINFO_KEY) 시도 세입·세출 총계를 다음 자동 배포에서 받아 채웁니다.'; return; }
+    if (!B.available) { desc.textContent = B.error ? `계산 오류: ${B.error}` : '시도 교육재정 세입·세출 데이터 준비 중.'; return; }
     const rows = B.rows, top = rows.filter(r => r.flag === '공략 우선');
     desc.textContent = `${B.year}년 결산 기준(전년 ${B.prev_year} 대비) · 계약 ${B.contract_span[0]}~${B.contract_span[1]}.`;
     const dec = rows.filter(r => r.flag === '여력 감소');
@@ -4699,7 +4697,7 @@ window.__ownerQ.push(function renderAiBrief(){
 (function renderEduCntr(){
   const E = EDU_CNTR || {}, desc = document.getElementById('ecDesc');
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  if (!E.available) { desc.textContent = '교육청 홈페이지의 수의계약 공개(K-에듀파인 연계) 목록에서 학교·교육청 연수 계약을 매일 모읍니다. 다음 자동 배포 후 채워집니다.'; document.getElementById('ecFilter').hidden = true; return; }
+  if (!E.available) { desc.textContent = '학교·교육청 연수 수의계약을 보여줍니다. 데이터 준비 중(매일 갱신).'; document.getElementById('ecFilter').hidden = true; return; }
   desc.textContent = `누적 ${fmt(E.total)}건 · ${E.span[0]}~${E.span[1]} · ${E.updated || ''} 갱신`;
   const COMP = ['아이스크림', '티처빌', '비바샘연수원', '한교원'];
   const comp = COMP.reduce((a, c) => a + ((E.by_vendor[c] || {}).n || 0), 0);
@@ -5543,7 +5541,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const S = ((B2S_MARKET || {}).sido || []).filter(s => s.teachers).sort((a, b) => b.teachers - a.teachers);
     const el = panel('b2s', null, '㉓ B2S 시장 덩어리', '면적 = 교원 수 · 색 = 자사 계약 학교 비율');
     if (!el) return;
-    if (!S.length) { el.innerHTML = empty('학교알리미 데이터 대기'); return; }
+    if (!S.length) { el.innerHTML = empty('데이터 준비 중'); return; }
     const W = 760, H = 320, tot = S.reduce((a, s) => a + s.teachers, 0);
     // 단순 행 분할(squarify 근사): 큰 것부터 행을 채운다
     const rects = []; let yy = 0, i = 0;
@@ -5632,7 +5630,7 @@ window.__ownerQ.push(function renderAiBrief(){
   // ㉙ 정산 경보
   safe('settle', () => {
     const T = S.settle;
-    const el = panel('pipeline', 'pipeTable', '㉙ 청구·계산서 경보', '구글시트 정산관리');
+    const el = panel('pipeline', 'pipeTable', '㉙ 청구·계산서 경보', '정산 기록 기준');
     if (!el) return;
     if (!T) { el.innerHTML = empty('정산관리 시트 연동 대기'); return; }
     const fl = T.rows.filter(r => r.flag);
@@ -5654,7 +5652,7 @@ window.__ownerQ.push(function renderAiBrief(){
   // ㉛ 입찰 결과 (V3·V4)
   safe('bids', () => {
     const B = S.bids;
-    const el = panel('pipeline', 'recontractPanel', '㉛ 자사 입찰 결과 분석', '구글시트 26입찰DT · 공고 → 참여 → 수주');
+    const el = panel('pipeline', 'recontractPanel', '㉛ 자사 입찰 결과 분석', '공고 → 참여 → 수주');
     if (!el) return;
     if (!B) { el.innerHTML = empty('26입찰DT 연동 대기'); return; }
     const st = [['검토 공고', B.n], ['입찰 참여', B.joined], ['수주', B.won]];
@@ -5675,7 +5673,7 @@ window.__ownerQ.push(function renderAiBrief(){
   // ㉜ 집합연수 준비 현황판
   safe('blended', () => {
     const B = S.blended;
-    const el = panel('pipeline', 'opsPlanPanel', '㉜ 집합·블렌디드 연수 준비 현황판', '구글시트 26운영(블렌디드연수) · 장소·강사·홍보·운영준비');
+    const el = panel('pipeline', 'opsPlanPanel', '㉜ 집합·블렌디드 연수 준비 현황판', '장소·강사·홍보·운영준비');
     if (!el) return;
     if (!B) { el.innerHTML = empty('26운영(블렌디드연수) 시트 연동 대기'); return; }
     const dot = v => `<span title="${h(v)}" style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${v === '완료' ? '#10b981' : v === '진행' ? '#f59e0b' : 'var(--surface-2)'};border:1px solid var(--border);"></span>`;
@@ -5689,7 +5687,7 @@ window.__ownerQ.push(function renderAiBrief(){
   /* ---- 콘텐츠·매출 탭 ---- */
   safe('contentStages', () => {
     const C = S.contents;
-    const el = panel('content', null, '㉝ 콘텐츠 인증·서비스 파이프라인', '구글시트 26 콘텐츠DT');
+    const el = panel('content', null, '㉝ 콘텐츠 인증·서비스 파이프라인', '매일 갱신');
     if (!el) return;
     if (!C) { el.innerHTML = empty('26 콘텐츠DT 연동 대기'); return; }
     const order = ['제작·준비', '심사 중', '인증 완료', '오픈 예정', '서비스 중'];
@@ -6166,7 +6164,7 @@ function planSimInit(root){
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const desc = document.getElementById('bnDesc');
   if (!B.available) {
-    desc.textContent = '구글시트 26타사DT(매일 B2G 수의계약 포함 자사·타사 연수 배너)를 테마·지역·업체로 교차 분석합니다. ' + (B.error ? `아직 연동되지 않았습니다(${String(B.error).slice(0, 80)}).` : '다음 자동 배포 후 채워집니다.');
+    desc.textContent = '자사·타사 연수 배너(B2G 수의계약 포함)를 테마·지역·업체로 교차 분석합니다. ' + '데이터 준비 중.';
     return;
   }
   const CO = B.companies, SELF = B.self;
@@ -6176,7 +6174,7 @@ function planSimInit(root){
   const own = B.totals[SELF] || 0;
   const lead = Object.entries(B.totals).filter(([c]) => c !== '기타').sort((a, b) => b[1] - a[1])[0] || ['-', 0];
   const l30 = B.last30 || {}, l30t = Object.values(l30).reduce((a, b) => a + b, 0);
-  desc.textContent = `구글시트 '${B.tab}' · ${B.fetched} 조회 · 배너 ${fmt(B.rows)}건 (테마별·지역별 피벗과 같은 원본에서 직접 집계).`;
+  desc.textContent = `${B.fetched} 기준 · 배너 ${fmt(B.rows)}건.`;
   document.getElementById('bnKpis').innerHTML = [
     ['전체 배너', fmt(B.rows) + '건', `업체 ${CO.length}곳 기준`],
     ['자사 점유', Math.round(own / tot * 100) + '%', `${fmt(own)}건`],
@@ -6236,8 +6234,8 @@ window.__ownerQ.push(function renderExec(){
   const sum = [
     ['B2G는 관계 영업 시장', !C.total_n ? '조달청 계약정보 수집 후 표시됩니다.' : `최근 1년 교원연수 계약 ${n(C.total_n)}건 중 <b>${C.sui_share ?? '-'}%가 수의계약</b>. 자사 ${n(own.n)}건·평균 ${won(own.avg)} vs ${h(r1.name)} ${n(r1.n)}건·평균 ${won(r1.avg)} — 건수보다 <b>단가·대형 사업</b>에서 밀린다.`],
     ['수요는 AI·디지털에 집중', `최근 12개월 연수 입찰 ${n(M.bids_12m)}건 중 1위 주제 <b>${h(top.name || '-')}</b>(${n(top.n)}건, 추천 ${top.score ?? '-'}점). 주제 미지정 원격 콘텐츠 공고 ${n(M.generic_n)}건(${won(M.generic_amt)})은 자사 콘텐츠 직판 기회.`],
-    ['B2S는 아직 빈 시장', S ? `전국 ${n(S.schools)}개 학교·교원 ${n(S.teachers)}명, 교원 60명 이상 대규모 학교 ${n(S.large)}곳. 자사 계약이 없는 큰 시장: <b>${h((S.white_regions || []).join('·') || '-')}</b>.` : '학교알리미 전국 수집 후 표시됩니다.'],
-    ['자사 파이프라인·배너', `운영 사업 ${n(P.n)}건(구글시트)${CM ? `, 소통 기록 ${n(CM.rows)}건 중 '주의'(30일+ 무소통) ${n((CM.signals || {})['주의'] || 0)}건` : ''}${B ? `. 연수 배너 점유 자사 <b>${B.own_share}%</b> vs ${h(B.lead)} ${B.lead_share}%` : ''}.`],
+    ['B2S는 아직 빈 시장', S ? `전국 ${n(S.schools)}개 학교·교원 ${n(S.teachers)}명, 교원 60명 이상 대규모 학교 ${n(S.large)}곳. 자사 계약이 없는 큰 시장: <b>${h((S.white_regions || []).join('·') || '-')}</b>.` : '데이터 준비 중'],
+    ['자사 파이프라인·배너', `운영 사업 ${n(P.n)}건${CM ? `, 소통 기록 ${n(CM.rows)}건 중 '주의'(30일+ 무소통) ${n((CM.signals || {})['주의'] || 0)}건` : ''}${B ? `. 연수 배너 점유 자사 <b>${B.own_share}%</b> vs ${h(B.lead)} ${B.lead_share}%` : ''}.`],
   ];
   document.getElementById('exSummary').innerHTML = sum.map(([t, p]) => `<div class="card"><b>${h(t)}</b><p>${p}</p></div>`).join('');
 
@@ -6255,7 +6253,7 @@ window.__ownerQ.push(function renderExec(){
       `자사는 건수에 비해 금액 점유가 낮고${CM ? `, 진행 사업 중 30일 넘게 소통이 끊긴 곳이 ${n((CM.signals || {})['주의'] || 0)}건 있다` : ''}.`,
       '무소통 사업부터 접촉을 복구하고, 1억 이상 입찰에 참가한다.'],
     ['opportunity', '④ 기회', S ? `${n(S.teachers)}명` : '-', S ? `B2S 대상 교원 · 미진출 대형 시도 ${h((S.white_regions || []).join('·') || '-')}` : 'B2S 데이터 데이터 준비 중',
-      S ? `학교 단위 시장은 크지만 자사 계약이 없는 대형 시도가 남아 있다.` : '학교알리미 수집 후 표시됩니다.',
+      S ? `학교 단위 시장은 크지만 자사 계약이 없는 대형 시도가 남아 있다.` : '데이터 준비 중',
       '대규모 학교·AI 중점·선도학교 대상 단체연수로 B2S 비중을 끌어올린다.'],
   ];
   document.getElementById('exStoryDesc').textContent = ST.date
@@ -6283,7 +6281,7 @@ window.__ownerQ.push(function renderExec(){
     ['1', 'B2G 수성 + 고단가화', ['수의계약 시장(관계 영업)은 담당 교육청 소통 주기 30일 이내 유지', '1억 이상 협상계약 입찰에 연 4건 이상 참가(제안요청서 AI 분석·참가 가능 판정 활용)', '기본 원격연수 → 집합·블렌디드 패키지로 건당 단가 상향'],
       `근거: 자사 평균 계약 ${won(own.avg)} vs ${h(r1.name)} ${won(r1.avg)} · 수의계약 ${C.sui_share ?? '-'}%`],
     ['2', 'B2S 학교 단체연수 확장', ['교원 60명 이상 대규모 학교·AI 중점·선도학교부터 학교 단위 단체연수 제안', '소규모 학교는 교육지원청 묶음 상품', '자사 계약 0건인 대형 시도 우선 진입'],
-      S ? `근거: 대규모 학교 ${n(S.large)}곳 · 자사 미진출 대형 시도 ${h((S.white_regions || []).join('·'))} · AI 중점·선도 ${n(E.leading_n)}곳` : '근거: 학교알리미 수집 후 표시'],
+      S ? `근거: 대규모 학교 ${n(S.large)}곳 · 자사 미진출 대형 시도 ${h((S.white_regions || []).join('·'))} · AI 중점·선도 ${n(E.leading_n)}곳` : '데이터 준비 중'],
     ['3', 'B2C·샘몰 상품 재편', ['수요 1위 주제(AI·디지털)와 경쟁 대비 공백 주제의 개인 과정 우선 개발', '연수+도서/교구 결합상품을 샘몰 출시(2026 H2) 주력 구성으로', '주제 미지정 원격 콘텐츠 공고에 자사 콘텐츠 직판'],
       `근거: 1위 주제 ${h(top.name || '-')} ${n(top.n)}건 · 자사 ${n(top.own)}개 vs 경쟁사 평균 ${n(top.comp)}개${B && B.gap_themes.length ? ` · 배너 공백 테마 ${h(B.gap_themes.slice(0, 3).join('·'))}` : ''}`],
     ['4', 'AI·데이터 기반 운영', ['입찰 Go/No-Go·제안요청서 분석으로 제안 준비 시간 단축', '사업 진행 신호(주의·관심)로 주간 영업회의 안건 자동화', '경영 종합 대시보드를 월간 경영회의 기본 자료로'],
@@ -6336,7 +6334,7 @@ window.__ownerQ.push(function renderExec(){
   const cards = document.getElementById('ttCards');
   if (!D || !D.total) {
     desc.textContent = '초·중·고 대상 연수 입찰공고를 주제별로 모아 2027년 개발할 과정을 추천합니다.';
-    cards.innerHTML = '<div class="tt-empty">입찰공고 누적 데이터가 아직 없습니다. 다음 자동 배포에서 최근 12개월 공고를 수집하면 채워집니다.</div>';
+    cards.innerHTML = '<div class="tt-empty">입찰공고 데이터 준비 중입니다.</div>';
     document.getElementById('trainingTopicsPanel').querySelector('.tt-more').hidden = true;
     return;
   }
@@ -6618,7 +6616,7 @@ window.__ownerQ.push(function renderExec(){
 
   document.querySelector('#bsSigunguTable tbody').innerHTML = B.sigungu.slice().sort((a, b) => b.per_school - a.per_school)
     .map(x => `<tr><td>${h(x.label)}</td><td class="num">${fmt(x.n)}</td><td class="num">${fmtWon(x.amt)}</td><td class="num"><b>${fmtWon(x.per_school)}</b></td></tr>`).join('');
-  document.getElementById('bsRadarNote').textContent = '지역 요인은 17개 시도 안에서 최소~최대로 0~1 정규화했고, 학교 리드는 용역·전체 계약액을 리드 안 백분위로 바꾼 뒤 지역의 연수 이력·경쟁사 공백 값을 이어받습니다. 학교명이 없는 데이터라 실제 학교 특정은 소재지·학교급·설립유형으로 학교알리미 등에서 확인해야 합니다.';
+  document.getElementById('bsRadarNote').textContent = '지역 요인은 17개 시도 안에서 최소~최대로 0~1 정규화했고, 학교 리드는 용역·전체 계약액을 리드 안 백분위로 바꾼 뒤 지역의 연수 이력·경쟁사 공백 값을 이어받습니다. 학교명이 없는 데이터라 실제 학교 특정은 소재지·학교급·설립유형으로 따로 확인해야 합니다.';
   renderRadar();
 
   // ---- ② 샘몰 상품 기획 ----
@@ -8876,7 +8874,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
   function draw(){
     const sd = sec.querySelector('#opSido').value, tp = sec.querySelector('#opTopic').value;
     const R = (sd || tp) ? (O.cells || []).filter(c => (!sd || c.sido === sd) && (!tp || c.topic === tp)).slice(0, 15) : O.top;
-    sec.querySelector('#opBody').innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th class="num">#</th><th>시도</th><th>주제</th><th class="num">점수</th><th style="width:180px;">구성</th><th class="num">입찰 12개월(90일)</th><th class="num">트렌드</th><th class="num">핵심 강사</th><th class="num">경쟁 계약</th><th class="num" title="영업 파이프라인(구글시트) 그 시도 진행 사업">자사 진행</th><th>권장 행동</th></tr></thead><tbody>
+    sec.querySelector('#opBody').innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th class="num">#</th><th>시도</th><th>주제</th><th class="num">점수</th><th style="width:180px;">구성</th><th class="num">입찰 12개월(90일)</th><th class="num">트렌드</th><th class="num">핵심 강사</th><th class="num">경쟁 계약</th><th class="num" title="영업 파이프라인 그 시도 진행 사업">자사 진행</th><th>권장 행동</th></tr></thead><tbody>
       ${R.map((c, i) => `<tr class="opRow" data-i="${i}" style="cursor:pointer;"><td class="num">${i + 1}</td><td style="font-weight:700;white-space:nowrap;">${h(c.sido)}</td><td style="font-weight:700;white-space:nowrap;">${h(c.topic)}</td><td class="num"><b>${c.score}</b></td><td>${bar(c)}</td>
         <td class="num">${c.bids}(${c.bids90}) · ${won(c.amt)}</td><td class="num">${c.trend ?? '-'}${c.stage ? ` <span style="font-size:11px;color:var(--muted);">${h(c.stage)}</span>` : ''}</td><td class="num">${c.core}${c.groups ? ` +연구회 ${c.groups}` : ''}</td><td class="num">${c.comp}${c.own ? ` <span style="font-size:11px;color:var(--accent);">자사 ${c.own}</span>` : ''}</td><td class="num">${c.pipe && c.pipe.n ? `${c.pipe.n}건` : '-'}</td>
         <td style="font-size:12px;">${h(c.action)}${c.ai_new ? ` <span style="font-size:11px;color:var(--muted);">(AI 중점 신규 추정 +${c.ai_new})</span>` : ''}</td></tr>

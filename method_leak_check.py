@@ -10,7 +10,7 @@ import re
 import sys
 from pathlib import Path
 
-KW = re.compile(r"(\bAPI\b|Gemini|Firecrawl|Playwright|PostHog|Sentry|GitHub|Cloudflare|robots|스크레이핑|크롤|\.py\b|자동 수집|자동으로 열람|수집 대기|첫 수집|서비스계정|공공데이터포털|개방포털|시크릿|Secret|배포 때|다음 배포|odcloud|data\.go\.kr|API 키|해외 서버|Windsor|Supabase|Vercel)")
+KW = re.compile(r"(\bAPI\b|Gemini|Firecrawl|Playwright|PostHog|Sentry|GitHub|Cloudflare|robots|스크레이핑|크롤|\.py\b|자동 수집|자동으로 열람|수집 대기|첫 수집|서비스계정|공공데이터포털|개방포털|시크릿|Secret|배포 때|다음 배포|odcloud|data\.go\.kr|API 키|해외 서버|Windsor|Supabase|Vercel|학교알리미|에서 .{0,20}모아|자동 배포|전국 수집|구글\s?시트|DT\)|서비스계정|연동되지)")
 ALLOW = ("xAPI",)
 
 
