@@ -9840,7 +9840,7 @@ window.__renderPdfx = function(root, P){
 /* ---------------- 기업·대학 트렌드 2027 - AI 교육사업·RISE·협력 가능성 (교사 트렌드 2027 옆) ----------------
    공개: static_data/industry_trend_2027.json · 비공개(업체별 현황·협력 방향): 암호문 -> 로그인 뒤 화면. 정보는 계속 추가한다 */
 (function renderBiz2027(){
-  const D = __INDUSTRY_JSON__;
+  const D = __INDUSTRY_JSON__; window.__IND = D;
   const tab = document.getElementById('panel-biz2027'); if (!tab || !D) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
@@ -9898,6 +9898,52 @@ window.__renderPdfx = function(root, P){
         <p class="tt-note">새 미팅 결과·공고·대학 정보를 대화로 보내 주시면 이 공간(공개 정보는 industry_trend_2027.json, 업체 정보는 암호문)에 추가합니다.</p>`)}</div></div>
     <p class="tt-note" style="font-size:13px;line-height:1.6;"><b>그래서</b> 2027년 AI 교육 예산은 교원연수 위탁보다 <b>대학(첨단분야 인재양성 +37%, AI 재도약대학 2,070억 신규)</b>과 <b>지자체 RISE</b> 쪽에서 커집니다. 비바샘은 교과서·교원연수·학교 네트워크를 가진 쪽이므로, ① 반도체·AI 기업과 K-12 인재양성 모델(학생 진로·교사 연수 결합) ② RISE 사업단의 '지역 교원·학생 대상 프로그램' 위탁 ③ 2027 KERIS·교육청 AI 연수 용역 컨소시엄 순으로 접점을 만들고, 지역 연계 사업(B2G영업 탭 교육혁신 선도지역)과 같은 시군이 겹치는지 함께 보세요.</p>`;
   tab.prepend(sec);
+})();
+/* ---------------- 기업·대학 트렌드 2027 > 수행기관 모니터링(원자료 · 그룹 표시, 해석은 관리 탭) ---------------- */
+(function renderOrgWatch(){
+  const D = window.__IND, W = D && D.org_watch;
+  const tab = document.getElementById('panel-biz2027'); if (!tab || !W || !W.orgs) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v ? Math.round(v / 1e4).toLocaleString() + '만' : '-';
+  const safeUrl = u => /^https:\/\/[^\s"'<>]+$/.test(u || '') ? u : '';
+  const A = (t, u) => safeUrl(u) ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t)}</a>` : h(t);
+  const C = W.colors || {}, O = W.orgs;
+  const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'orgWatch';
+  const chip = g => `<span style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;background:color-mix(in srgb, ${C[g] || '#888'} 22%, var(--surface-2));">${h(g)}</span>`;
+  const legend = (W.groups || []).map(g => `<span style="margin-right:10px;font-size:12px;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${C[g]};margin-right:4px;"></span>${h(g)}</span>`).join('');
+  // ① 기관 카드
+  const cards = O.map(o => `<div style="border:1px solid var(--border);border-left:4px solid ${C[o.group] || '#888'};border-radius:10px;padding:8px 10px;font-size:12px;min-width:0;">
+    <div style="display:flex;justify-content:space-between;gap:6px;align-items:center;"><b style="font-size:13.5px;">${h(o.name)}</b>${chip(o.group)}</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:6px 0;text-align:center;">
+      <div><div style="color:var(--muted);font-size:11px;">낙찰·계약(1년)</div><b>${o.g2b_n}</b><div style="font-size:11px;">${won(o.g2b_amt)}</div></div>
+      <div><div style="color:var(--muted);font-size:11px;">KERIS 참가·낙찰</div><b>${o.keris_n}·${o.keris_win}</b></div>
+      <div><div style="color:var(--muted);font-size:11px;">기사·협약</div><b>${o.news_n}·${o.mou_n}</b></div></div>
+    ${(o.univ || []).length ? `<div style="margin:2px 0;"><b>대학</b> ${o.univ.map(h).join(' · ')}</div>` : ''}
+    ${(o.recent || []).slice(0, 3).map(r => `<div style="font-size:11.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">· ${h((r.d || '').slice(0, 7))} [${h(r.k)}] ${h((r.w || '').slice(0, 14))} ${h((r.t || '').slice(0, 34))}</div>`).join('')}
+    ${(o.news || []).slice(0, 2).map(n => `<div style="font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">· ${A((n.t || '').slice(0, 40), n.u)} <span style="color:var(--muted);">${h((n.d || '').slice(5))}</span></div>`).join('')}
+  </div>`).join('');
+  // ② 기관 × 시도 활동 지도(낙찰·계약 지역 + 기사 속 지역)
+  const S = W.sidos || [];
+  const val = (o, s) => (o.regions[s] || 0) + (o.news_regions[s] || 0) * 0.5;
+  const mx = Math.max(1, ...O.flatMap(o => S.map(s => val(o, s))));
+  const active = O.filter(o => S.some(s => val(o, s) > 0));
+  const heat = active.length ? `<div class="tbl-wrap"><table class="data" style="font-size:11.5px;min-width:860px;"><thead><tr><th>기관</th>${S.map(s => `<th class="num" style="padding:4px 3px;">${h(s)}</th>`).join('')}</tr></thead><tbody>
+    ${active.map(o => `<tr><td style="white-space:nowrap;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${C[o.group]};margin-right:4px;"></span><b>${h(o.name)}</b></td>${S.map(s => { const v = val(o, s);
+      return v ? `<td class="num" title="${h(o.name)} · ${h(s)}: 낙찰·계약 ${o.regions[s] || 0} · 기사 ${o.news_regions[s] || 0}" style="padding:4px 3px;background:color-mix(in srgb, ${C[o.group]} ${Math.round(15 + 65 * v / mx)}%, transparent);">${o.regions[s] || 0}${o.news_regions[s] ? '<sup>' + o.news_regions[s] + '</sup>' : ''}</td>` : '<td class="num" style="color:var(--muted);padding:4px 3px;">·</td>'; }).join('')}</tr>`).join('')}
+    </tbody></table></div>` : '<p style="color:var(--muted);font-size:13px;">데이터 준비 중</p>';
+  // ③ 그룹별 합계 막대
+  const G = (W.groups || []).map(g => { const os = O.filter(o => o.group === g); return {g, n: os.reduce((a, o) => a + o.g2b_n, 0), k: os.reduce((a, o) => a + o.keris_win, 0), m: os.reduce((a, o) => a + o.news_n, 0)}; });
+  const gmx = Math.max(1, ...G.map(x => x.n + x.k + x.m));
+  const bars = G.map(x => `<div style="display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px;"><span style="width:110px;">${h(x.g)}</span>
+    <span style="flex:1;display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--surface-2);"><span title="낙찰·계약 ${x.n}" style="width:${x.n / gmx * 100}%;background:${C[x.g]};"></span><span title="KERIS 낙찰 ${x.k}" style="width:${x.k / gmx * 100}%;background:color-mix(in srgb, ${C[x.g]} 55%, white);"></span><span title="기사 ${x.m}" style="width:${x.m / gmx * 100}%;background:color-mix(in srgb, ${C[x.g]} 25%, white);"></span></span>
+    <span style="width:210px;color:var(--muted);white-space:nowrap;">낙찰·계약 ${x.n} · KERIS 낙찰 ${x.k} · 기사 ${x.m}</span></div>`).join('');
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">수행기관 모니터링<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">나라장터 낙찰·계약 · KERIS 입찰 · 기사 · 매주 갱신</span></p>
+    <p class="panel-desc">교원연수·AI 교육 용역을 수행하는 기관들의 지역(시도교육청)·대학 연계 활동을 한곳에 모았습니다. ${legend}</p></div></div>
+    <div style="margin-bottom:12px;">${bars}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:8px;">${cards}</div>
+    <div style="font-weight:800;font-size:14px;margin:14px 0 6px;">기관 × 시도 활동 지도 <span style="font-size:11.5px;color:var(--muted);font-weight:500;">숫자 = 낙찰·계약 건수, 위첨자 = 기사 속 지역 언급 · 색이 진할수록 활동 많음</span></div>${heat}
+    <p class="tt-note">낙찰·계약은 교원연수·교육 용역 기준(누적), KERIS는 입찰 참가·낙찰 기록, 기사는 최근 180일 제목 기준입니다.${W.news_updated ? ' 기사 ' + h(String(W.news_updated).slice(0, 10)) + ' 기준.' : ''}</p>`;
+  tab.appendChild(sec);
 })();
 </script>
 <script>

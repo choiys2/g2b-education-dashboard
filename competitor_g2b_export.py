@@ -27,6 +27,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from fetch_g2b_listings import call_api, date_chunks, guess_region, load_config, to_date
+import org_watch
 
 TARGET_COMPETITORS = ["티처빌", "아이스크림", "비바샘연수원", "한교원"]
 
@@ -111,6 +112,11 @@ def fetch_competitor_wins(cfg, days_back, keywords=COMPETITOR_KEYWORDS):
             for it in items:
                 dminstt = it.get("dminsttNm", "")
                 winner = it.get("bidwinnrNm", "")
+                ow = org_watch.match(winner)  # 수행기관 모니터링(별도 파일, 경쟁 매트릭스와 섞지 않음)
+                if ow:
+                    org_watch.collect({"k": f'{it.get("bidNtceNo","")}-{it.get("bidNtceOrd","")}', "org": ow, "kind": "win",
+                                       "t": it.get("bidNtceNm", ""), "buyer": dminstt, "region": guess_region(dminstt),
+                                       "amount": it.get("sucsfbidAmt"), "date": to_date(it.get("rlOpengDt"))})
                 comp = match_competitor(winner)
                 if not comp:
                     continue
@@ -234,6 +240,7 @@ def main():
     cfg = load_config()
     new_rows = fetch_competitor_wins(cfg, days_back=args.days)
 
+    org_watch.save()
     history = load_history()
     added = 0
     for r in new_rows:

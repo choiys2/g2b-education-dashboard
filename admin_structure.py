@@ -351,6 +351,11 @@ def build_html(exec_sources=None):
     except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] B2C 매출 전략 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         b2c_html = ""
+    try:  # 수행기관 × 지역·대학 연계 해석 - 관리 탭 전용(원자료는 CP 기업·대학 트렌드 탭)
+        ow_html = __import__("org_watch").build_admin(sec)
+    except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 수행기관 분석 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        ow_html = ""
     ga = {"hot": "", "price": "", "delay": "", "order": ""}
     try:  # 고도화 4종(핫토픽 선점·가격 포지셔닝·지연 경보·발주 예측) - 관리 탭 전용
         gm = __import__("growth_alerts")
@@ -390,7 +395,7 @@ def build_html(exec_sources=None):
             + pane("schedule", schedule_html)
             + pane("actions", actions + extra["roles"] + mg_settle + quick_links())
             + pane("comp", mg_comp + comp)
-            + pane("edu", ga["order"] + ins_edu)
+            + pane("edu", ga["order"] + ow_html + ins_edu)
             + pane("strat", ga["delay"] + strat_html)
             + pane("samall", samall_html)
             + pane("b2c", b2c_html + ga["hot"] + ga["price"])

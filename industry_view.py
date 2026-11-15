@@ -131,6 +131,10 @@ def build(key=None):
                             "briefs": bread[:8], "scrap": {t: (PN.get(t) or {}).get("items", [])[:4] for t in (D.get("scrap_targets") or {}).get("topic", [])}},
            "edu_univ": univ, "company_scrap": {c: (PN.get(c) or {}).get("items", [])[:4] for c in (D.get("scrap_targets") or {}).get("company", [])},
            "scrap_updated": (_j("history/partner_news.json", {}) or {}).get("generated")}
+    try:  # 수행기관 모니터링(원자료·그룹 표시, 해석은 관리 탭)
+        out["org_watch"] = __import__("org_watch").build_cp()
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 수행기관 모니터링 실패: {type(e).__name__}")
     key = key or os.environ.get("STRATEGY_KEY", "")
     ep = HERE / "static_data/industry_trend_private.enc.json"
     if key and ep.exists():

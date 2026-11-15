@@ -24,6 +24,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from competitor_g2b_export import COMPETITOR_ALIASES, TARGET_COMPETITORS
 from fetch_g2b_listings import call_api, date_chunks, guess_region, load_config
+import org_watch
 
 # 서비스 경로가 개편 전후로 다르다(ao/ 접두 유무). 둘 다 시도해 되는 쪽을 쓴다.
 BASES = ["https://apis.data.go.kr/1230000/ao/CntrctInfoService", "https://apis.data.go.kr/1230000/ao/CntrctInfoService02",
@@ -93,6 +94,13 @@ def fetch(cfg, days):
                     title = _first(it, "cntrctNm", "bizNm", "cntrctNmNm")
                     if not TITLE_RE.search(title or ""):
                         continue
+                    ow = org_watch.match(_first(it, "corpList", "cntrctCorpNm", "corpNm") or json.dumps(it, ensure_ascii=False))
+                    if ow:
+                        o2 = _first(it, "cntrctInsttNm", "dminsttNm", "insttNm")
+                        org_watch.collect({"k": _first(it, "untyCntrctNo", "cntrctNo", "dcsnCntrctNo") or f"{title}|{_first(it, 'cntrctCnclsDate')}",
+                                           "org": ow, "kind": "contract", "t": title, "buyer": o2, "region": guess_region(o2),
+                                           "amount": int(float(_first(it, "totCntrctAmt", "thtmCntrctAmt", "cntrctAmt") or 0)),
+                                           "date": str(_first(it, "cntrctCnclsDate", "cntrctDate"))[:10]})
                     comp = match_company(it)
                     if not comp:
                         continue
@@ -158,6 +166,7 @@ def main():
     # 처음이거나 계약방법이 비어 있는 기록이 있으면(필드명 교정 전 수집분) 1년치를 다시 받는다
     days = args.days if hist and all(r.get("method") for r in hist.values()) else max(args.days, 365)
     rows, err = fetch(load_config(), days)
+    org_watch.save()
     if rows is None:
         status = f"계약정보 API 사용 불가 - 공공데이터포털에서 '조달청_나라장터 계약정보서비스' 활용신청이 필요할 수 있음 ({err})"
         print(status, file=sys.stderr)
