@@ -5008,6 +5008,17 @@ window.__ownerQ.push(function renderAiBrief(){
   const mChip = (t, bg) => `<span style="display:inline-block;padding:2px 9px;margin:2px 4px 2px 0;border-radius:999px;font-size:12px;background:${bg || 'var(--surface-2)'};">${h(t)}</span>`;
   const prodCell = r => `<div style="display:flex;gap:8px;align-items:baseline;min-width:0;"><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${mallLink(r.no, r.n.replace(/^\[티처몰ONLY\]\s*/, '★ '))}</span><span class="num" style="color:var(--muted);white-space:nowrap;">${r.p != null ? r.p.toLocaleString() + '원' : ''}</span></div>`;
   const wonP = v => v != null ? v.toLocaleString() + '원' : '-';
+  safe('priceSet', () => {
+    const PR = (COMPETITOR_TRAINING || {}).pricing || {};
+    const el = panel('competitor', null, '3사 가격·할인·연수+상품 SET 현황', `직무연수 목록 기준${PR.captured ? ' · ' + h(PR.captured) : ''}`);
+    if (!el) return;
+    if (!PR.available) { el.innerHTML = empty('데이터 준비 중'); return; }
+    const pct = (a, b) => b ? Math.round(a / b * 100) + '%' : '-';
+    el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;"><thead><tr><th>연수원</th><th class="num">과정 수</th><th class="num">15차시 환산 가격(중앙값)</th><th class="num">할인 중</th><th class="num">무료</th><th class="num">연수+상품 SET</th><th class="num">SET 비중</th><th>주요 차시 구성</th></tr></thead><tbody>
+      ${PR.rows.map(r => `<tr><td><b>${h(r.co)}</b></td><td class="num">${r.n.toLocaleString()}</td><td class="num">${r.p15 != null ? r.p15.toLocaleString() + '원' : '-'}</td><td class="num">${r.disc}</td><td class="num">${r.free}</td><td class="num">${r.set}</td><td class="num">${pct(r.set, r.n)}</td>
+        <td style="color:var(--muted);">${Object.entries(r.ch || {}).map(([k, v]) => h(k) + '차시 ' + v).join(' · ')}</td></tr>`).join('')}
+    </tbody></table></div><p class="tt-note">15차시 환산 가격 = 판매가 × 15 ÷ 차시. 할인 중 = 정가보다 낮게 판매 중인 과정.</p>`;
+  });
   safe('mallTrend', () => {
     const el = panel('b2s', null, '교사몰 상품 동향', `티처몰 카테고리 구성 · 베스트 · 추천 검색어${MALL.captured_date ? ' · 수집 ' + MALL.captured_date : ''}`);
     if (!el) return;
