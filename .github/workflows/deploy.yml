@@ -422,6 +422,17 @@ jobs:
         continue-on-error: true
         run: python edu_office_signals.py
 
+      # 연결 키 점검: 값은 찍지 않고 설정됨/미설정과 조회 결과 건수만 남긴다
+      - name: 연결 키 점검(설정 여부만)
+        continue-on-error: true
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
+          POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}
+          POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID }}
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+        run: python secret_status.py
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
