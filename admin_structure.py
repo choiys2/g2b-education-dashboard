@@ -291,7 +291,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -351,6 +351,16 @@ def build_html(exec_sources=None):
     except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] B2C 매출 전략 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         b2c_html = ""
+    ga = {"hot": "", "price": "", "delay": "", "order": ""}
+    try:  # 고도화 4종(핫토픽 선점·가격 포지셔닝·지연 경보·발주 예측) - 관리 탭 전용
+        gm = __import__("growth_alerts")
+        for k, fn in (("hot", gm.hot_alert), ("price", gm.price_position), ("delay", gm.delay_alert), ("order", gm.order_forecast)):
+            try:
+                ga[k] = fn(sec)
+            except Exception as e:  # 한 섹션 오류가 나머지를 막지 않게
+                print(f"[경고] 관리 탭 {k} 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] growth_alerts 로드 실패: {type(e).__name__}")
     pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
@@ -380,10 +390,11 @@ def build_html(exec_sources=None):
             + pane("schedule", schedule_html)
             + pane("actions", actions + extra["roles"] + mg_settle + quick_links())
             + pane("comp", mg_comp + comp)
-            + pane("edu", ins_edu)
-            + pane("strat", strat_html)
+            + pane("edu", ga["order"] + ins_edu)
+            + pane("strat", ga["delay"] + strat_html)
             + pane("samall", samall_html)
-            + pane("b2c", b2c_html)
+            + pane("b2c", b2c_html + ga["hot"] + ga["price"])
+            + pane("branch", '<div id="admBranchScore"><p style="color:var(--muted);font-size:13px;">총판 성적표를 불러오는 중입니다.</p></div>')
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{ins_ops}{sys_html}")
             + "</div>")

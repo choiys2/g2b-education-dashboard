@@ -688,6 +688,11 @@ def main():
         "teacher_trends": __import__("teacher_trends_view").build(new_courses["courses"].get("비바샘연수원", [])),
     }
 
+    # 3사 가격·할인·연수+상품 SET 현황(CP '경쟁사' 탭 원자료 - 해석은 관리 탭)
+    try:
+        competitor_training["pricing"] = __import__("growth_alerts").price_raw()
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 가격 현황 실패: {type(e).__name__}")
     # 테마별 교사몰 상품 지도(CP 원자료 - 점수·추천 없음. 해석은 관리 탭 '샘몰 SET 후보')
     try:
         competitor_training["mall"]["themes"] = __import__("samall_set").theme_map()

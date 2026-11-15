@@ -5008,6 +5008,17 @@ window.__ownerQ.push(function renderAiBrief(){
   const mChip = (t, bg) => `<span style="display:inline-block;padding:2px 9px;margin:2px 4px 2px 0;border-radius:999px;font-size:12px;background:${bg || 'var(--surface-2)'};">${h(t)}</span>`;
   const prodCell = r => `<div style="display:flex;gap:8px;align-items:baseline;min-width:0;"><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${mallLink(r.no, r.n.replace(/^\[티처몰ONLY\]\s*/, '★ '))}</span><span class="num" style="color:var(--muted);white-space:nowrap;">${r.p != null ? r.p.toLocaleString() + '원' : ''}</span></div>`;
   const wonP = v => v != null ? v.toLocaleString() + '원' : '-';
+  safe('priceSet', () => {
+    const PR = (COMPETITOR_TRAINING || {}).pricing || {};
+    const el = panel('competitor', null, '3사 가격·할인·연수+상품 SET 현황', `직무연수 목록 기준${PR.captured ? ' · ' + h(PR.captured) : ''}`);
+    if (!el) return;
+    if (!PR.available) { el.innerHTML = empty('데이터 준비 중'); return; }
+    const pct = (a, b) => b ? Math.round(a / b * 100) + '%' : '-';
+    el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;"><thead><tr><th>연수원</th><th class="num">과정 수</th><th class="num">15차시 환산 가격(중앙값)</th><th class="num">할인 중</th><th class="num">무료</th><th class="num">연수+상품 SET</th><th class="num">SET 비중</th><th>주요 차시 구성</th></tr></thead><tbody>
+      ${PR.rows.map(r => `<tr><td><b>${h(r.co)}</b></td><td class="num">${r.n.toLocaleString()}</td><td class="num">${r.p15 != null ? r.p15.toLocaleString() + '원' : '-'}</td><td class="num">${r.disc}</td><td class="num">${r.free}</td><td class="num">${r.set}</td><td class="num">${pct(r.set, r.n)}</td>
+        <td style="color:var(--muted);">${Object.entries(r.ch || {}).map(([k, v]) => h(k) + '차시 ' + v).join(' · ')}</td></tr>`).join('')}
+    </tbody></table></div><p class="tt-note">15차시 환산 가격 = 판매가 × 15 ÷ 차시. 할인 중 = 정가보다 낮게 판매 중인 과정.</p>`;
+  });
   safe('mallTrend', () => {
     const el = panel('b2s', null, '교사몰 상품 동향', `티처몰 카테고리 구성 · 베스트 · 추천 검색어${MALL.captured_date ? ' · 수집 ' + MALL.captured_date : ''}`);
     if (!el) return;
@@ -6091,6 +6102,8 @@ function renderCompWatch(el, C){
       planSimInit(body);
       const act = body.querySelector('#admActions');
       if (act && window.renderAdminActions) { try { window.renderAdminActions(act); } catch (e) { console.warn('admin actions', e); } }
+      const bsc = body.querySelector('#admBranchScore');
+      if (bsc && window.renderBranchScore) { try { window.renderBranchScore(bsc); } catch (e) { console.warn('branch score', e); } }
     } catch (ex) {
       err.textContent = '비밀번호가 맞지 않습니다.';
     } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
@@ -10104,9 +10117,12 @@ window.__renderPdfx = function(root, P){
 <script>
 /* ---------------- 지역 총판 > 총판 성적표(A1) ----------------
    로그인 뒤 복호화된 총판(__BRANCH)·채택 학교(__ADOPT)를 브라우저에서만 합친다(새 데이터를 싣지 않음). */
-(function renderBranchScore(){
-  const tab = document.getElementById('panel-branch'), BR = window.__BRANCH, AD = window.__ADOPT;
-  if (!tab || !BR || !BR.rows) return;
+// 2026-11-15: 예민정보라 일반 화면에서 빼고 🔒 관리 탭 '총판 성적표' 칸에서만 그린다(관리 비밀번호 해제 뒤 호출).
+window.renderBranchScore = function(tab){
+  const BR = window.__BRANCH, AD = window.__ADOPT;
+  if (!tab) return;
+  if (!BR || !BR.rows) { tab.innerHTML = '<p style="color:var(--muted);font-size:13px;">총판 데이터가 아직 없습니다.</p>'; return; }
+  tab.innerHTML = '';
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const N = v => (v == null ? '-' : Math.round(v).toLocaleString()), P1 = v => v == null ? '-' : (v * 100).toFixed(1) + '%';
   const SC = ((AD && AD.schools) || []).filter(s => s.u);
@@ -10154,7 +10170,7 @@ window.__renderPdfx = function(root, P){
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + L.join('\n')], {type: 'text/csv'})); a.download = 'branch_score.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   });
   draw();
-})();
+};
 </script>
 <script>
 /* ---------------- 교사 생태계 비교: 출판사·교사 플랫폼 서비스 · 교사 성장 경로 · 강사풀 구성 ----------------
