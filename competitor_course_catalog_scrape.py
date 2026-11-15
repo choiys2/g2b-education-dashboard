@@ -33,9 +33,7 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
-from playwright.sync_api import sync_playwright
-
-from catalog_field_parser import parse_fields
+from catalog_field_parser import INVALID_TITLES, is_valid_title, parse_fields
 
 OUT_PATH = Path("history/competitor_course_catalog.json")
 # 스냅샷의 diff는 "직전 수집 대비"만 남아 다음 주에 덮어써진다. 대시보드의
@@ -46,6 +44,11 @@ MAX_ITEMS_DEFAULT = 2000  # 티처빌 700·아이스크림 585건(2026-09-27) - 
 MAX_PAGES = 80          # 안전장치: 무한루프 방지
 STALL_LIMIT = 3          # 연속 N회 신규 후보가 0건이면 그만둔다
 NAV_TIMEOUT_MS = 30000
+# 카드 안에서 강좌명이 들어있을 법한 요소(링크 글자가 버튼 문구일 때만 쓴다)
+DEFAULT_TITLE_SELECTOR = ("[class*='tit' i], [class*='subject' i], [class*='name' i], "
+                          "strong, h3, h4, h5, dt")
+# 제목이 버튼 문구·빈 값인 행이 이 비율을 넘으면 추출 자체가 깨진 것으로 본다
+INVALID_TITLE_RATIO = 0.2
 
 # 페이지 넘기기 시도 순서: 번호형 페이지네이션 -> 다음/더보기 버튼
 NEXT_SELECTORS = [
@@ -113,28 +116,48 @@ def _extract_candidates(page, extract_cfg):
             {"idAttr": extract_cfg["id_attr"], "titleAttr": extract_cfg.get("title_attr")},
         )
 
+    # 한 카드에 같은 상세 주소로 가는 <a>가 여럿이다(아이스크림: 썸네일·'미리보기'·
+    # '상세보기' 버튼·제목). 예전엔 첫 <a>의 글자를 제목으로 써서 604건이 전부
+    # '상세보기'로 저장됐다(2026-11-09·11-12). 버튼 문구는 제목 후보에서 빼고,
+    # 같은 주소의 다른 <a>나 카드 안 제목 요소(title_selector)에서 강좌명을 찾는다.
     href_pattern = extract_cfg["href_pattern"]
     return page.eval_on_selector_all(
         "a[href]",
-        """(els, pattern) => {
-            const re = new RegExp(pattern);
-            const out = [];
+        """(els, cfg) => {
+            const re = new RegExp(cfg.pattern);
+            const bad = new Set(cfg.buttons);
+            const clean = (t) => (t || '').trim().replace(/\\s+/g, ' ');
+            const ok = (t) => t && t.length >= 2 && !bad.has(t);
+            const byHref = new Map();
             for (const el of els) {
                 const href = el.getAttribute('href') || '';
                 if (!re.test(href)) continue;
-                const text = (el.innerText || el.textContent || '').trim().replace(/\\s+/g, ' ');
-                if (!text || text.length < 2) continue;
                 let ctxEl = el.closest('li') || el.closest('[class*="item" i]')
                     || el.closest('[class*="card" i]') || el.parentElement;
-                let ctx = ctxEl ? (ctxEl.innerText || '').trim().replace(/\\s+/g, ' ') : '';
+                let ctx = ctxEl ? clean(ctxEl.innerText) : '';
                 if (ctx.length > 300) ctx = ctx.slice(0, 300);
-                out.push({ title: text.slice(0, 200), href, context: ctx });
+                let text = clean(el.innerText || el.textContent);
+                if (!ok(text)) text = '';
+                if (!text && ctxEl) {
+                    let best = '';
+                    for (const t of ctxEl.querySelectorAll(cfg.titleSel)) {
+                        const v = clean(t.innerText || t.textContent);
+                        if (ok(v) && v.length < 200 && v.length > best.length) best = v;
+                    }
+                    text = best;
+                }
+                const cur = byHref.get(href);
+                if (!cur) byHref.set(href, { title: text.slice(0, 200), href, context: ctx });
+                else {
+                    if (!cur.title && text) cur.title = text.slice(0, 200);
+                    if (ctx.length > cur.context.length) cur.context = ctx;
+                }
             }
-            return out;
+            return [...byHref.values()].filter((it) => it.title || it.context);
         }""",
-        href_pattern,
+        {"pattern": href_pattern, "buttons": sorted(INVALID_TITLES),
+         "titleSel": extract_cfg.get("title_selector") or DEFAULT_TITLE_SELECTOR},
     )
-
 
 
 # 아이스크림 실측(2026-09-27 로그): pageIndex=2~4를 GET으로 붙여도 1페이지와 같은 45건만
@@ -398,22 +421,51 @@ def scrape_site(page, name, url, extract_cfg, max_items, debug, pagination=None)
         else:
             note = f"MAX_PAGES({MAX_PAGES}) 도달"
 
+    raw = list(collected.values())[:max_items]
+    items = build_items(name, url, raw)
+    if not note:
+        note = "정상 종료"
+    return items, note, len(raw) - len(items)
+
+
+def build_items(name, url, raw):
+    """후보(title/href/context) -> 저장 행. 파서가 context에서 강좌명을 다시 뽑고,
+    그래도 제목이 버튼 문구('상세보기' 등)·빈 값이면 행을 버린다(dropped 건수 반환은
+    _validate가 담당)."""
     items = []
-    for i, (href, it) in enumerate(list(collected.items())[:max_items]):
+    for it in raw:
         fields = parse_fields(name, it["title"], it["context"])
+        if not is_valid_title(fields["title"]):
+            continue
         items.append({
-            "index": i + 1,
+            "index": len(items) + 1,
             "title": fields["title"],
             "category": fields["category"],
             "credit": fields["credit"],
             "price": fields["price"],
             "orig_price": fields["orig_price"],
-            "url": urljoin(url, href),
+            "url": urljoin(url, it["href"]),
             "context": it["context"],
         })
-    if not note:
-        note = "정상 종료"
-    return items, note
+    return items
+
+
+def carry_category(items, ref_items):
+    """이번 행에 카테고리가 없으면 같은 url의 이전 값을 이어받는다(아이스크림은 2026-11
+    개편 후 목록 카드에서 카테고리 표기가 빠졌다 - 그대로 두면 분류가 '기타'로 쏠린다)."""
+    ref = {it.get("url"): it.get("category") for it in ref_items if it.get("category")}
+    n = 0
+    for it in items:
+        if not it.get("category") and ref.get(it.get("url")):
+            it["category"] = ref[it["url"]]
+            n += 1
+    return n
+
+
+def invalid_ratio(items):
+    if not items:
+        return 0.0
+    return sum(1 for it in items if not is_valid_title(it.get("title"))) / len(items)
 
 
 def _diff_courses(prev_items, curr_items):
@@ -487,17 +539,139 @@ def append_new_courses(company, new_items, first_seen, log_path=NEW_LOG_PATH):
     return len(rows)
 
 
+def merge_company(name, url, items, note, dropped, prev_entry, prev_date, today, log_new=True):
+    """이번 수집 결과를 직전 스냅샷과 합쳐 저장할 회사 항목을 만든다.
+
+    방어 규칙(회사 공통):
+      1) 제목이 버튼 문구('상세보기' 등)·빈 값인 행은 build_items에서 이미 버렸다.
+         버린 비율이 INVALID_TITLE_RATIO를 넘으면 추출 자체가 깨진 것으로 보고
+         직전의 정상 목록을 그대로 유지한다(신규·종료 판정 없음).
+      2) 직전 스냅샷의 제목이 절반 이상 깨져 있었다면 이번은 '교정 실행'이다 -
+         url이 같아도 제목·가격이 처음 제대로 잡힌 것이라 신규 로그에 쓰지 않는다.
+    """
+    prev_all = prev_entry.get("courses", []) or []
+    prev_items = [it for it in prev_all if is_valid_title(it.get("title"))]
+    repair_run = bool(prev_all) and invalid_ratio(prev_all) >= 0.5
+    total = len(items) + dropped
+    if total and dropped / total > INVALID_TITLE_RATIO:
+        print(f"  [경고] {name}: 제목 추출 실패 {dropped}/{total}건 - 이전 정상 목록 유지", file=sys.stderr)
+        if prev_items:
+            return {
+                "url": url, "count": len(prev_items), "courses": prev_items,
+                "note": f"제목 추출 실패({dropped}/{total}건) - 이전 정상 목록 유지",
+                "diff": {"new": [], "removed": []}, "diff_since": prev_date,
+            }
+        note = f"{note} · 제목 추출 실패 {dropped}건 제외"
+    elif dropped:
+        note = f"{note} · 제목 없는 행 {dropped}건 제외"
+
+    carry_category(items, prev_items)
+    diff = _diff_courses(prev_items, items)
+    # 2026-09-27 실측: 티처빌 '더보기'가 한 번도 안 눌려 500건 -> 20건만 수집됐고,
+    # 그대로 저장하면 "종료 481건"이 되고 다음 주엔 480건이 "신규"로 쏟아진다.
+    # 직전의 80%도 못 모았으면 부분 수집으로 보고, 새로 보인 강좌만 반영한 채
+    # 이전 목록을 유지한다(종료 판정은 하지 않음).
+    if prev_items and len(prev_items) >= 20 and len(items) < len(prev_items) * 0.8:
+        kept = {it.get("url") for it in items}
+        merged = items + [it for it in prev_items if it.get("url") not in kept]
+        note = f"부분 수집({len(items)}/{len(prev_items)}건) - 이전 목록 유지, 종료 판정 생략"
+        diff = {"new": diff["new"], "removed": []}
+        items = merged
+    # 첫 수집(비교 대상 없음)이나 직전 정상 0건이면 전부 "신규"로 잡히므로 기록하지 않는다.
+    # 수집 범위 자체가 크게 늘어난 경우(상한 상향·크롤러 개선)도 새로 보인 강좌가
+    # 신규 출시가 아니라 이전에 못 모았던 것이므로 기록하지 않는다(2026-09-27
+    # 티처빌 500->700건 확장 때 199건이 NEW로 잘못 기록된 사고).
+    if repair_run:
+        print(f"  {name}: 제목 교정 실행(직전 {len(prev_all)}건 중 제목 깨짐 다수) - 신규 판정 생략", file=sys.stderr)
+        note = f"{note} · 제목 교정 실행 - 신규 판정 생략"
+        diff = {"new": [], "removed": []}
+    elif prev_items and len(items) <= len(prev_items) * 1.2:
+        if log_new:
+            append_new_courses(name, diff["new"], today)
+    elif prev_items:
+        print(f"  {name}: 수집 범위 확장({len(prev_items)}->{len(items)}건) - 신규 기록 생략", file=sys.stderr)
+        diff = {"new": [], "removed": diff["removed"]}
+    print(f"  수집 {len(items)}건 - {note} (신규 {len(diff['new'])}·종료 {len(diff['removed'])})")
+    return {"url": url, "count": len(items), "note": note, "courses": items,
+            "diff": diff, "diff_since": prev_date}
+
+
+def repair_new_log(catalog, log_path=NEW_LOG_PATH):
+    """신규 로그에 이미 들어간 '상세보기' 같은 깨진 행을 같은 url의 정상 값으로 고친다
+    (최초 확인일은 그대로). 고칠 값이 없으면 그 행은 지운다. 고친 건수를 돌려준다."""
+    if not log_path.exists():
+        return 0
+    by_url = {(co, it.get("url")): it for co, v in catalog.items() for it in v.get("courses", [])}
+    out, fixed = [], 0
+    for line in log_path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            r = json.loads(line)
+        except json.JSONDecodeError:
+            out.append(line)
+            continue
+        if not is_valid_title(r.get("title")):
+            fixed += 1
+            good = by_url.get((r.get("company"), r.get("url")))
+            if not good or not is_valid_title(good.get("title")):
+                continue
+            r.update({k: good.get(k) for k in NEW_LOG_FIELDS})
+        out.append(json.dumps(r, ensure_ascii=False))
+    if fixed:
+        log_path.write_text("\n".join(out) + "\n", encoding="utf-8")
+    return fixed
+
+
+def reparse(out_path, sites, carry_from=None):
+    """네트워크 없이 저장된 원문(context)만 다시 해석한다 - 파서 수정 직후 교정용.
+    수집일(captured_date)과 diff_since는 그대로 두고, 신규 판정은 하지 않는다.
+    carry_from: 카테고리를 이어받을 예전 스냅샷 파일(선택)."""
+    data = json.loads(out_path.read_text(encoding="utf-8"))
+    ref = {}
+    if carry_from:
+        ref = json.loads(Path(carry_from).read_text(encoding="utf-8")).get("companies", {})
+    for name, v in data.get("companies", {}).items():
+        if sites and name not in sites:
+            continue
+        before = v.get("courses", [])
+        raw = [{"title": it.get("title") or "", "href": it.get("url") or "", "context": it.get("context") or ""}
+               for it in before]
+        items = build_items(name, v.get("url") or "", raw)
+        carry_category(items, before + (ref.get(name, {}).get("courses") or []))
+        if before and len(items) < len(before) * (1 - INVALID_TITLE_RATIO):
+            print(f"  [건너뜀] {name}: 재해석 후 {len(items)}/{len(before)}건만 유효 - 원본 유지", file=sys.stderr)
+            continue
+        strip = lambda rows: [{k: v for k, v in r.items() if k != "index"} for r in rows]  # noqa: E731
+        if strip(items) == strip(before):
+            print(f"  {name}: 변경 없음")
+            continue
+        v["courses"], v["count"] = items, len(items)
+        v["diff"] = {"new": [], "removed": []}
+        v["note"] = f"{v.get('note') or ''} · 저장 원문 재해석({date.today().isoformat()})".lstrip(" ·")
+        print(f"  {name}: {len(before)} -> {len(items)}건 재해석")
+    out_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"  신규 로그 깨진 행 교정 {repair_new_log(data['companies'])}건")
+    print(f"saved {out_path}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-items", type=int, default=MAX_ITEMS_DEFAULT)
     ap.add_argument("--out", default=str(OUT_PATH))
     ap.add_argument("--sites", default="", help="쉼표구분, 비우면 전체 (예: 티처빌,비바샘연수원)")
     ap.add_argument("--debug", action="store_true")
+    ap.add_argument("--reparse", action="store_true",
+                    help="접속 없이 저장된 원문만 다시 해석(파서 수정 후 교정용)")
+    ap.add_argument("--carry-from", default="", help="--reparse 때 카테고리를 이어받을 예전 스냅샷")
     args = ap.parse_args()
 
     targets = [s.strip() for s in args.sites.split(",") if s.strip()] or list(SITES.keys())
 
     out_path = Path(args.out)
+    if args.reparse:
+        reparse(out_path, set(targets) if args.sites else set(), args.carry_from)
+        return
     try:
         prev = json.loads(out_path.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError):
@@ -511,6 +685,8 @@ def main():
         "target_per_site": args.max_items,
         "companies": dict(prev_companies),
     }
+    from playwright.sync_api import sync_playwright  # --reparse는 브라우저 없이 돈다
+
     with sync_playwright() as p:
         browser = p.chromium.launch()
         for name in targets:
@@ -518,43 +694,22 @@ def main():
             page = browser.new_page()
             print(f"== {name} ==")
             try:
-                items, note = scrape_site(
+                items, note, dropped = scrape_site(
                     page, name, cfg["url"], cfg["extract"], args.max_items, args.debug,
                     pagination=cfg.get("pagination"),
                 )
-                prev_items = prev_companies.get(name, {}).get("courses", [])
-                diff = _diff_courses(prev_items, items)
-                # 2026-09-27 실측: 티처빌 '더보기'가 한 번도 안 눌려 500건 -> 20건만 수집됐고,
-                # 그대로 저장하면 "종료 481건"이 되고 다음 주엔 480건이 "신규"로 쏟아진다.
-                # 직전의 절반도 못 모았으면 부분 수집으로 보고, 새로 보인 강좌만 반영한 채
-                # 이전 목록을 유지한다(종료 판정은 하지 않음).
-                # 기준을 절반에서 80%로 강화(2026-09-27 티처빌 700->460건 중단이 "종료 240건"으로 기록됨)
-                if prev_items and len(prev_items) >= 20 and len(items) < len(prev_items) * 0.8:
-                    kept = {it.get("url") for it in items}
-                    merged = items + [it for it in prev_items if it.get("url") not in kept]
-                    note = f"부분 수집({len(items)}/{len(prev_items)}건) - 이전 목록 유지, 종료 판정 생략"
-                    diff = {"new": diff["new"], "removed": []}
-                    items = merged
-                result["companies"][name] = {
-                    "url": cfg["url"], "count": len(items), "note": note, "courses": items,
-                    "diff": diff, "diff_since": prev.get("captured_date"),
-                }
-                new_n, removed_n = len(diff["new"]), len(diff["removed"])
-                # 첫 수집(비교 대상 없음)이나 직전 수집 0건이면 전부 "신규"로 잡히므로 기록하지 않는다.
-                # 수집 범위 자체가 크게 늘어난 경우(상한 상향·크롤러 개선)도 새로 보인 강좌가
-                # 신규 출시가 아니라 이전에 못 모았던 것이므로 기록하지 않는다(2026-09-27
-                # 티처빌 500->700건 확장 때 199건이 NEW로 잘못 기록된 사고).
-                if prev_items and len(items) <= len(prev_items) * 1.2:
-                    append_new_courses(name, diff["new"], result["captured_date"])
-                elif prev_items:
-                    print(f"  {name}: 수집 범위 확장({len(prev_items)}->{len(items)}건) - 신규 기록 생략", file=sys.stderr)
-                    diff = {"new": [], "removed": diff["removed"]}
-                    result["companies"][name]["diff"] = diff
-                print(f"  수집 {len(items)}건 / 목표 {args.max_items}건 - {note} (신규 {new_n}·종료 {removed_n})")
+                result["companies"][name] = merge_company(
+                    name, cfg["url"], items, note, dropped, prev_companies.get(name, {}),
+                    prev.get("captured_date"), result["captured_date"],
+                )
             except Exception as e:
                 print(f"  [오류] {name} 수집 실패: {e}", file=sys.stderr)
+                # 접속 오류 한 번에 목록이 0건으로 지워지지 않게 직전 정상 목록을 유지한다.
+                kept = [it for it in prev_companies.get(name, {}).get("courses", [])
+                        if is_valid_title(it.get("title"))]
                 result["companies"][name] = {
-                    "url": cfg["url"], "count": 0, "note": f"오류: {e}", "courses": [],
+                    "url": cfg["url"], "count": len(kept), "courses": kept,
+                    "note": f"오류: {str(e)[:200]}" + (" - 이전 정상 목록 유지" if kept else ""),
                     "diff": {"new": [], "removed": []}, "diff_since": prev.get("captured_date"),
                 }
             finally:
