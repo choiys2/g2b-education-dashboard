@@ -13,7 +13,7 @@ st.textContent="html.vs-boot body{visibility:hidden}html.vs-boot{background:#fff
 +"@keyframes vsBoot{from{opacity:.45}to{opacity:1}}"
 +"html.vs-boot{border-top:4px solid #00B5E2}";(document.head||r).appendChild(st);
 setTimeout(function(){r.classList.remove("vs-boot");},4000);})();</script>
-<meta name="description" content="NEIS 개방포털 실측 데이터와 나라장터 발주 실적을 교차분석한 (주)비상교육 B2G 전략 대시보드">
+<meta name="description" content="교육시장 데이터를 교차분석한 (주)비상교육 B2G 전략 대시보드">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -735,8 +735,6 @@ document.addEventListener('click', function (e) {
     <p class="sub">교사와 함께 성장하며, 비상의 모든 교육 서비스를 연결해 새로운 교육문화 혁신을 제안한다</p>
     <div class="meta-row">
       <span class="pill"><span class="dot"></span>기준일 <b id="mainUpdatedDate">2026-07-28</b></span>
-      <span class="pill">데이터 출처 ① <b>나이스 개방포털 Open API</b> (학교기본정보, 실시간 조회)</span>
-      <span class="pill">데이터 출처 ② <b>나라장터 G2B</b> (자체 수집 파이프라인, 교육청·연수원·연수 키워드)</span>
       <a class="pill" href="./weekly.html" target="_blank" rel="noopener" style="text-decoration:none;">🗓 주간 보고(최근 7일)</a>
     </div>
     <div class="head-search">
@@ -859,7 +857,7 @@ document.addEventListener('click', function (e) {
     <div class="icon">!</div>
     <div>
       <h3>AI·디지털 활용 선도학교 — 상세는 &ldquo;AI 선도학교&rdquo; 탭 참고</h3>
-      <p>한국과학창의재단 AI교육 선도학교 지정 정보(1,095교, 2022년 코호트)를 공공데이터포털 API로 연동했습니다. 시도별 학교 수·침투율·유형 분포는 네 번째 탭 &ldquo;AI 선도학교&rdquo;에서 확인하세요. 참고로 2026학년도 <b>경기도교육청 350교</b>가 별도로 AI·디지털 활용 선도학교로 공식 발표됐는데, 이 350교가 위 1,095교 코호트와 얼마나 겹치는지는 확인하지 못했습니다(서로 다른 시점의 다른 사업일 가능성이 있음).</p>
+      <p>한국과학창의재단 AI교육 선도학교 지정 정보(1,095교, 2022년 코호트)를 반영했습니다. 시도별 학교 수·침투율·유형 분포는 네 번째 탭 &ldquo;AI 선도학교&rdquo;에서 확인하세요. 참고로 2026학년도 <b>경기도교육청 350교</b>가 별도로 AI·디지털 활용 선도학교로 공식 발표됐는데, 이 350교가 위 1,095교 코호트와 얼마나 겹치는지는 확인하지 못했습니다(서로 다른 시점의 다른 사업일 가능성이 있음).</p>
     </div>
   </div>
 
@@ -882,7 +880,7 @@ document.addEventListener('click', function (e) {
       <div class="icon">i</div>
       <div>
         <h3>한국교육학술정보원(KERIS) 나라장터 조달 — 입찰공고·개찰·낙찰</h3>
-        <p>나라장터 공식 API로 KERIS가 공고하거나 수요기관인 건(용역·물품)을 최근 3년치 모아 매일 06시 전에 갱신합니다. 연수·콘텐츠·AI/에듀테크 등 <b>자사 관련 분야</b>는 개찰 참가업체까지 상세히 봅니다. 원문은 <a href="https://www.keris.or.kr/main/tender/view/selectTenderList.do" target="_blank" rel="noopener" style="color:var(--accent);">KERIS 입찰공고</a>·나라장터에서 확인하세요.</p>
+        <p>KERIS가 공고하거나 수요기관인 건(용역·물품)을 최근 3년치 모아 매일 갱신합니다. 연수·콘텐츠·AI/에듀테크 등 <b>자사 관련 분야</b>는 개찰 참가업체까지 상세히 봅니다. 원문은 <a href="https://www.keris.or.kr/main/tender/view/selectTenderList.do" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">KERIS 입찰공고</a>·나라장터에서 확인하세요.</p>
       </div>
     </div>
   </div>
@@ -1007,7 +1005,7 @@ document.addEventListener('click', function (e) {
       <div class="panel-head">
         <div>
           <p class="panel-title">발주계획 얼리워닝 <span class="chip open" style="margin-left:6px;">신규 활성화</span></p>
-          <p class="panel-desc">나라장터 발주계획현황서비스(OrderPlanSttusService)를 새로 연동했습니다. 정식 입찰공고로 뜨기 <b>전</b> 단계의 연간 발주계획을 미리 보여주는 서비스로, 교육청·연수원이 오늘 등록/갱신한 계획만 잡히는 롤링 스냅샷입니다 — 매일 파이프라인을 돌리면 예정사업이 계속 누적됩니다. 아래는 2026-07-28 스냅샷 기준 교육청·연수원 관련 30건입니다.</p>
+          <p class="panel-desc">정식 입찰공고로 뜨기 <b>전</b> 단계의 연간 발주계획입니다. 교육청·연수원이 등록/갱신한 계획이 계속 누적됩니다. 아래는 2026-07-28 기준 교육청·연수원 관련 30건입니다.</p>
         </div>
       </div>
       <div class="tbl-wrap">
@@ -1018,17 +1016,6 @@ document.addEventListener('click', function (e) {
       </div>
     </section>
 
-    <div class="callout">
-      <div class="icon">✓</div>
-      <div>
-        <h3>고도화 5개 항목 적용 결과</h3>
-        <p><b>① 발주계획현황서비스</b> — 활성화 완료. 막혔던 원인은 오퍼레이션명에 없는 &ldquo;Info&rdquo;를 넣었기 때문이었고, 실제로는 <code>getOrderPlanSttusListServc</code>가 정답이었습니다. 프로젝트 코드(g2b_config.json, fetch_g2b_listings.py)에 반영해 다음 실행부터 계속 쓸 수 있습니다. 단, 연간 전체가 아니라 매일 갱신되는 스냅샷이라 하루하루 누적해야 진가가 나옵니다.</p>
-        <p><b>② 경쟁사 인텔리전스</b> — 위 표에 반영. 아이스크림미디어·한국능률협회·아라소프트가 지역을 넓게 커버하는 상위권입니다.</p>
-        <p><b>③ AI 선도학교 명단 &times; 발주액 교차</b> — 완료. 공공데이터포털 활용신청 승인 후 API로 1,095교 전체를 받아 &ldquo;AI 선도학교&rdquo; 탭에 반영했습니다. &ldquo;학교단위 발주&rdquo; 탭의 14개 구매 학교 중 2곳(군남초등학교, 도곡중학교)이 이 명단에도 있는 것을 확인했습니다.</p>
-        <p><b>④ 월별 추이 &amp; 반복 발주</b> — 위 차트·표에 반영. 다만 올해(2026) 1년치만 있어 &lsquo;매년 반복&rsquo;까지는 확인 못 했고, &lsquo;올해 안에서 여러 번 발주한 기관&rsquo;까지만 확인했습니다 — 내년 데이터가 쌓이면 진짜 연례 패턴 분석이 가능합니다.</p>
-        <p><b>⑤ 사업유형 세분화</b> — 위 도넛 차트와 표의 유형 열에 반영. 위탁교육 연수 41건(69.4억)이 압도적으로, 비바샘연수원의 핵심 사업과 시장 구조가 그대로 겹칩니다.</p>
-      </div>
-    </div>
 
   </div><!-- /panel-g2b -->
 
@@ -1040,7 +1027,7 @@ document.addEventListener('click', function (e) {
         <h3>이 탭은 지금까지와 다른 채널을 봅니다 — 그리고 중요한 사각지대가 있습니다</h3>
         <p>앞의 두 탭은 <b>시도교육청·연수원 단위 &lsquo;용역&rsquo;</b>(위탁연수 등) 발주였습니다. 이 탭은 <b>개별 학교(초·중·고)가 직접 발주자로 나서는 &lsquo;물품&rsquo;</b>(기자재·SW라이선스 등 제품) 구매 건을 나라장터에서 걷어온 것입니다.</p>
         <p>금액에 하한선을 두지 않았습니다 — 아래 표는 2천만원 이하 소액 건(<span id="schoolSmallNote">-</span>)까지 나라장터에 실제 등록된 건은 빠짐없이 담았습니다. 소액이라고 걸러낸 적은 없습니다.</p>
-        <p><b>사각지대(기술적으로는 가능 확인, 자동화는 보류):</b> 2천만원 이하 소액 물품은 학교가 나라장터 대신 <b>학교장터(S2B, 한국교직원공제회 운영)</b>라는 별도 시스템으로 훨씬 많이 몰립니다. S2B는 공공데이터포털 Open API가 없지만, s2b.kr의 공개 견적요청 조회 페이지(로그인 불필요)를 직접 호출하면 데이터를 받아올 수 있다는 것까지는 확인했습니다. 다만 <b>s2b.kr/robots.txt가 모든 자동화 접근을 명시적으로 금지</b>하고 있어, 매일 자동으로 도는 파이프라인에는 연결하지 않기로 했습니다. 아래는 그 기술 검증 과정에서 얻은 <b>1회성 수동 조회 스냅샷(경기·서울)</b>이며, 자동 갱신되지 않습니다.</p>
+        <p><b>사각지대:</b> 2천만원 이하 소액 물품은 학교가 나라장터 대신 <b>학교장터(S2B, 한국교직원공제회 운영)</b>로 훨씬 많이 구매합니다. 아래는 <b>참고용 1회 스냅샷(경기·서울)</b>이며 갱신되지 않습니다.</p>
       </div>
     </div>
 
@@ -1130,7 +1117,7 @@ document.addEventListener('click', function (e) {
     <section class="panel" id="eduCntrPanel">
       <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
         <div>
-          <p class="panel-title">학교·교육청 연수 수의계약<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">K-에듀파인 공개(S2B 거래 포함) &middot; 매일 자동 누적</span></p>
+          <p class="panel-title">학교·교육청 연수 수의계약<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">K-에듀파인 공개(S2B 거래 포함) &middot; 매일 누적</span></p>
           <p class="panel-desc" id="ecDesc"></p>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
@@ -1144,14 +1131,14 @@ document.addEventListener('click', function (e) {
       <div class="tbl-wrap" style="max-height:520px;overflow:auto;"><table class="data" id="ecTable">
         <thead><tr><th>계약일</th><th>시도</th><th>계약기관</th><th>계약명</th><th class="num">금액</th><th>상대(구분)</th></tr></thead><tbody></tbody>
       </table></div>
-      <p class="tt-note">학교·교육청이 체결한 1백만원 이상 수의계약은 K-에듀파인과 연계돼 교육청 홈페이지에 공개됩니다(학교장터 S2B 거래 포함). 학교장터(s2b.kr)는 자동 접근을 금지해 직접 읽지 않고, 자동 수집을 허용한 교육청 공개 목록만 매일 읽습니다(현재 서울·부산·전북 — 경남·제주·대전은 robots 금지, 광주·울산·세종·전남·경북은 해외 서버 접속 차단, 경기는 학교별 홈페이지에만 공개). 서울 목록에는 계약일자·상대자가 없어 회계연도만 표시합니다. 계약명에 연수·역량강화·직무·컨설팅 등이 있고 공사·구입·임차·차량 등이 아닌 건만 남깁니다. 계약 상대가 개인(강사 등)일 수 있어 상대자 이름은 싣지 않고 경쟁사·자사 / 기타 법인 / 기타로만 표시합니다.</p>
+      <p class="tt-note">학교·교육청이 체결한 1백만원 이상 수의계약 공개분입니다(학교장터 S2B 거래 포함). 현재 서울·부산·전북을 반영하며 다른 시도는 공개 범위가 달라 포함되지 않았습니다. 서울 목록에는 계약일자·상대자가 없어 회계연도만 표시합니다. 계약명에 연수·역량강화·직무·컨설팅 등이 있고 공사·구입·임차·차량 등이 아닌 건만 남깁니다. 계약 상대가 개인(강사 등)일 수 있어 상대자 이름은 싣지 않고 경쟁사·자사 / 기타 법인 / 기타로만 표시합니다.</p>
     </section>
 
     <section class="panel">
       <div class="panel-head">
         <div>
           <p class="panel-title">S2B(학교장터) 수동 스냅샷 — 경기·서울, AI 관련만</p>
-          <p class="panel-desc">s2b.kr robots.txt가 자동화 접근을 금지하고 있어 이 데이터는 <b>자동 갱신되지 않는 1회성 수동 조회 결과</b>입니다(최근 21일치, 조회 당시 기준). 전체 견적요청 중 AI 키워드가 포함된 건만 표시하며, 행을 클릭하면 학교장터 원문으로 이동합니다.</p>
+          <p class="panel-desc">이 데이터는 <b>갱신되지 않는 1회성 참고 자료</b>입니다(최근 21일치, 조회 당시 기준). 전체 견적요청 중 AI 키워드가 포함된 건만 표시하며, 행을 클릭하면 학교장터 원문으로 이동합니다.</p>
         </div>
       </div>
       <div class="tbl-wrap">
@@ -1178,7 +1165,7 @@ document.addEventListener('click', function (e) {
       <div class="icon" style="color:var(--warning);">⏰</div>
       <div>
         <h3 id="edssStaleTitle"></h3>
-        <p>EDSS는 자동 수집 파이프라인이 아니라 <b>사용자가 직접 내려받아 넣어준 1회성 스냅샷</b>입니다(자동 갱신 아님). 보통 연 1~2회 갱신되니, 이 정도 지났으면 새 스냅샷을 다시 받아 반영할 시점입니다.</p>
+        <p>EDSS 수치는 <b>1회성 스냅샷</b>입니다(자동 갱신 아님). 보통 연 1~2회 갱신되니, 이 정도 지났으면 새 자료로 다시 반영할 시점입니다.</p>
       </div>
     </div>
 
@@ -1260,14 +1247,6 @@ document.addEventListener('click', function (e) {
       <svg id="trendChartSvg" viewBox="0 0 1160 340"></svg>
     </section>
 
-    <div class="callout">
-      <div class="icon">✓</div>
-      <div>
-        <h3>추가 고도화 제안</h3>
-        <p><b>⑥ 학교장터(S2B) 커버리지 확보 — robots.txt 문제 해결이 선결 과제</b> — 공개 조회 페이지를 직접 호출하는 방식 자체는 기술적으로 검증됐지만(위 스냅샷), s2b.kr이 robots.txt로 모든 자동화 접근을 금지하고 있어 자동 파이프라인화는 보류했습니다. The-K 한국교직원공제회에 데이터 제공을 공식 요청하거나, 각 시도교육청이 자체 공개하는 S2B 낙찰 내역 게시판을 스크레이핑하는 우회로를 검토해야 합니다.</p>
-        <p><b>⑦ 품목분류코드 기반 정밀 분류</b> — 지금은 제목 키워드 매칭이지만, 나라장터 API의 품목분류명(dtilPrdctClsfcNoNm) 필드를 쓰면 &lsquo;교육용소프트웨어&rsquo;·&lsquo;전자칠판&rsquo;·&lsquo;태블릿PC&rsquo; 같은 표준 품목으로 훨씬 정확하게 잡아낼 수 있습니다.</p>
-      </div>
-    </div>
 
   </div><!-- /panel-school -->
 
@@ -1277,7 +1256,7 @@ document.addEventListener('click', function (e) {
       <div class="icon">i</div>
       <div>
         <h3>2026 지정 AI 중점학교 · AI·디지털 활용 선도학교 — 시도교육청 공개 명단</h3>
-        <p>각 시도교육청 누리집에 공개된 2026년 선정 명단을 모으고, 나이스 교육정보 개방포털 학교기본정보로 연락처·주소를 붙였습니다(2026.10 조회). 두 사업에 모두 선정된 학교는 1개 학교로 합쳐 &lsquo;겸임&rsquo;으로 표시합니다.</p>
+        <p>각 시도교육청 누리집에 공개된 2026년 선정 명단을 모으고, 학교 연락처·주소를 붙였습니다(2026.10 조회). 두 사업에 모두 선정된 학교는 1개 학교로 합쳐 &lsquo;겸임&rsquo;으로 표시합니다.</p>
         <p><b>빠진 곳:</b> 세종·강원·충남은 두 사업 모두 명단이 비공개이고, 경기(디지털 350교)·제주(디지털 50교)·경남은 디지털 선도학교 명단이 비공개입니다. 아래 &lsquo;시도별 공개 현황&rsquo;에서 교육부 지정 수 대비 확보 수를 확인하세요.</p>
         <p style="margin-top:10px;"><a class="pill" id="aiSchoolXlsx" href="./ai_schools_2026.xlsx" download style="text-decoration:none;">⬇ 전체 명단 엑셀 내려받기 (영업 관리 칸 포함)</a></p>
       </div>
@@ -1399,7 +1378,7 @@ document.addEventListener('click', function (e) {
 
     <section class="panel">
       <div class="panel-head"><div>
-        <p class="panel-title">2027 경영·판매 방향<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">대시보드 전체 데이터 연계 &middot; 수치는 매일 자동 갱신</span></p>
+        <p class="panel-title">2027 경영·판매 방향<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">대시보드 전체 데이터 연계 &middot; 수치는 매일 갱신</span></p>
         <p class="panel-desc" id="exDesc"></p>
       </div></div>
       <div class="ex-summary" id="exSummary"></div>
@@ -1492,11 +1471,10 @@ document.addEventListener('click', function (e) {
       </details>
     </section>
 
-    <!-- 제안요청서 AI 분석: 연수 입찰공고 첨부(제안요청서·과업지시서)를 Gemini로 구조화 (rfp_analysis.py) -->
     <section class="panel" id="rfpPanel">
       <div class="panel-head">
         <div>
-          <p class="panel-title">제안요청서 AI 분석<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">최근 60일 교원 연수 입찰 첨부문서 &middot; Gemini</span></p>
+          <p class="panel-title">제안요청서 AI 분석<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">최근 60일 교원 연수 입찰 첨부문서</span></p>
           <p class="panel-desc" id="rfpDesc"></p>
         </div>
       </div>
@@ -1680,7 +1658,7 @@ document.addEventListener('click', function (e) {
       <div>
         <h3>B2G영업 — (주)비상교육 자체 영업 파이프라인 (구글시트 26운영DT 매일 연동)</h3>
         <p>담당 영업자는 &ldquo;영업자 A/B/C&rdquo;로 익명 표기했습니다. 목표금액·계약방식 등 사업 단위 정보는 시장 데이터(나라장터 종합·시장분석 탭)와 교차분석하기 위해 그대로 남겨뒀습니다.</p>
-        <p>기준: 매 배포 때 구글시트에서 다시 읽은 전체 건수(아래 &lsquo;전체 사업 리스트&rsquo; 제목에 표시). 지역별 점유율과 기회점수는 이 표본과 앞선 탭들의 시장 전체 데이터를 비교해 계산한 것입니다.</p>
+        <p>기준: 최신 전체 건수(아래 &lsquo;전체 사업 리스트&rsquo; 제목에 표시). 지역별 점유율과 기회점수는 이 표본과 앞선 탭들의 시장 전체 데이터를 비교해 계산한 것입니다.</p>
       </div>
     </div>
 
@@ -1851,7 +1829,6 @@ document.addEventListener('click', function (e) {
     </section>
 
     <!-- 연수 배너 시장: 구글시트 26타사DT (banner_market.py) - 자사·타사 테마·지역 교차 -->
-    <!-- 모집률 조기경보(ops_insights.recruit_alerts) + Gemini 홍보 문구(recruit_copy.py) -->
     <section class="panel" id="recruitPanel">
       <div class="panel-head" style="flex-wrap:wrap;gap:10px;">
         <div>
@@ -1864,7 +1841,7 @@ document.addEventListener('click', function (e) {
       <div class="tbl-wrap"><table class="data" id="rcTable">
         <thead><tr><th>신호</th><th>지역</th><th>사업</th><th class="num">신청 / 목표</th><th>신청률 vs 기간 경과</th><th class="num">예상 최종</th><th>마감</th><th>홍보 문구(AI 초안)</th></tr></thead><tbody></tbody>
       </table></div>
-      <p class="tt-note">경보 = 신청률이 모집 기간 경과율의 60% 미만이거나 마감 7일 이내 70% 미만, 주의 = 경과율의 90% 미만. 예상 최종 = 지금 속도가 그대로 이어질 때(신청률 ÷ 경과율). 홍보 문구는 사업명·기간·인원만 Gemini에 보내 만든 초안이며, 사실 확인 후 쓰세요.</p>
+      <p class="tt-note">경보 = 신청률이 모집 기간 경과율의 60% 미만이거나 마감 7일 이내 70% 미만, 주의 = 경과율의 90% 미만. 예상 최종 = 지금 속도가 그대로 이어질 때(신청률 ÷ 경과율). 홍보 문구는 AI 초안이며, 사실 확인 후 쓰세요.</p>
     </section>
 
     <section class="panel" id="bannerPanel">
@@ -1998,7 +1975,7 @@ document.addEventListener('click', function (e) {
     <section class="panel" id="stratPanel">
       <div class="panel-head"><div>
         <p class="panel-title">에듀테크 전략 브리핑 <span id="stratDate" style="font-size:13px;font-weight:600;color:var(--muted);margin-left:6px;"></span></p>
-        <p class="panel-desc" id="stratDesc">매일 07:00 · 에듀테크 레이더 수집본 + 공식 출처·언론 보완 · 비바샘연수원 사업총괄 관점</p>
+        <p class="panel-desc" id="stratDesc">매일 07:00 · 비바샘연수원 사업총괄 관점</p>
       </div>
       <select id="stratPick" aria-label="브리핑 날짜" style="font:inherit;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);"></select></div>
       <div id="stratBody"></div>
@@ -2018,9 +1995,9 @@ document.addEventListener('click', function (e) {
       <div class="icon">i</div>
       <div>
         <h3>경쟁사(티처빌·아이스크림·비바샘연수원·한교원) 연수 시장 분석</h3>
-        <p><b>낙찰 매트릭스</b>는 나라장터 낙찰정보 API를 매일 조회해 누적한 실데이터입니다. 낙찰업체명은 소비자 브랜드명이 아니라 사업자등록 법인명으로 등록돼 있어(예: 티처빌 → 테크빌교육(주)) 별칭 매핑으로 식별했습니다. 나라장터 밖(S2B·직접계약 등)의 거래는 이 표에 잡히지 않습니다.</p>
-        <p><b>홈페이지 콘텐츠</b>(이벤트·공지)는 각사 비로그인 공개 화면을 매일 자동으로 열람해 캡처합니다(로그인 필요 정보 제외). 회사마다 캡처 범위가 다를 수 있어 회사 간 단순 건수 비교에는 주의가 필요합니다.</p>
-        <p><b>재무 프로파일</b>은 금융위원회 공시 재무정보 오픈API 기준입니다. 상장 또는 외부감사대상 법인만 조회되며(비상장 소규모 법인은 데이터 없음), 연 1회 결산 공시라 최신 분기 실적은 반영되지 않습니다. 표의 "N년분 …기한" 표시는 사업보고서 법정 제출기한(결산 후 90일, 12월 결산 가정)을 근거로 한 대략적인 다음 공시 예상 시점이며, 실제 공시일과 다를 수 있습니다.</p>
+        <p><b>낙찰 매트릭스</b>는 나라장터 낙찰 실적을 매일 누적한 실데이터입니다. 낙찰업체명은 사업자등록 법인명 기준이라(예: 티처빌 → 테크빌교육(주)) 브랜드명과 다를 수 있습니다. 나라장터 밖(S2B·직접계약 등)의 거래는 이 표에 잡히지 않습니다.</p>
+        <p><b>홈페이지 콘텐츠</b>(이벤트·공지)는 각사 공개 화면 기준입니다(로그인 필요 정보 제외). 회사마다 공개 범위가 달라 회사 간 단순 건수 비교에는 주의가 필요합니다.</p>
+        <p><b>재무 프로파일</b>은 금융위원회 공시 재무정보 기준입니다. 상장 또는 외부감사대상 법인만 있으며(비상장 소규모 법인은 데이터 없음), 연 1회 결산 공시라 최신 분기 실적은 반영되지 않습니다. 표의 "N년분 …기한" 표시는 사업보고서 법정 제출기한(결산 후 90일, 12월 결산 가정)을 근거로 한 대략적인 다음 공시 예상 시점이며, 실제 공시일과 다를 수 있습니다.</p>
       </div>
     </div>
 
@@ -2345,7 +2322,7 @@ document.addEventListener('click', function (e) {
         <div><p style="font-weight:800;margin:0 0 6px;" id="bmTopTitle">우선 공략 학교</p>
           <div class="tbl-wrap" style="max-height:420px;overflow:auto;"><table class="data" id="bmTop"><thead><tr><th>학교</th><th>시군구</th><th class="num">교원</th><th>제안 방식</th><th class="num">잠재 매출</th></tr></thead><tbody></tbody></table></div></div>
       </div>
-      <p class="tt-note">잠재 매출 = 교원 수 × 참여율 × 1인 객단가(가정값, 위에서 변경). 실제 매출 전망이 아니라 지역·학교 간 상대 크기를 비교하는 지표입니다. 규모: 대 = 교원 60명 이상(학교 단위 단체연수), 중 = 30~59명, 소 = 30명 미만(교육지원청 단위 묶음 제안). 우선 공략 학교는 시도별로 AI 중점·선도학교를 먼저, 그다음 교원 수 순으로 60곳씩 보여줍니다. 계약 건수는 계약정보 API 최근 1년 교원연수 관련 매칭분입니다.</p>
+      <p class="tt-note">잠재 매출 = 교원 수 × 참여율 × 1인 객단가(가정값, 위에서 변경). 실제 매출 전망이 아니라 지역·학교 간 상대 크기를 비교하는 지표입니다. 규모: 대 = 교원 60명 이상(학교 단위 단체연수), 중 = 30~59명, 소 = 30명 미만(교육지원청 단위 묶음 제안). 우선 공략 학교는 시도별로 AI 중점·선도학교를 먼저, 그다음 교원 수 순으로 60곳씩 보여줍니다. 계약 건수는 최근 1년 교원연수 관련 계약입니다.</p>
     </section>
 
     <section class="kpis" id="kpisB2S"></section>
@@ -2586,8 +2563,8 @@ document.addEventListener('click', function (e) {
     <div class="foot-grid">
       <div>
         <h4>데이터 & 방법론</h4>
-        <p>학교 수는 나이스 개방포털 <b>학교기본정보(schoolInfo)</b> API를 17개 시도교육청 &times; 초등학교/중학교로 실시간 조회한 값입니다. 나라장터 수치는 기존에 구축된 자동화 파이프라인(입찰공고·사전규격·낙찰정보, 교육청/연수원 발주 건 필터)의 연간(YTD) 집계입니다.</p>
-        <p>학급 수·재학생 수는 나이스 개방포털에서 학교 단위로만 조회 가능해(시도 단위 집계 API 없음) 17개 시도를 실시간으로 합산하려면 학교별로 수천 건을 개별 호출해야 합니다. 이번 버전에서는 제외했으며, 필요 시 특정 권역만 표본 집계하는 방식으로 확장할 수 있습니다.</p>
+        <p>학교 수는 17개 시도교육청 &times; 초등학교/중학교 기준 최신 값입니다. 나라장터 수치는 입찰공고·사전규격·낙찰정보 중 교육청/연수원 발주 건의 연간(YTD) 집계입니다.</p>
+        <p>학급 수·재학생 수는 이번 버전에서 제외했으며, 필요 시 특정 권역 표본 집계로 확장할 수 있습니다.</p>
       </div>
       <div>
         <h4>참고</h4>
@@ -2597,7 +2574,7 @@ document.addEventListener('click', function (e) {
         <p>경쟁사 랭킹은 AI 키워드로 좁히지 않은 교육청·연수원 낙찰정보 전체(98건)를 기준으로 합니다. 발주계획 얼리워닝은 2026-07-28 조회 시점 스냅샷이며, AI 교육 선도학교 전국 규모는 한국과학창의재단 자료 기준 1,291교(2025-08-22 갱신), AI 중점학교는 교육부 기준 1,141교·특별교부금 385억원(2026, 학교당 평균 약 3,400만원)입니다 — 시도별 명단·확대 추정은 &lsquo;AI 중점·선도학교&rsquo; 탭에 있습니다.</p>
       </div>
     </div>
-    <div class="updated">이 대시보드의 학교 수 데이터는 조회 시점 기준 실시간 값이며, 나라장터 발주·낙찰 데이터는 2026-07-22 파이프라인 실행 기준, 발주계획 스냅샷·AI·에듀테크 리스트·학교단위 발주 리스트는 2026-07-29 기준입니다. 학교단위 발주는 나라장터 물품(Thng) 입찰공고·낙찰정보 API를 AI·에듀테크 키워드로 검색해 발주기관명에 &lsquo;초등학교·중학교·고등학교&rsquo;가 실제로 들어있는 건만 남긴 것입니다.</div>
+    <div class="updated">학교 수는 최신 값이며, 나라장터 발주·낙찰 데이터는 2026-07-22 기준, 발주계획·AI·에듀테크 리스트·학교단위 발주 리스트는 2026-07-29 기준입니다. 학교단위 발주는 AI·에듀테크 관련 물품 발주 중 발주기관이 초·중·고등학교인 건만 남긴 것입니다.</div>
     </div>
   </footer>
 
@@ -2732,7 +2709,7 @@ const G2B_STALE = __G2B_STALE_JSON__;  // 나라장터 API 장애로 이전 정�
 (function g2bStaleNote(){
   const el = document.getElementById('g2bStaleNote');
   if (!el || !G2B_STALE) return;
-  el.textContent = G2B_STALE.partial ? `⚠ 조달청 나라장터 시스템 점검 중이라, 나라장터 화면은 저장해 둔 누적 기록(${G2B_STALE.date ? G2B_STALE.date.slice(5).replace('-', '월 ') + '일' : '최근'}까지)으로 표시 중입니다 — 교원연수 관련 입찰공고·경쟁사 낙찰·발주계획만 있고 사전규격과 진행 중 공고는 빠져 있습니다. 점검이 끝나면 다음 배포 때 전체 데이터로 바뀝니다.` : G2B_STALE.empty ? '⚠ 조달청 나라장터 시스템 점검으로 입찰·사전규격·낙찰 수치를 불러오지 못해 해당 부분이 비어 있습니다. 점검이 끝나면 다음 배포 때 다시 채워집니다. 다른 데이터와 화면은 최신입니다.' : `⚠ 조달청 나라장터 API 점검·장애로 나라장터 입찰·사전규격·낙찰 수치는 ${G2B_STALE.date ? G2B_STALE.date.slice(5).replace('-', '월 ') + '일' : '이전'} 수집분을 표시 중입니다. 다른 데이터와 화면은 최신입니다.`;
+  el.textContent = G2B_STALE.partial ? `⚠ 조달청 나라장터 시스템 점검 중이라, 나라장터 화면은 저장해 둔 누적 기록(${G2B_STALE.date ? G2B_STALE.date.slice(5).replace('-', '월 ') + '일' : '최근'}까지)으로 표시 중입니다 — 교원연수 관련 입찰공고·경쟁사 낙찰·발주계획만 있고 사전규격과 진행 중 공고는 빠져 있습니다. 점검이 끝나면 전체 데이터로 바뀝니다.` : G2B_STALE.empty ? '⚠ 조달청 나라장터 시스템 점검으로 입찰·사전규격·낙찰 수치를 불러오지 못해 해당 부분이 비어 있습니다. 점검이 끝나면 다시 채워집니다. 다른 데이터와 화면은 최신입니다.' : `⚠ 조달청 나라장터 시스템 점검·장애로 나라장터 입찰·사전규격·낙찰 수치는 ${G2B_STALE.date ? G2B_STALE.date.slice(5).replace('-', '월 ') + '일' : '이전'} 수집분을 표시 중입니다. 다른 데이터와 화면은 최신입니다.`;
   el.hidden = false;
 })();
 const WF_BADGES = __WF_BADGES_JSON__;
@@ -4358,7 +4335,7 @@ window.__ownerQ.push(function renderAiBrief(){
     ${f ? `<div><span class="fit fit-${FK(f.verdict)}">${h(f.verdict)}</span>${f.play !== '미상' ? `<span class="fit" style="background:var(--surface);border:1px solid var(--border);color:var(--ink-2);">${f.play === '기술' ? '기술점수 승부' : '가격 승부'}</span>` : ''}</div>
       ${(f.reasons || []).length || (f.ok || []).length ? `<div class="why">${[...(f.reasons || []).map(x => '⚠ ' + h(x)), ...(f.ok || []).map(x => '✓ ' + h(x))].join('<br>')}</div>` : ''}` : ''}
     ${r.go ? `<div style="margin:6px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><span class="fit" style="background:${r.go.label === '참여 권장' ? 'color-mix(in srgb, var(--good) 22%, transparent)' : r.go.label === '신중 검토' ? 'color-mix(in srgb, var(--warning) 22%, transparent)' : 'var(--surface-2)'};">${h(r.go.label)} ${r.go.score}</span><span style="font-size:11.5px;color:var(--ink-2);">${(r.go.reasons || []).map(h).join(' · ')}</span></div>` : ''}
-    <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)} ↗</a>` : h(r.t)}${r.k ? ` <button type="button" class="pill" data-draft="${h((r.k || '').split('-')[0])}" title="공고번호를 복사하고 GitHub에서 초안 생성(Run workflow)을 엽니다. 결과는 비공개 저장소 proposals/" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}</div>
+    <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)} ↗</a>` : h(r.t)}${r.k ? ` <button type="button" class="pill" data-draft="${h((r.k || '').split('-')[0])}" title="공고번호를 복사하고 제안서 초안 만들기를 엽니다. 결과는 비공개 저장소 proposals/" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}</div>
     <div class="m">${h(r.d)} · ${h(r.o)}${r.a ? ` · 예산 ${fmtWon(r.a)}` : ''}${r.doc ? ` · 문서: ${h(r.doc)}` : ''}</div>
     <dl>${[['대상', a.target], ['인원', a.headcount], ['운영', a.format], ['기간', a.period], ['시간', a.hours], ['평가', a.evaluation]]
       .filter(x => x[1]).map(x => `<dt>${x[0]}</dt><dd>${h(x[1])}</dd>`).join('')}</dl>
@@ -4388,7 +4365,7 @@ window.__ownerQ.push(function renderAiBrief(){
     return;
   }
   const total = sidos.reduce((a, k) => a + V.regions[k].length, 0);
-  desc.textContent = `${V.source || '한국관광공사'} · ${V.generated} 수집 · ${sidos.length}개 시도 ${fmt(total)}곳. 교육청 집합연수·워크숍 장소 섭외와 출장 숙소 확인용이며, 수용 인원·대관 여부는 시설에 직접 확인하세요.`;
+  desc.textContent = `${V.source || '한국관광공사'} · ${V.generated} 기준 · ${sidos.length}개 시도 ${fmt(total)}곳. 교육청 집합연수·워크숍 장소 섭외와 출장 숙소 확인용이며, 수용 인원·대관 여부는 시설에 직접 확인하세요.`;
   sel.innerHTML = sidos.map(k => `<option value="${h(k)}">${h(k)} (${V.regions[k].length})</option>`).join('');
   const st = {kind: ''};
   const rows = () => {
@@ -4487,7 +4464,7 @@ window.__ownerQ.push(function renderAiBrief(){
     el.textContent = `데이터 기준: 구글시트 '${S.tab}' · ${S.fetched} 조회 · ${n}건`;
   } else {
     el.style.color = 'var(--warning)';
-    el.textContent = `구글시트 연동 실패 - 이번 배포에서 파이프라인을 읽지 못했습니다${S.error ? ` (${String(S.error).slice(0, 80)})` : ''}. 서비스계정에 시트 공유가 되어 있는지 확인이 필요합니다.`;
+    el.textContent = '영업 데이터를 불러오지 못했습니다. 관리자에게 문의하세요.';
   }
 })();
 
@@ -4723,7 +4700,7 @@ window.__ownerQ.push(function renderAiBrief(){
   const E = EDU_CNTR || {}, desc = document.getElementById('ecDesc');
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   if (!E.available) { desc.textContent = '교육청 홈페이지의 수의계약 공개(K-에듀파인 연계) 목록에서 학교·교육청 연수 계약을 매일 모읍니다. 다음 자동 배포 후 채워집니다.'; document.getElementById('ecFilter').hidden = true; return; }
-  desc.textContent = `누적 ${fmt(E.total)}건 · ${E.span[0]}~${E.span[1]} · ${E.updated || ''} 갱신 · 출처: ${Object.values(E.sources || {}).join(', ')}`;
+  desc.textContent = `누적 ${fmt(E.total)}건 · ${E.span[0]}~${E.span[1]} · ${E.updated || ''} 갱신`;
   const COMP = ['아이스크림', '티처빌', '비바샘연수원', '한교원'];
   const comp = COMP.reduce((a, c) => a + ((E.by_vendor[c] || {}).n || 0), 0);
   const own = E.by_vendor['비바샘연수원'] || {n: 0, amt: 0};
@@ -5034,7 +5011,7 @@ window.__ownerQ.push(function renderAiBrief(){
   safe('mallTrend', () => {
     const el = panel('b2s', null, '교사몰 상품 동향', `티처몰 카테고리 구성 · 베스트 · 추천 검색어${MALL.captured_date ? ' · 수집 ' + MALL.captured_date : ''}`);
     if (!el) return;
-    if (!MALL.available) { el.innerHTML = empty('교사몰 수집 대기(매주 월 05:30)'); return; }
+    if (!MALL.available) { el.innerHTML = empty('교사몰 준비 중'); return; }
     const big = (MALL.categories || []).filter(c => c.count >= 100000), cats = (MALL.categories || []).filter(c => c.count < 100000 && c.count > 0);
     const status = (MALL.malls || []).map(m => `<div style="display:flex;gap:8px;align-items:center;margin:3px 0;font-size:12.5px;"><b style="width:90px;">${h(m.name)}</b><span style="color:var(--muted);width:110px;">${h(m.operator)}</span>${mChip(m.status, m.status === '수집 중' ? 'color-mix(in srgb, #10b981 22%, var(--surface-2))' : 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))')}<span style="color:var(--muted);font-size:11.5px;">${h(m.note || (m.n_best ? `베스트 ${m.n_best} · 카테고리 ${m.n_cat}` : ''))}</span></div>`).join('');
     const left = `<div><p style="font-weight:800;margin:0 0 6px;">카테고리별 상품 수</p>${hbars(cats.map(c => ({k: c.name, v: c.count, label: c.count.toLocaleString() + '개', tip: `${c.name}: ${c.count.toLocaleString()}개 · 인기 ${c.top.slice(0, 3).map(t => t.n).join(' / ')}`})), {lw: 110, vw: 80})}
@@ -5057,7 +5034,7 @@ window.__ownerQ.push(function renderAiBrief(){
   safe('mallNewSet', () => {
     const el = panel('b2s', null, '교사몰 신상품 · 세트 상품', '신상품 = 지난 수집 대비 새로 보인 상품(첫 주는 최근 등록순) · 세트 = 세트·꾸러미·키트');
     if (!el) return;
-    if (!MALL.available) { el.innerHTML = empty('교사몰 수집 대기'); return; }
+    if (!MALL.available) { el.innerHTML = empty('교사몰 데이터 준비 중'); return; }
     const wk = Object.entries(MALL.new_weekly || {}).sort();
     const list = (rows, dated) => `<div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><tbody>${rows.map(r => `<tr><td>${prodCell(r)}</td>${dated && r.d ? `<td style="color:var(--muted);white-space:nowrap;">${h(r.d.slice(5).replace('-', '/'))}</td>` : ''}</tr>`).join('')}</tbody></table></div>`;
     el.innerHTML = grid2(`<div><p style="font-weight:800;margin:0 0 6px;">신상품 ${wk.length ? `<span style="font-weight:600;color:var(--muted);font-size:12px;">최근 ${wk.length}주 ${wk.reduce((a, x) => a + x[1], 0)}개 (${wk.slice(-4).map(x => x[0].slice(5).replace('-', '/') + ' ' + x[1]).join(' · ')})</span>` : '<span style="font-weight:600;color:var(--muted);font-size:12px;">기준선 수집 주 — 다음 주부터 주간 신규가 쌓입니다</span>'}</p>${list((MALL.new || []).slice(0, 12), true)}</div>`,
@@ -5068,7 +5045,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const el = panel('b2s', null, '자사 과정 ↔ 인기 상품 짝짓기', '연수+상품 SET 후보 · 점수 = 상품 인기(베스트 순위·카테고리 인기) + 추천 검색어 가중');
     if (!el) return;
     const P = MALL.pairs || [];
-    if (!P.length) { el.innerHTML = empty('교사몰 수집 대기'); return; }
+    if (!P.length) { el.innerHTML = empty('교사몰 데이터 준비 중'); return; }
     const mx = Math.max(...P.map(p => p.score));
     el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>연수 주제</th><th style="width:120px;">수요 점수</th><th>인기 상품(티처몰)</th><th>자사 과정(${h(MALL.own_name || '자사')})</th><th>제안</th></tr></thead><tbody>
       ${P.map(p => `<tr><td style="white-space:nowrap;"><b>${h(p.name)}</b>${p.kw.length ? `<div>${p.kw.map(k => mChip('#' + k, 'color-mix(in srgb, var(--accent) 16%, var(--surface-2))')).join('')}</div>` : ''}<div style="color:var(--muted);font-size:11px;">관련 인기 상품 ${p.n_prod}개</div></td>
@@ -5087,7 +5064,7 @@ window.__ownerQ.push(function renderAiBrief(){
   safe('trend27Keywords', () => {
     const el = panel('trend2027', null, '교사 트렌드 2027 키워드 10선', `점수 = 신호 6종 가중합(0~100) · ${T27.kw_src === 'rule' ? '키워드명 = 연수 주제명(AI 미생성)' : 'AI 작명 ' + (T27.kw_date || '')}${T27.generated ? ' · 계산 ' + T27.generated : ''}`);
     if (!el) return;
-    if (!T27.available) { el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
+    if (!T27.available) { el.innerHTML = empty('트렌드 신호 데이터 준비 중'); return; }
     el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px;">${(T27.keywords || []).map((k, i) => {
       const ev = Object.entries(k.ev || {}).slice(0, 5).map(([a, b]) => `<span style="white-space:nowrap;">${h(a)} <b class="num">${typeof b === 'number' ? b.toLocaleString() : h(b)}</b></span>`).join(' · ');
       return `<article style="border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;">
@@ -5103,7 +5080,7 @@ window.__ownerQ.push(function renderAiBrief(){
   });
   safe('trend27Map', () => {
     const el = panel('trend2027', null, '트렌드 성숙도 지도', 'x = 규모(점수) · y = 성장률(입찰·검색·경쟁사 출시 평균) · 원 크기 = 공공 입찰 건수');
-    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
+    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 데이터 준비 중'); return; }
     const R = T27.topics || [], W0 = 640, H0 = 320, pad = 40;
     const gs = R.map(r => r.growth ?? 0), gMin = Math.min(-50, ...gs), gMax = Math.max(60, ...gs);
     const sx = v => pad + v / 100 * (W0 - pad * 2), sy = v => H0 - pad - (v - gMin) / (gMax - gMin) * (H0 - pad * 2);
@@ -5124,7 +5101,7 @@ window.__ownerQ.push(function renderAiBrief(){
   });
   safe('trend27Signals', () => {
     const el = panel('trend2027', null, '주제별 신호 표', '각 신호 0~100(주제 간 상대값) · 빈칸 = 해당 신호 없음');
-    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
+    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 데이터 준비 중'); return; }
     const keys = Object.keys(T27.weights || {});
     const cell = v => v == null ? '<td></td>' : `<td class="num" style="background:color-mix(in srgb, var(--accent) ${Math.round(v * .55)}%, transparent);">${v}</td>`;
     el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>주제</th><th>단계</th><th class="num">점수</th><th class="num">성장</th>${keys.map(k => `<th class="num">${h(k)}<br><span style="font-weight:500;color:var(--muted);">×${T27.weights[k]}</span></th>`).join('')}<th class="num">자사 과정</th></tr></thead><tbody>
@@ -5133,7 +5110,7 @@ window.__ownerQ.push(function renderAiBrief(){
   safe('trend27Quarter', () => {
     const Q = T27.quarter || {};
     const el = panel('trend2027', null, '분기 트렌드 리포트', Q.quarter ? `${Q.quarter}${Q.prev ? ' vs ' + Q.prev : ''}` : '');
-    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 수집 대기'); return; }
+    if (!el || !T27.available) { if (el) el.innerHTML = empty('트렌드 신호 데이터 준비 중'); return; }
     if (!Q.prev) { el.innerHTML = `<p style="font-size:13px;color:var(--muted);margin:4px 0;">${h(Q.quarter || '')}이 첫 기준 분기입니다. 다음 분기부터 순위 변동·새로 뜬 주제·식은 주제를 자동으로 비교합니다(매일 갱신되는 현재 분기 값이 분기 말 기준으로 남습니다).</p>`; return; }
     const it = Q.items || [];
     const up = it.filter(x => x.prev_rank && x.prev_rank - x.rank >= 2), down = it.filter(x => x.prev_rank && x.rank - x.prev_rank >= 2);
@@ -5151,7 +5128,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const el = panel('trend2027', null, '교사 크리에이터 시장(유튜브)', `구독자 상위 교사 채널 · 최근 영상 5개 기준${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
     if (!el) return;
     const C = TT.channels || [];
-    if (!C.length) { el.innerHTML = empty('YouTube API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
+    if (!C.length) { el.innerHTML = empty('데이터 준비 중입니다(매주 월요일 갱신).'); return; }
     el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>채널</th><th style="text-align:right;">구독자</th><th style="text-align:right;">4주 증감</th><th style="text-align:right;">최근 영상 평균 조회</th><th>주력 주제</th><th>최근 인기 영상</th><th>인스타(채널 소개)</th></tr></thead><tbody>
       ${C.map(c => `<tr><td style="white-space:nowrap;"><a href="https://www.youtube.com/${c.h ? h(c.h) : 'channel/' + h(c.id)}" target="_blank" rel="noopener">${h(c.t)}</a></td>
         <td class="num">${nfmt(c.subs)}</td><td class="num" style="color:${c.g4 > 0 ? '#10b981' : 'var(--muted)'};">${c.g4 == null ? '-' : (c.g4 > 0 ? '+' : '') + nfmt(c.g4)}</td>
@@ -5163,7 +5140,7 @@ window.__ownerQ.push(function renderAiBrief(){
   safe('teacherTopicHeat', () => {
     const el = panel('trend2027', null, '교사 트렌드 주제 열기', `교사 채널별 최근 영상 주제 비중(채널 규모 가중) vs 자사 과정 수${TT.yt_date ? ' · 수집 ' + TT.yt_date : ''}`);
     if (!el) return;
-    if (!TT.available) { el.innerHTML = empty('YouTube API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
+    if (!TT.available) { el.innerHTML = empty('데이터 준비 중입니다(매주 월요일 갱신).'); return; }
     const H = (TT.heat || []).slice(0, 10), mx = Math.max(1, ...H.map(r => r.heat));
     const heatTbl = `<div><p style="font-weight:800;margin:0 0 6px;">주제 열기</p><div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><thead><tr><th>주제</th><th style="width:34%;">관심 비중</th><th style="width:16%;text-align:right;">자사 과정</th></tr></thead><tbody>
       ${H.map(r => `<tr ${tipAttr(`${r.topic} — 교사 채널 관심 비중 ${r.heat}% · 자사 과정 ${r.own}개`)}><td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(r.topic)}${r.own <= 2 && r.heat >= 8 ? ' ' + mChip('공백', 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))') : ''}</td>
@@ -5178,7 +5155,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const I = TT.interest || {};
     const el = panel('trend2027', null, '교사 관심사 레이더(검색·쇼핑·커뮤니티)', `네이버 데이터랩 검색 지수('교사' 검색=100${I.ages ? ', ' + I.ages : ''}) · 블로그·카페 글 · 쇼핑 클릭${I.dl_date ? ' · 수집 ' + I.dl_date : ''}`);
     if (!el) return;
-    if (!I.available) { el.innerHTML = empty('네이버·카카오 API 키 등록 후 매주 월요일 자동 수집됩니다.'); return; }
+    if (!I.available) { el.innerHTML = empty('데이터 준비 중입니다(매주 월요일 갱신).'); return; }
     const spark = (a, w = 110, hgt = 24) => { if (!a || a.length < 2) return ''; const mx = Math.max(...a), mn = Math.min(...a), r = mx - mn || 1;
       return `<svg viewBox="0 0 ${w} ${hgt}" style="width:${w}px;height:${hgt}px;vertical-align:middle;"><polyline fill="none" stroke="var(--accent)" stroke-width="1.6" points="${a.map((v, i) => `${(i / (a.length - 1) * w).toFixed(1)},${(hgt - 2 - (v - mn) / r * (hgt - 4)).toFixed(1)}`).join(' ')}"/></svg>`; };
     const mom = m => m == null ? '-' : `<span style="color:${m >= 15 ? '#10b981' : m <= -15 ? 'var(--danger, #d64545)' : 'var(--muted)'};">${m > 0 ? '+' : ''}${m}%</span>`;
@@ -5200,7 +5177,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const LV = T27.levels || {};
     const el = panel('trend2027', null, '학교급별(초·중·고) 트렌드', LV.available ? `공공 연수 입찰 + 학교·교육청 연수 수의계약 · ${h(LV.from)} ~ ${h(LV.to)} · 학교급 표기 ${LV.tagged.toLocaleString()}건 / 전체 ${LV.total.toLocaleString()}건` : '');
     if (!el) return;
-    if (!LV.available) { el.innerHTML = empty('학교급 분류 데이터 수집 대기'); return; }
+    if (!LV.available) { el.innerHTML = empty('학교급 분류 데이터 데이터 준비 중'); return; }
     const L = LV.levels || [], COL = {'초': '#f59e0b', '중': '#10b981', '고': '#4f8cff'};
     const eok = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : Math.round(v / 1e4).toLocaleString() + '만';
     const bars = (a, c) => { const mx = Math.max(1, ...a); return `<svg viewBox="0 0 120 26" style="width:120px;height:26px;" aria-hidden="true">${a.map((v, i) => `<rect x="${i * 10 + 1}" y="${26 - v / mx * 24}" width="8" height="${v / mx * 24}" rx="1.5" fill="${c}" opacity="${i === a.length - 1 ? .45 : .9}"/>`).join('')}</svg>`; };
@@ -5236,7 +5213,7 @@ window.__ownerQ.push(function renderAiBrief(){
   safe('kerisKpi', () => {
     const el = panel('keris', null, '한눈에 보기', `${KR.kpi ? KR.kpi.since + ' 이후' : ''}${KR.updated ? ' · 갱신 ' + KR.updated : ''}`);
     if (!el) return;
-    if (!KR.available) { el.innerHTML = empty('KERIS 조달 수집 대기(매일 05:10 자동 수집)'); return; }
+    if (!KR.available) { el.innerHTML = empty('KERIS 조달 데이터 준비 중(매일 갱신)'); return; }
     const K = KR.kpi;
     const tile = (lab, val, sub) => `<div style="flex:1;min-width:140px;border:1px solid var(--border);border-radius:12px;padding:12px 14px;"><div style="font-size:12px;color:var(--muted);">${lab}</div><div style="font-size:22px;font-weight:800;margin:4px 0;">${val}</div><div style="font-size:11.5px;color:var(--ink-2);">${sub}</div></div>`;
     el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:10px;">
@@ -5302,7 +5279,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const PP = (COMPETITOR_TRAINING || {}).policy_partners || {};
     const el = panel('competitor', 'courseCatalogPanel', '3사 협력사 지도 — 개인정보처리방침 기준', `처리위탁 수탁사 · 제3자 제공처(공개 목록) · 매주 월 확인${PP.updated ? ' · 수집 ' + PP.updated : ''}`);
     if (!el) return;
-    if (!PP.available) { el.innerHTML = empty('처리방침 수집 대기(매주 월 05:30)'); return; }
+    if (!PP.available) { el.innerHTML = empty('처리방침 준비 중'); return; }
     const S = PP.summary || [], OWNK = (S.find(s => s.own) || {}).key;
     const hiBg = 'color-mix(in srgb, var(--accent) 18%, var(--surface-2))';
     const cards = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:10px;margin-bottom:12px;">${S.map(s => `<div style="border:1px solid var(--border);border-radius:10px;padding:10px 12px;${s.own ? 'background:color-mix(in srgb, var(--accent) 7%, transparent);' : ''}">
@@ -5334,7 +5311,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const P = (COMPETITOR_TRAINING || {}).partners || {};
     const el = panel('b2s', null, '샘몰 협력사 우선 협의 리스트', `티처몰 입점사 × 인기 상품 판매자·제조자 · 점수 = 판매 인기 35 + 자사 과정 연결 25 + 상품 폭 20 + 교사 관심 20${P.captured_date ? ' · 수집 ' + P.captured_date : ''}`);
     if (!el) return;
-    if (!P.available) { el.innerHTML = empty(P.n_providers ? `입점사 ${P.n_providers}곳 확인 · 상품별 판매자 수집 대기(매주 월 05:30)` : '티처몰 입점사 수집 대기(매주 월 05:30)'); return; }
+    if (!P.available) { el.innerHTML = empty(P.n_providers ? `입점사 ${P.n_providers}곳 확인 · 상품별 판매자 준비 중` : '티처몰 입점사 준비 중'); return; }
     const R = P.rows || [], gen = R.filter(r => r.kind === '일반 입점'), exc = R.filter(r => r.kind !== '일반 입점');
     const link = (no, n) => `<a href="${h((P.mall_url || '') + '/goods/view?no=' + no)}" target="_blank" rel="noopener">${h(n.replace(/^\[티처몰ONLY\]\s*/, '★ '))}</a>`;
     const tbl = rows => `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th style="width:36px;">#</th><th>협력사</th><th style="width:120px;">우선순위 점수</th><th>대표 인기 상품</th><th>연결 주제 · 협의 포인트</th></tr></thead><tbody>
@@ -5644,7 +5621,7 @@ window.__ownerQ.push(function renderAiBrief(){
     if (!el) return;
     const ks = Object.keys(R);
     el.innerHTML = ks.length ? ks.map(k => `<details class="rfp-card" style="margin:6px 0;"><summary style="cursor:pointer;"><b>${h(k)}</b> <span style="color:var(--muted);font-size:12px;">${h(R[k].org)} · 종료 ${h(R[k].end)}</span></summary>
-      <div style="margin-top:8px;font-size:13px;"><b>장학사 보고 요지</b><div>${h(R[k].summary)}</div><b style="display:block;margin-top:8px;">결과보고서 초안</b><div style="white-space:pre-wrap;">${h(R[k].report)}</div><b style="display:block;margin-top:8px;">차년도 제안</b><div>${h(R[k].next)}</div></div></details>`).join('') + `<p class="tt-note">Gemini 초안(${h(S.reports.date)}). 이수 인원·만족도 등 [확인 필요] 표시는 실제 값으로 채우세요.</p>`
+      <div style="margin-top:8px;font-size:13px;"><b>장학사 보고 요지</b><div>${h(R[k].summary)}</div><b style="display:block;margin-top:8px;">결과보고서 초안</b><div style="white-space:pre-wrap;">${h(R[k].report)}</div><b style="display:block;margin-top:8px;">차년도 제안</b><div>${h(R[k].next)}</div></div></details>`).join('') + `<p class="tt-note">AI 초안(${h(S.reports.date)}). 이수 인원·만족도 등 [확인 필요] 표시는 실제 값으로 채우세요.</p>`
       : empty('최근 75일 안에 끝난 사업이 없거나 AI 초안이 아직 생성되지 않았습니다.');
   }));
   // ㉛ 입찰 결과 (V3·V4)
@@ -5761,7 +5738,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const el = panel('content', null, '㊷ 2026 매출 현황', "채널 구성('26 연간 예상) · 시트 실적 누계 · 진척");
     if (!el) return;
     const b2gAct = ST.reduce((a, r) => a + (r.claim || 0), 0), onAct = C.total || 0;
-    if (!R) { el.innerHTML = `<div style="font-size:13px;">시트 실적: B2G 청구 누계 <b>${won(b2gAct)}</b> · 콘텐츠 누적 매출 <b>${won(onAct)}</b></div>` + empty("채널별 '26 연간 예상은 경영계획 시크릿(PLAN_2027_JSON) 등록 시 표시됩니다."); return; }
+    if (!R) { el.innerHTML = `<div style="font-size:13px;">시트 실적: B2G 청구 누계 <b>${won(b2gAct)}</b> · 콘텐츠 누적 매출 <b>${won(onAct)}</b></div>` + empty("채널별 '26 연간 예상은 경영계획 확정 후 표시됩니다."); return; }
     const CH = [['B2G 위탁', 'b2g', '#f59e0b'], ['B2S 단체', 'b2s', '#4f8cff'], ['B2C 개인', 'b2c', '#10b981'], ['제품·기타', 'etc', '#94a3b8']];
     const tot = CH.reduce((a, [, k]) => a + (R[k] || 0), 0) || 1;
     const prog = (lab, act, exp, c) => `<div style="margin:8px 0;" ${tipAttr(`${lab}: 실적 ${won(act)} / 예상 ${won(exp)}`)}><div style="display:flex;justify-content:space-between;font-size:12.5px;"><span>${h(lab)}</span><span class="num"><b>${won(act)}</b> / ${won(exp)} · ${exp ? Math.round(act / exp * 100) : 0}%</span></div>
@@ -6051,7 +6028,7 @@ function renderCompWatch(el, C){
     <div style="display:grid;gap:8px;margin-bottom:14px;">${(C.signals || []).map(x => `<div style="border:1px solid var(--border);border-radius:10px;padding:10px 12px;"><span class="fit ${LV[x.lv] || ''}">${LVN[x.lv] || ''}</span> <b>${h(x.t)}</b><div style="font-size:13px;margin-top:4px;color:var(--ink-2);">대응: ${h(x.do)}</div></div>`).join('')}</div>
     <div class="view-toggle" id="cwType" role="group">${types.map(t => `<button type="button" data-t="${h(t)}" aria-pressed="${t === '전체'}">${h(t)}</button>`).join('')}</div>
     <div class="tbl-wrap" style="margin-top:8px;"><table class="data"><thead><tr><th>날짜</th><th>업체</th><th>구분</th><th>성격</th><th>내용</th><th>비고</th></tr></thead><tbody id="cwBody"></tbody></table></div>
-    <p class="tt-note">공개 정보만 사용: 경쟁사 홈페이지 공개 이벤트(robots 허용) · 공개 과정 목록 · 나라장터 계약·낙찰. 자사(비바샘연수원)는 제외.</p>`;
+    <p class="tt-note">공개 정보만 사용: 경쟁사 홈페이지 공개 이벤트 · 공개 과정 목록 · 나라장터 계약·낙찰. 자사(비바샘연수원)는 제외.</p>`;
   const draw = () => {
     const xs = (C.items || []).filter(x => st.t === '전체' || x.type === st.t);
     el.querySelector('#cwBody').innerHTML = xs.map(x => `<tr><td style="white-space:nowrap;">${h(x.d)}</td><td style="white-space:nowrap;">${h(x.co)}</td><td style="white-space:nowrap;">${h(x.type)}</td><td style="white-space:nowrap;">${h(x.kind)}</td><td>${h(x.title)}</td><td style="font-size:12px;color:var(--muted);">${h(x.note)}</td></tr>`).join('') || '<tr><td colspan="6" style="color:var(--muted);">해당 변화가 없습니다.</td></tr>';
@@ -6064,7 +6041,7 @@ function renderCompWatch(el, C){
 (function adminGate(){
   const form = document.getElementById('adminForm');
   if (!form) return;
-  if (!ADMIN) { document.getElementById('adminDesc').textContent = '관리 비밀번호(GitHub Secret ADMIN_PASSWORD)가 아직 설정되지 않아 내용을 싣지 않았습니다.'; form.hidden = true; return; }
+  if (!ADMIN) { document.getElementById('adminDesc').textContent = '관리 내용이 아직 준비되지 않았습니다.'; form.hidden = true; return; }
   const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -6224,7 +6201,7 @@ window.__ownerQ.push(function renderExec(){
   const own = C.own || {}, r1 = (C.rivals || [])[0] || {}, r2 = (C.rivals || [])[1] || {};
   const top = (M.top_topics || [])[0] || {};
   const won = v => v ? fmtWon(v) : '-';
-  document.getElementById('exDesc').textContent = '나라장터·조달청 계약·NEIS·학교알리미·경쟁사 카탈로그·구글시트(운영·소통·배너)·조간 브리핑·Gemini 분석을 엮어 2027 방향을 정리했습니다. 수치는 매 배포 자동 갱신되고, 전략 문장은 분기마다 갱신합니다.';
+  document.getElementById('exDesc').textContent = '나라장터·조달 계약·학교 통계·경쟁사 동향·자사 운영 실적·조간 브리핑을 엮어 2027 방향을 정리했습니다. 수치는 매일 갱신되고, 전략 문장은 분기마다 갱신합니다.';
 
   // ① 핵심 요약
   const sum = [
@@ -6248,13 +6225,13 @@ window.__ownerQ.push(function renderExec(){
     ['self', '③ 자사', own.share != null ? `점유 ${own.share}%` : `${n(P.n)}건`, `자사 계약 ${n(own.n)}건 · 평균 ${won(own.avg)}${B ? ` · 배너 ${B.own_share}%` : ''}`,
       `자사는 건수에 비해 금액 점유가 낮고${CM ? `, 진행 사업 중 30일 넘게 소통이 끊긴 곳이 ${n((CM.signals || {})['주의'] || 0)}건 있다` : ''}.`,
       '무소통 사업부터 접촉을 복구하고, 1억 이상 입찰에 참가한다.'],
-    ['opportunity', '④ 기회', S ? `${n(S.teachers)}명` : '-', S ? `B2S 대상 교원 · 미진출 대형 시도 ${h((S.white_regions || []).join('·') || '-')}` : 'B2S 데이터 수집 대기',
+    ['opportunity', '④ 기회', S ? `${n(S.teachers)}명` : '-', S ? `B2S 대상 교원 · 미진출 대형 시도 ${h((S.white_regions || []).join('·') || '-')}` : 'B2S 데이터 데이터 준비 중',
       S ? `학교 단위 시장은 크지만 자사 계약이 없는 대형 시도가 남아 있다.` : '학교알리미 수집 후 표시됩니다.',
       '대규모 학교·AI 중점·선도학교 대상 단체연수로 B2S 비중을 끌어올린다.'],
   ];
   document.getElementById('exStoryDesc').textContent = ST.date
-    ? `해석: ${ST.model || 'Gemini'} · ${ST.date}${ST.stale ? ' (오늘 생성 실패로 마지막 해석본)' : ''} · 수치는 오늘 데이터. 해석은 참고용이며 판단은 원자료로 확인하세요.`
-    : '해석: 규칙 기반 기본 문장(Gemini 해석은 다음 배포부터) · 수치는 오늘 데이터.';
+    ? `해석: AI · ${ST.date}${ST.stale ? ' (오늘 생성 실패로 마지막 해석본)' : ''} · 수치는 오늘 데이터. 해석은 참고용이며 판단은 원자료로 확인하세요.`
+    : '해석: 기본 문장 · 수치는 오늘 데이터.';
   if (ST.bottom_line) { const bt = document.getElementById('exBottom'); bt.hidden = false; bt.textContent = '한 줄 결론 · ' + ST.bottom_line; }
   document.getElementById('exStory').innerHTML = stages.map(([k, lab, big, cap, say0, so0]) => {
     const g = ST[k] || {};
@@ -6268,7 +6245,7 @@ window.__ownerQ.push(function renderExec(){
     ['계약(1년, 수의 포함)', n(C.total_n) + '건', `수의계약 ${C.sui_share ?? '-'}% · ${won(C.total_amt)}`],
     ['자사 계약 점유(금액)', own.share != null ? own.share + '%' : '-', `${n(own.n)}건 · 평균 ${won(own.avg)}`],
     ['자사 배너 점유', B ? B.own_share + '%' : '-', B ? `1위 ${h(B.lead)} ${B.lead_share}%` : '시트 연동 대기'],
-    ['B2S 대상 교원', S ? n(S.teachers) + '명' : '-', S ? `${n(S.schools)}개 학교 · 대규모 ${n(S.large)}곳` : '수집 대기'],
+    ['B2S 대상 교원', S ? n(S.teachers) + '명' : '-', S ? `${n(S.schools)}개 학교 · 대규모 ${n(S.large)}곳` : '데이터 준비 중'],
     ['자사 운영 사업', n(P.n) + '건', CM ? `30일+ 무소통 ${n((CM.signals || {})['주의'] || 0)}건` : ''],
   ].map(t => `<div class="kpi"><div class="lbl">${t[0]}</div><div class="val num">${t[1]}</div><div class="sup">${t[2]}</div></div>`).join('');
 
@@ -7221,7 +7198,7 @@ window.__ownerQ.push(function renderExec(){
   if (!tbody || typeof KOSIS_FINANCE === 'undefined') return;
   const rows = (KOSIS_FINANCE.regions || []).slice().sort((a,b) => b.amount_won - a.amount_won);
   if (!rows.length) {
-    noteEl.textContent = 'KOSIS_KEY 시크릿이 아직 설정되지 않아 데이터가 없습니다(SETUP_ADVANCED.md 참고).';
+    noteEl.textContent = '데이터 준비 중입니다.';
     tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:24px;">데이터 없음</td></tr>';
     return;
   }
@@ -7246,7 +7223,7 @@ window.__ownerQ.push(function renderExec(){
   const COLORS = ['var(--accent)','var(--accent-2)','var(--accent-purple)','var(--warning)','var(--accent-pink)'];
   const compColor = c => COLORS[comps.indexOf(c) % COLORS.length] || 'var(--muted)';
 
-  const emptyNote = '낙찰 매트릭스 수집 대기 중 — 오늘부터 매일 자동 조회가 시작되며, 누적되는 데 며칠 걸립니다.';
+  const emptyNote = '낙찰 매트릭스 데이터 준비 중입니다(누적에 며칠 걸립니다).';
   document.getElementById('kpisCompetitor').innerHTML = comps.map(c => {
     const t = g2b.competitor_totals[c] || {};
     return `<div class="kpi">
@@ -7778,7 +7755,7 @@ window.__ownerQ.push(function renderExec(){
     const vel = g.velocity || [];
     const svg = document.getElementById('velocityChart');
     document.getElementById('velocityDesc').textContent = vel.length
-      ? `주 1회 카탈로그 비교에서 새로 확인된 강좌 수 · 현재 ${vel.length}주 축적${vel.length < 4 ? ' — 4주 이상 쌓이면 추세로 해석하세요' : ''} · 수집 범위가 넓어진 주(크롤러 개선)는 신규에서 제외`
+      ? `주 1회 카탈로그 비교에서 새로 확인된 강좌 수 · 현재 ${vel.length}주 축적${vel.length < 4 ? ' — 4주 이상 쌓이면 추세로 해석하세요' : ''} · 집계 범위가 넓어진 주는 신규에서 제외`
       : '아직 신규 출시 기록이 없습니다.';
     document.getElementById('velocityLegend').innerHTML = cos.map(c => `<span><i style="background:${COLOR[c] || 'var(--muted)'}"></i>${h(c)}</span>`).join('');
     if (vel.length) {
@@ -8490,7 +8467,7 @@ window.__ownerQ.push(function renderExec(){
   const D = __NEIS_SCHED_JSON__;
   const body = document.getElementById('schedBody'); if (!body) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  if (!D || !(D.regions || []).length) { body.innerHTML = '<p style="color:var(--muted);font-size:13px;">학사일정 첫 수집 대기 — 매주 월요일 03:10 자동 수집(NEIS 학사일정, 시도·학교급별 표본 학교)</p>'; return; }
+  if (!D || !(D.regions || []).length) { body.innerHTML = '<p style="color:var(--muted);font-size:13px;">학사일정 데이터 준비 중(매주 갱신)</p>'; return; }
   document.getElementById('schedSub').textContent = `NEIS 학사일정 · 시도×학교급 표본 ${D.sample_per_cell}개교(총 ${D.n_schools}교) · ${D.from} ~ ${D.to} · 수집 ${D.generated}`;
   const WD = '일월화수목금토';
   const dt = s => { if (!s) return '<span style="color:var(--muted);">–</span>'; const d = new Date(s + 'T00:00:00'); return `${d.getMonth() + 1}/${d.getDate()}(${WD[d.getDay()]})`; };
@@ -8525,7 +8502,7 @@ window.__ownerQ.push(function renderExec(){
   const D = __GG_B2S_JSON__;
   const body = document.getElementById('ggBody'); if (!body) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  if (!D || !(D.rows || []).length) { body.innerHTML = '<p style="color:var(--muted);font-size:13px;">경기 시군 집계 첫 수집 대기 — 매주 월요일 03:40 자동 수집(경기데이터드림)</p>'; return; }
+  if (!D || !(D.rows || []).length) { body.innerHTML = '<p style="color:var(--muted);font-size:13px;">경기 시군 집계 데이터 준비 중(매주 갱신)</p>'; return; }
   const n = v => (v || 0).toLocaleString();
   const R = D.rows.filter(r => r.n_students || r.academy);
   const T = D.totals || {};
@@ -8586,7 +8563,7 @@ window.__ownerQ.push(function renderExec(){
 
   /* 1) 2027 트렌드 주제 × 교사단체 공급 */
   (function(){
-    const el = mk('교사단체·강사 공급 지도 — 2027 트렌드 주제별', `강사풀 조사 ${h(G.survey_date)} · 소식 ${NEWS.generated ? h(NEWS.generated.slice(0, 10)) + ' 수집' : '첫 수집 대기(매주 월 03:50)'}`);
+    const el = mk('교사단체·강사 공급 지도 — 2027 트렌드 주제별', `강사풀 조사 ${h(G.survey_date)} · 소식 ${NEWS.generated ? h(NEWS.generated.slice(0, 10)) + ' 기준' : '준비 중'}`);
     const pool = G.pool || {}, tier = Object.fromEntries(pool.tier || []);
     const mou = (G.national || []).filter(o => o.mou).length, fr = (G.national || []).filter(o => o.friendly).length;
     const tiles = `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${tile('전국 협회·크리에이터', n((G.national || []).length) + '곳', `비상 MOU ${mou} · 우호 ${fr}`)}${tile('교육청 공식 연구회', n((G.regional || []).length) + '곳')}${tile('시도 연구회(검증)', n((G.groups || []).length) + '곳', `1위군 후보 ${(G.groups || []).filter(g => /1위군/.test(g.tier)).length}`)}${tile('강사풀 인원', n(pool.n) + '명', `핵심 ${n(tier['핵심강사'])} · 활동 ${n(tier['활동강사'])}`)}${tile('강의 실적', n((pool.kpi || {}).total_lectures) + '회', `주강사 ${n((pool.kpi || {}).main_instructors)}명`)}</div>`;
@@ -8612,7 +8589,7 @@ window.__ownerQ.push(function renderExec(){
     const t2 = `<p style="font-weight:800;margin:16px 0 6px;">교육청 공식 연구회·교사단</p><div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:720px;"><thead><tr><th>소관</th><th>연구회</th><th>규모</th><th>활동</th><th>성과</th><th style="width:200px;">최근 소식</th></tr></thead><tbody>
       ${(G.regional || []).map(o => `<tr><td style="white-space:nowrap;font-size:12px;">${h(o.authority)}</td><td style="font-weight:700;">${h(o.name)}</td><td style="font-size:12px;">${h(o.scale)}</td><td style="font-size:12px;color:var(--ink-2);">${h(o.focus)}</td><td style="font-size:12px;color:var(--ink-2);">${h(o.result)}</td><td>${newsCell(o)}</td></tr>`).join('')}</tbody></table></div>`;
     const withNews = Object.keys(ON).length, comp = nat.filter(o => (o.comp || []).length).map(o => o.name);
-    el.innerHTML = t1 + t2 + note(`MOU 단체(${h(nat.filter(o => o.mou).map(o => o.name.replace(/\s*\(.*\)$/, '')).join(' · ') || '-')})는 2027 상반기 공동 기획 과정의 1순위 파트너입니다. ${comp.length ? `<b>${h(comp.map(x => x.replace(/\s*\(.*\)$/, '')).join(' · '))}</b>는 경쟁사와도 협력 중이라 독점 조건보다 '비바샘 단독 주제' 단위로 제안하세요. ` : ''}${withNews ? `최근 180일 기사가 잡힌 단체 ${withNews}곳은 활동이 살아 있는 채널입니다.` : '소식은 매주 월요일 자동 수집됩니다.'}`);
+    el.innerHTML = t1 + t2 + note(`MOU 단체(${h(nat.filter(o => o.mou).map(o => o.name.replace(/\s*\(.*\)$/, '')).join(' · ') || '-')})는 2027 상반기 공동 기획 과정의 1순위 파트너입니다. ${comp.length ? `<b>${h(comp.map(x => x.replace(/\s*\(.*\)$/, '')).join(' · '))}</b>는 경쟁사와도 협력 중이라 독점 조건보다 '비바샘 단독 주제' 단위로 제안하세요. ` : ''}${withNews ? `최근 180일 기사가 잡힌 단체 ${withNews}곳은 활동이 살아 있는 채널입니다.` : '소식은 매주 갱신됩니다.'}`);
   })();
 
   /* 3) 시도 연구회(검증) - 시도 필터 */
@@ -9687,7 +9664,7 @@ window.__renderPdfx = function(root, P){
   const S = A.sido || [], dev = A.dev;
   const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'aiepPanel';
   const cnt = g => S.filter(x => x.group === g).length;
-  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">17개 시도교육청 AIEP — AI 맞춤형 교수학습 플랫폼 지도<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">공동 구축 ${cnt('AIEP 통합')}개 · 독자 ${cnt('독자 플랫폼')}개 · AIDT 활용 ${cnt('AIDT 활용')}개 · 조달 ${A.status && A.status.updated ? A.status.updated + ' 수집' : '수집 대기'}</span></p>
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">17개 시도교육청 AIEP — AI 맞춤형 교수학습 플랫폼 지도<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">공동 구축 ${cnt('AIEP 통합')}개 · 독자 ${cnt('독자 플랫폼')}개 · AIDT 활용 ${cnt('AIDT 활용')}개 · 조달 ${A.status && A.status.updated ? A.status.updated + ' 기준' : '데이터 준비 중'}</span></p>
     <p class="panel-desc">${h(A.note || '')} 시도마다 플랫폼·AI 중점학교·비상 교과서 채택·지역 총판·AIEP 관련 나라장터 조달을 붙여, 콘텐츠·도구 연동과 활용 연수를 어디부터 제안할지 봅니다.${PV ? '' : ' 담당자·제휴 검토 메모는 로그인 화면에만 표시됩니다.'}</p></div></div>
     <div id="apTop" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;"><div id="apMap" style="flex:1 1 420px;min-width:0;"></div><div id="apCards" style="flex:1 1 460px;min-width:0;"></div></div>
     <div id="apTrend" style="margin-top:14px;"></div><div id="apMarket" style="margin-top:14px;"></div><div id="apPriv" style="margin-top:14px;"></div>`;
@@ -9750,12 +9727,12 @@ window.__renderPdfx = function(root, P){
     const K = A.keris_dev || [], DR = (A.dev_rows || []).filter(r => !pick || r.r === pick);
     $('apMarket').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:14px;">
       <div style="flex:1 1 340px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">AIEP 관련 낙찰 업체(3년) <span style="color:var(--muted);font-weight:500;font-size:11.5px;">낙찰 금액 순 · 참여 = 개찰 참가 횟수</span></div>
-        ${V.length ? V.map(v => `<div style="display:grid;grid-template-columns:110px 1fr 120px;gap:8px;align-items:center;font-size:12px;margin:3px 0;"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;${v.name === dev ? 'font-weight:800;color:var(--accent);' : ''}">${h(v.name)}</span><span style="background:var(--surface-2);height:12px;border-radius:4px;position:relative;"><span style="position:absolute;inset:0 auto 0 0;width:${(v.amt / mx * 100).toFixed(1)}%;border-radius:4px;background:${v.name === dev ? 'var(--accent)' : 'color-mix(in srgb, var(--accent) 45%, var(--surface-2))'};"></span></span><span style="text-align:right;">${won(v.amt)} · 낙찰 ${v.win} · 참여 ${v.part}</span></div>`).join('') : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 수집이 끝나면 표시됩니다(첫 수집 진행 중).</p>`}</div>
+        ${V.length ? V.map(v => `<div style="display:grid;grid-template-columns:110px 1fr 120px;gap:8px;align-items:center;font-size:12px;margin:3px 0;"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;${v.name === dev ? 'font-weight:800;color:var(--accent);' : ''}">${h(v.name)}</span><span style="background:var(--surface-2);height:12px;border-radius:4px;position:relative;"><span style="position:absolute;inset:0 auto 0 0;width:${(v.amt / mx * 100).toFixed(1)}%;border-radius:4px;background:${v.name === dev ? 'var(--accent)' : 'color-mix(in srgb, var(--accent) 45%, var(--surface-2))'};"></span></span><span style="text-align:right;">${won(v.amt)} · 낙찰 ${v.win} · 참여 ${v.part}</span></div>`).join('') : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 데이터 준비 중입니다.</p>`}</div>
       <div style="flex:1 1 340px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">${h(dev)} 조달 이력 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">AIEP 개발사 · KERIS·교육청 입찰 참여/낙찰</span></div>
         ${K.concat(DR.map(r => ({t: r.t, d: r.d, url: r.u, winner: r.winner, amt: r.amt, org: r.org, own: r.wv === dev}))).map(r => `<div style="font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);"><a href="${h(r.url || '')}" target="_blank" rel="noopener">${h(r.t)}</a> <span style="color:var(--muted);">(${h(r.d)}${r.org ? ' · ' + h(r.org) : ' · KERIS'})</span><br>${r.own ? `<b style="color:var(--accent);">낙찰</b> ${won(r.amt)}` : `참여${r.amt ? ' ' + won(r.amt) : ''} · 낙찰 ${h(r.winner || '-')}${r.n ? ` · ${r.n}개사 경쟁` : ''}`}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">이력 없음(수집 진행 중)</p>'}
         <p class="tt-note">${h(dev)}는 KERIS '초등 AI교육 담당교원 역량 강화 연수'(12.1억)에 응찰했습니다 — 플랫폼 개발사가 활용 연수 시장까지 들어오고 있어, 제휴(연수는 비바샘 담당)와 경쟁을 함께 봐야 합니다.</p></div></div>
       <div style="font-weight:700;font-size:13px;margin:12px 0 6px;">AIEP·시도 플랫폼 관련 나라장터 공고 ${M.length ? n(M.length) + '건' : ''} <span style="color:var(--muted);font-weight:500;font-size:11.5px;">${st.n_bids != null ? `공고 ${n(st.n_bids)} · 낙찰 ${n(st.n_awards)} 누적` : ''} · 구축·운영 vs 연수·활용</span></div>
-      ${M.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>공고</th><th>발주</th><th>구분</th><th class="num">예산·낙찰</th><th>낙찰 업체</th><th class="num">경쟁</th><th>일자</th></tr></thead><tbody>${M.slice(0, 60).map(r => `<tr${r.dev ? ' style="background:color-mix(in srgb, var(--accent) 10%, transparent);"' : ''}><td>${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)}</a>` : h(r.t)}${r.dev ? ` <span class="pill" style="font-size:10px;">${h(dev)}</span>` : ''}</td><td style="font-size:11.5px;">${h(r.org)}</td><td>${h(r.cat || '-')}</td><td class="num">${won(r.amt || r.budget)}</td><td style="font-size:11.5px;">${h(r.winner || '-')}</td><td class="num">${r.n || '-'}</td><td style="white-space:nowrap;">${h(r.d)}</td></tr>`).join('')}</tbody></table></div>` : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 첫 수집(3년치)이 진행 중입니다. 끝나면 이 표와 업체 막대가 채워집니다.</p>`}`;
+      ${M.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>공고</th><th>발주</th><th>구분</th><th class="num">예산·낙찰</th><th>낙찰 업체</th><th class="num">경쟁</th><th>일자</th></tr></thead><tbody>${M.slice(0, 60).map(r => `<tr${r.dev ? ' style="background:color-mix(in srgb, var(--accent) 10%, transparent);"' : ''}><td>${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)}</a>` : h(r.t)}${r.dev ? ` <span class="pill" style="font-size:10px;">${h(dev)}</span>` : ''}</td><td style="font-size:11.5px;">${h(r.org)}</td><td>${h(r.cat || '-')}</td><td class="num">${won(r.amt || r.budget)}</td><td style="font-size:11.5px;">${h(r.winner || '-')}</td><td class="num">${r.n || '-'}</td><td style="white-space:nowrap;">${h(r.d)}</td></tr>`).join('')}</tbody></table></div>` : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 데이터 준비 중입니다. 준비되면 이 표와 업체 막대가 채워집니다.</p>`}`;
     // 제휴 검토(로그인)
     if (!PV) { $('apPriv').innerHTML = ''; return; }
     $('apPriv').innerHTML = `<div style="border:1px solid var(--border);border-radius:12px;padding:12px 14px;">
@@ -9865,7 +9842,7 @@ window.__renderPdfx = function(root, P){
     ${box(`${ttl('우선 검토 대학', h(D.universities_note || ''))}<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:560px;"><thead><tr><th>대학</th><th>주요 분야</th><th>비바샘 연계 가능성</th></tr></thead><tbody>${(D.universities || []).map(u => `<tr><td style="font-weight:700;white-space:nowrap;">${h(u.name)}</td><td>${h(u.field)}</td><td>${h(u.link)}</td></tr>`).join('')}</tbody></table></div>`, 'margin-top:12px;')}
     ${box(`${ttl('초등 교원양성대학 13곳 — 우리의 대학 자원', h(D.universities_edu_note || ''))}
       ${PV && PV.edu_univ ? `<p style="font-size:12.5px;margin:0 0 8px;padding:6px 10px;border-radius:8px;background:color-mix(in srgb, #ec4899 12%, transparent);"><b>관계</b> ${h(PV.edu_univ.mou)} · ${h(PV.edu_univ.role)} <span style="color:var(--muted);">(로그인 화면 전용)</span></p>` : ''}
-      <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:12px;margin-bottom:8px;">${(() => { const U = D.edu_univ || []; return [['KERIS 입찰 참여 대학', U.filter(u => u.keris_n).length + '/13'], ['KERIS 낙찰(1순위)', U.reduce((a, u) => a + u.keris_win, 0) + '건'], ['조간 브리핑 언급 대학', U.filter(u => u.briefs.length).length + '/13'], ['뉴스 스크랩', D.scrap_updated ? D.scrap_updated + ' 수집' : '첫 수집 대기']].map(([k, v]) => `<span style="padding:4px 10px;border-radius:8px;background:var(--surface-2);">${k} <b>${v}</b></span>`).join(''); })()}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:12px;margin-bottom:8px;">${(() => { const U = D.edu_univ || []; return [['KERIS 입찰 참여 대학', U.filter(u => u.keris_n).length + '/13'], ['KERIS 낙찰(1순위)', U.reduce((a, u) => a + u.keris_win, 0) + '건'], ['조간 브리핑 언급 대학', U.filter(u => u.briefs.length).length + '/13'], ['뉴스 스크랩', D.scrap_updated ? D.scrap_updated + ' 기준' : '준비 중']].map(([k, v]) => `<span style="padding:4px 10px;border-radius:8px;background:var(--surface-2);">${k} <b>${v}</b></span>`).join(''); })()}</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:8px;">${(D.edu_univ || []).map(u => {
         const tx = u.keris.map(k => k.t).join(' ') + ' ' + u.briefs.map(b => b.t).join(' ');
         const link = [/독서|도서관|인문/.test(tx) ? '독서·인문학 연수 공동 개발' : '', /AI|인공지능|디지털|에듀테크|리터러시/.test(tx) ? 'AI·디지털 연수·연구 공동 수행' : '', /기초학력/.test(tx) ? '기초학력 지원 연수 연계' : '', /선도교사/.test(tx) ? '선도교사 연수 운영 협력' : '', /협약|업무협약/.test(tx) ? '경쟁사 협약 동향 확인' : ''].filter(Boolean);
@@ -9907,8 +9884,8 @@ window.__renderPdfx = function(root, P){
   const adj = {}; (E.edges || []).forEach(e => { (adj[e.a] = adj[e.a] || []).push({to: e.b, n: e.n, src: e.src}); (adj[e.b] = adj[e.b] || []).push({to: e.a, n: e.n, src: e.src}); });
   const TABN = {pipeline: 'B2G영업', aiep: '시도 AIEP', biz2027: '기업·대학 트렌드 2027', branch: '지역 총판', adopt: '교과서 채택'};
   const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'ecoPanel';
-  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">생태계 연결 — 흩어진 데이터를 한 지도로<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">노드 ${(E.nodes || []).length.toLocaleString()} · 연결 ${(E.edges || []).length.toLocaleString()} · 출처 ${(E.sources || []).length}개 · 매 배포 때 자동 갱신</span></p>
-    <p class="panel-desc">연수 공고·경쟁사 낙찰·KERIS 입찰·시도 AIEP·지역 연계 사업·지역 총판·교과서 채택·기업·대학 트렌드를 시도·시군·기관·기업·사업·플랫폼 키로 이었습니다. 여러 데이터에 동시에 걸리는 지점을 '연결 인사이트'로 뽑고, 아래 탐색기에서 아무 항목이나 골라 연결된 모든 근거를 봅니다. 출처: ${(E.sources || []).map(h).join(' · ')}</p></div></div>
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">생태계 연결 — 흩어진 데이터를 한 지도로<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">노드 ${(E.nodes || []).length.toLocaleString()} · 연결 ${(E.edges || []).length.toLocaleString()} · 매일 갱신</span></p>
+    <p class="panel-desc">연수 공고·경쟁사 낙찰·KERIS 입찰·시도 AIEP·지역 연계 사업·지역 총판·교과서 채택·기업·대학 트렌드를 시도·시군·기관·기업·사업·플랫폼 키로 이었습니다. 여러 데이터에 동시에 걸리는 지점을 '연결 인사이트'로 뽑고, 아래 탐색기에서 아무 항목이나 골라 연결된 모든 근거를 봅니다.</p></div></div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px;margin-bottom:10px;">${Object.entries(E.kinds || {}).map(([k, v]) => `<span style="padding:2px 9px;border-radius:99px;background:color-mix(in srgb, ${KC[k] || '#94a3b8'} 20%, var(--surface-2));"><b>${h(k)}</b> ${v}</span>`).join('')}</div>
     <div style="font-weight:800;font-size:14px;margin-bottom:6px;">연결 인사이트 <span style="font-size:11.5px;color:var(--muted);font-weight:500;">여러 데이터가 겹치는 곳 · 점수순 · 카드를 누르면 탐색기에서 연결을 봅니다</span></div>
     <div id="ecoIns" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:8px;"></div>
@@ -10247,7 +10224,7 @@ window.__renderPdfx = function(root, P){
   b7.innerHTML = PE && Object.values(PE).some(v => v.length)
     ? `<details><summary style="cursor:pointer;font-size:13px;">펼쳐 보기 (${Object.values(PE).reduce((s, v) => s + v.length, 0)}건 · ${h(PP.generated || '')})</summary>${tbl(['서비스', '이름 후보(빈도순)'], Object.entries(PE).filter(([, v]) => v.length).map(([k, v]) => [h(k), v.slice(0, 40).map(h).join(', ')]))}
        <p style="font-size:12px;color:var(--muted);">홈페이지 글자에서 "OOO 선생님/강사" 형태를 뽑은 후보입니다. 섭외·접촉 전 반드시 공식 이력으로 확인하고, 개인에게 직접 접촉하지 않고 단체·연구회를 통해 제안합니다.</p></details>`
-    : '<p style="font-size:12px;color:var(--muted);">아직 수집 전이거나 복호화 키가 없습니다(배포 때 자동 복호화).</p>';
+    : '<p style="font-size:12px;color:var(--muted);">데이터 준비 중입니다.</p>';
 
   /* ---------- 고도화 ①~⑨ ---------- */
   const N = v => (v == null ? '-' : (+v).toLocaleString());
@@ -10299,7 +10276,7 @@ window.__renderPdfx = function(root, P){
   {
     const b = mk('⑫ 강사 겹침 지도', '우리 강사풀 × 경쟁사 강연자 이름 후보 · 로그인 뒤 화면 · 동명이인 가능 - 확인 후 활용');
     const POOL = window.__POOL || null, PE = (PP && PP.people) || null;
-    if (!POOL || !PE) { b.innerHTML = '<p style="font-size:12px;color:var(--muted);">강사풀 또는 경쟁사 이름 후보가 아직 없습니다(배포 때 자동 복호화).</p>'; }
+    if (!POOL || !PE) { b.innerHTML = '<p style="font-size:12px;color:var(--muted);">강사풀 또는 경쟁사 이름 후보가 아직 없습니다.</p>'; }
     else {
       const idx = {}; (POOL.all || []).forEach(a => { idx[a[0]] = {aff: a[1], tier: a[2], lv: a[3], total: a[6], main: a[7]}; });
       (POOL.core || []).forEach(c => { idx[c.name] = Object.assign(idx[c.name] || {}, {core: c.field}); });

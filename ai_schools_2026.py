@@ -65,7 +65,7 @@ def main():
         status.append({"region": r[0], "ai_moe": r[1] if isinstance(r[1], int) else None, "ai_got": r[2] or 0,
                        "ai_open": r[4] == "공개", "dig_announced": r[5] if isinstance(r[5], int) else None,
                        "dig_got": r[6] or 0, "dig_open": r[7] == "공개", "note": r[9] or ""})
-    out = {"source": "각 시도교육청 누리집 공개 선정 명단(2026) · 연락처: 나이스 교육정보 개방포털 학교기본정보(2026.10 조회)",
+    out = {"source": "각 시도교육청 공개 선정 명단(2026) · 연락처 2026.10 기준",
            "captured": "2026-10", "xlsx": "ai_schools_2026.xlsx", "status": status, "schools": rows}
     OUT.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     n_ai = sum("AI 중점" in s["사업"] for s in rows)

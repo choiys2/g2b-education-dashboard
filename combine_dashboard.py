@@ -637,6 +637,18 @@ def _ph_key():
     print("사용 분석(PostHog):", "설정됨" if ok else ("형식 오류" if k else "미설정"))
     return k if ok else None
 
+def strip_dev_comments(html):
+    """배포본에서 개발 주석을 걷어낸다(제작·수집 방식 비노출, CLAUDE.md '방법론 비노출').
+    데이터 치환 전 템플릿에만 적용. 안전하게 '줄 전체가 주석'인 경우만 지운다:
+    HTML <!-- --> (조건부 주석 제외), 줄 첫머리에서 시작하는 /* ... */ 블록, 줄 전체 // 주석."""
+    import re as _re
+    html = _re.sub(r"<!--(?!\[)(?!__)(?:(?!-->).)*-->", "", html, flags=_re.S)
+    html = _re.sub(r"(?m)^[ \t]*/\*(?:(?!\*/).)*\*/[ \t]*$\n?", "", html, flags=_re.S)
+    html = _re.sub(r"(?m)^[ \t]*//(?!/).*$\n?", "", html)
+    html = _re.sub(r"""(?m)([;,{}\)\]])[ \t]+// [^\n`'"]*$""", r"\1", html)   # 코드 뒤 꼬리 주석(따옴표 없는 것만)
+    return html
+
+
 def main():
     template_path = sys.argv[1] if len(sys.argv) > 1 else "dashboard_template.html"
     out_path = sys.argv[2] if len(sys.argv) > 2 else "live/neis_dashboard_full.html"
@@ -813,7 +825,7 @@ def main():
     except Exception as e:
         print(f"[경고] owner_pack 저장 실패: {str(e)[:120]}")
 
-    html = open(template_path, encoding="utf-8").read()
+    html = strip_dev_comments(open(template_path, encoding="utf-8").read())
     subs = {
         "__DATA_JSON__": data_rows, "__TOTALS_JSON__": totals, "__AI_ROWS_JSON__": ai_rows,
         "__LEADING_ROWS_JSON__": leading_rows, "__LEADING_BY_REGION_JSON__": leading_by_region,

@@ -20,3 +20,5 @@ jobs:
           python-version: "3.12"
       - name: 비밀값·개인정보 점검
         run: python security_check.py repo
+      - name: 방법론 비노출 점검(공개 화면 문구, 경고만)
+        run: python method_leak_check.py dashboard_template.html

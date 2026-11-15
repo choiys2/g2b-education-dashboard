@@ -105,7 +105,7 @@ def main():
             {"at": now, "places": n, "by_region": {k: len(v) for k, v in regions.items()}, "errors": errors[:10]},
             ensure_ascii=False, indent=1), encoding="utf-8")
         if n:
-            data = {"generated": now, "source": "한국관광공사 국문 관광정보 서비스(공공데이터포털)", "regions": regions,
+            data = {"generated": now, "source": "한국관광공사 관광정보", "regions": regions,
                     "errors": errors[:20]}
             CACHE.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
         elif prev:

@@ -85,7 +85,7 @@ def main():
     if not out and OUT.exists():
         print("수집 0건 - 이전 파일 유지")
         return 0
-    OUT.write_text(json.dumps({"generated": date.today().isoformat(), "source": "나이스 교육정보 개방포털 학원교습소정보(개원)",
+    OUT.write_text(json.dumps({"generated": date.today().isoformat(), "source": "학원·교습소 개원 정보",
                                "total": total, "rows": out, "diag": diag[:20], "sec": round(time.time() - t0)},
                               ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"학원·교습소 {total}곳 · 시군구 {len(out)} · 진단 {len(diag)}")
