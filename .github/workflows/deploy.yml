@@ -417,6 +417,11 @@ jobs:
             echo "비공개 저장소 내려받기 실패(토큰 권한·저장소 이름 확인)"
           fi
 
+      # 교육청 2027 정책 신호 누적(레이더 수집본 재분류 - 외부 호출 없음, 관리 탭 '교육청 인사이트'용)
+      - name: 교육청 정책 신호 누적
+        continue-on-error: true
+        run: python edu_office_signals.py
+
       - name: 통합 대시보드 조합
         id: combine
         continue-on-error: true
@@ -428,6 +433,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # 교사 트렌드 2027 키워드 작명(주 1회 캐시)
           STRATEGY_KEY: ${{ secrets.STRATEGY_KEY }}   # 에듀테크 전략 브리핑 복호화(암호문만 저장소에)
           INSTRUCTOR_POOL_URL: ${{ secrets.INSTRUCTOR_POOL_URL || vars.INSTRUCTOR_POOL_URL }}   # 강사풀 버튼 링크(공개 저장소에 주소를 두지 않음)
+          POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}   # 사용 분석 수집(공개 쓰기 전용 키, 탭 이름만)
+          POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}   # 사용 분석 조회(읽기 전용, 관리 탭 표)
+          POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID }}
         run: python combine_dashboard.py dashboard_template.html live/neis_dashboard_full.html
 
       # Gemini로 '오늘의 AI 브리핑' 생성 후 대시보드를 한 번 더 조합(조합 결과를 입력으로 쓰기 때문)
@@ -443,6 +451,9 @@ jobs:
           ADMIN_LINKS: ${{ secrets.ADMIN_LINKS }}   # 관리 탭 바로가기(주소는 시크릿에만)
           STRATEGY_KEY: ${{ secrets.STRATEGY_KEY }}   # 재조합 때도 전략 브리핑 복호화
           INSTRUCTOR_POOL_URL: ${{ secrets.INSTRUCTOR_POOL_URL || vars.INSTRUCTOR_POOL_URL }}
+          POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}   # 사용 분석 수집(공개 쓰기 전용 키, 탭 이름만)
+          POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}   # 사용 분석 조회(읽기 전용, 관리 탭 표)
+          POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID }}
         run: |
           # 스크립트마다 시간 상한을 둬 한 곳의 과부하 재시도가 다른 해석을 막지 않게 한다(중요한 순서대로)
           timeout 180 python ai_insights.py live/ai_insights.json || true
@@ -554,6 +565,7 @@ jobs:
       # 대시보드 본체는 이메일 로그인(Cloudflare Access) 뒤에만 둔다: 누가 언제 열었는지 이메일 단위로 기록된다
       - name: Cloudflare Pages 배포 (Access 로그인)
         if: steps.healthcheck.outputs.healthy == 'true'
+        id: cfdeploy
         timeout-minutes: 6
         continue-on-error: true
         env:
@@ -570,6 +582,26 @@ jobs:
         run: |
           python gh_public_site.py _gh _site/news _site/api _site/widget _site/full/calendar.ics
           python add_noindex.py _gh
+
+      # 수집 장애 감시(B1): 핵심 단계 결과를 history/pipeline_watch.jsonl 에 남기고 Sentry 크론 감시에 체크인(실패·미실행 시 메일)
+      - name: 수집 장애 감시
+        if: always()
+        continue-on-error: true
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          QUICK: ${{ steps.q.outputs.quick }}
+          HEALTHY: ${{ steps.fresh.outputs.healthy }}
+          COMBINE: ${{ steps.combine.outcome }}
+          CFDEPLOY: ${{ steps.cfdeploy.outcome }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          python pipeline_watch.py
+          if [ "$QUICK" != "true" ]; then
+            git config user.name "github-actions[bot]"; git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add history/pipeline_watch.jsonl history/edu_office_signals.jsonl 2>/dev/null || true
+            git diff --cached --quiet || git commit -q -m "chore: 수집 감시·교육청 신호 $(TZ=Asia/Seoul date +%F)"
+            for i in 1 2 3; do git pull -q --rebase origin main && git push -q && break; sleep 5; done || true
+          fi
 
       - uses: actions/upload-pages-artifact@v3
         with:

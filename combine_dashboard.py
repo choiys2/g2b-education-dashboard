@@ -627,6 +627,16 @@ def _sheets_ops():
     return d
 
 
+
+def _ph_key():
+    """대시보드 사용 분석 키(POSTHOG_KEY, 공개 쓰기 전용 프로젝트 키) - 형식 검사 후에만 화면에 넣는다. 로그에는 설정 여부만."""
+    import os
+    import re as _re
+    k = os.environ.get("POSTHOG_KEY", "").strip()
+    ok = bool(_re.fullmatch(r"phc_[A-Za-z0-9]{20,}", k))
+    print("사용 분석(PostHog):", "설정됨" if ok else ("형식 오류" if k else "미설정"))
+    return k if ok else None
+
 def main():
     template_path = sys.argv[1] if len(sys.argv) > 1 else "dashboard_template.html"
     out_path = sys.argv[2] if len(sys.argv) > 2 else "live/neis_dashboard_full.html"
@@ -858,6 +868,7 @@ def main():
         "__OWNER_JSON__": owner_blob,
         "__WF_BADGES_JSON__": __import__("workflows").badge_map(),
         "__ADMIN_JSON__": __import__("admin_structure").encrypted_blob((exec_data or {}).get("sources")),
+        "__PH_KEY_JSON__": json.dumps(_ph_key()),
         "__EDU_CNTR_JSON__": __import__("edu_contracts").build(),
         "__NETI_JSON__": __import__("neti_view").build(),
         "__KERIS_JSON__": __import__("keris_view").build(),
@@ -895,7 +906,7 @@ def main():
 
     # 데이터 팩(data_pack.py → 비공개 저장소)용: 화면에 넣은 데이터 그대로. 암호문·배지는 제외. live/ 는 gitignore·사이트 미복사
     try:
-        skip = {"__TEACHER_ECO_PEOPLE_JSON__", "__PDF_JSON__", "__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__BOOT_LOGO_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
+        skip = {"__PH_KEY_JSON__", "__TEACHER_ECO_PEOPLE_JSON__", "__PDF_JSON__", "__POOL_URL_JSON__", "__EXT_LINKS_JSON__", "__BOOT_LOGO_JSON__", "__POOL_PEOPLE_JSON__", "__BRANCH_JSON__", "__BRANCH_GEO_JSON__", "__ADOPTION_JSON__", "__AIEP_JSON__", "__INDUSTRY_JSON__", "__ECOSYSTEM_JSON__", "__BRAND_LOGOS_JSON__", "__OWNER_JSON__", "__ADMIN_JSON__", "__WF_BADGES_JSON__", "__AI_DRAFTS_JSON__", "__DAILY_JSON__"}
         with open("live/data_pack_raw.json", "w", encoding="utf-8") as f:
             json.dump({k: v for k, v in subs.items() if k not in skip}, f, ensure_ascii=False, default=str)
     except Exception as e:

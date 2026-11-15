@@ -2711,6 +2711,22 @@ const OPS = __OPS_JSON__;
 const EDU_CNTR = __EDU_CNTR_JSON__;
 const VIZ = __VIZ_JSON__;
 const ADMIN = __ADMIN_JSON__;
+// 대시보드 사용 분석(B4): 탭 이름·임시 세션 번호만 PostHog 로 보낸다(이메일·이름·입력값·화면 녹화 없음, 사람 프로필 생성 안 함). 키는 배포 때 시크릿에서만.
+const PH_KEY = __PH_KEY_JSON__;
+(function(){
+  if (typeof PH_KEY !== 'string' || !/^phc_[A-Za-z0-9]{20,}$/.test(PH_KEY)) return;
+  let sid;
+  try { sid = sessionStorage.getItem('vs_sid'); if (!sid) { sid = Math.random().toString(36).slice(2, 12); sessionStorage.setItem('vs_sid', sid); } }
+  catch (e) { sid = 'x' + Math.random().toString(36).slice(2, 10); }
+  const URL_ = 'https://us.i.posthog.com/i/v0/e/';
+  window.__phTab = function(tab){
+    try {
+      const body = JSON.stringify({api_key: PH_KEY, event: 'tab_view', distinct_id: sid, properties: {tab: String(tab).slice(0, 40), sid: sid, $process_person_profile: false}});
+      if (navigator.sendBeacon) navigator.sendBeacon(URL_, new Blob([body], {type: 'application/json'}));
+      else fetch(URL_, {method: 'POST', body: body, headers: {'Content-Type': 'application/json'}, keepalive: true});
+    } catch (e) {}
+  };
+})();
 const PDFX = __PDF_JSON__;  // 관리 > 전략 실행판(관리 비밀번호 암호문, 내용·용어는 암호문 안에만)
 const G2B_STALE = __G2B_STALE_JSON__;  // 나라장터 API 장애로 이전 정상 수집분을 쓴 날만 값이 있다
 (function g2bStaleNote(){
@@ -2798,6 +2814,7 @@ function activateTab(tabName){
   document.querySelectorAll('.tabpanel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active'); btn.setAttribute('aria-selected','true');
   panel.classList.add('active');
+  try { if (window.__phTab) window.__phTab(tabName); } catch (e) {}
   return true;
 }
 document.querySelectorAll('.tabbtn').forEach(btn => {
