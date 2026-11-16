@@ -1,5 +1,5 @@
 {
- "captured_date": "2026-11-15",
+ "captured_date": "2026-11-16",
  "malls": {
   "teachermall": {
    "name": "티처몰",
@@ -88,11 +88,20 @@
      "badges": []
     },
     {
+     "no": "1210426",
+     "name": "[티처몰ONLY] AI NFC LP 키링 ★ 바로 배송 ★",
+     "price": 2600,
+     "orig": 3000,
+     "rank": 8,
+     "score": null,
+     "badges": []
+    },
+    {
      "no": "1198644",
      "name": "[티처몰ONLY] 신호등 4색볼펜",
      "price": 2000,
      "orig": 2500,
-     "rank": 8,
+     "rank": 9,
      "score": null,
      "badges": [
       "badge07"
@@ -103,21 +112,12 @@
      "name": "[티처몰ONLY] 제이커스 종이 평화의 소녀상",
      "price": 1800,
      "orig": 2600,
-     "rank": 9,
+     "rank": 10,
      "score": null,
      "badges": [
       "badge03",
       "badge05"
      ]
-    },
-    {
-     "no": "1210426",
-     "name": "[티처몰ONLY] AI NFC LP 키링 ★ 바로 배송 ★",
-     "price": 2600,
-     "orig": 3000,
-     "rank": 10,
-     "score": null,
-     "badges": []
     },
     {
      "no": "1065945",
@@ -150,11 +150,22 @@
      "badges": []
     },
     {
+     "no": "1172954",
+     "name": "[티처몰ONLY] 바른글씨 교정 워크북",
+     "price": 2000,
+     "orig": null,
+     "rank": 14,
+     "score": null,
+     "badges": [
+      "badge05"
+     ]
+    },
+    {
      "no": "1070733",
      "name": "감사카드 편지쓰기 학교행사 엽서 카드 선플 [ 사랑마음감사카드 ] 봉투포함",
      "price": 250,
      "orig": 500,
-     "rank": 14,
+     "rank": 15,
      "score": null,
      "badges": []
     },
@@ -163,7 +174,7 @@
      "name": "세도나 아스타니들 3색 볼펜 0.7mm",
      "price": 640,
      "orig": 800,
-     "rank": 15,
+     "rank": 16,
      "score": null,
      "badges": []
     },
@@ -172,7 +183,7 @@
      "name": "1000 보바 웜하트 핫팩",
      "price": 1000,
      "orig": 4000,
-     "rank": 16,
+     "rank": 17,
      "score": null,
      "badges": []
     },
@@ -181,7 +192,7 @@
      "name": "금연 연필지우개(금연예방교육)",
      "price": 980,
      "orig": null,
-     "rank": 17,
+     "rank": 18,
      "score": null,
      "badges": []
     },
@@ -190,7 +201,7 @@
      "name": "보석십자수 크리스마스 카드",
      "price": 2000,
      "orig": null,
-     "rank": 18,
+     "rank": 19,
      "score": null,
      "badges": []
     },
@@ -199,20 +210,9 @@
      "name": "[요리하는떡카소] 크리스마스 루돌프 떡바 만들기 1인 KIT/올인원/상온보관/NO가열/요리활동/교육/돌봄/방과후",
      "price": 6000,
      "orig": null,
-     "rank": 19,
-     "score": null,
-     "badges": []
-    },
-    {
-     "no": "1172954",
-     "name": "[티처몰ONLY] 바른글씨 교정 워크북",
-     "price": 2000,
-     "orig": null,
      "rank": 20,
      "score": null,
-     "badges": [
-      "badge05"
-     ]
+     "badges": []
     },
     {
      "no": "1064135",
@@ -251,11 +251,29 @@
      "badges": []
     },
     {
+     "no": "1224433",
+     "name": "[매직북스] 네컷 만화 진로 직업 컬러링 도화지 4컷 책갈피",
+     "price": 250,
+     "orig": null,
+     "rank": 25,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1211717",
+     "name": "[티처몰ONLY] AI NFC 알림장 키링 만들기(NFC 스티커 포함)",
+     "price": 2000,
+     "orig": 2500,
+     "rank": 26,
+     "score": null,
+     "badges": []
+    },
+    {
      "no": "1215731",
      "name": "MBTI 키캡 클리커 만들기",
      "price": 4500,
      "orig": null,
-     "rank": 25,
+     "rank": 27,
      "score": null,
      "badges": [
       "badge04",
@@ -267,7 +285,7 @@
      "name": "500 먼작귀 복불복 지우개",
      "price": 500,
      "orig": null,
-     "rank": 26,
+     "rank": 28,
      "score": null,
      "badges": []
     },
@@ -276,16 +294,7 @@
      "name": "양양양 지우개 ( 2027년 양의해 지우개 ) 초등학교 행사 중학교 고등학교 메세지",
      "price": 1000,
      "orig": 1500,
-     "rank": 27,
-     "score": null,
-     "badges": []
-    },
-    {
-     "no": "1211717",
-     "name": "[티처몰ONLY] AI NFC 알림장 키링 만들기(NFC 스티커 포함)",
-     "price": 2000,
-     "orig": 2500,
-     "rank": 28,
+     "rank": 29,
      "score": null,
      "badges": []
     },
@@ -294,16 +303,30 @@
      "name": "[학생선물] 3색볼펜 파스텔 독일산 펜심+ 원하는 문구 인쇄 (30자루 부터 인쇄 됩니다.)",
      "price": 1300,
      "orig": 2000,
-     "rank": 29,
+     "rank": 30,
      "score": null,
      "badges": []
+    },
+    {
+     "no": "1164296",
+     "name": "[티처몰ONLY] 반짝반짝 수어 키링 만들기",
+     "price": 2500,
+     "orig": null,
+     "rank": 31,
+     "score": null,
+     "badges": [
+      "badge02",
+      "badge04",
+      "badge05",
+      "badge07"
+     ]
     },
     {
      "no": "1169951",
      "name": "아이들단체간식 초등 학생 구디백 답례품 포장",
      "price": 1120,
      "orig": 1580,
-     "rank": 30,
+     "rank": 32,
      "score": null,
      "badges": []
     },
@@ -312,7 +335,7 @@
      "name": "[티처몰ONLY] 생각 지우개 (재난 재해, 기후 위기, 학교 폭력)",
      "price": 500,
      "orig": 700,
-     "rank": 31,
+     "rank": 33,
      "score": null,
      "badges": [
       "badge05",
@@ -324,7 +347,7 @@
      "name": "내 마음대로 자석 이름표 (8종 택1)",
      "price": 1000,
      "orig": null,
-     "rank": 32,
+     "rank": 34,
      "score": null,
      "badges": []
     },
@@ -333,7 +356,7 @@
      "name": "금연 파스텔 지우개(흡연예방,금연교육)",
      "price": 1200,
      "orig": null,
-     "rank": 33,
+     "rank": 35,
      "score": null,
      "badges": []
     },
@@ -342,7 +365,7 @@
      "name": "얼렁뚱땅 MBTI st. 나를 소개해요",
      "price": 2000,
      "orig": null,
-     "rank": 34,
+     "rank": 36,
      "score": null,
      "badges": []
     },
@@ -351,7 +374,7 @@
      "name": "[아모스] 탱탱아이클레이 50g (15색 택1) - 37527",
      "price": 2500,
      "orig": 3000,
-     "rank": 35,
+     "rank": 37,
      "score": null,
      "badges": []
     },
@@ -360,7 +383,7 @@
      "name": "감사카드 친구사랑 편지쓰기 [특별한마음카드] 감사마음전하기 초등학교 중학교 고등학교",
      "price": 500,
      "orig": 800,
-     "rank": 36,
+     "rank": 38,
      "score": null,
      "badges": []
     },
@@ -369,7 +392,7 @@
      "name": "애플데이 친구사랑주간 간식 행사선물 [ 고미사 젤리포장 ] 고마워 미안해 사랑해",
      "price": 700,
      "orig": 900,
-     "rank": 37,
+     "rank": 39,
      "score": null,
      "badges": []
     },
@@ -378,7 +401,7 @@
      "name": "[스테들러] 파스텔 문구세트 - 58191",
      "price": 6400,
      "orig": 8000,
-     "rank": 38,
+     "rank": 40,
      "score": null,
      "badges": []
     },
@@ -387,7 +410,7 @@
      "name": "[티처몰ONLY] 점자책갈피 세트(5종-옵션선택)",
      "price": 1800,
      "orig": 2500,
-     "rank": 39,
+     "rank": 41,
      "score": null,
      "badges": [
       "badge02",
@@ -400,7 +423,7 @@
      "name": "따뜻한 말한마디 스티커(2종 택1)",
      "price": 800,
      "orig": null,
-     "rank": 40,
+     "rank": 42,
      "score": null,
      "badges": []
     },
@@ -409,7 +432,7 @@
      "name": "롤링페이퍼 L홀더(3종택1)",
      "price": 900,
      "orig": null,
-     "rank": 41,
+     "rank": 43,
      "score": null,
      "badges": []
     },
@@ -418,16 +441,29 @@
      "name": "독서 독서행사 도서관의날 [ 책친구 공책 (1권.23줄) ] 세계책의날",
      "price": 1000,
      "orig": 1500,
-     "rank": 42,
+     "rank": 44,
      "score": null,
      "badges": []
+    },
+    {
+     "no": "916189",
+     "name": "[티처몰ONLY] 나만의 다용도 가림막 - 예약판매 11월 26일부터 순차발송",
+     "price": 1600,
+     "orig": 2000,
+     "rank": 45,
+     "score": null,
+     "badges": [
+      "badge03",
+      "badge05",
+      "badge07"
+     ]
     },
     {
      "no": "1188922",
      "name": "[피너츠] 피너츠 스누피 단어장",
      "price": 4000,
      "orig": null,
-     "rank": 43,
+     "rank": 46,
      "score": null,
      "badges": []
     },
@@ -436,16 +472,27 @@
      "name": "[티처몰ONLY] AI NFC 명함 만들기(진로교육) ★ 바로 배송 ★",
      "price": 2500,
      "orig": 3000,
-     "rank": 44,
+     "rank": 47,
      "score": null,
      "badges": []
+    },
+    {
+     "no": "1198262",
+     "name": "[티처몰ONLY] 딱! 붙는 컬러마커펜",
+     "price": 300,
+     "orig": 400,
+     "rank": 48,
+     "score": null,
+     "badges": [
+      "badge07"
+     ]
     },
     {
      "no": "1093840",
      "name": "디지털 시민의식 톡톡 (2종 택1)",
      "price": 2000,
      "orig": null,
-     "rank": 45,
+     "rank": 49,
      "score": null,
      "badges": []
     },
@@ -454,25 +501,7 @@
      "name": "간식 보석십자수 키링(6종택1)",
      "price": 2800,
      "orig": null,
-     "rank": 46,
-     "score": null,
-     "badges": []
-    },
-    {
-     "no": "1136394",
-     "name": "학급 운동회 체육대회 행사 간식세트 개별포장 답례품",
-     "price": 3900,
-     "orig": 4500,
-     "rank": 47,
-     "score": null,
-     "badges": []
-    },
-    {
-     "no": "1102975",
-     "name": "압화스티커 엽서 만들기",
-     "price": 1800,
-     "orig": null,
-     "rank": 48,
+     "rank": 50,
      "score": null,
      "badges": []
     },
@@ -481,18 +510,36 @@
      "name": "[티처몰ONLY] 글똥누기 수첩",
      "price": 1700,
      "orig": 2000,
-     "rank": 49,
+     "rank": 51,
      "score": null,
      "badges": [
       "badge05"
      ]
     },
     {
+     "no": "1136394",
+     "name": "학급 운동회 체육대회 행사 간식세트 개별포장 답례품",
+     "price": 3900,
+     "orig": 4500,
+     "rank": 52,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1102975",
+     "name": "압화스티커 엽서 만들기",
+     "price": 1800,
+     "orig": null,
+     "rank": 53,
+     "score": null,
+     "badges": []
+    },
+    {
      "no": "1098918",
      "name": "애플데이 [ 맛있는사과볼펜 ] 친구사랑주간 중학교 고등학교 행사 위클래스",
      "price": 800,
      "orig": 1300,
-     "rank": 50,
+     "rank": 54,
      "score": null,
      "badges": []
     },
@@ -501,7 +548,7 @@
      "name": "스티커책갈피만들기(6종 택1)",
      "price": 1500,
      "orig": null,
-     "rank": 51,
+     "rank": 55,
      "score": null,
      "badges": []
     },
@@ -510,7 +557,7 @@
      "name": "크리스마스 카드 보석십자수 DIY(3종택1)",
      "price": 2200,
      "orig": 2500,
-     "rank": 52,
+     "rank": 56,
      "score": null,
      "badges": []
     },
@@ -519,7 +566,7 @@
      "name": "독도사랑 보석십자수 키링",
      "price": 2800,
      "orig": null,
-     "rank": 53,
+     "rank": 57,
      "score": null,
      "badges": []
     },
@@ -528,7 +575,7 @@
      "name": "[티처몰ONLY] 내 마음을 알고 싶어! 감정일기 공책",
      "price": 2000,
      "orig": 2500,
-     "rank": 54,
+     "rank": 58,
      "score": null,
      "badges": [
       "badge05"
@@ -539,7 +586,7 @@
      "name": "초성 키캡 클리커 만들기",
      "price": 5000,
      "orig": null,
-     "rank": 55,
+     "rank": 59,
      "score": null,
      "badges": []
     },
@@ -548,7 +595,7 @@
      "name": "시험선물 수능 단체간식세트 과자꾸러미 응원 답례품",
      "price": 4200,
      "orig": 4600,
-     "rank": 56,
+     "rank": 60,
      "score": null,
      "badges": []
     },
@@ -557,7 +604,7 @@
      "name": "간식구디백 크리스마스 손잡이 긴 상자 학생 선물 과자세트",
      "price": 4730,
      "orig": 7240,
-     "rank": 57,
+     "rank": 61,
      "score": null,
      "badges": []
     },
@@ -566,23 +613,10 @@
      "name": "[티처몰ONLY] 독서 영수증 노트 2종 (기본편, 심화편)",
      "price": 2500,
      "orig": 3000,
-     "rank": 58,
+     "rank": 62,
      "score": null,
      "badges": [
       "badge05"
-     ]
-    },
-    {
-     "no": "916189",
-     "name": "[티처몰ONLY] 나만의 다용도 가림막 - 예약판매 11월 26일부터 순차발송",
-     "price": 1600,
-     "orig": 2000,
-     "rank": 59,
-     "score": null,
-     "badges": [
-      "badge03",
-      "badge05",
-      "badge07"
      ]
     },
     {
@@ -590,30 +624,36 @@
      "name": "학생 졸업 입학 방학 선물 간식꾸러미 구디백 실속간식",
      "price": 2300,
      "orig": 3230,
-     "rank": 60,
+     "rank": 63,
      "score": null,
      "badges": []
     },
     {
-     "no": "1164296",
-     "name": "[티처몰ONLY] 반짝반짝 수어 키링 만들기",
+     "no": "1182254",
+     "name": "[티처몰ONLY] 190일 한자노트",
      "price": 2500,
      "orig": null,
-     "rank": 61,
+     "rank": 64,
      "score": null,
      "badges": [
-      "badge02",
-      "badge04",
-      "badge05",
-      "badge07"
+      "badge05"
      ]
+    },
+    {
+     "no": "1033146",
+     "name": "[키즈티처몰ONLY] 택교수의 글자놀이통장 공책 (유치원용)",
+     "price": 2200,
+     "orig": 2500,
+     "rank": 65,
+     "score": null,
+     "badges": []
     },
     {
      "no": "1190682",
      "name": "직업이 궁금해요! 연필꽂이 만들기(디자인 15종 택 1)",
      "price": 5800,
      "orig": null,
-     "rank": 62,
+     "rank": 66,
      "score": null,
      "badges": []
     },
@@ -622,7 +662,7 @@
      "name": "[아이비스] 한문노트 (색상선택)",
      "price": 800,
      "orig": 1000,
-     "rank": 63,
+     "rank": 67,
      "score": null,
      "badges": []
     },
@@ -631,7 +671,7 @@
      "name": "애플데이 행사 친구사랑주간 엽서 카드 [ 사과카드 ] 봉투포함 . 학교이름인쇄",
      "price": 300,
      "orig": 500,
-     "rank": 64,
+     "rank": 68,
      "score": null,
      "badges": []
     },
@@ -640,7 +680,7 @@
      "name": "[우리아이선물용품] 행사간식선물 33호 [C24][무료라벨,선물포장]",
      "price": 2000,
      "orig": 2200,
-     "rank": 65,
+     "rank": 69,
      "score": null,
      "badges": []
     },
@@ -649,7 +689,7 @@
      "name": "[아트필드] 카피바라 베스트 문구세트 - 58239",
      "price": 5000,
      "orig": 10000,
-     "rank": 66,
+     "rank": 70,
      "score": null,
      "badges": []
     },
@@ -658,25 +698,30 @@
      "name": "금연 흔들이 핫팩(100g)",
      "price": 1200,
      "orig": null,
-     "rank": 67,
+     "rank": 71,
      "score": null,
      "badges": []
     },
     {
-     "no": "1033146",
-     "name": "[키즈티처몰ONLY] 택교수의 글자놀이통장 공책 (유치원용)",
-     "price": 2200,
-     "orig": 2500,
-     "rank": 68,
+     "no": "1124123",
+     "name": "[티처몰ONLY] 마음챙김 만들기 노트",
+     "price": 3500,
+     "orig": null,
+     "rank": 72,
      "score": null,
-     "badges": []
+     "badges": [
+      "badge03",
+      "badge04",
+      "badge05",
+      "badge07"
+     ]
     },
     {
      "no": "1226814",
      "name": "가을 원고지 투명 책갈피 만들기(낙엽, 독서)",
      "price": 1500,
      "orig": 2000,
-     "rank": 69,
+     "rank": 73,
      "score": null,
      "badges": []
     },
@@ -685,7 +730,7 @@
      "name": "[티처몰ONLY] 편견 휴지통 빗자루 세트",
      "price": 5500,
      "orig": 7000,
-     "rank": 70,
+     "rank": 74,
      "score": null,
      "badges": [
       "badge02",
@@ -698,7 +743,7 @@
      "name": "[티처몰ONLY] 바르게써요 바른글씨 공책_1학년1학기/2학년 1학기용 (2022 개정교과반영)",
      "price": 2000,
      "orig": null,
-     "rank": 71,
+     "rank": 75,
      "score": null,
      "badges": [
       "badge05"
@@ -709,7 +754,7 @@
      "name": "[티처몰 만년도장]신 양면결재용도장 B형",
      "price": 11000,
      "orig": 16500,
-     "rank": 72,
+     "rank": 76,
      "score": null,
      "badges": []
     },
@@ -718,7 +763,7 @@
      "name": "1100 충성 핫팩 보온대",
      "price": 1100,
      "orig": null,
-     "rank": 73,
+     "rank": 77,
      "score": null,
      "badges": []
     },
@@ -727,7 +772,7 @@
      "name": "[티처몰ONLY] 바른글씨 삼각연필",
      "price": 4500,
      "orig": 5000,
-     "rank": 74,
+     "rank": 78,
      "score": null,
      "badges": [
       "badge05"
@@ -738,7 +783,7 @@
      "name": "[매직북스] 볼펜 환경교육 북극곰 멸종위기동물 젤펜 선물 문구세트 S02",
      "price": 1500,
      "orig": null,
-     "rank": 75,
+     "rank": 79,
      "score": null,
      "badges": []
     },
@@ -747,7 +792,7 @@
      "name": "두두엠 병풍포일아트 / 세계전통의상",
      "price": 1800,
      "orig": 2500,
-     "rank": 76,
+     "rank": 80,
      "score": null,
      "badges": []
     },
@@ -756,7 +801,7 @@
      "name": "[티처몰ONLY] 플로깅 교구",
      "price": 6000,
      "orig": 8500,
-     "rank": 77,
+     "rank": 81,
      "score": null,
      "badges": [
       "badge04",
@@ -769,7 +814,7 @@
      "name": "[펠트친구] PVC 지퍼백 [3380]",
      "price": 80,
      "orig": null,
-     "rank": 78,
+     "rank": 82,
      "score": null,
      "badges": []
     },
@@ -778,7 +823,7 @@
      "name": "학생 과자세트 기말 시험 응원간식 손잡이 상자",
      "price": 3440,
      "orig": 5100,
-     "rank": 79,
+     "rank": 83,
      "score": null,
      "badges": []
     },
@@ -787,7 +832,7 @@
      "name": "간식답례품 금연교육 노담 응원 간식 꾸러미 포장",
      "price": 1410,
      "orig": 2200,
-     "rank": 80,
+     "rank": 84,
      "score": null,
      "badges": []
     },
@@ -796,7 +841,7 @@
      "name": "수어 투명 책갈피",
      "price": 1500,
      "orig": null,
-     "rank": 81,
+     "rank": 85,
      "score": null,
      "badges": []
     },
@@ -805,7 +850,7 @@
      "name": "독서 도서관의날 책의날 독서행사 [책볼펜]",
      "price": 800,
      "orig": 1300,
-     "rank": 82,
+     "rank": 86,
      "score": null,
      "badges": []
     },
@@ -814,7 +859,7 @@
      "name": "[티처몰ONLY]우리반 필수템 만들기 키트 \"림키트\" 시리즈 8종(설명지&활동지)",
      "price": 1750,
      "orig": 4500,
-     "rank": 83,
+     "rank": 87,
      "score": null,
      "badges": [
       "badge03",
@@ -826,7 +871,7 @@
      "name": "생일선물 체육대회 학급 선물 [ 양말 + 간식 선물 ] 졸업 초등학교 중학교 고등학교",
      "price": 3800,
      "orig": 4500,
-     "rank": 84,
+     "rank": 88,
      "score": null,
      "badges": []
     },
@@ -835,7 +880,7 @@
      "name": "[양초공예] 동물나라 루돌프 양초 만들기",
      "price": 2860,
      "orig": null,
-     "rank": 85,
+     "rank": 89,
      "score": null,
      "badges": []
     },
@@ -844,7 +889,7 @@
      "name": "금연클리닉지압패치세트",
      "price": 1200,
      "orig": null,
-     "rank": 86,
+     "rank": 90,
      "score": null,
      "badges": []
     },
@@ -853,7 +898,7 @@
      "name": "자석 책갈피(친구사랑,자존감,인성) 3종 택1",
      "price": 1000,
      "orig": null,
-     "rank": 87,
+     "rank": 91,
      "score": null,
      "badges": []
     },
@@ -862,7 +907,7 @@
      "name": "감정 일기장 X 이네쌤 초등학교 일기장 마음수업 감정단어 노트 공책 그림일기",
      "price": 2900,
      "orig": 3000,
-     "rank": 88,
+     "rank": 92,
      "score": null,
      "badges": []
     },
@@ -871,7 +916,7 @@
      "name": "책사랑 아크릴 무드등 반짝등 (영상 도안 제공)",
      "price": 3500,
      "orig": 4200,
-     "rank": 89,
+     "rank": 93,
      "score": null,
      "badges": []
     },
@@ -880,7 +925,7 @@
      "name": "[주문제작] 네임 컴퓨터용 사인펜 (문구인쇄 행사선물)",
      "price": 600,
      "orig": 1000,
-     "rank": 90,
+     "rank": 94,
      "score": null,
      "badges": []
     },
@@ -889,52 +934,9 @@
      "name": "[하하당] 크리스마스 책갈피 (2종 택1)",
      "price": 1500,
      "orig": 2400,
-     "rank": 91,
-     "score": null,
-     "badges": []
-    },
-    {
-     "no": "1198262",
-     "name": "[티처몰ONLY] 딱! 붙는 컬러마커펜",
-     "price": 300,
-     "orig": 400,
-     "rank": 92,
-     "score": null,
-     "badges": [
-      "badge07"
-     ]
-    },
-    {
-     "no": "1201401",
-     "name": "[하하당] 나만의 자개 이름표 필통",
-     "price": 2800,
-     "orig": 4500,
-     "rank": 93,
-     "score": null,
-     "badges": []
-    },
-    {
-     "no": "1182254",
-     "name": "[티처몰ONLY] 190일 한자노트",
-     "price": 2500,
-     "orig": null,
-     "rank": 94,
-     "score": null,
-     "badges": [
-      "badge05"
-     ]
-    },
-    {
-     "no": "1137438",
-     "name": "[티처몰PLUS] 북극곰이 위험해! 주문제작 지우개(대)",
-     "price": 1000,
-     "orig": 1250,
      "rank": 95,
      "score": null,
-     "badges": [
-      "badge06",
-      "badge07"
-     ]
+     "badges": []
     },
     {
      "no": "936698",
@@ -948,11 +950,32 @@
      ]
     },
     {
+     "no": "1201401",
+     "name": "[하하당] 나만의 자개 이름표 필통",
+     "price": 2800,
+     "orig": 4500,
+     "rank": 97,
+     "score": null,
+     "badges": []
+    },
+    {
+     "no": "1137438",
+     "name": "[티처몰PLUS] 북극곰이 위험해! 주문제작 지우개(대)",
+     "price": 1000,
+     "orig": 1250,
+     "rank": 98,
+     "score": null,
+     "badges": [
+      "badge06",
+      "badge07"
+     ]
+    },
+    {
      "no": "983108",
      "name": "[티처몰ONLY] 책과 놀아요 노트 (독서록/독서노트)",
      "price": 2000,
      "orig": 2500,
-     "rank": 97,
+     "rank": 99,
      "score": null,
      "badges": [
       "badge05"
@@ -963,37 +986,19 @@
      "name": "[티처몰ONLY] 3초 멈춤 지우개",
      "price": 1200,
      "orig": 2000,
-     "rank": 98,
+     "rank": 100,
      "score": null,
      "badges": [
       "badge04",
       "badge07"
      ]
-    },
-    {
-     "no": "1112260",
-     "name": "[두두엠] 미니 크리스마스 트리 만들기",
-     "price": 3200,
-     "orig": 5000,
-     "rank": 99,
-     "score": null,
-     "badges": []
-    },
-    {
-     "no": "1101762",
-     "name": "외부 강사 초청 세미나 단체 간식 선물 푸짐 과자 꾸러미 세트",
-     "price": 2710,
-     "orig": 3100,
-     "rank": 100,
-     "score": null,
-     "badges": []
     }
    ],
    "categories": [
     {
      "code": "00010001",
      "name": "과목별교구",
-     "count": 10407,
+     "count": 10406,
      "top": [
       {
        "no": "1199418",
@@ -1998,7 +2003,7 @@
     {
      "code": "00010084",
      "name": "간식/선물",
-     "count": 28267,
+     "count": 28266,
      "top": [
       {
        "no": "983882",
@@ -2784,7 +2789,7 @@
      "name": "[티처몰ONLY]우리반 필수템 만들기 키트 \"림키트\" 시리즈 8종(설명지&활동지)",
      "price": 1750,
      "orig": 4500,
-     "rank": 83,
+     "rank": 87,
      "score": null,
      "badges": [
       "badge03",
@@ -2809,7 +2814,7 @@
      "name": "[티처몰ONLY] 점자책갈피 세트(5종-옵션선택)",
      "price": 1800,
      "orig": 2500,
-     "rank": 39,
+     "rank": 41,
      "score": null,
      "badges": [
       "badge02",
@@ -2840,7 +2845,7 @@
      "name": "[요리하는떡카소] 크리스마스 루돌프 떡바 만들기 1인 KIT/올인원/상온보관/NO가열/요리활동/교육/돌봄/방과후",
      "price": 6000,
      "orig": null,
-     "rank": 19,
+     "rank": 20,
      "score": null,
      "badges": []
     },
@@ -2849,7 +2854,7 @@
      "name": "[스테들러] 파스텔 문구세트 - 58191",
      "price": 6400,
      "orig": 8000,
-     "rank": 38,
+     "rank": 40,
      "score": null,
      "badges": []
     },
@@ -2858,7 +2863,7 @@
      "name": "학급 운동회 체육대회 행사 간식세트 개별포장 답례품",
      "price": 3900,
      "orig": 4500,
-     "rank": 47,
+     "rank": 52,
      "score": null,
      "badges": []
     },
@@ -2867,7 +2872,7 @@
      "name": "시험선물 수능 단체간식세트 과자꾸러미 응원 답례품",
      "price": 4200,
      "orig": 4600,
-     "rank": 56,
+     "rank": 60,
      "score": null,
      "badges": []
     },
@@ -2876,7 +2881,7 @@
      "name": "간식구디백 크리스마스 손잡이 긴 상자 학생 선물 과자세트",
      "price": 4730,
      "orig": 7240,
-     "rank": 57,
+     "rank": 61,
      "score": null,
      "badges": []
     },
@@ -2885,7 +2890,7 @@
      "name": "학생 졸업 입학 방학 선물 간식꾸러미 구디백 실속간식",
      "price": 2300,
      "orig": 3230,
-     "rank": 60,
+     "rank": 63,
      "score": null,
      "badges": []
     },
@@ -2894,7 +2899,7 @@
      "name": "[아트필드] 카피바라 베스트 문구세트 - 58239",
      "price": 5000,
      "orig": 10000,
-     "rank": 66,
+     "rank": 70,
      "score": null,
      "badges": []
     },
@@ -2903,7 +2908,7 @@
      "name": "[티처몰ONLY] 편견 휴지통 빗자루 세트",
      "price": 5500,
      "orig": 7000,
-     "rank": 70,
+     "rank": 74,
      "score": null,
      "badges": [
       "badge02",
@@ -2916,7 +2921,7 @@
      "name": "[매직북스] 볼펜 환경교육 북극곰 멸종위기동물 젤펜 선물 문구세트 S02",
      "price": 1500,
      "orig": null,
-     "rank": 75,
+     "rank": 79,
      "score": null,
      "badges": []
     },
@@ -2925,7 +2930,7 @@
      "name": "학생 과자세트 기말 시험 응원간식 손잡이 상자",
      "price": 3440,
      "orig": 5100,
-     "rank": 79,
+     "rank": 83,
      "score": null,
      "badges": []
     },
@@ -2934,7 +2939,7 @@
      "name": "간식답례품 금연교육 노담 응원 간식 꾸러미 포장",
      "price": 1410,
      "orig": 2200,
-     "rank": 80,
+     "rank": 84,
      "score": null,
      "badges": []
     },
@@ -2943,16 +2948,7 @@
      "name": "금연클리닉지압패치세트",
      "price": 1200,
      "orig": null,
-     "rank": 86,
-     "score": null,
-     "badges": []
-    },
-    {
-     "no": "1101762",
-     "name": "외부 강사 초청 세미나 단체 간식 선물 푸짐 과자 꾸러미 세트",
-     "price": 2710,
-     "orig": 3100,
-     "rank": 100,
+     "rank": 90,
      "score": null,
      "badges": []
     }
@@ -2961,10 +2957,9 @@
     "학교폭력",
     "독서활동",
     "기초학력",
-    "보드게임",
-    "독도",
     "연필 선물",
-    "크리스마스"
+    "보드게임",
+    "독도"
    ],
    "providers": [
     {
@@ -7088,9 +7083,9 @@
     {
      "no": "11487819",
      "name": "자이언트얀 위빙 크리스마스 도어벨 만들기 키트 산타 트리 DIY 1세트",
-     "price": 6900,
-     "orig": 10000,
-     "disc": 31,
+     "price": null,
+     "orig": null,
+     "disc": null,
      "seller": ""
     },
     {
@@ -7110,20 +7105,12 @@
      "seller": ""
     },
     {
-     "no": "11488959",
-     "name": "크리스마스 펠트 도어벨 만들기 3종 세트",
-     "price": 9500,
-     "orig": 13500,
-     "disc": 29,
-     "seller": "스콜라스"
-    },
-    {
-     "no": "1161136",
-     "name": "학예회 졸업 꽃한송이 선물 ( 비누꽃 퀸사이즈 장미 )",
-     "price": 4500,
-     "orig": 6000,
-     "disc": 25,
-     "seller": "파티콘"
+     "no": "11437355",
+     "name": "퀴즈 게임으로 즐거운 수업, 퀴즈독! (프로)",
+     "price": 4900,
+     "orig": null,
+     "disc": null,
+     "seller": ""
     },
     {
      "no": "11412111",
@@ -7220,6 +7207,14 @@
      "orig": null,
      "disc": null,
      "seller": "YSEM"
+    },
+    {
+     "no": "1179708",
+     "name": "지우개 너의 꿈을 응원 친구사랑 (주문제작 맞춤인쇄 7종 택1)",
+     "price": null,
+     "orig": null,
+     "disc": null,
+     "seller": "매직북스"
     }
    ],
    "pick": {
@@ -7232,22 +7227,10 @@
    },
    "trials": [
     {
-     "title": "크리스마스 펠트 도어벨 만들기 3종 세트",
-     "period": "2026-11-09 ~ 2026-11-16",
-     "n": 20,
-     "url": "https://i-screammall.co.kr/event/4182"
-    },
-    {
-     "title": "자이언트얀 위빙 크리스마스 도어벨 만들기 키트",
-     "period": "2026-11-09 ~ 2026-11-16",
-     "n": 10,
-     "url": "https://i-screammall.co.kr/event/4232"
-    },
-    {
-     "title": "학예회 졸업 꽃한송이 선물",
-     "period": "2026-11-09 ~ 2026-11-16",
-     "n": 10,
-     "url": "https://i-screammall.co.kr/event/4222"
+     "title": "퀴즈 게임으로 즐거운 수업, 퀴즈독! (프로)",
+     "period": "2026-11-16 ~ 2026-11-22",
+     "n": 30,
+     "url": "https://i-screammall.co.kr/event/4354"
     }
    ],
    "notices": [
@@ -7294,7 +7277,7 @@
     "\\\\",
     "\\\\"
    ],
-   "captured": "2026-11-15"
+   "captured": "2026-11-16"
   }
  },
  "seen": {
@@ -7670,6 +7653,8 @@
   "isc:1002161": "2026-11-15",
   "1182254": "2026-11-15",
   "1112260": "2026-11-15",
-  "1101762": "2026-11-15"
+  "1101762": "2026-11-15",
+  "isc:11437355": "2026-11-16",
+  "isc:1179708": "2026-11-16"
  }
 }
