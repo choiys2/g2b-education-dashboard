@@ -9,12 +9,12 @@
    },
    {
     "id": "lesson",
-    "score": 50,
+    "score": 49,
     "stage": "확산"
    },
    {
     "id": "subject",
-    "score": 46,
+    "score": 45,
     "stage": "성숙"
    },
    {
@@ -34,7 +34,7 @@
    },
    {
     "id": "care",
-    "score": 19,
+    "score": 20,
     "stage": "성숙"
    },
    {
@@ -89,7 +89,7 @@
    },
    {
     "id": "history",
-    "score": 7,
+    "score": 6,
     "stage": "부상"
    }
   ]
