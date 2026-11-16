@@ -1,6 +1,6 @@
 {
- "at": "2026-11-16 22:17",
- "places": 264,
+ "at": "2026-11-17 00:21",
+ "places": 263,
  "by_region": {
   "서울": 26,
   "부산": 16,
@@ -17,8 +17,12 @@
   "전북": 30,
   "전남": 28,
   "경북": 31,
-  "경남": 18,
+  "경남": 17,
   "제주": 17
  },
- "errors": []
+ "errors": [
+  "대구 연수원: <urlopen error _ssl.c:994: The handshake operation timed out>",
+  "전남 수련원: <urlopen error _ssl.c:994: The handshake operation timed out>",
+  "경남 수련원: <urlopen error _ssl.c:994: The handshake operation timed out>"
+ ]
 }
