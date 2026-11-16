@@ -120,5 +120,5 @@ def build(sec):
                 print(f"[경고] 경영 종합 전략 블록 건너뜀: {type(e).__name__}")
         inner = "".join(body)
         out.append(sec(E(s["title"]), E(s.get("desc", "")),
-                       f"<details{' open' if i < 2 else ''}><summary style='cursor:pointer;{NOTE}padding:2px 0;'>펼치기 · 접기</summary>{inner}</details>"))
+                       f"<details open><summary style='cursor:pointer;{NOTE}padding:2px 0;'>펼치기 · 접기</summary>{inner}</details>"))
     return "".join(out)
