@@ -766,6 +766,7 @@ document.addEventListener('click', function (e) {
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="biz2027">기업·대학 트렌드 2027</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="aiep">시도 AIEP</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
+    <a class="tablink" id="opsPlanLink" data-after="pipeline" href="#" target="_blank" rel="noopener noreferrer" hidden title="운영계획서(별도 페이지 · 초대된 계정만 열람)">운영계획서 ↗</a>
     <a class="tablink" id="reportLink" data-after="pipeline" href="#" target="_blank" rel="noopener noreferrer" hidden title="교육청 결과보고 자동화(별도 페이지 · 초대된 계정만 열람)">결과보고 ↗</a>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="branch">지역 총판</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="adopt">교과서 채택</button>
@@ -10031,8 +10032,10 @@ window.__renderPdfx = function(root, P){
 /* 결과보고 등 바깥 링크: 주소는 비공개 저장소(config/links.json)에서 배포 때만 넣는다 */
 (function extLinks(){
   const L = __EXT_LINKS_JSON__ || {};
-  const a = document.getElementById('reportLink'), u = L.report_auto;
-  if (a && typeof u === 'string' && /^https:\/\/claude\.ai\//.test(u)) { a.href = u; a.hidden = false; }
+  [['reportLink', 'report_auto'], ['opsPlanLink', 'ops_plan']].forEach(([id, k]) => {
+    const a = document.getElementById(id), u = L[k];
+    if (a && typeof u === 'string' && /^https:\/\/claude\.ai\//.test(u)) { a.href = u; a.hidden = false; }
+  });
 })();
 /* ---------------- 에듀테크 전략 브리핑(07:00, 6개 항목·표 중심) ---------------- */
 (function renderStrategy(){
