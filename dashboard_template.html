@@ -735,7 +735,7 @@ document.addEventListener('click', function (e) {
     <p class="sub">교사와 함께 성장하며, 비상의 모든 교육 서비스를 연결해 새로운 교육문화 혁신을 제안한다</p>
     <div class="meta-row">
       <span class="pill"><span class="dot"></span>기준일 <b id="mainUpdatedDate">2026-07-28</b></span>
-      <a class="pill" href="./weekly.html" target="_blank" rel="noopener" style="text-decoration:none;">🗓 주간 보고(최근 7일)</a>
+      <a class="pill" href="./weekly.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">🗓 주간 보고(최근 7일)</a>
     </div>
     <div class="head-search">
       <input id="globalSearch" class="search-box" type="search" placeholder="통합검색 — 예: 경기 AI 1억 이상 / 초등학교 로봇 / 아이스크림미디어" aria-label="통합검색">
@@ -867,7 +867,7 @@ document.addEventListener('click', function (e) {
     <div class="panel-head">
       <div>
         <p class="panel-title">교육 뉴스 · 조간 브리핑</p>
-        <p class="panel-desc">매일 아침 발행되는 조간 브리핑의 1면 헤드라인, 영업 토킹포인트, 분야별 기사입니다. 분야 칩으로 거르고, 아래에서 지난 호를 검색할 수 있습니다. <a href="../news/" target="_blank" rel="noopener" style="color:var(--accent);">신문 지면으로 보기 ↗</a></p>
+        <p class="panel-desc">매일 아침 발행되는 조간 브리핑의 1면 헤드라인, 영업 토킹포인트, 분야별 기사입니다. 분야 칩으로 거르고, 아래에서 지난 호를 검색할 수 있습니다. <a href="../news/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">신문 지면으로 보기 ↗</a></p>
       </div>
     </div>
     <div id="vedu-news" data-base="../api/news"></div>
@@ -1428,7 +1428,7 @@ document.addEventListener('click', function (e) {
       <div class="icon">i</div>
       <div>
         <h3>나라장터 자동화 프로젝트의 종합 B2G 대시보드를 그대로 가져왔습니다</h3>
-        <p>원본: <a href="../summary/" target="_blank" rel="noopener" style="color:var(--accent);">나라장터 요약 화면</a>. 이 탭은 &lsquo;연수&rsquo; 관련 전체 키워드(직무연수·역량강화·AI·원격연수·위탁교육 등, 총 427건)를 다루므로, AI 키워드만 좁혀서 본 &ldquo;AI·에듀테크 발주 리스트&rdquo; 탭과는 범위가 다릅니다 &mdash; 겹치는 기관·건도 있을 수 있습니다.</p>
+        <p>원본: <a href="../summary/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">나라장터 요약 화면</a>. 이 탭은 &lsquo;연수&rsquo; 관련 전체 키워드(직무연수·역량강화·AI·원격연수·위탁교육 등, 총 427건)를 다루므로, AI 키워드만 좁혀서 본 &ldquo;AI·에듀테크 발주 리스트&rdquo; 탭과는 범위가 다릅니다 &mdash; 겹치는 기관·건도 있을 수 있습니다.</p>
       </div>
     </div>
 
@@ -4017,7 +4017,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
     document.getElementById('bundleCount').textContent = `${fmt(current.length)}개`;
     document.querySelector('#bundleTable tbody').innerHTML = current.map(r => `<tr>
       <td><b>${h(r.co)}</b></td>
-      <td class="title"><a href="${h(r.url)}" target="_blank" rel="noopener" style="color:inherit;">${h(r.t)}</a></td>
+      <td class="title"><a href="${h(r.url)}" target="_blank" rel="noopener noreferrer" style="color:inherit;">${h(r.t)}</a></td>
       <td>${r.comps.map(c => `<span class="chip pre" style="margin:1px 3px 1px 0;">${h(c)}</span>`).join('')}</td>
       <td style="font-size:12.5px;">${h(r.cat || '-')}</td>
       <td style="font-size:12.5px;white-space:nowrap;">${h(r.credit || '-')}</td>
@@ -4334,7 +4334,7 @@ window.__ownerQ.push(function renderAiBrief(){
     ${f ? `<div><span class="fit fit-${FK(f.verdict)}">${h(f.verdict)}</span>${f.play !== '미상' ? `<span class="fit" style="background:var(--surface);border:1px solid var(--border);color:var(--ink-2);">${f.play === '기술' ? '기술점수 승부' : '가격 승부'}</span>` : ''}</div>
       ${(f.reasons || []).length || (f.ok || []).length ? `<div class="why">${[...(f.reasons || []).map(x => '⚠ ' + h(x)), ...(f.ok || []).map(x => '✓ ' + h(x))].join('<br>')}</div>` : ''}` : ''}
     ${r.go ? `<div style="margin:6px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><span class="fit" style="background:${r.go.label === '참여 권장' ? 'color-mix(in srgb, var(--good) 22%, transparent)' : r.go.label === '신중 검토' ? 'color-mix(in srgb, var(--warning) 22%, transparent)' : 'var(--surface-2)'};">${h(r.go.label)} ${r.go.score}</span><span style="font-size:11.5px;color:var(--ink-2);">${(r.go.reasons || []).map(h).join(' · ')}</span></div>` : ''}
-    <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)} ↗</a>` : h(r.t)}${r.k ? ` <button type="button" class="pill" data-draft="${h((r.k || '').split('-')[0])}" title="공고번호를 복사하고 제안서 초안 만들기를 엽니다. 결과는 비공개 저장소 proposals/" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}</div>
+    <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener noreferrer">${h(r.t)} ↗</a>` : h(r.t)}${r.k ? ` <button type="button" class="pill" data-draft="${h((r.k || '').split('-')[0])}" title="공고번호를 복사하고 제안서 초안 만들기를 엽니다. 결과는 비공개 저장소 proposals/" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}</div>
     <div class="m">${h(r.d)} · ${h(r.o)}${r.a ? ` · 예산 ${fmtWon(r.a)}` : ''}${r.doc ? ` · 문서: ${h(r.doc)}` : ''}</div>
     <dl>${[['대상', a.target], ['인원', a.headcount], ['운영', a.format], ['기간', a.period], ['시간', a.hours], ['평가', a.evaluation]]
       .filter(x => x[1]).map(x => `<dt>${x[0]}</dt><dd>${h(x[1])}</dd>`).join('')}</dl>
@@ -4374,7 +4374,7 @@ window.__ownerQ.push(function renderAiBrief(){
   const draw = () => {
     const rs = rows();
     tbody.innerHTML = rs.map(r => `<tr><td>${h(r.k)}</td><td><b>${h(r.n)}</b></td><td style="font-size:12px;">${h(r.addr)}</td><td style="white-space:nowrap;">${h(r.tel)}</td>
-      <td>${r.x && r.y ? `<a href="https://map.kakao.com/link/map/${encodeURIComponent(r.n)},${h(r.y)},${h(r.x)}" target="_blank" rel="noopener">카카오맵 ↗</a>` : '-'}</td></tr>`).join('')
+      <td>${r.x && r.y ? `<a href="https://map.kakao.com/link/map/${encodeURIComponent(r.n)},${h(r.y)},${h(r.x)}" target="_blank" rel="noopener noreferrer">카카오맵 ↗</a>` : '-'}</td></tr>`).join('')
       || '<tr><td colspan="5" style="color:var(--muted);">조건에 맞는 시설이 없습니다.</td></tr>';
   };
   sel.addEventListener('change', draw);
@@ -5003,7 +5003,7 @@ window.__ownerQ.push(function renderAiBrief(){
 
   /* 교사몰 상품 동향(티처몰 주 1회 수집 · 아이스크림몰은 한국 경유 Firecrawl, 키 없으면 지난 수집분) - B2S·샘몰 기획 탭, '② 샘몰 상품 기획 보드' 다음·협력사 리스트 앞 */
   const MALL = (COMPETITOR_TRAINING || {}).mall || {};
-  const mallLink = (no, n) => `<a href="${h((MALL.mall_url || '') + '/goods/view?no=' + no)}" target="_blank" rel="noopener">${h(n)}</a>`;
+  const mallLink = (no, n) => `<a href="${h((MALL.mall_url || '') + '/goods/view?no=' + no)}" target="_blank" rel="noopener noreferrer">${h(n)}</a>`;
   const mChip = (t, bg) => `<span style="display:inline-block;padding:2px 9px;margin:2px 4px 2px 0;border-radius:999px;font-size:12px;background:${bg || 'var(--surface-2)'};">${h(t)}</span>`;
   const prodCell = r => `<div style="display:flex;gap:8px;align-items:baseline;min-width:0;"><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${mallLink(r.no, r.n.replace(/^\[티처몰ONLY\]\s*/, '★ '))}</span><span class="num" style="color:var(--muted);white-space:nowrap;">${r.p != null ? r.p.toLocaleString() + '원' : ''}</span></div>`;
   const wonP = v => v != null ? v.toLocaleString() + '원' : '-';
@@ -5077,7 +5077,7 @@ window.__ownerQ.push(function renderAiBrief(){
       ${P.map(p => `<tr><td style="white-space:nowrap;"><b>${h(p.name)}</b>${p.kw.length ? `<div>${p.kw.map(k => mChip('#' + k, 'color-mix(in srgb, var(--accent) 16%, var(--surface-2))')).join('')}</div>` : ''}<div style="color:var(--muted);font-size:11px;">관련 인기 상품 ${p.n_prod}개</div></td>
         <td><div style="height:9px;background:var(--surface-2);border-radius:4px;"><div style="height:100%;width:${p.score / mx * 100}%;background:var(--accent);border-radius:4px;"></div></div><span class="num" style="font-size:11px;color:var(--muted);">${p.score}</span></td>
         <td>${p.products.slice(0, 3).map(r => `<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;">${mallLink(r.no, r.n.replace(/^\[티처몰ONLY\]\s*/, '★ '))} <span style="color:var(--muted);">${wonP(r.p)}</span></div>`).join('')}</td>
-        <td>${p.own.length ? p.own.slice(0, 2).map(c => `<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;">${c.url ? `<a href="${h(c.url)}" target="_blank" rel="noopener">${h(c.t)}</a>` : h(c.t)}</div>`).join('') + (p.own_n > 2 ? `<div style="color:var(--muted);font-size:11px;">외 ${p.own_n - 2}개</div>` : '') : '<span style="color:var(--danger, #d64545);">해당 과정 없음</span>'}</td>
+        <td>${p.own.length ? p.own.slice(0, 2).map(c => `<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;">${c.url ? `<a href="${h(c.url)}" target="_blank" rel="noopener noreferrer">${h(c.t)}</a>` : h(c.t)}</div>`).join('') + (p.own_n > 2 ? `<div style="color:var(--muted);font-size:11px;">외 ${p.own_n - 2}개</div>` : '') : '<span style="color:var(--danger, #d64545);">해당 과정 없음</span>'}</td>
         <td style="white-space:nowrap;">${p.gap ? mChip('과정 개발 후보', 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))') : mChip('SET 기획 후보', 'color-mix(in srgb, #10b981 22%, var(--surface-2))')}</td></tr>`).join('')}
     </tbody></table></div>${so(`상위 3개 주제(${P.slice(0, 3).map(p => p.name).join(' · ')})는 교사 구매가 이미 일어나는 영역입니다. <b>SET 기획 후보</b>는 자사 과정에 1행 인기 상품을 실습 키트로 붙인 샘몰 묶음 상품으로, <b>과정 개발 후보</b>는 상품 수요는 있는데 자사 과정이 없는 주제로 2027 개발 목록에 올려 검토하세요.`)}`;
   });
@@ -5156,11 +5156,11 @@ window.__ownerQ.push(function renderAiBrief(){
     const C = TT.channels || [];
     if (!C.length) { el.innerHTML = empty('데이터 준비 중입니다(매주 월요일 갱신).'); return; }
     el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>채널</th><th style="text-align:right;">구독자</th><th style="text-align:right;">4주 증감</th><th style="text-align:right;">최근 영상 평균 조회</th><th>주력 주제</th><th>최근 인기 영상</th><th>인스타(채널 소개)</th></tr></thead><tbody>
-      ${C.map(c => `<tr><td style="white-space:nowrap;"><a href="https://www.youtube.com/${c.h ? h(c.h) : 'channel/' + h(c.id)}" target="_blank" rel="noopener">${h(c.t)}</a></td>
+      ${C.map(c => `<tr><td style="white-space:nowrap;"><a href="https://www.youtube.com/${c.h ? h(c.h) : 'channel/' + h(c.id)}" target="_blank" rel="noopener noreferrer">${h(c.t)}</a></td>
         <td class="num">${nfmt(c.subs)}</td><td class="num" style="color:${c.g4 > 0 ? '#10b981' : 'var(--muted)'};">${c.g4 == null ? '-' : (c.g4 > 0 ? '+' : '') + nfmt(c.g4)}</td>
         <td class="num">${nfmt(c.avg)}</td><td style="white-space:nowrap;">${h(c.topic || '-')}</td>
-        <td style="max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.top ? `<a href="https://www.youtube.com/watch?v=${h(c.top.id)}" target="_blank" rel="noopener">${h(c.top.t)}</a> <span style="color:var(--muted);">${nfmt(c.top.v)}</span>` : '-'}</td>
-        <td style="white-space:nowrap;">${c.insta ? `<a href="https://www.instagram.com/${h(c.insta)}/" target="_blank" rel="noopener">@${h(c.insta)}</a>` : '-'}</td></tr>`).join('')}
+        <td style="max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.top ? `<a href="https://www.youtube.com/watch?v=${h(c.top.id)}" target="_blank" rel="noopener noreferrer">${h(c.top.t)}</a> <span style="color:var(--muted);">${nfmt(c.top.v)}</span>` : '-'}</td>
+        <td style="white-space:nowrap;">${c.insta ? `<a href="https://www.instagram.com/${h(c.insta)}/" target="_blank" rel="noopener noreferrer">@${h(c.insta)}</a>` : '-'}</td></tr>`).join('')}
     </tbody></table></div>${so(`교사 채널 ${TT.n_channels || C.length}개 중 상위 ${C.length}개입니다. 구독자 증가(4주)가 큰 채널의 주력 주제가 지금 교사들이 찾는 콘텐츠입니다 — <b>강사 섭외·공동 기획 후보</b>로 보고, 자사 과정 홍보 채널로 협업(리뷰·라이브) 가능성을 검토하세요.`)}`;
   });
   safe('teacherTopicHeat', () => {
@@ -5172,7 +5172,7 @@ window.__ownerQ.push(function renderAiBrief(){
       ${H.map(r => `<tr ${tipAttr(`${r.topic} — 교사 채널 관심 비중 ${r.heat}% · 자사 과정 ${r.own}개`)}><td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(r.topic)}${r.own <= 2 && r.heat >= 8 ? ' ' + mChip('공백', 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))') : ''}</td>
         <td><div style="height:9px;background:var(--surface-2);border-radius:4px;"><div style="height:100%;width:${r.heat / mx * 100}%;background:var(--accent);border-radius:4px;"></div></div><span class="num" style="font-size:11px;color:var(--muted);">${r.heat}%</span></td><td class="num" style="text-align:right;">${r.own}개</td></tr>`).join('')}</tbody></table></div></div>`;
     const V = TT.videos || [];
-    const vids = `<div><p style="font-weight:800;margin:0 0 6px;">최근 60일 인기 영상</p>${V.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><tbody>${V.map(v => `<tr><td><div style="display:flex;gap:8px;align-items:baseline;min-width:0;"><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><a href="https://www.youtube.com/watch?v=${h(v.id)}" target="_blank" rel="noopener">${h(v.t)}</a></span><span class="num" style="color:var(--muted);white-space:nowrap;">${nfmt(v.v)}회</span></div><div style="color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(v.ch)} · ${h(v.d.slice(5).replace('-', '/'))}${v.topics.length ? ' · ' + h(v.topics.join(', ')) : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('최근 60일 영상 없음')}</div>`;
+    const vids = `<div><p style="font-weight:800;margin:0 0 6px;">최근 60일 인기 영상</p>${V.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12px;table-layout:fixed;width:100%;min-width:0;"><tbody>${V.map(v => `<tr><td><div style="display:flex;gap:8px;align-items:baseline;min-width:0;"><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><a href="https://www.youtube.com/watch?v=${h(v.id)}" target="_blank" rel="noopener noreferrer">${h(v.t)}</a></span><span class="num" style="color:var(--muted);white-space:nowrap;">${nfmt(v.v)}회</span></div><div style="color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h(v.ch)} · ${h(v.d.slice(5).replace('-', '/'))}${v.topics.length ? ' · ' + h(v.topics.join(', ')) : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('최근 60일 영상 없음')}</div>`;
     el.innerHTML = grid2(heatTbl, vids)
       + so('<b>공백</b> 표시는 교사 채널 관심은 큰데 자사 과정이 2개 이하인 주제입니다. 인기 영상의 주제·형식(브이로그·꿀팁·실습)은 과정 기획과 홍보 콘텐츠 형식에 그대로 참고하고, 2027 개발 목록과 샘몰 SET 기획에 함께 올리세요.');
   });
@@ -5257,7 +5257,7 @@ window.__ownerQ.push(function renderAiBrief(){
     if (!L.length) { el.innerHTML = empty('현재 마감 전 공고가 없습니다.'); return; }
     el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th>D-day</th><th>공고명</th><th>분야</th><th style="text-align:right;">배정예산</th><th>계약방식</th><th>마감</th><th>개찰</th></tr></thead><tbody>
       ${L.map(b => `<tr><td class="num" style="white-space:nowrap;color:${b.dday != null && b.dday <= 3 ? 'var(--danger, #d64545)' : 'var(--ink)'};"><b>${b.dday == null ? '-' : 'D-' + b.dday}</b></td>
-        <td style="max-width:420px;">${b.rel ? mChip('관련', krRel) : ''}${b.url ? `<a href="${h(b.url)}" target="_blank" rel="noopener">${h(b.t)}</a>` : h(b.t)}<div style="color:var(--muted);font-size:11px;">${h(b.kind)} · ${h(b.ntce === b.dmnd ? b.ntce : `${b.ntce} → ${b.dmnd}`)}</div></td>
+        <td style="max-width:420px;">${b.rel ? mChip('관련', krRel) : ''}${b.url ? `<a href="${h(b.url)}" target="_blank" rel="noopener noreferrer">${h(b.t)}</a>` : h(b.t)}<div style="color:var(--muted);font-size:11px;">${h(b.kind)} · ${h(b.ntce === b.dmnd ? b.ntce : `${b.ntce} → ${b.dmnd}`)}</div></td>
         <td style="white-space:nowrap;">${h(b.cat)}</td><td class="num">${b.budget || b.est ? fmtWon(b.budget || b.est) : '-'}</td><td style="white-space:nowrap;">${h(b.method || '-')}</td>
         <td style="white-space:nowrap;">${h((b.close || '').slice(5))}</td><td style="white-space:nowrap;">${h((b.open || '').slice(5))}</td></tr>`).join('')}
     </tbody></table></div>`;
@@ -5309,7 +5309,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const S = PP.summary || [], OWNK = (S.find(s => s.own) || {}).key;
     const hiBg = 'color-mix(in srgb, var(--accent) 18%, var(--surface-2))';
     const cards = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:10px;margin-bottom:12px;">${S.map(s => `<div style="border:1px solid var(--border);border-radius:10px;padding:10px 12px;${s.own ? 'background:color-mix(in srgb, var(--accent) 7%, transparent);' : ''}">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><b>${h(s.name)}${s.own ? ' (자사)' : ''}</b>${s.url ? `<a href="${h(s.url)}" target="_blank" rel="noopener" style="font-size:11.5px;">처리방침 원문</a>` : ''}</div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><b>${h(s.name)}${s.own ? ' (자사)' : ''}</b>${s.url ? `<a href="${h(s.url)}" target="_blank" rel="noopener noreferrer" style="font-size:11.5px;">처리방침 원문</a>` : ''}</div>
       <div style="font-size:12.5px;margin-top:4px;">처리위탁 <b class="num">${s.n_consign}</b> · 제3자 제공 <b class="num">${s.n_third}</b> · 사업 협력 <b class="num">${s.n_biz}</b></div>
       <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">${s.effective ? '시행 ' + h(s.effective) : '시행일 표기 없음'}${s.version ? ' · ' + h(s.version) : ''}${s.error ? ' · 최근 수집 실패(' + h(s.error) + ') — 지난 결과 표시' : ''}</div>
       ${(s.notices || []).map(n => `<div style="font-size:11.5px;margin-top:5px;">${mChip('개정 예고', 'color-mix(in srgb, var(--warning) 25%, var(--surface-2))')}${h(n.t)}${n.eff ? ' · 시행 ' + h(n.eff) : ''}</div>`).join('')}</div>`).join('')}</div>`;
@@ -5339,7 +5339,7 @@ window.__ownerQ.push(function renderAiBrief(){
     if (!el) return;
     if (!P.available) { el.innerHTML = empty(P.n_providers ? `입점사 ${P.n_providers}곳 확인 · 상품별 판매자 준비 중` : '티처몰 입점사 준비 중'); return; }
     const R = P.rows || [], gen = R.filter(r => r.kind === '일반 입점'), exc = R.filter(r => r.kind !== '일반 입점');
-    const link = (no, n) => `<a href="${h((P.mall_url || '') + '/goods/view?no=' + no)}" target="_blank" rel="noopener">${h(n.replace(/^\[티처몰ONLY\]\s*/, '★ '))}</a>`;
+    const link = (no, n) => `<a href="${h((P.mall_url || '') + '/goods/view?no=' + no)}" target="_blank" rel="noopener noreferrer">${h(n.replace(/^\[티처몰ONLY\]\s*/, '★ '))}</a>`;
     const tbl = rows => `<div class="tbl-wrap"><table class="data" style="font-size:12px;"><thead><tr><th style="width:36px;">#</th><th>협력사</th><th style="width:120px;">우선순위 점수</th><th>대표 인기 상품</th><th>연결 주제 · 협의 포인트</th></tr></thead><tbody>
       ${rows.map((r, i) => `<tr><td class="num">${i + 1}</td><td style="white-space:nowrap;"><b>${h(r.name)}</b><div style="color:var(--muted);font-size:11px;">${h(r.region || '지역 미상')} · ${h(r.via)}${r.listed ? '' : ' · 입점사 목록 미확인'}</div></td>
         <td><div style="height:9px;background:var(--surface-2);border-radius:4px;"><div style="height:100%;width:${r.score}%;background:${r.kind === '일반 입점' ? '#10b981' : 'var(--warning)'};border-radius:4px;"></div></div><span class="num" style="font-size:11px;color:var(--muted);">${r.score} · 상품 ${r.n}${r.best_n ? ` · 베스트 ${r.best_n}(최고 ${r.best_top}위)` : ''}</span></td>
@@ -6678,7 +6678,7 @@ window.__ownerQ.push(function renderExec(){
     const rows = D.items.filter(x => !st || (st === 'ready' ? x.own > 0 : x.stage === st));
     tbody.innerHTML = rows.length ? rows.map(x => `<tr>
       <td><span class="chip ${x.stage === '사전규격' ? 'open' : 'pre'}">${h(x.stage)}</span></td>
-      <td class="title">${x.url && !/g2b\.go\.kr\/?$/.test(x.url) ? `<a href="${h(x.url)}" target="_blank" rel="noopener" style="color:inherit;">${h(x.t)}</a>` : h(x.t)}${x.extra ? `<div style="font-size:11.5px;color:var(--muted);">${h(x.extra)}</div>` : ''}</td>
+      <td class="title">${x.url && !/g2b\.go\.kr\/?$/.test(x.url) ? `<a href="${h(x.url)}" target="_blank" rel="noopener noreferrer" style="color:inherit;">${h(x.t)}</a>` : h(x.t)}${x.extra ? `<div style="font-size:11.5px;color:var(--muted);">${h(x.extra)}</div>` : ''}</td>
       <td style="font-size:12.5px;">${h(x.o)}</td>
       <td class="num">${x.a ? fmtWon(x.a) : '-'}</td>
       <td class="num" style="white-space:nowrap;">${h(x.due || '-')}</td>
@@ -6806,7 +6806,7 @@ window.__ownerQ.push(function renderExec(){
         ${items.map(d => `
           <li>
             <span class="chip" style="background:color-mix(in srgb, ${CAT_COLOR[d.구분]||'var(--muted)'} 16%, transparent);color:${CAT_COLOR[d.구분]||'var(--muted)'};margin-right:6px;">${d.구분}</span>
-            <b>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener" style="color:inherit;">${d.공고명}</a>` : (d.공고명 || '-')}</b><br>
+            <b>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener noreferrer" style="color:inherit;">${d.공고명}</a>` : (d.공고명 || '-')}</b><br>
             <span style="color:var(--muted);font-size:12px;">${d.지역||'-'} · ${d.예산표시 || fmtWon(d.예산||0)} · ${d.날짜||'-'}${d.낙찰업체 ? ' · 낙찰업체: '+d.낙찰업체 : ''}${d.공공조달분류 ? ' · <span style="color:var(--ink-2);">공공조달분류: '+d.공공조달분류+'</span>' : ''}</span>
           </li>`).join('')}
       </ul>` : '<p style="color:var(--muted);font-size:12.5px;padding:6px 0;margin:0;">상세 공고 내역을 찾지 못했습니다.</p>';
@@ -6901,7 +6901,7 @@ window.__ownerQ.push(function renderExec(){
       <ul class="insight-list" style="margin:2px 0;">
         ${deals.map(d => `
           <li>
-            <b>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener" style="color:inherit;">${d.공고명}</a>` : (d.공고명 || '-')}</b><br>
+            <b>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener noreferrer" style="color:inherit;">${d.공고명}</a>` : (d.공고명 || '-')}</b><br>
             <span style="color:var(--muted);font-size:12px;">${d.기관||'-'} · ${d.지역||'-'} · ${d.예산표시 || fmtWon(d.예산||0)} · ${d.날짜||'-'}${d.공공조달분류 ? ' · <span style="color:var(--ink-2);">공공조달분류: '+d.공공조달분류+'</span>' : ''}</span>
           </li>`).join('')}
       </ul>` : '<p style="color:var(--muted);font-size:12.5px;padding:6px 0;margin:0;">상세 낙찰 내역을 찾지 못했습니다.</p>';
@@ -7572,7 +7572,7 @@ window.__ownerQ.push(function renderExec(){
     <div class="school-card">
       <div class="region-tag">${name} · 진행중 ${c.event_count||0}건</div>
       <div class="name">${name}</div>
-      <div class="meta"><a href="${c.url}" target="_blank" rel="noopener" style="color:var(--accent);">${c.url}</a></div>
+      <div class="meta"><a href="${c.url}" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">${c.url}</a></div>
       ${diffBlock}
       <div style="font-size:12px;color:var(--muted);margin-top:8px;">진행중 이벤트 전체 ${(c.events||[]).length}건</div>
       <ul class="insight-list" style="margin-top:4px;max-height:360px;overflow-y:auto;padding-right:6px;">
@@ -7688,7 +7688,7 @@ window.__ownerQ.push(function renderExec(){
           : c.price === 0 && c.orig_price ? `무료 <span style="color:var(--muted);text-decoration:line-through;">${fmt(c.orig_price)}원</span>`
           : c.orig_price ? `${fmt(c.price)}원 <span style="color:var(--muted);text-decoration:line-through;font-size:11.5px;">${fmt(c.orig_price)}원</span>`
           : `${fmt(c.price)}원`;
-        const title = c.url ? `<a href="${h(c.url)}" target="_blank" rel="noopener" style="color:inherit;">${h(c.title)}</a>` : h(c.title);
+        const title = c.url ? `<a href="${h(c.url)}" target="_blank" rel="noopener noreferrer" style="color:inherit;">${h(c.title)}</a>` : h(c.title);
         return `<tr>
           <td><span class="chip" style="background:color-mix(in srgb, ${col} 16%, transparent);color:${col};">${h(label(c.company))}</span></td>
           <td class="title">${c.first_seen ? '<span class="new-badge">NEW</span>' : ''}${title}${c.first_seen ? `<span class="new-date">${h(c.first_seen)} 확인${c.delisted ? ' · 현재 목록에서 내려감' : ''}</span>` : ''}</td>
@@ -7945,7 +7945,7 @@ window.__ownerQ.push(function renderExec(){
       <td>${r.date || '-'}</td>
       <td>${r.region || '-'}</td>
       <td class="org">${r.org || '-'}</td>
-      <td class="title">${r.url ? `<a href="${r.url}" target="_blank" rel="noopener" style="color:inherit;">${r.title}</a>` : (r.title||'-')}</td>
+      <td class="title">${r.url ? `<a href="${r.url}" target="_blank" rel="noopener noreferrer" style="color:inherit;">${r.title}</a>` : (r.title||'-')}</td>
       <td class="num">${r.amount ? fmt(r.amount)+'원' : '-'}</td>
     </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">해당 없음(모두 파이프라인에 기록돼 있거나 데이터가 없습니다).</td></tr>';
 })();
@@ -8582,8 +8582,8 @@ window.__ownerQ.push(function renderExec(){
   const ON = NEWS.orgs || {};
   const newsCell = o => {
     const x = ON[o.name];
-    if (x && x.items && x.items.length) { const i = x.items[0]; return `<a href="${h(i.u)}" target="_blank" rel="noopener" style="font-size:12px;">${h(i.t)}</a><div style="font-size:11px;color:var(--muted);">${h(i.d)} · ${h(i.src)}${x.n > 1 ? ` · 외 ${x.n - 1}건` : ''}</div>`; }
-    return `<a href="${h(o.news)}" target="_blank" rel="noopener" style="font-size:12px;color:var(--muted);">뉴스 검색 ↗</a>`;
+    if (x && x.items && x.items.length) { const i = x.items[0]; return `<a href="${h(i.u)}" target="_blank" rel="noopener noreferrer" style="font-size:12px;">${h(i.t)}</a><div style="font-size:11px;color:var(--muted);">${h(i.d)} · ${h(i.src)}${x.n > 1 ? ` · 외 ${x.n - 1}건` : ''}</div>`; }
+    return `<a href="${h(o.news)}" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--muted);">뉴스 검색 ↗</a>`;
   };
   if (!G) { const el = mk('교사단체·강사 공급', ''); el.innerHTML = '<p style="color:var(--muted);font-size:13px;">강사풀 집계 파일 없음(static_data/teacher_groups.json)</p>'; return; }
   const LEAD = {}; ((P && P.leaders) || []).forEach(x => { LEAD[x.org] = x.leader; });
@@ -8634,7 +8634,7 @@ window.__ownerQ.push(function renderExec(){
       const sp = cur && SP[cur];
       document.getElementById('tgBody').innerHTML = (sp ? `<p style="font-size:12.5px;margin:0 0 8px;color:var(--ink-2);"><b>${h(cur)}</b> 우선순위 ${h(sp.rank)}위(${h(sp.priority)}) · 강사풀 지원 이력 ${n(sp.support_count)}건 · 앵커 주제: ${h(sp.anchor_theme)}</p>` : '')
         + `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>시도</th><th>연구회</th><th>테마</th><th>등급</th><th class="num">점수</th><th>검증</th><th>협업 아이디어</th><th style="width:200px;">최근 소식</th></tr></thead><tbody>
-        ${R.map(g => `<tr><td style="white-space:nowrap;">${h(g.sido)}</td><td style="font-weight:700;">${g.url ? `<a href="${h(g.url)}" target="_blank" rel="noopener">${h(g.name)}</a>` : h(g.name)}${LEAD[g.name] ? `<div style="font-size:11px;color:var(--muted);font-weight:500;">${h(LEAD[g.name])}</div>` : ''}</td><td style="font-size:12px;color:var(--ink-2);">${h(g.theme)}</td><td style="white-space:nowrap;font-size:12px;">${h(g.tier)}</td><td class="num">${g.score}</td><td>${h(g.verify)}</td><td style="font-size:12px;">${h(g.collab)}</td><td>${newsCell(g)}</td></tr>`).join('')}</tbody></table></div>`;
+        ${R.map(g => `<tr><td style="white-space:nowrap;">${h(g.sido)}</td><td style="font-weight:700;">${g.url ? `<a href="${h(g.url)}" target="_blank" rel="noopener noreferrer">${h(g.name)}</a>` : h(g.name)}${LEAD[g.name] ? `<div style="font-size:11px;color:var(--muted);font-weight:500;">${h(LEAD[g.name])}</div>` : ''}</td><td style="font-size:12px;color:var(--ink-2);">${h(g.theme)}</td><td style="white-space:nowrap;font-size:12px;">${h(g.tier)}</td><td class="num">${g.score}</td><td>${h(g.verify)}</td><td style="font-size:12px;">${h(g.collab)}</td><td>${newsCell(g)}</td></tr>`).join('')}</tbody></table></div>`;
     };
     document.getElementById('tgSido').addEventListener('change', e => { cur = e.target.value; draw(); });
     draw();
@@ -8686,7 +8686,7 @@ window.__ownerQ.push(function renderExec(){
     const B = G.books || []; if (!B.length) return;
     const el = mk('교육 트렌드 도서 — 현직 교사 필진', '강사풀과 겹치는 필진 수 = 섭외 가능 저자');
     el.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:680px;"><thead><tr><th>도서</th><th>출판</th><th>출간</th><th class="num">필진</th><th class="num">현직 교사</th><th class="num">강사풀 겹침</th><th>키워드</th></tr></thead><tbody>
-      ${B.map(b => `<tr><td style="font-weight:700;">${b.url ? `<a href="${h(b.url)}" target="_blank" rel="noopener">${h(b.title)}</a>` : h(b.title)}</td><td style="font-size:12px;">${h(b.publisher)}</td><td style="white-space:nowrap;">${h(b.date)}</td><td class="num">${b.authors}</td><td class="num">${b.teachers}</td><td class="num"><b>${b.pool}</b></td><td style="font-size:11.5px;">${(b.keywords || []).slice(0, 4).map(k => chip(k, 'var(--surface-2)')).join('')}</td></tr>`).join('')}</tbody></table></div>`
+      ${B.map(b => `<tr><td style="font-weight:700;">${b.url ? `<a href="${h(b.url)}" target="_blank" rel="noopener noreferrer">${h(b.title)}</a>` : h(b.title)}</td><td style="font-size:12px;">${h(b.publisher)}</td><td style="white-space:nowrap;">${h(b.date)}</td><td class="num">${b.authors}</td><td class="num">${b.teachers}</td><td class="num"><b>${b.pool}</b></td><td style="font-size:11.5px;">${(b.keywords || []).slice(0, 4).map(k => chip(k, 'var(--surface-2)')).join('')}</td></tr>`).join('')}</tbody></table></div>`
       + note(`현직 교사 필진이 많은 책일수록 강사풀과 겹치는 저자가 많습니다(${h(B.slice().sort((a, b) => b.pool - a.pool)[0].title)} ${B.slice().sort((a, b) => b.pool - a.pool)[0].pool}명). 2027 트렌드 과정은 '책 출간 저자 직강' 구성으로 B2C 상세페이지·홍보 문구에 바로 쓸 수 있습니다.`);
   })();
 })();
@@ -8717,7 +8717,7 @@ window.__ownerQ.push(function renderExec(){
   const top = rows.slice(0, 4).map(r => `${r.region} +${r.add}`);
   el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${tiles}</div>` + tbl
     + `<p class="tt-note" style="margin-top:10px;font-size:13px;line-height:1.6;"><b>지금 상태</b> ${h(U.status_2027)}.<br><b>그래서</b> 시도 비중이 유지되면 신규 지정은 <b>${h(top.join(' · '))}</b>교 순으로 많습니다. 신규 지정교는 운영 첫해에 교원 AI 연수 수요가 몰리므로, 공모 공고(보통 학년도 전 겨울)가 뜨는 즉시 해당 시도 교육청에 '신규 중점학교 교원 연수 패키지'를 제안하세요.</p>`
-    + `<p style="font-size:11.5px;color:var(--muted);margin-top:8px;">출처: ${(U.sources || []).map(s => `<a href="${h(s.u)}" target="_blank" rel="noopener">${h(s.t)}</a>`).join(' · ')}</p>`;
+    + `<p style="font-size:11.5px;color:var(--muted);margin-top:8px;">출처: ${(U.sources || []).map(s => `<a href="${h(s.u)}" target="_blank" rel="noopener noreferrer">${h(s.t)}</a>`).join(' · ')}</p>`;
 })();
 </script>
 <script>
@@ -8800,7 +8800,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     body.innerHTML = out;
   }
   const sel = sec.querySelector('#bmBid'), txt = sec.querySelector('#bmText');
-  sel.addEventListener('change', () => { const b = BIDS[+sel.value]; if (!sel.value || !b) { body.innerHTML = ''; return; } txt.value = ''; run((b.t || '') + ' ' + (b.o || ''), b.r || ''); body.insertAdjacentHTML('afterbegin', `<p style="font-size:12px;margin:0 0 6px;color:var(--ink-2);">${h(b.o || '')} · 공고일 ${h(b.d || '')}${b.a ? ` · 예산 ${(b.a / 1e6).toFixed(0)}백만 원` : ''}${b.u ? ` · <a href="${h(b.u)}" target="_blank" rel="noopener">공고 ↗</a>` : ''}${b.k ? ` <button type="button" class="pill" data-draft="${h((b.k || '').split('-')[0])}" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}${(() => { const BR = window.__BRANCH; if (!BR) return ''; const hit = (BR.rows || []).filter(r => r.sido === b.r && r.offices.some(o => (b.o || '').includes(o.replace('교육지원청', '')))); return hit.length ? `<br>관할 총판: ${hit.map(r => h(r.name) + '(' + h(r.type) + (r.staff ? ' · 담당 ' + h(r.staff) : '') + ')').join(', ')}` : ''; })()}</p>`); });
+  sel.addEventListener('change', () => { const b = BIDS[+sel.value]; if (!sel.value || !b) { body.innerHTML = ''; return; } txt.value = ''; run((b.t || '') + ' ' + (b.o || ''), b.r || ''); body.insertAdjacentHTML('afterbegin', `<p style="font-size:12px;margin:0 0 6px;color:var(--ink-2);">${h(b.o || '')} · 공고일 ${h(b.d || '')}${b.a ? ` · 예산 ${(b.a / 1e6).toFixed(0)}백만 원` : ''}${b.u ? ` · <a href="${h(b.u)}" target="_blank" rel="noopener noreferrer">공고 ↗</a>` : ''}${b.k ? ` <button type="button" class="pill" data-draft="${h((b.k || '').split('-')[0])}" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}${(() => { const BR = window.__BRANCH; if (!BR) return ''; const hit = (BR.rows || []).filter(r => r.sido === b.r && r.offices.some(o => (b.o || '').includes(o.replace('교육지원청', '')))); return hit.length ? `<br>관할 총판: ${hit.map(r => h(r.name) + '(' + h(r.type) + (r.staff ? ' · 담당 ' + h(r.staff) : '') + ')').join(', ')}` : ''; })()}</p>`); });
   let tm; txt.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => { sel.value = ''; if (txt.value.trim().length >= 2) run(txt.value.trim(), ''); else body.innerHTML = ''; }, 250); });
 })();
 
@@ -8915,7 +8915,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     sec.querySelector('#fcBody').innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>예상 시기</th><th>상태</th><th>시도</th><th>기관</th><th>작년 공고명</th><th class="num">작년 금액</th><th>주제</th><th></th></tr></thead><tbody>
       ${R.slice(0, 80).map((x, i) => `<tr><td style="white-space:nowrap;${x.status === '예상' && x.to < today ? 'color:var(--critical);' : ''}">${h(x.from.slice(5))}~${h(x.to.slice(5))}${x.status === '예상' && x.to < today ? '<div style="font-size:10.5px;">지연(미공고)</div>' : ''}</td>
         <td><span style="display:inline-block;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700;background:${ST[x.status]};">${h(x.status)}</span>${x.hit_date ? `<div style="font-size:10.5px;color:var(--muted);">${h(x.hit_date)}</div>` : ''}</td>
-        <td style="white-space:nowrap;">${h(x.r)}</td><td style="font-size:12px;">${h(x.org)}</td><td style="font-size:12px;">${x.u ? `<a href="${h(x.u)}" target="_blank" rel="noopener">${h(x.t)}</a>` : h(x.t)}${x.kind === '발주계획' ? ` <span style="font-size:11px;color:var(--muted);">(${h(x.how || '')} 계획)</span>` : ''}</td>
+        <td style="white-space:nowrap;">${h(x.r)}</td><td style="font-size:12px;">${h(x.org)}</td><td style="font-size:12px;">${x.u ? `<a href="${h(x.u)}" target="_blank" rel="noopener noreferrer">${h(x.t)}</a>` : h(x.t)}${x.kind === '발주계획' ? ` <span style="font-size:11px;color:var(--muted);">(${h(x.how || '')} 계획)</span>` : ''}</td>
         <td class="num">${won(x.amt)}</td><td style="font-size:11.5px;">${h((x.topics || []).join('·'))}</td>
         <td><button type="button" class="pill fcMatch" data-i="${F.items.indexOf(x)}" style="font-size:11px;white-space:nowrap;">강사 매칭</button></td></tr>`).join('')}</tbody></table></div>`;
     sec.querySelectorAll('.fcMatch').forEach(b => b.addEventListener('click', () => {
@@ -9084,7 +9084,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     sec.querySelector('#brBody').innerHTML = R.length ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">${all ? '전체' : h(sd)} 총판 묶음 ${total}개${R.length < total ? ` 중 우선순위 상위 ${R.length}개 <button type="button" class="pill" id="brMore" style="font-size:11px;">전체 ${total}개 보기</button>` : ''}(학판·교판이 같은 지역이면 한 줄) · 행을 누르면 지도 강조 + 최근 공고·주소</div><div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:960px;"><thead><tr>${all ? '<th style="white-space:nowrap;">시도</th>' : ''}<th style="min-width:170px;">총판</th><th>비상 담당</th><th>담당 지역</th><th>관할 교육지원청</th><th class="num">연수 공고 12개월(90일)</th><th class="num">AI 중점</th><th class="num">디지털 선도</th><th class="num" title="겨울방학 3주 전 안내 기한이 45일 안인 학교">안내 대상 45일</th>${AD() ? '<th class="num" title="담당 시군구 일반 초·중·고 중 비상 교과서 주문 학교">비상 교과서 채택</th><th class="num" title="미채택이지만 비바샘 회원이 있는 학교">전환 대상</th>' : ''}<th>사무실 전화</th></tr></thead><tbody>
       ${R.map((g, i) => `<tr class="brRow" data-i="${i}" style="cursor:pointer;${focus === g ? 'background:color-mix(in srgb, var(--accent) 12%, transparent);' : ''}">${all ? `<td style="white-space:nowrap;">${h(g.sido)}</td>` : ''}<td style="font-weight:700;">${dot(g)}${g.names.map(x => tag(x.type) + h(x.name)).join('<br>')}</td><td style="white-space:nowrap;">${h([...g.staff].join(', '))}</td><td style="font-size:12px;">${h(g.area)}</td>
         <td style="font-size:11.5px;color:var(--ink-2);">${h(g.offices.join(', '))}</td><td class="num">${g.bids12}(${g.bids90}) · ${won(g.bid_amt)}</td><td class="num">${n(g.ai)}</td><td class="num">${n(g.dig)}</td><td class="num"><b>${n(g.due45)}</b></td>${(() => { const x = adoptOf(g.sggs); return x ? `<td class="num">${n(x.a)}/${n(x.u)} <span style="color:var(--muted);font-size:11px;">${x.u ? Math.round(x.a / x.u * 100) : 0}%</span></td><td class="num"><b>${n(x.o)}</b></td>` : ''; })()}<td style="white-space:nowrap;font-size:12px;">${h([...g.tels][0] || '')}</td></tr>
-        <tr class="brDet" data-i="${i}" ${focus === g ? '' : 'hidden'}><td colspan="${(all ? 10 : 9) + (AD() ? 2 : 0)}" style="font-size:12px;background:var(--surface-2);">${g.recent && g.recent.length ? '최근 관할 연수 공고: ' + g.recent.map(b => `${b.u ? `<a href="${h(b.u)}" target="_blank" rel="noopener">${h(b.t)}</a>` : h(b.t)} (${h(b.d)})`).join(' · ') : '최근 12개월 관할 교육지원청 연수 공고 없음 — 학교 단위(B2S) 영업 중심 지역'}${g.addr ? `<br>주소: ${h(g.addr)}` : ''}<br>담당 시군구: ${h([...g.sggs].map(c => (FC[c] || {}).n).filter(Boolean).join(', '))}</td></tr>`).join('')}</tbody></table></div>`
+        <tr class="brDet" data-i="${i}" ${focus === g ? '' : 'hidden'}><td colspan="${(all ? 10 : 9) + (AD() ? 2 : 0)}" style="font-size:12px;background:var(--surface-2);">${g.recent && g.recent.length ? '최근 관할 연수 공고: ' + g.recent.map(b => `${b.u ? `<a href="${h(b.u)}" target="_blank" rel="noopener noreferrer">${h(b.t)}</a>` : h(b.t)} (${h(b.d)})`).join(' · ') : '최근 12개월 관할 교육지원청 연수 공고 없음 — 학교 단위(B2S) 영업 중심 지역'}${g.addr ? `<br>주소: ${h(g.addr)}` : ''}<br>담당 시군구: ${h([...g.sggs].map(c => (FC[c] || {}).n).filter(Boolean).join(', '))}</td></tr>`).join('')}</tbody></table></div>`
       : '<p style="color:var(--muted);font-size:13px;">조건에 맞는 총판이 없습니다.</p>';
     sec.querySelectorAll('.brRow').forEach(r => r.addEventListener('click', () => { const g = R[+r.dataset.i]; focus = focus === g ? null : g; draw(); }));
     const mb = sec.querySelector('#brMore'); if (mb) mb.addEventListener('click', () => { sec.dataset.more = '1'; draw(); });
@@ -9716,7 +9716,7 @@ window.__renderPdfx = function(root, P){
           <div style="font-size:12.5px;line-height:1.6;margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--surface-2);"><b>흐름 요약</b><br>· 2026년 10월에 언급이 몰렸습니다(국정감사: AIEP 학생정보 책임·11개 교육청 공동 플랫폼 투명성, 경기 하이러닝 358억 사업자 의혹).<br>· 제목 기준 '활용·연수·안착' ${nUse}건 vs '구축·유지·사용권' ${nBuild}건 — 발주 무게가 <b>새 플랫폼 구축에서 이미 만든 플랫폼 활용</b>으로 옮겨가는 중입니다.<br>· 교육청 자체 AI 도구(서울 채움AI → 세종·충남·경북 확대, 인천 AI 교육비서)도 늘어, 민간 몫은 <b>연계·활용 연수와 수업 설계 지원</b>입니다.</div></div>
         <div style="flex:1 1 380px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:4px;">그래서 — 브리핑 시사점(최근순)</div>${imps.map(x => `<div style="font-size:12.5px;line-height:1.55;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);font-size:11px;">${h(x.d)} · ${h(x.t.slice(0, 36))}</span><br>${h(x.impact)}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">해당 시사점 없음</p>'}</div></div>
       <div style="font-weight:700;font-size:13px;margin:12px 0 6px;">동향 타임라인 ${T.length}건 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">시도 칩을 누르면 그 시도만</span></div>
-      <div style="max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:10px;">${T.map(x => `<div style="display:grid;grid-template-columns:78px 1fr;gap:8px;padding:7px 10px;border-bottom:1px solid var(--border);font-size:12.5px;"><div><div style="font-weight:700;">${h((x.d || '').slice(5).replace('-', '.'))}</div><span style="display:inline-block;margin-top:2px;padding:0 6px;border-radius:99px;font-size:10.5px;color:#fff;background:${SRC[x.src] || '#94a3b8'};">${h(x.src)}</span></div><div>${x.u ? `<a href="${h(x.u)}" target="_blank" rel="noopener"><b>${h(x.t)}</b></a>` : `<b>${h(x.t)}</b>`}<div style="color:var(--ink-2);font-size:12px;">${h(x.b)}</div>${x.sido.length ? `<div style="margin-top:3px;">${x.sido.slice(0, 11).map(sd => `<button type="button" class="pill apChip" data-s="${h(sd)}" style="font-size:10.5px;padding:1px 7px;margin:1px;">${h(sd)}</button>`).join('')}</div>` : ''}</div></div>`).join('') || '<p style="padding:10px;color:var(--muted);font-size:12.5px;">해당 동향 없음</p>'}</div>`;
+      <div style="max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:10px;">${T.map(x => `<div style="display:grid;grid-template-columns:78px 1fr;gap:8px;padding:7px 10px;border-bottom:1px solid var(--border);font-size:12.5px;"><div><div style="font-weight:700;">${h((x.d || '').slice(5).replace('-', '.'))}</div><span style="display:inline-block;margin-top:2px;padding:0 6px;border-radius:99px;font-size:10.5px;color:#fff;background:${SRC[x.src] || '#94a3b8'};">${h(x.src)}</span></div><div>${x.u ? `<a href="${h(x.u)}" target="_blank" rel="noopener noreferrer"><b>${h(x.t)}</b></a>` : `<b>${h(x.t)}</b>`}<div style="color:var(--ink-2);font-size:12px;">${h(x.b)}</div>${x.sido.length ? `<div style="margin-top:3px;">${x.sido.slice(0, 11).map(sd => `<button type="button" class="pill apChip" data-s="${h(sd)}" style="font-size:10.5px;padding:1px 7px;margin:1px;">${h(sd)}</button>`).join('')}</div>` : ''}</div></div>`).join('') || '<p style="padding:10px;color:var(--muted);font-size:12.5px;">해당 동향 없음</p>'}</div>`;
     $('apTrend').querySelectorAll('.apChip').forEach(b => b.addEventListener('click', () => { pick = b.dataset.s; draw(); }));
   }
   function draw(){
@@ -9743,11 +9743,11 @@ window.__renderPdfx = function(root, P){
     $('apCards').innerHTML = `${pick ? `<div style="font-size:12px;margin-bottom:6px;"><b>${h(pick)}</b>만 보는 중 <button type="button" class="pill" id="apAll" style="font-size:11px;">전체</button></div>` : ''}<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;">${rows.map(x => {
       const ad = adopt[x.sido], c = CT[x.sido];
       return `<div style="border:1px solid var(--border);border-left:4px solid ${GC[x.group] || '#94a3b8'};border-radius:10px;padding:8px 10px;font-size:12px;">
-        <div style="display:flex;justify-content:space-between;gap:6px;"><b style="font-size:13.5px;">${h(x.sido)} · ${x.url ? `<a href="${h(x.url)}" target="_blank" rel="noopener">${h(x.name)} ↗</a>` : h(x.name)}</b></div>
+        <div style="display:flex;justify-content:space-between;gap:6px;"><b style="font-size:13.5px;">${h(x.sido)} · ${x.url ? `<a href="${h(x.url)}" target="_blank" rel="noopener noreferrer">${h(x.name)} ↗</a>` : h(x.name)}</b></div>
         <div style="color:var(--muted);font-size:11px;margin:2px 0 4px;">${h(x.group)}${x.role ? ' · ' + h(x.role) : ''}</div>
         <div>AI 중점 <b>${n(x.ai)}</b> · 디지털 선도 <b>${n(x.dig)}</b>${ad ? ` · 비상 채택 <b>${(ad.a / ad.u * 100).toFixed(0)}%</b>` : ''}</div>
         <div>지역 총판 <b>${n(x.branch)}</b>곳 · AIEP 조달 <b>${n(x.bids)}</b>건${x.bid_amt ? ' · ' + won(x.bid_amt) : ''}${x.news ? ` · 동향 <b>${x.news}</b>건` : ''}</div>
-        ${x.train.length ? `<div style="margin-top:3px;">활용 연수 공고: ${x.train.slice(0, 2).map(t => t.u ? `<a href="${h(t.u)}" target="_blank" rel="noopener">${h((t.t || '').slice(0, 30))}…</a>` : h(t.t)).join(' · ')}</div>` : ''}
+        ${x.train.length ? `<div style="margin-top:3px;">활용 연수 공고: ${x.train.slice(0, 2).map(t => t.u ? `<a href="${h(t.u)}" target="_blank" rel="noopener noreferrer">${h((t.t || '').slice(0, 30))}…</a>` : h(t.t)).join(' · ')}</div>` : ''}
         ${c ? `<div style="margin-top:4px;padding-top:4px;border-top:1px dashed var(--border);font-size:11.5px;">담당: ${h(c.dept)} ${h(c.person)} · ${h(c.tel)}${c.mail && c.mail.includes('@') ? ` · <a href="mailto:${h(c.mail)}">메일</a>` : ''}<br><span style="color:var(--muted);">${h(c.note)}</span></div>` : ''}</div>`; }).join('')}</div>`;
     const all = $('apAll'); if (all) all.addEventListener('click', () => { pick = ''; draw(); });
     // 조달 시장 + 개발사
@@ -9758,10 +9758,10 @@ window.__renderPdfx = function(root, P){
       <div style="flex:1 1 340px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">AIEP 관련 낙찰 업체(3년) <span style="color:var(--muted);font-weight:500;font-size:11.5px;">낙찰 금액 순 · 참여 = 개찰 참가 횟수</span></div>
         ${V.length ? V.map(v => `<div style="display:grid;grid-template-columns:110px 1fr 120px;gap:8px;align-items:center;font-size:12px;margin:3px 0;"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;${v.name === dev ? 'font-weight:800;color:var(--accent);' : ''}">${h(v.name)}</span><span style="background:var(--surface-2);height:12px;border-radius:4px;position:relative;"><span style="position:absolute;inset:0 auto 0 0;width:${(v.amt / mx * 100).toFixed(1)}%;border-radius:4px;background:${v.name === dev ? 'var(--accent)' : 'color-mix(in srgb, var(--accent) 45%, var(--surface-2))'};"></span></span><span style="text-align:right;">${won(v.amt)} · 낙찰 ${v.win} · 참여 ${v.part}</span></div>`).join('') : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 데이터 준비 중입니다.</p>`}</div>
       <div style="flex:1 1 340px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">${h(dev)} 조달 이력 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">AIEP 개발사 · KERIS·교육청 입찰 참여/낙찰</span></div>
-        ${K.concat(DR.map(r => ({t: r.t, d: r.d, url: r.u, winner: r.winner, amt: r.amt, org: r.org, own: r.wv === dev}))).map(r => `<div style="font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);"><a href="${h(r.url || '')}" target="_blank" rel="noopener">${h(r.t)}</a> <span style="color:var(--muted);">(${h(r.d)}${r.org ? ' · ' + h(r.org) : ' · KERIS'})</span><br>${r.own ? `<b style="color:var(--accent);">낙찰</b> ${won(r.amt)}` : `참여${r.amt ? ' ' + won(r.amt) : ''} · 낙찰 ${h(r.winner || '-')}${r.n ? ` · ${r.n}개사 경쟁` : ''}`}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">이력 없음(수집 진행 중)</p>'}
+        ${K.concat(DR.map(r => ({t: r.t, d: r.d, url: r.u, winner: r.winner, amt: r.amt, org: r.org, own: r.wv === dev}))).map(r => `<div style="font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);"><a href="${h(r.url || '')}" target="_blank" rel="noopener noreferrer">${h(r.t)}</a> <span style="color:var(--muted);">(${h(r.d)}${r.org ? ' · ' + h(r.org) : ' · KERIS'})</span><br>${r.own ? `<b style="color:var(--accent);">낙찰</b> ${won(r.amt)}` : `참여${r.amt ? ' ' + won(r.amt) : ''} · 낙찰 ${h(r.winner || '-')}${r.n ? ` · ${r.n}개사 경쟁` : ''}`}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">이력 없음(수집 진행 중)</p>'}
         <p class="tt-note">${h(dev)}는 KERIS '초등 AI교육 담당교원 역량 강화 연수'(12.1억)에 응찰했습니다 — 플랫폼 개발사가 활용 연수 시장까지 들어오고 있어, 제휴(연수는 비바샘 담당)와 경쟁을 함께 봐야 합니다.</p></div></div>
       <div style="font-weight:700;font-size:13px;margin:12px 0 6px;">AIEP·시도 플랫폼 관련 나라장터 공고 ${M.length ? n(M.length) + '건' : ''} <span style="color:var(--muted);font-weight:500;font-size:11.5px;">${st.n_bids != null ? `공고 ${n(st.n_bids)} · 낙찰 ${n(st.n_awards)} 누적` : ''} · 구축·운영 vs 연수·활용</span></div>
-      ${M.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>공고</th><th>발주</th><th>구분</th><th class="num">예산·낙찰</th><th>낙찰 업체</th><th class="num">경쟁</th><th>일자</th></tr></thead><tbody>${M.slice(0, 60).map(r => `<tr${r.dev ? ' style="background:color-mix(in srgb, var(--accent) 10%, transparent);"' : ''}><td>${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener">${h(r.t)}</a>` : h(r.t)}${r.dev ? ` <span class="pill" style="font-size:10px;">${h(dev)}</span>` : ''}</td><td style="font-size:11.5px;">${h(r.org)}</td><td>${h(r.cat || '-')}</td><td class="num">${won(r.amt || r.budget)}</td><td style="font-size:11.5px;">${h(r.winner || '-')}</td><td class="num">${r.n || '-'}</td><td style="white-space:nowrap;">${h(r.d)}</td></tr>`).join('')}</tbody></table></div>` : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 데이터 준비 중입니다. 준비되면 이 표와 업체 막대가 채워집니다.</p>`}`;
+      ${M.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>공고</th><th>발주</th><th>구분</th><th class="num">예산·낙찰</th><th>낙찰 업체</th><th class="num">경쟁</th><th>일자</th></tr></thead><tbody>${M.slice(0, 60).map(r => `<tr${r.dev ? ' style="background:color-mix(in srgb, var(--accent) 10%, transparent);"' : ''}><td>${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener noreferrer">${h(r.t)}</a>` : h(r.t)}${r.dev ? ` <span class="pill" style="font-size:10px;">${h(dev)}</span>` : ''}</td><td style="font-size:11.5px;">${h(r.org)}</td><td>${h(r.cat || '-')}</td><td class="num">${won(r.amt || r.budget)}</td><td style="font-size:11.5px;">${h(r.winner || '-')}</td><td class="num">${r.n || '-'}</td><td style="white-space:nowrap;">${h(r.d)}</td></tr>`).join('')}</tbody></table></div>` : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 데이터 준비 중입니다. 준비되면 이 표와 업체 막대가 채워집니다.</p>`}`;
     // 제휴 검토(로그인)
     if (!PV) { $('apPriv').innerHTML = ''; return; }
     $('apPriv').innerHTML = `<div style="border:1px solid var(--border);border-radius:12px;padding:12px 14px;">
@@ -9849,7 +9849,7 @@ window.__renderPdfx = function(root, P){
   const ttl = (t, s) => `<div style="font-weight:800;font-size:14px;margin-bottom:8px;">${t}${s ? ` <span style="font-size:11.5px;color:var(--muted);font-weight:500;">${s}</span>` : ''}</div>`;
   // KERIS AI 교원연수 위탁 낙찰 흐름(공개 조달)
   const KA = D.keris_ai || [], mxA = Math.max(1, ...KA.map(a => a.amt || 0));
-  const keris = KA.length ? KA.slice(0, 10).map(a => `<div style="display:grid;grid-template-columns:70px 1fr 150px;gap:8px;align-items:center;font-size:12px;margin:4px 0;"><span style="color:var(--muted);">${h((a.d || '').slice(0, 7))}</span><span><a href="${h(a.u)}" target="_blank" rel="noopener">${h(a.t)}</a><span style="display:block;height:8px;margin-top:2px;border-radius:3px;width:${((a.amt || 0) / mxA * 100).toFixed(1)}%;background:${/네패스/.test(a.winner) ? '#8b5cf6' : /아이스크림/.test(a.winner) ? '#ef4444' : 'color-mix(in srgb, var(--accent) 55%, var(--surface-2))'};"></span></span><span style="text-align:right;"><b>${h(a.winner.replace(/주식회사|\(주\)|사단법인|\(사\)/g, '').trim())}</b><br>${won(a.amt)}${a.n ? ` · ${a.n}개사` : ''}</span></div>`).join('') : '<p style="color:var(--muted);font-size:12.5px;">KERIS 조달 수집분 없음</p>';
+  const keris = KA.length ? KA.slice(0, 10).map(a => `<div style="display:grid;grid-template-columns:70px 1fr 150px;gap:8px;align-items:center;font-size:12px;margin:4px 0;"><span style="color:var(--muted);">${h((a.d || '').slice(0, 7))}</span><span><a href="${h(a.u)}" target="_blank" rel="noopener noreferrer">${h(a.t)}</a><span style="display:block;height:8px;margin-top:2px;border-radius:3px;width:${((a.amt || 0) / mxA * 100).toFixed(1)}%;background:${/네패스/.test(a.winner) ? '#8b5cf6' : /아이스크림/.test(a.winner) ? '#ef4444' : 'color-mix(in srgb, var(--accent) 55%, var(--surface-2))'};"></span></span><span style="text-align:right;"><b>${h(a.winner.replace(/주식회사|\(주\)|사단법인|\(사\)/g, '').trim())}</b><br>${won(a.amt)}${a.n ? ` · ${a.n}개사` : ''}</span></div>`).join('') : '<p style="color:var(--muted);font-size:12.5px;">KERIS 조달 수집분 없음</p>';
   // 2027 예산 막대
   const B = R.budget || [], mxB = Math.max(1, ...B.map(b => Math.max(b.y2026, b.y2027)));
   const budget = B.map(b => `<div style="font-size:12px;margin:6px 0;"><div style="display:flex;justify-content:space-between;"><b>${h(b.k)}</b><span>${b.y2026 ? b.y2026.toLocaleString() + '억 → ' : '신규 '}<b style="color:var(--accent);">${b.y2027.toLocaleString()}억</b>${b.y2026 ? ` (+${Math.round((b.y2027 / b.y2026 - 1) * 100)}%)` : ''}</span></div>
@@ -9862,10 +9862,10 @@ window.__renderPdfx = function(root, P){
     <div style="display:flex;flex-wrap:wrap;gap:12px;">
       <div style="flex:1 1 420px;min-width:0;">${box(`${ttl('AI 교원연수 위탁 낙찰 흐름', 'KERIS 나라장터 · 2026 초등 네패스(보라)·중등 아이스크림(빨강)')}${keris}<p class="tt-note">2024년 엘리스·아이헤이트플라잉버그스(에듀테크) → 2026년 네패스(반도체 중견기업)·아이스크림으로 낙찰 주체가 바뀌었습니다. 연수 위탁이 기업 산업교육 역량과 결합하는 흐름이라, 단독 응찰보다 컨소시엄·하도급 협력 구도가 현실적입니다.</p>`)}</div>
       <div style="flex:1 1 360px;min-width:0;">${box(`${ttl('시장 변화 및 전망')}${(D.market || []).map(m => `<div style="font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--border);"><b>${h(m.k)}</b> — ${h(m.v)}</div>`).join('')}`)}</div></div>
-    ${PV ? box(`${ttl('업체·기관별 현황과 협력 방향', '업체 미팅 결과 · 로그인 화면 전용')}<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:760px;"><thead><tr><th>구분</th><th>현황</th><th>전망</th><th>비상교육 협력 방향</th></tr></thead><tbody>${(PV.companies || []).map(c => `<tr><td style="font-weight:700;white-space:nowrap;">${h(c.name)}</td><td>${h(c.now)}</td><td>${h(c.outlook)}</td><td><b>${h(c.coop)}</b></td></tr>`).join('')}</tbody></table></div><p class="tt-note">${h(PV.common || '')}</p>${Object.entries(D.company_scrap || {}).filter(([k, v]) => v.length).map(([k, v]) => `<div style="font-size:12px;margin-top:4px;"><b>${h(k)}</b> ${v.slice(0, 3).map(n => `<a href="${h(n.u)}" target="_blank" rel="noopener">${h(n.t.slice(0, 40))}</a> <span style="color:var(--muted);">${h((n.d || '').slice(5))}</span>`).join(' · ')}</div>`).join('')}`, 'margin-top:12px;') : ''}
+    ${PV ? box(`${ttl('업체·기관별 현황과 협력 방향', '업체 미팅 결과 · 로그인 화면 전용')}<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:760px;"><thead><tr><th>구분</th><th>현황</th><th>전망</th><th>비상교육 협력 방향</th></tr></thead><tbody>${(PV.companies || []).map(c => `<tr><td style="font-weight:700;white-space:nowrap;">${h(c.name)}</td><td>${h(c.now)}</td><td>${h(c.outlook)}</td><td><b>${h(c.coop)}</b></td></tr>`).join('')}</tbody></table></div><p class="tt-note">${h(PV.common || '')}</p>${Object.entries(D.company_scrap || {}).filter(([k, v]) => v.length).map(([k, v]) => `<div style="font-size:12px;margin-top:4px;"><b>${h(k)}</b> ${v.slice(0, 3).map(n => `<a href="${h(n.u)}" target="_blank" rel="noopener noreferrer">${h(n.t.slice(0, 40))}</a> <span style="color:var(--muted);">${h((n.d || '').slice(5))}</span>`).join(' · ')}</div>`).join('')}`, 'margin-top:12px;') : ''}
     ${box(`${ttl('RISE(지역혁신중심 대학지원체계)', '2027 대학·첨단산업 교육시장')}<p style="font-size:12.5px;margin:0 0 8px;">${h(R.def || '')}</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px;"><div style="flex:1 1 300px;min-width:0;"><table class="data" style="font-size:12.5px;width:100%;min-width:0;table-layout:fixed;"><tbody>${(R.facts || []).map(([k, v]) => `<tr><td style="white-space:nowrap;width:80px;font-weight:700;color:var(--ink-2);">${h(k)}</td><td style="white-space:normal;">${h(v)}</td></tr>`).join('')}</tbody></table>
-        ${R.law ? `<div style="font-size:11.5px;margin-top:6px;">공식 근거: <a href="${h(R.law.u)}" target="_blank" rel="noopener">${h(R.law.t)} ↗</a></div>` : ''}</div>
+        ${R.law ? `<div style="font-size:11.5px;margin-top:6px;">공식 근거: <a href="${h(R.law.u)}" target="_blank" rel="noopener noreferrer">${h(R.law.t)} ↗</a></div>` : ''}</div>
         <div style="flex:1 1 320px;min-width:0;"><div style="font-weight:700;font-size:12.5px;margin-bottom:4px;">2027 교육부 예산안(관련 분야)</div>${budget}</div></div>
       <div style="font-weight:700;font-size:12.5px;margin:10px 0 6px;">예산 흐름 — 대학이 '사업비'로 교육과정 개발·강사비·운영비를 집행</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${flow}</div>`, 'margin-top:12px;')}
     ${box(`${ttl('우선 검토 대학', h(D.universities_note || ''))}<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:560px;"><thead><tr><th>대학</th><th>주요 분야</th><th>비바샘 연계 가능성</th></tr></thead><tbody>${(D.universities || []).map(u => `<tr><td style="font-weight:700;white-space:nowrap;">${h(u.name)}</td><td>${h(u.field)}</td><td>${h(u.link)}</td></tr>`).join('')}</tbody></table></div>`, 'margin-top:12px;')}
@@ -9880,19 +9880,19 @@ window.__renderPdfx = function(root, P){
           <div style="color:var(--muted);font-size:11px;">${h(u.name)}</div>
           <div style="margin-top:4px;">KERIS 참여 <b>${u.keris_n}</b>건 · 낙찰 <b>${u.keris_win}</b>건</div>
           ${u.keris.slice(0, 2).map(k => `<div style="font-size:11.5px;color:var(--ink-2);">· ${h((k.d || '').slice(0, 7))} ${h((k.t || '').slice(0, 34))}${k.rank === 1 ? ' <b style="color:var(--accent);">낙찰</b>' : ''}</div>`).join('')}
-          ${u.briefs.slice(0, 2).map(b => `<div style="font-size:11.5px;">· <a href="${h(b.u)}" target="_blank" rel="noopener">${h(b.t.slice(0, 36))}</a> <span style="color:var(--muted);">${h(b.d.slice(5))}</span></div>`).join('')}
-          ${u.scrap.slice(0, 2).map(n => `<div style="font-size:11.5px;">· <a href="${h(n.u)}" target="_blank" rel="noopener">${h(n.t.slice(0, 36))}</a> <span style="color:var(--muted);">${h((n.d || '').slice(5))} ${h(n.src || '')}</span></div>`).join('')}
+          ${u.briefs.slice(0, 2).map(b => `<div style="font-size:11.5px;">· <a href="${h(b.u)}" target="_blank" rel="noopener noreferrer">${h(b.t.slice(0, 36))}</a> <span style="color:var(--muted);">${h(b.d.slice(5))}</span></div>`).join('')}
+          ${u.scrap.slice(0, 2).map(n => `<div style="font-size:11.5px;">· <a href="${h(n.u)}" target="_blank" rel="noopener noreferrer">${h(n.t.slice(0, 36))}</a> <span style="color:var(--muted);">${h((n.d || '').slice(5))} ${h(n.src || '')}</span></div>`).join('')}
           ${link.length ? `<div style="margin-top:4px;padding-top:4px;border-top:1px dashed var(--border);"><b>연결 지점</b> ${h(link.join(' · '))}</div>` : ''}</div>`; }).join('')}</div>
       <p class="tt-note">KERIS 입찰(교대 산학협력단 참여·낙찰)·조간 브리핑·뉴스 스크랩(매주 월 자동)을 대학별로 모았습니다. 교대가 수행하는 KERIS 연구 주제(독서교육 모델, AI 리터러시, AI디지털교과서 효과)는 MOU 기반 공동 연수·콘텐츠 과제로 바로 이어질 수 있는 '우리 자원'입니다.</p>`, 'margin-top:12px;')}
     ${(() => { const R = D.reading_data || {}, RD = D.reading || {}; return box(`${ttl('독서·인문학 교육', 'KERIS 독서·도서관 발주 · 시도 연수 공고 · 브리핑 · 스크랩')}
       <ul style="margin:0 0 8px;padding-left:18px;font-size:12.5px;line-height:1.6;">${(RD.points || []).map(x => `<li>${h(x)}</li>`).join('')}</ul>
       <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:12px;margin-bottom:8px;">${[['KERIS 독서·도서관 발주(2024~)', `${R.keris_n || 0}건 · ${won(R.keris_amt)}`], ['수행: 대학 산학협력단', `${(R.keris || []).filter(k => /산학협력단/.test(k.winner)).length}건`], ['시도 독서·인문 연수 공고', `${(R.train || []).length}건`]].map(([k, v]) => `<span style="padding:4px 10px;border-radius:8px;background:var(--surface-2);">${k} <b>${v}</b></span>`).join('')}</div>
-      <div style="display:flex;flex-wrap:wrap;gap:12px;"><div style="flex:1 1 420px;min-width:0;"><div class="tbl-wrap"><table class="data" style="font-size:12px;min-width:520px;"><thead><tr><th>KERIS 발주</th><th class="num">예산</th><th>수행</th><th>일자</th></tr></thead><tbody>${(R.keris || []).slice(0, 10).map(k => `<tr><td><a href="${h(k.u)}" target="_blank" rel="noopener">${h(k.t)}</a></td><td class="num">${won(k.budget)}</td><td style="font-size:11.5px;${/교육대학교|교원대/.test(k.winner) ? 'color:#ec4899;font-weight:700;' : ''}">${h(k.winner || '-')}</td><td style="white-space:nowrap;">${h(k.d)}</td></tr>`).join('')}</tbody></table></div></div>
-        <div style="flex:1 1 300px;min-width:0;font-size:12px;"><div style="font-weight:700;margin-bottom:4px;">시도 연수 공고</div>${(R.train || []).slice(0, 5).map(t => `<div style="padding:3px 0;border-bottom:1px solid var(--border);">${t.u ? `<a href="${h(t.u)}" target="_blank" rel="noopener">${h(t.t)}</a>` : h(t.t)} <span style="color:var(--muted);">${h(t.r || '')} · ${h(t.d)}</span></div>`).join('')}
-          <div style="font-weight:700;margin:8px 0 4px;">관련 기사</div>${(R.briefs || []).slice(0, 4).map(b => `<div style="padding:3px 0;border-bottom:1px solid var(--border);"><a href="${h(b.u)}" target="_blank" rel="noopener">${h(b.t)}</a> <span style="color:var(--muted);">${h(b.d)}</span></div>`).join('')}${Object.values(R.scrap || {}).flat().slice(0, 4).map(n => `<div style="padding:3px 0;border-bottom:1px solid var(--border);"><a href="${h(n.u)}" target="_blank" rel="noopener">${h(n.t)}</a> <span style="color:var(--muted);">${h(n.d)} ${h(n.src || '')}</span></div>`).join('')}</div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;"><div style="flex:1 1 420px;min-width:0;"><div class="tbl-wrap"><table class="data" style="font-size:12px;min-width:520px;"><thead><tr><th>KERIS 발주</th><th class="num">예산</th><th>수행</th><th>일자</th></tr></thead><tbody>${(R.keris || []).slice(0, 10).map(k => `<tr><td><a href="${h(k.u)}" target="_blank" rel="noopener noreferrer">${h(k.t)}</a></td><td class="num">${won(k.budget)}</td><td style="font-size:11.5px;${/교육대학교|교원대/.test(k.winner) ? 'color:#ec4899;font-weight:700;' : ''}">${h(k.winner || '-')}</td><td style="white-space:nowrap;">${h(k.d)}</td></tr>`).join('')}</tbody></table></div></div>
+        <div style="flex:1 1 300px;min-width:0;font-size:12px;"><div style="font-weight:700;margin-bottom:4px;">시도 연수 공고</div>${(R.train || []).slice(0, 5).map(t => `<div style="padding:3px 0;border-bottom:1px solid var(--border);">${t.u ? `<a href="${h(t.u)}" target="_blank" rel="noopener noreferrer">${h(t.t)}</a>` : h(t.t)} <span style="color:var(--muted);">${h(t.r || '')} · ${h(t.d)}</span></div>`).join('')}
+          <div style="font-weight:700;margin:8px 0 4px;">관련 기사</div>${(R.briefs || []).slice(0, 4).map(b => `<div style="padding:3px 0;border-bottom:1px solid var(--border);"><a href="${h(b.u)}" target="_blank" rel="noopener noreferrer">${h(b.t)}</a> <span style="color:var(--muted);">${h(b.d)}</span></div>`).join('')}${Object.values(R.scrap || {}).flat().slice(0, 4).map(n => `<div style="padding:3px 0;border-bottom:1px solid var(--border);"><a href="${h(n.u)}" target="_blank" rel="noopener noreferrer">${h(n.t)}</a> <span style="color:var(--muted);">${h(n.d)} ${h(n.src || '')}</span></div>`).join('')}</div></div>
       <p class="tt-note"><b>그래서</b> 독서교육 정책 연구는 교대·국립대 산학협력단이, 독서 플랫폼·행사는 기업이 수행하는 구조입니다. 창비교육의 인문학 저자·강사 네트워크로 '인문학 도서 연계 명사 연수'를 만들고, 독서교육 모델을 연구한 교대(청주교대 등)와 MOU 과제로 묶으면 연수원 단독보다 공고 적합성이 높아집니다.</p>`, 'margin-top:12px;'); })()}
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;">
-      <div style="flex:1 1 380px;min-width:0;">${box(`${ttl('관련 동향', '조간 브리핑에서 RISE·대학·기업 AI 교육 언급')}${(D.news || []).map(x => `<div style="font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);font-size:11px;">${h(x.d)}</span> <a href="${h(x.u)}" target="_blank" rel="noopener"><b>${h(x.t)}</b></a><div style="color:var(--ink-2);font-size:12px;">${h(x.b)}</div>${x.impact ? `<div style="font-size:12px;margin-top:2px;"><b>그래서</b> ${h(x.impact)}</div>` : ''}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">아직 관련 기사 없음 — 조간 브리핑이 쌓이면 자동으로 채워집니다.</p>'}`)}</div>
+      <div style="flex:1 1 380px;min-width:0;">${box(`${ttl('관련 동향', '조간 브리핑에서 RISE·대학·기업 AI 교육 언급')}${(D.news || []).map(x => `<div style="font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);font-size:11px;">${h(x.d)}</span> <a href="${h(x.u)}" target="_blank" rel="noopener noreferrer"><b>${h(x.t)}</b></a><div style="color:var(--ink-2);font-size:12px;">${h(x.b)}</div>${x.impact ? `<div style="font-size:12px;margin-top:2px;"><b>그래서</b> ${h(x.impact)}</div>` : ''}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">아직 관련 기사 없음 — 조간 브리핑이 쌓이면 자동으로 채워집니다.</p>'}`)}</div>
       <div style="flex:1 1 300px;min-width:0;">${box(`${ttl('다음에 확인할 것')}<ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;">${(D.open_questions || []).map(q => `<li>${h(q)}</li>`).join('')}</ul>
         <div style="font-weight:700;font-size:12.5px;margin:10px 0 4px;">업데이트 이력</div>${(D.log || []).map(l => `<div style="font-size:12px;"><span style="color:var(--muted);">${h(l.d)}</span> ${h(l.t)}</div>`).join('')}
         <p class="tt-note">새 미팅 결과·공고·대학 정보를 대화로 보내 주시면 이 공간(공개 정보는 industry_trend_2027.json, 업체 정보는 암호문)에 추가합니다.</p>`)}</div></div>
@@ -10051,7 +10051,7 @@ window.__renderPdfx = function(root, P){
   const chip = (t, c) => `<span style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;background:${c || '#94a3b8'};white-space:nowrap;">${h(t)}</span>`;
   const sec = (n, t, inner) => `<h3 style="font-size:15px;margin:18px 0 8px;">${n}) ${t}</h3>${inner}`;
   const tbl = (head, rows) => `<div class="tbl-wrap strat-wrap"><table class="data strat-tbl" style="font-size:12.5px;table-layout:fixed;width:100%;min-width:0;"><thead><tr>${head.map(x => `<th${x[1] ? ` style="width:${x[1]}"` : ''}>${x[0]}</th>`).join('')}</tr></thead><tbody>${rows.join('') || `<tr><td colspan="${head.length}" style="color:var(--muted);">해당 없음</td></tr>`}</tbody></table></div>`;
-  const link = (u, t) => u ? `<a href="${h(u)}" target="_blank" rel="noopener">${h(t || '원문')}</a>` : '';
+  const link = (u, t) => u ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t || '원문')}</a>` : '';
   function draw(i){
     const d = I[i] || {};
     document.getElementById('stratDate').textContent = `${d.date || ''} (${d.weekday || ''})`;

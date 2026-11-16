@@ -127,6 +127,41 @@ def _pool_url():
     return u or None
 
 
+_TAG_OK = re.compile(r"</?(?:strong|b|em|i|br|span|small|sub|sup|u|mark|p|ul|ol|li)\s*/?>", re.I)
+_URL_BAD = {'"': "%22", "'": "%27", "<": "%3C", ">": "%3E", " ": "%20", "`": "%60"}
+
+
+def _neutral(v, cnt):
+    """화면에 들어갈 데이터의 마지막 방어막(2026-11-16 보안 점검).
+    - 속성 없는 서식 태그(<strong> 등)만 남기고 나머지 '<' 는 전각 '＜' 로 바꿔 태그 주입을 막는다.
+    - http 로 시작하는 주소 값은 따옴표·꺾쇠·공백을 퍼센트 인코딩해 href 속성 탈출을 막는다.
+    cnt 에는 바뀐 개수만 센다(값은 로그에 남기지 않는다)."""
+    if isinstance(v, str):
+        if v[:8].lower().startswith(("http://", "https://")):
+            if any(c in v for c in _URL_BAD):
+                cnt[0] += 1
+                return "".join(_URL_BAD.get(c, c) for c in v)
+            return v
+        if "<" not in v:
+            return v
+        out, last = [], 0
+        for m in _TAG_OK.finditer(v):
+            seg = v[last:m.start()]
+            if "<" in seg:
+                cnt[0] += seg.count("<")
+            out.append(seg.replace("<", "＜")); out.append(m.group(0)); last = m.end()
+        seg = v[last:]
+        if "<" in seg:
+            cnt[0] += seg.count("<")
+        out.append(seg.replace("<", "＜"))
+        return "".join(out)
+    if isinstance(v, list):
+        return [_neutral(x, cnt) for x in v]
+    if isinstance(v, dict):
+        return {k: _neutral(x, cnt) for k, x in v.items()}
+    return v
+
+
 def _ext_links():
     """탭 줄 바깥 링크(별도 페이지) - 비공개 저장소 _private/config/links.json 또는 환경변수에서만 읽는다(공개 저장소에 주소 없음).
     값은 출력하지 않고 설정 여부만 로그에 남긴다."""
@@ -910,7 +945,12 @@ def main():
         if token not in html:
             print(f"WARNING: 템플릿에 {token} 없음", file=sys.stderr)
             continue
-        html = html.replace(token, json.dumps(value, ensure_ascii=False))
+        cnt = [0]
+        value = _neutral(value, cnt)
+        if cnt[0]:
+            print(f"보안 정리: {token} 에서 {cnt[0]}곳 무력화")
+        # </script> 로 스크립트 밖으로 빠져나가는 것을 막는다(JS 문자열에서 <\/ 는 </ 와 같다)
+        html = html.replace(token, json.dumps(value, ensure_ascii=False).replace("</", "<\\/"))
 
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(html)
