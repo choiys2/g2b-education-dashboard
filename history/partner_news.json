@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 22:01",
+ "generated": "2026-11-15 23:22",
  "since": "2026-05-19",
  "via": {
   "naver": 0,
@@ -578,7 +578,7 @@
   },
   "광운대학교": {
    "kind": "univ",
-   "n": 18,
+   "n": 19,
    "items": [
     {
      "t": "친구 따라 시작한 아이스하키 광운대학교 최강호 선수 특별 인터뷰",
@@ -758,7 +758,7 @@
   },
   "티처빌": {
    "kind": "company",
-   "n": 2,
+   "n": 4,
    "items": [
     {
      "t": "테크빌교육 티처빌, AI 튜터로 교사 연수 탐색부터 문의 대응까지 지원",
@@ -771,6 +771,18 @@
      "d": "2026-06-25",
      "src": "신아일보",
      "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFA2M3REV0hwM2l5SWZhWVZvcXBaSXNBdm15bnJFN3FLRXZqVHBaeTIxMzQxS0h4WHQ3ZFBWOGRqcHJHWU9GblUyLU5pblhlZnFNd25OSGxfel80SlVqLUNhOV9TVFAzQWFHVFY4S0ZaTXg?oc=5"
+    },
+    {
+     "t": "AI가 바꾸는 교원 연수… 티처빌, 'AI 학습튜터' 베타 서비스 출시",
+     "d": "2026-06-25",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5POFFGbWd2dHF4bXhXY3Zsa1F5RFZGMW45cFV4Tl9CeHd0cnlraEgwTS14cUNiVjJFUmpLQVc5SlZkRDdtN25iNy1NWk9xcnRRVFVBbFJmaUhIWEpfSThqZmgybXI?oc=5"
+    },
+    {
+     "t": "[#에듀픽] 티처빌 'AI 학습튜터' 출시·공단기 '신규 강사진 영입'·대성 '디파인 출시'",
+     "d": "2026-06-25",
+     "src": "뉴스웍스",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1GQW1lZ1FPTjZSLUpRRFFrcEkzMlVtRlVlQ3VSb0xTemtZbWE2MFdUT21TM1JvMWViRzdGck1SZ2o4NllCZkxmSjA0eHZKYXJhLXhFV1lWZ1dhWjB5LV84MEVRbVlSQ2lpZjQyajhXb9IBc0FVX3lxTE56ZzNVNjFNSUFWQmZ2WDlxV1JKMUtJSmxobEYzakNSLU43LWtSTnNWeDJPT1BVRVhndkxCeGlOTTB5N21BOUhPeUlOVHZnZTNfdFZGcUFNeTl6RzJHcktXbk9NN0x2NmpGTzBUajhKZE1ZS0U?oc=5"
     }
    ]
   },
@@ -815,12 +827,6 @@
      "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE14Q2xfNnFjZjhTN285a1paUk5vV3c4RkZETzluUEdSc04xNUdmSVFEcDU3WU1qZVdLLXFrU2ZGQkc4M29mZ1VFZGxUZVpJV0hhTGFCaWtGbDNZVi1zQTZMdDlOb3Y0R0JidDNnbWxxaw?oc=5"
     },
     {
-     "t": "“이론부터 AI 개발까지”… KMA 한국능률협회, 전사 AI 인재 육성 프로젝트 성료",
-     "d": "2026-10-29",
-     "src": "서울신문",
-     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5IRUU5QkNENkJOR0VGZ0s4RFN5cVVPaXlxQ2lwVF9DOGJ3LUdHVnVYSWZmbVN5U01EY05LY2U5OHR0SFkyeXM4eGFoWXFMNU0tNXFaS0FEOUEzYlFHRkRMeDFNOUNFOEM4NVdoYXNlcw?oc=5"
-    },
-    {
      "t": "두레시닝·한국능률협회컨설팅, 데이터·AI 기반 컨설팅 서비스 협력",
      "d": "2026-10-23",
      "src": "한국경제",
@@ -843,6 +849,12 @@
      "d": "2026-10-08",
      "src": "비욘드포스트",
      "u": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9OakVSbVB6VS00OTdPeGRhX0t3ZUFpTTI3VDRKSmlDU0JCc1hDT3huREZCM3FwdEVLLWpET25CY3JwTFduTXRoN3BWRDdVbzZWeGY3WGpmZm8wUi1JcXhmM2hWTUlDWlRCNnZlNm03SU9oc3FjRF9FU0IwcHc?oc=5"
+    },
+    {
+     "t": "KMA 한국능률협회, 제637회 최고경영자조찬회 개최...AI 시대 새 인재상과 조직 혁신",
+     "d": "2026-10-02",
+     "src": "서울신문",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE4tWEItTjZkUFozOWVYd3BBSFNtMkdnWVUzMk5HYTBiVHlFS3h0bHNsZm1YRGlHeDZoM2IyZGlGaXdCVWlPdTQzRlJ3RkY3cFNJZVFoWWdjMkxzRlN4VVlaUFNrQkptdDBhWUF0VnNlaw?oc=5"
     }
    ]
   },
@@ -876,9 +888,51 @@
     }
    ]
   },
+  "KTcs": {
+   "kind": "company",
+   "n": 39,
+   "items": [
+    {
+     "t": "KTcs, 장 초반 10% 급등…3Q 호실적·주주환원 - 머니투데이",
+     "d": "2026-11-09",
+     "src": "머니투데이",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1pZm9FT2N6WmNRN3pLcmNia3I2SHpPR3JTVHVqWFE2cnlhSExFWlYxRzE2dTJGZ043Q2txMXVwSXpwVVlaSUlnMnlLXzdLVXhKWUxvUHhCSkZMVHh4WlI3VmU3cmVsUzRL0gFuQVVfeXFMTkNqMXFXWmdBczc4UV9UbDBUWmRVQ1llSjFwY2ZsSjhJQ2xlMzVyY2pkRVFYaVdKMUZ6c2s3Umh2NG5QTklzeW5oc25OSm8wYXNMdUg1WHVvV2tjNXJZZ3VNTi1GcllkSVRtbzlhQ2c?oc=5"
+    },
+    {
+     "t": "KTcs, 3분기 영업이익 '역대 최대' 110억원",
+     "d": "2026-11-09",
+     "src": "지디넷코리아",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9mTmwzdEc2NzQ0UHB2a21Hc1NJakxMU2NVZ1Q5MmNFZFBFNHBjOTQ4dTVwb2I0dTU4M0tja05kRTlPSG8xNF9wVnRxU3Jkc2FSN2ZPc0FR?oc=5"
+    },
+    {
+     "t": "KTcs, 3분기 영업이익 '역대 최대'…자사주 346만주 소각",
+     "d": "2026-11-09",
+     "src": "뉴스핌",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE14OXJzMFRJWDBzZnZ4eWVrdVB0OFNXeVlPMEtVOTJFMElkbFd6QVk2em9iQkg1T085RWs3ejlHY2dPMWh6VFIxc0gtMGFhX3M4WGk1UGhHVzhKa3RY?oc=5"
+    },
+    {
+     "t": "KTcs, 3분기 영업익 `역대 최대`…첫 중기 주주환원 정책도",
+     "d": "2026-11-09",
+     "src": "디지털데일리",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5CQ0x3YVBnOHFaRjJCdHFSYTBxdFY5dTdKcWJPazNnTEE1Yjd0ZTVlMF94RVhHOFd2ck85WS1EV2h2YW5QTzJ0dGdpdGlOLXM3bWg5X3JRaS13dEdWM2RXZ1Qxbzc?oc=5"
+    },
+    {
+     "t": "KTcs, 3분기 영업익 110억 '역대 최대'⋯자사주 87억 소각",
+     "d": "2026-11-09",
+     "src": "아이뉴스24",
+     "u": "https://news.google.com/rss/articles/CBMiS0FVX3lxTFBFaHNMUHdkQ2RXTzZMYXRURy1raGFraGZ1VjlpaTRjMzNJWlUxUHVfYnNiTHAtQ0lHNldsNnBONmJLTnR6RV90Y09MUQ?oc=5"
+    },
+    {
+     "t": "KTcs, 3분기 영업익 110억 '역대 최대'…배당 늘린다",
+     "d": "2026-11-08",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1xLTBqWDh5Y1UwSWpVb2k3MTVQQUlSYl9UN2s5MFVWOHRRYXlvLWxEUWllZU1FdGZsQ3J6WVh1akc1emNEend4T01kZEJET1hCLWN1X2c0ZEVSaExxOWhGVA?oc=5"
+    }
+   ]
+  },
   "엘리스그룹": {
    "kind": "company",
-   "n": 60,
+   "n": 58,
    "items": [
     {
      "t": "과기정통부, 대한민국 인터넷대상 시상…대통령상에 엘리스그룹",
@@ -891,12 +945,6 @@
      "d": "2026-11-15",
      "src": "조선일보",
      "u": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQYzNWRHUzTG9YMnJjQXZzeGt0aHpZWGxUb1JlRUlEOVRmVVpYX281YUhIRkpwM1pJaG9LQkw5MHJ2SS14ZTl1VUFndWExZXhlTnY3bnlQWHpCbzZucVJuVzhtT0h5SXVsTXp0Nzg5Tlk1ZzNQMm1vVDVHaFFQbWJLRVpDNA?oc=5"
-    },
-    {
-     "t": "엘리스그룹, 온수·외기 냉각 적용한 친환경 B300 모듈형 AI 데이터센터 가동",
-     "d": "2026-11-14",
-     "src": "디지털경제뉴스",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1hREFKbmpLTHZuSEpiV1ZxaFhycmp1WU9IOFQteVB1RlRhNTV6NFB1VlVYbUdNS19oZU5mS2w5MFdZMGw1d3lxaW5xVEU3Uk1OY3VWd19udVBINXpnNDF6N1VlMmdVWDUtZmc?oc=5"
     },
     {
      "t": "엘리스그룹, 'B300' 기반 AI 데이터센터 베타 서비스 개시",
@@ -915,12 +963,18 @@
      "d": "2026-11-13",
      "src": "연합뉴스",
      "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1vR1RycHNfb1k1OXk0Y2ppekVCd3pGZHFTNWpXM0M2UHRJZUUtb2tOekJMU1VyUko1RlZyWmhQUU9BT1FVUWJmX1RqdXI5ckxhTVNZOUJicW9yZHZsU21DatIBYEFVX3lxTE1vR1RycHNfb1k1OXk0Y2ppekVCd3pGZHFTNWpXM0M2UHRJZUUtb2tOekJMU1VyUko1RlZyWmhQUU9BT1FVUWJmX1RqdXI5ckxhTVNZOUJicW9yZHZsU21Dag?oc=5"
+    },
+    {
+     "t": "[AI픽] 엘리스그룹, 엔비디아 B300 기반 AI 데이터센터 가동",
+     "d": "2026-11-13",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9IRmljcUR5dExUbmZVWGhMTFV0cklzd2pNYWdoV3lfSy1URzNkZUlTQ0x3VUNId19xbk9ZNHBRVGY0WENHdjIxVkNrMG5JVi13VjVaNU9FN1VTMXRWOW5IStIBYEFVX3lxTE9IRmljcUR5dExUbmZVWGhMTFV0cklzd2pNYWdoV3lfSy1URzNkZUlTQ0x3VUNId19xbk9ZNHBRVGY0WENHdjIxVkNrMG5JVi13VjVaNU9FN1VTMXRWOW5ISg?oc=5"
     }
    ]
   },
   "천재교육": {
    "kind": "company",
-   "n": 51,
+   "n": 52,
    "items": [
     {
      "t": "천재교육 '바로 독해' 시리즈 전면 개정",
@@ -953,16 +1007,16 @@
      "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1jZjBpSUpzUWR2cXBac1hUNmtFOVBZejFDblZYYXZOcDIzOUZuSVY4ZU9Hb0hlLTRVZFYzNGFNaHZnT1lWWWRSZ05ha2NuTTFZbmp1bkVCXzlMdUM3YmhyOQ?oc=5"
     },
     {
-     "t": "[똑똑한교육] 미래엔, 교원 빨간펜, YBM, 아이스크림미디어, YBM인강, 천재교육,",
-     "d": "2026-11-09",
-     "src": "에너지경제신문",
-     "u": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFAtVl9IcS16dnJuWGk0WXlIZEEzRzRoTXZ5VHpTbEYyUldYbHJTM0Y1cVQ2ZHdZY1hVSXBMV05sUWk5cDlUYmlnTDJLMzlTalRoTFN1bWNpYVFzbnZPUzFZMU1XOA?oc=5"
+     "t": "비상교육·천재교육 포함 5곳 털어보니…아이 정보 다루면서 접속기록도 안 남겼다",
+     "d": "2026-11-12",
+     "src": "콕스뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5WMjdTUXp2ZnR2UlR2aDZjcUFBUkdEOWNYOURHUXZJVHhWcW9DOFpIdEN3Tmt6SldWM293eEN5SzVWaXNyV3hRYkhfZVhSd2N6WXlOd1p5Z2wyLTByT243em9xdjhpQ1VwSUE?oc=5"
     }
    ]
   },
   "아이스크림미디어": {
    "kind": "company",
-   "n": 51,
+   "n": 50,
    "items": [
     {
      "t": "아이스크림미디어의 그림책 '물음표의 책' 질문하는 힘 키운다",
@@ -995,16 +1049,16 @@
      "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE56RGpiT21oVjZHeHR6cTJFMHlVMHNvTTBjV2QtSHJ5RW82SFNOcHBkdTZDc0xjSlIzODVPVEZBb1FzQ253WFhpQTFiUnBvQ2Z6ejB0M2NqYmo3QQ?oc=5"
     },
     {
-     "t": "아이스크림미디어, '물음표의 책' 출간",
-     "d": "2026-11-12",
-     "src": "아시아경제",
-     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1ZZkYwVFQxaUkxTkVpdndKOGt0TmllWDdJbWVjMGxha19DZncxM0tZRk9OQV9OM1NWejVmOG9RMVlTYjBlMlNFamU0V3JWRC1VamZHMkZZc05SVVJhcF9BZw?oc=5"
+     "t": "[단독]20만 교사 정보유출 아이스크림미디어, 정보보호 수년째 미인증 - 머니투데이",
+     "d": "2026-11-11",
+     "src": "머니투데이",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9YVkMzZENvWDBPaTZ6ckRHYTlQZVBySFY5OHF2R2x2ODR5a0FOTzZQSnJiWEN5WnI0bHNsUXdIQnRvUFFYNGhHOHdQSGFhTG82QnBGaDliSkRHZWtVZXBqZlhQQlhfUzd4YXfSAW9BVV95cUxOTGRwU3I5V3UwdTN2V3gyVV9hVGREVWhrbU1XWnc4aVVjNWpzT0pYNEJZcnctUmlvc1dPOW1VWVNJZWJoSHczUjdIUG1OUWNKVERpdmV2Z2c2cUtmQjJOLVJISTNFV09hRG1scHhzbGs?oc=5"
     }
    ]
   },
   "문해력 교육": {
    "kind": "topic",
-   "n": 37,
+   "n": 36,
    "items": [
     {
      "t": "산간 지역 주민들에게 \"디지털 문해력 교육\"을 제공합니다.",
