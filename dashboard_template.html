@@ -6102,6 +6102,7 @@ function renderCompWatch(el, C){
       if (act && window.renderAdminActions) { try { window.renderAdminActions(act); } catch (e) { console.warn('admin actions', e); } }
       const bsc = body.querySelector('#admBranchScore');
       if (bsc && window.renderBranchScore) { try { window.renderBranchScore(bsc); } catch (e) { console.warn('branch score', e); } }
+      ['tpSimInit', 'tpQuoteInit'].forEach(f => { if (window[f]) { try { window[f](body); } catch (e) { console.warn(f, e); } } });
     } catch (ex) {
       err.textContent = '비밀번호가 맞지 않습니다.';
     } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
@@ -10181,6 +10182,108 @@ window.__renderPdfx = function(root, P){
   .vmini{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);padding:6px 0;border-bottom:1px solid var(--border);}
   .vmini button{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;padding:4px 10px;border-radius:8px;cursor:pointer;}
 </style>
+<script>
+/* ---------------- 🔒 관리: 2027 매출 시나리오 · 블렌디드 견적 계산기 ----------------
+   값은 관리 암호문 안의 data-p 에서만 읽는다(공개 코드에는 숫자 없음). */
+window.tpSimInit = function(root){
+  const el = root.querySelector('#tpSim'); if (!el) return;
+  let P; try { P = JSON.parse(el.dataset.p); } catch (e) { return; }
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const f2 = v => v.toFixed(2) + '억', M = 'color:var(--muted);font-size:12.5px;';
+  const calc = x => {
+    let rev = 0, cost = 0, g = 0, prev = 0;
+    P.items.forEach(it => { const v = x[it.k]; rev += v; cost += v * it.cost; if (it.b2g) g += v; prev += it.prev; });
+    return {rev, cm: rev - cost, g: rev ? g / rev * 100 : 0, prev};
+  };
+  const base = Object.fromEntries(P.items.map(it => [it.k, it.plan]));
+  const B = calc(base);
+  const btn = 'appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12.5px;padding:4px 12px;border-radius:8px;cursor:pointer;';
+  el.innerHTML = '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">'
+    + Object.keys(P.presets).map(k => `<button type="button" data-pre="${h(k)}" style="${btn}">${h(k)}</button>`).join('') + '</div>'
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:16px;"><div>'
+    + P.items.map(it => `<label style="display:block;margin:8px 0;font-size:13px;"><span style="display:flex;justify-content:space-between;gap:8px;"><span>${h(it.l)}</span><b data-o="${it.k}"></b></span>`
+      + `<input type="range" data-k="${it.k}" min="${it.min}" max="${it.max}" step="0.05" style="width:100%;"><span data-d="${it.k}" style="${M}"></span></label>`).join('')
+    + '</div><div data-out></div></div>'
+    + `<div style="margin-top:12px;"><b style="font-size:13px;">시나리오 3종 비교</b><div data-cmp style="overflow-x:auto;"></div><p style="${M}">${h(P.preset_note || '')}</p><p style="${M}">${h(P.note || '')}</p></div>`;
+  const ins = {}; el.querySelectorAll('input[data-k]').forEach(i => ins[i.dataset.k] = i);
+  const set = x => P.items.forEach(it => ins[it.k].value = x[it.k]);
+  const tile = (l, v, s, warn) => `<div style="padding:10px 12px;border:1px solid var(--border);border-radius:10px;"><div style="${M}">${l}</div><div style="font-size:20px;font-weight:800;${warn ? 'color:#ef4444;' : ''}">${v}</div><div style="${M}">${s}</div></div>`;
+  const draw = () => {
+    const x = {}; P.items.forEach(it => x[it.k] = Number(ins[it.k].value));
+    P.items.forEach(it => {
+      el.querySelector(`[data-o="${it.k}"]`).textContent = f2(x[it.k]);
+      const g = it.prev ? (x[it.k] / it.prev - 1) * 100 : 0;
+      el.querySelector(`[data-d="${it.k}"]`).textContent = `2026E ${f2(it.prev)} 대비 ${g >= 0 ? '+' : ''}${g.toFixed(0)}% · 계획 ${f2(it.plan)}`;
+    });
+    const r = calc(x), d = r.rev - B.rev, over = r.g > P.b2g_cap + 0.05;
+    el.querySelector('[data-out]').innerHTML = '<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">'
+      + tile('총매출', f2(r.rev), `계획 대비 ${d >= 0 ? '+' : ''}${d.toFixed(2)}억 · 2026E 대비 ${((r.rev / r.prev - 1) * 100).toFixed(1)}%`, d < -0.005)
+      + tile('B2G 비중', r.g.toFixed(1) + '%', `목표 ≤${P.b2g_cap}% (결과값)`, over)
+      + tile('기여이익(인건비 前)', f2(r.cm), `이익률 ${(r.rev ? r.cm / r.rev * 100 : 0).toFixed(1)}% · 계획 ${f2(B.cm)}`, r.cm < B.cm - 0.005)
+      + tile('B2C·몰 합계', f2(x.ind + x.mall), `계획 ${f2(base.ind + base.mall)}`, false)
+      + '</div><p style="margin:10px 0 0;font-size:13px;line-height:1.6;"><b>그래서</b> '
+      + (d >= 0 ? `계획(${f2(B.rev)})을 ${d.toFixed(2)}억 웃돕니다.` : `계획까지 ${(-d).toFixed(2)}억 부족합니다. 기여이익 기준으로는 단체·개인 1억이 약 ${f2(1 - P.items[0].cost)}, 몰 1억이 ${f2(1 - P.items[1].cost)} 이익을 냅니다.`)
+      + (over ? ' B2G 비중이 목표를 넘습니다 — 개인·몰 비중을 더 키워야 합니다.' : '') + '</p>';
+  };
+  const cmp = () => {
+    const rows = Object.entries(P.presets).map(([k, x]) => { const r = calc(x); return `<tr><td>${h(k)}</td><td class="num">${f2(r.rev)}</td><td class="num">${r.g.toFixed(0)}%</td><td class="num">${f2(r.cm)}</td></tr>`; }).join('');
+    el.querySelector('[data-cmp]').innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12.5px;"><thead><tr><th style="text-align:left;">시나리오</th><th class="num">총매출</th><th class="num">B2G 비중</th><th class="num">기여이익</th></tr></thead><tbody>${rows}</tbody></table>`;
+  };
+  Object.values(ins).forEach(i => i.addEventListener('input', draw));
+  el.querySelectorAll('[data-pre]').forEach(b => b.addEventListener('click', () => { set(P.presets[b.dataset.pre]); draw(); }));
+  set(base); draw(); cmp();
+};
+
+window.tpQuoteInit = function(root){
+  const el = root.querySelector('#tpQuote'); if (!el) return;
+  let P; try { P = JSON.parse(el.dataset.p); } catch (e) { return; }
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const W = v => Math.round(v).toLocaleString() + '만', M = 'color:var(--muted);font-size:12.5px;';
+  const num = 'width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:inherit;font:inherit;font-size:12.5px;';
+  el.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:16px;"><div>'
+    + P.items.map(it => `<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;">`
+      + `<label style="display:flex;gap:8px;align-items:center;"><input type="checkbox" data-on="${it.k}" ${it.on ? 'checked' : ''}><b style="flex:1;">${h(it.l)}</b><span data-amt="${it.k}"></span></label>`
+      + `<div style="${M}margin:2px 0 4px 24px;">${h(it.hint)}</div>`
+      + (it.pmax > it.pmin ? `<div style="margin-left:24px;display:flex;gap:6px;align-items:center;"><input type="range" data-p="${it.k}" min="${it.pmin}" max="${it.pmax}" step="10" value="${it.price}" style="flex:1;"><span data-pv="${it.k}" style="width:64px;text-align:right;font-size:12.5px;"></span>${it.unit ? '<span style="font-size:12px;">/' + h(it.unit) + '</span>' : ''}</div>` : '')
+      + (it.unit ? `<div style="margin:4px 0 0 24px;font-size:12.5px;">${h(it.unit)} 수 <input type="number" data-n="${it.k}" min="${it.nmin}" max="${it.nmax}" value="${it.n}" style="${num}"></div>` : '')
+      + `<div style="margin:4px 0 0 24px;font-size:12px;color:var(--muted);">${it.cost_abs ? '원가(만원)' : '원가율(%)'} <input type="number" data-c="${it.k}" value="${it.cost}" min="0" style="${num}"></div></div>`).join('')
+    + `<div style="margin-top:10px;font-size:13px;">올해 누적 수주액(만원) <input type="number" data-ytd value="0" min="0" style="${num}width:100px;"></div>`
+    + `</div><div><div data-out></div><button type="button" data-copy style="margin-top:10px;appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12.5px;padding:5px 12px;border-radius:8px;cursor:pointer;">견적 요약 복사</button><span data-msg style="${M}margin-left:8px;"></span>`
+    + `<p style="${M}margin-top:10px;">${h(P.note || '')}</p></div></div>`;
+  const q = s => el.querySelector(s);
+  let last = '';
+  const draw = () => {
+    let sum = 0, cost = 0; const lines = [];
+    P.items.forEach(it => {
+      const on = q(`[data-on="${it.k}"]`).checked, pr = q(`[data-p="${it.k}"]`), n = q(`[data-n="${it.k}"]`);
+      const price = pr ? Number(pr.value) : it.price, cnt = n ? Math.max(Number(n.value) || 0, 0) : 1, c = Number(q(`[data-c="${it.k}"]`).value) || 0;
+      if (q(`[data-pv="${it.k}"]`)) q(`[data-pv="${it.k}"]`).textContent = W(price);
+      const amt = price * cnt;
+      q(`[data-amt="${it.k}"]`).textContent = on ? (amt ? W(amt) : '무상') : '—';
+      if (!on) return;
+      sum += amt; cost += it.cost_abs ? c : amt * c / 100;
+      lines.push(`· ${it.l}${it.unit ? ` (${cnt}${it.unit})` : ''}: ${amt ? W(amt) : '무상 제공'}`);
+    });
+    const m = sum - cost, [lo, hi] = P.budget, ytd = Number(q('[data-ytd]').value) || 0;
+    const left = Math.max(P.target - ytd, 0), need = sum ? Math.ceil(left / sum) : 0, rep = sum ? Math.ceil(P.rep_target / sum) : 0;
+    const st = sum > hi ? ['예산 상한 초과', '#ef4444'] : sum >= lo ? ['예산 기준 안', '#10b981'] : ['예산 하한 미만', '#f59e0b'];
+    const tile = (l, v, s, col) => `<div style="padding:10px 12px;border:1px solid var(--border);border-radius:10px;"><div style="${M}">${l}</div><div style="font-size:20px;font-weight:800;${col ? 'color:' + col + ';' : ''}">${v}</div><div style="${M}">${s}</div></div>`;
+    q('[data-out]').innerHTML = '<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">'
+      + tile('견적 합계', W(sum), `${st[0]} (${W(lo)}~${W(hi)})`, st[1])
+      + tile('예상 마진', W(m), `마진율 ${(sum ? m / sum * 100 : 0).toFixed(1)}% · 원가 ${W(cost)}`, m < 0 ? '#ef4444' : '')
+      + tile('5억까지 필요 건수', need + '건', `남은 ${W(left)} ÷ 이 견적 · KPI ${P.kpi_cnt}건`, need > P.kpi_cnt ? '#ef4444' : '')
+      + tile('영업 1인 목표(2.5억)', rep + '건', `이 견적 기준 연간 필요 건수`, '')
+      + '</div><p style="margin:10px 0 0;font-size:13px;line-height:1.6;"><b>그래서</b> '
+      + (need > P.kpi_cnt ? `이 구성으로는 KPI ${P.kpi_cnt}건으로 5억에 닿지 않습니다(${need}건 필요). 건당 약 ${W(left / P.kpi_cnt)}이 되도록 콘텐츠 차시·후속 연수를 붙이거나 건수를 늘려야 합니다.` : `이 구성이면 KPI ${P.kpi_cnt}건 안에서 5억 달성이 가능합니다.`) + '</p>';
+    last = '[블렌디드 연수 견적(안)]\n' + lines.join('\n') + `\n합계: ${W(sum)}원`;
+  };
+  el.addEventListener('input', draw); el.addEventListener('change', draw);
+  q('[data-copy]').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(last); q('[data-msg]').textContent = '복사했습니다.'; } catch (e) { q('[data-msg]').textContent = '복사가 막혀 있습니다.'; }
+  });
+  draw();
+};
+</script>
 <script>
 /* ---------------- 지역 총판 > 총판 성적표(A1) ----------------
    로그인 뒤 복호화된 총판(__BRANCH)·채택 학교(__ADOPT)를 브라우저에서만 합친다(새 데이터를 싣지 않음). */

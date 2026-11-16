@@ -121,4 +121,16 @@ def build(sec):
         inner = "".join(body)
         out.append(sec(E(s["title"]), E(s.get("desc", "")),
                        f"<details open><summary style='cursor:pointer;{NOTE}padding:2px 0;'>펼치기 · 접기</summary>{inner}</details>"))
+        if i == 0 and D.get("sim"):  # 2030 방향 바로 아래: 2027 매출 시나리오 시뮬레이터(브라우저에서 계산)
+            out.append(sec("2027 매출 시나리오 시뮬레이터", "막대를 움직이면 총매출·B2G 비중·기여이익이 바로 다시 계산됩니다. 기준선은 2027 매출 계획.",
+                           f"<div id='tpSim' data-p='{E(json.dumps(D['sim'], ensure_ascii=False))}'><p style='{NOTE}'>계산기를 불러오는 중입니다.</p></div>"))
     return "".join(out)
+
+
+def build_quote(sec):
+    """🔒 관리 탭 '영업 도구' — 블렌디드 견적·수익 계산기(값은 비공개 JSON, 계산은 브라우저)."""
+    D = load()
+    if not D or not D.get("quote"):
+        return sec("블렌디드 견적·수익 계산기", "", f"<p style='{NOTE}'>데이터 준비 중</p>")
+    return sec("블렌디드 견적·수익 계산기", "교육청 미팅 전에 구성을 고르면 견적·예상 마진·5억까지 필요한 건수가 나옵니다.",
+               f"<div id='tpQuote' data-p='{E(json.dumps(D['quote'], ensure_ascii=False))}'><p style='{NOTE}'>계산기를 불러오는 중입니다.</p></div>")
