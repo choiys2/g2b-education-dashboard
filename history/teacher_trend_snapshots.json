@@ -1,6 +1,6 @@
 {
  "2026Q4": {
-  "date": "2026-11-15",
+  "date": "2026-11-16",
   "rank": [
    {
     "id": "ai",
@@ -9,7 +9,7 @@
    },
    {
     "id": "lesson",
-    "score": 49,
+    "score": 50,
     "stage": "확산"
    },
    {
@@ -29,23 +29,28 @@
    },
    {
     "id": "safety",
-    "score": 24,
+    "score": 23,
     "stage": "성숙"
    },
    {
     "id": "care",
-    "score": 20,
+    "score": 19,
     "stage": "성숙"
    },
    {
     "id": "leader",
-    "score": 20,
+    "score": 19,
     "stage": "성숙"
    },
    {
     "id": "humanities",
-    "score": 20,
+    "score": 19,
     "stage": "성숙"
+   },
+   {
+    "id": "career",
+    "score": 17,
+    "stage": "부상"
    },
    {
     "id": "neulbom",
@@ -61,11 +66,6 @@
     "id": "citizen",
     "score": 15,
     "stage": "관망"
-   },
-   {
-    "id": "career",
-    "score": 14,
-    "stage": "부상"
    },
    {
     "id": "math",

@@ -136,17 +136,6 @@
    },
    "history": [
     {
-     "biz_year": 2021,
-     "consolidated": false,
-     "sales": 167741564718,
-     "operating_profit": 14312514575,
-     "net_profit": 11008256857,
-     "total_assets": 277125935970,
-     "total_debt": 56626474940,
-     "total_capital": 220499461030,
-     "debt_ratio": "25.6810037882"
-    },
-    {
      "biz_year": 2022,
      "consolidated": false,
      "sales": 208542776633,
@@ -167,28 +156,6 @@
      "total_debt": 178673986486,
      "total_capital": 173331771529,
      "debt_ratio": "103.0820748613"
-    },
-    {
-     "biz_year": 2024,
-     "consolidated": false,
-     "sales": 238269552424,
-     "operating_profit": 6044175882,
-     "net_profit": -762654713,
-     "total_assets": 381596513371,
-     "total_debt": 209756544229,
-     "total_capital": 171839969142,
-     "debt_ratio": "122.0650499859"
-    },
-    {
-     "biz_year": 2025,
-     "consolidated": false,
-     "sales": 265695040273,
-     "operating_profit": 20686649465,
-     "net_profit": 23641807607,
-     "total_assets": 395245014284,
-     "total_debt": 198953672040,
-     "total_capital": 196291342244,
-     "debt_ratio": "101.356315447"
     }
    ],
    "next_disclosure": {
@@ -203,5 +170,5 @@
    "history": []
   }
  },
- "captured": "2026-11-15"
+ "captured": "2026-11-16"
 }
