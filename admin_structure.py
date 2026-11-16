@@ -361,6 +361,11 @@ def build_html(exec_sources=None):
     except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 3년차 교과서 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         tb3_html = ""
+    try:  # 교원연수 2030 방향·셀별 2027 실행안 - 관리 탭 '경영 종합' 맨 위, 원자료는 비공개 저장소
+        tp_html = __import__("training_plan").build(sec)
+    except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 교원연수 방향 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        tp_html = ""
     ga = {"hot": "", "price": "", "delay": "", "order": ""}
     try:  # 고도화 4종(핫토픽 선점·가격 포지셔닝·지연 경보·발주 예측) - 관리 탭 전용
         gm = __import__("growth_alerts")
@@ -394,7 +399,7 @@ def build_html(exec_sources=None):
                   + "<div><h4>일정</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in sched) + "</tbody></table></div>"
                   + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
     return (css + '<div class="adm">' + nav
-            + pane("exec", blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
+            + pane("exec", tp_html + blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
             + pane("decide", blocks["decide"] + cand_html)
             + pane("weekly", weekly_html)
             + pane("schedule", schedule_html)
