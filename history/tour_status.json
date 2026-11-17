@@ -1,5 +1,5 @@
 {
- "at": "2026-11-17 12:53",
+ "at": "2026-11-17 23:24",
  "places": 263,
  "by_region": {
   "서울": 26,
@@ -20,5 +20,7 @@
   "경남": 17,
   "제주": 17
  },
- "errors": []
+ "errors": [
+  "제주 연수원: <urlopen error _ssl.c:994: The handshake operation timed out>"
+ ]
 }
