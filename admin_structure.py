@@ -291,7 +291,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -362,10 +362,17 @@ def build_html(exec_sources=None):
         print(f"[경고] 3년차 교과서 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         tb3_html = ""
     try:  # 교원연수 2030 방향·셀별 2027 실행안 - 관리 탭 '경영 종합' 맨 위, 원자료는 비공개 저장소
-        tp_html = __import__("training_plan").build(sec)
+        try:  # 운영 보드 8종(라이브·주제 추천·샘크 사다리·AX 파이프라인·중등 SET·90일 노출·채널·셀 간 연결)
+            ob = __import__("ops_boards")
+            ob_exec, ob_mkt, ob_hand, ob_act = ob.build_exec(sec), ob.build_mkt(sec), ob.build_handoff(sec), ob.build_actions(sec)
+        except Exception as e:
+            print(f"[경고] 운영 보드 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+            ob_exec = ob_mkt = ob_hand = ob_act = ""
+        tp_html = __import__("training_plan").build(sec, after_ops=ob_exec)
     except Exception as e:  # 한 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 교원연수 방향 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         tp_html = ""
+        ob_mkt = ob_hand = ob_act = ""
     try:  # 영업 도구(블렌디드 견적·수익 계산기) - 관리 탭 전용
         sales_html = __import__("training_plan").build_quote(sec)
     except Exception as e:
@@ -405,10 +412,10 @@ def build_html(exec_sources=None):
                   + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
     return (css + '<div class="adm">' + nav
             + pane("exec", tp_html + blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
-            + pane("decide", blocks["decide"] + cand_html)
+            + pane("decide", blocks["decide"] + cand_html + ob_hand)
             + pane("weekly", weekly_html)
             + pane("schedule", schedule_html)
-            + pane("actions", actions + extra["roles"] + mg_settle + quick_links())
+            + pane("actions", ob_act + actions + extra["roles"] + mg_settle + quick_links())
             + pane("comp", mg_comp + comp)
             + pane("edu", ga["order"] + ow_html + ins_edu)
             + pane("strat", ga["delay"] + strat_html)
@@ -417,6 +424,7 @@ def build_html(exec_sources=None):
             + pane("branch", '<div id="admBranchScore"><p style="color:var(--muted);font-size:13px;">총판 성적표를 불러오는 중입니다.</p></div>')
             + pane("tb3", tb3_html)
             + pane("sales", sales_html)
+            + pane("mkt", ob_mkt)
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{ins_ops}{sys_html}")
             + "</div>")

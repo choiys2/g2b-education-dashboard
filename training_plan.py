@@ -106,7 +106,7 @@ def _bars2(b):
 R = {"box": _box, "tiles": _tiles, "cards": _cards, "table": _table, "steps": _steps, "timeline": _timeline, "bars": _bars, "bars2": _bars2}
 
 
-def build(sec):
+def build(sec, after_ops=""):
     D = load()
     if not D:
         return ""
@@ -121,6 +121,8 @@ def build(sec):
         inner = "".join(body)
         out.append(sec(E(s["title"]), E(s.get("desc", "")),
                        f"<details open><summary style='cursor:pointer;{NOTE}padding:2px 0;'>펼치기 · 접기</summary>{inner}</details>"))
+        if after_ops and s["title"].startswith("1셀 운영"):  # 운영 보드(ops_boards)를 1셀 운영 칸 바로 아래에
+            out.append(after_ops)
         if i == 0 and D.get("sim"):  # 2030 방향 바로 아래: 2027 매출 시나리오 시뮬레이터(브라우저에서 계산)
             out.append(sec("2027 매출 시나리오 시뮬레이터", "막대를 움직이면 총매출·B2G 비중·기여이익이 바로 다시 계산됩니다. 기준선은 2027 매출 계획.",
                            f"<div id='tpSim' data-p='{E(json.dumps(D['sim'], ensure_ascii=False))}'><p style='{NOTE}'>계산기를 불러오는 중입니다.</p></div>"))
