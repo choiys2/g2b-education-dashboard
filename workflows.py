@@ -183,12 +183,20 @@ WORKFLOWS = [
 ]
 
 
+def _tools(wid, phase):
+    """AI 업무 도구(ai_ops.py) 중 이 단계에 붙는 것 — 없으면 빈 목록"""
+    try:
+        return __import__("ai_ops").tools_for(wid, phase)
+    except Exception:  # noqa: BLE001
+        return []
+
+
 def coverage():
     out = []
     for w in WORKFLOWS:
         n = len(w["phases"])
         auto = sum(1 for p in w["phases"] if any(l == "auto" for _, l in p["links"]))
-        part = sum(1 for p in w["phases"] if p["links"] and not any(l == "auto" for _, l in p["links"]))
+        part = sum(1 for p in w["phases"] if (p["links"] or _tools(w["id"], p["name"])) and not any(l == "auto" for _, l in p["links"]))
         out.append({"id": w["id"], "name": w["name"], "n": n, "auto": auto, "part": part, "none": n - auto - part})
     return out
 
@@ -320,7 +328,7 @@ def render():
 .wf-d{background:color-mix(in srgb,#ec4899 10%,var(--surface));border-color:color-mix(in srgb,#ec4899 45%,var(--border));}
 .wf-t{color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:4px;}
 .wf-lk{display:inline-block;font-size:11.5px;margin:2px 3px 2px 0;padding:2px 8px;border-radius:999px;cursor:pointer;border:1px solid var(--border);}
-.wf-lk.auto{background:color-mix(in srgb,#10b981 18%,transparent);border-color:#10b981;} .wf-lk.part{background:color-mix(in srgb,#f59e0b 16%,transparent);border-color:#f59e0b;}
+.wf-lk.ai{background:color-mix(in srgb,#8b5cf6 16%,transparent);border-color:#8b5cf6;} .wf-lk.auto{background:color-mix(in srgb,#10b981 18%,transparent);border-color:#10b981;} .wf-lk.part{background:color-mix(in srgb,#f59e0b 16%,transparent);border-color:#f59e0b;}
 .wf-gap{font-size:11.5px;color:var(--muted);margin-top:6px;padding-left:8px;border-left:3px solid #ef4444;}
 .wf-ai-m{font-size:9.5px;font-weight:800;color:#fff;border-radius:4px;padding:0 4px;margin-left:2px;} .wf-ai-m.a{background:#10b981;} .wf-ai-m.b{background:#3b82f6;}
 .wf-aibox{margin-top:6px;font-size:12px;} .wf-aibox > summary{cursor:pointer;font-weight:700;color:var(--ink-2);}
@@ -342,13 +350,19 @@ def render():
                       f'<span style="width:190px;color:var(--muted);">업무 {r["n"]} · 자동화 {r["auto"]} · AI 보조 {r["assist"]}</span></div>' for r in ai_summary())
             + '<div style="font-size:12px;color:var(--muted);margin-top:6px;"><span class="wf-ai-m a">AI</span> 자동화(승인만 남김) · <span class="wf-ai-m b">AI</span> AI 보조(초안·추천). '
               '각 단계 아래 \'🤖 AI 자동화 후보\'를 누르면 업무별 방법·지금 쓸 수 있는 화면·다음 연결이 펼쳐집니다.</div></div>'
-            '<div style="font-size:12px;margin-bottom:14px;"><span class="wf-lk auto">자동 연계</span> 이 단계 판단에 바로 쓰는 화면 · <span class="wf-lk part">부분 연계</span> 참고용 · '
+            '<div style="font-size:12px;margin-bottom:14px;"><span class="wf-lk ai">🤖 AI 도구</span> 누르면 관리 탭 \'AI 업무 도구\' 칸의 해당 도구로 이동 · <span class="wf-lk auto">자동 연계</span> 이 단계 판단에 바로 쓰는 화면 · <span class="wf-lk part">부분 연계</span> 참고용 · '
             '<span style="border-left:3px solid #ef4444;padding-left:6px;">갭</span> 아직 시스템 밖(연동 후보). 초록·주황 칩을 누르면 해당 화면으로 이동합니다.</div>']
     for w in WORKFLOWS:
         body.append(f'<div class="wf-w"><h4 style="margin:6px 0;font-size:16px;">{E(w["name"])} <span style="font-size:12px;color:var(--muted);font-weight:600;">주관 {E(w["owner"])}</span></h4>')
         for p in w["phases"]:
             lanes = "".join('<div class="wf-lane">' + '<span class="wf-ar">→</span>'.join(_node(t) for t in ln.split(" > ")) + "</div>" for ln in p["lanes"])
-            links = "".join(f'<span class="wf-lk {lvl}" data-goto="{F[k][0]}" data-anchor="{F[k][1]}">{E(F[k][2])}</span>' for k, lvl in p["links"]) or '<span style="font-size:12px;color:var(--muted);">연계 화면 없음</span>'
+            links = "".join(f'<span class="wf-lk {lvl}" data-goto="{F[k][0]}" data-anchor="{F[k][1]}">{E(F[k][2])}</span>' for k, lvl in p["links"])
+            try:
+                TN = __import__("ai_ops").TOOLS
+            except Exception:  # noqa: BLE001
+                TN = {}
+            links += "".join(f'<span class="wf-lk ai" data-adm="aiops" data-anchor="ait-{n}">🤖 {E(TN.get(n, ""))}</span>' for n in _tools(w["id"], p["name"]) if n in TN)
+            links = links or '<span style="font-size:12px;color:var(--muted);">연계 화면 없음</span>'
             gaps = "".join(f'<div class="wf-gap">{E(g)}</div>' for g in p["gaps"])
             seen, items = set(), []
             for ln in p["lanes"]:
