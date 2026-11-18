@@ -245,6 +245,7 @@ def fetch(cfg, days_back):
                                  "d": to_date(it.get("bidNtceDt")),
                                  "a": _to_int(it.get("asignBdgtAmt") or it.get("presmptPrce")),
                                  "u": it.get("bidNtceDtlUrl") or "",
+                                 "c": to_date(it.get("bidClseDt")) or "",  # 입찰 마감일 - 마감 지난 공고는 제안요청서 분석 목록에서 뺀다
                                  "f": docs[:6]}  # 첨부(제안요청서·과업지시서 등) - rfp_analysis.py 가 읽는다
                 if not items or page >= 20:
                     break

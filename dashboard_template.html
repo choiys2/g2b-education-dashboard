@@ -1475,7 +1475,7 @@ document.addEventListener('click', function (e) {
     <section class="panel" id="rfpPanel">
       <div class="panel-head">
         <div>
-          <p class="panel-title">제안요청서 AI 분석<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">최근 60일 교원 연수 입찰 첨부문서</span></p>
+          <p class="panel-title">제안요청서 AI 분석<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">입찰 진행 중인 교원 연수 공고 · 마감 임박 순</span></p>
           <p class="panel-desc" id="rfpDesc"></p>
         </div>
       </div>
@@ -4316,7 +4316,7 @@ window.__ownerQ.push(function renderAiBrief(){
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const desc = document.getElementById('rfpDesc'), list = document.getElementById('rfpList');
   if (!R.items.length) {
-    desc.textContent = '교원 연수 입찰공고의 제안요청서·과업지시서를 AI가 읽어 대상·차시·평가방식·요구사항·제안 포인트를 정리합니다. 데이터 준비 중(매일 갱신).';
+    desc.textContent = R.closed ? `지금 입찰이 열려 있는 교원 연수 공고가 없습니다(마감 지난 ${fmt(R.closed)}건은 목록에서 뺐습니다). 매일 갱신.` : '교원 연수 입찰공고의 제안요청서·과업지시서를 AI가 읽어 대상·차시·평가방식·요구사항·제안 포인트를 정리합니다. 데이터 준비 중(매일 갱신).';
     list.innerHTML = '';
     return;
   }
@@ -4330,14 +4330,14 @@ window.__ownerQ.push(function renderAiBrief(){
     ${Object.entries(cnt).map(([k, n]) => `<button type="button" data-v="${k}" aria-pressed="false">${k} ${n}</button>`).join('')}</span>`;
   const P = R.profile || {};
   document.getElementById('rfpProfile').textContent = P.name ? `판정 기준(static_data/own_profile.json): 본사 ${P.hq_region.value}${P.hq_region.verified ? '' : '(미검증)'} · 기업 규모 ${P.company_size.value}${P.company_size.verified ? '' : '(추정)'} · 등록 업종 ${Object.entries(P.industry_codes.value).map(([c, n]) => c + ' ' + n).join(', ')}${P.industry_codes.verified ? '' : '(일부만 반영, 실제 등록 목록으로 교체 필요)'}. 미검증 항목에 걸리면 '불가' 대신 '확인 필요'로 표시합니다. 승부처: 협상·기술 비중 높음 → 기술, 적격자 중 최저가 → 가격.` : '';
-  desc.innerHTML = `분석 ${fmt(R.total)}건(재공고 중복 정리, 문서 확보 실패 ${fmt(R.skipped)}건 제외), 최근 공고 순. 참가자격을 자사 프로필과 대조해 가능·확인 필요·불가로 표시합니다. 첨부 원문 기준 자동 추출이므로 입찰 전 원문을 반드시 확인하세요. 같은 주제의 요구사항은 2027 추천의 'AI 초안'에 반영됩니다.`;
+  desc.innerHTML = `입찰 진행 중 ${fmt(R.total)}건, 마감 임박 순(마감 지난 ${fmt(R.closed || 0)}건·재공고 중복·문서 확보 실패 ${fmt(R.skipped)}건 제외). 참가자격을 자사 프로필과 대조해 가능·확인 필요·불가로 표시합니다. 첨부 원문 기준 자동 추출이므로 입찰 전 원문을 반드시 확인하세요. 같은 주제의 요구사항은 2027 추천의 'AI 초안'에 반영됩니다.`;
   const li = a => (a || []).filter(Boolean).map(x => `<li>${h(x)}</li>`).join('');
   const draw = () => { list.innerHTML = R.items.filter(r => !st.v || (r.fit && r.fit.verdict === st.v)).map(r => { const a = r.ai || {}, f = r.fit; return `<article class="rfp-card">
     ${f ? `<div><span class="fit fit-${FK(f.verdict)}">${h(f.verdict)}</span>${f.play !== '미상' ? `<span class="fit" style="background:var(--surface);border:1px solid var(--border);color:var(--ink-2);">${f.play === '기술' ? '기술점수 승부' : '가격 승부'}</span>` : ''}</div>
       ${(f.reasons || []).length || (f.ok || []).length ? `<div class="why">${[...(f.reasons || []).map(x => '⚠ ' + h(x)), ...(f.ok || []).map(x => '✓ ' + h(x))].join('<br>')}</div>` : ''}` : ''}
     ${r.go ? `<div style="margin:6px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><span class="fit" style="background:${r.go.label === '참여 권장' ? 'color-mix(in srgb, var(--good) 22%, transparent)' : r.go.label === '신중 검토' ? 'color-mix(in srgb, var(--warning) 22%, transparent)' : 'var(--surface-2)'};">${h(r.go.label)} ${r.go.score}</span><span style="font-size:11.5px;color:var(--ink-2);">${(r.go.reasons || []).map(h).join(' · ')}</span></div>` : ''}
     <div class="t">${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener noreferrer">${h(r.t)} ↗</a>` : h(r.t)}${r.k ? ` <button type="button" class="pill" data-draft="${h((r.k || '').split('-')[0])}" title="공고번호를 복사하고 제안서 초안 만들기를 엽니다. 결과는 비공개 저장소 proposals/" style="font-size:11px;margin-left:6px;">📝 제안서 초안</button>` : ''}</div>
-    <div class="m">${h(r.d)} · ${h(r.o)}${r.a ? ` · 예산 ${fmtWon(r.a)}` : ''}${r.doc ? ` · 문서: ${h(r.doc)}` : ''}</div>
+    <div class="m">${r.close ? (() => { const dd = Math.round((new Date(r.close + 'T23:59:59+09:00') - Date.now()) / 864e5); return `<b style="color:${dd <= 3 ? 'var(--danger, #dc2626)' : 'inherit'};">마감 ${h(r.close)}${r.close_est ? '(추정)' : ''} · D-${Math.max(dd, 0)}</b> · `; })() : ''}공고 ${h(r.d)} · ${h(r.o)}${r.a ? ` · 예산 ${fmtWon(r.a)}` : ''}${r.doc ? ` · 문서: ${h(r.doc)}` : ''}</div>
     <dl>${[['대상', a.target], ['인원', a.headcount], ['운영', a.format], ['기간', a.period], ['시간', a.hours], ['평가', a.evaluation]]
       .filter(x => x[1]).map(x => `<dt>${x[0]}</dt><dd>${h(x[1])}</dd>`).join('')}</dl>
     ${(a.requirements || []).length ? `<b>핵심 요구사항</b><ul>${li(a.requirements)}</ul>` : ''}

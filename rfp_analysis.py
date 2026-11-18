@@ -58,15 +58,39 @@ def norm_title(t):
     return re.sub(r"\[[^\]]*\]|\([^)]*공고[^)]*\)|재공고|긴급|\s|[「」『』\"'.·,]", "", t or "")
 
 
+NOT_TRAINING = re.compile(r"옹벽|안전\s?점검|정밀\s?점검|공사|리모델링|설계\s?용역|청소|경비|급식|방역|보수\s?공사|시설\s?(관리|보수|개선)|승강기|소방")
+
+
 def relevant(r):
+    if NOT_TRAINING.search(r.get("t", "")):  # '연수원' 시설 용역 등 연수가 아닌 공고
+        return False
     return tt.is_training_bid(r["t"], r.get("o", "")) and tt.classify_audience(r["t"]) != "학생"
+
+
+EST_DAYS = 20  # 마감일이 기록되지 않은 예전 공고는 공고일 + 20일을 마감으로 추정(교원 연수 용역 공고 기간 통상 10~20일)
+
+
+def close_date(r):
+    """(마감일 YYYY-MM-DD, 추정 여부)"""
+    c = (r.get("c") or "")[:10]
+    if c:
+        return c, False
+    try:
+        return (date.fromisoformat(r["d"][:10]) + timedelta(days=EST_DAYS)).isoformat(), True
+    except Exception:
+        return "", True
+
+
+def is_open(r, today=None):
+    c, _ = close_date(r)
+    return bool(c) and c >= (today or date.today()).isoformat()
 
 
 def candidates(cache, days=60):
     cutoff = (date.today() - timedelta(days=days)).isoformat()
     seen = {norm_title(v["t"]) for v in cache.values()}
     rows = sorted([r for r in tt.load_history().values()
-                   if r.get("f") and (r.get("d") or "") >= cutoff and r["k"] not in cache and relevant(r)],
+                   if r.get("f") and (r.get("d") or "") >= cutoff and r["k"] not in cache and relevant(r) and is_open(r)],
                   key=lambda r: (-(r.get("a") or 0), r["d"]))
     out = []
     for r in rows:
@@ -112,7 +136,7 @@ def main():
         except Exception as e:
             res, doc, tried = None, None, [gc.mask(e)[:160]]
         rec = {"k": row["k"], "t": row["t"], "o": row.get("o", ""), "r": row.get("r", ""), "d": row["d"],
-               "a": row.get("a") or 0, "u": row.get("u", ""), "doc": doc, "at": date.today().isoformat()}
+               "a": row.get("a") or 0, "u": row.get("u", ""), "c": row.get("c", ""), "doc": doc, "at": date.today().isoformat()}
         if res:
             rec["ai"] = res
             done += 1

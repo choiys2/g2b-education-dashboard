@@ -784,7 +784,19 @@ def main():
         _rows = [json.loads(l) for l in open("history/rfp_analysis.jsonl", encoding="utf-8") if l.strip()]
         import bid_fit, rfp_analysis
         _ok, _seen = [], set()
+        try:  # 예전 분석 결과에는 마감일이 없으니 입찰 누적 기록에서 채운다
+            _bids = __import__("training_topics").load_history()
+            for r in _rows:
+                if not r.get("c") and (_bids.get(r["k"]) or {}).get("c"):
+                    r["c"] = _bids[r["k"]]["c"]
+        except Exception as e:  # noqa: BLE001
+            print(f"[경고] 입찰 마감일 보강 실패: {type(e).__name__}")
+        _closed = 0
         for r in sorted([r for r in _rows if r.get("ai") and rfp_analysis.relevant(r)], key=lambda r: r["d"], reverse=True):
+            r["close"], r["close_est"] = rfp_analysis.close_date(r)
+            if not rfp_analysis.is_open(r):  # 마감 지난 공고는 목록에서 뺀다(같은 내용이 계속 남지 않게)
+                _closed += 1
+                continue
             nt = rfp_analysis.norm_title(r["t"])
             if nt in _seen:  # 재공고는 최신 한 건만
                 continue
@@ -797,7 +809,8 @@ def main():
         except Exception as e:
             print(f"[경고] 참여 권장 점수 실패: {type(e).__name__}: {str(e)[:100]}")
         _prof = bid_fit.load_profile()
-        rfp = {"items": _ok[:30], "total": len(_ok), "skipped": sum(1 for r in _rows if not r.get("ai")),
+        _ok.sort(key=lambda r: r["close"])  # 마감 임박 순
+        rfp = {"items": _ok[:30], "total": len(_ok), "closed": _closed, "skipped": sum(1 for r in _rows if not r.get("ai")),
                "profile": {k: _prof[k] for k in ("name", "hq_region", "company_size", "industry_codes")}}
     import b2s_demand
     b2s_market = b2s_demand.build()
