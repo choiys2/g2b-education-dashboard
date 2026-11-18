@@ -29,6 +29,17 @@
      "debt_ratio": "277.99"
     },
     {
+     "biz_year": 2022,
+     "consolidated": false,
+     "sales": 18907000000,
+     "operating_profit": 328000000,
+     "net_profit": 98000000,
+     "total_assets": 9272000000,
+     "total_debt": 6780000000,
+     "total_capital": 2492000000,
+     "debt_ratio": "272.07"
+    },
+    {
      "biz_year": 2023,
      "consolidated": false,
      "sales": 24908000000,
