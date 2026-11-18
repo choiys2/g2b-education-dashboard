@@ -1,5 +1,5 @@
 {
- "at": "2026-11-18 14:50",
+ "at": "2026-11-18 16:22",
  "places": 262,
  "by_region": {
   "서울": 26,
@@ -20,7 +20,5 @@
   "경남": 17,
   "제주": 17
  },
- "errors": [
-  "제주 교육원: <urlopen error _ssl.c:994: The handshake operation timed out>"
- ]
+ "errors": []
 }
