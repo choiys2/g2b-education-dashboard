@@ -291,7 +291,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -379,6 +379,11 @@ def build_html(exec_sources=None):
     except Exception as e:
         print(f"[경고] AI 업무 도구 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         aiops_html = aio_act = ""
+    try:  # 콘텐츠 손익(과정별 손익 참고 데이터의 원가·공헌이익) - 관리 탭 전용
+        cpl_html = __import__("content_pl_admin").build(sec)
+    except Exception as e:
+        print(f"[경고] 콘텐츠 손익 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
+        cpl_html = ""
     try:  # 영업 도구(블렌디드 견적·수익 계산기) - 관리 탭 전용
         sales_html = __import__("training_plan").build_quote(sec)
     except Exception as e:
@@ -432,6 +437,7 @@ def build_html(exec_sources=None):
             + pane("sales", sales_html)
             + pane("mkt", ob_mkt)
             + pane("aiops", aiops_html)
+            + pane("cpl", cpl_html)
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{ins_ops}{sys_html}")
             + "</div>")

@@ -162,6 +162,22 @@ def _neutral(v, cnt):
     return v
 
 
+def _course_pl_public():
+    """콘텐츠·매출 탭용 과정별 판매 지표(참고 데이터). 원자료는 비공개 저장소 content_pl/course_pl.json —
+    원가·제작비·손익 열은 빼고 매출·판매 수만 싣는다(손익은 관리 탭 '콘텐츠 손익' 칸에서만)."""
+    f = __import__("pathlib").Path(__file__).resolve().parent / "_private" / "content_pl" / "course_pl.json"
+    if not f.exists():
+        return None
+    try:
+        d = json.loads(f.read_text(encoding="utf-8"))
+    except Exception as e:  # noqa: BLE001
+        print("과정별 매출 파일 오류:", type(e).__name__)
+        return None
+    keep = ("n", "cr", "ty", "pass", "rev", "r12", "p12", "paid")
+    return {"as_of": d.get("as_of"), "note": d.get("note"), "months": d.get("months"), "window": d.get("window"),
+            "courses": [{k: c.get(k) for k in keep if c.get(k) is not None} for c in d.get("courses") or []]}
+
+
 def _ext_links():
     """탭 줄 바깥 링크(별도 페이지) - 비공개 저장소 _private/config/links.json 또는 환경변수에서만 읽는다(공개 저장소에 주소 없음).
     값은 출력하지 않고 설정 여부만 로그에 남긴다."""
@@ -915,7 +931,7 @@ def main():
         "__FRESHNESS_JSON__": __import__("freshness").build(full_live),  # 데이터 신선도(상단 배지)
         "__AI_SCHOOL_UPDATES_JSON__": load("static_data/ai_school_updates.json") if os.path.exists("static_data/ai_school_updates.json") else None,  # AI 중점학교 최신 동향
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
-        "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts,
+        "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts, "__COURSE_PL_JSON__": _course_pl_public(),
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": None,
         "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": {}, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": None, "__B2S_MARKET_JSON__": b2s_market,
         "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops, "__VIZ_JSON__": __import__("viz_data").build(pipeline_export.get("records", [])),

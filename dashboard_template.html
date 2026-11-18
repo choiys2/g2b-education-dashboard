@@ -2672,6 +2672,7 @@ const G2B_FULL = __G2B_FULL_JSON__;
 const TRAINING_TOPICS = __TRAINING_TOPICS_JSON__;
 const EARLY_WARNING = __EARLY_WARNING_JSON__;
 const CONTRACTS = __CONTRACTS_JSON__;
+const COURSE_PL = __COURSE_PL_JSON__;
 const WEATHER = __WEATHER_JSON__;
 let AI_BRIEF = __AI_BRIEF_JSON__;  // 대표 전용: 관리 비밀번호로 연 뒤 채워짐
 const RFP_ANALYSIS = __RFP_JSON__;
@@ -5716,6 +5717,7 @@ window.__ownerQ.push(function renderAiBrief(){
     }).join('')}</div>${legend([['서비스 오픈', '#10b981'], ['심사·준비 중', 'var(--accent)'], ['접수 90일+ 미오픈', 'var(--danger, #d64545)']])}${so('붉은 막대(접수 후 90일이 지나도 미오픈)는 일정 재점검 대상입니다.')}`;
   });
   safe('salesHeat', () => {
+    if (typeof COURSE_PL === 'object' && COURSE_PL && (COURSE_PL.courses || []).length) return;  // 과정별 손익 엑셀 데이터로 대체(2026-11-18)
     const C = S.contents;
     const el = panel('content', null, '㉟ 월 × 분야 콘텐츠 매출', '26 콘텐츠DT 월별 매출 열');
     if (!el) return;
@@ -5727,6 +5729,7 @@ window.__ownerQ.push(function renderAiBrief(){
       ${so('매출이 특정 월에 몰리는 분야는 그 1~2개월 전에 B2C 프로모션·학교 공동구매 안내를 집중하세요.')}`;
   });
   safe('pareto', () => {
+    if (typeof COURSE_PL === 'object' && COURSE_PL && (COURSE_PL.courses || []).length) return;  // 과정별 손익 엑셀 데이터로 대체(2026-11-18)
     const C = S.contents;
     const el = panel('content', null, '㊱ 과정별 매출 파레토', '누적 매출 상위 과정');
     if (!el) return;
@@ -5749,6 +5752,7 @@ window.__ownerQ.push(function renderAiBrief(){
     el.innerHTML = I.length ? hbars(I.map(([k, v]) => ({k, v, label: v + '명'})), {lw: 120, vw: 50}) + so('강사가 1~2명뿐인 분야는 섭외 리스크가 큽니다. SME Pool 확충 우선 분야로 쓰세요.') : empty('강사 열 데이터 없음');
   });
   safe('channelReal', () => {
+    if (typeof COURSE_PL === 'object' && COURSE_PL && (COURSE_PL.courses || []).length) return;  // 과정별 손익 엑셀 데이터로 대체(2026-11-18)
     const C = S.contents, Vc = V.channel || {};
     if (!C || !C.total) return;
     const el = panel('content', null, '㊳ 채널 매출 비교(실측 기반)', 'B2G = 운영DT 총예산 · B2C = 콘텐츠DT 누적 매출');
@@ -5795,6 +5799,7 @@ window.__ownerQ.push(function renderAiBrief(){
       ${so(`청구 누계 ${fmtWon(cs[11])}${R.b2g ? ` · 예상까지 ${fmtWon(Math.max(0, R.b2g - cs[11]))} 남음` : ''}. 막대가 빈 달은 청구월 미기재일 수 있으니 정산관리 시트를 확인하세요.`)}`;
   });
   safe('portfolio', () => {
+    if (typeof COURSE_PL === 'object' && COURSE_PL && (COURSE_PL.courses || []).length) return;  // 과정별 손익 엑셀 데이터로 대체(2026-11-18)
     const rows = ((S.contents || {}).rows || []).filter(r => r.stage === '서비스 중');
     if (rows.length < 5) return;
     const el = panel('content', null, '㊹ 분야 포트폴리오', 'x 과정 수 · y 과정당 누적 매출 · 원 = 분야 총매출');
@@ -5814,6 +5819,7 @@ window.__ownerQ.push(function renderAiBrief(){
       ${legend(Object.entries(QC))}${so(`'확장 후보'(과정은 적은데 과정당 매출이 높은 분야)에 신규 제작비를 먼저 배정하고, '라인업 정리'(과정은 많은데 과정당 매출이 낮은 분야)는 통합·개편으로 운영비를 줄이세요.`)}`;
   });
   safe('cohort', () => {
+    if (typeof COURSE_PL === 'object' && COURSE_PL && (COURSE_PL.courses || []).length) return;  // 과정별 손익 엑셀 데이터로 대체(2026-11-18)
     const rows = ((S.contents || {}).rows || []).filter(r => r.service_year && r.total != null);
     if (rows.length < 5) return;
     const el = panel('content', null, '㊺ 오픈 연도별 과정 매출력', '서비스 시작 연도(코호트)별 과정당 누적 매출 · 매출 0 과정 비율');
@@ -5824,6 +5830,7 @@ window.__ownerQ.push(function renderAiBrief(){
       + so('최근 오픈 과정의 과정당 매출이 이전 코호트보다 낮으면 신규 과정의 홍보·패키징이 부족하다는 신호입니다. 주황 막대는 매출 0 과정이 40%를 넘는 연도입니다.');
   });
   safe('momentum', () => {
+    if (typeof COURSE_PL === 'object' && COURSE_PL && (COURSE_PL.courses || []).length) return;  // 과정별 손익 엑셀 데이터로 대체(2026-11-18)
     const C = S.contents || {}, ms = (C.months || []).slice().sort((a, b) => a - b);
     if (ms.length < 2) return;
     const a = ms[0], b = ms[ms.length - 1];
@@ -5837,6 +5844,7 @@ window.__ownerQ.push(function renderAiBrief(){
       + so('상승 과정은 배너·SMS 노출을 늘려 흐름을 키우고, 하락 과정은 시즌 요인(방학·학기초)인지 경쟁 과정 출시 영향인지 확인하세요.');
   });
   safe('dormant', () => {
+    if (typeof COURSE_PL === 'object' && COURSE_PL && (COURSE_PL.courses || []).length) return;  // 과정별 손익 엑셀 데이터로 대체(2026-11-18)
     const rows = ((S.contents || {}).rows || []).filter(r => r.stage === '서비스 중' && !(r.total > 0));
     const all = ((S.contents || {}).rows || []).filter(r => r.stage === '서비스 중');
     if (!all.length) return;
@@ -5847,6 +5855,92 @@ window.__ownerQ.push(function renderAiBrief(){
       + grid2(`<div>${hbars(Object.entries(byF).sort((p, q) => q[1] - p[1]).slice(0, 10).map(([k, v]) => ({k, v, label: v + '개', c: '#d64545'})), {lw: 110, vw: 50})}</div>`,
         `<div style="max-height:260px;overflow:auto;font-size:12px;">${rows.slice(0, 60).map(r => `<div style="padding:3px 0;border-bottom:1px solid var(--border);">${h(r.title)} <span style="color:var(--muted);">· ${h(r.field || '-')} · ${h(r.service_year || '')}</span></div>`).join('')}</div>`)
       + so('휴면 과정은 KERIS 인증 유지·운영 비용만 듭니다. 분기마다 통합·개편·종료를 결정하고, 인기 분야의 휴면 과정은 제목·썸네일·배너 노출부터 바꿔 보세요.');
+  });
+
+  /* ---- 콘텐츠·매출: 과정별 손익 엑셀(참고 데이터) 기반 분석 (2026-11-18 사용자 지시 — 기존 시트 경로 대신 이 데이터로) ---- */
+  safe('coursePL', () => {
+    const P = (typeof COURSE_PL === 'object' && COURSE_PL) ? COURSE_PL : null;
+    if (!P || !(P.courses || []).length) return;
+    const host = document.getElementById('panel-content'); if (!host) return;
+    const callout = host.querySelector('.callout');
+    let last = callout;
+    const mk = (title, sub) => { const sec = document.createElement('section'); sec.className = 'panel viz-panel';
+      sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">${h(title)}${sub ? `<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">${h(sub)}</span>` : ''}</p></div></div><div class="viz-body"></div>`;
+      (last || host.firstChild).after ? (last ? last.after(sec) : host.prepend(sec)) : host.appendChild(sec); last = sec; return sec.querySelector('.viz-body'); };
+    const OP = new Set(P.op_groups || ['자율', '1학점 미만', '1학점', '2학점', '4학점(비노출)']);
+    const C = P.courses.filter(c => OP.has(c.cr)), closed = P.courses.filter(c => c.cr === '폐강');
+    const W = v => fmtWon(v), pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+    const tot = C.reduce((a, c) => a + c.rev, 0), r12 = C.reduce((a, c) => a + (c.r12 || 0), 0), p12 = C.reduce((a, c) => a + (c.p12 || 0), 0);
+    const paid = C.reduce((a, c) => a + (c.paid || 0), 0);
+    const byRev = [...C].sort((a, b) => b.rev - a.rev), n10 = Math.max(1, Math.round(C.length * .1));
+    const top10s = byRev.slice(0, n10).reduce((a, c) => a + c.rev, 0);
+    const zero12 = C.filter(c => !(c.r12 > 0)).length;
+    const asof = P.as_of || '';
+    const yr = s => s ? +('20' + s.slice(0, 2)) : null;
+    // ① 한눈에
+    safe('pl1', () => { const el = mk('콘텐츠 매출 한눈에', `참고 데이터 · ${asof} 누적 기준 · 이후 갱신 예정`);
+      const k = (l, v, s) => `<div class="kpi"><div class="kpi-label">${h(l)}</div><div class="kpi-value">${h(v)}</div><div class="kpi-sub">${h(s)}</div></div>`;
+      const g = p12 ? Math.round((r12 / p12 - 1) * 100) : null;
+      el.innerHTML = `<div class="kpis">${k('누적 매출', W(tot), `운영 ${C.length}개 과정`)}${k('최근 12개월 매출', W(r12), g == null ? '' : `직전 12개월 대비 ${g >= 0 ? '+' : ''}${g}%`)}`
+        + `${k('유료 누적 판매', paid.toLocaleString() + '건', '과정별 유료 판매 합')}${k(`상위 10%(${n10}개) 비중`, pct(top10s, tot) + '%', '누적 매출 기준')}${k('최근 12개월 매출 0', zero12 + '개', `운영 과정의 ${pct(zero12, C.length)}% · 폐강 ${closed.length}개 별도`)}</div>`
+        + `<p class="tt-note">${h(P.note || '')} 분석 범위: 자율·학점 과정(폐강·개발예정·제작중단 제외). 최근 12개월 = ${h((P.window || {}).last12 ? P.window.last12.join('~') : '-')}.</p>`; });
+    // ② 연도·월별 추이
+    safe('pl2', () => { const el = mk('연도·월별 매출 추이', '월별 매출 합계 · 막대 = 연도 합계');
+      const M = P.months || []; const Y = {}; M.forEach(m => { const y = m.ym.slice(0, 4); Y[y] = Y[y] || {v: 0, n: 0}; Y[y].v += m.v; Y[y].n++; });
+      const ys = Object.keys(Y).sort(), mxY = Math.max(1, ...ys.map(y => Y[y].v));
+      const ybars = hbars(ys.map(y => ({k: `${y}${Y[y].n < 12 ? `(1~${Y[y].n}월)` : ''}`, v: Y[y].v, label: W(Y[y].v)})), {lw: 110, vw: 90});
+      const L = M.slice(-24), mx = Math.max(1, ...L.map(m => m.v)), Wd = 700, Hd = 200, bw = (Wd - 40) / Math.max(1, L.length);
+      const line = `<svg viewBox="0 0 ${Wd} ${Hd}" style="width:100%;max-width:${Wd}px;">${L.map((m, i) => `<rect x="${30 + i * bw + 1}" y="${Hd - 24 - m.v / mx * (Hd - 40)}" width="${bw - 2}" height="${m.v / mx * (Hd - 40)}" rx="2" fill="var(--accent)" ${tipAttr(`${m.ym} · ${W(m.v)}`)}/>`
+        + (i % 3 === 0 ? `<text x="${30 + i * bw + bw / 2}" y="${Hd - 8}" font-size="9.5" text-anchor="middle" fill="var(--muted)">${m.ym.slice(2)}</text>` : '')).join('')}</svg>`;
+      const sea = Array.from({length: 12}, (_, i) => { const xs = M.filter(m => +m.ym.slice(5) === i + 1); return {k: (i + 1) + '월', v: xs.length ? xs.reduce((a, m) => a + m.v, 0) / xs.length : 0}; });
+      const peak = [...sea].sort((a, b) => b.v - a.v).slice(0, 3).map(x => x.k).join('·');
+      el.innerHTML = grid2(`<div><p style="font-weight:800;margin:0 0 6px;">연도별</p>${ybars}<p style="font-weight:800;margin:14px 0 6px;">월 평균(계절성)</p>${hbars(sea.map(x => ({k: x.k, v: x.v, label: W(x.v)})), {lw: 50, vw: 90})}</div>`,
+        `<div><p style="font-weight:800;margin:0 0 6px;">최근 24개월</p>${line}</div>`) + so(`월 평균 매출이 높은 달은 ${peak}입니다. 그 1~2개월 전에 신규 과정 출시·라이브·프로모션을 배치하세요. 연도 표기는 원자료 머리글을 따릅니다.`); });
+    // ③ TOP 과정
+    safe('pl3', () => { const el = mk('매출 상위 과정', '누적 TOP 15 · 최근 12개월 TOP 15');
+      const r12s = [...C].sort((a, b) => (b.r12 || 0) - (a.r12 || 0)).slice(0, 15);
+      const lab = c => `${c.n} [${c.ty}·${c.cr}${c.pass ? '·' + c.pass : ''}]`;
+      el.innerHTML = grid2(`<div><p style="font-weight:800;margin:0 0 6px;">누적 매출 TOP 15</p>${hbars(byRev.slice(0, 15).map(c => ({k: c.n, v: c.rev, label: W(c.rev), tip: `${lab(c)}<br>누적 ${W(c.rev)}${c.paid ? ` · 유료 ${c.paid.toLocaleString()}건` : ''}`})), {lw: 210, vw: 80})}</div>`,
+        `<div><p style="font-weight:800;margin:0 0 6px;">최근 12개월 TOP 15</p>${hbars(r12s.map(c => ({k: c.n, v: c.r12 || 0, label: W(c.r12 || 0), c: '#10b981', tip: `${lab(c)}<br>최근 12개월 ${W(c.r12 || 0)} · 직전 ${W(c.p12 || 0)}`})), {lw: 210, vw: 80})}</div>`)
+        + so(`누적 1위와 최근 1위가 다르면 주력 과정이 바뀐 것입니다. 최근 12개월 TOP 과정은 샘몰 결합상품·라이브 재노출의 1순위 후보입니다.`); });
+    // ④ 하위·휴면
+    safe('pl4', () => { const el = mk('하위·휴면 과정', '최근 12개월 매출 하위 · 매출 0 과정');
+      const svc = C.filter(c => c.pass && yr(c.pass) <= (+String(asof).slice(0, 4) - 1));
+      const low = [...svc].sort((a, b) => (a.r12 || 0) - (b.r12 || 0) || a.rev - b.rev).slice(0, 20);
+      const byTy = {}; C.filter(c => !(c.r12 > 0)).forEach(c => byTy[c.ty] = (byTy[c.ty] || 0) + 1);
+      el.innerHTML = grid2(`<div><p style="font-weight:800;margin:0 0 6px;">최근 12개월 매출 0 — 구분별</p>${hbars(Object.entries(byTy).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({k, v, label: v + '개', c: '#94a3b8'})), {lw: 80, vw: 50})}`
+        + `<p class="tt-note">폐강 과정 ${closed.length}개(누적 ${W(closed.reduce((a, c) => a + c.rev, 0))})는 분석에서 뺐습니다.</p></div>`,
+        `<div><p style="font-weight:800;margin:0 0 6px;">하위 20개(1년 이상 운영)</p><div style="max-height:300px;overflow:auto;font-size:12px;">${low.map(c => `<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px solid var(--border);"><span>${h(c.n)} <span style="color:var(--muted);">[${h(c.ty)}·${h(c.pass)}]</span></span><b class="num">${W(c.r12 || 0)}</b></div>`).join('')}</div></div>`)
+        + so('1년 이상 운영했는데 최근 12개월 매출이 0인 과정은 차시 연수로 재가공하거나 SET에 묶어 재노출하고, 그래도 반응이 없으면 통합·폐강을 검토하세요.'); });
+    // ⑤ 구분·학점별
+    safe('pl5', () => { const el = mk('구분·학점별 매출 구조', '자체·제휴·CP × 학점');
+      const agg = key => { const o = {}; C.forEach(c => { const k = c[key] || '-'; o[k] = o[k] || {n: 0, rev: 0, r12: 0, p12: 0}; o[k].n++; o[k].rev += c.rev; o[k].r12 += c.r12 || 0; o[k].p12 += c.p12 || 0; }); return Object.entries(o).sort((a, b) => b[1].rev - a[1].rev); };
+      const tbl = (rows, lab) => `<div class="tbl-wrap"><table class="data"><thead><tr><th>${lab}</th><th class="num">과정</th><th class="num">누적 매출</th><th class="num">비중</th><th class="num">과정당</th><th class="num">최근 12개월</th><th class="num">증감</th></tr></thead><tbody>${rows.map(([k, o]) => `<tr><td>${h(k)}</td><td class="num">${o.n}</td><td class="num">${W(o.rev)}</td><td class="num">${pct(o.rev, tot)}%</td><td class="num">${W(o.rev / o.n)}</td><td class="num">${W(o.r12)}</td><td class="num">${o.p12 ? ((o.r12 / o.p12 - 1) * 100).toFixed(0) + '%' : '-'}</td></tr>`).join('')}</tbody></table></div>`;
+      const ty = agg('ty'), cr = agg('cr'), best = [...ty].filter(([k]) => k !== '-').sort((a, b) => b[1].r12 / b[1].n - a[1].r12 / a[1].n)[0];
+      el.innerHTML = tbl(ty, '개발 구분') + '<div style="height:10px;"></div>' + tbl(cr, '학점') + so(best ? `최근 12개월 과정당 매출은 '${best[0]}'이 가장 높습니다. 신규 개발 방식 판단(제작 방식 추천기)에 이 효율을 근거로 쓰세요.` : ''); });
+    // ⑥ 파레토·분포
+    safe('pl6', () => { const el = mk('매출 집중도와 분포', '누적 비중 곡선 · 과정당 매출 구간');
+      const top = byRev.slice(0, 40), Wd = 700, Hd = 200; let cum = 0; const bw = (Wd - 40) / top.length, mx = top[0].rev || 1;
+      const svg = `<svg viewBox="0 0 ${Wd} ${Hd}" style="width:100%;max-width:${Wd}px;">${top.map((c, i) => { cum += c.rev; const bh = c.rev / mx * (Hd - 40), cy = Hd - 20 - cum / tot * (Hd - 40);
+        return `<rect x="${30 + i * bw + 1}" y="${Hd - 20 - bh}" width="${bw - 2}" height="${bh}" rx="2" fill="var(--accent)" ${tipAttr(`${c.n}<br>${W(c.rev)} · 누적 ${pct(cum, tot)}%`)}/><circle cx="${30 + i * bw + bw / 2}" cy="${cy}" r="2.5" fill="#f59e0b"/>`; }).join('')}</svg>`;
+      const B = [['0원', 0, 1], ['~100만', 1, 1e6], ['100~500만', 1e6, 5e6], ['500만~1천만', 5e6, 1e7], ['1천~5천만', 1e7, 5e7], ['5천만~1억', 5e7, 1e8], ['1억 이상', 1e8, 1e15]];
+      const dist = B.map(([k, a, b]) => ({k, v: C.filter(c => c.rev >= a && c.rev < b).length}));
+      const n80 = (() => { let s = 0, i = 0; for (; i < byRev.length && s < tot * .8; i++) s += byRev[i].rev; return i; })();
+      el.innerHTML = grid2(`<div><p style="font-weight:800;margin:0 0 6px;">상위 40개 과정과 누적 비중</p>${svg}</div>`, `<div><p style="font-weight:800;margin:0 0 6px;">과정당 누적 매출 구간</p>${hbars(dist.map(d => ({k: d.k, v: d.v, label: d.v + '개'})), {lw: 100, vw: 50})}</div>`)
+        + so(`매출의 80%를 ${n80}개 과정(전체의 ${pct(n80, C.length)}%)이 냅니다. 이 과정들의 리뉴얼·후속편이 매출 방어의 핵심입니다.`); });
+    // ⑦ 합격 연도 코호트
+    safe('pl7', () => { const el = mk('합격 연도별 과정 매출력', '합격 연도(코호트)별 과정 수 · 과정당 누적·최근 12개월 매출');
+      const o = {}; C.filter(c => c.pass).forEach(c => { const y = yr(c.pass); o[y] = o[y] || {n: 0, rev: 0, r12: 0}; o[y].n++; o[y].rev += c.rev; o[y].r12 += c.r12 || 0; });
+      const ys = Object.keys(o).sort();
+      el.innerHTML = `<div class="tbl-wrap"><table class="data"><thead><tr><th>합격 연도</th><th class="num">과정</th><th class="num">누적 매출</th><th class="num">과정당 누적</th><th class="num">최근 12개월</th><th class="num">과정당 최근 12개월</th></tr></thead><tbody>${ys.map(y => `<tr><td>${y}</td><td class="num">${o[y].n}</td><td class="num">${W(o[y].rev)}</td><td class="num">${W(o[y].rev / o[y].n)}</td><td class="num">${W(o[y].r12)}</td><td class="num">${W(o[y].r12 / o[y].n)}</td></tr>`).join('')}</tbody></table></div>`
+        + so('최근 합격 연도의 과정당 최근 12개월 매출이 오래된 연도보다 낮으면, 신규 과정의 출시 후 노출(90일 캘린더)이 부족하다는 신호입니다.'); });
+    // ⑧ 모멘텀
+    safe('pl8', () => { const el = mk('매출 모멘텀', `최근 12개월 vs 직전 12개월 · 상승·하락 상위`);
+      const d = C.filter(c => (c.r12 || 0) + (c.p12 || 0) > 0).map(c => ({c, d: (c.r12 || 0) - (c.p12 || 0)}));
+      const up = [...d].sort((a, b) => b.d - a.d).slice(0, 10), dn = [...d].sort((a, b) => a.d - b.d).slice(0, 10);
+      el.innerHTML = grid2(`<div><p style="font-weight:800;margin:0 0 6px;">상승 TOP 10</p>${hbars(up.map(x => ({k: x.c.n, v: Math.max(0, x.d), label: '+' + W(x.d), c: '#10b981', tip: `${x.c.n}<br>${W(x.c.p12 || 0)} → ${W(x.c.r12 || 0)}`})), {lw: 210, vw: 80})}</div>`,
+        `<div><p style="font-weight:800;margin:0 0 6px;">하락 TOP 10</p>${hbars(dn.map(x => ({k: x.c.n, v: Math.max(0, -x.d), label: '−' + W(-x.d), c: '#ef4444', tip: `${x.c.n}<br>${W(x.c.p12 || 0)} → ${W(x.c.r12 || 0)}`})), {lw: 210, vw: 80})}</div>`)
+        + so('하락 상위 과정은 주제 수요가 식었는지(교사 트렌드) 노출이 줄었는지 먼저 구분하고, 상승 과정은 후속편·심화 과정 기획 후보로 올리세요.'); });
   });
 
   /* ---- 고도화 Top 5: 할 일 보드 · KPI 추이 · 시도 타일 지도 · 착지 예측 · 승패 흐름 ---- */
