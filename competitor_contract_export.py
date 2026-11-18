@@ -18,7 +18,7 @@ import re
 import sys
 import time
 from collections import Counter, defaultdict
-from datetime import date
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -53,38 +53,53 @@ def match_company(item):
     return None
 
 
+# 날짜 변수 형식이 오퍼레이션마다 다르다(일자 YYYYMMDD / 일시 YYYYMMDDHHMM) — 2026-11-18 오류(07 입력범위값 초과·08 필수값 누락) 대응
+DATE_STYLES = [
+    ("일시", lambda b, e: {"inqryBgnDt": b.strftime("%Y%m%d") + "0000", "inqryEndDt": e.strftime("%Y%m%d") + "2359"}),
+    ("일자", lambda b, e: {"inqryBgnDate": b.strftime("%Y%m%d"), "inqryEndDate": e.strftime("%Y%m%d")}),
+]
+INQRY_DIVS = [1, 2]
+CHUNK_DAYS = 7  # 조회 기간이 길면 '입력범위값 초과'가 나므로 7일 단위로 나눠 받는다
+
+
+def _safe(e):
+    return re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:300]  # 키는 기록하지 않는다
+
+
 def fetch(cfg, days):
     interval = cfg.get("request_interval_sec", 0.15)
-    rows, op_ok, diag, BASE = {}, None, [], None
-    for base, op in [(b, o) for b in BASES for o in OPERATIONS]:
+    rows, op_ok, diag, BASE, style, div = {}, None, [], None, None, None
+    end0 = datetime.now()
+    beg0 = end0 - timedelta(days=CHUNK_DAYS - 1)
+    for base, op, (sname, sfn), dv in [(b, o, s, d) for b in BASES for o in OPERATIONS for s in DATE_STYLES for d in INQRY_DIVS]:
         try:
-            call_api(base, op, {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 1, "inqryDiv": 1,
-                                "inqryBgnDate": date.today().strftime("%Y%m01"), "inqryEndDate": date.today().strftime("%Y%m%d"),
-                                "type": "json"})
-            op_ok, BASE = op, base
+            call_api(base, op, {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 1, "inqryDiv": dv, **sfn(beg0, end0), "type": "json"},
+                     retries=0)
+            op_ok, BASE, style, div = op, base, (sname, sfn), dv
             break
         except Exception as e:
-            msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:300]  # 키는 기록하지 않는다
-            diag.append(f"{base.rsplit('/', 2)[-2]}/{op}: {msg}")
-            print(f"  [경고] {op} 사용 불가: {msg}", file=sys.stderr)
+            msg = _safe(e)
+            diag.append(f"{base.rsplit('/', 2)[-2]}/{op}/{sname}/구분{dv}: {msg[:160]}")
+            print(f"  [경고] {op}({sname}, 구분 {dv}) 사용 불가: {msg}", file=sys.stderr)
+            time.sleep(interval)
     if not op_ok:
         return None, " | ".join(diag)
+    print(f"  계약정보 조합: {op_ok} · 날짜 {style[0]} · 조회구분 {div}")
     print(f"  계약정보 오퍼레이션: {op_ok}")
     kws = KEYWORDS if op_ok.endswith("PPSSrch") else [None]
     shown, fields = False, FIELDS
     fields.clear()
     for kw in kws:
-        for begin, end in date_chunks(days, 28):
+        for begin, end in date_chunks(days, CHUNK_DAYS):
             page, total = 1, None
             while total is None or (page - 1) * 999 < total:
-                params = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 999, "inqryDiv": 1,
-                          "inqryBgnDate": begin.strftime("%Y%m%d"), "inqryEndDate": end.strftime("%Y%m%d"), "type": "json"}
+                params = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 999, "inqryDiv": div, **style[1](begin, end), "type": "json"}
                 if kw:
                     params["cntrctNm"] = kw
                 try:
                     items, total = call_api(BASE, op_ok, params, timeout=30)
                 except Exception as e:
-                    print(f"  [경고] 조회 실패(kw={kw}, {begin.date()}~{end.date()}, p{page}): {e}", file=sys.stderr)
+                    print(f"  [경고] 조회 실패(kw={kw}, {begin.date()}~{end.date()}, p{page}): {_safe(e)}", file=sys.stderr)
                     break
                 if items and not shown:
                     print(f"  응답 필드: {sorted(items[0].keys())}")
@@ -182,7 +197,7 @@ def main():
     STATUS_PATH.write_text(json.dumps({"date": date.today().isoformat(), "status": status, "days": days,
                                        "matched": None if rows is None else len(rows), "fields": FIELDS},
                                       ensure_ascii=False, indent=1), encoding="utf-8")
-    out = aggregate(list(hist.values()), status)
+    out = aggregate(list(hist.values()), "ok" if status == "ok" else "error")
     Path(args.out).parent.mkdir(exist_ok=True)
     Path(args.out).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
 

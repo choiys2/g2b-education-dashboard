@@ -3975,8 +3975,9 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   const D = CONTRACTS || {competitors: [], records: []};
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const tb = document.querySelector('#contractTable tbody');
-  if (D.status !== 'ok' || !D.competitors.length) {
-    tb.innerHTML = `<tr><td colspan="6" style="color:var(--muted);padding:16px;">${D.status === 'ok' ? '아직 매칭된 계약이 없습니다.' : h(D.status || '아직 수집 전')}</td></tr>`;
+  // 갱신이 실패해도 이미 모은 계약은 보여 주고, 오류 내용(출처·주소)은 화면에 드러내지 않는다(방법론 비노출)
+  if (!(D.competitors || []).length) {
+    tb.innerHTML = `<tr><td colspan="6" style="color:var(--muted);padding:16px;">${D.status === 'ok' ? '아직 매칭된 계약이 없습니다.' : '데이터 준비 중'}</td></tr>`;
     return;
   }
   tb.innerHTML = D.competitors.map(c => `<tr>
