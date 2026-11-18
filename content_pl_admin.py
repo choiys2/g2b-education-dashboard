@@ -35,6 +35,32 @@ def W(v):
     return f"{v / 1e8:,.2f}억" if abs(v) >= 1e8 else f"{v / 1e4:,.0f}만"
 
 
+def _charts(D, C, g, by_cm):
+    """손익 시각화: 구분별 구조 · 학점별 매출 · 월별 매출 · 상위 과정 · 쏠림"""
+    try:
+        import adm_viz as V
+    except Exception:
+        return ""
+    uk = lambda v: round(v / 1e4)
+    rows = [(k if k != "-" else "구분 없음", {"공헌이익": uk(max(r - e, 0)), "외주비": uk(e)}) for k, (n, r, e, p, r12) in sorted(g.items(), key=lambda kv: -kv[1][1])]
+    cr = defaultdict(int)
+    for c in C:
+        cr[c.get("cr") or "-"] += c["rev"]
+    ms = [m for m in D.get("months") or [] if isinstance(m, dict) and m.get("v") is not None][-24:]
+    revs = sorted((c["rev"] for c in C), reverse=True)
+    tot = sum(revs) or 1
+    k10 = max(1, len(revs) // 10)
+    share = sum(revs[:k10]) / tot * 100
+    zero = sum(1 for c in C if not c.get("r12"))
+    return (V.CSS + V.tiles([(f"{share:.0f}%", f"상위 10% 과정({k10}개)이 만든 누적 매출 비중"),
+                             (f"{zero}개", "최근 12개월 매출 0 과정(통합·폐강 검토 후보)"),
+                             (f"{len(C)}개", "분석 대상 운영 과정")])
+            + V.grid(("개발 구분별 공헌이익·외주비 (만원)", V.stacked(rows, [("공헌이익", V.PAL[2]), ("외주비", V.PAL[1])])),
+                     ("학점 구분별 누적 매출 (만원)", V.hbars(sorted(((k, uk(v)) for k, v in cr.items()), key=lambda x: -x[1]), color=V.PAL[0])),
+                     (f"월별 매출 (최근 {len(ms)}개월, 만원)", V.cols([(m["ym"][2:].replace("-", "."), uk(m["v"])) for m in ms], color=V.PAL[0])),
+                     ("공헌이익 TOP 10 (만원)", V.hbars([(c["n"][:22], uk(c["rev"] - c.get("ext", 0))) for c in by_cm[:10]], color=V.PAL[2]))))
+
+
 def build(sec):
     D = load()
     if not D:
@@ -63,7 +89,7 @@ def build(sec):
     years = sorted({c["pass"][:2] for c in C if c.get("pass")})
     recent = [c for c in inv if c.get("pass", "")[:2] in years[-2:]]
     rec = [[lab(c), W(c.get("prod", 0)), W(c["rev"]), f"{c['rev'] / c['prod'] * 100:.0f}%", W(c.get("r12", 0))] for c in sorted(recent, key=lambda c: c["rev"] / c["prod"])]
-    body = (tiles
+    body = (tiles + _charts(D, C, g, by_cm)
             + tp._table({"h": "개발 구분별 수익 구조", "head": ["구분", "과정", "누적 매출", "외주비", "공헌이익", "공헌이익률", "과정당 제작비", "매출/외주비", "과정당 최근 12개월"], "rows": trows})
             + "<div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:16px;'>"
             + "<div>" + tp._table({"h": "공헌이익 TOP 15", "head": ["#", "과정", "매출", "외주비", "공헌이익"], "rows": top}) + "</div>"

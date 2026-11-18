@@ -250,6 +250,22 @@ def quick_links(plan=False):
             f'<div style="display:flex;gap:10px;flex-wrap:wrap;">{items}</div></section>')
 
 
+def _safe_build(mod, sec):
+    try:
+        return __import__(mod).build(sec)
+    except Exception as e:  # 한 칸 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] {mod} 실패: {type(e).__name__}: {str(e)[:120]}")
+        return ""
+
+
+def _safe_comp(sec):
+    try:
+        return __import__("mkt_trends").comp_charts(sec)
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 경쟁사 활동 추이 실패: {type(e).__name__}: {str(e)[:120]}")
+        return ""
+
+
 def _live_tiles():
     """앱 홈 큰 타일에 띄울 숫자(관리 암호문 안에만). 실패한 항목은 비운다."""
     out = {}
@@ -475,7 +491,7 @@ def build_html(exec_sources=None):
             + pane("weekly", weekly_html)
             + pane("schedule", schedule_html)
             + pane("actions", ob_act + aio_act + actions + extra["roles"] + mg_settle + quick_links())
-            + pane("comp", mg_comp + comp)
+            + pane("comp", _safe_comp(sec) + mg_comp + comp)
             + pane("edu", ga["order"] + ow_html + ins_edu)
             + pane("strat", ga["delay"] + strat_html)
             + pane("samall", samall_html)
@@ -483,7 +499,7 @@ def build_html(exec_sources=None):
             + pane("branch", '<div id="admBranchScore"><p style="color:var(--muted);font-size:13px;">총판 성적표를 불러오는 중입니다.</p></div>')
             + pane("tb3", tb3_html)
             + pane("sales", sales_html)
-            + pane("mkt", ob_mkt)
+            + pane("mkt", _safe_build("mkt_trends", sec) + ob_mkt)
             + pane("aiops", aiops_html)
             + pane("cpl", cpl_html)
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')

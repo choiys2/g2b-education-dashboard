@@ -71,13 +71,15 @@ def build_edu(sec, days=60):
 
 def build_ops(sec):
     w = _jsonl("history/pipeline_watch.jsonl")
-    full = [r for r in w if not r.get("quick")][-14:]
+    full = [r for r in w if not r.get("quick")]
+    days = sorted({str(r.get("at", ""))[:10] for r in full})[-2:]  # 최근 2일치만 보여 준다(기록 파일은 그대로 누적)
+    full = [r for r in full if str(r.get("at", ""))[:10] in days]
     if full:
         last = full[-1]
         badge = "✅ 정상" if last["status"] == "ok" else "❌ 장애: " + ", ".join(last.get("fail") or [])
         rows = "".join(f"<tr><td style='white-space:nowrap;'>{E(r['at'])}</td><td>{'✅' if r['status'] == 'ok' else '❌'}</td><td>{E(', '.join(r.get('fail') or []) or '-')}</td>"
                        f"<td>{E(next((c['m'] for c in r.get('checks', []) if c['n'] == '나라장터 건전성'), '-'))}</td><td>{E(r.get('sentry', '-'))}</td></tr>" for r in reversed(full))
-        b1 = sec("수집 장애 감시 (매일)", f"마지막 수집 실행 {E(last['at'])} · {E(badge)}. 나라장터 건전성·입찰공고/낙찰 0건·대시보드 조합·Cloudflare 배포 중 하나라도 실패하면 Sentry 가 메일로 알립니다(무료 감시 1개).",
+        b1 = sec("수집 장애 감시 (최근 2일)", f"마지막 수집 실행 {E(last['at'])} · {E(badge)}. 나라장터 건전성·입찰공고/낙찰 0건·대시보드 조합·Cloudflare 배포 중 하나라도 실패하면 Sentry 가 메일로 알립니다(무료 감시 1개).",
                  f"<div class='tbl-wrap'><table><thead><tr><th>실행</th><th>상태</th><th>실패 항목</th><th>나라장터 건수</th><th>알림</th></tr></thead><tbody>{rows}</tbody></table></div>")
     else:
         b1 = sec("수집 장애 감시 (매일)", "다음 전체 수집부터 기록됩니다.", "")

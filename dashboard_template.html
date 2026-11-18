@@ -10282,6 +10282,25 @@ window.__renderPdfx = function(root, P){
   .vbook[aria-current="page"]{transform:translateY(-12px) rotate(-5deg);outline:2px solid #fbbf24;}
   .vmini{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);padding:6px 0;border-bottom:1px solid var(--border);}
   .vmini button{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;padding:4px 10px;border-radius:8px;cursor:pointer;}
+
+/* 앱 홈(윈도우 타일) — 그룹 보기의 '🏠 앱 홈' */
+.vs-home .tabpanel{display:none!important;}
+.cph{background:linear-gradient(135deg,#0b1a33 0%,#13325b 55%,#1d4e7d 100%);color:#fff;border-radius:14px;padding:18px 16px 20px;margin:10px 0 16px;}
+.cph-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.cph-top h3{margin:0;font-size:21px;font-weight:800;color:#fff;}.cph-top p{margin:3px 0 0;font-size:12.5px;color:rgba(255,255,255,.75);}
+.cph-q{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:7px 14px;color:#fff;font:inherit;font-size:13px;min-width:200px;}
+.cph-q::placeholder{color:rgba(255,255,255,.6);}
+.cph-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:20px;}
+.cph h4{margin:0 0 8px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.8);}.cph h4 i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;}
+.cph-tiles{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:82px;gap:8px;}
+.cph-t{all:unset;box-sizing:border-box;border-radius:6px;padding:10px 12px;color:#fff;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;transition:transform .12s,box-shadow .12s;text-decoration:none;}
+.cph-t:hover,.cph-t:focus-visible{transform:scale(1.03);box-shadow:0 6px 18px rgba(0,0,0,.35);outline:2px solid rgba(255,255,255,.6);outline-offset:1px;}
+.cph-t[aria-current]{outline:2px solid #fde68a;}
+.cph-t .nm{font-size:12.5px;font-weight:700;line-height:1.3;}.cph-t .big{font-size:22px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums;}.cph-t .lv{font-size:11.5px;opacity:.9;line-height:1.3;}
+.cph-w{grid-column:span 2;}.cph-l{grid-column:span 2;grid-row:span 2;}
+.cph-ext{background:rgba(255,255,255,.14)!important;border:1px dashed rgba(255,255,255,.5);font-size:12.5px;font-weight:700;justify-content:center;}
+.cph-hide{display:none!important;}
+@media (max-width:640px){.cph-tiles{grid-template-columns:repeat(2,1fr);}.cph-q{min-width:0;width:100%;}.cph-top h3{font-size:18px;}}
 </style>
 <script>
 /* ---------------- 🔒 관리: 2027 매출 시나리오 · 블렌디드 견적 계산기 ----------------
@@ -10938,7 +10957,7 @@ window.renderBranchScore = function(tab){
   const grouped = new Set(GROUPS.flatMap(g => g[2])); const rest = Object.keys(btn).filter(t => !grouped.has(t));
   if (rest.length) GROUPS[GROUPS.length - 1][2].push(...rest);  // 새 탭이 생기면 '연결·관리'에 자동 포함
   const cur = () => (document.querySelector('.tabbtn.active') || {}).dataset ? document.querySelector('.tabbtn.active').dataset.tab : 'market';
-  const go = t => { activateTab(t); if (typeof writeHashState === 'function') writeHashState({tab: t}); draw(); window.scrollTo({top: nav.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth'}); };
+  const go = t => { activateTab(t); if (typeof writeHashState === 'function') writeHashState({tab: t}); draw(); setTimeout(() => window.dispatchEvent(new Event('resize')), 30); window.scrollTo({top: nav.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth'}); };
   // 카드·책장 숫자: 탭별 대표 숫자(있으면) -> 없으면 그 탭 첫 KPI
   const num = t => { try {
     const AD = window.__ADOPT, BR = window.__BRANCH, AP = window.__AIEP_P;
@@ -10965,6 +10984,17 @@ window.renderBranchScore = function(tab){
   brand.innerHTML = `${LG.visang ? `<img class="v" src="${LG.visang}" alt="visang">` : '<b style="color:#00B3E3;font-size:22px;">visang</b>'}<span class="bar"></span>${LG.vivasam ? `<img class="s" src="${LG.vivasam}" alt="비바샘 원격교육연수원">` : '<b>비바샘 원격교육연수원</b>'}<span class="t">비상 디자인 보기 · '기본'을 누르면 기존 화면, '↺ 초기화'는 그룹 보기로</span>`;
   const hdr = document.querySelector('header.top'); (hdr || bar).before(brand);
   let mode = load(), gsel = null, folded = false;
+  let home = !(typeof parseHashState === 'function' && parseHashState().tab);  // 처음 열면 앱 홈(주소에 탭이 있으면 그 탭)
+  const TSIZE = ['l', 'w', 's', 's', 'w', 's', 's'];
+  const tileHome = t => {
+    const tiles = G => G[2].map((x, i) => { const [k, sub] = num(x), sz = TSIZE[i % TSIZE.length], P = PAL[G[1]] || [G[1]];
+      return `<button type="button" class="cph-t cph-${sz}" data-t="${x}" style="background:${P[i % P.length]}" data-q="${h(name(x) + ' ' + sub)}"${x === t ? ' aria-current="page"' : ''}>`
+        + `<span class="nm">${h(name(x))}</span>${k && sz !== 's' ? `<span class="big">${h(String(k).slice(0, 14))}</span>` : ''}${sub && sz !== 's' ? `<span class="lv">${h(String(sub).slice(0, 40))}</span>` : ''}</button>${EXT(x, 'cph-t cph-s cph-ext')}`; }).join('');
+    const n = GROUPS.reduce((a, G) => a + G[2].length, 0);
+    return `<div class="cph"><div class="cph-top"><div><h3>🏠 앱 홈</h3><p>업무 화면 ${n}개 · 타일을 누르면 열리고, 위의 「🏠 앱 홈」으로 돌아옵니다</p></div>`
+      + `<input class="cph-q" type="search" placeholder="화면 검색 (예: 채택, 발주)" aria-label="화면 검색"></div>`
+      + `<div class="cph-groups">${GROUPS.map(G => `<section><h4><i style="background:${G[1]}"></i>${h(G[0])}</h4><div class="cph-tiles">${tiles(G)}</div></section>`).join('')}</div></div>`;
+  };
   // 탭 줄 바깥 링크(결과보고·강사풀 등): data-after 탭 바로 뒤에 붙인다(주소가 설정된 것만)
   const EXT = (x, cls) => [...nav.querySelectorAll('a.tablink[data-after]')].filter(a => a.dataset.after === x && !a.hidden && /^https:/.test(a.href))
     .map(a => `<a class="${cls}" href="${h(a.href)}" target="_blank" rel="noopener noreferrer" title="${h(a.title)}">${h(a.textContent)}</a>`).join('');
@@ -10977,9 +11007,12 @@ window.renderBranchScore = function(tab){
     const HI = {group: LG.hero1, card: LG.hero2, shelf: LG.hero3 || LG.hero1}[mode];  // 보기마다 다른 사옥 공간 사진
     if (HI) document.documentElement.style.setProperty('--vs-hero', `url("${HI}")`); else document.documentElement.style.removeProperty('--vs-hero');
     if (mode === 'basic') { box.innerHTML = ''; return; }
+    document.documentElement.classList.toggle('vs-home', mode === 'group' && home);
     if (mode === 'group') {
-      box.innerHTML = `<div class="vgroups">${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${i === g}">${i + 1}. ${h(G[0])}<small>${G[2].length}개 탭</small></button>`).join('')}</div>
-        <div class="vsub">${GROUPS[g][2].map(x => `<button type="button" data-t="${x}" ${x === t ? 'aria-current="page"' : ''}>${h(name(x))}</button>${EXT(x, 'vextl')}`).join('')}</div>`;
+      box.innerHTML = `<div class="vgroups"><button type="button" data-home="1" style="--gc:#0f6cbd" aria-pressed="${home}">🏠 앱 홈<small>타일로 한눈에</small></button>${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${!home && i === g}">${i + 1}. ${h(G[0])}<small>${G[2].length}개 탭</small></button>`).join('')}</div>
+        ${home ? tileHome(t) : `<div class="vsub">${GROUPS[g][2].map(x => `<button type="button" data-t="${x}" ${x === t ? 'aria-current="page"' : ''}>${h(name(x))}</button>${EXT(x, 'vextl')}`).join('')}</div>`}`;
+      const hb = box.querySelector('[data-home]'); if (hb) hb.addEventListener('click', () => { home = true; gsel = null; draw(); });
+      const q = box.querySelector('.cph-q'); if (q) q.addEventListener('input', () => { const v = q.value.trim(); box.querySelectorAll('.cph-t[data-q]').forEach(el => el.classList.toggle('cph-hide', !!v && !el.dataset.q.includes(v))); });
     } else if (folded) {
       box.innerHTML = `<div class="vmini">${mode === 'card' ? '카드' : '책장'} 보기 · 지금: <b>${h(name(t))}</b> <button type="button" class="vopen">${mode === 'card' ? '카드' : '책장'} 펼치기</button></div>`;
     } else if (mode === 'card') {
@@ -10994,15 +11027,15 @@ window.renderBranchScore = function(tab){
           return `<button type="button" class="vbook ${f && f.state === '정상' && i % 2 === 0 ? 'new' : ''}" data-t="${x}" ${x === t ? 'aria-current="page"' : ''} style="height:${168 + ((i * 37) % 26)}px;background:${P[i % P.length]}" title="${h(name(x))}"><span class="t">${h(SHORT[x] || name(x)).replace(/\s/g, '')}</span>${k ? `<span class="v">${h(String(k).slice(0, 9))}</span>` : '<span></span>'}</button>`; }).join('')}<span class="nm">${h(G[0])}<small>${G[2].length}권</small></span></div>`).join('')}</div>
         <div class="vmini" style="border:0;"><button type="button" class="vfold">책장 접기</button> 책을 누르면 그 화면이 펼쳐집니다</div>`;
     }
-    box.querySelectorAll('[data-g]').forEach(b => b.addEventListener('click', () => { gsel = +b.dataset.g; draw(); }));
-    box.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => { gsel = null; if (mode !== 'group') folded = true; go(b.dataset.t); }));
+    box.querySelectorAll('[data-g]').forEach(b => b.addEventListener('click', () => { home = false; gsel = +b.dataset.g; draw(); }));
+    box.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => { home = false; gsel = null; if (mode !== 'group') folded = true; go(b.dataset.t); }));
     const o = box.querySelector('.vopen'); if (o) o.addEventListener('click', () => { folded = false; draw(); });
     const fo = box.querySelector('.vfold'); if (fo) fo.addEventListener('click', () => { folded = true; draw(); });
   }
   bar.querySelectorAll('.vseg button').forEach(b => b.addEventListener('click', () => { mode = b.dataset.v; save(mode); folded = false; gsel = null; draw(); }));
   bar.querySelector('.vreset').addEventListener('click', () => { mode = DEF; save(DEF); folded = false; gsel = null; draw(); });
   nav.addEventListener('click', () => setTimeout(draw, 0));  // 기본 탭 줄에서 바꿔도 다른 보기 상태가 따라오게
-  window.addEventListener('hashchange', () => setTimeout(draw, 0));
+  window.addEventListener('hashchange', () => { if (parseHashState().tab) home = false; setTimeout(draw, 0); });
   draw();
   requestAnimationFrame(() => document.documentElement.classList.remove('vs-boot'));  // 비상 디자인이 다 그려진 뒤 한 번에 보여 준다
 })();
