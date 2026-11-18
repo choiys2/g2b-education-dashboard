@@ -1,5 +1,5 @@
 {
- "at": "2026-11-18 12:30",
+ "at": "2026-11-18 14:50",
  "places": 262,
  "by_region": {
   "서울": 26,
@@ -21,7 +21,6 @@
   "제주": 17
  },
  "errors": [
-  "세종 수련원: <urlopen error _ssl.c:994: The handshake operation timed out>",
-  "충북 연수원: <urlopen error _ssl.c:994: The handshake operation timed out>"
+  "제주 교육원: <urlopen error _ssl.c:994: The handshake operation timed out>"
  ]
 }
