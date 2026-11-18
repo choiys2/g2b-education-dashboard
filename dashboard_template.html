@@ -6137,6 +6137,9 @@ function openOwner(O, adminBody){
 window.admPane = function(k){
   document.querySelectorAll('#adminBody .adm-pane').forEach(p => p.hidden = p.dataset.pane !== k);
   document.querySelectorAll('#adminBody .adm-tabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.pane === k));
+  const tabs = document.querySelector('#adminBody .adm-tabs');
+  if (tabs && tabs.getBoundingClientRect().top < 0) tabs.scrollIntoView({block: 'start'});
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 30);  // 숨김에서 나온 차트 크기 다시 맞춤
 };
 // 경쟁사 변화 감지(competitor_watch.py) - 대표 전용
 function renderCompWatch(el, C){

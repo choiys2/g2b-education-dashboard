@@ -2,7 +2,7 @@
 """
 관리 탭 '2027 경영계획' 섹션 - 계획(시크릿) × 시트 실적 × 공개 데이터로 의사결정 화면 11종을 만든다.
 
-- 계획 수치: GitHub Secret PLAN_2027_JSON(plan_extract.py 출력)에서만 읽는다. 로컬 시험은 plan_2027.local.json(gitignore).
+- 계획 수치: 비공개 저장소 strategy_room/plan_2027.json(채팅으로 갱신)을 먼저, 없으면 Secret PLAN_2027_JSON 을 읽는다. 로컬 시험은 plan_2027.local.json(gitignore).
   계획이 없으면 계획이 필요한 칸은 '미등록'으로 두고, 실적·공개 데이터만으로 되는 화면은 그대로 그린다.
 - 결과 HTML 은 admin_structure.build_html 에 붙어 ADMIN_PASSWORD 로 암호화된다. history/·live/·브리핑(공개)에는 계획 수치를 쓰지 않는다.
 - 개인정보 없음: 시트에서 이미 걸러진 sheets_ops 결과(기관·사업명·금액)만 쓴다.
@@ -38,8 +38,19 @@ def _jsonl(p):
     return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()] if p.exists() else []
 
 
+def _private_plan():
+    """비공개 저장소 strategy_room/plan_2027.json (채팅으로 갱신하는 원본) - 있으면 시크릿보다 우선"""
+    try:
+        from strategy_room import _private
+        d = _private()
+        f = d / "strategy_room" / "plan_2027.json" if d else None
+        return f.read_text(encoding="utf-8") if f and f.exists() else ""
+    except Exception:
+        return ""
+
+
 def load_plan():
-    raw = os.environ.get("PLAN_2027_JSON", "").strip()
+    raw = _private_plan().strip() or os.environ.get("PLAN_2027_JSON", "").strip()
     if not raw and (HERE / "plan_2027.local.json").exists():
         raw = (HERE / "plan_2027.local.json").read_text(encoding="utf-8")
     try:

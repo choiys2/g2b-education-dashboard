@@ -488,13 +488,16 @@ jobs:
         continue-on-error: true
         env:
           MGMT_JSON: ${{ secrets.MGMT_JSON }}
+          PLAN_2027_JSON: ${{ secrets.PLAN_2027_JSON }}   # 1회 이관용: 비공개 파일이 없을 때만 옮겨 적는다(값은 출력하지 않음)
         run: |
           if [ ! -d _private/.git ]; then echo "비공개 저장소 없음 - 건너뜀"; exit 0; fi
+          python plan_migrate.py _private/strategy_room/plan_2027.json || echo "경영계획 이관 건너뜀"
           python exec_pack.py _private/exec_pack
           python data_pack.py _private/data_pack || echo "데이터 팩 생성 실패(브리프 팩은 계속)"
           cd _private
           git config user.name "vs-insight-bot"; git config user.email "actions@users.noreply.github.com"
           git add -A exec_pack data_pack
+          [ -f strategy_room/plan_2027.json ] && git add strategy_room/plan_2027.json
           git diff --cached --quiet && { echo "변경 없음"; exit 0; }
           git commit -q -m "exec_pack: $(TZ=Asia/Seoul date +%F)"
           B=$(git rev-parse --abbrev-ref HEAD)

@@ -250,6 +250,44 @@ def quick_links(plan=False):
             f'<div style="display:flex;gap:10px;flex-wrap:wrap;">{items}</div></section>')
 
 
+def _live_tiles():
+    """앱 홈 큰 타일에 띄울 숫자(관리 암호문 안에만). 실패한 항목은 비운다."""
+    out = {}
+    try:
+        p2 = __import__("plan2027")
+        P = p2.load_plan()
+        if P:
+            c = p2.chan(P)
+            tot = sum(v["plan"] for v in c.values())
+            g = sum(c[k]["plan"] for k in p2.B2G_KEYS)
+            out["exec"] = (p2.eok(tot), f"2027 계획 매출 · B2G {p2.pct(g, tot)}")
+            out["plan"] = ("", f"계획 {p2.eok(tot)}")
+    except Exception:
+        pass
+    try:
+        out["aiops"] = ("", f"{len(__import__('ai_ops').TOOLS)}종")
+    except Exception:
+        pass
+    try:
+        D = __import__("content_pl_admin").load() or {}
+        n = len(D.get("courses") or [])
+        if n:
+            out["cpl"] = (f"{n}개", f"과정 손익 · {D.get('as_of') or ''} 누적")
+    except Exception:
+        pass
+    try:
+        cv = __import__("workflows").coverage()
+        n = sum(w["n"] for w in cv)
+        lk = sum(w["auto"] + w["part"] for w in cv)
+        out["sys"] = ("", f"업무 {n}단계 · 화면 연결 {lk / n * 100:.0f}%" if n else "")
+    except Exception:
+        pass
+    out.setdefault("actions", ("", "마감 순 할 일 · 누르면 바로 이동"))
+    out.setdefault("exec", ("", "실적 · 계획 · 셀별 실행안"))
+    out.setdefault("decide", ("", "결정 대기 · 결정 후보"))
+    return out
+
+
 def build_html(exec_sources=None):
     st = source_status(exec_sources)
     steps, cron = parse_workflow()
@@ -279,7 +317,8 @@ def build_html(exec_sources=None):
               ("개인정보", "시트는 화이트리스트 열만 읽음, 영업자 익명화, 소통은 숫자만, 수의계약 상대자 이름 미저장"),
               ("키 보호", "API 키는 GitHub Secret 에만, 로그 마스킹, 코드·history 에 미기록"),
               ("대표 전용", "경영 종합·AI 해석·초안·경쟁사 변화 감지 데이터는 관리 비밀번호 암호문(OWNER)에만 실음 — 직원 화면 소스에도 없음"),
-              ("계획 수치", "2027 경영계획은 Secret PLAN_2027_JSON 에서만 읽어 이 관리 탭 암호문 안에만 실음(history·브리핑·공개 화면 미기록)"),
+              ("계획 수치", "2027 경영계획은 비공개 저장소 strategy_room/plan_2027.json(채팅으로 갱신, 없으면 Secret PLAN_2027_JSON)에서만 읽어 이 관리 탭 암호문 안에만 실음(history·브리핑·공개 화면 미기록)"),
+              ("개인 앱스토어", "개인 앱 주소는 비공개 저장소 config/personal_apps.json 에만 두고, https + 허용 도메인만 이 관리 탭 암호문 안에 새 창(noopener noreferrer) 링크로 실음"),
               ("주간보고·브리프 팩", "주간보고는 비공개 저장소(PRIVATE_DATA_REPO)에서 배포 때만 내려받아 이 관리 탭 암호문 안에만 싣고, 내 일정(my_schedule)·내 주간업무보고(my_weekly)도 같은 저장소에서 읽고, 경영 브리프 팩은 exec_pack/ 에만 씀(공개 저장소·사이트·history 미기록)"),
               ("경영 실적", "손익·이수자 합계는 Secret MGMT_JSON 에서만 읽어 이 관리 탭 암호문 안에만 실음(개인 정보 없음, 공개 화면 미기록)"),
               ("접근 통제", "검색 차단(noindex) + 대시보드 비밀번호(AES-256-GCM) + 관리 탭 별도 비밀번호"),
@@ -291,7 +330,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조")]
+    panes = [("home", "🏠 앱 홈"), ("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조"), ("apps", "⭐ 개인 앱스토어")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -421,8 +460,17 @@ def build_html(exec_sources=None):
                   "<div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px;'>"
                   + "<div><h4>일정</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in sched) + "</tbody></table></div>"
                   + "<div><h4>안전장치</h4><table><tbody>" + "".join(f"<tr><td style='white-space:nowrap;'><b>{E(a)}</b></td><td>{E(b)}</td></tr>" for a, b in guards) + "</tbody></table></div></div>"))
+    try:
+        ah = __import__("app_home")
+        apps = ah.personal_apps()
+        home_html = ah.build({k: v for k, v in panes if k not in ("home", "apps")}, _live_tiles(), apps)
+        store_html = ah.build_store(apps)
+    except Exception as e:  # 앱 홈 오류가 관리 탭 전체를 막지 않게(탭 줄은 그대로)
+        print(f"[경고] 앱 홈 실패: {type(e).__name__}: {str(e)[:120]}")
+        home_html = store_html = ""
     return (css + '<div class="adm">' + nav
-            + pane("exec", tp_html + blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>', True)
+            + pane("home", home_html, True)
+            + pane("exec", tp_html + blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>')
             + pane("decide", blocks["decide"] + cand_html + ob_hand)
             + pane("weekly", weekly_html)
             + pane("schedule", schedule_html)
@@ -440,6 +488,7 @@ def build_html(exec_sources=None):
             + pane("cpl", cpl_html)
             + pane("plan", quick_links(plan=True) + extra["plan27"] + extra["long"] + f'<div id="admPlan">{plan_html}</div>')
             + pane("sys", f"<div id='admSys'></div>{ins_ops}{sys_html}")
+            + pane("apps", store_html)
             + "</div>")
 
 
