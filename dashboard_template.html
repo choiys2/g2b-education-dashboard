@@ -10269,6 +10269,7 @@ window.__renderPdfx = function(root, P){
 .cph-t{all:unset;box-sizing:border-box;border-radius:6px;padding:10px 12px;color:#fff;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;transition:transform .12s,box-shadow .12s;text-decoration:none;}
 .cph-t:hover,.cph-t:focus-visible{transform:scale(1.03);box-shadow:0 6px 16px rgba(0,0,0,.18);outline:2px solid var(--accent, #2563eb);outline-offset:1px;}
 .cph-t[aria-current]{outline:2px solid var(--ink, #111);outline-offset:1px;}
+.cph-t{position:relative;}.cph-t .ic{position:absolute;top:8px;right:10px;font-size:22px;line-height:1;}.cph-l .ic{font-size:34px;top:12px;left:12px;right:auto;}.cph-w .nm{padding-right:30px;}.cph-ext .ic{position:static;display:block;margin:0 0 4px;font-size:20px;}
 .cph-t .nm{font-size:12.5px;font-weight:700;line-height:1.3;}.cph-t .big{font-size:22px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums;}.cph-t .lv{font-size:11.5px;opacity:.9;line-height:1.3;}
 .cph-w{grid-column:span 2;}.cph-l{grid-column:span 2;grid-row:span 2;}
 .cph-ext{background:var(--surface, #fff)!important;color:var(--ink, #111)!important;border:1px dashed var(--border, #cbd5e1);font-size:12.5px;font-weight:700;justify-content:center;}
@@ -10959,10 +10960,13 @@ window.renderBranchScore = function(tab){
   let mode = load(), gsel = null, folded = false;
   let home = !(typeof parseHashState === 'function' && parseHashState().tab);  // 처음 열면 앱 홈(주소에 탭이 있으면 그 탭)
   const TSIZE = ['l', 'w', 's', 's', 'w', 's', 's'];
+  const ICON = {market: '🗺️', strategy: '🧭', trend2027: '📈', biz2027: '🏢', g2bfull: '🏛️', keris: '💾', g2b: '🤖', school: '🏫', aiep: '🧩',
+    pipeline: '🤝', branch: '📍', adopt: '📚', leading: '🌟', b2s: '🛒', competitor: '🔍', neti: '🎓', content: '💰', eco: '🌱',
+    network: '🕸️', beta: '🧪', admin: '🔒', search: '🔎'};
   const tileHome = t => {
     const tiles = G => G[2].map((x, i) => { const [k, sub] = num(x), sz = TSIZE[i % TSIZE.length], P = PAL[G[1]] || [G[1]];
       return `<button type="button" class="cph-t cph-${sz}" data-t="${x}" style="background:${P[i % P.length]}" data-q="${h(name(x) + ' ' + sub)}"${x === t ? ' aria-current="page"' : ''}>`
-        + `<span class="nm">${h(name(x))}</span>${k && sz !== 's' ? `<span class="big">${h(String(k).slice(0, 14))}</span>` : ''}${sub && sz !== 's' ? `<span class="lv">${h(String(sub).slice(0, 40))}</span>` : ''}</button>${EXT(x, 'cph-t cph-s cph-ext')}`; }).join('');
+        + `<span class="ic">${ICON[x] || '📄'}</span><span class="nm">${h(sz === 's' && name(x).length > 9 && SHORT[x] ? SHORT[x] : name(x))}</span>${k && sz !== 's' ? `<span class="big">${h(String(k).slice(0, 14))}</span>` : ''}${sub && sz !== 's' ? `<span class="lv">${h(String(sub).slice(0, 40))}</span>` : ''}</button>${EXT(x, 'cph-t cph-s cph-ext')}`; }).join('');
     const n = GROUPS.reduce((a, G) => a + G[2].length, 0);
     return `<div class="cph"><div class="cph-top"><div><h3>🏠 앱 홈</h3><p>업무 화면 ${n}개 · 타일을 누르면 열리고, 위의 「🏠 앱 홈」으로 돌아옵니다</p></div>`
       + `<input class="cph-q" type="search" placeholder="화면 검색 (예: 채택, 발주)" aria-label="화면 검색"></div>`
@@ -10970,7 +10974,7 @@ window.renderBranchScore = function(tab){
   };
   // 탭 줄 바깥 링크(결과보고·강사풀 등): data-after 탭 바로 뒤에 붙인다(주소가 설정된 것만)
   const EXT = (x, cls) => [...nav.querySelectorAll('a.tablink[data-after]')].filter(a => a.dataset.after === x && !a.hidden && /^https:/.test(a.href))
-    .map(a => `<a class="${cls}" href="${h(a.href)}" target="_blank" rel="noopener noreferrer" title="${h(a.title)}">${h(a.textContent)}</a>`).join('');
+    .map(a => `<a class="${cls}" href="${h(a.href)}" target="_blank" rel="noopener noreferrer" title="${h(a.title)}">${cls.includes('cph') ? '<span class="ic">' + ({opsPlanLink: '📋', reportLink: '📝', poolLink: '👥'}[a.id] || '🔗') + '</span>' : ''}${h(a.textContent)}</a>`).join('');
   function draw(){
     const t = cur(), gi = GROUPS.findIndex(g => g[2].includes(t)), g = gsel != null ? gsel : (gi < 0 ? 0 : gi);
     bar.querySelectorAll('.vseg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === mode)));
