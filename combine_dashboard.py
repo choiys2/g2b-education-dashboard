@@ -178,6 +178,73 @@ def _course_pl_public():
             "courses": [{k: c.get(k) for k in keep if c.get(k) is not None} for c in d.get("courses") or []]}
 
 
+
+def _g2b_live_panels(full_live):
+    """AI·에듀테크 발주 리스트 탭의 월별 추이·경쟁사 랭킹·반복 발주기관·발주계획 - 매일 수집분으로 다시 계산(예전엔 7월 고정값)."""
+    from collections import Counter, defaultdict as dd
+    from datetime import date as _d
+    A = (full_live or {}).get("analytics") or {}
+    bids, specs, wins = A.get("입찰공고") or [], A.get("사전규격") or [], A.get("낙찰정보") or []
+    # 월별: 사전규격+입찰공고, 최근 12개월
+    mon = Counter((it.get("공고일") or "")[:7] for it in bids + specs if (it.get("공고일") or "")[:7])
+    keep = sorted(mon)[-12:]
+    monthly = {m: mon[m] for m in keep}
+    # 경쟁사: 낙찰 전체 시장
+    try:
+        wins = an.enrich_win_region(wins, bids)
+    except Exception:
+        pass
+    cnt, amt, regs, rates = Counter(), Counter(), dd(Counter), []
+    for w in wins:
+        co = w.get("낙찰업체") or ""
+        if not co or co == "-":
+            continue
+        cnt[co] += 1
+        amt[co] += w.get("낙찰금액") or 0
+        r = w.get("지역") or ""
+        if r and r != "전국":
+            regs[co][r] += 1
+        try:
+            v = float(w.get("낙찰율(%)"))
+            if 50 <= v <= 110:
+                rates.append(v)
+        except (TypeError, ValueError):
+            pass
+    top = [{"company": c, "count": cnt[c], "amount": amt[c], "regions": sorted(regs[c])[:6]} for c in sorted(cnt, key=lambda c: -amt[c])[:15]]
+    comp = {"top": top, "total_wins": sum(cnt.values()), "unique_companies": len(cnt),
+            "avg_rate": round(sum(rates) / len(rates), 1) if rates else None}
+    # 반복 발주기관: 올해 입찰공고 2건 이상
+    yr = str(_d.today().year)
+    oc, oa = Counter(), Counter()
+    for it in bids:
+        if (it.get("공고일") or "").startswith(yr):
+            o = it.get("발주기관") or ""
+            if o:
+                oc[o] += 1
+                oa[o] += it.get("예산") or 0
+    rep = [{"org": o, "count": oc[o], "amount": oa[o]} for o in sorted(oc, key=lambda o: (-oc[o], -oa[o])) if oc[o] >= 2][:20]
+    plan = [{k: r.get(k) for k in ("지역", "공고명", "발주기관", "예산", "계약방법", "발주예정월")} for r in (full_live or {}).get("발주계획_오늘스냅샷") or []]
+    plan = sorted(plan, key=lambda r: -(r.get("예산") or 0))[:40]
+    asof = (full_live or {}).get("generated_at", "")[:10]
+    return {"trend": {"monthly": monthly, "repeaters": rep, "asof": asof}, "comp": comp, "plan": plan, "asof": asof}
+
+
+def _brand_trend():
+    """경쟁사 브랜드 검색 관심도 - 주 1회 수집본(history) 우선, 없으면 예전 참고 스냅샷"""
+    NOTE = "검색 관심도 상대값(0~100, 4개사 통합 기준). 아이스크림은 브랜드명이 일반명사와 겹쳐 복합 검색어로 재므로 낮게 나올 수 있습니다 — 회사 간 절대값보다 각 사 추이로 해석하세요."
+    try:
+        b = (load("history/teacher_interest_trends.json") or {}).get("brand") or {}
+        if b.get("companies"):
+            return {"captured_date": b.get("captured_date"), "companies": b["companies"], "note": NOTE, "weekly": True}
+    except Exception:
+        pass
+    try:
+        d = load("static_data/brand_search_2026-08.json")
+        return {"captured_date": d.get("captured_date"), "companies": d.get("companies") or {}, "note": NOTE, "weekly": False}
+    except Exception:
+        return {}
+
+
 def _ext_links():
     """탭 줄 바깥 링크(별도 페이지) - 비공개 저장소 _private/config/links.json 또는 환경변수에서만 읽는다(공개 저장소에 주소 없음).
     값은 출력하지 않고 설정 여부만 로그에 남긴다."""
@@ -946,7 +1013,7 @@ def main():
         "__AI_SCHOOL_STATUS_JSON__": ai_school_status,
         "__EARLY_WARNING_JSON__": early, "__CONTRACTS_JSON__": contracts, "__COURSE_PL_JSON__": _course_pl_public(),
         "__WEATHER_JSON__": weather, "__AI_BRIEF_JSON__": None,
-        "__RFP_JSON__": rfp, "__AI_DRAFTS_JSON__": {}, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": None, "__B2S_MARKET_JSON__": b2s_market,
+        "__RFP_JSON__": rfp, "__G2B_PANELS_JSON__": _g2b_live_panels(full_live), "__BRAND_TREND_JSON__": _brand_trend(), "__AI_DRAFTS_JSON__": {}, "__TOUR_JSON__": tour, "__PIPE_COMMS_JSON__": pipe_comms, "__BANNER_JSON__": banner_market, "__EXEC_JSON__": None, "__B2S_MARKET_JSON__": b2s_market,
         "__B2S_BOARD_JSON__": b2s, "__OPS_JSON__": ops, "__VIZ_JSON__": __import__("viz_data").build(pipeline_export.get("records", [])),
         "__SHEETS_OPS_JSON__": sheets_ops,
         "__REV26_JSON__": _rev26(),

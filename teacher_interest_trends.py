@@ -85,6 +85,22 @@ def datalab(start, end):
     return out
 
 
+BRANDS = {"티처빌": ["티처빌", "티처빌원격교육연수원"], "아이스크림": ["아이스크림원격교육연수원", "아이스크림연수원"],
+          "비바샘연수원": ["비바샘연수원", "비바샘원격교육연수원"], "한교원": ["한국교원연수원", "한교원"]}
+
+
+def brand_trend(start, end):
+    """경쟁사 브랜드 월별 검색 관심도(4개사 통합 스케일, 요청 1회)"""
+    body = {"startDate": start, "endDate": end, "timeUnit": "month",
+            "keywordGroups": [{"groupName": k, "keywords": v} for k, v in BRANDS.items()]}
+    try:
+        d = http("https://openapi.naver.com/v1/datalab/search", body, naver_headers())
+    except Exception as e:
+        print(f"  [브랜드 검색 실패] {type(e).__name__}", file=sys.stderr)
+        return {}
+    return {r["title"]: [{"period": p["period"], "ratio": round(p["ratio"], 2)} for p in r["data"]] for r in d.get("results", [])}
+
+
 def shopping(start, end):
     out = {}
     for cid, name, kws in SHOP:
@@ -147,6 +163,9 @@ def main():
         sh = shopping(start, end)
         if sh:
             out["shopping"] = {"captured_date": today.isoformat(), "keywords": sh}
+        bt = brand_trend((today - timedelta(days=365)).replace(day=1).isoformat(), end)
+        if bt:
+            out["brand"] = {"captured_date": today.isoformat(), "companies": bt}
         nb = naver_buzz()
         print(f"데이터랩 주제 {len(dl)} · 쇼핑 {len(sh)} · 네이버 글수 {len(nb)}")
     else:
