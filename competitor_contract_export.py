@@ -62,6 +62,16 @@ INQRY_DIVS = [1, 2]
 CHUNK_DAYS = 7  # 조회 기간이 길면 '입력범위값 초과'가 나므로 7일 단위로 나눠 받는다
 
 
+def week_chunks(days_back, span=CHUNK_DAYS):
+    """겹치지 않는 '양끝 포함 span일' 구간 — 서비스가 8일 이상(양끝 포함) 조회를 '입력범위값 초과'로 거절한다(2026-11-18 로그 확인)"""
+    end = datetime.now()
+    cur = end - timedelta(days=days_back)
+    while cur.date() <= end.date():
+        nxt = min(cur + timedelta(days=span - 1), end)
+        yield cur, nxt
+        cur = nxt + timedelta(days=1)
+
+
 def _safe(e):
     return re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:300]  # 키는 기록하지 않는다
 
@@ -90,7 +100,7 @@ def fetch(cfg, days):
     shown, fields = False, FIELDS
     fields.clear()
     for kw in kws:
-        for begin, end in date_chunks(days, CHUNK_DAYS):
+        for begin, end in week_chunks(days):
             page, total = 1, None
             while total is None or (page - 1) * 999 < total:
                 params = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 999, "inqryDiv": div, **style[1](begin, end), "type": "json"}
