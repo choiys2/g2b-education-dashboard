@@ -10260,18 +10260,30 @@ window.__renderPdfx = function(root, P){
 .cph-view{display:inline-flex;border:1px solid var(--border, #d1d5db);border-radius:999px;overflow:hidden;background:var(--surface, #fff);}
 .cph-view button{border:0;background:transparent;color:var(--ink-2, #374151);font:inherit;font-size:12.5px;padding:6px 12px;cursor:pointer;}
 .cph-view button[aria-pressed="true"]{background:var(--ink, #111827);color:var(--surface, #fff);}
-.iso-chips{display:flex;gap:6px;flex-wrap:wrap;margin:-4px 0 6px;}.iso-chips span{background:var(--surface, #fff);border:1px solid var(--border, #e5e7eb);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;}
-.iso-stage{position:relative;}.iso-stage svg{display:block;width:100%;height:auto;}
-.iso-room{font-size:12px;font-weight:800;fill:var(--ink, #111827);}.iso-tag{font-size:10.5px;font-weight:700;fill:#fff;pointer-events:none;}
-.iso-desk{cursor:pointer;}.iso-desk:hover rect,.iso-desk:hover polygon{filter:brightness(1.1);}
-.iso-bob{animation:isobob 1.2s ease-in-out infinite;}@keyframes isobob{50%{transform:translateY(-3px);}}
-.iso-cloud{animation:isodrift 40s linear infinite alternate;}@keyframes isodrift{from{transform:translateX(-50px);}to{transform:translateX(50px);}}
-.iso-side{position:absolute;right:6px;bottom:6px;width:230px;background:color-mix(in srgb, var(--surface, #fff) 92%, transparent);border:1px solid var(--border, #e5e7eb);border-radius:12px;padding:8px;}
-.iso-side b{display:block;font-size:12px;color:var(--muted, #6b7280);margin:2px 4px 6px;}
-.iso-side button{all:unset;box-sizing:border-box;display:flex;gap:8px;align-items:center;width:100%;padding:5px 6px;border-radius:8px;font-size:12.5px;cursor:pointer;color:var(--ink, #111);}
-.iso-side button:hover{background:var(--surface-2, #f3f4f6);}.iso-side i{font-style:normal;font-size:16px;}.iso-side small{display:block;color:var(--muted, #6b7280);font-size:11px;}
-@media (prefers-reduced-motion: reduce){.iso-bob,.iso-cloud{animation:none;}}
-@media (max-width:760px){.iso-side{position:static;width:auto;margin-top:8px;}}
+.cph.cph-iso{background:radial-gradient(ellipse at 50% 0%,#1e293b 0%,#0b1120 70%);border-color:#1e293b;color:#e5e7eb;padding:16px 14px 14px;}
+.cph-iso .cph-top h3{color:#f8fafc;}.cph-iso .cph-top p{color:#94a3b8;}.iso-kicker{display:block;font-size:10.5px;letter-spacing:2px;color:#a3e635;font-weight:800;margin-bottom:2px;}
+.cph-iso .cph-view{background:#111827;border-color:#334155;}.cph-iso .cph-view button{color:#cbd5e1;}.cph-iso .cph-view button[aria-pressed="true"]{background:#a3e635;color:#0b1120;}
+.iso-stage{position:relative;border-radius:12px;overflow:hidden;}.iso-svg{display:block;width:100%;height:auto;cursor:grab;touch-action:pan-y;}.iso-stage.zoomable .iso-svg{touch-action:none;}
+.iso-badge{font-size:11.5px;font-weight:800;fill:#f8fafc;}.iso-tag{font-size:10.5px;font-weight:700;fill:#f8fafc;pointer-events:none;}
+.iso-neon{font-size:15px;font-weight:900;letter-spacing:3px;fill:#d9f99d;filter:drop-shadow(0 0 4px #a3e635);}
+.iso-desk{cursor:pointer;}.iso-lab:hover rect{stroke:#fde047;stroke-width:2.4;}
+.iso-scr{animation:isoscr 2.6s ease-in-out infinite;}@keyframes isoscr{50%{opacity:.55;}}
+.iso-tw{animation:isotw 3s ease-in-out infinite;}@keyframes isotw{50%{opacity:.15;}}
+.iso-lamp{filter:drop-shadow(0 0 6px #fde68a);}.iso-pond{animation:isotw 6s ease-in-out infinite;}
+.iso-dance{animation:isodance 1.6s steps(2) infinite;}@keyframes isodance{50%{opacity:.35;}}
+.iso-bob{animation:isobob 1s ease-in-out infinite;}@keyframes isobob{50%{transform:translateY(-3px);}}
+.iso-name{opacity:0;transition:opacity .15s;}.iso-agent:hover .iso-name{opacity:1;}
+.iso-hud{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;}
+.iso-hud span{background:rgba(15,23,42,.82);border:1px solid #334155;color:#e2e8f0;border-radius:6px;padding:3px 9px;font-size:12px;font-weight:700;}
+.dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;}.dot.g{background:#22c55e;}.dot.o{background:#f59e0b;}.dot.b{background:#60a5fa;}
+.iso-side{position:absolute;right:10px;top:10px;width:236px;max-height:calc(100% - 52px);overflow:auto;background:rgba(15,23,42,.86);border:1px solid #334155;border-radius:12px;padding:8px;}
+.iso-side-h{display:flex;justify-content:space-between;align-items:center;margin:0 4px 6px;}.iso-side-h b{background:#a3e635;color:#0b1120;border-radius:999px;padding:2px 10px;font-size:12px;}.iso-side-h span{font-size:11px;color:#94a3b8;}
+.iso-side button{all:unset;box-sizing:border-box;display:flex;gap:8px;align-items:center;width:100%;padding:6px;border-radius:8px;font-size:12.5px;cursor:pointer;color:#f1f5f9;}
+.iso-side button:hover{background:#1e293b;}.iso-side i{font-style:normal;font-size:17px;width:24px;text-align:center;}.iso-side span{flex:1;min-width:0;}.iso-side small{display:block;color:#94a3b8;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.iso-side em{font-style:normal;font-size:10.5px;font-weight:800;border-radius:4px;padding:1px 6px;background:#334155;color:#cbd5e1;}.iso-side em.on{background:#14532d;color:#86efac;}
+.iso-log{position:absolute;left:10px;bottom:10px;background:rgba(15,23,42,.82);border:1px solid #334155;color:#cbd5e1;border-radius:6px;padding:4px 10px;font-size:12px;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+@media (prefers-reduced-motion: reduce){.iso-bob,.iso-scr,.iso-tw,.iso-dance,.iso-pond{animation:none;}}
+@media (max-width:760px){.iso-side{position:static;width:auto;max-height:none;margin-top:8px;}.iso-log{position:static;max-width:none;margin-top:6px;}.iso-hud{position:static;margin-bottom:6px;}}
 .vs-home .tabpanel{display:none!important;}
 .cph{background:var(--surface-2, #f6f7f9);color:var(--ink, inherit);border:1px solid var(--border, #e5e7eb);border-radius:14px;padding:18px 16px 20px;margin:10px 0 16px;}
 .cph-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
@@ -10986,62 +10998,146 @@ window.renderBranchScore = function(tab){
   const AGENTS = [['🦫', '브리핑 정리', 'strategy'], ['🤖', '입찰 분석', 'g2bfull'], ['🕵️', '경쟁사 변화 확인', 'competitor'], ['🏫', '학교 발주 확인', 'school'], ['📈', '트렌드 갱신', 'trend2027'], ['🗺️', '시장 데이터 갱신', 'market']];
   function iso3d(host, cur){
     cancelAnimationFrame(isoRaf);
-    const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 1200 700'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', '3D 오피스 앱 홈'); host.appendChild(svg);
-    const TW = 60, TH = 30, OX = 520, OY = 120;
+    const NS = 'http://www.w3.org/2000/svg';
+    const VW = 1400, VH = 800;
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${VW} ${VH}`); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', '3D 오피스 앱 홈'); svg.classList.add('iso-svg');
+    host.appendChild(svg);
+    const TW = 62, TH = 31, OX = 490, OY = 150;
     const P = (x, y, z = 0) => [OX + (x - y) * TW / 2, OY + (x + y) * TH / 2 - z];
     const el = (tg, a, par = svg) => { const e = document.createElementNS(NS, tg); for (const k in a) e.setAttribute(k, a[k]); par.appendChild(e); return e; };
-    const pts = a => a.map(p => p.join(',')).join(' ');
-    const sh = (hex, f) => { const n = parseInt(hex.slice(1), 16); return `rgb(${Math.min(255, (n >> 16) * f | 0)},${Math.min(255, (n >> 8 & 255) * f | 0)},${Math.min(255, (n & 255) * f | 0)})`; };
-    const cube = (x, y, w, d, hh, col, par = svg, z0 = 0) => { const g = el('g', {}, par);
-      el('polygon', {points: pts([P(x, y + d, z0), P(x + w, y + d, z0), P(x + w, y + d, z0 + hh), P(x, y + d, z0 + hh)]), fill: sh(col, .8)}, g);
-      el('polygon', {points: pts([P(x + w, y, z0), P(x + w, y + d, z0), P(x + w, y + d, z0 + hh), P(x + w, y, z0 + hh)]), fill: sh(col, .64)}, g);
+    const pts = a => a.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    const sh = (hex, f) => { const n = parseInt(hex.slice(1), 16); const c = v => Math.max(0, Math.min(255, v * f | 0)); return `rgb(${c(n >> 16)},${c(n >> 8 & 255)},${c(n & 255)})`; };
+    const quad = (x, y, w, d, z, fill, par, extra = {}) => el('polygon', Object.assign({points: pts([P(x, y, z), P(x + w, y, z), P(x + w, y + d, z), P(x, y + d, z)]), fill}, extra), par);
+    const cube = (x, y, w, d, hh, col, par = svg, z0 = 0, cls) => { const g = el('g', cls ? {class: cls} : {}, par);
+      el('polygon', {points: pts([P(x, y + d, z0), P(x + w, y + d, z0), P(x + w, y + d, z0 + hh), P(x, y + d, z0 + hh)]), fill: sh(col, .82)}, g);
+      el('polygon', {points: pts([P(x + w, y, z0), P(x + w, y + d, z0), P(x + w, y + d, z0 + hh), P(x + w, y, z0 + hh)]), fill: sh(col, .66)}, g);
       el('polygon', {points: pts([P(x, y, z0 + hh), P(x + w, y, z0 + hh), P(x + w, y + d, z0 + hh), P(x, y + d, z0 + hh)]), fill: col}, g); return g; };
-    const W = 16, D = 11;
-    el('polygon', {points: pts([P(0, D), P(W, D), P(W, D, -30), P(0, D, -30)]), fill: '#8b5e3c'});
-    el('polygon', {points: pts([P(W, 0), P(W, D), P(W, D, -30), P(W, 0, -30)]), fill: '#6f4a2f'});
-    el('polygon', {points: pts([P(0, 0), P(W, 0), P(W, D), P(0, D)]), fill: '#86d277'});
-    const cl = el('g', {class: 'iso-cloud'}); [[170, 60], [960, 70]].forEach(([x, y]) => { el('ellipse', {cx: x, cy: y, rx: 44, ry: 13, fill: '#fff'}, cl); el('ellipse', {cx: x + 22, cy: y - 8, rx: 24, ry: 11, fill: '#fff'}, cl); });
-    const SLOT = [[1, 1, 5, 4], [6.5, 1, 5, 4], [12, 1, 3.5, 4], [1, 6, 5, 4], [6.5, 6, 4, 4]];
-    const desks = {}, labels = [];
-    GROUPS.slice(0, 5).forEach((G, gi) => { const [x, y, w, d] = SLOT[gi], [fl, ac] = ROOMC[G[1]] || ['#eef2f7', '#374151'];
-      el('polygon', {points: pts([P(x, y, 1), P(x + w, y, 1), P(x + w, y + d, 1), P(x, y + d, 1)]), fill: fl, stroke: sh(fl, .86)});
-      cube(x, y, w, .15, 20, '#f8fafc'); cube(x, y, .15, d, 20, '#eef2f7');
-      const per = w < 4.5 ? 2 : 3;
-      G[2].slice(0, 6).forEach((tb, i) => { const cx = x + .5 + (i % per) * 1.6, cy = y + .8 + Math.floor(i / per) * 1.8;
-        const g = el('g', {class: 'iso-desk', 'data-t': tb}); cube(cx, cy, 1.1, .7, 12, '#ffffff', g); cube(cx + .15, cy + .05, .6, .08, 18, '#1f2937', g, 12);
-        desks[tb] = [cx + .55, cy + 1.1]; labels.push([cx + .55, cy + .35, tb, ac]); });
-      const [lx, ly] = P(x + .2, y + .2, 56); const lb = el('text', {x: lx - 18, y: ly, class: 'iso-room'}); lb.textContent = '▣ ' + G[0]; });
-    cube(11.3, 6.4, 3.8, 3.3, 1, '#ead7b9'); cube(12.2, 7.6, 1.2, .7, 8, '#34d399');
-    const [rx, ry] = P(12.2, 7.2, 40); el('text', {x: rx, y: ry, class: 'iso-room'}).textContent = '☕ 라운지';
-    [[.3, 10.4, '#f9a8d4'], [3, 10.5, '#4ade80'], [5.8, 10.4, '#4ade80'], [10.8, 10.5, '#f9a8d4'], [15.4, 10.3, '#4ade80'], [15.5, 5.2, '#f9a8d4']].forEach(([x, y, c]) => { cube(x, y, .25, .25, 16, '#8b5e3c'); const [tx, ty] = P(x + .12, y + .12, 30); el('circle', {cx: tx, cy: ty, r: 14, fill: c}); });
-    const LL = el('g', {}); labels.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1])).forEach(([x, y, tb, ac]) => { const [lx, ly] = P(x, y, 34), nm = (ICON[tb] || '📄') + ' ' + (SHORT[tb] || name(tb)), tw = nm.length * 10.5 + 18;
-      const g = el('g', {class: 'iso-desk', 'data-t': tb}, LL); el('rect', {x: lx - tw / 2, y: ly - 10, width: tw, height: 19, rx: 6, fill: ac, opacity: tb === cur ? 1 : .93, stroke: tb === cur ? '#111827' : 'none', 'stroke-width': 2}, g);
-      const tx = el('text', {x: lx, y: ly + 4, 'text-anchor': 'middle', class: 'iso-tag'}, g); tx.textContent = nm; });
+    const rnd = (() => { let s = 7; return () => (s = (s * 9301 + 49297) % 233280) / 233280; })();  // 매번 같은 배치
+    const view = el('g', {class: 'iso-view'});
+    // 별
+    const sky = el('g', {}, view);
+    for (let i = 0; i < 70; i++) el('circle', {cx: rnd() * VW, cy: rnd() * VH, r: rnd() < .15 ? 1.6 : .9, fill: '#fff', opacity: .3 + rnd() * .6, class: rnd() < .4 ? 'iso-tw' : '', style: `animation-delay:${(rnd() * 3).toFixed(2)}s`}, sky);
+    const W = 20, D = 15;
+    const world = el('g', {}, view);
+    // 섬: 흙 단면 + 잔디 바둑판
+    el('polygon', {points: pts([P(0, D), P(W, D), P(W, D, -34), P(0, D, -34)]), fill: '#7a5134'}, world);
+    el('polygon', {points: pts([P(W, 0), P(W, D), P(W, D, -34), P(W, 0, -34)]), fill: '#5e3e28'}, world);
+    el('polygon', {points: pts([P(0, D, -34), P(W, D, -34), P(W, D, -46), P(0, D, -46)]), fill: '#4b5563'}, world);
+    el('polygon', {points: pts([P(W, 0, -34), P(W, D, -34), P(W, D, -46), P(W, 0, -46)]), fill: '#374151'}, world);
+    el('polygon', {points: pts([P(0, D), P(W, D), P(W, D, -6), P(0, D, -6)]), fill: '#4f9a3c'}, world);
+    el('polygon', {points: pts([P(W, 0), P(W, D), P(W, D, -6), P(W, 0, -6)]), fill: '#3f7f30'}, world);
+    for (let i = 0; i < W; i++) for (let j = 0; j < D; j++) quad(i, j, 1, 1, 0, (i + j) % 2 ? '#7fcf68' : '#76c560', world);
+    // 꽃
+    for (let i = 0; i < 90; i++) { const x = rnd() * W, y = rnd() * D; if (x > 1 && x < 17.6 && y > .6 && y < 11.6) continue; const [fx, fy] = P(x, y, 1); el('circle', {cx: fx, cy: fy, r: 1.8, fill: ['#fde047', '#f472b6', '#fff', '#60a5fa'][i % 4]}, world); }
+    // 건물 바닥·벽
+    const BX = 1, BY = .8, BW = 16.6, BD = 10.8;
+    quad(BX, BY, BW, BD, 1, '#cbd5e1', world);
+    cube(BX, BY - .25, BW, .25, 52, '#e5e7eb', world); cube(BX - .25, BY, .25, BD, 52, '#d1d5db', world);
+    for (let i = 0; i < 7; i++) { const x = BX + 1 + i * 2.3; el('polygon', {points: pts([P(x, BY - .25, 16), P(x + 1.3, BY - .25, 16), P(x + 1.3, BY - .25, 40), P(x, BY - .25, 40)]), fill: '#bfdbfe', stroke: '#93c5fd'}, world); }
+    for (let i = 0; i < 4; i++) { const y = BY + 1 + i * 2.6; el('polygon', {points: pts([P(BX - .25, y, 16), P(BX - .25, y + 1.4, 16), P(BX - .25, y + 1.4, 40), P(BX - .25, y, 40)]), fill: '#c7d2fe', stroke: '#a5b4fc'}, world); }
+    // 네온 간판(뒷벽 위)
+    const [sx1, sy1] = P(5.2, BY - .25, 62); const sg = el('text', {x: sx1, y: sy1, class: 'iso-neon', transform: `rotate(26.6 ${sx1} ${sy1})`}, world); sg.textContent = 'VIVASAM OFFICE';
+    // 방
+    const ROOMC = {'#4f8cff': ['#dbe4ff', '#3b5bdb', '#c3d0ff'], '#f59e0b': ['#fdecc8', '#b45309', '#fbd99a'], '#10b981': ['#c9f2df', '#047857', '#a7e8c9'], '#ef4444': ['#fde0e0', '#b91c1c', '#fbc4c4'], '#8b5cf6': ['#e6ddff', '#6d28d9', '#d4c5ff']};
+    const SLOT = [[1.3, 1.1, 5.6, 4.6], [7.3, 1.1, 5.4, 4.6], [13.1, 1.1, 4.3, 4.6], [1.3, 6.3, 5.6, 5], [7.3, 6.3, 4.8, 5]];
+    const desks = {}, labels = [], furn = [], screens = [], roomBadges = [];
+    GROUPS.slice(0, 5).forEach((G, gi) => { const [x, y, w, d] = SLOT[gi], [fl, ac, fl2] = ROOMC[G[1]] || ['#eef2f7', '#374151', '#e5e7eb'];
+      for (let i = 0; i < Math.ceil(w); i++) for (let j = 0; j < Math.ceil(d); j++) quad(x + i, y + j, Math.min(1, w - i), Math.min(1, d - j), 1.2, (i + j) % 2 ? fl : fl2, world);
+      // 낮은 칸막이 + 색 띠
+      cube(x, y + d - .12, w * .42, .12, 10, '#f8fafc', world, 1); cube(x + w * .58, y + d - .12, w * .42, .12, 10, '#f8fafc', world, 1);
+      cube(x + w - .12, y, .12, d * .4, 10, '#f1f5f9', world, 1); cube(x + w - .12, y + d * .6, .12, d * .4, 10, '#f1f5f9', world, 1);
+      quad(x, y + d - .12, w * .42, .12, 11, ac, world); quad(x + w * .58, y + d - .12, w * .42, .12, 11, ac, world);
+      // 방 이름표(벽에 붙은 배지)
+      roomBadges.push([x + w * .5, y + d + .25, G[0], ac]);
+      // 소품: 화이트보드·책장·화분
+      furn.push({k: x + y, f: () => { cube(x + .2, y + .05, 1.4, .1, 26, '#ffffff', world, 14); quad(x + .3, y + .06, 1.2, .08, 40, ac, world, {opacity: .5}); }});
+      furn.push({k: x + w + y, f: () => { cube(x + w - .7, y + .1, .5, .35, 30, '#8b5e3c', world, 1); [8, 16, 24].forEach((z, i) => quad(x + w - .68, y + .12, .46, .3, z + 1, ['#ef4444', '#3b82f6', '#22c55e'][i], world)); }});
+      furn.push({k: x + y + d, f: () => { cube(x + .15, y + d - .55, .3, .3, 6, '#a16207', world, 1); const [px, py] = P(x + .3, y + d - .4, 16); el('circle', {cx: px, cy: py, r: 7, fill: '#22c55e'}, world); }});
+      const per = w < 5 ? 2 : 3;
+      G[2].slice(0, 6).forEach((tb, i) => { const cx = x + .7 + (i % per) * 1.75, cy = y + 1.1 + Math.floor(i / per) * 1.9;
+        furn.push({k: cx + cy, f: () => { const g = el('g', {class: 'iso-desk', 'data-t': tb}, world);
+          cube(cx, cy, 1.2, .6, 11, '#f8fafc', g, 1.2); cube(cx + .2, cy + .05, .7, .07, 14, '#1f2937', g, 12);
+          const scr = el('polygon', {points: pts([P(cx + .23, cy + .12, 14.5), P(cx + .87, cy + .12, 14.5), P(cx + .87, cy + .12, 25), P(cx + .23, cy + .12, 25)]), fill: ac, class: 'iso-scr', style: `animation-delay:${(i * .37).toFixed(2)}s`}, g); screens.push(scr);
+          cube(cx + .4, cy + .75, .4, .35, 6, '#334155', g, 1.2); }});
+        desks[tb] = [cx + .6, cy + 1.25]; labels.push([cx + .6, cy + .3, tb, ac]); }); });
+    // 라운지(휴게실)
+    const LX = 12.6, LY = 6.3, LW = 4.8, LD = 5;
+    for (let i = 0; i < 5; i++) for (let j = 0; j < 5; j++) quad(LX + i, LY + j, Math.min(1, LW - i), 1, 1.2, (i + j) % 2 ? '#c08457' : '#b87a4b', world);
+    furn.push({k: LX + LY + 1, f: () => { cube(LX + .3, LY + .3, 2, .6, 8, '#fb7185', world, 1.2); cube(LX + .3, LY + .2, 2, .15, 16, '#f43f5e', world, 1.2); }});           // 소파
+    furn.push({k: LX + LY + 3, f: () => { cube(LX + 1.2, LY + 2, 1.8, 1, 9, '#16a34a', world, 1.2); quad(LX + 2.08, LY + 2, .04, 1, 10.5, '#fff', world); }});           // 탁구대
+    furn.push({k: LX + LY + 4, f: () => { cube(LX + 3.8, LY + .3, .6, .5, 30, '#4338ca', world, 1.2); quad(LX + 3.82, LY + .32, .56, .2, 31, '#a78bfa', world, {class: 'iso-scr'}); }}); // 오락기
+    furn.push({k: LX + LY + 5, f: () => { cube(LX + 3.9, LY + 2.2, .5, .5, 28, '#0ea5e9', world, 1.2); }});      // 자판기
+    furn.push({k: LX + LY + 6, f: () => { quad(LX + .6, LY + 3.4, 2.2, 1.2, 1.4, '#334155', world); [['#ef4444', 0, 0], ['#3b82f6', 1.1, 0], ['#22c55e', 0, .6], ['#eab308', 1.1, .6]].forEach(([c, a, b]) => quad(LX + .65 + a, LY + 3.45 + b, 1, .5, 1.6, c, world, {opacity: .8, class: 'iso-dance'})); }});  // 댄스 매트
+    roomBadges.push([LX + LW * .5, LY + LD + .25, '☕ 라운지', '#f59e0b']);
+    furn.sort((a, b) => a.k - b.k).forEach(f => f.f());
+    // 바깥: 길·연못·벤치·가로등·나무
+    for (let i = 0; i < 6; i++) quad(8.6 + i * .05, 11.8 + i * .55, .9, .4, .5, '#e5e7eb', world);
+    el('ellipse', {cx: P(3, 13.2)[0], cy: P(3, 13.2)[1], rx: 36, ry: 13, fill: '#38bdf8', opacity: .85, class: 'iso-pond'}, world);
+    cube(5.5, 12.4, 1.2, .35, 6, '#92400e', world, .5);
+    [[7.6, 12.2], [11, 12.2], [18.3, 4], [18.3, 8]].forEach(([x, y]) => { cube(x, y, .12, .12, 34, '#334155', world); const [lx, ly] = P(x + .06, y + .06, 38); el('circle', {cx: lx, cy: ly, r: 5, fill: '#fde68a', class: 'iso-lamp'}, world); });
+    const tree = (x, y, c) => { cube(x, y, .3, .3, 16, '#7c4a2a', world); const [tx, ty] = P(x + .15, y + .15, 30); el('circle', {cx: tx, cy: ty, r: 17, fill: c}, world); el('circle', {cx: tx - 6, cy: ty - 6, r: 8, fill: '#fff', opacity: .18}, world); };
+    [[.4, 13.6, '#f9a8d4'], [2.2, 14.2, '#4ade80'], [6.6, 13.9, '#f9a8d4'], [10.6, 13.9, '#4ade80'], [13.2, 13.4, '#f9a8d4'], [15.6, 13.8, '#4ade80'], [18.6, 12.2, '#f9a8d4'], [18.8, 10, '#4ade80'], [18.7, 6, '#f9a8d4'], [18.8, 1.6, '#4ade80'], [18.6, 13.9, '#4ade80']].forEach(([x, y, c]) => tree(x, y, c));
+    // 화면 이름표(맨 위)
+    const LL = el('g', {}, view);
+    roomBadges.forEach(([x, y, nm, ac]) => { const [bx, by] = P(x, y, 6), bw = nm.length * 12.5 + 24;
+      el('rect', {x: bx - bw / 2, y: by - 11, width: bw, height: 21, rx: 6, fill: ac, stroke: '#0f172a', 'stroke-width': 1.5}, LL);
+      el('text', {x: bx, y: by + 4, 'text-anchor': 'middle', class: 'iso-badge'}, LL).textContent = nm; });
+    labels.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1])).forEach(([x, y, tb, ac], li) => { const [lx, ly] = P(x, y, 36 + (Math.round(x * 10) % 2) * 0), nm = (ICON[tb] || '📄') + ' ' + (SHORT[tb] || name(tb)), tw = nm.length * 9.6 + 16;
+      const g = el('g', {class: 'iso-desk iso-lab', 'data-t': tb}, LL);
+      el('rect', {x: lx - tw / 2, y: ly - 9, width: tw, height: 17, rx: 4, fill: '#0f172a', stroke: tb === cur ? '#fde047' : ac, 'stroke-width': tb === cur ? 2.4 : 1.6, opacity: .92}, g);
+      el('text', {x: lx, y: ly + 3.5, 'text-anchor': 'middle', class: 'iso-tag'}, g).textContent = nm; });
     // 캐릭터
-    const side = document.createElement('div'); side.className = 'iso-side'; side.innerHTML = '<b>🧑‍💼 지금 일하는 중</b>'; host.appendChild(side);
-    const layer = el('g', {}), still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const dk = Object.keys(desks);
-    const W8 = AGENTS.filter(a => desks[a[2]]).map((a, i) => { const f = fresh(a[2]), st = f ? (f.state === '정상' ? '🟢' : '🟠') : '⚪', when = f && f.last ? String(f.last).slice(5, 10).replace('-', '/') : '-';
-      const g = el('g', {}, layer), inner = el('g', {class: 'iso-bob', style: `animation-delay:${i * .2}s`}, g);
-      el('ellipse', {cx: 0, cy: 0, rx: 11, ry: 5, fill: 'rgba(0,0,0,.18)'}, inner); el('circle', {cx: 0, cy: -15, r: 13, fill: '#fff', stroke: '#e5e7eb'}, inner);
-      const em = el('text', {x: 0, y: -9, 'text-anchor': 'middle', 'font-size': 16}, inner); em.textContent = a[0];
-      const it = document.createElement('button'); it.type = 'button'; it.dataset.t = a[2]; it.innerHTML = `<i>${a[0]}</i><span>${h(a[1])}<small>${st} ${h(name(a[2]))} · 갱신 ${h(when)}</small></span>`; side.appendChild(it);
-      const [sx, sy] = desks[a[2]]; return {g, x: sx, y: sy, tx: sx, ty: sy, home: a[2], wait: 40 + Math.random() * 120}; });
-    const place = w => { const [px, py] = P(w.x, w.y, 2); w.g.setAttribute('transform', `translate(${px},${py})`); };
-    W8.forEach(place);
+    const layer = el('g', {}, view), still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const side = document.createElement('div'); side.className = 'iso-side'; host.appendChild(side);
+    side.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) { home = false; gsel = null; go(b.dataset.go); } });
+    const dk = Object.keys(desks), BODY = ['#fbbf24', '#60a5fa', '#f472b6', '#34d399', '#a78bfa', '#fb923c'];
+    const ag = AGENTS.filter(a => desks[a[2]]).map((a, i) => { const f = fresh(a[2]), ok = f && f.state === '정상', when = f && f.last ? String(f.last).slice(5, 16).replace('-', '/') : '';
+      const g = el('g', {class: 'iso-agent'}, layer), inner = el('g', {class: 'iso-bob', style: `animation-delay:${(i * .23).toFixed(2)}s`}, g);
+      el('ellipse', {cx: 0, cy: 0, rx: 10, ry: 4, fill: 'rgba(0,0,0,.25)'}, inner);
+      el('rect', {x: -7, y: -18, width: 14, height: 14, rx: 4, fill: BODY[i % 6]}, inner);
+      el('circle', {cx: 0, cy: -25, r: 10, fill: '#fff', stroke: BODY[i % 6], 'stroke-width': 2}, inner);
+      el('text', {x: 0, y: -20.5, 'text-anchor': 'middle', 'font-size': 13}, inner).textContent = a[0];
+      const tag = el('g', {class: 'iso-name'}, inner); const tw = a[1].length * 10 + 12; el('rect', {x: -tw / 2, y: -50, width: tw, height: 15, rx: 4, fill: 'rgba(15,23,42,.85)'}, tag); el('text', {x: 0, y: -39, 'text-anchor': 'middle', class: 'iso-tag'}, tag).textContent = a[1];
+      const [sx, sy] = desks[a[2]];
+      return {g, a, ok, when, x: sx, y: sy, tx: sx, ty: sy, home: a[2], wait: 30 + rnd() * 150, busy: true}; });
+    const place = w => { const [px, py] = P(w.x, w.y, 2); w.g.setAttribute('transform', `translate(${px.toFixed(1)},${py.toFixed(1)})`); };
+    ag.forEach(place);
+    const F2 = (window.__FRESH && window.__FRESH.rows) || [], okN = F2.filter(r => r.state === '정상').length, chk = F2.filter(r => r.state !== '정상' && r.state !== '없음').length;
+    const renderSide = () => { side.innerHTML = `<div class="iso-side-h"><b>에이전트 ${ag.length}</b><span>${okN} 최신 · ${chk} 확인</span></div>` + ag.map(w => `<button type="button" data-go="${w.home}"><i>${w.a[0]}</i><span>${h(w.a[1])}<small>${h(name(w.home))}${w.when ? ' · ' + h(w.when) : ''}</small></span><em class="${w.wait > 0 ? 'on' : ''}">${w.ok ? (w.wait > 0 ? '작업중' : '이동') : '확인'}</em></button>`).join(''); };
+    renderSide();
+    // HUD(시계·상태) + 활동 로그
+    const hud = document.createElement('div'); hud.className = 'iso-hud'; host.appendChild(hud);
+    const tick2 = () => { const d = new Date(Date.now() + 9 * 36e5); hud.innerHTML = `<span>🕒 ${d.toISOString().slice(11, 16)}</span><span><i class="dot g"></i>최신 ${okN}</span><span><i class="dot o"></i>확인 ${chk}</span><span><i class="dot b"></i>화면 ${dk.length}</span>`; };
+    tick2();
+    const log = document.createElement('div'); log.className = 'iso-log'; host.appendChild(log);
+    const LOG = ag.filter(w => w.when).map(w => `${w.when.slice(-5) || ''} ${w.a[0]} ${w.a[1]} · ${name(w.home)}`);
+    let li = 0; const showLog = () => { if (LOG.length) log.textContent = '▸ ' + LOG[li++ % LOG.length]; }; showLog();
+    // 끌어서 이동·휠 확대
+    let vb = [0, 0, VW, VH], drag = null;
+    const setVB = () => svg.setAttribute('viewBox', vb.map(v => v.toFixed(1)).join(' '));
+    svg.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey && !host.classList.contains('zoomable')) return; e.preventDefault(); const k = e.deltaY > 0 ? 1.1 : .9, r = svg.getBoundingClientRect(), mx = vb[0] + (e.clientX - r.left) / r.width * vb[2], my = vb[1] + (e.clientY - r.top) / r.height * vb[3];
+      vb = [mx - (mx - vb[0]) * k, my - (my - vb[1]) * k, Math.min(VW * 1.4, Math.max(VW * .35, vb[2] * k)), Math.min(VH * 1.4, Math.max(VH * .35, vb[3] * k))]; setVB(); }, {passive: false});
+    svg.addEventListener('pointerdown', e => { if (e.target.closest('.iso-desk')) return; drag = [e.clientX, e.clientY, vb[0], vb[1]]; svg.setPointerCapture(e.pointerId); host.classList.add('zoomable'); });
+    svg.addEventListener('pointermove', e => { if (!drag) return; const r = svg.getBoundingClientRect(); vb[0] = drag[2] - (e.clientX - drag[0]) / r.width * vb[2]; vb[1] = drag[3] - (e.clientY - drag[1]) / r.height * vb[3]; setVB(); });
+    svg.addEventListener('pointerup', () => { drag = null; });
+    svg.addEventListener('dblclick', () => { vb = [0, 0, VW, VH]; setVB(); });
     if (still) return;
+    let frame = 0;
     const tick = () => { if (!host.isConnected || !host.offsetParent) return;  // 화면에서 사라지면 멈춤
-      W8.forEach(w => { if (w.wait > 0) { w.wait--; } else { const dx = w.tx - w.x, dy = w.ty - w.y, dist = Math.hypot(dx, dy);
-        if (dist < .05) { const go2 = Math.random() < .5 ? desks[w.home] : desks[dk[Math.random() * dk.length | 0]]; w.tx = go2[0]; w.ty = go2[1]; w.wait = 90 + Math.random() * 160; }
-        else { w.x += dx / dist * Math.min(.03, dist); w.y += dy / dist * Math.min(.03, dist); } } place(w); });
+      frame++;
+      ag.forEach(w => { if (w.wait > 0) { w.wait--; } else { const dx = w.tx - w.x, dy = w.ty - w.y, dist = Math.hypot(dx, dy);
+        if (dist < .05) { const t2 = rnd() < .45 ? desks[w.home] : (rnd() < .3 ? [LX + 1 + rnd() * 3, LY + 1 + rnd() * 3] : desks[dk[rnd() * dk.length | 0]]); w.tx = t2[0]; w.ty = t2[1]; w.wait = 120 + rnd() * 200; }
+        else { w.x += dx / dist * Math.min(.028, dist); w.y += dy / dist * Math.min(.028, dist); } } place(w); });
+      if (frame % 30 === 0) { [...layer.children].sort((a, b) => a.transform.baseVal[0].matrix.f - b.transform.baseVal[0].matrix.f).forEach(n => layer.appendChild(n)); renderSide(); }
+      if (frame % 240 === 0) { showLog(); tick2(); }
       isoRaf = requestAnimationFrame(tick); };
     isoRaf = requestAnimationFrame(tick);
   }
   const homeBar = () => `<div class="cph-view" role="group" aria-label="앱 홈 보기"><button type="button" data-hv="3d" aria-pressed="${homeView === '3d'}">🏝️ 3D 오피스</button><button type="button" data-hv="tile" aria-pressed="${homeView !== '3d'}">🟦 타일</button></div>`;
   const iso3dHome = () => { const F2 = (window.__FRESH && window.__FRESH.rows) || []; const ok = F2.filter(r => r.state === '정상').length, chk = F2.filter(r => r.state !== '정상' && r.state !== '없음').length;
-    return `<div class="cph cph-iso"><div class="cph-top"><div><h3>🏝️ 비바샘 인텔리전스 오피스</h3><p>책상(화면 이름)을 누르면 그 화면이 열려요 · 캐릭터는 자동 업무와 갱신 상태</p></div>${homeBar()}</div>`
-      + `<div class="iso-chips"><span>🟢 최신 ${ok}</span><span>🟠 확인 필요 ${chk}</span></div><div class="iso-stage" id="isoStage"></div></div>`; };
+    return `<div class="cph cph-iso"><div class="cph-top"><div><small class="iso-kicker">VIVASAM INTELLIGENCE OFFICE</small><h3>🏝️ 비바샘 인텔리전스 오피스</h3><p>이름표를 누르면 그 화면이 열려요 · 끌어서 이동 · Ctrl+휠 확대 · 두 번 눌러 원래대로</p></div>${homeBar()}</div>`
+      + `<div class="iso-stage" id="isoStage"></div></div>`; };
   const tileHome = t => {
     const tiles = G => G[2].map((x, i) => { const [k, sub] = num(x), sz = TSIZE[i % TSIZE.length], P = PAL[G[1]] || [G[1]];
       return `<button type="button" class="cph-t cph-${sz}" data-t="${x}" style="background:${P[i % P.length]}" data-q="${h(name(x) + ' ' + sub)}"${x === t ? ' aria-current="page"' : ''}>`
