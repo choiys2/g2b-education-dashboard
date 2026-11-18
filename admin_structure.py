@@ -536,11 +536,19 @@ def _encrypt(text, pw):
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-    salt, iv = os.urandom(16), os.urandom(12)
-    key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITER).derive(pw.encode())
-    ct = AESGCM(key).encrypt(iv, text.encode("utf-8"), None)
+    from security_check import SECRET
+    import re as _re
     e = lambda b: base64.b64encode(b).decode()
-    return {"s": e(salt), "i": e(iv), "c": e(ct), "n": ITER}
+    salt = os.urandom(16)
+    key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITER).derive(pw.encode())
+    # 암호문(base64)은 무작위라 가끔 비밀값 패턴(예: AIza…)과 우연히 같은 글자열이 생겨 배포 전 보안 점검에 걸린다.
+    # 점검은 그대로 두고, 그런 경우 새 IV 로 다시 암호화한다(내용·강도는 같음).
+    for _ in range(20):
+        iv = os.urandom(12)
+        c = e(AESGCM(key).encrypt(iv, text.encode("utf-8"), None))
+        if not any(_re.search(rx, c) for rx in SECRET.values()):
+            break
+    return {"s": e(salt), "i": e(iv), "c": c, "n": ITER}
 
 
 if __name__ == "__main__":
