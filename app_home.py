@@ -26,23 +26,23 @@ GROUPS = [
 ]
 
 CSS = """<style>
-.ah{background:linear-gradient(135deg,#0b1a33 0%,#13325b 55%,#1d4e7d 100%);color:#fff;border-radius:14px;padding:18px 16px 20px;margin:0 0 16px;}
+.ah{background:var(--surface-2, #f6f7f9);color:var(--ink, inherit);border:1px solid var(--border, #e5e7eb);border-radius:14px;padding:18px 16px 20px;margin:0 0 16px;}
 .ah-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
-.ah-top h3{margin:0;font-size:21px;font-weight:800;color:#fff;}.ah-top p{margin:3px 0 0;font-size:12.5px;color:rgba(255,255,255,.72);}
-.ah-q{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:7px 14px;color:#fff;font:inherit;font-size:13px;min-width:200px;}
-.ah-q::placeholder{color:rgba(255,255,255,.6);}
+.ah-top h3{margin:0;font-size:21px;font-weight:800;color:var(--ink, inherit);}.ah-top p{margin:3px 0 0;font-size:12.5px;color:var(--muted, #6b7280);}
+.ah-q{background:var(--surface, #fff);border:1px solid var(--border, #d1d5db);border-radius:999px;padding:7px 14px;color:inherit;font:inherit;font-size:13px;min-width:200px;}
+.ah-q::placeholder{color:var(--muted, #9ca3af);}
 .ah-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:20px;}
-.ah-g h4{margin:0 0 8px;font-size:12.5px;font-weight:700;letter-spacing:.3px;color:rgba(255,255,255,.75);}
+.ah-g h4{margin:0 0 8px;font-size:12.5px;font-weight:700;letter-spacing:.3px;color:var(--ink-2, #374151);}
 .ah-tiles{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:82px;gap:8px;}
 .ah-t{all:unset;box-sizing:border-box;position:relative;border-radius:6px;padding:10px 12px;color:#fff;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;transition:transform .12s,box-shadow .12s;}
-.ah-t:hover,.ah-t:focus-visible{transform:scale(1.03);box-shadow:0 6px 18px rgba(0,0,0,.35);outline:2px solid rgba(255,255,255,.6);outline-offset:1px;}
+.ah-t:hover,.ah-t:focus-visible{transform:scale(1.03);box-shadow:0 6px 16px rgba(0,0,0,.18);outline:2px solid var(--accent, #2563eb);outline-offset:1px;}
 .ah-t .ic{font-size:22px;line-height:1;}.ah-t .nm{font-size:12.5px;font-weight:700;line-height:1.3;}.ah-t .lv{font-size:11.5px;opacity:.9;line-height:1.3;}
 .ah-t .big{font-size:23px;font-weight:800;line-height:1.1;}
 .ah-w{grid-column:span 2;}.ah-l{grid-column:span 2;grid-row:span 2;}.ah-x{grid-column:span 4;}
-.ah-me{margin-top:18px;padding:14px;border-radius:10px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.38);}
-.ah-me h4{color:#fde68a;font-size:14px;margin:0 0 10px;cursor:pointer;}.ah-me h4 span{font-size:11.5px;color:rgba(255,255,255,.7);font-weight:500;}
+.ah-me{margin-top:18px;padding:14px;border-radius:10px;background:var(--surface, #fff);border:1px dashed var(--border, #cbd5e1);}
+.ah-me h4{color:var(--ink, inherit);font-size:14px;margin:0 0 10px;cursor:pointer;}.ah-me h4 span{font-size:11.5px;color:var(--muted, #6b7280);font-weight:500;}
 .ah-me .ah-tiles{grid-template-columns:repeat(6,1fr);}
-.ah-add{background:rgba(255,255,255,.1);border:1px dashed rgba(255,255,255,.45);align-items:center;justify-content:center;text-align:center;cursor:default;}
+.ah-add{background:var(--surface-2, #f6f7f9);color:var(--ink, #111)!important;border:1px dashed var(--border, #cbd5e1);align-items:center;justify-content:center;text-align:center;cursor:default;}
 .ah-add:hover{transform:none;box-shadow:none;outline:none;}
 .ah-hide{display:none!important;}
 .adm-tabs button[data-pane=home]{font-weight:800;}
