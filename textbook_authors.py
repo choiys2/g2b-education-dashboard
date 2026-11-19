@@ -56,13 +56,23 @@ def _edu_keys():
         return []
 
 
+def _edu_exact():
+    """대학 전체로 잡히는 곳(제주대·이화여대: 초등교육과 소속 확인 불가)은 빼고 교대 10곳 + 교원대만."""
+    try:
+        from pathlib import Path
+        D = json.loads((Path(__file__).resolve().parent / "static_data/industry_trend_2027.json").read_text(encoding="utf-8"))
+        return [u["name"] for u in D.get("universities_edu") or [] if not u.get("match")]
+    except Exception:
+        return []
+
+
 def edu_univ_authors(data=None):
     """교원양성대학 13곳 키 → [{s: 과목, n: 이름}] (교수만, 과목 확인된 사람 먼저)."""
     data = data or load()
     if not data:
         return {}
     out = {}
-    for k in _edu_keys():
+    for k in _edu_exact():
         rows = []
         for a in data.get("authors") or []:
             if univ_key(a.get("o")) == k and is_prof(a.get("r")):
@@ -72,7 +82,7 @@ def edu_univ_authors(data=None):
                     if b["lv"][:1] not in lv:
                         lv.append(b["lv"][:1])
                 rows.append({"s": " · ".join(f"{k}({'·'.join(v)})" for k, v in subj.items()), "n": a["n"]})
-        rows.sort(key=lambda r: (not r["s"], r["n"]))
+        rows = sorted((r for r in rows if r["s"]), key=lambda r: r["n"])  # CP 에는 과목이 확인된 저자만(공동 저자는 관리 탭에서만)
         if rows:
             out[k] = rows
     return out
