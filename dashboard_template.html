@@ -6173,13 +6173,68 @@ function renderCompWatch(el, C){
       if (act && window.renderAdminActions) { try { window.renderAdminActions(act); } catch (e) { console.warn('admin actions', e); } }
       const bsc = body.querySelector('#admBranchScore');
       if (bsc && window.renderBranchScore) { try { window.renderBranchScore(bsc); } catch (e) { console.warn('branch score', e); } }
-      ['tpSimInit', 'tpQuoteInit', 'aiOpsInit'].forEach(f => { if (window[f]) { try { window[f](body); } catch (e) { console.warn(f, e); } } });
+      ['tpSimInit', 'tpQuoteInit', 'aiOpsInit', 'tbAuthorsInit'].forEach(f => { if (window[f]) { try { window[f](body); } catch (e) { console.warn(f, e); } } });
     } catch (ex) {
       err.textContent = '비밀번호가 맞지 않습니다.';
     } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
   });
 })();
 
+// 관리 탭 '교과서 저자': 명단은 암호화된 관리 탭 안(data-p)에만 있고, 여기에는 검색·보기 전환만 둔다
+window.tbAuthorsInit = function(root){
+  const el = root.querySelector('#tbAuthors'); if (!el) return;
+  let P; try { P = JSON.parse(el.dataset.p); } catch (e) { return; }
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const R = P.rows || [], LV = ['초등학교', '중학교', '고등학교'], CATS = ['전체', '대학', '학교', '교육청', '기관·기타'];
+  const st = {v: 'univ', q: '', c: '전체', edu: false, prof: false};
+  const prof = r => /교수/.test(r.r) && !/\(전\)/.test(r.r);
+  const subj = r => [...new Set(r.b.map(b => b.s + '(' + b.lv[0] + ')'))].join(' · ');
+  const hay = r => [r.n, r.o, r.r, r.g, r.c, ...r.b.map(b => b.lv + ' ' + b.s + ' ' + b.t)].join(' ').toLowerCase();
+  R.forEach(r => r._h = hay(r));
+  const btn = (k, v, lab) => `<button type="button" data-k="${k}" data-v="${h(v)}" aria-pressed="${st[k] === v}">${h(lab)}</button>`;
+  el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px;">
+      <input type="search" id="tbQ" placeholder="이름·대학·과목·도서 검색 (예: 수학, 교원대, 사회)" style="flex:1 1 260px;min-width:0;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);font-size:13px;">
+      <div class="view-toggle" role="group">${btn('v', 'univ', '🏫 대학순')}${btn('v', 'subj', '📘 교과순')}${btn('v', 'all', '☰ 전체 목록')}</div></div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;font-size:12.5px;">
+      <div class="view-toggle" role="group">${CATS.map(c => btn('c', c, c)).join('')}</div>
+      <label style="white-space:nowrap;"><input type="checkbox" id="tbEdu"> 교원양성대학만</label>
+      <label style="white-space:nowrap;"><input type="checkbox" id="tbProf"> 교수만</label>
+      <span id="tbCnt" style="color:var(--muted);"></span></div>
+    <div id="tbOut"></div>`;
+  const out = el.querySelector('#tbOut'), cnt = el.querySelector('#tbCnt');
+  const person = r => `<div style="display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border);font-size:12.5px;">
+      <b style="min-width:64px;">${h(r.n)}</b><span style="color:var(--ink-2);">${h(r.r || '-')}</span>${st.v !== 'univ' ? `<span>${h(r.o)}</span>` : (r.u && r.u !== r.o ? `<span style="color:var(--muted);">${h(r.o)}</span>` : '')}
+      ${r.g ? `<span style="color:var(--muted);font-size:11.5px;">${h(r.g)}</span>` : ''}
+      ${r.b.length ? `<span style="flex-basis:100%;font-size:12px;"><b style="color:var(--accent);">대표저자</b> ${r.b.map(b => `${h(b.lv.slice(0, 2))} ${h(b.s)} — ${h(b.t)} <span style="color:var(--muted);">(${h(b.y)} 적용)</span>`).join('<br>')}</span>` : ''}</div>`;
+  const group = (title, sub, list, accent) => `<details ${list.length <= 8 ? 'open' : ''} style="border:1px solid var(--border);border-left:4px solid ${accent ? '#ec4899' : 'var(--accent)'};border-radius:10px;padding:6px 10px;margin-bottom:8px;">
+      <summary style="cursor:pointer;font-size:13.5px;"><b>${h(title)}</b> <span style="color:var(--muted);font-size:12px;">${h(sub)}</span></summary>${list.map(person).join('')}</details>`;
+  const draw = () => {
+    const q = st.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const L = R.filter(r => (st.c === '전체' || r.c === st.c) && (!st.edu || r.e) && (!st.prof || prof(r)) && q.every(t => r._h.includes(t)));
+    cnt.textContent = `${L.length}명 / ${R.length}명`;
+    if (!L.length) { out.innerHTML = '<p style="color:var(--muted);font-size:13px;">조건에 맞는 저자가 없습니다.</p>'; return; }
+    if (st.v === 'univ') {
+      const G = {}; L.forEach(r => { const k = r.u || r.o || '(소속 없음)'; (G[k] = G[k] || []).push(r); });
+      const keys = Object.keys(G).sort((a, b) => (G[b][0].c === '대학') - (G[a][0].c === '대학') || G[b].length - G[a].length || a.localeCompare(b, 'ko'));
+      out.innerHTML = keys.map(k => { const g = G[k].sort((a, b) => b.b.length - a.b.length || a.n.localeCompare(b.n, 'ko')); const s = [...new Set(g.flatMap(r => r.b.map(b => b.s)))];
+        return group(k, `${g.length}명 · ${g.filter(prof).length ? '교수 ' + g.filter(prof).length + ' · ' : ''}${s.length ? '대표 과목 ' + s.join('·') : '공동 저자'}${g[0].e ? ' · 교원양성대학' : ''}`, g, g[0].e); }).join('');
+    } else if (st.v === 'subj') {
+      const W = L.filter(r => r.b.length), G = {};
+      W.forEach(r => r.b.forEach(b => { const k = b.lv + '|' + b.s; (G[k] = G[k] || new Set()).add(r); }));
+      const keys = Object.keys(G).sort((a, b) => LV.indexOf(a.split('|')[0]) - LV.indexOf(b.split('|')[0]) || a.localeCompare(b, 'ko'));
+      out.innerHTML = (keys.length ? keys.map(k => { const [lv, s] = k.split('|'); const g = [...G[k]].map(r => ({...r, b: r.b.filter(b => b.lv === lv && b.s === s)})); return group(`${lv} · ${s}`, `대표저자 ${g.map(r => r.n).join('·')} · ${g.map(r => r.u || r.o).join('·')}`, g, g.some(r => r.e)); }).join('') : '')
+        + `<p class="tt-note">교과순은 과목이 확인된 대표저자 ${W.length}명 기준입니다. 공동 저자 ${L.length - W.length}명은 원자료에 과목이 없어 '대학순'·'전체 목록'에서 확인하세요.</p>`;
+    } else {
+      const S = [...L].sort((a, b) => a.n.localeCompare(b.n, 'ko'));
+      out.innerHTML = `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:640px;"><thead><tr><th>이름</th><th>소속</th><th>직책</th><th>지역</th><th>구분</th><th>대표 과목</th></tr></thead><tbody>${S.map(r => `<tr><td style="font-weight:700;white-space:nowrap;">${h(r.n)}</td><td>${h(r.o)}${r.e ? ' <b style="color:#ec4899;font-size:11px;">교대</b>' : ''}</td><td style="white-space:nowrap;">${h(r.r || '-')}</td><td>${h(r.g)}</td><td>${h(r.c)}</td><td>${h(subj(r))}</td></tr>`).join('')}</tbody></table></div>`;
+    }
+  };
+  el.addEventListener('click', e => { const b = e.target.closest('button[data-k]'); if (!b) return; st[b.dataset.k] = b.dataset.v; el.querySelectorAll(`button[data-k="${b.dataset.k}"]`).forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+  el.querySelector('#tbQ').addEventListener('input', e => { st.q = e.target.value; draw(); });
+  el.querySelector('#tbEdu').addEventListener('change', e => { st.edu = e.target.checked; draw(); });
+  el.querySelector('#tbProf').addEventListener('change', e => { st.prof = e.target.checked; draw(); });
+  draw();
+};
 // 관리 탭 '흑자전환 계산기': 계수·계획값은 암호화된 관리 탭 안(data-p)에만 있고, 여기에는 계산식만 둔다
 function planSimInit(root){
   const el = root.querySelector('#planSim'); if (!el) return;
@@ -9953,7 +10008,8 @@ window.__renderPdfx = function(root, P){
           ${u.keris.slice(0, 2).map(k => `<div style="font-size:11.5px;color:var(--ink-2);">· ${h((k.d || '').slice(0, 7))} ${h((k.t || '').slice(0, 34))}${k.rank === 1 ? ' <b style="color:var(--accent);">낙찰</b>' : ''}</div>`).join('')}
           ${u.briefs.slice(0, 2).map(b => `<div style="font-size:11.5px;">· <a href="${h(b.u)}" target="_blank" rel="noopener noreferrer">${h(b.t.slice(0, 36))}</a> <span style="color:var(--muted);">${h(b.d.slice(5))}</span></div>`).join('')}
           ${u.scrap.slice(0, 2).map(n => `<div style="font-size:11.5px;">· <a href="${h(n.u)}" target="_blank" rel="noopener noreferrer">${h(n.t.slice(0, 36))}</a> <span style="color:var(--muted);">${h((n.d || '').slice(5))} ${h(n.src || '')}</span></div>`).join('')}
-          ${link.length ? `<div style="margin-top:4px;padding-top:4px;border-top:1px dashed var(--border);"><b>연결 지점</b> ${h(link.join(' · '))}</div>` : ''}</div>`; }).join('')}</div>
+          ${link.length ? `<div style="margin-top:4px;padding-top:4px;border-top:1px dashed var(--border);"><b>연결 지점</b> ${h(link.join(' · '))}</div>` : ''}
+          ${(u.authors || []).length ? `<div style="margin-top:4px;padding-top:4px;border-top:1px dashed var(--border);"><b>📚 교과서 저자</b> ${u.authors.filter(a => a.s).map(a => `<span style="white-space:nowrap;">${h(a.s)} <b>${h(a.n)}</b></span>`).join(' · ')}${u.authors.some(a => !a.s) ? `<div style="font-size:11.5px;color:var(--ink-2);">공동 저자 ${h(u.authors.filter(a => !a.s).map(a => a.n).join(' · '))}</div>` : ''}</div>` : ''}</div>`; }).join('')}</div>
       <p class="tt-note">KERIS 입찰(교대 산학협력단 참여·낙찰)·조간 브리핑·뉴스 스크랩(매주 월 자동)을 대학별로 모았습니다. 교대가 수행하는 KERIS 연구 주제(독서교육 모델, AI 리터러시, AI디지털교과서 효과)는 MOU 기반 공동 연수·콘텐츠 과제로 바로 이어질 수 있는 '우리 자원'입니다.</p>`, 'margin-top:12px;')}
     ${(() => { const R = D.reading_data || {}, RD = D.reading || {}; return box(`${ttl('독서·인문학 교육', 'KERIS 독서·도서관 발주 · 시도 연수 공고 · 브리핑 · 스크랩')}
       <ul style="margin:0 0 8px;padding-left:18px;font-size:12.5px;line-height:1.6;">${(RD.points || []).map(x => `<li>${h(x)}</li>`).join('')}</ul>

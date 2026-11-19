@@ -148,6 +148,12 @@ def build(key=None):
         try:
             import strategy_crypto
             out["private"] = strategy_crypto.decrypt(json.loads(ep.read_text(encoding="utf-8")), key)
+            try:  # 교원양성대학 교수 중 교과서 저자(과목·이름만) - 로그인 화면 전용, 원자료는 비공개 저장소
+                ta = __import__("textbook_authors").edu_univ_authors()
+                for u in out.get("edu_univ") or []:
+                    u["authors"] = ta.get(u.get("match") or u["name"], [])
+            except Exception as e2:  # noqa: BLE001
+                print(f"[경고] 교과서 저자 연결 실패: {type(e2).__name__}")
         except Exception as e:
             print(f"기업·대학 트렌드 비공개 메모: 복호화 실패({type(e).__name__})")
     return out
