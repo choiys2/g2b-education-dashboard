@@ -50,7 +50,11 @@ CSS = """<style>
 </style>"""
 
 
-def _safe_url(u):
+HOST_RX = re.compile(r"^(?=.{4,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,24}$")  # 정확한 호스트명만(와일드카드·IP·포트 불가)
+
+
+def _safe_url(u, extra=()):
+    allow = ALLOW_HOSTS | set(extra)
     if not isinstance(u, str):
         return None
     u = u.strip()
@@ -58,7 +62,7 @@ def _safe_url(u):
         p = urlsplit(u)
     except ValueError:
         return None
-    if p.scheme != "https" or (p.hostname or "") not in ALLOW_HOSTS or p.username or p.password or p.port:
+    if p.scheme != "https" or (p.hostname or "") not in allow or p.username or p.password or p.port:
         return None
     if re.search(r"[\s\"'<>`]", u):
         return None
@@ -75,11 +79,13 @@ def personal_apps():
     except Exception as e:  # noqa: BLE001
         print("개인 앱 목록 오류:", type(e).__name__)
         raw = {}
+    # 추가 허용 도메인은 비공개 목록에만 둔다(공개 저장소에 내부 주소를 남기지 않기 위해). 정확한 호스트명만 인정.
+    extra = {h.strip().lower() for h in raw.get("allow_hosts") or [] if isinstance(h, str) and HOST_RX.match(h.strip().lower())}
     out = []
     for a in raw.get("apps") or []:
         if not isinstance(a, dict):
             continue
-        url = _safe_url(a.get("url"))
+        url = _safe_url(a.get("url"), extra)
         if not url or not str(a.get("name") or "").strip():
             continue
         col = a.get("color") if isinstance(a.get("color"), str) and COLOR.match(a.get("color")) else "#0f6cbd"
