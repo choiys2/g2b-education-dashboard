@@ -29,6 +29,20 @@ def step_scripts():
     return run_by_steps - rerun
 
 
+def _diff_files(before, after):
+    """push 전후 커밋의 바뀐 파일 목록(얕은 체크아웃이어도 두 커밋만 받아 비교). 실패하면 빈 집합 → 전체 수집."""
+    import subprocess
+    if not before or not after or set(before) == {"0"}:
+        return set()
+    try:
+        subprocess.run(["git", "fetch", "-q", "--no-tags", "--depth=1", "origin", before], check=True, timeout=60)
+        r = subprocess.run(["git", "diff", "--name-only", before, after], check=True, timeout=60, capture_output=True, text=True)
+        return {l.strip() for l in r.stdout.splitlines() if l.strip()}
+    except Exception as e:  # noqa: BLE001
+        print(f"바뀐 파일 비교 실패({type(e).__name__}) - 전체 수집")
+        return set()
+
+
 def main():
     ev, out = os.environ.get("GITHUB_EVENT_NAME", ""), os.environ.get("GITHUB_OUTPUT")
     payload = {}
@@ -47,6 +61,8 @@ def main():
         for c in payload.get("commits") or []:
             for k in ("added", "modified", "removed"):
                 files.update(c.get(k) or [])
+        if not files:  # Actions 푸시 이벤트에는 파일 목록이 없을 때가 많다 → 앞뒤 커밋을 직접 비교
+            files = _diff_files(payload.get("before"), payload.get("after"))
         heavy = sorted(f for f in files if f in ALWAYS_FULL or f in step_scripts())
         if not payload.get("commits") or not files:
             reason = "푸시 커밋 목록 없음 - 전체 수집"
