@@ -194,7 +194,7 @@ def build(labels, live=None, apps=None, status=None):
     head = ""
     if status:
         head = ('<div class="ah-sw view-toggle" role="group" aria-label="앱 홈 보기" style="display:flex;justify-content:flex-end;gap:4px;margin:0 0 8px;">'
-                '<button type="button" data-ahv="bm" aria-pressed="true">🏢 관리센터</button><button type="button" data-ahv="tile" aria-pressed="false">🟦 타일</button></div>'
+                '<button type="button" data-ahv="bm" aria-pressed="true">🐄 농장 작업장</button><button type="button" data-ahv="tile" aria-pressed="false">🟦 타일</button></div>'
                 f'<div id="admBm" style="margin-bottom:16px;" data-p="{E(json.dumps(status, ensure_ascii=False, separators=(",", ":")))}"></div>')
     return (CSS + head + f'<div class="ah"{" id=admTiles hidden" if status else ""}><div class="ah-top"><div><h3>🔒 관리 앱 홈</h3>'
             f'<p>경영 앱 {n}개 · 개인 앱 {len(apps)}개 — 타일을 누르면 열리고, 위 탭 줄의 「🏠 앱 홈」으로 돌아옵니다</p></div>'
