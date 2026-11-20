@@ -8,6 +8,7 @@
 """
 import html
 import json
+from pathlib import Path
 import re
 from urllib.parse import urlsplit
 
@@ -110,8 +111,38 @@ def store_section(apps, link=True):
     return f'<section class="ah-me">{head}{_store_tiles(apps)}</section>'
 
 
-def build(labels, live=None, apps=None):
-    """labels: {pane: 이름}, live: {pane: (큰 숫자, 보조 문구)}"""
+def system_status():
+    """관리센터 화면용 시스템 상태(수집원 신선도·마지막 전체 수집 점검·서울 날씨). 실패하면 None."""
+    try:
+        import freshness
+        F = freshness.build({})
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 관리센터 신선도 실패: {type(e).__name__}")
+        return None
+    watch = {}
+    try:
+        W = [json.loads(l) for l in Path("history/pipeline_watch.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+        full = [r for r in W if not r.get("quick")]
+        if full:
+            r = full[-1]
+            watch = {"at": r.get("at"), "status": r.get("status"), "fail": r.get("fail") or [],
+                     "checks": [{"n": c.get("n"), "ok": bool(c.get("ok")), "m": c.get("m", "")} for c in r.get("checks") or []]}
+    except Exception:  # noqa: BLE001
+        pass
+    wx = {}
+    try:
+        d = json.loads(Path("live/weather.json").read_text(encoding="utf-8"))
+        c = next((x for x in d.get("cities") or [] if x.get("city") == "서울"), None)
+        if c and c.get("today"):
+            wx = {"city": "서울", **{k: c["today"].get(k) for k in ("cond", "icon", "tmax", "tmin", "pop")}}
+    except Exception:  # noqa: BLE001
+        pass
+    rows = [{k: r.get(k) for k in ("name", "tab", "at", "age", "cad", "state")} for r in F.get("rows") or []]
+    return {"fresh": {"rows": rows, "checked": F.get("checked")}, "watch": watch, "wx": wx}
+
+
+def build(labels, live=None, apps=None, status=None):
+    """labels: {pane: 이름}, live: {pane: (큰 숫자, 보조 문구)}, status: 관리센터 데이터(없으면 타일만)"""
     live = live or {}
     apps = personal_apps() if apps is None else apps
     groups = []
@@ -129,7 +160,12 @@ def build(labels, live=None, apps=None):
                          f'<span class="ic">{ic}</span>{body}</button>')
         groups.append(f'<section class="ah-g"><h4>{E(g)}</h4><div class="ah-tiles">{"".join(tiles)}</div></section>')
     n = sum(len(i) for _, i in GROUPS)
-    return (CSS + '<div class="ah"><div class="ah-top"><div><h3>🔒 관리 앱 홈</h3>'
+    head = ""
+    if status:
+        head = ('<div class="ah-sw view-toggle" role="group" aria-label="앱 홈 보기" style="display:flex;justify-content:flex-end;gap:4px;margin:0 0 8px;">'
+                '<button type="button" data-ahv="bm" aria-pressed="true">🏢 관리센터</button><button type="button" data-ahv="tile" aria-pressed="false">🟦 타일</button></div>'
+                f'<div id="admBm" style="margin-bottom:16px;" data-p="{E(json.dumps(status, ensure_ascii=False, separators=(",", ":")))}"></div>')
+    return (CSS + head + f'<div class="ah"{" id=admTiles hidden" if status else ""}><div class="ah-top"><div><h3>🔒 관리 앱 홈</h3>'
             f'<p>경영 앱 {n}개 · 개인 앱 {len(apps)}개 — 타일을 누르면 열리고, 위 탭 줄의 「🏠 앱 홈」으로 돌아옵니다</p></div>'
             '<input class="ah-q" type="search" placeholder="앱 검색 (예: 손익, 할 일)" aria-label="앱 검색" '
             'oninput="(function(q){q=q.trim();document.querySelectorAll(\'#adminBody .ah-t[data-q]\').forEach(function(t){t.classList.toggle(\'ah-hide\',!!q&&t.dataset.q.indexOf(q)<0);});})(this.value)"></div>'

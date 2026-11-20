@@ -479,7 +479,7 @@ def build_html(exec_sources=None):
     try:
         ah = __import__("app_home")
         apps = ah.personal_apps()
-        home_html = ah.build({k: v for k, v in panes if k not in ("home", "apps")}, _live_tiles(), apps)
+        home_html = ah.build({k: v for k, v in panes if k not in ("home", "apps")}, _live_tiles(), apps, ah.system_status())
         store_html = ah.build_store(apps)
     except Exception as e:  # 앱 홈 오류가 관리 탭 전체를 막지 않게(탭 줄은 그대로)
         print(f"[경고] 앱 홈 실패: {type(e).__name__}: {str(e)[:120]}")
