@@ -10602,6 +10602,42 @@ window.__renderPdfx = function(root, P){
 .cph-view{display:inline-flex;border:1px solid var(--border, #d1d5db);border-radius:999px;overflow:hidden;background:var(--surface, #fff);}
 .cph-view button{border:0;background:transparent;color:var(--ink-2, #374151);font:inherit;font-size:12.5px;padding:6px 12px;cursor:pointer;}
 .cph-view button[aria-pressed="true"]{background:var(--ink, #111827);color:var(--surface, #fff);}
+/* CP 앱 홈: 텃밭 마을 */
+.cph.cph-farm{background:linear-gradient(180deg,#eaf6ff 0%,#fff8e7 100%);border-color:#e8d5b0;color:#5b3a1e;padding:16px 14px 14px;}
+.cph-farm .cph-top h3{color:#5b3a1e;}.cph-farm .cph-top p{color:#8d6e63;}.fm-kicker{display:block;font-size:10.5px;letter-spacing:2px;color:#7cb342;font-weight:800;margin-bottom:2px;}
+.fm{position:relative;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(91,58,30,.08);}
+.fm-svg{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none;}
+.fm-tt{font-size:12.5px;font-weight:800;fill:#5b3a1e;pointer-events:none;}
+.fm-sign,.fm-plot,.fm-bld{cursor:pointer;}.fm-sign:hover rect:nth-child(2),.fm-sign.on rect:nth-child(2){stroke:#ff9800;stroke-width:3.4;}
+.fm-plot:hover .fm-row polygon:first-child{fill:#9c6a47;}
+.fm-sway{transform-box:fill-box;transform-origin:50% 100%;animation:fmSway 3.2s ease-in-out infinite;}@keyframes fmSway{50%{transform:rotate(4deg);}}
+.fm-bob{animation:fmBob .6s ease-in-out infinite;}@keyframes fmBob{50%{transform:translateY(-2.5px);}}
+.fm-spin{animation:fmSpin 8s linear infinite;}@keyframes fmSpin{to{transform:rotate(360deg);}}
+.fm-tw{animation:fmTw 2.6s ease-in-out infinite;}@keyframes fmTw{50%{opacity:.15;}}
+.fm-ray{animation:fmTw 4s ease-in-out infinite;}
+.fm-cloud{animation:fmDrift 80s linear infinite alternate;}@keyframes fmDrift{to{transform:translateX(90px);}}
+.fm-cshadow{animation:fmDrift2 50s linear infinite alternate;}@keyframes fmDrift2{to{transform:translate(260px,40px);}}
+.fm-smoke{animation:fmSmoke 3s ease-out infinite;}@keyframes fmSmoke{0%{opacity:0;transform:translateY(8px);}40%{opacity:.6;}100%{opacity:0;transform:translateY(-16px) scale(1.4);}}
+.fm-flap{transform-box:fill-box;transform-origin:50% 50%;animation:fmFlap .25s ease-in-out infinite;}@keyframes fmFlap{50%{transform:scaleX(.3);}}
+.fm-rain line{animation:fmRain .7s linear infinite;}@keyframes fmRain{from{transform:translate(0,-40px);}to{transform:translate(-14px,40px);}}
+.fm-snow circle{animation:fmSnow 6s linear infinite;}@keyframes fmSnow{from{transform:translate(0,-30px);}to{transform:translate(18px,60px);}}
+.fm-bub{animation:fmPop .4s ease-out;}@keyframes fmPop{from{opacity:0;}}
+.fm-hud{position:absolute;left:12px;top:12px;}.fm-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.fm-chips span{background:#fffaf0;border:2px solid #e8d5b0;border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:800;color:#5b3a1e;box-shadow:0 2px 0 #e8d5b0;}.fm-chips span.w{border-color:#ffb74d;color:#e65100;}
+.fm-side{position:absolute;right:12px;top:12px;width:228px;background:#fffaf0;border:2.5px solid #e8d5b0;border-radius:16px;padding:8px;box-shadow:0 3px 0 #e8d5b0;}
+.fm-side-h{font-size:12.5px;font-weight:900;color:#7cb342;margin:2px 6px 6px;}
+.fm-side button{all:unset;box-sizing:border-box;display:flex;gap:8px;align-items:center;width:100%;padding:6px;border-radius:10px;font-size:12.5px;font-weight:800;color:#5b3a1e;cursor:pointer;}
+.fm-side button:hover,.fm-side button.on{background:#fff1d6;}.fm-side i{font-style:normal;font-size:18px;width:24px;text-align:center;}.fm-side span{flex:1;min-width:0;}
+.fm-side small{display:block;color:#a1887f;font-weight:600;font-size:11px;}.fm-side em{font-style:normal;font-size:10.5px;font-weight:900;border-radius:999px;padding:2px 8px;background:#dcedc8;color:#33691e;}.fm-side em.w{background:#ffe0b2;color:#e65100;}
+.fm-pick{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;max-width:calc(100% - 140px);background:#fffaf0;border:2.5px solid #ffb74d;border-radius:16px;padding:8px 10px;box-shadow:0 4px 0 #e8d5b0;color:#5b3a1e;font-size:13px;}
+.fm-pick[hidden]{display:none;}.fm-pick b{margin-right:4px;}
+.fm-pick button{all:unset;cursor:pointer;border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:800;background:#dcedc8;color:#33691e;}
+.fm-pick button.wilt{background:#ffe0b2;color:#e65100;}.fm-pick button.sprout,.fm-pick button.grow{background:#e3f2fd;color:#1565c0;}.fm-pick button:hover{filter:brightness(.95);}.fm-pick button[data-x]{background:#efebe9;color:#5b3a1e;}
+.fm-zoom{position:absolute;right:12px;bottom:12px;display:flex;align-items:center;gap:4px;background:#fffaf0;border:2px solid #e8d5b0;border-radius:12px;padding:4px;}
+.fm-zoom button{all:unset;cursor:pointer;width:28px;height:28px;text-align:center;line-height:28px;border-radius:8px;font-weight:900;font-size:15px;color:#5b3a1e;background:#fff1d6;}
+.fm-zoom span{min-width:40px;text-align:center;font-size:11.5px;font-weight:900;color:#7cb342;}
+@media (max-width:760px){.fm{display:flex;flex-direction:column;}.fm-hud{position:static;order:-1;padding:8px;}.fm-side{display:none;}.fm-pick{position:static;transform:none;max-width:none;margin:6px;}.fm-zoom{bottom:auto;top:auto;position:static;align-self:flex-end;margin:6px;}}
+@media (prefers-reduced-motion: reduce){.fm-sway,.fm-bob,.fm-spin,.fm-tw,.fm-ray,.fm-cloud,.fm-cshadow,.fm-smoke,.fm-flap,.fm-rain line,.fm-snow circle{animation:none;}}
 .cph.cph-iso{background:radial-gradient(ellipse at 50% 0%,#1e293b 0%,#0b1120 70%);border-color:#1e293b;color:#e5e7eb;padding:16px 14px 14px;}
 .cph-iso .cph-top h3{color:#f8fafc;}.cph-iso .cph-top p{color:#94a3b8;}.iso-kicker{display:block;font-size:10.5px;letter-spacing:2px;color:#a3e635;font-weight:800;margin-bottom:2px;}
 .cph-iso .cph-view{background:#111827;border-color:#334155;}.cph-iso .cph-view button{color:#cbd5e1;}.cph-iso .cph-view button[aria-pressed="true"]{background:#a3e635;color:#0b1120;}
@@ -11286,6 +11322,283 @@ window.renderBranchScore = function(tab){
 <script>
 /* ---------------- 보기 전환: 기본(지금 탭 줄) · 그룹 · 카드 · 책장 ----------------
    탭 화면은 하나 - 바뀌는 건 '목차'뿐(activateTab 그대로 사용). 선택은 이 브라우저에만 기억, '초기화'로 기본으로 */
+/* CP 앱 홈 '🌱 비바샘 텃밭 마을'(아이소메트릭 게임풍). farm3d(host, C)
+   C = {groups:[[이름,색,[탭]]], name(t), go(t), fresh(t)→{state,at}|null, icon:{탭:이모지}, agents:[[이모지,이름,탭]], wx:{cond,icon,tmax,tmin}|null, hour?} */
+window.farm3d = function (host, C) {
+  const NS = 'http://www.w3.org/2000/svg';
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const el = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+  const sh = (hex, k) => { const n = parseInt(hex.slice(1), 16), f = c => Math.max(0, Math.min(255, Math.round(c * k))); return '#' + [n >> 16, (n >> 8) & 255, n & 255].map(f).map(v => v.toString(16).padStart(2, '0')).join(''); };
+  const VW = 1400, VH = 820, TW = 46, TH = 23, GX = 28, GY = 22, OX = 560, OY = 118;
+  const P = (x, y, z = 0) => [OX + (x - y) * TW / 2, OY + (x + y) * TH / 2 - z];
+  const pts = a => a.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+  let seed = 11; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const kst = new Date(Date.now() + 9 * 36e5), hr = C.hour != null ? C.hour : kst.getUTCHours();
+  const night = hr < 6 || hr >= 19, dusk = hr === 6 || hr === 17 || hr === 18;
+  const wx = C.wx || {}, cond = String(wx.cond || ''), rain = /비|소나기/.test(cond), snow = /눈/.test(cond), cloudy = rain || snow || /흐림|구름많/.test(cond);
+  const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  host.innerHTML = ''; host.classList.add('fm');
+  const svg = el('svg', {viewBox: `0 0 ${VW} ${VH}`, class: 'fm-svg', role: 'img', 'aria-label': '비바샘 텃밭 마을'}, host);
+  const defs = el('defs', {}, svg);
+  const lg = (id, stops, x2 = 0, y2 = 1) => { const g = el('linearGradient', {id, x1: 0, y1: 0, x2, y2}, defs); stops.forEach(([o, c, op]) => el('stop', {offset: o, 'stop-color': c, 'stop-opacity': op == null ? 1 : op}, g)); };
+  const SKY = night ? ['#0b1a3a', '#1d2f5c', '#2b3b6b'] : dusk ? ['#6a5acd', '#f59e8b', '#ffd59e'] : cloudy ? ['#9fb4c8', '#c9d6e2', '#e9eef2'] : ['#7cc4ff', '#bfe6ff', '#fff3d6'];
+  lg('fmSky', [[0, SKY[0]], [.6, SKY[1]], [1, SKY[2]]]);
+  lg('fmSoil', [[0, '#b97a4a'], [.35, '#9a5f37'], [.7, '#7a4a2c'], [1, '#5b3a22']]);
+  lg('fmSoilR', [[0, '#9a6239'], [.35, '#7f4c2b'], [.7, '#63391f'], [1, '#452914']]);
+  lg('fmWater', [[0, '#7fdcf5'], [1, '#3fb6e0']]);
+  lg('fmGlass', [[0, '#e0f7ff', .85], [1, '#9fdcf2', .55]]);
+  lg('fmRoof', [[0, '#ff8a7a'], [1, '#d9534f']]);
+  lg('fmBed', [[0, '#7a4f33'], [1, '#5e3b24']]);
+  const rg = el('radialGradient', {id: 'fmVig', cx: '50%', cy: '48%', r: '72%'}, defs); el('stop', {offset: '62%', 'stop-color': '#000', 'stop-opacity': 0}, rg); el('stop', {offset: '100%', 'stop-color': night ? '#000814' : '#3b2a1a', 'stop-opacity': night ? .55 : .22}, rg);
+  const glow = el('filter', {id: 'fmGlow', x: '-60%', y: '-60%', width: '220%', height: '220%'}, defs); el('feGaussianBlur', {stdDeviation: 3.5, result: 'b'}, glow); const gm = el('feMerge', {}, glow); el('feMergeNode', {in: 'b'}, gm); el('feMergeNode', {in: 'SourceGraphic'}, gm);
+  const soft = el('filter', {id: 'fmSoft', x: '-30%', y: '-30%', width: '160%', height: '160%'}, defs); el('feGaussianBlur', {stdDeviation: 4}, soft);
+  el('rect', {width: VW, height: VH, fill: 'url(#fmSky)'}, svg);
+  // 하늘: 해/달·별·구름
+  if (night) { for (let i = 0; i < 120; i++) el('circle', {cx: rnd() * VW, cy: rnd() * VH * .6, r: rnd() * 1.4 + .3, fill: '#fff', opacity: (.3 + rnd() * .6).toFixed(2), class: i % 5 ? '' : 'fm-tw'}, svg);
+    el('circle', {cx: 1010, cy: 92, r: 30, fill: '#fff7d6', filter: 'url(#fmGlow)'}, svg); el('circle', {cx: 1022, cy: 82, r: 26, fill: SKY[0]}, svg); }
+  else if (!cloudy) { el('circle', {cx: 1010, cy: 92, r: 70, fill: '#fff3b0', opacity: .35}, svg); el('circle', {cx: 1010, cy: 92, r: 36, fill: '#ffe066', filter: 'url(#fmGlow)'}, svg);
+    for (let k = 0; k < 8; k++) el('rect', {x: 1006, y: -8, width: 8, height: 34, rx: 4, fill: '#ffe066', opacity: .45, transform: `rotate(${k * 45} 1010 92)`, class: 'fm-ray'}, svg); }
+  const cloud = (x, y, s, o) => { const g = el('g', {class: 'fm-cloud', opacity: o, style: `animation-duration:${60 + rnd() * 40}s`}, svg);
+    [[0, 0, 34], [30, -14, 30], [62, 0, 32], [-28, 6, 24], [92, 8, 22]].forEach(([a, b, r]) => el('circle', {cx: x + a * s, cy: y + b * s, r: r * s, fill: night ? '#2a3a66' : cloudy ? '#e2e8f0' : '#fff'}, g)); };
+  (cloudy ? [[120, 90, 1.2], [420, 60, 1.4], [760, 100, 1.3], [1050, 70, 1.2], [260, 170, 1], [920, 180, 1.1]] : [[140, 100, .9], [470, 70, 1], [880, 110, .8]]).forEach(([x, y, s]) => cloud(x, y, s, cloudy ? .95 : .9));
+
+  // ── 섬 모양(둥근 사각) + 물길
+  const isl = (x, y) => { const dx = (x + .5 - GX / 2) / (GX / 2), dy = (y + .5 - GY / 2) / (GY / 2); return Math.pow(Math.abs(dx), 3.2) + Math.pow(Math.abs(dy), 3.2) <= 1.02; };
+  const POND = (x, y) => x >= 22 && x <= 25 && y >= 2 && y <= 5 && !(x === 22 && y === 2) && !(x === 25 && y === 5);
+  const STREAM = (x, y) => x === 24 && y >= 6 && y <= 13 || x === 23 && y >= 13 && y <= 19;
+  const PATH = (x, y) => (y === 10 || y === 11) && x >= 1 && x <= 26 || (x === 12 || x === 13) && y >= 1 && y <= 20;
+  const WET = (x, y) => (POND(x, y) || STREAM(x, y)) && !PATH(x, y);
+  const world = el('g', {}, svg);
+  // 섬 아래 매달린 바위·뿌리
+  const under = el('g', {}, world);
+  for (let x = 0; x < GX; x++) for (let y = 0; y < GY; y++) if (isl(x, y) && (!isl(x, y + 1) || !isl(x + 1, y)) && rnd() < .5) {
+    const [a, b] = P(x + .5, y + .5, -40 - rnd() * 30), w = 10 + rnd() * 16; el('polygon', {points: `${a - w},${b - 10} ${a + w},${b - 10} ${a + rnd() * 6 - 3},${b + 20 + rnd() * 40}`, fill: rnd() < .5 ? '#5b3a22' : '#4a2f1b'}, under); }
+  // 옆면(흙 층) - 가장자리 칸만
+  const sides = [];
+  for (let x = 0; x < GX; x++) for (let y = 0; y < GY; y++) if (isl(x, y)) {
+    const dep = 46 + Math.round(Math.sin(x * 1.7 + y) * 6);
+    if (!isl(x, y + 1)) sides.push({k: x + y + 1, f: () => { el('polygon', {points: pts([P(x, y + 1), P(x + 1, y + 1), P(x + 1, y + 1, -dep), P(x, y + 1, -dep)]), fill: 'url(#fmSoil)'}, world);
+      el('polygon', {points: pts([P(x, y + 1), P(x + 1, y + 1), P(x + 1, y + 1, -7), P(x, y + 1, -7)]), fill: snow ? '#f1f5f9' : '#6fbf3a'}, world);
+      if (rnd() < .35) { const [a, b] = P(x + .5, y + 1, -7); el('path', {d: `M${a} ${b} q${rnd() * 6 - 3} 10 ${rnd() * 4 - 2} ${12 + rnd() * 10}`, stroke: '#4f8f2a', 'stroke-width': 2, fill: 'none'}, world); }
+      if (rnd() < .3) { const [a, b] = P(x + .3 + rnd() * .4, y + 1, -20 - rnd() * 18); el('ellipse', {cx: a, cy: b, rx: 5 + rnd() * 4, ry: 3, fill: '#8c8c8c', opacity: .7}, world); } }});
+    if (!isl(x + 1, y)) sides.push({k: x + y + 1, f: () => { el('polygon', {points: pts([P(x + 1, y), P(x + 1, y + 1), P(x + 1, y + 1, -dep), P(x + 1, y, -dep)]), fill: 'url(#fmSoilR)'}, world);
+      el('polygon', {points: pts([P(x + 1, y), P(x + 1, y + 1), P(x + 1, y + 1, -7), P(x + 1, y, -7)]), fill: snow ? '#e2e8f0' : '#5aa62e'}, world); }});
+  }
+  sides.sort((a, b) => a.k - b.k).forEach(s => s.f());
+  // 윗면 타일
+  const G1 = snow ? ['#f8fafc', '#eef2f7', '#e9eef5'] : ['#8fd14f', '#86c943', '#97d65a'];
+  for (let y = 0; y < GY; y++) for (let x = 0; x < GX; x++) { if (!isl(x, y)) continue;
+    let f = G1[(x * 7 + y * 13) % 3];
+    if (PATH(x, y)) f = (x + y) % 2 ? '#f0d9a8' : '#ead09a';
+    if (WET(x, y)) f = 'url(#fmWater)';
+    el('polygon', {points: pts([P(x, y), P(x + 1, y), P(x + 1, y + 1), P(x, y + 1)]), fill: f, stroke: WET(x, y) ? 'none' : (PATH(x, y) ? '#e3c58c' : 'none'), 'stroke-width': .6}, world); }
+  // 물결·돌다리·풀포기
+  for (let y = 0; y < GY; y++) for (let x = 0; x < GX; x++) { if (!isl(x, y)) continue;
+    if (WET(x, y) && rnd() < .7) { const [a, b] = P(x + .3 + rnd() * .4, y + .3 + rnd() * .4); el('ellipse', {cx: a, cy: b, rx: 6, ry: 2, fill: '#fff', opacity: .65, class: 'fm-tw', style: `animation-delay:-${(rnd() * 3).toFixed(2)}s`}, world); }
+    else if (PATH(x, y) && rnd() < .25) { const [a, b] = P(x + .5, y + .5); el('ellipse', {cx: a, cy: b, rx: 7, ry: 3.5, fill: '#d8bd86'}, world); }
+    else if (!PATH(x, y) && !WET(x, y) && rnd() < .3 && !snow) { const [a, b] = P(x + rnd(), y + rnd()); el('path', {d: `M${a - 3} ${b} l2 -6 l1 6 l2 -7 l1 7`, stroke: '#5fa52f', 'stroke-width': 1.4, fill: 'none'}, world); } }
+  [[23.3, 2.6], [24.5, 4.2], [22.8, 4.4]].forEach(([x, y]) => { const [a, b] = P(x, y); el('ellipse', {cx: a, cy: b, rx: 9, ry: 4.5, fill: '#4caf50'}, world); el('circle', {cx: a + 4, cy: b - 2, r: 3, fill: '#f8bbd0'}, world); });
+
+  const objs = [];
+  const box = (g, x, y, w, d, hh, c, z0 = 0, top) => {
+    el('polygon', {points: pts([P(x, y + d, z0), P(x + w, y + d, z0), P(x + w, y + d, z0 + hh), P(x, y + d, z0 + hh)]), fill: sh(c, .86)}, g);
+    el('polygon', {points: pts([P(x + w, y, z0), P(x + w, y + d, z0), P(x + w, y + d, z0 + hh), P(x + w, y, z0 + hh)]), fill: sh(c, .7)}, g);
+    el('polygon', {points: pts([P(x, y, z0 + hh), P(x + w, y, z0 + hh), P(x + w, y + d, z0 + hh), P(x, y + d, z0 + hh)]), fill: top || sh(c, 1.06)}, g); };
+  const shadow = (g, x, y, rx, ry) => { const [a, b] = P(x, y); el('ellipse', {cx: a + 6, cy: b + 3, rx, ry, fill: '#1f3b0f', opacity: .22, filter: 'url(#fmSoft)'}, g); };
+
+  // ── 작물 그리기 (화면 좌표)
+  const CROP = ['corn', 'tomato', 'carrot', 'pumpkin', 'flower'];
+  const crop = (g, kind, cx, cy, state) => {
+    const s = el('g', {class: 'fm-sway', style: `animation-delay:-${(rnd() * 3).toFixed(2)}s`}, g);
+    el('ellipse', {cx, cy: cy + 1, rx: 7, ry: 3, fill: '#3e2615', opacity: .35}, s);
+    if (state === 'wilt') { el('path', {d: `M${cx} ${cy} q-2 -10 -9 -11 M${cx} ${cy} q3 -9 9 -8`, stroke: '#a1887f', 'stroke-width': 2.4, fill: 'none'}, s); el('circle', {cx: cx - 9, cy: cy - 11, r: 2.5, fill: '#8d6e63'}, s); return; }
+    if (state === 'sprout') { el('path', {d: `M${cx} ${cy} v-8`, stroke: '#5fa52f', 'stroke-width': 2}, s); el('ellipse', {cx: cx - 4, cy: cy - 9, rx: 4.5, ry: 2.6, fill: '#7ccf43', transform: `rotate(-25 ${cx - 4} ${cy - 9})`}, s); el('ellipse', {cx: cx + 4, cy: cy - 9, rx: 4.5, ry: 2.6, fill: '#8fd94f', transform: `rotate(25 ${cx + 4} ${cy - 9})`}, s); return; }
+    const big = state === 'ripe';
+    if (kind === 'corn') { el('path', {d: `M${cx} ${cy} v-26`, stroke: '#4c9a2a', 'stroke-width': 3}, s); el('path', {d: `M${cx} ${cy - 8} q-12 -6 -14 -16 M${cx} ${cy - 14} q12 -4 13 -14`, stroke: '#6cc04a', 'stroke-width': 3, fill: 'none'}, s);
+      if (big) { el('ellipse', {cx: cx + 3, cy: cy - 20, rx: 4.5, ry: 9, fill: '#ffd54f', stroke: '#e0a800', 'stroke-width': 1}, s); el('path', {d: `M${cx + 1} ${cy - 28} q2 -5 5 -6`, stroke: '#c8a165', 'stroke-width': 1.5, fill: 'none'}, s); } }
+    else if (kind === 'tomato') { el('circle', {cx, cy: cy - 10, r: 9, fill: '#4caf50'}, s); el('circle', {cx: cx - 5, cy: cy - 14, r: 6, fill: '#66bb6a'}, s);
+      if (big) [[-4, -8], [4, -11], [0, -16]].forEach(([a, b]) => { el('circle', {cx: cx + a, cy: cy + b, r: 3.8, fill: '#e53935'}, s); el('circle', {cx: cx + a - 1.2, cy: cy + b - 1.2, r: 1.1, fill: '#fff', opacity: .8}, s); }); }
+    else if (kind === 'carrot') { [-6, 0, 6].forEach(a => el('path', {d: `M${cx} ${cy - 3} q${a} -10 ${a * 1.6} -16`, stroke: '#43a047', 'stroke-width': 3, fill: 'none'}, s));
+      if (big) el('path', {d: `M${cx - 5} ${cy - 3} h10 l-5 9 z`, fill: '#fb8c00'}, s); }
+    else if (kind === 'pumpkin') { el('path', {d: `M${cx - 10} ${cy - 2} q-4 -10 6 -12 M${cx + 8} ${cy - 3} q6 -9 -2 -13`, stroke: '#558b2f', 'stroke-width': 3, fill: 'none'}, s);
+      if (big) { el('ellipse', {cx, cy: cy - 6, rx: 10, ry: 7, fill: '#fb8c00'}, s); el('ellipse', {cx, cy: cy - 6, rx: 4, ry: 7, fill: '#ffa726'}, s); el('rect', {x: cx - 1, y: cy - 15, width: 2.5, height: 4, fill: '#6d4c41'}, s); }
+      else el('ellipse', {cx, cy: cy - 5, rx: 6, ry: 4.5, fill: '#aed581'}, s); }
+    else { el('path', {d: `M${cx} ${cy} v-24`, stroke: '#4c9a2a', 'stroke-width': 2.5}, s); el('ellipse', {cx: cx - 5, cy: cy - 10, rx: 5, ry: 2.6, fill: '#66bb6a', transform: `rotate(-30 ${cx - 5} ${cy - 10})`}, s);
+      if (big) { for (let k = 0; k < 10; k++) el('ellipse', {cx: cx, cy: cy - 33, rx: 2.6, ry: 6, fill: '#ffca28', transform: `rotate(${k * 36} ${cx} ${cy - 27})`}, s); el('circle', {cx, cy: cy - 27, r: 4.5, fill: '#795548'}, s); }
+      else el('circle', {cx, cy: cy - 26, r: 4, fill: '#9ccc65'}, s); }
+  };
+  const ST = f => !f ? 'grow' : f.state === '정상' ? 'ripe' : f.state === '없음' ? 'sprout' : 'wilt';
+
+  // ── 밭(탭 그룹)
+  const LAY = [{x: 2.6, y: 3, w: 7.4, d: 5.4}, {x: 14.4, y: 2.6, w: 6.6, d: 6}, {x: 2.6, y: 12.6, w: 7.4, d: 6}, {x: 14.6, y: 12.8, w: 6.6, d: 5.2}, {x: 14.8, y: 19, w: 4.4, d: 1.6}];
+  const plots = C.groups.map((g, i) => { const L = LAY[i] || LAY[4]; const tabs = g[2], st = tabs.map(t => ST(C.fresh(t)));
+    return {i, nm: g[0], col: g[1], tabs, st, kind: CROP[i % 5], ...L, ripe: st.filter(s => s === 'ripe').length, wilt: st.filter(s => s === 'wilt').length}; });
+  const EMO = {corn: '🌽', tomato: '🍅', carrot: '🥕', pumpkin: '🎃', flower: '🌻'};
+  plots.forEach(p => objs.push({k: p.x + p.y + (p.w + p.d) / 2 - 3, f: () => {
+    const g = el('g', {class: 'fm-plot', 'data-p': p.i}, world);
+    shadow(g, p.x + p.w / 2, p.y + p.d / 2, p.w * 14, p.d * 7);
+    box(g, p.x, p.y, p.w, p.d, 7, '#6d4429', 0, 'url(#fmBed)');
+    const n = Math.max(1, p.tabs.length), rd = (p.d - .5) / n;
+    p.tabs.forEach((t, r) => { const y0 = p.y + .25 + r * rd, rg = el('g', {class: 'fm-row'}, g);
+      el('polygon', {points: pts([P(p.x + .3, y0 + rd * .15, 9), P(p.x + p.w - .3, y0 + rd * .15, 9), P(p.x + p.w - .3, y0 + rd * .8, 9), P(p.x + .3, y0 + rd * .8, 9)]), fill: '#8a5a3a'}, rg);
+      el('polygon', {points: pts([P(p.x + .3, y0 + rd * .8, 9), P(p.x + p.w - .3, y0 + rd * .8, 9), P(p.x + p.w - .3, y0 + rd * .8, 7), P(p.x + .3, y0 + rd * .8, 7)]), fill: '#5e3b24'}, rg);
+      for (let x = p.x + .8; x < p.x + p.w - .4; x += .95) { const [cx, cy] = P(x, y0 + rd * .5, 9); crop(rg, p.kind, cx, cy, p.st[r]); }
+      const f = C.fresh(t); el('title', {}, rg).textContent = `${C.name(t)} · ${f ? (f.state === '정상' ? '수확(최신)' : f.state === '없음' ? '새싹' : '돌봄 필요(' + f.state + ')') : '자라는 중'}`; });
+    // 울타리
+    const fence = (x0, y0, x1, y1) => { const n2 = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / .9));
+      for (let k = 0; k <= n2; k++) { const x = x0 + (x1 - x0) * k / n2, y = y0 + (y1 - y0) * k / n2, [a, b] = P(x, y, 7); el('rect', {x: a - 1.6, y: b - 13, width: 3.2, height: 13, rx: 1, fill: '#a1673b'}, g); }
+      const [a1, b1] = P(x0, y0, 15), [a2, b2] = P(x1, y1, 15); el('line', {x1: a1, y1: b1, x2: a2, y2: b2, stroke: '#c58a55', 'stroke-width': 2.4}, g); };
+    fence(p.x, p.y + p.d, p.x + p.w, p.y + p.d); fence(p.x + p.w, p.y, p.x + p.w, p.y + p.d);
+    p.sign = P(p.x + p.w / 2, p.y + p.d / 2, 62); p.door = [p.x + p.w / 2, p.y + p.d + .7];
+  }}));
+
+  // ── 건물·소품
+  objs.push({k: 9 + 18 + 1, f: () => { const g = el('g', {class: 'fm-bld', 'data-t': 'strategy'}, world), x = 6.6, y = 19.2;  // 수확 창고(농가)
+    shadow(g, x + 1.4, y + 1, 50, 20); box(g, x, y, 2.8, 2, 34, '#fff1d6'); const [a, b] = P(x, y + 2, 34), [c, d] = P(x + 2.8, y + 2, 34), [e, f] = P(x + 2.8, y, 34), [m1, m2] = P(x + 1.4, y + 1, 62), [n1, n2] = P(x, y, 34);
+    el('polygon', {points: `${a},${b} ${c},${d} ${m1 + (c - a) / 2 - 4},${m2 + (d - b) / 2 + 2} ${m1 - (c - a) / 2 - 4},${m2 - (d - b) / 2 + 2}`, fill: 'url(#fmRoof)'}, g);
+    el('polygon', {points: `${c},${d} ${e},${f} ${m1 + (e - c) / 2},${m2 - 2} ${m1 + (c - a) / 2 - 4},${m2 + (d - b) / 2 + 2}`, fill: '#b5403b'}, g);
+    el('polygon', {points: pts([P(x + 1.1, y + 2, 0), P(x + 1.7, y + 2, 0), P(x + 1.7, y + 2, 18), P(x + 1.1, y + 2, 18)]), fill: '#8d5a34'}, g);
+    el('polygon', {points: pts([P(x + 2.8, y + .5, 14), P(x + 2.8, y + 1.3, 14), P(x + 2.8, y + 1.3, 24), P(x + 2.8, y + .5, 24)]), fill: night ? '#ffd166' : '#9fdcf2', filter: night ? 'url(#fmGlow)' : ''}, g);
+    const [cx, cy] = P(x + .6, y + .5, 70); el('rect', {x: cx - 4, y: cy - 4, width: 8, height: 16, fill: '#8d6e63'}, g); if (!still) [0, 1, 2].forEach(k => el('circle', {cx: cx + k * 4, cy: cy - 10 - k * 10, r: 5 + k * 2, fill: '#fff', opacity: .55, class: 'fm-smoke', style: `animation-delay:${k * .8}s`}, g));
+    el('title', {}, g).textContent = '수확 창고 · 오늘의 브리핑'; }});
+  objs.push({k: 21 + 17 + 1, f: () => { const g = el('g', {class: 'fm-bld', 'data-t': 'biz2027'}, world), x = 20.2, y = 18.2;  // 2027 온실
+    shadow(g, x + 1.5, y + 1.2, 52, 22); box(g, x, y, 2.6, 2.4, 30, '#cfefff', 0, 'url(#fmGlass)');
+    for (let k = 0; k <= 4; k++) { const [a, b] = P(x + k * .65, y + 2.4, 0), [c, d] = P(x + k * .75, y + 2.4, 30); el('line', {x1: a, y1: b, x2: c, y2: d, stroke: '#ffffff', 'stroke-width': 1.6}, g); }
+    for (let k = 0; k <= 3; k++) { const [a, b] = P(x + 2.6, y + k * .8, 0), [c, d] = P(x + 2.6, y + k * .8, 30); el('line', {x1: a, y1: b, x2: c, y2: d, stroke: '#ffffff', 'stroke-width': 1.6}, g); }
+    for (let k = 0; k < 4; k++) { const [a, b] = P(x + .5 + k * .7, y + 2.2, 4); el('circle', {cx: a, cy: b - 6, r: 6, fill: '#66bb6a', opacity: .85}, g); el('circle', {cx: a + 2, cy: b - 10, r: 2.4, fill: '#f06292'}, g); }
+    el('title', {}, g).textContent = '2027 온실 · 기획 중인 과제'; }});
+  objs.push({k: 2.8 + 6.8, f: () => { const g = el('g', {class: 'fm-bld', 'data-t': 'market'}, world), [a, b] = P(1.4, 9.4);  // 풍차
+    shadow(g, 1.6, 9.6, 26, 11); el('polygon', {points: `${a - 15},${b} ${a + 15},${b} ${a + 9},${b - 78} ${a - 9},${b - 78}`, fill: '#fff1d6', stroke: '#e0cfa9', 'stroke-width': 1.5}, g);
+    el('polygon', {points: `${a + 4},${b} ${a + 15},${b} ${a + 9},${b - 78} ${a + 4},${b - 78}`, fill: '#e9d7b2'}, g);
+    el('polygon', {points: `${a - 13},${b - 78} ${a + 13},${b - 78} ${a},${b - 98}`, fill: 'url(#fmRoof)'}, g); el('rect', {x: a - 4, y: b - 16, width: 8, height: 16, rx: 4, fill: '#8d5a34'}, g);
+    const bl = el('g', {class: still ? '' : 'fm-spin', style: `transform-origin:${a}px ${b - 70}px`}, g);
+    for (let k = 0; k < 4; k++) el('rect', {x: a - 4, y: b - 124, width: 8, height: 54, rx: 2, fill: '#fafafa', stroke: '#c9b48a', 'stroke-width': 1, transform: `rotate(${k * 90} ${a} ${b - 70})`}, bl);
+    el('circle', {cx: a, cy: b - 70, r: 5, fill: '#8d6e63'}, g); el('title', {}, g).textContent = '풍차 · 시장 분석'; }});
+  objs.push({k: 30, f: () => { const g = el('g', {class: 'fm-bld', 'data-t': 'competitor'}, world), [a, b] = P(21.8, 10.2, 0);  // 허수아비 망루
+    el('rect', {x: a - 2, y: b - 46, width: 4, height: 46, fill: '#8d6e63'}, g); el('rect', {x: a - 18, y: b - 36, width: 36, height: 4, rx: 2, fill: '#8d6e63'}, g);
+    el('rect', {x: a - 10, y: b - 42, width: 20, height: 18, rx: 4, fill: '#7e57c2'}, g); el('circle', {cx: a, cy: b - 51, r: 9, fill: '#ffe0b2'}, g);
+    el('polygon', {points: `${a - 15},${b - 55} ${a},${b - 72} ${a + 15},${b - 55}`, fill: '#ffb74d'}, g); el('circle', {cx: a - 3, cy: b - 52, r: 1.6, fill: '#3e2723'}, g); el('circle', {cx: a + 3, cy: b - 52, r: 1.6, fill: '#3e2723'}, g);
+    el('text', {x: a + 14, y: b - 50, 'font-size': 14}, g).textContent = '🔭'; el('title', {}, g).textContent = '허수아비 망루 · 경쟁사 살피기'; }});
+  objs.push({k: 11 + 14, f: () => { const g = el('g', {}, world), [a, b] = P(10.6, 14.6);  // 우물
+    shadow(g, 10.6, 14.7, 22, 9); el('ellipse', {cx: a, cy: b, rx: 18, ry: 9, fill: '#9e9e9e'}, g); el('ellipse', {cx: a, cy: b - 6, rx: 18, ry: 9, fill: '#bdbdbd'}, g); el('ellipse', {cx: a, cy: b - 6, rx: 13, ry: 6, fill: '#3fb6e0'}, g);
+    el('rect', {x: a - 16, y: b - 38, width: 3, height: 32, fill: '#8d5a34'}, g); el('rect', {x: a + 13, y: b - 38, width: 3, height: 32, fill: '#8d5a34'}, g); el('polygon', {points: `${a - 22},${b - 36} ${a},${b - 52} ${a + 22},${b - 36}`, fill: '#c0634b'}, g); }});
+  // 다리(물길 위 길)
+  objs.push({k: 24 + 10 + .5, f: () => { const g = el('g', {}, world); for (let k = 0; k < 6; k++) { const y = 10 + k * .34; el('polygon', {points: pts([P(23.9, y, 5), P(25.1, y, 5), P(25.1, y + .3, 5), P(23.9, y + .3, 5)]), fill: k % 2 ? '#c58a55' : '#b07642', stroke: '#8d5a34', 'stroke-width': .6}, g); }
+    [[23.9, 10], [23.9, 12], [25.1, 10], [25.1, 12]].forEach(([x, y]) => { const [a, b] = P(x, y, 5); el('rect', {x: a - 1.5, y: b - 12, width: 3, height: 12, fill: '#8d5a34'}, g); }); }});
+  // 나무·덤불·꽃·돌·버섯
+  const tree = (x, y, c, s = 1) => objs.push({k: x + y, f: () => { const g = el('g', {class: 'fm-tree'}, world), [a, b] = P(x, y); shadow(g, x, y, 20 * s, 9 * s);
+    el('rect', {x: a - 3 * s, y: b - 22 * s, width: 6 * s, height: 22 * s, rx: 2, fill: '#7a4a2c'}, g);
+    el('circle', {cx: a, cy: b - 36 * s, r: 17 * s, fill: sh(c, .85)}, g); el('circle', {cx: a - 6 * s, cy: b - 41 * s, r: 12 * s, fill: c}, g); el('circle', {cx: a + 5 * s, cy: b - 44 * s, r: 9 * s, fill: sh(c, 1.15)}, g);
+    if (snow) el('ellipse', {cx: a - 2 * s, cy: b - 52 * s, rx: 12 * s, ry: 5 * s, fill: '#fff'}, g); }});
+  const TREES = [[1.5, 3, '#5cb85c'], [1.2, 15.5, '#f48fb1', 1.1], [4, 21, '#5cb85c'], [10.5, 20.8, '#f48fb1'], [17, 21.2, '#7bc96f'], [26.6, 15, '#f48fb1'], [26.8, 8, '#5cb85c'], [19, .9, '#f8a5c2'], [9.5, .9, '#5cb85c', 1.15], [5.5, .6, '#7bc96f', .9], [26, 1.5, '#5cb85c']];
+  TREES.forEach(t => isl(Math.floor(t[0]), Math.floor(t[1])) && tree(...t));
+  for (let i = 0; i < 70; i++) { const x = rnd() * GX, y = rnd() * GY, fx = Math.floor(x), fy = Math.floor(y);
+    if (!isl(fx, fy) || PATH(fx, fy) || WET(fx, fy) || plots.some(p => x > p.x - .5 && x < p.x + p.w + .5 && y > p.y - .5 && y < p.y + p.d + .8)) continue;
+    objs.push({k: x + y, f: () => { const [a, b] = P(x, y), t = i % 6;
+      if (t < 3) [0, 1, 2].forEach(k => el('circle', {cx: a + (k - 1) * 4, cy: b - 3 - (k % 2) * 2, r: 2.6, fill: ['#ff8fab', '#ffd166', '#cdb4db', '#ffffff'][(i + k) % 4]}, world));
+      else if (t === 3) { el('ellipse', {cx: a, cy: b - 5, rx: 11, ry: 7, fill: '#4f9d2c'}, world); el('ellipse', {cx: a - 3, cy: b - 8, rx: 6, ry: 4, fill: '#6abf3d'}, world); }
+      else if (t === 4) { el('ellipse', {cx: a, cy: b - 3, rx: 7, ry: 4.5, fill: '#9e9e9e'}, world); el('ellipse', {cx: a - 2, cy: b - 5, rx: 3, ry: 1.6, fill: '#cfcfcf'}, world); }
+      else { el('rect', {x: a - 1.2, y: b - 6, width: 2.4, height: 6, fill: '#fff3e0'}, world); el('path', {d: `M${a - 5} ${b - 6} q5 -7 10 0 z`, fill: '#e53935'}, world); el('circle', {cx: a - 1, cy: b - 9, r: 1, fill: '#fff'}, world); } }}); }
+  // 등불(밤에 켜짐)
+  [[11.4, 9.6], [14.6, 9.6], [11.4, 12.6], [14.6, 12.6], [5, 9.6], [20, 9.6]].forEach(([x, y]) => objs.push({k: x + y, f: () => { const [a, b] = P(x, y);
+    el('rect', {x: a - 1.5, y: b - 26, width: 3, height: 26, fill: '#6d4c41'}, world); el('rect', {x: a - 5, y: b - 34, width: 10, height: 10, rx: 2, fill: night || dusk ? '#ffd166' : '#fff3e0', stroke: '#6d4c41', 'stroke-width': 1.5, filter: night || dusk ? 'url(#fmGlow)' : ''}, world); }}));
+  objs.sort((a, b) => a.k - b.k).forEach(o => o.f());
+
+  // ── 주민(캐릭터 자리: 둥근 마스코트) - 길을 따라 밭을 돌며 일한다
+  const people = el('g', {}, svg), BODY = ['#7ec8f5', '#ffc078', '#b5e48c', '#f7a8c9', '#c3b1e1', '#ffe08a'];
+  const mascot = (c, tool) => { const g = el('g', {class: 'fm-who'}, people), i = el('g', {class: 'fm-bob'}, g);
+    el('ellipse', {cx: 0, cy: 1, rx: 11, ry: 4.5, fill: '#1f3b0f', opacity: .28}, i);
+    el('ellipse', {cx: 0, cy: -13, rx: 12, ry: 13, fill: c, stroke: sh(c, .72), 'stroke-width': 1.8}, i);
+    el('ellipse', {cx: 0, cy: -8, rx: 7, ry: 6, fill: '#fff', opacity: .55}, i);
+    el('ellipse', {cx: -4, cy: -16, rx: 1.9, ry: 2.4, fill: '#2d1b10'}, i); el('ellipse', {cx: 4, cy: -16, rx: 1.9, ry: 2.4, fill: '#2d1b10'}, i);
+    el('circle', {cx: -3.4, cy: -16.8, r: .7, fill: '#fff'}, i); el('circle', {cx: 4.6, cy: -16.8, r: .7, fill: '#fff'}, i);
+    el('ellipse', {cx: -7.5, cy: -11.5, rx: 2.4, ry: 1.4, fill: '#ff8fab', opacity: .9}, i); el('ellipse', {cx: 7.5, cy: -11.5, rx: 2.4, ry: 1.4, fill: '#ff8fab', opacity: .9}, i);
+    el('path', {d: 'M-2 -12 q2 2 4 0', stroke: '#2d1b10', 'stroke-width': 1.2, fill: 'none'}, i);
+    el('path', {d: 'M0 -26 q-2 -8 4 -10 q0 7 -4 10', fill: '#7ccf43'}, i);
+    const tl = el('text', {x: 10, y: -18, 'font-size': 13}, i); tl.textContent = tool;
+    return g; };
+  const ACT = ['🚿', '🧺', '🌱', '✂️', '📖', '🔍'];
+  const nodes = plots.map(p => [p.x + p.w / 2, Math.min(p.y + p.d + .7, 20.5)]).concat([[12.5, 18], [12.5, 4], [6, 10.5], [20, 10.5], [10.6, 15.5]]);
+  const who = (C.agents || []).slice(0, 6).map((a, i) => ({g: mascot(BODY[i % 6], ACT[i % 6]), a, x: nodes[i % nodes.length][0], y: nodes[i % nodes.length][1], tx: 0, ty: 0, wait: 40 + i * 30}));
+  who.forEach(w => { const n = nodes[Math.floor(rnd() * nodes.length)]; w.tx = n[0]; w.ty = n[1]; });
+  // 나비·반딧불
+  const fx = el('g', {}, svg), bugs = [];
+  for (let i = 0; i < (night ? 18 : 6); i++) { const g = el('g', {}, fx);
+    if (night) el('circle', {r: 2.4, fill: '#fff59d', filter: 'url(#fmGlow)', class: 'fm-tw', style: `animation-delay:-${(rnd() * 3).toFixed(2)}s`}, g);
+    else { el('ellipse', {cx: -3, cy: 0, rx: 3.5, ry: 2.4, fill: ['#ffb3c6', '#ffe066', '#bde0fe'][i % 3], class: 'fm-flap'}, g); el('ellipse', {cx: 3, cy: 0, rx: 3.5, ry: 2.4, fill: ['#ffb3c6', '#ffe066', '#bde0fe'][i % 3], class: 'fm-flap'}, g); }
+    bugs.push({g, x: 2 + rnd() * 24, y: 2 + rnd() * 18, ph: rnd() * 6}); }
+  // 비·눈
+  if (rain || snow) { const pg = el('g', {class: rain ? 'fm-rain' : 'fm-snow'}, svg);
+    for (let i = 0; i < (rain ? 130 : 90); i++) { const x = rnd() * VW, y = rnd() * VH;
+      if (rain) el('line', {x1: x, y1: y, x2: x - 6, y2: y + 18, stroke: '#e3f2fd', 'stroke-width': 1.3, opacity: .6, style: `animation-delay:-${(rnd()).toFixed(2)}s`}, pg);
+      else el('circle', {cx: x, cy: y, r: 1.6 + rnd() * 1.6, fill: '#fff', opacity: .9, style: `animation-delay:-${(rnd() * 6).toFixed(2)}s`}, pg); } }
+  // 구름 그림자(낮)
+  if (!night && !still) { const cs = el('g', {class: 'fm-cshadow'}, svg); el('ellipse', {cx: 300, cy: 420, rx: 160, ry: 60, fill: '#1f3b0f', opacity: .08, filter: 'url(#fmSoft)'}, cs); el('ellipse', {cx: 900, cy: 520, rx: 140, ry: 50, fill: '#1f3b0f', opacity: .07, filter: 'url(#fmSoft)'}, cs); }
+  if (night || dusk) { el('rect', {width: VW, height: VH, fill: night ? '#0a1633' : '#7a3e2a', opacity: night ? .42 : .14, 'pointer-events': 'none'}, svg);
+    const LIT = [[11.4, 9.6, 34], [14.6, 9.6, 34], [11.4, 12.6, 34], [14.6, 12.6, 34], [5, 9.6, 34], [20, 9.6, 34], [9.4, 20.4, 20]];
+    LIT.forEach(([x, y, z]) => { const [a, b] = P(x, y, z); el('circle', {cx: a, cy: b + 4, r: 26, fill: '#ffd166', opacity: night ? .28 : .15, filter: 'url(#fmSoft)', 'pointer-events': 'none'}, svg); el('circle', {cx: a, cy: b + 4, r: 4, fill: '#fff3c4', 'pointer-events': 'none'}, svg); }); }
+  el('rect', {width: VW, height: VH, fill: 'url(#fmVig)', 'pointer-events': 'none'}, svg);
+  if (night) svg.appendChild(fx);
+
+  // ── 팻말(맨 위)
+  const LL = el('g', {}, svg), placed = [];
+  const sign = (pt, txt, col, data) => { const w = txt.length * 11 + 24; pt = [pt[0], pt[1]];
+    for (let k = 0; k < 6; k++) { const hit = placed.find(q => Math.abs(q[0] - pt[0]) < (q[2] + w) / 2 + 4 && Math.abs(q[1] - pt[1]) < 28); if (!hit) break; pt[1] = hit[1] - 30; } placed.push([pt[0], pt[1], w]);
+    const g = el('g', {class: 'fm-sign', ...data}, LL);
+    el('rect', {x: pt[0] - w / 2 + 2, y: pt[1] - 11, width: w, height: 25, rx: 9, fill: '#5b3a1e', opacity: .35}, g);
+    el('rect', {x: pt[0] - w / 2, y: pt[1] - 14, width: w, height: 25, rx: 9, fill: '#fffaf0', stroke: col, 'stroke-width': 2.6}, g);
+    el('text', {x: pt[0], y: pt[1] + 3.5, 'text-anchor': 'middle', class: 'fm-tt'}, g).textContent = txt; return g; };
+  plots.forEach(p => sign(p.sign, `${EMO[p.kind]} ${p.nm} 밭${p.wilt ? ' · 🥀' + p.wilt : ''}`, p.wilt ? '#f59e0b' : p.col, {'data-p': p.i}));
+  sign(P(8, 20.2, 92), '🧺 수확 창고', '#e57373', {'data-t': 'strategy'}); sign(P(21.5, 19.4, 74), '🌱 2027 온실', '#4fc3f7', {'data-t': 'biz2027'});
+  sign(P(1.4, 9.4, 140), '🌬️ 시장 풍차', '#9ccc65', {'data-t': 'market'}); sign(P(21.8, 10.2, 96), '🔭 허수아비 망루', '#9575cd', {'data-t': 'competitor'});
+  // 말풍선(SVG)
+  const bubG = el('g', {class: 'fm-bub'}, svg);
+  const MSG = plots.filter(p => p.wilt).map(p => [p, `🥀 ${p.nm} 밭에 물이 필요해요`]).concat(plots.filter(p => p.ripe).map(p => [p, `${EMO[p.kind]} ${p.nm} 밭 ${p.ripe}이랑 수확!`]));
+  let mi = 0; const bubble = () => { bubG.innerHTML = ''; if (!MSG.length) return; const [p, t] = MSG[mi++ % MSG.length], [a0, b] = P(p.x + p.w * .7, p.y + .5, 90), w = t.length * 11.5 + 26, a = Math.max(40, Math.min(a0, 1120 - w));
+    el('rect', {x: a - 20, y: b - 30, width: w, height: 30, rx: 14, fill: '#fff', stroke: '#5b3a1e', 'stroke-width': 2.4}, bubG); el('path', {d: `M${Math.min(a0, a + w - 50) - 4} ${b} l8 10 l4 -10 z`, fill: '#fff', stroke: '#5b3a1e', 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, bubG);
+    el('rect', {x: Math.min(a0, a + w - 50) - 3, y: b - 3, width: 14, height: 5, fill: '#fff'}, bubG); el('text', {x: a - 20 + w / 2, y: b - 10, 'text-anchor': 'middle', class: 'fm-tt'}, bubG).textContent = t; };
+  bubble();
+
+  // ── HUD·목록·선택·확대
+  const ov = (cls, html) => { const d = document.createElement('div'); d.className = cls; if (html != null) d.innerHTML = html; host.appendChild(d); return d; };
+  const ripeN = plots.reduce((a, p) => a + p.ripe, 0), wiltN = plots.reduce((a, p) => a + p.wilt, 0);
+  ov('fm-hud', `<div class="fm-chips"><span id="fmClock"></span>${wx.cond ? `<span>${h(wx.icon || '')} 서울 ${h(cond)}${wx.tmax != null ? ` ${h(wx.tmax)}°/${h(wx.tmin)}°` : ''}</span>` : ''}<span>${night ? '🌙 밤' : dusk ? '🌇 노을' : '☀️ 낮'}</span><span>🌾 수확 ${ripeN}</span><span class="${wiltN ? 'w' : ''}">🥀 돌봄 ${wiltN}</span></div>`);
+  const side = ov('fm-side', `<div class="fm-side-h">오늘의 밭</div>` + plots.map(p => `<button type="button" data-p="${p.i}"><i>${EMO[p.kind]}</i><span>${h(p.nm)}<small>${p.tabs.length}이랑 · 수확 ${p.ripe}${p.wilt ? ' · 돌봄 ' + p.wilt : ''}</small></span><em class="${p.wilt ? 'w' : ''}">${p.wilt ? '돌봄' : '좋음'}</em></button>`).join(''));
+  const pick = ov('fm-pick'); pick.hidden = true; let sel = null;
+  const choose = k => { sel = k; LL.querySelectorAll('.fm-sign').forEach(s => s.classList.toggle('on', k != null && (s.dataset.p === k || s.dataset.t === k))); side.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.p === k));
+    pick.hidden = k == null; if (k == null) return;
+    const p = plots.find(q => String(q.i) === k), tabs = p ? p.tabs : [k];
+    pick.innerHTML = `<b>${p ? EMO[p.kind] + ' ' + h(p.nm) + ' 밭' : (C.icon[k] || '📄') + ' ' + h(C.name(k))}</b>${tabs.map(t => { const s = ST(C.fresh(t)); return `<button type="button" data-go="${t}" class="${s}">${C.icon[t] || '📄'} ${h(C.name(t))}</button>`; }).join('')}<button type="button" data-x aria-label="닫기">✕</button>`; };
+  svg.addEventListener('click', e => { const t = e.target.closest('[data-p],[data-t]'); const k = t ? (t.dataset.p != null ? t.dataset.p : t.dataset.t) : null; choose(k != null && k !== sel ? k : null); });
+  side.addEventListener('click', e => { const b = e.target.closest('[data-p]'); if (b) choose(b.dataset.p); });
+  pick.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) C.go(g.dataset.go); else if (e.target.closest('[data-x]')) choose(null); });
+  let zk = 1; const B0 = host.clientWidth && host.clientWidth < 760 ? [150, 150, 1100, 600] : [0, 0, VW, VH];
+  const zoomTo = k => { zk = Math.max(1, Math.min(2.6, k)); const w = B0[2] / zk, hh = B0[3] / zk; svg.setAttribute('viewBox', `${(B0[0] + (B0[2] - w) / 2).toFixed(1)} ${(B0[1] + (B0[3] - hh) / 2).toFixed(1)} ${w.toFixed(1)} ${hh.toFixed(1)}`); zl.textContent = Math.round(zk * 100) + '%'; };
+  const zb = ov('fm-zoom', '<button type="button" data-z="1" aria-label="확대">＋</button><span>100%</span><button type="button" data-z="-1" aria-label="축소">－</button><button type="button" data-z="0" aria-label="원래 크기">⟲</button>'), zl = zb.querySelector('span');
+  zb.addEventListener('click', e => { const b = e.target.closest('[data-z]'); if (!b) return; const d = +b.dataset.z; zoomTo(d ? zk * (d > 0 ? 1.25 : .8) : 1); });
+  svg.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); zoomTo(zk * (e.deltaY > 0 ? .9 : 1.1)); }, {passive: false});
+  let pinch = null; const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  svg.addEventListener('touchstart', e => { if (e.touches.length === 2) pinch = [dist(e.touches), zk]; }, {passive: true});
+  svg.addEventListener('touchmove', e => { if (pinch && e.touches.length === 2) { e.preventDefault(); zoomTo(pinch[1] * dist(e.touches) / pinch[0]); } }, {passive: false});
+  svg.addEventListener('touchend', () => { pinch = null; });
+
+  if (host.clientWidth && host.clientWidth < 760) svg.setAttribute('viewBox', '150 150 1100 600');  // 좁은 화면: 섬을 크게
+  // ── 움직임
+  const place = (g, x, y) => { const [a, b] = P(x, y); g.setAttribute('transform', `translate(${a.toFixed(1)},${b.toFixed(1)})`); };
+  const clock = () => { const c = host.querySelector('#fmClock'); if (c) c.textContent = '🕒 ' + new Date(Date.now() + 9 * 36e5).toISOString().slice(11, 16); };
+  clock(); who.forEach(w => place(w.g, w.x, w.y)); bugs.forEach(b => place(b.g, b.x, b.y));
+  if (still) return;
+  let fr = 0;
+  const tick = () => { if (!host.isConnected) return; if (!host.offsetParent) { requestAnimationFrame(tick); return; } fr++;
+    who.forEach(w => { if (w.wait > 0) { w.wait--; return; } const dx = w.tx - w.x, dy = w.ty - w.y, d = Math.hypot(dx, dy);
+      if (d < .06) { w.wait = 120 + Math.floor(rnd() * 160); const n = nodes[Math.floor(rnd() * nodes.length)]; w.tx = n[0]; w.ty = n[1]; } else { w.x += dx / d * .035; w.y += dy / d * .035; } place(w.g, w.x, w.y); });
+    bugs.forEach(b => { b.ph += .02; b.x += Math.cos(b.ph) * .02; b.y += Math.sin(b.ph * 1.3) * .015; const [a, c] = P(b.x, b.y, 30 + Math.sin(b.ph * 3) * 8); b.g.setAttribute('transform', `translate(${a.toFixed(1)},${c.toFixed(1)})`); });
+    if (fr % 300 === 0) bubble(); if (fr % 600 === 0) clock();
+    requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+};
+
 (function renderViews(){
   const nav = document.querySelector('nav.tabnav'); if (!nav || typeof activateTab !== 'function') { document.documentElement.classList.remove('vs-boot'); return; }
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -11339,8 +11652,8 @@ window.renderBranchScore = function(tab){
   const ICON = {market: '🗺️', strategy: '🧭', trend2027: '📈', biz2027: '🏢', g2bfull: '🏛️', keris: '💾', g2b: '🤖', school: '🏫', aiep: '🧩',
     pipeline: '🤝', branch: '📍', adopt: '📚', leading: '🌟', b2s: '🛒', competitor: '🔍', neti: '🎓', content: '💰', eco: '🌱',
     network: '🕸️', beta: '🧪', admin: '🔒', search: '🔎'};
-  const HV_KEY = 'appHomeView.v1';
-  let homeView = (() => { try { return localStorage.getItem(HV_KEY) || '3d'; } catch (e) { return '3d'; } })();  // 처음엔 3D 오피스(사용자 지시 2026-11-19)
+  const HV_KEY = 'appHomeView.v2';
+  let homeView = (() => { try { return localStorage.getItem(HV_KEY) || 'farm'; } catch (e) { return 'farm'; } })();  // 처음엔 🌱 텃밭 마을, 오피스·타일은 선택(사용자 지시 2026-11-20)
   let isoRaf = 0;
   const ROOMC = {'#4f8cff': ['#dbe4ff', '#3b5bdb'], '#f59e0b': ['#fdecc8', '#b45309'], '#10b981': ['#c9f2df', '#047857'], '#ef4444': ['#fde0e0', '#b91c1c'], '#8b5cf6': ['#e6ddff', '#6d28d9']};
   // 자동 업무 캐릭터 - 화면(탭)과 묶인 갱신 상태만 보여 준다(수집 방식·출처 이름은 쓰지 않음)
@@ -11492,7 +11805,8 @@ window.renderBranchScore = function(tab){
       isoRaf = requestAnimationFrame(tick); };
     isoRaf = requestAnimationFrame(tick);
   }
-  const homeBar = () => `<div class="cph-view" role="group" aria-label="앱 홈 보기"><button type="button" data-hv="3d" aria-pressed="${homeView === '3d'}">🏝️ 3D 오피스</button><button type="button" data-hv="tile" aria-pressed="${homeView !== '3d'}">🟦 타일</button></div>`;
+  const homeBar = () => `<div class="cph-view" role="group" aria-label="앱 홈 테마">${[['farm', '🌱 텃밭'], ['3d', '🏝️ 오피스'], ['tile', '🟦 타일']].map(([k, l]) => `<button type="button" data-hv="${k}" aria-pressed="${homeView === k}">${l}</button>`).join('')}</div>`;
+  const farmHome = () => `<div class="cph cph-farm"><div class="cph-top"><div><small class="fm-kicker">VIVASAM GARDEN VILLAGE</small><h3>🌱 비바샘 텃밭 마을</h3><p>밭(팻말)을 누르면 이랑별 화면이 나와요 · 열매=최신 · 새싹=새로 열림 · 시든 잎=돌봄 필요 · ＋/－로 확대</p></div>${homeBar()}</div><div class="fm-stage" id="farmStage"></div></div>`;
   const iso3dHome = () => { const F2 = (window.__FRESH && window.__FRESH.rows) || []; const ok = F2.filter(r => r.state === '정상').length, chk = F2.filter(r => r.state !== '정상' && r.state !== '없음').length;
     return `<div class="cph cph-iso"><div class="cph-top"><div><small class="iso-kicker">VIVASAM INTELLIGENCE OFFICE</small><h3>🏝️ 비바샘 인텔리전스 오피스</h3><p>이름표를 눌러 고른 뒤 '열기 ▶'로 이동 · ＋/－ 또는 Ctrl+휠로 가운데 확대</p></div>${homeBar()}</div>`
       + `<div class="iso-stage" id="isoStage"></div></div>`; };
@@ -11520,9 +11834,13 @@ window.renderBranchScore = function(tab){
     document.documentElement.classList.toggle('vs-home', mode === 'group' && home);
     if (mode === 'group') {
       box.innerHTML = `<div class="vgroups"><button type="button" data-home="1" style="--gc:#0f6cbd" aria-pressed="${home}">🏠 앱 홈<small>타일로 한눈에</small></button>${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${!home && i === g}">${i + 1}. ${h(G[0])}<small>${G[2].length}개 탭</small></button>`).join('')}</div>
-        ${home ? (homeView === '3d' ? iso3dHome() : tileHome(t)) : `<div class="vsub">${GROUPS[g][2].map(x => `<button type="button" data-t="${x}" ${x === t ? 'aria-current="page"' : ''}>${h(name(x))}</button>${EXT(x, 'vextl')}`).join('')}</div>`}`;
+        ${home ? (homeView === 'farm' ? farmHome() : homeView === '3d' ? iso3dHome() : tileHome(t)) : `<div class="vsub">${GROUPS[g][2].map(x => `<button type="button" data-t="${x}" ${x === t ? 'aria-current="page"' : ''}>${h(name(x))}</button>${EXT(x, 'vextl')}`).join('')}</div>`}`;
       const hb = box.querySelector('[data-home]'); if (hb) hb.addEventListener('click', () => { home = true; gsel = null; draw(); });
       const st = box.querySelector('#isoStage'); if (st) { try { iso3d(st, t); } catch (e) { homeView = 'tile'; draw(); return; } }  // 3D 오류 시 타일로
+      const fs = box.querySelector('#farmStage'); if (fs) { try {
+        const wc = ((typeof WEATHER !== 'undefined' && WEATHER && WEATHER.cities) || []).find(c => c.city === '서울'), wt = wc && wc.today;
+        window.farm3d(fs, {groups: GROUPS, name, fresh, icon: ICON, agents: AGENTS, go: x => { home = false; gsel = null; go(x); }, wx: wt ? {cond: wt.cond, icon: wt.icon, tmax: wt.tmax, tmin: wt.tmin} : null});
+      } catch (e) { console.warn('farm', e); homeView = 'tile'; draw(); return; } }  // 텃밭 오류 시 타일로
       box.querySelectorAll('[data-hv]').forEach(b => b.addEventListener('click', () => { homeView = b.dataset.hv; try { localStorage.setItem(HV_KEY, homeView); } catch (e) { /* 저장 불가 */ } draw(); }));
       const q = box.querySelector('.cph-q'); if (q) q.addEventListener('input', () => { const v = q.value.trim(); box.querySelectorAll('.cph-t[data-q]').forEach(el => el.classList.toggle('cph-hide', !!v && !el.dataset.q.includes(v))); });
     } else if (folded) {
