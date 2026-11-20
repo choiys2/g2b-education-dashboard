@@ -10693,7 +10693,7 @@ html.gd-skin.gd-skin .vsub button[aria-current="page"]{background:#3a2a1c;color:
 /* 탭 맨 위 이랑 장면 */
 .gd-field{margin:0 0 16px;}
 .gd-scene{position:relative;border-radius:22px 22px 0 0;overflow:hidden;border:1px solid #e6d6b8;border-bottom:0;}
-.gd-scene svg{display:block;width:100%;height:auto;min-height:220px;}
+.gd-scene svg{display:block;width:100%;height:auto;min-height:240px;}
 .gd-scene .gd-crop{cursor:pointer;outline:none;}
 .gd-scene .gd-crop:hover,.gd-scene .gd-crop:focus{filter:brightness(1.08) drop-shadow(0 0 6px rgba(255,214,102,.9));}
 .gd-top{position:absolute;left:18px;top:16px;right:18px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;pointer-events:none;}
@@ -10730,6 +10730,40 @@ html.gd-skin.gd-skin .vsub button[aria-current="page"]{background:#3a2a1c;color:
   .gd-kpis{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px;} .gd-k{min-width:140px;scroll-snap-align:start;} .gd-k b{font-size:20px;}
   .gd-closed{flex-wrap:wrap;} .gd-closed .pills{display:none;} .gd-closed .gd-btn{margin-left:auto;}
 }
+.gd-who{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 10px 4px 4px;border-radius:999px;background:#fff;border:1px solid #ead9b8;font-size:11.5px;font-weight:800;color:#5b4632;}
+.gd-who i{width:20px;height:20px;border-radius:50%;display:inline-block;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12);}
+.gd-bub{position:absolute;left:40%;bottom:18%;padding:7px 11px;border-radius:12px 12px 12px 4px;background:rgba(255,253,248,.95);border:1px solid #ead9b8;font-size:12px;font-weight:800;color:#3a2a1c;box-shadow:0 10px 20px -12px rgba(40,25,10,.6);animation:gdPop 7s ease-in-out infinite;pointer-events:none;}
+@keyframes gdPop{0%,8%{opacity:0;transform:translateY(6px) scale(.9);}14%,70%{opacity:1;transform:none;}78%,100%{opacity:0;transform:translateY(-4px);}}
+.gd-scene{box-shadow:0 30px 60px -34px rgba(60,35,10,.65);}
+.gd-sway{transform-box:fill-box;transform-origin:50% 100%;animation:gdSway 3.2s ease-in-out infinite;}
+@keyframes gdSway{0%,100%{transform:rotate(-2.5deg);}50%{transform:rotate(2.5deg);}}
+.gd-bob{animation:gdBob .6s ease-in-out infinite;}
+@keyframes gdBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-2.5px);}}
+.gd-legL,.gd-legR{transform-box:fill-box;transform-origin:50% 0;animation:gdLeg .6s ease-in-out infinite;}
+.gd-legR{animation-direction:reverse;}
+@keyframes gdLeg{0%,100%{transform:rotate(18deg);}50%{transform:rotate(-18deg);}}
+.gd-blink{transform-box:fill-box;transform-origin:50% 50%;animation:gdBlink 4s infinite;}
+@keyframes gdBlink{0%,92%,100%{transform:scaleY(1);}95%{transform:scaleY(.1);}}
+.gd-drop{animation:gdDrop 1s linear infinite;}
+@keyframes gdDrop{0%{transform:translateY(0);opacity:1;}100%{transform:translateY(22px);opacity:0;}}
+.gd-spark{transform-box:fill-box;transform-origin:50% 50%;animation:gdSpark 2.4s ease-in-out infinite;}
+@keyframes gdSpark{0%,100%{transform:scale(.4);opacity:0;}50%{transform:scale(1);opacity:1;}}
+.gd-flap{transform-box:fill-box;transform-origin:50% 100%;animation:gdFlap .25s ease-in-out infinite;}
+@keyframes gdFlap{0%,100%{transform:scaleY(1);}50%{transform:scaleY(.3);}}
+.gd-pull{animation:gdPull 2.8s ease-in-out infinite;}
+@keyframes gdPull{0%,40%,100%{transform:translateY(0);}55%{transform:translateY(5px);}70%{transform:translateY(-3px);}}
+.gd-pop{animation:gdCarrot 2.8s ease-in-out infinite;}
+@keyframes gdCarrot{0%,55%{transform:translateY(0);}72%,88%{transform:translateY(-22px);}100%{transform:translateY(0);}}
+.gd-scan{transform-box:fill-box;transform-origin:20% 80%;animation:gdScan 2s ease-in-out infinite;}
+@keyframes gdScan{0%,100%{transform:rotate(-14deg);}50%{transform:rotate(12deg);}}
+.gd-wave{transform-box:fill-box;transform-origin:10% 90%;animation:gdWave 1s ease-in-out infinite;}
+@keyframes gdWave{0%,100%{transform:rotate(-30deg);}50%{transform:rotate(20deg);}}
+.gd-bee{animation:gdBee 6s ease-in-out infinite;}
+@keyframes gdBee{0%,100%{transform:translate(0,0);}25%{transform:translate(40px,-18px);}50%{transform:translate(80px,4px);}75%{transform:translate(30px,20px);}}
+.gd-firefly{animation:gdFf 4s ease-in-out infinite;}
+@keyframes gdFf{0%,100%{opacity:.2;}50%{opacity:1;}}
+@media (prefers-reduced-motion:reduce){.gd-field *,.gd-field{animation:none !important;}}
+@media (max-width:760px){.gd-who,.gd-bub{display:none;}}
 @media print{.gd-field{display:none;}}
 /* CP 앱 홈: 텃밭 마을 */
 .cph.cph-farm{background:linear-gradient(180deg,#eaf6ff 0%,#fff8e7 100%);border-color:#e8d5b0;color:#5b3a1e;padding:16px 14px 14px;}
@@ -11832,55 +11866,106 @@ window.farm3d = function (host, C) {
     overlay(svg, d, VW, VH, E, id);
   };
 
-  // ── 탭 맨 위 이랑 장면 ──
+  // ── 탭 맨 위 이랑 장면 v2: 두툼한 흙 블록·두둑 3개·밭별 전담 캐릭터·움직임 ──
   const CROPS = ['corn', 'tomato', 'carrot', 'pumpkin', 'sunflower'], CROP_EMO = ['🌽', '🍅', '🥕', '🎃', '🌻'];
+  const CH = [  // 밭(그룹) 순서: 시장·정책 / 조달·발주 / 영업 / 경쟁·성과 / 연결
+    {c: '#8fd3ff', name: '새싹 농부', acc: b => { el('ellipse', {cx: 0, cy: -35, rx: 21, ry: 5, fill: '#e9c46a', stroke: '#c99a3a'}, b); el('path', {d: 'M-11 -36 q11 -16 22 0z', fill: '#f4d27a', stroke: '#c99a3a'}, b); el('rect', {x: -11, y: -38, width: 22, height: 3, fill: '#e76f51'}, b);
+      const w = el('g', {transform: 'translate(14,-16)'}, b); el('rect', {x: 0, y: -6, width: 13, height: 10, rx: 3, fill: '#4da3d9'}, w); el('path', {d: 'M13 -4 l9 -6', stroke: '#4da3d9', 'stroke-width': 3, 'stroke-linecap': 'round'}, w);
+      [0, 1, 2].forEach(k => el('circle', {cx: 23 + k * 1.5, cy: -8, r: 1.6, fill: '#7fd3ff', class: 'gd-drop', style: `animation-delay:${k * .33}s`}, w)); }},
+    {c: '#ffb27a', name: '바구니 수확꾼', acc: b => { el('path', {d: 'M-14 -32 q14 -12 28 0', stroke: '#e63946', 'stroke-width': 5, fill: 'none', 'stroke-linecap': 'round'}, b);
+      const w = el('g', {transform: 'translate(-26,-14)'}, b); el('path', {d: 'M0 0 h16 l-2 10 h-12z', fill: '#c58a4a', stroke: '#8a5a2a'}, w); el('path', {d: 'M2 0 q6 -10 12 0', stroke: '#8a5a2a', 'stroke-width': 1.6, fill: 'none'}, w); [3, 8, 13].forEach(x => el('circle', {cx: x, cy: -1, r: 3, fill: '#e53935'}, w)); }},
+    {c: '#c8a6ff', name: '당근 뽑기 장인', acc: b => { el('path', {d: 'M-15 -30 q15 -14 30 0 z', fill: '#5e60ce'}, b); el('circle', {cx: 0, cy: -41, r: 3, fill: '#ffd166'}, b); }},
+    {c: '#ffd166', name: '돋보기 탐정', acc: b => { el('path', {d: 'M-16 -31 h32 l-4 -6 h-24z', fill: '#6b4f3a'}, b); el('rect', {x: -9, y: -40, width: 18, height: 5, rx: 2, fill: '#7b5a42'}, b);
+      const m = el('g', {class: 'gd-scan', transform: 'translate(13,-20)'}, b); el('line', {x1: 0, y1: 0, x2: 8, y2: -8, stroke: '#6b4f3a', 'stroke-width': 3, 'stroke-linecap': 'round'}, m); el('circle', {cx: 12, cy: -12, r: 6.5, fill: 'rgba(200,240,255,.6)', stroke: '#8a6a4a', 'stroke-width': 2.4}, m); }},
+    {c: '#9be08a', name: '양봉가', acc: b => { el('path', {d: 'M-17 -28 q17 -20 34 0 z', fill: '#fff8e1', stroke: '#e0c58a'}, b); el('rect', {x: -13, y: -30, width: 26, height: 9, rx: 4, fill: 'rgba(60,60,60,.35)'}, b);
+      const a = el('g', {class: 'gd-wave', transform: 'translate(13,-20)'}, b); el('rect', {x: 0, y: -2, width: 12, height: 4, rx: 2, fill: '#9be08a'}, a); }}];
+  function body(g, ch){  // 발 = (0,0)
+    const id = 'cb' + (++uid), d = el('defs', {}, g), rg = el('radialGradient', {id, cx: '35%', cy: '30%', r: '75%'}, d), c = ch.c;
+    el('stop', {offset: 0, 'stop-color': sh(c, 1.25)}, rg); el('stop', {offset: .6, 'stop-color': c}, rg); el('stop', {offset: 1, 'stop-color': sh(c, .72)}, rg);
+    el('ellipse', {cx: 0, cy: 1, rx: 13, ry: 4, fill: '#1b120a', opacity: .28}, g);
+    const b = el('g', {class: 'gd-bob'}, g);
+    el('rect', {x: -6, y: -9, width: 4.5, height: 10, rx: 2.2, fill: sh(c, .6), class: 'gd-legL'}, b); el('rect', {x: 1.5, y: -9, width: 4.5, height: 10, rx: 2.2, fill: sh(c, .6), class: 'gd-legR'}, b);
+    el('ellipse', {cx: 0, cy: -22, rx: 15, ry: 16, fill: `url(#${id})`}, b); el('ellipse', {cx: -5, cy: -30, rx: 5, ry: 3, fill: '#fff', opacity: .45}, b);
+    const e = el('g', {class: 'gd-blink'}, b); [-5, 5].forEach(x => { el('ellipse', {cx: x, cy: -22, rx: 2.2, ry: 2.8, fill: '#2b1a10'}, e); el('circle', {cx: x + .7, cy: -23.2, r: .8, fill: '#fff'}, e); });
+    [-9, 9].forEach(x => el('ellipse', {cx: x, cy: -17, rx: 3, ry: 1.7, fill: '#ff8fab', opacity: .8}, b));
+    el('path', {d: 'M-2.5 -16 q2.5 2.4 5 0', stroke: '#2b1a10', 'stroke-width': 1.3, fill: 'none', 'stroke-linecap': 'round'}, b);
+    el('path', {d: 'M0 -38 q-3 -9 5 -12 q0 8 -5 12', fill: '#7ccf43'}, b); el('path', {d: 'M0 -38 q2 -7 -4 -9 q0 6 4 9', fill: '#5fb030'}, b);
+    ch.acc(b); return b;
+  }
+  const walkDone = new Set();
+  function walker(g, x0, y0, x1, dur, ch){  // 울타리 앞 길을 왕복(뒤돌 때 좌우 반전)
+    const dx = Math.round(x1 - x0), k = 'gdw' + dx;
+    if (!walkDone.has(k)) { walkDone.add(k); let st = document.getElementById('gdKf'); if (!st) { st = document.createElement('style'); st.id = 'gdKf'; document.head.appendChild(st); }
+      st.textContent += `@keyframes ${k}{0%{transform:translate(0,0) scaleX(1);}45%{transform:translate(${dx}px,0) scaleX(1);}50%{transform:translate(${dx}px,0) scaleX(-1);}95%{transform:translate(0,0) scaleX(-1);}100%{transform:translate(0,0) scaleX(1);}}`; }
+    const o = el('g', {transform: `translate(${x0},${y0}) scale(1.9)`}, g), m = el('g', {style: `animation:${k} ${dur}s ease-in-out infinite;`}, o); body(m, ch); return o;
+  }
+  function plant(g, kind, cx, cy, it, i, gid){
+    const H = it.h || 60, top = it.top, s = el('g', {class: 'gd-sway', style: `animation-delay:${(i % 7) * -.4}s`}, g);
+    el('ellipse', {cx: cx + 5, cy: cy + 2, rx: 14, ry: 4.2, fill: '#1b120a', opacity: .3}, g);
+    if (kind === 'corn') { el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#3f8a22', 'stroke-width': 4.5, 'stroke-linecap': 'round'}, s);
+      for (let k = 1; k < 4; k++) { const yy = cy - H * k / 4, dr = k % 2 ? -1 : 1; el('path', {d: `M${cx} ${yy} q${dr * 16} -6 ${dr * 24} -22`, stroke: k % 2 ? '#5db53a' : '#79c94f', 'stroke-width': 4, fill: 'none', 'stroke-linecap': 'round'}, s); }
+      el('ellipse', {cx: cx + 6, cy: cy - H * .6, rx: 6.5, ry: 14, fill: top ? '#ffc21a' : '#ffd760', stroke: '#d69a00', 'stroke-width': 1.1}, s);
+      for (let r = 0; r < 4; r++) el('line', {x1: cx + 2, y1: cy - H * .6 - 10 + r * 6, x2: cx + 10, y2: cy - H * .6 - 10 + r * 6, stroke: '#e2a400', 'stroke-width': .8, opacity: .6}, s);
+      el('path', {d: `M${cx + 1} ${cy - H * .6} q-2 -12 4 -18 M${cx + 11} ${cy - H * .6} q2 -12 -3 -18`, stroke: '#8acb5c', 'stroke-width': 2.4, fill: 'none'}, s);
+      el('path', {d: `M${cx} ${cy - H} l-5 -11 M${cx} ${cy - H} l5 -12 M${cx} ${cy - H} l0 -13`, stroke: '#c79a5a', 'stroke-width': 1.8, 'stroke-linecap': 'round'}, s); }
+    else if (kind === 'tomato') { el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#3f8a22', 'stroke-width': 3.2}, s); el('path', {d: `M${cx - 7} ${cy} V${cy - H * .9} M${cx + 7} ${cy} V${cy - H * .9}`, stroke: '#b98a52', 'stroke-width': 1.6}, s);
+      [[-1, .35], [1, .6], [-1, .82]].forEach(([dr, f]) => el('ellipse', {cx: cx + dr * 11, cy: cy - H * f, rx: 11, ry: 5, fill: '#5cb85c', transform: `rotate(${dr * -22} ${cx + dr * 11} ${cy - H * f})`}, s));
+      const col = it.col || (top ? '#e53935' : '#ff8a3d'), r = it.r || 10;
+      [[3, .55, r], [-6, .38, r * .7]].forEach(([dx, f, rr]) => { el('circle', {cx: cx + dx, cy: cy - H * f, r: rr, fill: col, stroke: sh(col, .75)}, s); el('ellipse', {cx: cx + dx - rr * .35, cy: cy - H * f - rr * .38, rx: rr * .32, ry: rr * .22, fill: '#fff', opacity: .6}, s); }); }
+    else if (kind === 'carrot') { for (let k = -2; k <= 2; k++) el('path', {d: `M${cx} ${cy - 3} q${k * 5} ${-H * .45} ${k * 9} ${-H * .85}`, stroke: k % 2 ? '#5cb85c' : '#7bcf63', 'stroke-width': 3.2, fill: 'none', 'stroke-linecap': 'round'}, s); el('ellipse', {cx, cy: cy - 2, rx: 8, ry: 4, fill: '#f57c00'}, s); }
+    else if (kind === 'pumpkin') { const r = 8 + H / 9; el('path', {d: `M${cx - 18} ${cy - 2} q-8 -16 6 -20 M${cx + 18} ${cy - 2} q8 -16 -6 -20`, stroke: '#5cb85c', 'stroke-width': 3, fill: 'none'}, s);
+      [-.6, 0, .6].forEach(k => el('ellipse', {cx: cx + k * r, cy: cy - r * .8, rx: r * .64, ry: r * .85, fill: k ? (top ? '#f57c00' : '#ff9a2e') : (top ? '#fb8c00' : '#ffab40'), stroke: '#d35400', 'stroke-width': 1}, s));
+      el('ellipse', {cx: cx - r * .3, cy: cy - r * 1.2, rx: r * .25, ry: r * .15, fill: '#fff', opacity: .5}, s); el('path', {d: `M${cx} ${cy - r * 1.6} q2 -6 6 -7`, stroke: '#6d4c2f', 'stroke-width': 3, fill: 'none', 'stroke-linecap': 'round'}, s); }
+    else { el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#3f8a22', 'stroke-width': 3.8}, s); [-1, 1].forEach(dr => el('ellipse', {cx: cx + dr * 11, cy: cy - H * .45, rx: 11, ry: 5, fill: '#5cb85c', transform: `rotate(${dr * -24} ${cx + dr * 11} ${cy - H * .45})`}, s));
+      for (let k = 0; k < 14; k++) el('ellipse', {cx, cy: cy - H - 11, rx: 4.2, ry: 10, fill: top ? '#ffc107' : '#ffd54f', stroke: '#e6a700', 'stroke-width': .6, transform: `rotate(${k * 25.7} ${cx} ${cy - H})`}, s);
+      el('circle', {cx, cy: cy - H, r: 8, fill: '#6d4c2f'}, s); el('circle', {cx: cx - 2, cy: cy - H - 2, r: 3, fill: '#8d6748'}, s); }
+    if (top) { const sp = el('g', {class: 'gd-spark', style: `animation-delay:${i * .3}s`}, g); el('path', {d: `M${cx + 16} ${cy - H - 14} l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2z`, fill: '#fff6b0'}, sp); }
+  }
   function field(host, o){
-    const id = 'f' + (++uid), E = env(), VW = 1400, VH = 300, TW = 58, TH = 22, SK = -16, OX = 520, OY = 196, P = (x, y, z = 0) => [OX + x * TW + y * SK, OY + y * TH - z];
+    const id = 'f' + (++uid), E = env(), VW = 1400, VH = 330, TW = 60, TH = 24, SK = -18, OX = 520, OY = 196, P = (x, y, z = 0) => [OX + x * TW + y * SK, OY + y * TH - z];
     const svg = el('svg', {viewBox: `0 0 ${VW} ${VH}`, preserveAspectRatio: 'xMaxYMid slice'}, host), d = el('defs', {}, svg);
     backdrop(svg, d, VW, VH, E, id);
-    const W = 14, Dp = 2.6, g = el('g', {}, svg), G = GRASS[E.season];
-    const lg = (gid, s) => { const q = el('linearGradient', {id: gid, x1: 0, y1: 0, x2: 0, y2: 1}, d); s.forEach(([o, c]) => el('stop', {offset: o, 'stop-color': c}, q)); };
-    lg('so' + id, [[0, '#b97a4a'], [1, '#5b3a22']]); lg('bd' + id, [[0, '#8a5a3a'], [1, '#5e3b24']]);
+    const lg = (gid, s) => { const q = el('linearGradient', {id: gid, x1: 0, y1: 0, x2: 0, y2: 1}, d); s.forEach(([o2, c, op]) => el('stop', {offset: o2, 'stop-color': c, 'stop-opacity': op == null ? 1 : op}, q)); };
+    const G = GRASS[E.season]; lg('so' + id, [[0, '#9a6438'], [.5, '#6e4325'], [1, '#3c2412']]); lg('bd' + id, [[0, '#8b5a36'], [1, '#5c3920']]); lg('gr' + id, [[0, G[0]], [1, G[1]]]);
     const gf = el('filter', {id: 'gg' + id, x: '-60%', y: '-60%', width: '220%', height: '220%'}, d); el('feGaussianBlur', {stdDeviation: 4}, gf);
-    el('polygon', {points: pts([P(-.6, Dp + .6), P(W + .6, Dp + .6), P(W + .6, Dp + .6, -40), P(-.6, Dp + .6, -40)]), fill: `url(#so${id})`}, g);
-    el('polygon', {points: pts([P(W + .6, -.6), P(W + .6, Dp + .6), P(W + .6, Dp + .6, -40), P(W + .6, -.6, -40)]), fill: '#7a4a2c'}, g);
-    el('polygon', {points: pts([P(-.6, -.6), P(W + .6, -.6), P(W + .6, Dp + .6), P(-.6, Dp + .6)]), fill: G[0]}, g);
-    el('polygon', {points: pts([P(-.6, Dp + .6), P(W + .6, Dp + .6), P(W + .6, Dp + .6, -7), P(-.6, Dp + .6, -7)]), fill: G[1]}, g);
-    el('polygon', {points: pts([P(0, 0, 8), P(W, 0, 8), P(W, Dp, 8), P(0, Dp, 8)]), fill: `url(#bd${id})`}, g);
-    el('polygon', {points: pts([P(0, Dp, 8), P(W, Dp, 8), P(W, Dp, 0), P(0, Dp, 0)]), fill: '#5e3b24'}, g);
-    for (let x = 0; x <= W; x += .8) { const [a, b] = P(x, Dp + .25, 0); el('rect', {x: a - 1.8, y: b - 14, width: 3.6, height: 14, rx: 1, fill: '#c58a55'}, g); }
-    { const [a1, b1] = P(0, Dp + .25, 9), [a2, b2] = P(W, Dp + .25, 9); el('line', {x1: a1, y1: b1, x2: a2, y2: b2, stroke: '#d9a26b', 'stroke-width': 2.4}, g); }
-    const items = (o.items || []).slice(0, 17), n = items.length || 1, step = Math.min(.82, (W - .8) / n);
-    const order = items.map((it, i) => [it, i]).sort((a, b) => (a[1] % 2) - (b[1] % 2));
-    order.forEach(([it, i]) => { const row = i % 2, x = .55 + i * step, y = .65 + row * 1.25, [cx, cy] = P(x, y, 8);
+    const ds = el('filter', {id: 'ds' + id, x: '-20%', y: '-20%', width: '140%', height: '160%'}, d); el('feDropShadow', {dx: 0, dy: 10, stdDeviation: 8, 'flood-color': '#2a170a', 'flood-opacity': .35}, ds);
+    const W = 13.6, Dp = 2.8, g = el('g', {}, svg);
+    el('polygon', {points: pts([P(-.8, Dp + .8), P(W + .8, Dp + .8), P(W + .8, Dp + .8, -58), P(-.8, Dp + .8, -58)]), fill: `url(#so${id})`, filter: `url(#ds${id})`}, g);
+    for (let k = 0; k < 5; k++) { const [a, b] = P(-.8, Dp + .8, -10 - k * 10), [c] = P(W + .8, Dp + .8, 0); el('path', {d: `M${a} ${b} H${c}`, stroke: '#2e1b0c', opacity: .12, 'stroke-width': 2, 'stroke-dasharray': `${6 + k * 3} ${10 + k * 4}`}, g); }
+    el('polygon', {points: pts([P(W + .8, -.8), P(W + .8, Dp + .8), P(W + .8, Dp + .8, -58), P(W + .8, -.8, -58)]), fill: '#4a2d17'}, g);
+    el('polygon', {points: pts([P(-.8, -.8), P(W + .8, -.8), P(W + .8, Dp + .8), P(-.8, Dp + .8)]), fill: `url(#gr${id})`}, g);
+    el('polygon', {points: pts([P(-.8, Dp + .8), P(W + .8, Dp + .8), P(W + .8, Dp + .8, -9), P(-.8, Dp + .8, -9)]), fill: G[2]}, g);
+    { const [a, b] = P(-.8, Dp + .8), [c, dd] = P(W + .8, Dp + .8); el('line', {x1: a, y1: b, x2: c, y2: dd, stroke: '#e6f8c4', 'stroke-width': 2, opacity: .7}, g); }
+    let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    for (let i = 0; i < 46; i++) { const [x, y] = P(-.6 + rnd() * (W + 1.2), -.6 + rnd() * (Dp + 1.2)); el('path', {d: `M${x - 3} ${y} l2 -6 l1 6 l2 -7 l1 7`, stroke: sh(G[2], .95), 'stroke-width': 1.4, fill: 'none'}, g); }
+    [[0, 4.3], [4.6, 9], [9.3, W]].forEach(([a, b]) => {
+      el('polygon', {points: pts([P(a, .1, 10), P(b, .1, 10), P(b, Dp - .1, 10), P(a, Dp - .1, 10)]), fill: `url(#bd${id})`}, g);
+      for (let r = 0; r < 4; r++) { const [x1, y1] = P(a + .1, .45 + r * .6, 10), [x2, y2] = P(b - .1, .45 + r * .6, 10); el('line', {x1, y1, x2, y2, stroke: '#4a2c16', 'stroke-width': 1.6, opacity: .35}, g); }
+      el('polygon', {points: pts([P(a, Dp - .1, 10), P(b, Dp - .1, 10), P(b, Dp - .1, 0), P(a, Dp - .1, 0)]), fill: '#4e3019'}, g);
+      { const [x1, y1] = P(a, .1, 10), [x2, y2] = P(b, .1, 10); el('line', {x1, y1, x2, y2, stroke: '#b88458', 'stroke-width': 1.5, opacity: .8}, g); } });
+    for (let i = 0; i < 8; i++) { const [x, y] = P(rnd() * W, Dp + .5); el('ellipse', {cx: x, cy: y, rx: 5, ry: 3, fill: '#cfc6b8', stroke: '#a99f92'}, g); }
+    const items = (o.items || []).slice(0, 17), n = items.length || 1, step = (W - .8) / n;
+    items.map((it, i) => [it, i]).sort((a, b) => (a[1] % 2) - (b[1] % 2)).forEach(([it, i]) => { const row = i % 2, [cx, cy] = P(.55 + i * step, .7 + row * 1.3, 10);
       const node = el('g', {class: 'gd-crop', tabindex: 0}, g); if (it.tip) tx('title', {}, node, it.tip);
-      el('ellipse', {cx: cx + 4, cy: cy + 2, rx: 13, ry: 4, fill: '#2d1b10', opacity: .3}, node);
-      plant(node, cx, cy, o.crop, it, gf.id);
-      if (it.label) { const w = Math.max(32, String(it.label).length * 12 + 14); el('rect', {x: cx - w / 2, y: cy + 6, width: w, height: 18, rx: 9, fill: it.top ? '#3a2a1c' : 'rgba(255,250,240,.92)', stroke: it.top ? '#3a2a1c' : '#e6d6b8'}, node);
+      plant(node, o.crop, cx, cy, it, i, gf.id);
+      if (it.label) { const w = Math.max(32, String(it.label).length * 12 + 14); el('rect', {x: cx - w / 2, y: cy + 6, width: w, height: 18, rx: 9, fill: it.top ? '#3a2a1c' : 'rgba(255,250,240,.94)', stroke: it.top ? '#3a2a1c' : '#e6d6b8'}, node);
         tx('text', {x: cx, y: cy + 19, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 800, fill: it.top ? '#ffd166' : '#5b4632'}, node, it.label); }
-      if (it.badge) { const w = it.badge.length * 7 + 22; el('rect', {x: cx - w / 2, y: cy - (it.h || 60) - 34, width: w, height: 18, rx: 9, fill: '#c62828'}, node); tx('text', {x: cx, y: cy - (it.h || 60) - 21, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 900, fill: '#fff'}, node, it.badge); }
-      if (o.onPick) node.addEventListener('click', () => o.onPick(it));
-    });
-    { const [mx, my] = P(W + .5, Dp - .4, 0); mascot(g, mx, my, ['#7ec8f5', '#ffc078', '#c3a6ff', '#9be08a', '#ffd166'][o.gi % 5], E.night ? '' : '🚿'); }
+      if (it.badge) { const w = it.badge.length * 7 + 22, yb = cy - (it.h || 60) - 34; el('rect', {x: cx - w / 2, y: yb, width: w, height: 18, rx: 9, fill: '#c62828'}, node); tx('text', {x: cx, y: yb + 13, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 900, fill: '#fff'}, node, it.badge); }
+      if (o.onPick) node.addEventListener('click', () => o.onPick(it)); });
+    for (let x = -.6; x <= W + .6; x += .75) { const [a, b] = P(x, Dp + .55, 0); el('rect', {x: a - 2.2, y: b - 16, width: 4.4, height: 16, rx: 1.4, fill: '#c58a55'}, g); el('rect', {x: a - 2.2, y: b - 16, width: 1.4, height: 16, fill: '#e2ad78'}, g); }
+    [7, 13].forEach(z => { const [a1, b1] = P(-.6, Dp + .55, z), [a2, b2] = P(W + .6, Dp + .55, z); el('line', {x1: a1, y1: b1, x2: a2, y2: b2, stroke: '#d9a26b', 'stroke-width': 2.6}, g); });
+    // 밭별 전담 캐릭터
+    const gi = (o.gi || 0) % 5, ch = CH[gi], [xa, ya] = P(.4, Dp + 1.15, 0), [xb] = P(W - 1, Dp + 1.15, 0);
+    if (gi === 2) { const [px, py] = P(W * .62, Dp - .3, 10), pg = el('g', {transform: `translate(${px},${py}) scale(1.9)`}, svg), pu = el('g', {class: 'gd-pull'}, pg); body(pu, ch);
+      const cr = el('g', {class: 'gd-pop'}, pg); el('path', {d: 'M14 -6 l6 0 l-3 14z', fill: '#f57c00'}, cr); el('path', {d: 'M17 -6 q-3 -8 -6 -12 M17 -6 q0 -9 0 -13 M17 -6 q3 -8 6 -12', stroke: '#5cb85c', 'stroke-width': 2, fill: 'none'}, cr); }
+    else walker(svg, xa, ya, xb, [20, 16, 18, 14, 22][gi], ch);
+    if (gi === 4) for (let k = 0; k < 5; k++) { const bg = el('g', {transform: `translate(${700 + k * 120},${110 + k % 2 * 30})`}, svg), bm = el('g', {class: 'gd-bee', style: `animation-duration:${5 + k}s`}, bg);
+      el('ellipse', {cx: 0, cy: 0, rx: 6, ry: 4.5, fill: '#ffc94a'}, bm); el('rect', {x: -2, y: -4.5, width: 2, height: 9, fill: '#3a2a1c'}, bm); el('rect', {x: 2, y: -4.5, width: 2, height: 9, fill: '#3a2a1c'}, bm); el('ellipse', {cx: -1, cy: -6, rx: 4, ry: 3, fill: 'rgba(255,255,255,.85)', class: 'gd-flap'}, bm); }
+    if (E.night) { for (let i = 0; i < 16; i++) el('circle', {cx: 500 + rnd() * 880, cy: 120 + rnd() * 170, r: 2.2, fill: '#fff59d', class: 'gd-firefly', style: `animation-delay:${rnd() * 4}s`}, svg);
+      [-.4, W + .4].forEach(x => { const [a, b] = P(x, Dp + .6, 0); el('rect', {x: a - 1.6, y: b - 42, width: 3.2, height: 42, fill: '#4a2d17'}, svg); el('circle', {cx: a, cy: b - 46, r: 26, fill: '#ffd66b', opacity: .4, filter: `url(#gg${id})`}, svg); el('rect', {x: a - 6, y: b - 54, width: 12, height: 12, rx: 3, fill: '#ffe59a', stroke: '#7a4a2c'}, svg); }); }
+    lg('mi' + id, [[0, '#fff', 0], [1, E.night ? '#7a86b8' : '#fff', .35]]); el('rect', {x: 0, y: VH * .55, width: VW, height: VH * .45, fill: `url(#mi${id})`, opacity: .5}, svg);
     overlay(svg, d, VW, VH, E, id);
-  }
-  function plant(g, cx, cy, crop, it, gid){
-    const H = it.h || 60, top = it.top;
-    if (top) el('circle', {cx, cy: cy - H, r: 14, fill: '#ffd166', opacity: .4, filter: `url(#${gid})`}, g);
-    if (crop === 'corn') { el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#4c9a2a', 'stroke-width': 4}, g);
-      for (let k = 1; k < 4; k++) { const yy = cy - H * k / 4; el('path', {d: `M${cx} ${yy} q${k % 2 ? -16 : 16} -8 ${k % 2 ? -22 : 22} -20`, stroke: '#6cc04a', 'stroke-width': 3.4, fill: 'none', 'stroke-linecap': 'round'}, g); }
-      el('ellipse', {cx: cx + 5, cy: cy - H * .62, rx: 6, ry: 13, fill: top ? '#ffca28' : '#ffd54f', stroke: '#e0a800', 'stroke-width': 1.2}, g); el('ellipse', {cx: cx + 3, cy: cy - H * .66, rx: 1.6, ry: 6, fill: '#fff', opacity: .6}, g);
-      el('path', {d: `M${cx} ${cy - H} l-4 -10 M${cx} ${cy - H} l4 -12 M${cx} ${cy - H} l0 -12`, stroke: '#c8a165', 'stroke-width': 1.8}, g); return; }
-    if (crop === 'sunflower') { el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#4c9a2a', 'stroke-width': 3.6}, g); [-1, 1].forEach(s => el('ellipse', {cx: cx + s * 10, cy: cy - H * .45, rx: 10, ry: 4.5, fill: '#5cb85c', transform: `rotate(${s * -24} ${cx + s * 10} ${cy - H * .45})`}, g));
-      for (let k = 0; k < 12; k++) el('ellipse', {cx, cy: cy - H - 10, rx: 4, ry: 9, fill: top ? '#ffc107' : '#ffd54f', transform: `rotate(${k * 30} ${cx} ${cy - H})`}, g); el('circle', {cx, cy: cy - H, r: 7, fill: '#6d4c2f'}, g); return; }
-    if (crop === 'carrot') { const r = Math.max(5, H / 10); el('path', {d: `M${cx - r} ${cy - 2} L${cx + r} ${cy - 2} L${cx} ${cy + r * 1.6}Z`, fill: '#f57c00'}, g); for (let k = -2; k <= 2; k++) el('path', {d: `M${cx} ${cy - 2} q${k * 5} ${-H * .5} ${k * 9} ${-H * .9}`, stroke: '#5cb85c', 'stroke-width': 3, fill: 'none', 'stroke-linecap': 'round'}, g); return; }
-    if (crop === 'pumpkin') { const r = 7 + H / 9; el('path', {d: `M${cx - 18} ${cy - 2} q-6 -14 4 -18 M${cx + 18} ${cy - 2} q6 -14 -4 -18`, stroke: '#5cb85c', 'stroke-width': 3, fill: 'none'}, g);
-      [-.55, 0, .55].forEach(k => el('ellipse', {cx: cx + k * r, cy: cy - r * .8, rx: r * .62, ry: r * .82, fill: top ? '#fb8c00' : '#ffa726', stroke: '#e65100', 'stroke-width': 1}, g)); el('rect', {x: cx - 2, y: cy - r * 1.75, width: 4, height: 7, fill: '#6d4c2f'}, g); return; }
-    // tomato
-    const r = it.r || 9, col = it.col || '#e53935'; el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#4c9a2a', 'stroke-width': 3}, g);
-    [[-1, -H * .35], [1, -H * .65]].forEach(([s, yy]) => el('ellipse', {cx: cx + s * 10, cy: cy + yy, rx: 11, ry: 5, fill: '#5cb85c', transform: `rotate(${s * -24} ${cx + s * 10} ${cy + yy})`}, g));
-    el('circle', {cx: cx + 3, cy: cy - H * .6, r, fill: col, stroke: sh(col, .75), 'stroke-width': 1.2}, g); el('circle', {cx: cx + 3 - r * .35, cy: cy - H * .6 - r * .35, r: r * .28, fill: '#fff', opacity: .55}, g);
-    el('path', {d: `M${cx + 3} ${cy - H * .6 - r} l-4 -3 m4 3 l4 -3 m-4 3 v-4`, stroke: '#2e7d32', 'stroke-width': 1.8}, g);
+    return ch;
   }
   const CLOSE_KEY = 'gdField.closed.v1';
   const closedSet = () => { try { return new Set(JSON.parse(localStorage.getItem(CLOSE_KEY) || '[]')); } catch (e) { return new Set(); } };
@@ -11894,7 +11979,7 @@ window.farm3d = function (host, C) {
       return {crop: 'corn', kicker: 'MARKET FIELD', title: '🗺️ 시장 분석 이랑', desc: '옥수수 한 그루가 한 시도예요. 키가 클수록 초·중등 학교가 많은 곳, 금빛 열매는 상위 3곳입니다.',
         items: R.map((r, i) => ({label: r.region, h: 30 + (r.total || 0) / mx * 118, top: i < 3, tip: `${r.region} · 학교 ${(r.total || 0).toLocaleString()}교`})),
         kpis: [['학교 수 1위', R[0].region, `${(R[0].total || 0).toLocaleString()}교`], ['17개 시도 합계', `${sum.toLocaleString()}교`, '초·중등'], ['강점권역', `${R.filter(r => r.strength).length}개 시도`, '굵은 테두리 지역']],
-        pills: [`학교 수 1위 ${R[0].region}`, `${R.length}개 시도`, '매일 갱신'], scrollTo: '#rankChart'};
+        pills: [`학교 수 1위 ${R[0].region}`, `${R.length}개 시도`, '매일 갱신'], scrollTo: '#rankChart', bub: `🌽 ${R[0].region} 옥수수가 제일 커요!`};
     }
     if (t === 'g2bfull' && typeof G2B_FULL !== 'undefined' && G2B_FULL) {
       const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10), dday = s => Math.round((Date.parse(String(s).slice(0, 10)) - Date.parse(today)) / 864e5);
@@ -11903,12 +11988,12 @@ window.farm3d = function (host, C) {
         return {crop: 'tomato', kicker: 'BID FIELD', title: '🏛️ 나라장터 종합 이랑', desc: '토마토 하나가 진행 중인 입찰이에요. 빨갈수록 마감이 가깝고, 클수록 금액이 커요.',
           items: open.slice(0, 15).map(r => { const dd = dday(r.마감일); return {h: 46, r: 7 + Math.sqrt((+r.예산 || 0) / mxA) * 11, col: dd <= 3 ? '#e53935' : dd <= 7 ? '#fb8c00' : '#9ccc65', badge: dd <= 3 ? `⏰ D-${dd}` : '', tip: `${r.기관 || ''} · ${won(r.예산)} · 마감 ${String(r.마감일).slice(0, 10)}`}; }),
           kpis: [['진행 중 입찰', `${open.length}건`, '마감 전'], ['마감 3일 이내', `${near}건`, near ? '⏰ 서둘러요' : '여유 있어요'], ['최대 금액', won(mxA), '진행 중 기준']],
-          pills: [`진행 중 ${open.length}건`, `D-3 이내 ${near}건`, '매일 갱신'], legend: ['🔴 D-3 이내', '🟠 D-7 이내', '🟢 여유', '⚪ 크기 = 금액']}; }
+          pills: [`진행 중 ${open.length}건`, `D-3 이내 ${near}건`, '매일 갱신'], bub: near ? `🧺 마감 임박 ${near}건, 오늘 따야 해요` : `🍅 진행 중 입찰 ${open.length}건이 익어 가요`, legend: ['🔴 D-3 이내', '🟠 D-7 이내', '🟢 여유', '⚪ 크기 = 금액']}; }
       const RG = [...(G2B_FULL.region || [])].sort((a, b) => (b.건수 || 0) - (a.건수 || 0)); if (RG.length) { const mx = RG[0].건수 || 1;
         return {crop: 'tomato', kicker: 'BID FIELD', title: '🏛️ 나라장터 종합 이랑', desc: '토마토 하나가 한 지역이에요. 클수록 교육 분야 공고가 많은 지역입니다.',
           items: RG.slice(0, 15).map((r, i) => ({label: r.지역, h: 46, r: 6 + (r.건수 || 0) / mx * 12, col: i < 3 ? '#e53935' : '#fb8c00', top: i < 3, tip: `${r.지역} · ${(r.건수 || 0).toLocaleString()}건`})),
           kpis: [['공고 1위 지역', RG[0].지역, `${(RG[0].건수 || 0).toLocaleString()}건`], ['전체 공고', `${RG.reduce((s, r) => s + (r.건수 || 0), 0).toLocaleString()}건`, '교육 분야'], ['지역 수', `${RG.length}곳`, '']],
-          pills: [`공고 1위 ${RG[0].지역}`, '매일 갱신']}; }
+          pills: [`공고 1위 ${RG[0].지역}`, '매일 갱신'], bub: `🍅 ${RG[0].지역} 토마토가 제일 커요`}; }
     }
     return null;
   }
@@ -11916,7 +12001,7 @@ window.farm3d = function (host, C) {
     const f = C.fresh(t), st = !f ? '자라는 중' : f.state === '정상' ? '잘 자람' : f.state === '중단' ? '돌봄 필요' : '조금 늦음';
     let seed = [...t].reduce((a, c) => a + c.charCodeAt(0), 0); const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
     return {crop: CROPS[C.gi % 5], kicker: 'VIVASAM GARDEN', title: `${C.icon || '🌱'} ${C.name} 이랑`, desc: `${C.gname} 밭의 이랑이에요. 아래에서 최신 자료를 확인하세요.`,
-      items: Array.from({length: 13}, (_, i) => ({h: (f && f.state === '중단') ? 22 + rnd() * 20 : 40 + rnd() * 70, top: i === 4})), pills: [`${C.gname} 밭`, `상태: ${st}`, '매일 갱신'], basic: true};
+      items: Array.from({length: 13}, (_, i) => ({h: (f && f.state === '중단') ? 22 + rnd() * 20 : 40 + rnd() * 70, top: i === 4})), pills: [`${C.gname} 밭`, `상태: ${st}`, '매일 갱신'], basic: true, bub: st === '돌봄 필요' ? '💧 이 이랑은 돌봄이 필요해요' : st === '조금 늦음' ? '⏳ 조금 늦게 자라고 있어요' : `${CROP_EMO[C.gi % 5]} 오늘도 잘 자라고 있어요`};
   }
   window.gdField = function(panel, t, C){
     if (!panel) return; const old = panel.querySelector(':scope > .gd-field'); if (old && old.dataset.t === t && old.dataset.c === String(closedSet().has(t))) return; if (old) old.remove();
@@ -11927,8 +12012,8 @@ window.farm3d = function (host, C) {
       wrap.innerHTML = `<div class="gd-closed"><div class="l"><span class="mini">${[9, 16, 12, 21, 7, 14].map(v => `<i style="height:${v}px"></i>`).join('')}</span>${h(CROP_EMO[C.gi % 5])} ${h(S.title.replace(/^\S+\s/, ''))} <em>· 장면 접힘</em></div><div class="pills">${pills}</div><button type="button" class="gd-btn dark" data-gd="open">🌱 장면 펼치기 ▾</button></div>`;
     } else {
       wrap.innerHTML = `<div class="gd-scene"><div class="gd-top"><div><div class="gd-crumb"><button type="button" class="gd-btn" data-gd="home">← 🌱 마을로</button><span class="gd-btn ghost">${h(CROP_EMO[C.gi % 5])} ${h(C.gname)} 밭 › ${h(C.name)}</span></div>
-        <div class="gd-ttl"><small>${h(S.kicker || 'VIVASAM GARDEN')}</small><b>${h(S.title)}</b><p>${h(S.desc)}</p></div></div>
-        <div class="gd-crumb">${S.legend ? `<div class="gd-legend">${S.legend.map(x => `<span>${h(x)}</span>`).join('')}</div>` : ''}<button type="button" class="gd-btn" data-gd="close" title="이 탭의 장면을 접습니다. 다시 펼치기 전까지 접힌 채로 둡니다">✕ 장면 닫기</button></div></div></div>
+        <div class="gd-ttl"><small>${h(S.kicker || 'VIVASAM GARDEN')}</small><b>${h(S.title)}</b><p>${h(S.desc)}</p><span class="gd-who"><i style="background:${CH[C.gi % 5].c}"></i>오늘의 담당 · ${h(CH[C.gi % 5].name)}</span></div></div>
+        <div class="gd-crumb">${S.legend ? `<div class="gd-legend">${S.legend.map(x => `<span>${h(x)}</span>`).join('')}</div>` : ''}<button type="button" class="gd-btn" data-gd="close" title="이 탭의 장면을 접습니다. 다시 펼치기 전까지 접힌 채로 둡니다">✕ 장면 닫기</button></div></div>${S.bub ? `<div class="gd-bub">${h(S.bub)}</div>` : ''}</div>
         ${S.kpis ? `<div class="gd-kpis">${S.kpis.map(([a, b, c]) => `<div class="gd-k"><i>${h(a)}</i><b>${h(b)}</b><em>${h(c)}</em></div>`).join('')}</div>` : `<div class="gd-pills">${pills}</div>`}`;
       field(wrap.querySelector('.gd-scene'), {items: S.items, crop: S.crop, gi: C.gi, onPick: S.scrollTo ? () => { const x = panel.querySelector(S.scrollTo); if (x) x.scrollIntoView({behavior: 'smooth', block: 'center'}); } : null});
     }
@@ -12062,7 +12147,9 @@ window.farm3d = function (host, C) {
           return `<button type="button" class="vbook ${f && f.state === '정상' && i % 2 === 0 ? 'new' : ''}" data-t="${x}" ${x === t ? 'aria-current="page"' : ''} style="height:${168 + ((i * 37) % 26)}px;background:${P[i % P.length]}" title="${h(name(x))}"><span class="t">${h(SHORT[x] || name(x)).replace(/\s/g, '')}</span>${k ? `<span class="v">${h(String(k).slice(0, 9))}</span>` : '<span></span>'}</button>`; }).join('')}<span class="nm">${h(G[0])}<small>${G[2].length}권</small></span></div>`).join('')}</div>
         <div class="vmini" style="border:0;"><button type="button" class="vfold">책장 접기</button> 책을 누르면 그 화면이 펼쳐집니다</div>`;
     }
-    box.querySelectorAll('[data-g]').forEach(b => b.addEventListener('click', () => { home = false; gsel = +b.dataset.g; draw(); }));
+    box.querySelectorAll('[data-g]').forEach(b => b.addEventListener('click', () => { home = false; const gk = +b.dataset.g, first = GROUPS[gk][2][0];
+      if (GD && first && !GROUPS[gk][2].includes(cur())) { gsel = null; go(first); return; }  // 텃밭: 팻말 = 그 밭으로 이동(팻말과 아래 이랑 장면이 늘 같은 밭)
+      gsel = gk; draw(); }));
     box.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => { home = false; gsel = null; if (!isG) folded = true; go(b.dataset.t); }));
     const o = box.querySelector('.vopen'); if (o) o.addEventListener('click', () => { folded = false; draw(); });
     const fo = box.querySelector('.vfold'); if (fo) fo.addEventListener('click', () => { folded = true; draw(); });
