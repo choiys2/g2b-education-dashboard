@@ -3,8 +3,8 @@
 <title>17개 시도교육청 초·중등 교육시장 입체 분석</title>
 <script>/* 처음 화면 깜빡임 방지: 저장된 보기가 기본이 아니면(처음은 그룹) 비상 디자인으로 바로, 어느 보기든 다 그려질 때까지 비상 로고 화면.
    그룹 메뉴·로고·사진이 다 그려질 때까지(renderViews) 화면을 잠깐 가린다 - 기존 화면이 1초 보였다가 바뀌던 문제. 4초 안전장치 */
-(function(){var r=document.documentElement,v="group";try{v=localStorage.getItem("viewMode.v1")||"group";}catch(e){}
-r.classList.add("vs-boot");if(v!=="basic")r.classList.add("vs-skin");  /* 여는 중 로고는 모든 보기(그룹·카드·책장·기본) 공통 */
+(function(){var r=document.documentElement,v="farm";try{v=localStorage.getItem("viewMode.v1")||"farm";}catch(e){}
+r.classList.add("vs-boot");if(v!=="basic")r.classList.add("vs-skin");if(v==="farm")r.classList.add("gd-skin");  /* 처음 보기 = 🌱 텃밭(2026-11-20) */  /* 여는 중 로고는 모든 보기(그룹·카드·책장·기본) 공통 */
 var L=__BOOT_LOGO_JSON__||"";var st=document.createElement("style");
 st.textContent="html.vs-boot body{visibility:hidden}html.vs-boot{background:#fff}"
 +"html.vs-boot::after{content:'';position:fixed;left:0;right:0;top:0;bottom:0;z-index:9;"+(L?"background:url('"+L+"') center 44%/170px auto no-repeat;":"")+"animation:vsBoot 1.2s ease-in-out infinite alternate}"
@@ -10635,6 +10635,102 @@ window.__renderPdfx = function(root, P){
 .cph-view{display:inline-flex;border:1px solid var(--border, #d1d5db);border-radius:999px;overflow:hidden;background:var(--surface, #fff);}
 .cph-view button{border:0;background:transparent;color:var(--ink-2, #374151);font:inherit;font-size:12.5px;padding:6px 12px;cursor:pointer;}
 .cph-view button[aria-pressed="true"]{background:var(--ink, #111827);color:var(--surface, #fff);}
+/* 🌱 텃밭 보기(보기 막대 맨 앞): 바탕·테두리·머리글·메뉴·탭 머리까지 텃밭 마을 톤. 표·그래프 데이터 색은 그대로 */
+html.gd-skin.gd-skin.gd-skin.gd-skin.gd-skin{
+  --page:#f7f1e3; --surface:#fffdf7; --surface-2:#f6eedb;
+  --ink:#2d2219; --ink-2:#4a3a2b; --muted:#8a7258;
+  --grid:#eadcc0; --border:#e8d9bb;
+  --neutral-top:#f3ead6; --neutral-front:#e4d5b5; --neutral-side:#d2c09b;
+}
+html.gd-skin body{background:radial-gradient(1200px 520px at 50% -120px,#fff8e6,transparent),#f7f1e3;}
+html.gd-skin.gd-skin.gd-skin.gd-skin header.top{position:relative;overflow:hidden;min-height:330px;border-radius:26px;border:1px solid #e8d9bb;border-top:1px solid #e8d9bb;
+  background:#cfeaff !important;box-shadow:0 24px 50px -26px rgba(70,45,20,.55);padding:26px 28px 22px;
+  --ink:#2d2219; --ink-2:#4a3a2b; --muted:#7a6650; --surface:rgba(255,253,247,.9); --surface-2:rgba(255,250,240,.82); --border:rgba(160,120,70,.28); --accent:#5fa52f; --hero-accent:#5fa52f;}
+html.gd-skin header.top > *{position:relative;z-index:1;}
+html.gd-skin header.top > .gd-hero{position:absolute;inset:0;z-index:0;}
+html.gd-skin header.top > .gd-hero svg{display:block;width:100%;height:100%;}
+html.gd-skin header.top > .gd-veil{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,251,240,.94) 0%,rgba(255,250,238,.82) 34%,rgba(255,250,238,0) 58%);}
+html.gd-skin.gd-skin.gd-skin.gd-skin header.top h1{color:#2d2219;text-shadow:none;max-width:560px;}
+html.gd-skin header.top h1::before{content:'VIVASAM GARDEN VILLAGE';display:block;font-size:11px;font-weight:900;letter-spacing:2.6px;color:#6aa53a;margin-bottom:6px;}
+html.gd-skin header.top .sub{color:#5b4632;max-width:520px;}
+html.gd-skin header.top .head-search{max-width:520px;}
+html.gd-skin.gd-skin.gd-skin.gd-skin header.top .search-box{background:rgba(255,253,247,.94);border:1px solid rgba(160,120,70,.3);border-radius:14px;color:#2d2219;box-shadow:0 8px 20px -12px rgba(60,40,20,.5);}
+html.gd-skin.gd-skin.gd-skin.gd-skin header.top .search-box::placeholder{color:#a08a6e;}
+html.gd-skin header.top .pill{background:rgba(255,250,240,.88);border:1px solid rgba(160,120,70,.25);border-radius:999px;color:#3a2a1c;}
+html.gd-skin.gd-skin.gd-skin.gd-skin header.top .wx-c{background:rgba(255,250,240,.86);border-color:rgba(160,120,70,.25);color:#2d2219;}
+html.gd-skin.gd-skin.gd-skin.gd-skin header.top .wx-c .p{color:#b45309;}
+html.gd-skin header.top .wx{max-width:560px;}
+html.gd-skin .panel, html.gd-skin .kpi, html.gd-skin .segment-card{border-radius:18px;border-color:#e8d9bb;background:#fffdf7;box-shadow:0 10px 24px -20px rgba(60,40,20,.6);}
+html.gd-skin .kpi{border-top:3px solid #7cb342;}
+html.gd-skin .kpi .val{color:#2d2219;}
+html.gd-skin .pill{border-radius:999px;}
+html.gd-skin #vsBrand .t{color:#8a7258;}
+html.gd-skin #viewBar .vseg{border-radius:999px;background:#efe4cc;border-color:#e8d9bb;padding:3px;}
+html.gd-skin #viewBar .vseg button{border-radius:999px;font-weight:700;color:#4a3a2b;}
+html.gd-skin.gd-skin #viewBar .vseg button[aria-pressed="true"]{background:linear-gradient(180deg,#7cc142,#4f9a24);color:#fff;box-shadow:0 4px 10px -4px #3c7a17;}
+html.gd-skin #viewBar .vreset{border-radius:999px;border-style:dashed;border-color:#d9c49c;background:transparent;}
+/* 그룹 메뉴 = 나무 팻말 */
+html.gd-skin.gd-skin .vgroups{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;border:0;margin-bottom:10px;}
+html.gd-skin.gd-skin .vgroups button{position:relative;padding:16px 14px 12px;border-radius:16px;border:0;font-size:15px;font-weight:900;color:#fff8ea;text-shadow:0 1px 0 rgba(0,0,0,.25);
+  background:linear-gradient(180deg,#d9a46b,#b97c45);box-shadow:0 10px 20px -12px rgba(90,55,20,.8),0 2px 0 rgba(255,255,255,.35) inset,0 -3px 0 rgba(0,0,0,.12) inset;transition:transform .15s;}
+html.gd-skin.gd-skin .vgroups button:hover{transform:translateY(-2px);}
+html.gd-skin.gd-skin .vgroups button::before,html.gd-skin.gd-skin .vgroups button::after{content:'';position:absolute;top:8px;width:7px;height:7px;border-radius:50%;background:#7a4f2a;box-shadow:0 1px 0 rgba(255,255,255,.4);}
+html.gd-skin.gd-skin .vgroups button::before{left:9px;} html.gd-skin.gd-skin .vgroups button::after{right:9px;left:auto;bottom:auto;height:7px;}
+html.gd-skin.gd-skin .vgroups button small{display:block;font-size:11.5px;font-weight:600;color:#fff3dd;opacity:.92;text-shadow:none;}
+html.gd-skin.gd-skin .vgroups button .gd-crop{position:absolute;right:10px;bottom:6px;font-size:24px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25));text-shadow:none;}
+html.gd-skin.gd-skin .vgroups button[aria-pressed="true"]{color:#fff;background:linear-gradient(180deg,#8fd14f,#5aa62e);box-shadow:0 12px 24px -12px #2f6b10,0 2px 0 rgba(255,255,255,.4) inset,0 -3px 0 rgba(0,0,0,.12) inset;transform:translateY(-3px);}
+html.gd-skin.gd-skin .vgroups button[aria-pressed="true"]::after{background:#3c7a17;}
+html.gd-skin.gd-skin .vsub{display:flex;gap:8px;flex-wrap:wrap;background:transparent;border:0;padding:4px 0 2px;margin-bottom:12px;}
+html.gd-skin.gd-skin .vsub button{margin:0;padding:7px 14px;border-radius:999px;border:1px solid #e8d9bb;background:#fffdf7;font-size:13px;font-weight:800;color:#4a3a2b;}
+html.gd-skin.gd-skin .vsub button[aria-current="page"]{background:#3a2a1c;color:#fff6e6;border-color:#3a2a1c;}
+@media (max-width:760px){
+  html.gd-skin.gd-skin.gd-skin.gd-skin .vgroups{display:flex;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 8px;}
+  html.gd-skin.gd-skin.gd-skin.gd-skin .vgroups button{flex:0 0 148px;min-width:148px;scroll-snap-align:start;}
+  html.gd-skin.gd-skin.gd-skin.gd-skin header.top{min-height:0;padding:18px 16px 210px;background:linear-gradient(180deg,#fffaf0,#e9f5ff) !important;}
+  html.gd-skin.gd-skin header.top > .gd-hero{top:auto;height:220px;}
+  html.gd-skin.gd-skin header.top > .gd-veil{background:linear-gradient(180deg,#fffaf0 0%,rgba(255,250,240,.92) calc(100% - 230px),rgba(255,250,240,0) calc(100% - 170px));}
+}
+/* 탭 맨 위 이랑 장면 */
+.gd-field{margin:0 0 16px;}
+.gd-scene{position:relative;border-radius:22px 22px 0 0;overflow:hidden;border:1px solid #e6d6b8;border-bottom:0;}
+.gd-scene svg{display:block;width:100%;height:auto;min-height:220px;}
+.gd-scene .gd-crop{cursor:pointer;outline:none;}
+.gd-scene .gd-crop:hover,.gd-scene .gd-crop:focus{filter:brightness(1.08) drop-shadow(0 0 6px rgba(255,214,102,.9));}
+.gd-top{position:absolute;left:18px;top:16px;right:18px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;pointer-events:none;}
+.gd-top > *{pointer-events:auto;}
+.gd-crumb{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;justify-content:flex-end;}
+.gd-btn{appearance:none;font:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:800;color:#3a2a1c;white-space:nowrap;
+  background:rgba(255,250,240,.84);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(160,120,70,.25);box-shadow:0 4px 14px -6px rgba(60,40,20,.35);}
+.gd-btn.ghost{cursor:default;background:rgba(255,255,255,.6);}
+.gd-btn.dark{background:#3a2a1c;color:#fff6e6;border-color:#3a2a1c;}
+.gd-ttl{margin-top:12px;padding:12px 16px;border-radius:16px;max-width:380px;background:linear-gradient(135deg,rgba(255,252,245,.92),rgba(255,246,228,.8));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(160,120,70,.22);box-shadow:0 10px 26px -14px rgba(60,40,20,.5);}
+.gd-ttl small{display:block;font-size:10.5px;font-weight:900;letter-spacing:2.4px;color:#7cb342;}
+.gd-ttl b{display:block;font-size:21px;font-weight:900;color:#2d2219;margin:2px 0 4px;}
+.gd-ttl p{margin:0;font-size:12.5px;color:#6d5844;line-height:1.5;}
+.gd-legend{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;width:100%;order:2;}
+.gd-legend span{font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:999px;background:rgba(255,250,240,.86);border:1px solid rgba(160,120,70,.22);color:#5b4632;}
+.gd-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px 14px 14px;background:linear-gradient(180deg,#fbf3e2,#f6ead2);border:1px solid #e6d6b8;border-radius:0 0 22px 22px;}
+.gd-k{padding:10px 14px 11px;border-radius:16px;background:linear-gradient(160deg,#fffcf5,#faeed6);border:1px solid rgba(160,120,70,.25);box-shadow:0 10px 22px -14px rgba(60,40,20,.55),0 1px 0 #fff inset;}
+.gd-k i{font-style:normal;font-size:11px;font-weight:800;color:#9a7b55;}
+.gd-k b{display:block;font-size:24px;font-weight:900;color:#2d2219;margin-top:2px;font-variant-numeric:tabular-nums;}
+.gd-k em{font-style:normal;font-size:11.5px;font-weight:800;color:#2e7d32;}
+.gd-pills{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px;background:linear-gradient(180deg,#fbf3e2,#f6ead2);border:1px solid #e6d6b8;border-radius:0 0 22px 22px;}
+.gd-pills span,.gd-closed .pills span{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid #ead9b8;color:#5b4632;}
+.gd-closed{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 14px;border-radius:16px;background:linear-gradient(90deg,#fffaf0,#fbf1dc);border:1px solid #e6d6b8;box-shadow:0 8px 20px -14px rgba(60,40,20,.5);}
+.gd-closed .l{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;color:#3a2a1c;white-space:nowrap;}
+.gd-closed .l em{font-style:normal;color:#9a7b55;font-weight:700;}
+.gd-closed .mini{display:flex;gap:2px;align-items:flex-end;height:22px;}
+.gd-closed .mini i{display:block;width:5px;border-radius:2px 2px 0 0;background:linear-gradient(#ffd54f,#7cb342);}
+.gd-closed .pills{display:flex;gap:6px;flex-wrap:wrap;}
+@media (max-width:760px){
+  .gd-scene svg{height:230px;}
+  .gd-btn.ghost,.gd-ttl p,.gd-ttl small,.gd-legend{display:none;}
+  .gd-top{left:10px;right:10px;top:10px;}
+  .gd-ttl{max-width:64%;padding:8px 11px;margin-top:8px;} .gd-ttl b{font-size:16px;}
+  .gd-kpis{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px;} .gd-k{min-width:140px;scroll-snap-align:start;} .gd-k b{font-size:20px;}
+  .gd-closed{flex-wrap:wrap;} .gd-closed .pills{display:none;} .gd-closed .gd-btn{margin-left:auto;}
+}
+@media print{.gd-field{display:none;}}
 /* CP 앱 홈: 텃밭 마을 */
 .cph.cph-farm{background:linear-gradient(180deg,#eaf6ff 0%,#fff8e7 100%);border-color:#e8d5b0;color:#5b3a1e;padding:16px 14px 14px;}
 .cph-farm .cph-top h3{color:#5b3a1e;}.cph-farm .cph-top p{color:#8d6e63;}.fm-kicker{display:block;font-size:10.5px;letter-spacing:2px;color:#7cb342;font-weight:800;margin-bottom:2px;}
@@ -11646,10 +11742,208 @@ window.farm3d = function (host, C) {
   requestAnimationFrame(tick);
 };
 
+/* 🌱 텃밭 보기: 머리글 마을 전경(gdHero) + 탭 맨 위 이랑 장면(gdField). 외부 글자는 모두 h()로 이스케이프 */
+(function(){
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+  const tx = (t, a, p, s) => { const e = el(t, a, p); e.textContent = s; return e; };  // textContent = 자동 이스케이프
+  const sh = (hex, k) => { const n = parseInt(hex.slice(1), 16), f = c => Math.max(0, Math.min(255, Math.round(c * k))); return '#' + [n >> 16, (n >> 8) & 255, n & 255].map(f).map(v => v.toString(16).padStart(2, '0')).join(''); };
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const pts = a => a.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
+  let uid = 0;
+  // 시간·계절·날씨
+  const env = () => { const d = new Date(), hr = d.getHours(), m = d.getMonth() + 1;
+    const season = m >= 3 && m <= 5 ? 'spring' : m >= 6 && m <= 8 ? 'summer' : m >= 9 && m <= 11 ? 'autumn' : 'winter';
+    let cond = ''; try { const wc = ((typeof WEATHER !== 'undefined' && WEATHER && WEATHER.cities) || []).find(c => c.city === '서울'); cond = (wc && wc.today && wc.today.cond) || ''; } catch (e) { /* 날씨 없음 */ }
+    return {night: hr >= 19 || hr < 6, eve: hr >= 17 && hr < 19, season, rain: /비|소나기/.test(cond), snow: /눈/.test(cond), cloudy: /흐림|구름/.test(cond)}; };
+  const SKY = E => E.night ? [['0', '#1b2550'], ['.6', '#2f3f74'], ['1', '#5a5f8a']] : E.eve ? [['0', '#7fa6e0'], ['.6', '#f3c7a0'], ['1', '#ffd9a8']]
+    : (E.rain || E.cloudy) ? [['0', '#a9b8c8'], ['.6', '#d3dbe3'], ['1', '#eef0ea']] : [['0', '#8ccfff'], ['.6', '#d6eeff'], ['1', '#fff1d2']];
+  const GRASS = {spring: ['#a4dd68', '#7cc246', '#5fa52f'], summer: ['#8fd14f', '#6fbf3a', '#4e9425'], autumn: ['#b9cf5a', '#9cb845', '#7a9a2e'], winter: ['#e8f0f4', '#cfdde6', '#b6c8d4']};
+  const LEAF = {spring: '#ffb7d0', summer: '#7ccf43', autumn: '#e8913a', winter: '#ffffff'};
+  function backdrop(svg, d, VW, VH, E, id){
+    const lg = (gid, s) => { const g = el('linearGradient', {id: gid, x1: 0, y1: 0, x2: 0, y2: 1}, d); s.forEach(([o, c]) => el('stop', {offset: o, 'stop-color': c}, g)); };
+    lg('sky' + id, SKY(E)); el('rect', {width: VW, height: VH, fill: `url(#sky${id})`}, svg);
+    const bl = el('filter', {id: 'bl' + id}, d); el('feGaussianBlur', {stdDeviation: 2.4}, bl);
+    const gw = el('filter', {id: 'gw' + id, x: '-50%', y: '-50%', width: '200%', height: '200%'}, d); el('feGaussianBlur', {stdDeviation: 9}, gw);
+    if (E.night) { for (let i = 0; i < 40; i++) el('circle', {cx: Math.random() * VW, cy: Math.random() * VH * .5, r: Math.random() * 1.4 + .4, fill: '#fff', opacity: .5 + Math.random() * .5}, svg);
+      el('circle', {cx: VW - 140, cy: 64, r: 40, fill: '#fff6c8', opacity: .35, filter: `url(#gw${id})`}, svg); el('circle', {cx: VW - 140, cy: 64, r: 20, fill: '#fff6c8'}, svg); el('circle', {cx: VW - 131, cy: 58, r: 18, fill: SKY(E)[0][1]}, svg); }
+    else if (!E.rain && !E.cloudy) { el('circle', {cx: VW - 140, cy: 66, r: 56, fill: '#ffe9a3', opacity: .55, filter: `url(#gw${id})`}, svg); el('circle', {cx: VW - 140, cy: 66, r: 26, fill: '#ffd75e'}, svg); }
+    const far = el('g', {filter: `url(#bl${id})`, opacity: E.night ? .55 : .95}, svg), G = GRASS[E.season];
+    el('path', {d: `M0 ${VH * .62} Q${VW * .18} ${VH * .42} ${VW * .37} ${VH * .58} T${VW * .75} ${VH * .53} T${VW} ${VH * .56} V${VH} H0Z`, fill: sh(G[0], E.season === 'winter' ? .98 : 1.08)}, far);
+    el('path', {d: `M0 ${VH * .74} Q${VW * .22} ${VH * .6} ${VW * .46} ${VH * .7} T${VW} ${VH * .66} V${VH} H0Z`, fill: G[0]}, far);
+    const cc = E.rain || E.cloudy ? '#e6eaee' : '#fff';
+    [[VW * .2, VH * .2, 1], [VW * .46, VH * .13, 1.15], [VW * .78, VH * .3, .85]].forEach(([x, y, s]) => [[0, 0, 24], [22, -9, 20], [44, 0, 22], [-18, 4, 16]].forEach(([a, b, r]) => el('circle', {cx: x + a * s, cy: y + b * s, r: r * s, fill: cc, opacity: E.night ? .25 : .92}, svg)));
+  }
+  function overlay(svg, d, VW, VH, E, id){
+    if (E.rain) for (let i = 0; i < 70; i++) { const x = Math.random() * VW, y = Math.random() * VH; el('line', {x1: x, y1: y, x2: x - 4, y2: y + 12, stroke: '#9fc3e6', 'stroke-width': 1.3, opacity: .7}, svg); }
+    else if (E.snow || E.season === 'winter') for (let i = 0; i < 50; i++) el('circle', {cx: Math.random() * VW, cy: Math.random() * VH, r: Math.random() * 2 + 1, fill: '#fff', opacity: .85}, svg);
+    else for (let i = 0; i < 12; i++) { const x = VW * .35 + Math.random() * VW * .65, y = Math.random() * VH * .8; el('ellipse', {cx: x, cy: y, rx: 4, ry: 2.2, fill: LEAF[E.season], opacity: .8, transform: `rotate(${Math.random() * 180} ${x} ${y})`}, svg); }
+    if (E.night) el('rect', {width: VW, height: VH, fill: '#0b1240', opacity: .28}, svg);
+    const rg = el('radialGradient', {id: 'vg' + id, cx: '60%', cy: '40%', r: '80%'}, d); el('stop', {offset: '60%', 'stop-color': '#000', 'stop-opacity': 0}, rg); el('stop', {offset: '100%', 'stop-color': '#3b2a1a', 'stop-opacity': .18}, rg);
+    el('rect', {width: VW, height: VH, fill: `url(#vg${id})`}, svg);
+  }
+  const mascot = (g, px, py, c, emo) => { el('ellipse', {cx: px, cy: py, rx: 10, ry: 4, fill: '#1f3b0f', opacity: .25}, g); el('ellipse', {cx: px, cy: py - 13, rx: 11, ry: 12, fill: c, stroke: sh(c, .75), 'stroke-width': 1.5}, g);
+    [-4, 4].forEach(k => el('circle', {cx: px + k, cy: py - 15, r: 2, fill: '#2d1b10'}, g)); [-7, 7].forEach(k => el('ellipse', {cx: px + k, cy: py - 10, rx: 2.4, ry: 1.3, fill: '#ff8fab'}, g));
+    el('path', {d: `M${px} ${py - 25} q-2 -7 4 -9 q0 6 -4 9`, fill: '#7ccf43'}, g); if (emo) tx('text', {x: px + 10, y: py - 18, 'font-size': 13}, g, emo); };
+
+  // ── 머리글 마을 전경 ──
+  window.gdHero = function(host){
+    const id = 'h' + (++uid), E = env(), VW = 1400, VH = 360, TW = 64, TH = 32, OX = 960, OY = 78, P = (x, y, z = 0) => [OX + (x - y) * TW / 2, OY + (x + y) * TH / 2 - z];
+    host.innerHTML = ''; const svg = el('svg', {viewBox: `0 0 ${VW} ${VH}`, preserveAspectRatio: 'xMaxYMid slice', role: 'img', 'aria-label': '비바샘 텃밭 마을'}, host), d = el('defs', {}, svg);
+    backdrop(svg, d, VW, VH, E, id);
+    const G = GRASS[E.season], g = el('g', {}, svg), N = 9;
+    const lg = (gid, s) => { const q = el('linearGradient', {id: gid, x1: 0, y1: 0, x2: 0, y2: 1}, d); s.forEach(([o, c, op]) => el('stop', {offset: o, 'stop-color': c, 'stop-opacity': op == null ? 1 : op}, q)); };
+    lg('t' + id, [[0, G[0]], [1, G[1]]]); lg('s' + id, [[0, '#a8703f'], [1, '#4e321d']]); lg('r' + id, [[0, '#e36a4f'], [1, '#b8442f']]); lg('gl' + id, [[0, '#e9fbff', .9], [1, '#a8e0f0', .6]]);
+    el('polygon', {points: pts([P(0, N), P(N, N), P(N, N, -46), P(N / 2, N + 1.2, -90), P(0, N, -46)]), fill: `url(#s${id})`}, g);
+    el('polygon', {points: pts([P(N, 0), P(N, N), P(N, N, -46), P(N + 1.2, N / 2, -80), P(N, 0, -46)]), fill: '#5c3a22'}, g);
+    el('polygon', {points: pts([P(0, 0), P(N, 0), P(N, N), P(0, N)]), fill: `url(#t${id})`}, g);
+    el('polygon', {points: pts([P(0, N), P(N, N), P(N, N, -8), P(0, N, -8)]), fill: G[2]}, g); el('polygon', {points: pts([P(N, 0), P(N, N), P(N, N, -8), P(N, 0, -8)]), fill: sh(G[2], .85)}, g);
+    el('polygon', {points: pts([P(4.2, 0), P(4.8, 0), P(4.8, N), P(4.2, N)]), fill: E.season === 'winter' ? '#dfe6ea' : '#e9d3a3'}, g);
+    const CR = ['🌽', '🍅', '🥕', '🎃', '🌻'];
+    [[.6, 5.2], [2.4, 5.2], [5.4, 5.2], [7.2, 5.2], [5.4, 7.2]].forEach(([x, y], i) => {
+      el('polygon', {points: pts([P(x, y, 4), P(x + 1.5, y, 4), P(x + 1.5, y + 1.5, 4), P(x, y + 1.5, 4)]), fill: '#7a4f2e'}, g);
+      el('polygon', {points: pts([P(x, y + 1.5, 4), P(x + 1.5, y + 1.5, 4), P(x + 1.5, y + 1.5, 0), P(x, y + 1.5, 0)]), fill: '#5a3a22'}, g);
+      for (let a = 0; a < 3; a++) for (let b = 0; b < 3; b++) { const [cx, cy] = P(x + .3 + a * .45, y + .3 + b * .45, 4);
+        el('path', {d: `M${cx} ${cy} q-5 -10 -2 -16 M${cx} ${cy} q5 -10 2 -16`, stroke: '#4c9a2a', 'stroke-width': 2.2, fill: 'none'}, g); tx('text', {x: cx, y: cy - 12, 'text-anchor': 'middle', 'font-size': 11}, g, CR[i]); }
+      const [sx, sy] = P(x + .1, y + 1.6, 0); el('rect', {x: sx - 1.5, y: sy - 26, width: 3, height: 26, fill: '#8a5a32'}, g); el('rect', {x: sx - 15, y: sy - 36, width: 30, height: 14, rx: 3, fill: '#d9a46b', stroke: '#8a5a32'}, g);
+    });
+    const box = (x, y, w, dd, hh, l, r) => { el('polygon', {points: pts([P(x, y + dd), P(x + w, y + dd), P(x + w, y + dd, hh), P(x, y + dd, hh)]), fill: l}, g); el('polygon', {points: pts([P(x + w, y), P(x + w, y + dd), P(x + w, y + dd, hh), P(x + w, y, hh)]), fill: r}, g); };
+    box(.8, 1, 2.2, 1.8, 46, '#fff4dc', '#ead2a8');
+    el('polygon', {points: pts([P(.6, .8, 46), P(3.2, .8, 46), P(3.2, 1.9, 82), P(.6, 1.9, 82)]), fill: '#c9533b'}, g);
+    el('polygon', {points: pts([P(.6, 1.9, 82), P(3.2, 1.9, 82), P(3.2, 3, 46), P(.6, 3, 46)]), fill: E.season === 'winter' ? '#f4f8fb' : `url(#r${id})`}, g);
+    el('polygon', {points: pts([P(3.2, .8, 46), P(3.2, 3, 46), P(3.2, 1.9, 82)]), fill: '#e8c290'}, g);
+    const [dx, dy] = P(1.7, 2.8, 0); el('rect', {x: dx - 8, y: dy - 26, width: 16, height: 24, rx: 6, fill: '#7a4a2c'}, g);
+    [[1.1, 2.8], [2.5, 2.8]].forEach(([a, b]) => { const [wx, wy] = P(a, b, 0); if (E.night) el('circle', {cx: wx, cy: wy - 30, r: 16, fill: '#ffd66b', opacity: .45, filter: `url(#gw${id})`}, g); el('rect', {x: wx - 7, y: wy - 36, width: 14, height: 12, rx: 2, fill: E.night ? '#ffd66b' : '#ffe9a8', stroke: '#c58a55'}, g); });
+    const [cx0, cy0] = P(2.6, 1.3, 82); el('rect', {x: cx0 - 5, y: cy0 - 14, width: 10, height: 16, fill: '#8a5a40'}, g); [0, 1, 2].forEach(k => el('circle', {cx: cx0 + 4 + k * 6, cy: cy0 - 22 - k * 10, r: 5 + k * 2, fill: '#fff', opacity: .7 - k * .2}, g));
+    box(5.6, 1, 2.4, 1.6, 34, `url(#gl${id})`, 'rgba(190,235,245,.6)');
+    { const a = P(5.6, 2.6, 34), b = P(8, 2.6, 34), c = P(8, 1.8, 62), e = P(5.6, 1.8, 62); el('polygon', {points: pts([a, b, c, e]), fill: 'rgba(220,248,255,.75)', stroke: '#9fd8e8'}, g); }
+    for (let k = 0; k <= 4; k++) { const [a1, b1] = P(5.6 + k * .6, 2.6, 0), [a2, b2] = P(5.6 + k * .6, 2.6, 34); el('line', {x1: a1, y1: b1, x2: a2, y2: b2, stroke: '#fff', 'stroke-width': 2}, g); }
+    [[6, 2.5], [6.8, 2.5], [7.5, 2.5]].forEach(([a, b]) => { const [px, py] = P(a, b, 6); tx('text', {x: px, y: py, 'font-size': 14, 'text-anchor': 'middle'}, g, '🌿'); });
+    const [mx, my] = P(8.7, 4.6, 0); el('polygon', {points: `${mx - 12},${my} ${mx + 12},${my} ${mx + 7},${my - 80} ${mx - 7},${my - 80}`, fill: '#f4e3c3', stroke: '#c9a874'}, g);
+    el('polygon', {points: `${mx - 10},${my - 80} ${mx + 10},${my - 80} ${mx},${my - 96}`, fill: '#b8442f'}, g);
+    const bl2 = el('g', {}, g); el('animateTransform', {attributeName: 'transform', type: 'rotate', from: `0 ${mx} ${my - 80}`, to: `360 ${mx} ${my - 80}`, dur: '14s', repeatCount: 'indefinite'}, bl2);
+    [0, 90, 180, 270].forEach(r => el('rect', {x: mx - 4, y: my - 126, width: 8, height: 44, rx: 2, fill: '#fff8ea', stroke: '#c9a874', transform: `rotate(${r} ${mx} ${my - 80})`}, bl2)); el('circle', {cx: mx, cy: my - 80, r: 5, fill: '#7a4a2c'}, g);
+    const [wx, wy] = P(4, 3.6, 0); el('ellipse', {cx: wx, cy: wy - 6, rx: 14, ry: 7, fill: '#9c9387'}, g); el('rect', {x: wx - 14, y: wy - 14, width: 28, height: 8, fill: '#b4ab9e'}, g); el('ellipse', {cx: wx, cy: wy - 14, rx: 14, ry: 7, fill: '#3d6ea8'}, g);
+    el('path', {d: `M${wx - 14} ${wy - 14} V${wy - 40} M${wx + 14} ${wy - 14} V${wy - 40}`, stroke: '#7a4a2c', 'stroke-width': 3}, g); el('polygon', {points: `${wx - 20},${wy - 38} ${wx + 20},${wy - 38} ${wx},${wy - 54}`, fill: '#c9533b'}, g);
+    const TC = {spring: ['#ff9ec4', '#ffc4dc'], summer: ['#5fae3a', '#83c95a'], autumn: ['#e07b2e', '#f2b84b'], winter: ['#e9f1f5', '#ffffff']}[E.season];
+    [[.3, 8.6], [8.8, .4], [3.9, 8.7], [8.7, 8.6], [.2, 3.9]].forEach(([a, b]) => { const [tx0, ty] = P(a, b, 0); el('ellipse', {cx: tx0 + 3, cy: ty, rx: 12, ry: 4, fill: '#2d4a14', opacity: .3}, g); el('rect', {x: tx0 - 3, y: ty - 22, width: 6, height: 22, fill: '#7a5a3a'}, g); el('circle', {cx: tx0, cy: ty - 34, r: 16, fill: TC[0]}, g); el('circle', {cx: tx0 - 5, cy: ty - 40, r: 8, fill: TC[1]}, g); });
+    if (E.night) [[4.5, 4.4], [4.5, 7.8]].forEach(([a, b]) => { const [lx, ly] = P(a, b, 0); el('rect', {x: lx - 1.5, y: ly - 30, width: 3, height: 30, fill: '#5a3a22'}, g); el('circle', {cx: lx, cy: ly - 32, r: 14, fill: '#ffd66b', opacity: .45, filter: `url(#gw${id})`}, g); el('circle', {cx: lx, cy: ly - 32, r: 4, fill: '#ffe9a8'}, g); });
+    [[4.5, 6.9, '#7ec8f5', '🚿'], [4.5, 2.4, '#ffc078', '🧺'], [7.2, 4.2, '#c3a6ff', '🌱']].forEach(([a, b, c, t]) => { const [px, py] = P(a, b, 0); mascot(g, px, py, c, E.night ? '' : t); });
+    overlay(svg, d, VW, VH, E, id);
+  };
+
+  // ── 탭 맨 위 이랑 장면 ──
+  const CROPS = ['corn', 'tomato', 'carrot', 'pumpkin', 'sunflower'], CROP_EMO = ['🌽', '🍅', '🥕', '🎃', '🌻'];
+  function field(host, o){
+    const id = 'f' + (++uid), E = env(), VW = 1400, VH = 300, TW = 58, TH = 22, SK = -16, OX = 520, OY = 196, P = (x, y, z = 0) => [OX + x * TW + y * SK, OY + y * TH - z];
+    const svg = el('svg', {viewBox: `0 0 ${VW} ${VH}`, preserveAspectRatio: 'xMaxYMid slice'}, host), d = el('defs', {}, svg);
+    backdrop(svg, d, VW, VH, E, id);
+    const W = 14, Dp = 2.6, g = el('g', {}, svg), G = GRASS[E.season];
+    const lg = (gid, s) => { const q = el('linearGradient', {id: gid, x1: 0, y1: 0, x2: 0, y2: 1}, d); s.forEach(([o, c]) => el('stop', {offset: o, 'stop-color': c}, q)); };
+    lg('so' + id, [[0, '#b97a4a'], [1, '#5b3a22']]); lg('bd' + id, [[0, '#8a5a3a'], [1, '#5e3b24']]);
+    const gf = el('filter', {id: 'gg' + id, x: '-60%', y: '-60%', width: '220%', height: '220%'}, d); el('feGaussianBlur', {stdDeviation: 4}, gf);
+    el('polygon', {points: pts([P(-.6, Dp + .6), P(W + .6, Dp + .6), P(W + .6, Dp + .6, -40), P(-.6, Dp + .6, -40)]), fill: `url(#so${id})`}, g);
+    el('polygon', {points: pts([P(W + .6, -.6), P(W + .6, Dp + .6), P(W + .6, Dp + .6, -40), P(W + .6, -.6, -40)]), fill: '#7a4a2c'}, g);
+    el('polygon', {points: pts([P(-.6, -.6), P(W + .6, -.6), P(W + .6, Dp + .6), P(-.6, Dp + .6)]), fill: G[0]}, g);
+    el('polygon', {points: pts([P(-.6, Dp + .6), P(W + .6, Dp + .6), P(W + .6, Dp + .6, -7), P(-.6, Dp + .6, -7)]), fill: G[1]}, g);
+    el('polygon', {points: pts([P(0, 0, 8), P(W, 0, 8), P(W, Dp, 8), P(0, Dp, 8)]), fill: `url(#bd${id})`}, g);
+    el('polygon', {points: pts([P(0, Dp, 8), P(W, Dp, 8), P(W, Dp, 0), P(0, Dp, 0)]), fill: '#5e3b24'}, g);
+    for (let x = 0; x <= W; x += .8) { const [a, b] = P(x, Dp + .25, 0); el('rect', {x: a - 1.8, y: b - 14, width: 3.6, height: 14, rx: 1, fill: '#c58a55'}, g); }
+    { const [a1, b1] = P(0, Dp + .25, 9), [a2, b2] = P(W, Dp + .25, 9); el('line', {x1: a1, y1: b1, x2: a2, y2: b2, stroke: '#d9a26b', 'stroke-width': 2.4}, g); }
+    const items = (o.items || []).slice(0, 17), n = items.length || 1, step = Math.min(.82, (W - .8) / n);
+    const order = items.map((it, i) => [it, i]).sort((a, b) => (a[1] % 2) - (b[1] % 2));
+    order.forEach(([it, i]) => { const row = i % 2, x = .55 + i * step, y = .65 + row * 1.25, [cx, cy] = P(x, y, 8);
+      const node = el('g', {class: 'gd-crop', tabindex: 0}, g); if (it.tip) tx('title', {}, node, it.tip);
+      el('ellipse', {cx: cx + 4, cy: cy + 2, rx: 13, ry: 4, fill: '#2d1b10', opacity: .3}, node);
+      plant(node, cx, cy, o.crop, it, gf.id);
+      if (it.label) { const w = Math.max(32, String(it.label).length * 12 + 14); el('rect', {x: cx - w / 2, y: cy + 6, width: w, height: 18, rx: 9, fill: it.top ? '#3a2a1c' : 'rgba(255,250,240,.92)', stroke: it.top ? '#3a2a1c' : '#e6d6b8'}, node);
+        tx('text', {x: cx, y: cy + 19, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 800, fill: it.top ? '#ffd166' : '#5b4632'}, node, it.label); }
+      if (it.badge) { const w = it.badge.length * 7 + 22; el('rect', {x: cx - w / 2, y: cy - (it.h || 60) - 34, width: w, height: 18, rx: 9, fill: '#c62828'}, node); tx('text', {x: cx, y: cy - (it.h || 60) - 21, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 900, fill: '#fff'}, node, it.badge); }
+      if (o.onPick) node.addEventListener('click', () => o.onPick(it));
+    });
+    { const [mx, my] = P(W + .5, Dp - .4, 0); mascot(g, mx, my, ['#7ec8f5', '#ffc078', '#c3a6ff', '#9be08a', '#ffd166'][o.gi % 5], E.night ? '' : '🚿'); }
+    overlay(svg, d, VW, VH, E, id);
+  }
+  function plant(g, cx, cy, crop, it, gid){
+    const H = it.h || 60, top = it.top;
+    if (top) el('circle', {cx, cy: cy - H, r: 14, fill: '#ffd166', opacity: .4, filter: `url(#${gid})`}, g);
+    if (crop === 'corn') { el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#4c9a2a', 'stroke-width': 4}, g);
+      for (let k = 1; k < 4; k++) { const yy = cy - H * k / 4; el('path', {d: `M${cx} ${yy} q${k % 2 ? -16 : 16} -8 ${k % 2 ? -22 : 22} -20`, stroke: '#6cc04a', 'stroke-width': 3.4, fill: 'none', 'stroke-linecap': 'round'}, g); }
+      el('ellipse', {cx: cx + 5, cy: cy - H * .62, rx: 6, ry: 13, fill: top ? '#ffca28' : '#ffd54f', stroke: '#e0a800', 'stroke-width': 1.2}, g); el('ellipse', {cx: cx + 3, cy: cy - H * .66, rx: 1.6, ry: 6, fill: '#fff', opacity: .6}, g);
+      el('path', {d: `M${cx} ${cy - H} l-4 -10 M${cx} ${cy - H} l4 -12 M${cx} ${cy - H} l0 -12`, stroke: '#c8a165', 'stroke-width': 1.8}, g); return; }
+    if (crop === 'sunflower') { el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#4c9a2a', 'stroke-width': 3.6}, g); [-1, 1].forEach(s => el('ellipse', {cx: cx + s * 10, cy: cy - H * .45, rx: 10, ry: 4.5, fill: '#5cb85c', transform: `rotate(${s * -24} ${cx + s * 10} ${cy - H * .45})`}, g));
+      for (let k = 0; k < 12; k++) el('ellipse', {cx, cy: cy - H - 10, rx: 4, ry: 9, fill: top ? '#ffc107' : '#ffd54f', transform: `rotate(${k * 30} ${cx} ${cy - H})`}, g); el('circle', {cx, cy: cy - H, r: 7, fill: '#6d4c2f'}, g); return; }
+    if (crop === 'carrot') { const r = Math.max(5, H / 10); el('path', {d: `M${cx - r} ${cy - 2} L${cx + r} ${cy - 2} L${cx} ${cy + r * 1.6}Z`, fill: '#f57c00'}, g); for (let k = -2; k <= 2; k++) el('path', {d: `M${cx} ${cy - 2} q${k * 5} ${-H * .5} ${k * 9} ${-H * .9}`, stroke: '#5cb85c', 'stroke-width': 3, fill: 'none', 'stroke-linecap': 'round'}, g); return; }
+    if (crop === 'pumpkin') { const r = 7 + H / 9; el('path', {d: `M${cx - 18} ${cy - 2} q-6 -14 4 -18 M${cx + 18} ${cy - 2} q6 -14 -4 -18`, stroke: '#5cb85c', 'stroke-width': 3, fill: 'none'}, g);
+      [-.55, 0, .55].forEach(k => el('ellipse', {cx: cx + k * r, cy: cy - r * .8, rx: r * .62, ry: r * .82, fill: top ? '#fb8c00' : '#ffa726', stroke: '#e65100', 'stroke-width': 1}, g)); el('rect', {x: cx - 2, y: cy - r * 1.75, width: 4, height: 7, fill: '#6d4c2f'}, g); return; }
+    // tomato
+    const r = it.r || 9, col = it.col || '#e53935'; el('path', {d: `M${cx} ${cy} V${cy - H}`, stroke: '#4c9a2a', 'stroke-width': 3}, g);
+    [[-1, -H * .35], [1, -H * .65]].forEach(([s, yy]) => el('ellipse', {cx: cx + s * 10, cy: cy + yy, rx: 11, ry: 5, fill: '#5cb85c', transform: `rotate(${s * -24} ${cx + s * 10} ${cy + yy})`}, g));
+    el('circle', {cx: cx + 3, cy: cy - H * .6, r, fill: col, stroke: sh(col, .75), 'stroke-width': 1.2}, g); el('circle', {cx: cx + 3 - r * .35, cy: cy - H * .6 - r * .35, r: r * .28, fill: '#fff', opacity: .55}, g);
+    el('path', {d: `M${cx + 3} ${cy - H * .6 - r} l-4 -3 m4 3 l4 -3 m-4 3 v-4`, stroke: '#2e7d32', 'stroke-width': 1.8}, g);
+  }
+  const CLOSE_KEY = 'gdField.closed.v1';
+  const closedSet = () => { try { return new Set(JSON.parse(localStorage.getItem(CLOSE_KEY) || '[]')); } catch (e) { return new Set(); } };
+  const setClosed = (t, on) => { const s = closedSet(); on ? s.add(t) : s.delete(t); try { localStorage.setItem(CLOSE_KEY, JSON.stringify([...s])); } catch (e) { /* 저장 불가 */ } };
+  // 탭별 장면 데이터
+  const won = v => { v = +v || 0; return v >= 1e12 ? (v / 1e12).toFixed(1) + '조' : v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v >= 1e4 ? Math.round(v / 1e4).toLocaleString() + '만' : v.toLocaleString(); };
+  function spec(t, C){
+    if (t === 'market' && typeof DATA !== 'undefined' && Array.isArray(DATA) && DATA.length) {
+      const R = [...DATA].filter(r => r && r.region).sort((a, b) => (b.total || 0) - (a.total || 0) || (b.activity || 0) - (a.activity || 0)), mx = R[0].total || 1, sum = R.reduce((s, r) => s + (r.total || 0), 0);
+      if (!sum) return null;  // 학교 수가 비면 기본 이랑으로
+      return {crop: 'corn', kicker: 'MARKET FIELD', title: '🗺️ 시장 분석 이랑', desc: '옥수수 한 그루가 한 시도예요. 키가 클수록 초·중등 학교가 많은 곳, 금빛 열매는 상위 3곳입니다.',
+        items: R.map((r, i) => ({label: r.region, h: 30 + (r.total || 0) / mx * 118, top: i < 3, tip: `${r.region} · 학교 ${(r.total || 0).toLocaleString()}교`})),
+        kpis: [['학교 수 1위', R[0].region, `${(R[0].total || 0).toLocaleString()}교`], ['17개 시도 합계', `${sum.toLocaleString()}교`, '초·중등'], ['강점권역', `${R.filter(r => r.strength).length}개 시도`, '굵은 테두리 지역']],
+        pills: [`학교 수 1위 ${R[0].region}`, `${R.length}개 시도`, '매일 갱신'], scrollTo: '#rankChart'};
+    }
+    if (t === 'g2bfull' && typeof G2B_FULL !== 'undefined' && G2B_FULL) {
+      const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10), dday = s => Math.round((Date.parse(String(s).slice(0, 10)) - Date.parse(today)) / 864e5);
+      const open = (G2B_FULL.detail || []).filter(r => r && r.마감일 && String(r.마감일).slice(0, 10) >= today).sort((a, b) => String(a.마감일).localeCompare(String(b.마감일)));
+      if (open.length) { const mxA = Math.max(...open.map(r => +r.예산 || 0), 1), near = open.filter(r => dday(r.마감일) <= 3).length;
+        return {crop: 'tomato', kicker: 'BID FIELD', title: '🏛️ 나라장터 종합 이랑', desc: '토마토 하나가 진행 중인 입찰이에요. 빨갈수록 마감이 가깝고, 클수록 금액이 커요.',
+          items: open.slice(0, 15).map(r => { const dd = dday(r.마감일); return {h: 46, r: 7 + Math.sqrt((+r.예산 || 0) / mxA) * 11, col: dd <= 3 ? '#e53935' : dd <= 7 ? '#fb8c00' : '#9ccc65', badge: dd <= 3 ? `⏰ D-${dd}` : '', tip: `${r.기관 || ''} · ${won(r.예산)} · 마감 ${String(r.마감일).slice(0, 10)}`}; }),
+          kpis: [['진행 중 입찰', `${open.length}건`, '마감 전'], ['마감 3일 이내', `${near}건`, near ? '⏰ 서둘러요' : '여유 있어요'], ['최대 금액', won(mxA), '진행 중 기준']],
+          pills: [`진행 중 ${open.length}건`, `D-3 이내 ${near}건`, '매일 갱신'], legend: ['🔴 D-3 이내', '🟠 D-7 이내', '🟢 여유', '⚪ 크기 = 금액']}; }
+      const RG = [...(G2B_FULL.region || [])].sort((a, b) => (b.건수 || 0) - (a.건수 || 0)); if (RG.length) { const mx = RG[0].건수 || 1;
+        return {crop: 'tomato', kicker: 'BID FIELD', title: '🏛️ 나라장터 종합 이랑', desc: '토마토 하나가 한 지역이에요. 클수록 교육 분야 공고가 많은 지역입니다.',
+          items: RG.slice(0, 15).map((r, i) => ({label: r.지역, h: 46, r: 6 + (r.건수 || 0) / mx * 12, col: i < 3 ? '#e53935' : '#fb8c00', top: i < 3, tip: `${r.지역} · ${(r.건수 || 0).toLocaleString()}건`})),
+          kpis: [['공고 1위 지역', RG[0].지역, `${(RG[0].건수 || 0).toLocaleString()}건`], ['전체 공고', `${RG.reduce((s, r) => s + (r.건수 || 0), 0).toLocaleString()}건`, '교육 분야'], ['지역 수', `${RG.length}곳`, '']],
+          pills: [`공고 1위 ${RG[0].지역}`, '매일 갱신']}; }
+    }
+    return null;
+  }
+  function basicSpec(t, C){  // 기본 이랑: 그룹 작물 + 신선도
+    const f = C.fresh(t), st = !f ? '자라는 중' : f.state === '정상' ? '잘 자람' : f.state === '중단' ? '돌봄 필요' : '조금 늦음';
+    let seed = [...t].reduce((a, c) => a + c.charCodeAt(0), 0); const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    return {crop: CROPS[C.gi % 5], kicker: 'VIVASAM GARDEN', title: `${C.icon || '🌱'} ${C.name} 이랑`, desc: `${C.gname} 밭의 이랑이에요. 아래에서 최신 자료를 확인하세요.`,
+      items: Array.from({length: 13}, (_, i) => ({h: (f && f.state === '중단') ? 22 + rnd() * 20 : 40 + rnd() * 70, top: i === 4})), pills: [`${C.gname} 밭`, `상태: ${st}`, '매일 갱신'], basic: true};
+  }
+  window.gdField = function(panel, t, C){
+    if (!panel) return; const old = panel.querySelector(':scope > .gd-field'); if (old && old.dataset.t === t && old.dataset.c === String(closedSet().has(t))) return; if (old) old.remove();
+    let S; try { S = spec(t, C) || basicSpec(t, C); } catch (e) { console.warn('gdField', e); return; }
+    const wrap = document.createElement('div'); wrap.className = 'gd-field'; wrap.dataset.t = t; const closed = closedSet().has(t); wrap.dataset.c = String(closed);
+    const pills = (S.pills || []).map(p => `<span>${h(p)}</span>`).join('');
+    if (closed) {
+      wrap.innerHTML = `<div class="gd-closed"><div class="l"><span class="mini">${[9, 16, 12, 21, 7, 14].map(v => `<i style="height:${v}px"></i>`).join('')}</span>${h(CROP_EMO[C.gi % 5])} ${h(S.title.replace(/^\S+\s/, ''))} <em>· 장면 접힘</em></div><div class="pills">${pills}</div><button type="button" class="gd-btn dark" data-gd="open">🌱 장면 펼치기 ▾</button></div>`;
+    } else {
+      wrap.innerHTML = `<div class="gd-scene"><div class="gd-top"><div><div class="gd-crumb"><button type="button" class="gd-btn" data-gd="home">← 🌱 마을로</button><span class="gd-btn ghost">${h(CROP_EMO[C.gi % 5])} ${h(C.gname)} 밭 › ${h(C.name)}</span></div>
+        <div class="gd-ttl"><small>${h(S.kicker || 'VIVASAM GARDEN')}</small><b>${h(S.title)}</b><p>${h(S.desc)}</p></div></div>
+        <div class="gd-crumb">${S.legend ? `<div class="gd-legend">${S.legend.map(x => `<span>${h(x)}</span>`).join('')}</div>` : ''}<button type="button" class="gd-btn" data-gd="close" title="이 탭의 장면을 접습니다. 다시 펼치기 전까지 접힌 채로 둡니다">✕ 장면 닫기</button></div></div></div>
+        ${S.kpis ? `<div class="gd-kpis">${S.kpis.map(([a, b, c]) => `<div class="gd-k"><i>${h(a)}</i><b>${h(b)}</b><em>${h(c)}</em></div>`).join('')}</div>` : `<div class="gd-pills">${pills}</div>`}`;
+      field(wrap.querySelector('.gd-scene'), {items: S.items, crop: S.crop, gi: C.gi, onPick: S.scrollTo ? () => { const x = panel.querySelector(S.scrollTo); if (x) x.scrollIntoView({behavior: 'smooth', block: 'center'}); } : null});
+    }
+    panel.prepend(wrap);
+    wrap.addEventListener('click', e => { const b = e.target.closest('[data-gd]'); if (!b) return;
+      if (b.dataset.gd === 'close') { setClosed(t, true); window.gdField(panel, t, C); }
+      else if (b.dataset.gd === 'open') { setClosed(t, false); window.gdField(panel, t, C); }
+      else if (b.dataset.gd === 'home' && C.home) C.home(); });
+  };
+})();
+
 (function renderViews(){
   const nav = document.querySelector('nav.tabnav'); if (!nav || typeof activateTab !== 'function') { document.documentElement.classList.remove('vs-boot'); return; }
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const DEF = 'group';  // 처음 보기 = 그룹(비상 디자인). 초기화도 그룹으로
+  const DEF = 'farm';  // 처음 보기 = 🌱 텃밭(사용자 지시 2026-11-20). 그룹·카드·책장 = 비상 디자인, 기본 = 기존 스타일
   const KEY = 'viewMode.v1', load = () => { try { return localStorage.getItem(KEY) || DEF; } catch (e) { return DEF; } };
   const save = v => { try { v === DEF ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, v); } catch (e) { /* 저장 불가 환경 */ } };
   const GROUPS = [
@@ -11686,12 +11980,12 @@ window.farm3d = function (host, C) {
   const FC = {'정상': ['#10b98133', '#34d399', '최신'], '지연': ['#f59e0b33', '#fbbf24', '지연'], '대체본': ['#f59e0b33', '#fbbf24', '대체본'], '중단': ['#ef444433', '#f87171', '갱신 필요'], '없음': ['#94a3b833', '#94a3b8', '없음']};
   const PAL = {'#4f8cff': ['#2f5fb3', '#3b74d6', '#4f8cff', '#6aa0ff'], '#f59e0b': ['#b45309', '#d97706', '#f59e0b', '#c2710c', '#e08a1e'], '#10b981': ['#047857', '#0f766e', '#10b981', '#14b8a6', '#059669'], '#ef4444': ['#b91c1c', '#dc2626', '#ef4444'], '#8b5cf6': ['#6d28d9', '#7c3aed', '#8b5cf6', '#a78bfa']};
   const bar = document.createElement('div'); bar.id = 'viewBar';
-  bar.innerHTML = `<span class="vlab">보기</span><div class="vseg" role="group" aria-label="목차 보기 방식">${[['group', '그룹'], ['card', '카드'], ['shelf', '책장'], ['basic', '기본']].map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join('')}</div><button type="button" class="vreset" title="처음 상태(그룹 보기)로 되돌리고 기억도 지웁니다">↺ 초기화</button>`;
+  bar.innerHTML = `<span class="vlab">보기</span><div class="vseg" role="group" aria-label="목차 보기 방식">${[['farm', '🌱 텃밭'], ['group', '그룹'], ['card', '카드'], ['shelf', '책장'], ['basic', '기본']].map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join('')}</div><button type="button" class="vreset" title="처음 상태(🌱 텃밭 보기)로 되돌리고 기억도 지웁니다">↺ 초기화</button>`;
   const box = document.createElement('div'); box.id = 'viewNav';
   nav.before(bar); nav.after(box);
   const LG = __BRAND_LOGOS_JSON__ || {};
   const brand = document.createElement('div'); brand.id = 'vsBrand';
-  brand.innerHTML = `${LG.visang ? `<img class="v" src="${LG.visang}" alt="visang">` : '<b style="color:#00B3E3;font-size:22px;">visang</b>'}<span class="bar"></span>${LG.vivasam ? `<img class="s" src="${LG.vivasam}" alt="비바샘 원격교육연수원">` : '<b>비바샘 원격교육연수원</b>'}<span class="t">비상 디자인 보기 · '기본'을 누르면 기존 화면, '↺ 초기화'는 그룹 보기로</span>`;
+  brand.innerHTML = `${LG.visang ? `<img class="v" src="${LG.visang}" alt="visang">` : '<b style="color:#00B3E3;font-size:22px;">visang</b>'}<span class="bar"></span>${LG.vivasam ? `<img class="s" src="${LG.vivasam}" alt="비바샘 원격교육연수원">` : '<b>비바샘 원격교육연수원</b>'}<span class="t">보기를 바꿀 수 있어요 · '↺ 초기화'는 🌱 텃밭으로</span>`;
   const hdr = document.querySelector('header.top'); (hdr || bar).before(brand);
   let mode = load(), gsel = null, folded = false;
   let home = !(typeof parseHashState === 'function' && parseHashState().tab);  // 처음 열면 앱 홈(주소에 탭이 있으면 그 탭)
@@ -11718,18 +12012,34 @@ window.farm3d = function (host, C) {
   // 탭 줄 바깥 링크(결과보고·강사풀 등): data-after 탭 바로 뒤에 붙인다(주소가 설정된 것만)
   const EXT = (x, cls) => [...nav.querySelectorAll('a.tablink[data-after]')].filter(a => a.dataset.after === x && !a.hidden && /^https:/.test(a.href))
     .map(a => `<a class="${cls}" href="${h(a.href)}" target="_blank" rel="noopener noreferrer" title="${h(a.title)}">${cls.includes('cph') ? '<span class="ic">' + ({opsPlanLink: '📋', reportLink: '📝', poolLink: '👥'}[a.id] || '🔗') + '</span>' : ''}${h(a.textContent)}</a>`).join('');
+  // 🌱 텃밭: 머리글 마을 전경 + 지금 탭 맨 위 이랑 장면(다른 보기로 바꾸면 걷어 낸다)
+  let gdHeroOn = false;
+  function gdSync(on, t){
+    const hd = document.querySelector('header.top');
+    if (hd) { let hv = hd.querySelector(':scope > .gd-hero'), vl = hd.querySelector(':scope > .gd-veil');
+      if (on && !gdHeroOn) { if (!hv) { hv = document.createElement('div'); hv.className = 'gd-hero'; hv.setAttribute('aria-hidden', 'true'); hd.prepend(hv); vl = document.createElement('div'); vl.className = 'gd-veil'; hv.after(vl); }
+        try { window.gdHero(hv); gdHeroOn = true; } catch (e) { console.warn('gdHero', e); } }
+      if (!on && hv) { hv.remove(); if (vl) vl.remove(); gdHeroOn = false; } }
+    document.querySelectorAll('.gd-field').forEach(f => { if (!on || home || f.dataset.t !== t) f.remove(); });
+    if (!on || home || !t) return;
+    const gi2 = GROUPS.findIndex(G => G[2].includes(t));
+    try { window.gdField(document.getElementById('panel-' + t), t, {name: name(t), icon: ICON[t], gi: gi2 < 0 ? 0 : gi2, gname: gi2 < 0 ? '' : GROUPS[gi2][0], fresh, home: () => { home = true; gsel = null; draw(); window.scrollTo({top: 0, behavior: 'smooth'}); }}); } catch (e) { console.warn('gdField', e); }
+  }
   function draw(){
     const t = cur(), gi = GROUPS.findIndex(g => g[2].includes(t)), g = gsel != null ? gsel : (gi < 0 ? 0 : gi);
     bar.querySelectorAll('.vseg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === mode)));
     bar.querySelector('.vreset').hidden = mode === DEF;
     nav.style.display = mode === 'basic' ? '' : 'none';  // .tabnav{display:flex} 가 hidden 속성을 덮으므로 직접
     document.documentElement.classList.toggle('vs-skin', mode !== 'basic');  // 그룹·카드·책장 = 비상 디자인, 기본 = 기존 스타일
+    const GD = mode === 'farm', isG = GD || mode === 'group';  // 텃밭 = 그룹 보기 구조 + 텃밭 색·마을 머리글·이랑 장면
+    document.documentElement.classList.toggle('gd-skin', GD);
+    gdSync(GD, t);
     const HI = {group: LG.hero1, card: LG.hero2, shelf: LG.hero3 || LG.hero1}[mode];  // 보기마다 다른 사옥 공간 사진
     if (HI) document.documentElement.style.setProperty('--vs-hero', `url("${HI}")`); else document.documentElement.style.removeProperty('--vs-hero');
     if (mode === 'basic') { box.innerHTML = ''; return; }
-    document.documentElement.classList.toggle('vs-home', mode === 'group' && home);
-    if (mode === 'group') {
-      box.innerHTML = `<div class="vgroups"><button type="button" data-home="1" style="--gc:#0f6cbd" aria-pressed="${home}">🏠 앱 홈<small>타일로 한눈에</small></button>${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${!home && i === g}">${i + 1}. ${h(G[0])}<small>${G[2].length}개 탭</small></button>`).join('')}</div>
+    document.documentElement.classList.toggle('vs-home', isG && home);
+    if (isG) {
+      box.innerHTML = `<div class="vgroups"><button type="button" data-home="1" style="--gc:#0f6cbd" aria-pressed="${home}">${GD ? '🏡 마을 홈' : '🏠 앱 홈'}<small>${GD ? '텃밭 마을 한눈에' : '타일로 한눈에'}</small>${GD ? '<span class="gd-crop">🏡</span>' : ''}</button>${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${!home && i === g}">${GD ? h(G[0]) + ' 밭' : `${i + 1}. ${h(G[0])}`}<small>${GD ? `${h(name(G[2][0] || ''))}${G[2].length > 1 ? ` 외 ${G[2].length - 1}` : ''}` : `${G[2].length}개 탭`}</small>${GD ? `<span class="gd-crop">${['🌽', '🍅', '🥕', '🎃', '🌻'][i % 5]}</span>` : ''}</button>`).join('')}</div>
         ${home ? (homeView === 'farm' ? farmHome() : tileHome(t)) : `<div class="vsub">${GROUPS[g][2].map(x => `<button type="button" data-t="${x}" ${x === t ? 'aria-current="page"' : ''}>${h(name(x))}</button>${EXT(x, 'vextl')}`).join('')}</div>`}`;
       const hb = box.querySelector('[data-home]'); if (hb) hb.addEventListener('click', () => { home = true; gsel = null; draw(); });
       const fs = box.querySelector('#farmStage'); if (fs) { try {
@@ -11753,7 +12063,7 @@ window.farm3d = function (host, C) {
         <div class="vmini" style="border:0;"><button type="button" class="vfold">책장 접기</button> 책을 누르면 그 화면이 펼쳐집니다</div>`;
     }
     box.querySelectorAll('[data-g]').forEach(b => b.addEventListener('click', () => { home = false; gsel = +b.dataset.g; draw(); }));
-    box.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => { home = false; gsel = null; if (mode !== 'group') folded = true; go(b.dataset.t); }));
+    box.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => { home = false; gsel = null; if (!isG) folded = true; go(b.dataset.t); }));
     const o = box.querySelector('.vopen'); if (o) o.addEventListener('click', () => { folded = false; draw(); });
     const fo = box.querySelector('.vfold'); if (fo) fo.addEventListener('click', () => { folded = true; draw(); });
   }
