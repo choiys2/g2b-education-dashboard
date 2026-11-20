@@ -1,5 +1,5 @@
 {
- "at": "2026-11-19 11:51",
+ "at": "2026-11-20 11:37",
  "places": 262,
  "by_region": {
   "서울": 26,
@@ -20,7 +20,5 @@
   "경남": 17,
   "제주": 17
  },
- "errors": [
-  "광주 컨벤션: <urlopen error _ssl.c:994: The handshake operation timed out>"
- ]
+ "errors": []
 }
