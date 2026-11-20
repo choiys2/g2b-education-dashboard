@@ -8,6 +8,7 @@
 """
 import html
 import json
+import os
 from pathlib import Path
 import re
 from urllib.parse import urlsplit
@@ -119,7 +120,7 @@ def system_status():
     except Exception as e:  # noqa: BLE001
         print(f"[경고] 관리센터 신선도 실패: {type(e).__name__}")
         return None
-    watch = {}
+    watch, full = {}, []
     try:
         W = [json.loads(l) for l in Path("history/pipeline_watch.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
         full = [r for r in W if not r.get("quick")]
@@ -139,9 +140,36 @@ def system_status():
         pass
     BLD = [("news", r"레이더|브리핑|조간"), ("g2b", r"나라장터|수의계약|낙찰|KERIS|AIEP|학교단위"), ("mkt", r"재정|학교알리미|NEIS|경기데이터|학원"),
            ("comp", r"카탈로그|선정 여론"), ("tch", r"교사|크리에이터|협력 후보"), ("biz", r"영업|운영 시트|일일 지표")]
+    hist = []
+    try:  # 최근 7회 전체 수집 결과(정상/실패)
+        byd = {}
+        for r in full:
+            d = str(r.get("at", ""))[:10]
+            byd[d] = byd.get(d, True) and r.get("status") == "ok"
+        hist = [{"d": d[5:].replace("-", "/"), "ok": ok} for d, ok in sorted(byd.items())[-7:]]
+    except Exception:  # noqa: BLE001
+        pass
+    meter = {}
+    try:  # 외부 수집 월 사용량(무료 한도 보호용 상한 대비)
+        u = json.loads(Path("history/firecrawl_usage.json").read_text(encoding="utf-8"))
+        from datetime import datetime, timedelta, timezone
+        ym = (datetime.now(timezone.utc) + timedelta(hours=9)).strftime("%Y-%m")
+        meter = {"used": int(u.get(ym, 0)), "cap": int(os.environ.get("FIRECRAWL_MONTH_CAP", "500") or 500)}
+    except Exception:  # noqa: BLE001
+        pass
+    mix = {}
+    try:  # B2G 비중: 2026 실적 기준(prev) → 2027 계획, 목표 40%
+        import plan2027
+        P = plan2027.load_plan()
+        if P:
+            c = plan2027.chan(P)
+            sh = lambda k: round(sum(c[x][k] for x in plan2027.B2G_KEYS) / max(1, sum(v[k] for v in c.values())) * 100)
+            mix = {"prev": sh("prev"), "plan": sh("plan"), "target": 40}
+    except Exception:  # noqa: BLE001
+        pass
     rows = [{**{k: r.get(k) for k in ("name", "tab", "at", "age", "cad", "state")},
              "b": next((b for b, rx in BLD if re.search(rx, r.get("name") or "")), "mkt")} for r in F.get("rows") or []]
-    return {"fresh": {"rows": rows, "checked": F.get("checked")}, "watch": watch, "wx": wx}
+    return {"fresh": {"rows": rows, "checked": F.get("checked")}, "watch": watch, "wx": wx, "hist": hist, "meter": meter, "mix": mix}
 
 
 def build(labels, live=None, apps=None, status=None):

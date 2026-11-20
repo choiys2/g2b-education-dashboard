@@ -698,6 +698,12 @@ svg { max-width: 100%; }
   #freshPanel{position:fixed;top:64px;right:16px;z-index:60;width:min(560px,calc(100vw - 32px));max-height:70vh;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.25);padding:12px 14px;}
 /* 관리 앱 홈: 시스템 관리센터 */
 .bm[hidden],#admTiles[hidden]{display:none !important;}
+.bm-boardwrap{position:absolute;left:12px;bottom:46px;}.bm-board{background:rgba(11,17,32,.9);border:1.5px solid #a3e635;border-radius:10px;padding:7px 10px;width:230px;color:#e2e8f0;font-size:11.5px;}
+.bm-board b{display:block;color:#a3e635;font-size:12px;margin-bottom:4px;}.bm-board div{display:flex;align-items:center;gap:6px;margin:3px 0;}.bm-board span{width:62px;color:#94a3b8;white-space:nowrap;}
+.bm-board em{position:relative;flex:1;height:8px;border-radius:4px;background:#1e293b;}.bm-board em i{display:block;height:100%;border-radius:4px;}.bm-board u{position:absolute;top:-3px;width:2px;height:14px;background:#a3e635;}
+.bm-board strong{width:34px;text-align:right;}.bm-board small{color:#94a3b8;}
+.bm-row2{margin-top:6px;}.bm-chips i.r{background:#ef4444;}.bm-row2 i{width:7px;height:12px;margin:0 1px;vertical-align:-2px;}
+.bm-meter{display:inline-block;width:56px;height:7px;border-radius:4px;background:#334155;margin-left:6px;vertical-align:1px;overflow:hidden;}.bm-meter b{display:block;height:100%;}
 .bm{position:relative;border-radius:14px;overflow:hidden;background:#070b16;font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;}
 .bm-svg{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none;}
 .bm-tt{font-size:12px;font-weight:800;fill:#f8fafc;pointer-events:none;}
@@ -742,7 +748,7 @@ svg { max-width: 100%; }
 .bm-snow circle{animation:bmSnow 6s linear infinite;}@keyframes bmSnow{from{transform:translate(0,-30px);}to{transform:translate(18px,60px);}}
 @media (max-width:760px){.bm{display:flex;flex-direction:column;padding-bottom:8px;}.bm-hud{position:static;order:-2;padding:12px 12px 6px;}.bm-hud>b{font-size:17px;}.bm-chips span{font-size:11px;padding:2px 7px;}
 .bm-flow{position:static;transform:none;order:-1;justify-content:center;padding:4px 0;}.bm-flow span{font-size:11.5px;padding:3px 10px;white-space:nowrap;}
-.bm-side{display:none;}.bm-log{position:static;margin:6px 10px 0;max-width:none;}.bm-ban b{font-size:24px;}.bm-ban strong{font-size:38px;}.bm-ban small{font-size:13px;}
+.bm-side{display:none;}.bm-boardwrap{position:static;margin:6px 10px 0;}.bm-board{width:auto;}.bm-log{position:static;margin:6px 10px 0;max-width:none;}.bm-ban b{font-size:24px;}.bm-ban strong{font-size:38px;}.bm-ban small{font-size:13px;}
 .bm-pick{position:static;transform:none;margin:6px 10px 0;max-width:none;flex-wrap:wrap;}}
 @media (prefers-reduced-motion: reduce){.bm-blink,.bm-beacon,.bm-smoke,.bm-wave,.bm-tw,.bm-scr,.bm-pond,.bm-bob,.bm-spark,.bm-cloud,.bm-rain line,.bm-snow circle{animation:none;}}
 </style>
@@ -6410,14 +6416,17 @@ window.bmInit = function (host, D) {
     for (let i = 0; i < (rain ? 110 : 80); i++) { const x = rnd() * VW, y = rnd() * VH, d = (rnd() * 1.2).toFixed(2);
       if (rain) el('line', {x1: x, y1: y, x2: x - 6, y2: y + 18, stroke: '#cbd5e1', 'stroke-width': 1.2, opacity: .55, style: `animation-delay:-${d}s`}, pg);
       else el('circle', {cx: x, cy: y, r: 1.5 + rnd() * 1.5, fill: '#fff', opacity: .85, style: `animation-delay:-${(rnd() * 6).toFixed(2)}s`}, pg); } }
+  // ── 전광판: B2G 비중(실적 → 계획 → 목표) - 장면을 가리지 않게 화면 왼쪽 아래 패널로
+  const MX = D.mix || {}, board = MX.plan != null ? `<div class="bm-board" title="B2G(교육청 단체+위탁) 매출 비중"><b>📊 B2G 비중 · 2027 목표 ${MX.target}%</b>${[['2026', MX.prev, '#94a3b8'], ['2027 계획', MX.plan, '#4f8cff']].map(([k, v, c]) => `<div><span>${k}</span><em><i style="width:${Math.min(100, v)}%;background:${c}"></i><u style="left:${MX.target}%"></u></em><strong>${v}%</strong></div>`).join('')}<small>목표까지 ${Math.max(0, MX.plan - MX.target)}%p</small></div>` : '';
   // ── HUD·흐름·목록·로그·배너
   const ov = (cls, html) => { const d = document.createElement('div'); d.className = cls; if (html != null) d.innerHTML = html; host.appendChild(d); return d; };
-  ov('bm-hud', `<small>VIVASAM FACILITY CONTROL</small><b>🏢 시스템 관리센터</b><div class="bm-chips"><span id="bmClock"></span><span><i class="g"></i>최신 ${okN}</span><span><i class="o"></i>지연 ${badN}</span><span><i class="b"></i>점검 ${ckOk}/${checks.length}</span><span>⏱ 전체 수집 ${h(lastRun)}</span>${wx.cond ? `<span>${h(wx.icon || '')} ${h(wx.city || '서울')} ${h(cond)}${wx.tmax != null ? ` ${h(wx.tmax)}°/${h(wx.tmin)}°` : ''}</span>` : ''}<span>${night ? '🌙 밤' : dusk ? '🌇 해질녘' : '☀️ 낮'}</span></div>`);
+  ov('bm-hud', `<small>VIVASAM FACILITY CONTROL</small><b>🏢 시스템 관리센터</b><div class="bm-chips"><span id="bmClock"></span><span><i class="g"></i>최신 ${okN}</span><span><i class="o"></i>지연 ${badN}</span><span><i class="b"></i>점검 ${ckOk}/${checks.length}</span><span>⏱ 전체 수집 ${h(lastRun)}</span>${wx.cond ? `<span>${h(wx.icon || '')} ${h(wx.city || '서울')} ${h(cond)}${wx.tmax != null ? ` ${h(wx.tmax)}°/${h(wx.tmin)}°` : ''}</span>` : ''}<span>${night ? '🌙 밤' : dusk ? '🌇 해질녘' : '☀️ 낮'}</span></div>${(D.hist || []).length || (D.meter || {}).cap ? `<div class="bm-chips bm-row2">${(D.hist || []).length ? `<span title="최근 전체 수집 결과(날짜별)">최근 ${D.hist.length}일 ${D.hist.map(x => `<i class="${x.ok ? 'g' : 'r'}" title="${h(x.d)} ${x.ok ? '정상' : '장애'}"></i>`).join('')}</span>` : ''}${(D.meter || {}).cap ? (() => { const m = D.meter, r = Math.min(1, m.used / m.cap); return `<span title="외부 수집 월 사용량 / 자동 상한">🔥 외부 수집 ${m.used}/${m.cap} <em class="bm-meter"><b style="width:${(r * 100).toFixed(0)}%;background:${r >= .8 ? '#ef4444' : r >= .5 ? '#f59e0b' : '#4ade80'}"></b></em></span>`; })() : ''}</div>` : ''}`);
   const stage = badN ? 2 : 3;
   ov('bm-flow', ['경보', '발생', '대응', '해결'].map((s, i) => `<span class="${i <= stage ? 'on s' + i : ''}">${s}</span>`).join('<em>▶</em>'));
   const side = ov('bm-side');
   side.innerHTML = `<div class="bm-side-h"><b>시설 ${rows.length}</b><span>${okN} 정상 · ${badN} 지연</span></div>` + B.map(b => `<button type="button" data-b="${b.id}"><i>${b.ic}</i><span>${h(b.nm)}<small>${b.src.length}개 층 · ${b.bad.length ? h(b.bad.map(r => r.name).join(', ')) : '모두 최신'}</small></span><em class="${b.bad.length ? 'w' : 'ok'}">${b.bad.length ? '점검중' : '정상'}</em></button>`).join('');
   const LOG = [`${lastRun} 전체 수집 완료 · 실패 ${(W.fail || []).length}건`, ...checks.map(c => `점검 ${c.n} · ${c.ok ? '통과' : '실패'}${c.m ? ' (' + c.m + ')' : ''}`), ...rows.filter(r => r.state !== '정상').map(r => `⚠ ${r.name} ${r.age}일 지연 → 점검반 출동`)];
+  if (board) ov('bm-boardwrap', board);
   const log = ov('bm-log'); let li = 0; const showLog = () => { log.textContent = '▸ ' + LOG[li++ % LOG.length]; }; showLog();
   const ban = ov('bm-ban');
   const BAN = [badN ? {k: 'warn', s: 'DELAY DETECTED', t: '수집 지연', n: `${badN}곳`} : null, {k: 'ok', s: 'MISSION CLEAR', t: '배포·수집', n: (W.fail || []).length ? '확인' : '장애 0'}].filter(Boolean);
@@ -10597,7 +10606,11 @@ window.__renderPdfx = function(root, P){
 .cph-iso .cph-top h3{color:#f8fafc;}.cph-iso .cph-top p{color:#94a3b8;}.iso-kicker{display:block;font-size:10.5px;letter-spacing:2px;color:#a3e635;font-weight:800;margin-bottom:2px;}
 .cph-iso .cph-view{background:#111827;border-color:#334155;}.cph-iso .cph-view button{color:#cbd5e1;}.cph-iso .cph-view button[aria-pressed="true"]{background:#a3e635;color:#0b1120;}
 .iso-stage{position:relative;border-radius:12px;overflow:hidden;}.iso-svg{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none;}
-.iso-lab.on rect{stroke:#fde047;stroke-width:3;}
+.iso-lab.on rect{stroke:#fde047;stroke-width:3;}.iso-pick[hidden]{display:none;}
+.iso-zoom{position:absolute;right:10px;bottom:10px;display:flex;align-items:center;gap:4px;background:rgba(15,23,42,.86);border:1px solid #334155;border-radius:10px;padding:4px;}
+.iso-zoom button{all:unset;cursor:pointer;width:28px;height:28px;text-align:center;line-height:28px;border-radius:7px;font-weight:900;font-size:15px;color:#f1f5f9;background:#1e293b;}.iso-zoom button:hover{background:#334155;}
+.iso-zoom span{min-width:40px;text-align:center;font-size:11.5px;font-weight:800;color:#a3e635;}
+
 .iso-pick{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(15,23,42,.94);border:1px solid #fde047;border-radius:10px;padding:6px 8px 6px 12px;color:#f8fafc;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,.35);}
 .iso-pick button{all:unset;cursor:pointer;border-radius:7px;padding:4px 10px;font-weight:800;font-size:12.5px;background:#a3e635;color:#0b1120;}.iso-pick button[data-x]{background:#334155;color:#e2e8f0;padding:4px 8px;}
 .iso-badge{font-size:11.5px;font-weight:800;fill:#f8fafc;}.iso-tag{font-size:10.5px;font-weight:700;fill:#f8fafc;pointer-events:none;}
@@ -11456,6 +11469,17 @@ window.renderBranchScore = function(tab){
       pick.hidden = !tb; if (tb) pick.innerHTML = `<span>${ICON[tb] || '📄'} <b>${h(name(tb))}</b></span><button type="button" data-open>열기 ▶</button><button type="button" data-x aria-label="닫기">✕</button>`; };
     svg.addEventListener('click', e => { const d = e.target.closest('[data-desk]'); choose(d && d.dataset.desk !== sel ? d.dataset.desk : null); });
     pick.addEventListener('click', e => { if (e.target.closest('[data-open]') && sel) { home = false; gsel = null; go(sel); } else if (e.target.closest('[data-x]')) choose(null); });
+    // 확대: 틀 안에서 가운데 기준으로만(끌기 이동 없음 → 실수로 화면이 밀리지 않음). 버튼·Ctrl/⌘+휠·두 손가락
+    let zk = 1; const ZMIN = 1, ZMAX = 2.6;
+    const zoomTo = k => { zk = Math.max(ZMIN, Math.min(ZMAX, k)); const w = VW / zk, hh = VH / zk; svg.setAttribute('viewBox', `${((VW - w) / 2).toFixed(1)} ${((VH - hh) / 2).toFixed(1)} ${w.toFixed(1)} ${hh.toFixed(1)}`); zl.textContent = Math.round(zk * 100) + '%'; };
+    const zb = document.createElement('div'); zb.className = 'iso-zoom'; zb.innerHTML = '<button type="button" data-z="1" aria-label="확대">＋</button><span></span><button type="button" data-z="-1" aria-label="축소">－</button><button type="button" data-z="0" aria-label="원래 크기">⟲</button>'; host.appendChild(zb);
+    const zl = zb.querySelector('span'); zl.textContent = '100%';
+    zb.addEventListener('click', e => { const b = e.target.closest('[data-z]'); if (!b) return; const d = +b.dataset.z; zoomTo(d ? zk * (d > 0 ? 1.25 : .8) : 1); });
+    svg.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); zoomTo(zk * (e.deltaY > 0 ? .9 : 1.1)); }, {passive: false});
+    let pinch = null; const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    svg.addEventListener('touchstart', e => { if (e.touches.length === 2) pinch = [dist(e.touches), zk]; }, {passive: true});
+    svg.addEventListener('touchmove', e => { if (pinch && e.touches.length === 2) { e.preventDefault(); zoomTo(pinch[1] * dist(e.touches) / pinch[0]); } }, {passive: false});
+    svg.addEventListener('touchend', () => { pinch = null; });
     if (still) return;
     let frame = 0;
     const tick = () => { if (!host.isConnected || !host.offsetParent) return;  // 화면에서 사라지면 멈춤
@@ -11470,7 +11494,7 @@ window.renderBranchScore = function(tab){
   }
   const homeBar = () => `<div class="cph-view" role="group" aria-label="앱 홈 보기"><button type="button" data-hv="3d" aria-pressed="${homeView === '3d'}">🏝️ 3D 오피스</button><button type="button" data-hv="tile" aria-pressed="${homeView !== '3d'}">🟦 타일</button></div>`;
   const iso3dHome = () => { const F2 = (window.__FRESH && window.__FRESH.rows) || []; const ok = F2.filter(r => r.state === '정상').length, chk = F2.filter(r => r.state !== '정상' && r.state !== '없음').length;
-    return `<div class="cph cph-iso"><div class="cph-top"><div><small class="iso-kicker">VIVASAM INTELLIGENCE OFFICE</small><h3>🏝️ 비바샘 인텔리전스 오피스</h3><p>이름표를 눌러 고른 뒤 '열기 ▶'로 이동 · 화면은 가운데 고정</p></div>${homeBar()}</div>`
+    return `<div class="cph cph-iso"><div class="cph-top"><div><small class="iso-kicker">VIVASAM INTELLIGENCE OFFICE</small><h3>🏝️ 비바샘 인텔리전스 오피스</h3><p>이름표를 눌러 고른 뒤 '열기 ▶'로 이동 · ＋/－ 또는 Ctrl+휠로 가운데 확대</p></div>${homeBar()}</div>`
       + `<div class="iso-stage" id="isoStage"></div></div>`; };
   const tileHome = t => {
     const tiles = G => G[2].map((x, i) => { const [k, sub] = num(x), sz = TSIZE[i % TSIZE.length], P = PAL[G[1]] || [G[1]];
