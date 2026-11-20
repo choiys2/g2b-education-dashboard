@@ -10819,6 +10819,26 @@ html.gd-skin.gd-skin .vsub button[aria-current="page"]{background:#3a2a1c;color:
 .gd-mrow button[data-m=save]{background:#3a2a1c;color:#fff6e6;border-color:#3a2a1c;}
 @media (max-width:760px){.gd-bd-cols{grid-template-columns:minmax(0,1fr);}.gd-post{top:70%;} .gd-post .pt{max-width:240px;overflow:hidden;text-overflow:ellipsis;} .gd-pick{width:230px;}}
 @media (prefers-reduced-motion:reduce){.gd-post,.gd-confetti i{animation:none !important;} .gd-post{left:12px;}}
+.gd-dexbtn{appearance:none;font:inherit;cursor:pointer;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:999px;border:0;background:#fff8ea;color:#5b4632;text-shadow:none;}
+.gd-dex h4{margin:4px 4px 10px;font-size:18px;} .gd-dex h4 small,.gd-dex h5 small{font-size:11.5px;color:#9a7b55;font-weight:700;margin-left:6px;}
+.gd-dex h5{margin:14px 4px 6px;font-size:13px;color:#8a5a32;}
+.gd-dx-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;} .gd-dx-grid span{font-size:12px;font-weight:800;padding:6px;border-radius:10px;background:#f1e7d3;color:#a08a6e;text-align:center;} .gd-dx-grid span.ok{background:#fff3c4;color:#3a2a1c;box-shadow:inset 0 0 0 1px #e9c55a;}
+.gd-dx-org{display:flex;flex-wrap:wrap;gap:6px;margin:0;font-size:12px;color:#8a7258;} .gd-dx-org span{padding:4px 9px;border-radius:999px;background:#fff;border:1px solid #ead9b8;color:#3a2a1c;font-weight:700;}
+.gd-dx-chs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;} .gd-dx-ch{padding:8px;border-radius:12px;background:#fff;border:1px solid #ead9b8;text-align:center;font-size:11.5px;}
+.gd-dx-ch i{display:block;width:30px;height:30px;margin:0 auto 4px;border-radius:50%;box-shadow:inset 0 -4px 0 rgba(0,0,0,.12);} .gd-dx-ch b{display:block;font-size:12px;} .gd-dx-ch span{display:block;font-weight:800;color:#2e7d32;margin:2px 0;} .gd-dx-ch em{font-style:normal;color:#9a7b55;}
+@media (max-width:760px){.gd-dx-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.gd-dx-chs{grid-template-columns:repeat(2,minmax(0,1fr));}}
+.gd-scene svg .gd-char,.gd-scene svg .gd-char *{pointer-events:auto;cursor:pointer;}
+.gd-jump{animation:gdJump .6s cubic-bezier(.3,1.6,.5,1);}
+@keyframes gdJump{0%,100%{transform:translateY(0);}40%{transform:translateY(-18px);}}
+.gd-heart{position:absolute;z-index:3;font-size:20px;pointer-events:none;animation:gdHeart 1.2s ease-out forwards;transform:translateX(-50%);}
+@keyframes gdHeart{from{opacity:1;transform:translate(-50%,0) scale(.6);}to{opacity:0;transform:translate(-50%,-50px) scale(1.2);}}
+header.top .gd-hero .gd-mill,header.top .gd-hero .gd-orb{cursor:pointer;}
+.gd-rainbow{animation:gdFade 6s ease-in-out forwards;}
+@keyframes gdFade{0%{opacity:0;}15%,80%{opacity:1;}100%{opacity:0;}}
+.gd-shoot{opacity:0;animation:gdShoot 1.4s ease-out forwards;}
+@keyframes gdShoot{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-260px,140px);}}
+.gd-shine{transform-box:fill-box;transform-origin:50% 50%;animation:gdShine 2s ease-out forwards;}
+@keyframes gdShine{0%{opacity:0;transform:scale(.6) rotate(0);}30%{opacity:1;}100%{opacity:0;transform:scale(1.3) rotate(40deg);}}
 @media print{.gd-field{display:none;}}
 /* CP 앱 홈: 텃밭 마을 */
 .cph.cph-farm{background:linear-gradient(180deg,#eaf6ff 0%,#fff8e7 100%);border-color:#e8d5b0;color:#5b3a1e;padding:16px 14px 14px;}
@@ -11855,8 +11875,8 @@ window.farm3d = function (host, C) {
     const bl = el('filter', {id: 'bl' + id}, d); el('feGaussianBlur', {stdDeviation: 2.4}, bl);
     const gw = el('filter', {id: 'gw' + id, x: '-50%', y: '-50%', width: '200%', height: '200%'}, d); el('feGaussianBlur', {stdDeviation: 9}, gw);
     if (E.night) { for (let i = 0; i < 40; i++) el('circle', {cx: Math.random() * VW, cy: Math.random() * VH * .5, r: Math.random() * 1.4 + .4, fill: '#fff', opacity: .5 + Math.random() * .5}, svg);
-      el('circle', {cx: VW - 140, cy: 64, r: 40, fill: '#fff6c8', opacity: .35, filter: `url(#gw${id})`}, svg); el('circle', {cx: VW - 140, cy: 64, r: 20, fill: '#fff6c8'}, svg); el('circle', {cx: VW - 131, cy: 58, r: 18, fill: SKY(E)[0][1]}, svg); }
-    else if (!E.rain && !E.cloudy) { el('circle', {cx: VW - 140, cy: 66, r: 56, fill: '#ffe9a3', opacity: .55, filter: `url(#gw${id})`}, svg); el('circle', {cx: VW - 140, cy: 66, r: 26, fill: '#ffd75e'}, svg); }
+      el('circle', {cx: VW - 140, cy: 64, r: 40, fill: '#fff6c8', opacity: .35, filter: `url(#gw${id})`}, svg); el('circle', {cx: VW - 140, cy: 64, r: 20, fill: '#fff6c8', class: 'gd-orb', 'data-orb': 'moon'}, svg); el('circle', {cx: VW - 131, cy: 58, r: 18, fill: SKY(E)[0][1]}, svg); }
+    else if (!E.rain && !E.cloudy) { el('circle', {cx: VW - 140, cy: 66, r: 56, fill: '#ffe9a3', opacity: .55, filter: `url(#gw${id})`}, svg); el('circle', {cx: VW - 140, cy: 66, r: 26, fill: '#ffd75e', class: 'gd-orb', 'data-orb': 'sun'}, svg); }
     const far = el('g', {filter: `url(#bl${id})`, opacity: E.night ? .55 : .95}, svg), G = GRASS[E.season];
     el('path', {d: `M0 ${VH * .62} Q${VW * .18} ${VH * .42} ${VW * .37} ${VH * .58} T${VW * .75} ${VH * .53} T${VW} ${VH * .56} V${VH} H0Z`, fill: sh(G[0], E.season === 'winter' ? .98 : 1.08)}, far);
     el('path', {d: `M0 ${VH * .74} Q${VW * .22} ${VH * .6} ${VW * .46} ${VH * .7} T${VW} ${VH * .66} V${VH} H0Z`, fill: G[0]}, far);
@@ -11910,7 +11930,7 @@ window.farm3d = function (host, C) {
     [[6, 2.5], [6.8, 2.5], [7.5, 2.5]].forEach(([a, b]) => { const [px, py] = P(a, b, 6); tx('text', {x: px, y: py, 'font-size': 14, 'text-anchor': 'middle'}, g, '🌿'); });
     const [mx, my] = P(8.7, 4.6, 0); el('polygon', {points: `${mx - 12},${my} ${mx + 12},${my} ${mx + 7},${my - 80} ${mx - 7},${my - 80}`, fill: '#f4e3c3', stroke: '#c9a874'}, g);
     el('polygon', {points: `${mx - 10},${my - 80} ${mx + 10},${my - 80} ${mx},${my - 96}`, fill: '#b8442f'}, g);
-    const bl2 = el('g', {}, g); el('animateTransform', {attributeName: 'transform', type: 'rotate', from: `0 ${mx} ${my - 80}`, to: `360 ${mx} ${my - 80}`, dur: '14s', repeatCount: 'indefinite'}, bl2);
+    const bl2 = el('g', {class: 'gd-mill'}, g); el('animateTransform', {attributeName: 'transform', type: 'rotate', from: `0 ${mx} ${my - 80}`, to: `360 ${mx} ${my - 80}`, dur: '14s', repeatCount: 'indefinite'}, bl2);
     [0, 90, 180, 270].forEach(r => el('rect', {x: mx - 4, y: my - 126, width: 8, height: 44, rx: 2, fill: '#fff8ea', stroke: '#c9a874', transform: `rotate(${r} ${mx} ${my - 80})`}, bl2)); el('circle', {cx: mx, cy: my - 80, r: 5, fill: '#7a4a2c'}, g);
     const [wx, wy] = P(4, 3.6, 0); el('ellipse', {cx: wx, cy: wy - 6, rx: 14, ry: 7, fill: '#9c9387'}, g); el('rect', {x: wx - 14, y: wy - 14, width: 28, height: 8, fill: '#b4ab9e'}, g); el('ellipse', {cx: wx, cy: wy - 14, rx: 14, ry: 7, fill: '#3d6ea8'}, g);
     el('path', {d: `M${wx - 14} ${wy - 14} V${wy - 40} M${wx + 14} ${wy - 14} V${wy - 40}`, stroke: '#7a4a2c', 'stroke-width': 3}, g); el('polygon', {points: `${wx - 20},${wy - 38} ${wx + 20},${wy - 38} ${wx},${wy - 54}`, fill: '#c9533b'}, g);
@@ -11918,6 +11938,13 @@ window.farm3d = function (host, C) {
     [[.3, 8.6], [8.8, .4], [3.9, 8.7], [8.7, 8.6], [.2, 3.9]].forEach(([a, b]) => { const [tx0, ty] = P(a, b, 0); el('ellipse', {cx: tx0 + 3, cy: ty, rx: 12, ry: 4, fill: '#2d4a14', opacity: .3}, g); el('rect', {x: tx0 - 3, y: ty - 22, width: 6, height: 22, fill: '#7a5a3a'}, g); el('circle', {cx: tx0, cy: ty - 34, r: 16, fill: TC[0]}, g); el('circle', {cx: tx0 - 5, cy: ty - 40, r: 8, fill: TC[1]}, g); });
     if (E.night) [[4.5, 4.4], [4.5, 7.8]].forEach(([a, b]) => { const [lx, ly] = P(a, b, 0); el('rect', {x: lx - 1.5, y: ly - 30, width: 3, height: 30, fill: '#5a3a22'}, g); el('circle', {cx: lx, cy: ly - 32, r: 14, fill: '#ffd66b', opacity: .45, filter: `url(#gw${id})`}, g); el('circle', {cx: lx, cy: ly - 32, r: 4, fill: '#ffe9a8'}, g); });
     [[4.5, 6.9, '#7ec8f5', '🚿'], [4.5, 2.4, '#ffc078', '🧺'], [7.2, 4.2, '#c3a6ff', '🌱']].forEach(([a, b, c, t]) => { const [px, py] = P(a, b, 0); mascot(g, px, py, c, E.night ? '' : t); });
+    // 마을 레벨: 2 마을회관 · 3 장터
+    const lv = villageLv().lv;
+    if (lv >= 2) { const bx = (x, y, w, dd, hh, l, r, tp) => { el('polygon', {points: pts([P(x, y + dd), P(x + w, y + dd), P(x + w, y + dd, hh), P(x, y + dd, hh)]), fill: l}, g); el('polygon', {points: pts([P(x + w, y), P(x + w, y + dd), P(x + w, y + dd, hh), P(x + w, y, hh)]), fill: r}, g); el('polygon', {points: pts([P(x, y, hh), P(x + w, y, hh), P(x + w, y + dd, hh), P(x, y + dd, hh)]), fill: tp}, g); };
+      bx(.6, 3.3, 1.8, 1.3, 38, '#fdf0d5', '#e9d2a6', '#7a9cc6'); const [fx, fy] = P(1.5, 3.9, 38); el('rect', {x: fx - 1, y: fy - 34, width: 2, height: 34, fill: '#6b4f35'}, g); el('path', {d: `M${fx + 1} ${fy - 34} h16 l-4 5 l4 5 h-16z`, fill: '#e63946'}, g);
+      const [tx0, ty0] = P(1.5, 4.6, 0); tx('text', {x: tx0, y: ty0 - 10, 'text-anchor': 'middle', 'font-size': 9, 'font-weight': 900, fill: '#5b4632'}, g, '마을회관'); }
+    if (lv >= 3) [[5.4, 3.5, '#e76f51'], [6.3, 3.5, '#2a9d8f'], [7.2, 3.5, '#f4a261']].forEach(([x, y, c]) => { const [a, b2] = P(x, y, 0); el('rect', {x: a - 12, y: b2 - 16, width: 24, height: 16, fill: '#fff4dc', stroke: '#c9a874'}, g);
+      el('path', {d: `M${a - 16} ${b2 - 16} L${a} ${b2 - 32} L${a + 16} ${b2 - 16}z`, fill: c}, g); el('path', {d: `M${a - 8} ${b2 - 16} L${a} ${b2 - 32} L${a + 8} ${b2 - 16}`, fill: '#fff', opacity: .5}, g); tx('text', {x: a, y: b2 - 4, 'text-anchor': 'middle', 'font-size': 9}, g, ['🍎', '🥬', '🍯'][Math.round(x) % 3]); });
     // 연속 방문 장식: 3일 허수아비 · 7일 분수 · 30일 꽃길
     const sn = streak();
     if (sn >= 30) for (let k = 0; k < 14; k++) { const [fx, fy] = P(4.05 + (k % 2) * .9, .4 + k * .6, 0); tx('text', {x: fx, y: fy, 'font-size': 10, 'text-anchor': 'middle'}, g, ['🌷', '🌼', '🌸'][k % 3]); }
@@ -11925,6 +11952,9 @@ window.farm3d = function (host, C) {
       [0, 1, 2].forEach(k => el('circle', {cx: fx, cy: fy - 28, r: 3, fill: '#bfe9ff', class: 'gd-fount', style: `animation-delay:${k * .3}s`}, g)); }
     if (sn >= 3) { const [sx, sy] = P(2.2, 8.2, 0); el('rect', {x: sx - 1.5, y: sy - 40, width: 3, height: 40, fill: '#8a5a32'}, g); el('rect', {x: sx - 16, y: sy - 32, width: 32, height: 3, fill: '#8a5a32'}, g);
       el('circle', {cx: sx, cy: sy - 44, r: 8, fill: '#f4d27a'}, g); el('path', {d: `M${sx - 12} ${sy - 46} h24 l-4 -6 h-16z`, fill: '#c99a3a'}, g); el('path', {d: `M${sx - 8} ${sy - 30} h16 l-3 14 h-10z`, fill: '#e76f51'}, g); }
+    // 숨은 재미: 풍차 5번 = 무지개, 밤에 달 = 별똥별, 낮에 해 = 햇살 반짝
+    let millN = 0; const mill = svg.querySelector('.gd-mill'); if (mill) mill.addEventListener('click', () => { if (++millN < 5) { tone(SND.plink); return; } millN = 0; easter(svg, 'rainbow'); });
+    const orb = svg.querySelector('.gd-orb'); if (orb) orb.addEventListener('click', () => easter(svg, orb.dataset.orb === 'moon' ? 'star' : 'shine'));
     // 새 자료가 올라오면(갱신 기준이 바뀌면) 마차가 한 번 도착
     try { const stamp = String((typeof G2B_FULL !== 'undefined' && G2B_FULL && G2B_FULL.generated_at) || '') + '|' + ((document.getElementById('mainUpdatedDate') || {}).textContent || '');
       const prevStamp = LS.get('gd.build.v1', ''); if (stamp.length > 1 && prevStamp !== stamp) { LS.set('gd.build.v1', stamp); if (prevStamp) {
@@ -11949,7 +11979,7 @@ window.farm3d = function (host, C) {
       const m = el('g', {class: 'gd-scan', transform: 'translate(13,-20)'}, b); el('line', {x1: 0, y1: 0, x2: 8, y2: -8, stroke: '#6b4f3a', 'stroke-width': 3, 'stroke-linecap': 'round'}, m); el('circle', {cx: 12, cy: -12, r: 6.5, fill: 'rgba(200,240,255,.6)', stroke: '#8a6a4a', 'stroke-width': 2.4}, m); }},
     {c: '#9be08a', name: '양봉가', acc: b => { el('path', {d: 'M-17 -28 q17 -20 34 0 z', fill: '#fff8e1', stroke: '#e0c58a'}, b); el('rect', {x: -13, y: -30, width: 26, height: 9, rx: 4, fill: 'rgba(60,60,60,.35)'}, b);
       const a = el('g', {class: 'gd-wave', transform: 'translate(13,-20)'}, b); el('rect', {x: 0, y: -2, width: 12, height: 4, rx: 2, fill: '#9be08a'}, a); }}];
-  function body(g, ch, mood){  // 발 = (0,0) · mood: happy / sweat / sleepy / sleep
+  function body(g, ch, mood, stage){  // 발 = (0,0) · mood: happy / sweat / sleepy / sleep · stage: 0 새싹 / 1 꽃 / 2 황금 열매
     const id = 'cb' + (++uid), d = el('defs', {}, g), rg = el('radialGradient', {id, cx: '35%', cy: '30%', r: '75%'}, d), c = ch.c;
     el('stop', {offset: 0, 'stop-color': sh(c, 1.25)}, rg); el('stop', {offset: .6, 'stop-color': c}, rg); el('stop', {offset: 1, 'stop-color': sh(c, .72)}, rg);
     el('ellipse', {cx: 0, cy: 1, rx: 13, ry: 4, fill: '#1b120a', opacity: .28}, g);
@@ -11965,14 +11995,17 @@ window.farm3d = function (host, C) {
     else if (zz) { el('ellipse', {cx: 0, cy: -15.6, rx: 2, ry: 1.4, fill: '#2b1a10'}, b); const z = el('g', {class: 'gd-zzz'}, b); tx('text', {x: 12, y: -40, 'font-size': 9, 'font-weight': 900, fill: '#5b6bb5'}, z, 'Z'); tx('text', {x: 19, y: -48, 'font-size': 7, 'font-weight': 900, fill: '#5b6bb5'}, z, 'z'); }
     else el('path', {d: 'M-2.5 -16 q2.5 2.4 5 0', stroke: '#2b1a10', 'stroke-width': 1.3, fill: 'none', 'stroke-linecap': 'round'}, b);
     el('path', {d: 'M0 -38 q-3 -9 5 -12 q0 8 -5 12', fill: '#7ccf43'}, b); el('path', {d: 'M0 -38 q2 -7 -4 -9 q0 6 4 9', fill: '#5fb030'}, b);
-    ch.acc(b); return b;
+    ch.acc(b);
+    if (stage >= 1) { const fl = el('g', {transform: 'translate(4,-50)'}, b); for (let k = 0; k < 5; k++) el('ellipse', {cx: 0, cy: -3.2, rx: 2.3, ry: 3.4, fill: stage >= 2 ? '#ffd166' : '#ff9ec4', transform: `rotate(${k * 72})`}, fl); el('circle', {cx: 0, cy: 0, r: 2, fill: stage >= 2 ? '#e09a00' : '#fff3a0'}, fl); }
+    if (stage >= 2) { el('circle', {cx: -7, cy: -50, r: 3.6, fill: '#ffc21a', stroke: '#d69a00', 'stroke-width': .8}, b); const sp = el('g', {class: 'gd-spark'}, b); el('path', {d: 'M12 -56 l1.4 -4 l1.4 4 l4 1.4 l-4 1.4 l-1.4 4 l-1.4 -4 l-4 -1.4z', fill: '#fff6b0'}, sp); }
+    return b;
   }
   const walkDone = new Set();
-  function walker(g, x0, y0, x1, dur, ch, mood){  // 울타리 앞 길을 왕복(뒤돌 때 좌우 반전)
+  function walker(g, x0, y0, x1, dur, ch, mood, stage){  // 울타리 앞 길을 왕복(뒤돌 때 좌우 반전)
     const dx = Math.round(x1 - x0), k = 'gdw' + dx;
     if (!walkDone.has(k)) { walkDone.add(k); let st = document.getElementById('gdKf'); if (!st) { st = document.createElement('style'); st.id = 'gdKf'; document.head.appendChild(st); }
       st.textContent += `@keyframes ${k}{0%{transform:translate(0,0) scaleX(1);}45%{transform:translate(${dx}px,0) scaleX(1);}50%{transform:translate(${dx}px,0) scaleX(-1);}95%{transform:translate(0,0) scaleX(-1);}100%{transform:translate(0,0) scaleX(1);}}`; }
-    const o = el('g', {transform: `translate(${x0},${y0}) scale(1.9)`}, g), m = el('g', {style: `animation:${k} ${dur}s ease-in-out infinite;`}, o); body(m, ch, mood); return o;
+    const o = el('g', {transform: `translate(${x0},${y0}) scale(1.9)`, class: 'gd-char'}, g), m = el('g', {style: `animation:${k} ${dur}s ease-in-out infinite;`}, o); body(m, ch, mood, stage); return o;
   }
   function plant(g, kind, cx, cy, it, i, gid){
     const H = it.h || 60, top = it.top, s = el('g', {class: 'gd-sway', style: `animation-delay:${(i % 7) * -.4}s`}, g);
@@ -12042,10 +12075,10 @@ window.farm3d = function (host, C) {
     const gi = (o.gi || 0) % 5, ch = CH[gi], hr = new Date().getHours(), [xa, ya] = P(.4, Dp + 1.15, 0), [xb] = P(W - 1, Dp + 1.15, 0);
     const mood = (hr >= 22 || hr < 6) ? 'sleep' : (o.mood || 'happy');
     if (hr >= 18 && hr < 22) { const [hx, hy] = P(W - .6, Dp + 1.2, 0); el('rect', {x: hx - 1.5, y: hy - 30, width: 3, height: 30, fill: '#8a5a32'}, svg); el('rect', {x: hx - 40, y: hy - 48, width: 80, height: 21, rx: 6, fill: '#d9a46b', stroke: '#8a5a32'}, svg); tx('text', {x: hx, y: hy - 33, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 900, fill: '#3a2a1c'}, svg, `${ch.name} 퇴근 🌙`); }
-    else if (mood === 'sleep') { const [sx, sy] = P(W * .5, Dp + 1.15, 0), sg = el('g', {transform: `translate(${sx},${sy}) scale(1.9)`}, svg); body(sg, ch, 'sleep'); }
-    else if (gi === 2) { const [px, py] = P(W * .62, Dp - .3, 10), pg = el('g', {transform: `translate(${px},${py}) scale(1.9)`}, svg), pu = el('g', {class: 'gd-pull'}, pg); body(pu, ch, mood);
+    else if (mood === 'sleep') { const [sx, sy] = P(W * .5, Dp + 1.15, 0), sg = el('g', {transform: `translate(${sx},${sy}) scale(1.9)`, class: 'gd-char'}, svg); body(sg, ch, 'sleep', o.stage); }
+    else if (gi === 2) { const [px, py] = P(W * .62, Dp - .3, 10), pg = el('g', {transform: `translate(${px},${py}) scale(1.9)`, class: 'gd-char'}, svg), pu = el('g', {class: 'gd-pull'}, pg); body(pu, ch, mood, o.stage);
       const cr = el('g', {class: 'gd-pop'}, pg); el('path', {d: 'M14 -6 l6 0 l-3 14z', fill: '#f57c00'}, cr); el('path', {d: 'M17 -6 q-3 -8 -6 -12 M17 -6 q0 -9 0 -13 M17 -6 q3 -8 6 -12', stroke: '#5cb85c', 'stroke-width': 2, fill: 'none'}, cr); }
-    else { let x1 = xb; if (o.target != null && o.target >= 0 && o.pos && o.pos[o.target]) x1 = o.pos[o.target][0] - 20; walker(svg, xa, ya, Math.max(xa + 60, x1), [20, 16, 18, 14, 22][gi], ch, mood); }
+    else { let x1 = xb; if (o.target != null && o.target >= 0 && o.pos && o.pos[o.target]) x1 = o.pos[o.target][0] - 20; walker(svg, xa, ya, Math.max(xa + 60, x1), [20, 16, 18, 14, 22][gi], ch, mood, o.stage); }
     if (hr >= 12 && hr < 13) { const [lx, ly] = P(1.4, Dp + 1.35, 0); tx('text', {x: lx, y: ly, 'font-size': 18}, svg, '🍱'); }
     if (hr >= 6 && hr < 9) { const [rx, ry] = P(W + .2, Dp + 1.1, 0); tx('text', {x: rx - 10, y: ry, 'font-size': 22}, svg, '🐓'); const cb = el('g', {class: 'gd-crow'}, svg); el('rect', {x: rx - 18, y: ry - 50, width: 56, height: 20, rx: 10, fill: '#fff', stroke: '#ead9b8'}, cb); tx('text', {x: rx + 10, y: ry - 36, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 900, fill: '#c0392b'}, cb, '꼬끼오!'); }
     if (gi === 4) for (let k = 0; k < 5; k++) { const bg = el('g', {transform: `translate(${700 + k * 120},${110 + k % 2 * 30})`}, svg), bm = el('g', {class: 'gd-bee', style: `animation-duration:${5 + k}s`}, bg);
@@ -12102,7 +12135,43 @@ window.farm3d = function (host, C) {
   const tone = seq => { if (!soundOn()) return; try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); let t0 = AC.currentTime + .01;
     seq.forEach(([f, d]) => { const o = AC.createOscillator(), g = AC.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(.12, t0 + .02); g.gain.exponentialRampToValueAtTime(.0001, t0 + d); o.connect(g); g.connect(AC.destination); o.start(t0); o.stop(t0 + d + .02); t0 += d * .8; }); } catch (e) { /* 소리 불가 */ } };
   const SND = {plink: [[880, .12], [1320, .16]], water: [[660, .1], [990, .1], [1320, .14]], fanfare: [[523, .14], [659, .14], [784, .14], [1047, .32]]};
-  const toggleSound = () => { const v = !soundOn(); LS.set('gd.sound.v1', v); if (v) tone(SND.plink); return v; };
+  // 잔잔한 배경음(텃밭 화면에서만 · 소리 켠 사람만): 부드러운 화음 + 오르골 멜로디, 파일 없이 만들어 재생
+  const BGM = (() => { let on = false, timer = null, master = null, step = 0, nextT = 0;
+    const CHORDS = [[261.6, 329.6, 392.0, 493.9], [220.0, 261.6, 329.6, 392.0], [174.6, 220.0, 261.6, 329.6], [196.0, 246.9, 293.7, 392.0]];
+    const PENTA = [523.3, 587.3, 659.3, 784.0, 880.0, 1046.5];
+    const note = (f, t, d, type, vol) => { const o = AC.createOscillator(), g = AC.createGain(); o.type = type; o.frequency.value = f; g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + (type === 'sine' ? .8 : .02)); g.gain.exponentialRampToValueAtTime(.0001, t + d); o.connect(g); g.connect(master); o.start(t); o.stop(t + d + .05); };
+    const tick = () => { if (!on) return; while (nextT < AC.currentTime + .6) { const beat = step % 16, bar = Math.floor(step / 16) % 4;
+        if (beat === 0) CHORDS[bar].forEach((f, i) => note(f / 2, nextT, 3.6, 'sine', i ? .05 : .07));
+        if (beat % 2 === 0 && Math.random() < .55) note(PENTA[(bar * 2 + Math.floor(Math.random() * 4)) % PENTA.length], nextT, 1.1, 'triangle', .06);
+        nextT += .25; step++; } };
+    return {start(){ if (on || !soundOn()) return; try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume();
+        master = AC.createGain(); master.gain.value = 0; master.connect(AC.destination); master.gain.linearRampToValueAtTime(.55, AC.currentTime + 2.5); on = true; nextT = AC.currentTime + .1; timer = setInterval(tick, 200); } catch (e) { /* 소리 불가 */ } },
+      stop(){ if (!on) return; on = false; clearInterval(timer); try { const m = master; m.gain.linearRampToValueAtTime(0, AC.currentTime + .8); setTimeout(() => m.disconnect(), 1000); } catch (e) { /* 이미 멈춤 */ } },
+      get on(){ return on; }}; })();
+  const toggleSound = () => { const v = !soundOn(); LS.set('gd.sound.v1', v); if (v) { tone(SND.plink); BGM.start(); } else BGM.stop(); document.querySelectorAll('[data-gd=snd]').forEach(b => { b.textContent = v ? '🔊' : '🔇'; }); return v; };
+  window.gdBgm = {start: () => BGM.start(), stop: () => BGM.stop()};
+  // 소리를 켜 둔 사람은 화면을 처음 누를 때 배경음이 이어짐(브라우저 자동 재생 제한)
+  ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => { if (document.documentElement.classList.contains('gd-skin') && soundOn()) BGM.start(); }, {once: true, passive: true}));
+  document.addEventListener('visibilitychange', () => { try { if (!AC) return; if (document.hidden) AC.suspend(); else AC.resume(); } catch (e) { /* 무시 */ } });
+  // 캐릭터 성장(밭별 방문 수) · 마을 레벨(누적 돌봄) · 작물 도감
+  const STAGE_AT = [5, 15];
+  const growN = gi => (LS.get('gd.grow.v1', {})[gi] || 0);
+  const stageOf = n => n >= STAGE_AT[1] ? 2 : n >= STAGE_AT[0] ? 1 : 0;
+  const LV = [[0, '오두막 마을'], [10, '마을회관 마을'], [50, '장터 마을']];
+  function villageLv(){ const g = LS.get('gd.grow.v1', {}), tot = Object.values(g).reduce((a, b) => a + (+b || 0), 0) + (LS.get('gd.picks.v1', 0) || 0);
+    let lv = 1; LV.forEach((x, i) => { if (tot >= x[0]) lv = i + 1; }); const nx = LV[lv]; return {lv, name: LV[lv - 1][1], tot, next: nx ? nx[0] - tot : 0, nextName: nx ? nx[1] : ''}; }
+  const SIDO17 = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+  const dex = () => LS.get('gd.dex.v1', {r: [], o: []});
+  function dexAdd(t, it){ if (!it || !it.k) return; const d = dex(), lvBefore = villageLv().lv; let add = false;
+    const reg = String(it.k).split('|')[0], isRegion = SIDO17.includes(reg);
+    if (isRegion && !d.r.includes(reg)) { d.r.push(reg); add = true; } else if (!isRegion && reg && !d.o.includes(reg)) { d.o.push(reg); if (d.o.length > 300) d.o.shift(); add = true; }
+    LS.set('gd.picks.v1', (LS.get('gd.picks.v1', 0) || 0) + 1); LS.set('gd.dex.v1', d);
+    if (add && isRegion && d.r.length === 17) confetti('🏅 17개 시도 도감 완성!'); else if (add) tone(SND.water);
+    if (villageLv().lv > lvBefore) confetti(`🏡 마을이 커졌어요! ${villageLv().name}`); }
+  function easter(svg, kind){ const VB = svg.viewBox.baseVal, W2 = VB.width, H2 = VB.height;
+    if (kind === 'rainbow') { const r = el('g', {class: 'gd-rainbow'}, svg); ['#ff595e', '#ffca3a', '#8ac926', '#1982c4', '#6a4c93'].forEach((c, i) => el('path', {d: `M${W2 * .42 - i * 9} ${H2 * .8} A ${W2 * .28 + i * 9} ${H2 * .62 + i * 9} 0 0 1 ${W2 * .98 + i * 9} ${H2 * .8}`, stroke: c, 'stroke-width': 8, fill: 'none', opacity: .55}, r)); tone(SND.fanfare); setTimeout(() => r.remove(), 6000); }
+    else if (kind === 'star') { for (let k = 0; k < 3; k++) { const st = el('g', {class: 'gd-shoot', style: `animation-delay:${k * .5}s`}, svg); el('line', {x1: W2 * (.5 + k * .1), y1: 30 + k * 18, x2: W2 * (.5 + k * .1) + 60, y2: 10 + k * 18, stroke: '#fff8c4', 'stroke-width': 2.4, 'stroke-linecap': 'round'}, st); setTimeout(() => st.remove(), 3000); } tone([[1320, .1], [1760, .1], [2093, .2]]); }
+    else { const sh2 = el('g', {class: 'gd-shine'}, svg); for (let k = 0; k < 10; k++) { const a = k * 36 * Math.PI / 180; el('line', {x1: W2 - 140 + Math.cos(a) * 34, y1: 66 + Math.sin(a) * 34, x2: W2 - 140 + Math.cos(a) * 60, y2: 66 + Math.sin(a) * 60, stroke: '#ffe066', 'stroke-width': 4, 'stroke-linecap': 'round'}, sh2); } tone(SND.plink); setTimeout(() => sh2.remove(), 2000); } }
   // 연속 방문·오늘의 퀘스트·이번 주 새싹
   function streak(){ const s = LS.get('gd.streak.v1', {last: '', n: 0}), t = kday(); if (s.last !== t) { const y = new Date(Date.parse(t) - 864e5).toISOString().slice(0, 10); s.n = s.last === y ? s.n + 1 : 1; s.last = t; LS.set('gd.streak.v1', s); } return s.n; }
   const quest = () => { const v = LS.get('gd.quest.v1', null); return v && v.d === kday() ? v : {d: kday(), tabs: [], pick: 0, done: 0}; };
@@ -12113,7 +12182,7 @@ window.farm3d = function (host, C) {
   function qMark(fn){ const v = quest(); fn(v); const fin = !v.done && QUESTS.every(q => q[1](v)); if (fin) v.done = 1; LS.set('gd.quest.v1', v); if (fin) confetti('🎉 오늘의 퀘스트 완료! 풍년이에요'); }
   const addWeek = n => { if (!n) return; const w = LS.get('gd.week.v1', {wk: '', n: 0}); if (w.wk !== wkey()) { w.wk = wkey(); w.n = 0; } w.n += n; LS.set('gd.week.v1', w); };
   const weekN = () => { const w = LS.get('gd.week.v1', {wk: '', n: 0}); return w.wk === wkey() ? w.n : 0; };
-  const NEWS = {};  // 이번 방문에서 계산한 새싹(탭별) - 다시 그려도 유지
+  const NEWS = {}, GROWN = new Set();  // 이번 방문에서 계산한 새싹(탭별) · 성장 기록한 탭 - 다시 그려도 유지
   const FIELD_NM = {g2bfull: '조달·발주 밭', market: '시장·정책 밭'};
   const safeSpec = (x, C) => { try { return spec(x, C || {}); } catch (e) { return null; } };
   window.gdField = function(panel, t, C){
@@ -12133,6 +12202,8 @@ window.farm3d = function (host, C) {
     const favSet = new Set(Object.keys(fav).filter(k => k in idxByK).map(k => idxByK[k]));
     const bub = favMsg || (newSet.size ? `🌱 새싹 ${newSet.size}개 = 새 ${S.unit || '자료'} ${newSet.size}건` : '') || (S.today0 ? `🧺 오늘 마감 ${S.today0}건, 지금 수확해요` : '') || S.bub;
     qMark(v => { if (!v.tabs.includes(t)) v.tabs.push(t); });
+    if (!GROWN.has(t)) { GROWN.add(t); const gg = LS.get('gd.grow.v1', {}), lv0 = villageLv().lv, s0 = stageOf(gg[C.gi % 5] || 0); gg[C.gi % 5] = (gg[C.gi % 5] || 0) + 1; LS.set('gd.grow.v1', gg);
+      if (stageOf(gg[C.gi % 5]) > s0) setTimeout(() => confetti(`🌸 ${CH[C.gi % 5].name}가 한 단계 자랐어요!`), 900); else if (villageLv().lv > lv0) setTimeout(() => confetti(`🏡 마을이 커졌어요! ${villageLv().name}`), 900); }
     // ③ 우체부: 다른 밭 소식
     const post = Object.keys(FIELD_NM).filter(x => x !== t).map(x => { const s2 = safeSpec(x, C); return s2 && s2.bub ? [x, `${FIELD_NM[x]} 소식 · ${s2.bub}`] : null; }).filter(Boolean)[0];
     const wrap = document.createElement('div'); wrap.className = 'gd-field'; wrap.dataset.t = t; const closed = closedSet().has(t); wrap.dataset.c = String(closed);
@@ -12142,12 +12213,12 @@ window.farm3d = function (host, C) {
     } else {
       wrap.innerHTML = `<div class="gd-scene"><div class="gd-top"><div><div class="gd-crumb"><button type="button" class="gd-btn" data-gd="home">← 🌱 마을로</button><span class="gd-btn ghost">${h(CROP_EMO[C.gi % 5])} ${h(C.gname)} 밭 › ${h(C.name)}</span></div>
         <div class="gd-ttl"><small>${h(S.kicker || 'VIVASAM GARDEN')}</small><b>${h(S.title)}</b><p>${h(S.desc)}</p><span class="gd-who"><i style="background:${ch.c}"></i>오늘의 담당 · ${h(ch.name)}</span></div></div>
-        <div class="gd-crumb">${S.legend ? `<div class="gd-legend">${S.legend.map(x => `<span>${h(x)}</span>`).join('')}</div>` : ''}<button type="button" class="gd-btn" data-gd="snd" title="효과음 켜기/끄기">${soundOn() ? '🔊' : '🔇'}</button><button type="button" class="gd-btn" data-gd="close" title="이 탭의 장면을 접습니다. 다시 펼치기 전까지 접힌 채로 둡니다">✕ 장면 닫기</button></div></div>
+        <div class="gd-crumb">${S.legend ? `<div class="gd-legend">${S.legend.map(x => `<span>${h(x)}</span>`).join('')}</div>` : ''}<button type="button" class="gd-btn" data-gd="snd" title="잔잔한 배경음·효과음 켜기/끄기">${soundOn() ? '🔊' : '🔇'}</button><button type="button" class="gd-btn" data-gd="close" title="이 탭의 장면을 접습니다. 다시 펼치기 전까지 접힌 채로 둡니다">✕ 장면 닫기</button></div></div>
         ${bub ? `<div class="gd-bub">${h(bub)}</div>` : ''}${post ? `<button type="button" class="gd-post" data-go="${h(post[0])}" title="그 밭으로 가기"><span class="pm" aria-hidden="true"></span><span class="pt">📮 ${h(post[1])}</span></button>` : ''}</div>
         ${S.kpis ? `<div class="gd-kpis">${S.kpis.map(([a, b, c]) => `<div class="gd-k"><i>${h(a)}</i><b>${h(b)}</b><em>${h(c)}</em></div>`).join('')}</div>` : `<div class="gd-pills">${pills}</div>`}`;
       const sc = wrap.querySelector('.gd-scene');
       // ④ 작물을 누르면 담당 캐릭터가 설명
-      const pick = (it, i, node) => { tone(SND.plink); qMark(v => { v.pick++; });
+      const pick = (it, i, node) => { tone(SND.plink); qMark(v => { v.pick++; }); dexAdd(t, it);
         const old2 = sc.querySelector('.gd-pick'); if (old2) old2.remove(); const r = node.getBoundingClientRect(), R = sc.getBoundingClientRect();
         const isFav = it.k && (it.k in (LS.get('gd.fav.v1', {})[t] || {})), tgt = S.scrollTo ? (S.scrollTo === 'table' ? panel.querySelector('table') : panel.querySelector(S.scrollTo)) : null;
         sc.insertAdjacentHTML('beforeend', `<div class="gd-pick" style="left:${Math.max(8, Math.min(R.width - 268, r.left - R.left + r.width / 2 - 130))}px;top:${Math.max(8, r.top - R.top - 96)}px"><i class="av" style="background:${ch.c}"></i>
@@ -12156,7 +12227,10 @@ window.farm3d = function (host, C) {
           if (b.dataset.gd === 'tbl' && tgt) tgt.scrollIntoView({behavior: 'smooth', block: 'center'});
           if (b.dataset.gd === 'fav') { const fa = LS.get('gd.fav.v1', {}), m = fa[t] = fa[t] || {}; if (it.k in m) delete m[it.k]; else { m[it.k] = it.v; tone(SND.water); } LS.set('gd.fav.v1', fa); delete NEWS[t]; NEWS[t] = [...newSet]; wrap.remove(); window.gdField(panel, t, C); return; }
           pk.remove(); }); };
-      field(sc, {items: S.items, crop: S.crop, gi: C.gi, mood: S.mood, newSet, favSet, target: S.items.findIndex(it => it.dd === 0), onPick: pick});
+      field(sc, {items: S.items, crop: S.crop, gi: C.gi, mood: S.mood, newSet, favSet, stage: stageOf(growN(C.gi % 5)), target: S.items.findIndex(it => it.dd === 0), onPick: pick});
+      sc.querySelectorAll('.gd-char').forEach(cg => cg.addEventListener('click', ev => { ev.stopPropagation(); const inner = cg.querySelector('.gd-bob'); if (!inner) return; inner.classList.remove('gd-jump'); void inner.getBBox(); inner.classList.add('gd-jump'); tone([[784, .1], [1047, .14]]);
+        const R = sc.getBoundingClientRect(), r = cg.getBoundingClientRect(), hrt = document.createElement('span'); hrt.className = 'gd-heart'; hrt.textContent = ['💚', '💛', '🧡', '💖'][Math.floor(Math.random() * 4)]; hrt.style.left = (r.left - R.left + r.width / 2) + 'px'; hrt.style.top = (r.top - R.top) + 'px'; sc.appendChild(hrt); setTimeout(() => hrt.remove(), 1200); }));
+      if (soundOn()) BGM.start();
     }
     panel.prepend(wrap);
     wrap.addEventListener('click', e => { const b = e.target.closest('[data-gd],[data-go]'); if (!b) { const pk = wrap.querySelector('.gd-pick'); if (pk && !e.target.closest('.gd-crop')) pk.remove(); return; }
@@ -12173,15 +12247,25 @@ window.farm3d = function (host, C) {
     if (near) todo.push(['g2bfull', `⏰ 마감 임박 입찰 ${near}건${g2.today0 ? ` (오늘 ${g2.today0}건)` : ''}`]);
     Object.entries(nn).filter(([, x]) => x && x.d === kday() && x.n > 0).sort((a, b) => b[1].n - a[1].n).slice(0, 2).forEach(([k, x]) => todo.push([k, `🌱 ${x.nm || ''} 새싹 ${x.n}개`]));
     (window.__ECO_TOP || []).forEach(x => { if (x && x.tab && x.title) todo.push([x.tab, `📰 ${x.title}`]); });
-    const UN = [[3, '🎃 허수아비'], [7, '⛲ 분수'], [30, '🌷 꽃길']], next = UN.find(u => n < u[0]), fri = new Date().getDay() === 5;
-    return `<div class="gd-board"><div class="gd-bd-head"><b>📋 마을 소식판</b><span class="gd-streak">🔥 연속 ${n}일 방문</span><span class="gd-unlock">${next ? `다음 선물 ${next[1]} · ${next[0] - n}일 남음` : '마을 장식을 모두 모았어요 🎊'}</span></div>
+    const UN = [[3, '🎃 허수아비'], [7, '⛲ 분수'], [30, '🌷 꽃길']], next = UN.find(u => n < u[0]), fri = new Date().getDay() === 5, VL = villageLv(), DX = dex();
+    return `<div class="gd-board"><div class="gd-bd-head"><b>📋 마을 소식판</b><span class="gd-streak">🔥 연속 ${n}일 방문</span><span class="gd-unlock">${next ? `다음 선물 ${next[1]} · ${next[0] - n}일 남음` : '마을 장식을 모두 모았어요 🎊'}</span><span class="gd-unlock">🏡 Lv.${VL.lv} ${h(VL.name)}${VL.next > 0 ? ` · ${h(VL.nextName)}까지 ${VL.next}번` : ''}</span><button type="button" class="gd-dexbtn" data-gdex="1">📖 도감 ${DX.r.length}/17</button></div>
       <div class="gd-bd-cols"><div class="gd-bd-col"><h5>오늘 볼 것</h5>${todo.slice(0, 3).map(([k, x]) => `<button type="button" data-gt="${h(k)}">${h(x)}</button>`).join('') || '<p>오늘은 조용한 날이에요 🌤️</p>'}</div>
       <div class="gd-bd-col"><h5>오늘의 퀘스트 ${v.done ? '🎉' : ''}</h5>${QUESTS.map(q => `<div class="gd-q${q[1](v) ? ' ok' : ''}">${q[1](v) ? '✅' : '⬜'} ${h(q[0])} <em>${h(q[2](v))}</em></div>`).join('')}</div>
-      <div class="gd-bd-col"><h5>이번 주 수확</h5><p>새싹 <b>${weekN()}</b>개 · 연속 방문 <b>${n}</b>일</p><div class="gd-bd-btns"><button type="button" class="gd-cardbtn${fri ? ' hot' : ''}" data-gcard="1">📸 이번 주 수확 카드${fri ? ' · 금요일!' : ''}</button><button type="button" class="gd-sndbtn" data-gsnd="1">${soundOn() ? '🔊 소리 켬' : '🔇 소리 끔'}</button></div></div></div></div>`;
+      <div class="gd-bd-col"><h5>이번 주 수확</h5><p>새싹 <b>${weekN()}</b>개 · 연속 방문 <b>${n}</b>일</p><div class="gd-bd-btns"><button type="button" class="gd-cardbtn${fri ? ' hot' : ''}" data-gcard="1">📸 이번 주 수확 카드${fri ? ' · 금요일!' : ''}</button><button type="button" class="gd-sndbtn" data-gsnd="1">${soundOn() ? '🔊 배경음 켬' : '🔇 배경음 끔'}</button></div></div></div></div>`;
   };
   window.gdBoardWire = function(root, go){ root.querySelectorAll('.gd-board [data-gt]').forEach(b => b.addEventListener('click', () => go(b.dataset.gt)));
     root.querySelectorAll('.gd-board [data-gcard]').forEach(b => b.addEventListener('click', () => window.gdCard()));
-    root.querySelectorAll('.gd-board [data-gsnd]').forEach(b => b.addEventListener('click', () => { b.textContent = toggleSound() ? '🔊 소리 켬' : '🔇 소리 끔'; })); };
+    root.querySelectorAll('.gd-board [data-gdex]').forEach(b => b.addEventListener('click', () => window.gdDex()));
+    root.querySelectorAll('.gd-board [data-gsnd]').forEach(b => b.addEventListener('click', () => { b.textContent = toggleSound() ? '🔊 배경음 켬' : '🔇 배경음 끔'; })); };
+  // ── 작물 도감 + 캐릭터 성장 ──
+  window.gdDex = function(){ const d = dex(), VL = villageLv();
+    const chars = CH.map((c, i) => { const n = growN(i), st = stageOf(n), nx = STAGE_AT.find(x => n < x); return `<div class="gd-dx-ch"><i style="background:${c.c}"></i><b>${h(c.name)}</b><span>${['🌱 새싹', '🌸 꽃', '🌟 황금 열매'][st]}</span><em>${nx ? `다음 단계까지 ${nx - n}번` : '최고 단계'}</em></div>`; }).join('');
+    const m = document.createElement('div'); m.className = 'gd-modal'; m.innerHTML = `<div class="gd-mbox gd-dex" role="dialog" aria-label="작물 도감"><h4>📖 작물 도감 <small>작물을 눌러 모아요 · 이 브라우저에만 기록</small></h4>
+      <h5>시도 ${d.r.length}/17 ${d.r.length === 17 ? '🏅' : ''}</h5><div class="gd-dx-grid">${SIDO17.map(r => `<span class="${d.r.includes(r) ? 'ok' : ''}">${d.r.includes(r) ? '🌽' : '❔'} ${h(r)}</span>`).join('')}</div>
+      <h5>만난 기관 ${d.o.length}곳</h5><p class="gd-dx-org">${d.o.slice(-12).map(o => `<span>🍅 ${h(o)}</span>`).join('') || '나라장터 종합 이랑에서 토마토를 눌러 보세요'}</p>
+      <h5>캐릭터 성장 <small>밭을 둘러볼수록 자라요</small></h5><div class="gd-dx-chs">${chars}</div>
+      <h5>마을 <small>Lv.${VL.lv} ${h(VL.name)} · 누적 돌봄 ${VL.tot}번</small></h5><div class="gd-mrow"><button type="button" data-m="x">닫기</button></div></div>`;
+    document.body.appendChild(m); m.addEventListener('click', e => { const b = e.target.closest('[data-m]'); if (e.target === m || b) m.remove(); }); };
   // ── 이번 주 수확 카드(공개 수치만 · 이미지로 저장) ──
   window.gdCard = function(){
     const n = streak(), g2 = safeSpec('g2bfull', {}), mk = safeSpec('market', {}), live = g2 && g2.items && g2.items.some(i => i.dd != null);
@@ -12281,6 +12365,7 @@ window.farm3d = function (host, C) {
       if (on && !gdHeroOn) { if (!hv) { hv = document.createElement('div'); hv.className = 'gd-hero'; hv.setAttribute('aria-hidden', 'true'); hd.prepend(hv); vl = document.createElement('div'); vl.className = 'gd-veil'; hv.after(vl); }
         try { window.gdHero(hv); gdHeroOn = true; } catch (e) { console.warn('gdHero', e); } }
       if (!on && hv) { hv.remove(); if (vl) vl.remove(); gdHeroOn = false; } }
+    if (!on && window.gdBgm) window.gdBgm.stop();
     document.querySelectorAll('.gd-field').forEach(f => { if (!on || home || f.dataset.t !== t) f.remove(); });
     if (!on || home || !t) return;
     const gi2 = GROUPS.findIndex(G => G[2].includes(t));
