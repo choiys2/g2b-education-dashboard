@@ -397,6 +397,27 @@ def _pdf_strategy():
     return blob
 
 
+def _strength5():
+    """CP 강점 5분야 온도계: 분야별 소식 '건수'만(제목·출처 없음)."""
+    try:
+        import strategy_intel
+        return strategy_intel.strength5()
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 강점 온도계 실패: {type(e).__name__}")
+        return None
+
+
+def _morning():
+    """CP 텃밭 소식판·우체부용 오늘의 조간 머리기사(공개 지면 내용만)."""
+    try:
+        f = sorted(__import__("pathlib").Path("briefings").glob("????-??-??.json"))[-1]
+        d = json.loads(f.read_text(encoding="utf-8"))
+        L = d.get("lead") or {}
+        return {"date": d.get("date"), "kicker": L.get("kicker", ""), "headline": L.get("headline", "")}
+    except Exception:
+        return None
+
+
 def _strategy():
     """에듀테크 전략 브리핑 복호화 - 결과 상태만 로그에 남긴다(내용은 출력하지 않음)."""
     import strategy_crypto
@@ -977,6 +998,7 @@ def main():
         "__TREND2027_JSON__": trend2027,
         # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
         "__STRATEGY_JSON__": _strategy(),
+        "__STRENGTH5_JSON__": _strength5(), "__MORNING_JSON__": _morning(),
         "__GG_B2S_JSON__": load("history/gg_b2s.json") if os.path.exists("history/gg_b2s.json") else None,  # B2S 경기 시군
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)

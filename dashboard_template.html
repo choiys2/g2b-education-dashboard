@@ -2000,6 +2000,7 @@ document.addEventListener('click', function (e) {
   </div><!-- /panel-pipeline -->
 
   <div class="tabpanel" id="panel-strategy">
+    <section class="panel" id="s5Panel"><div class="panel-head"><div><p class="panel-title">비상 강점 5분야 온도계</p><p class="panel-desc">인문소양·독서 · 진로·진학 · 한국사·역사 · 과학·탐구 · 수학 — 최근 7일 교육청·언론 소식 건수(매일 갱신)</p></div></div><div id="s5Root"><p class="si-muted">데이터 준비 중</p></div></section>
     <section class="panel" id="stratPanel">
       <div class="panel-head"><div>
         <p class="panel-title">에듀테크 전략 브리핑 <span id="stratDate" style="font-size:13px;font-weight:600;color:var(--muted);margin-left:6px;"></span></p>
@@ -2688,7 +2689,9 @@ const NATIONAL_SCHOOL_COUNTS = [{"grade":"초","total":6369,"active":6158,"rate"
 const SCHOOL_CONTRACT_TREND = {"years":["2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025"],"series":{"강원":[6157972369,188172428196,193231757664,184483641751,157228370637,117398013763,118998584407,117825090472,131952619731,132216938225,154200062083,193390272731,272943593798,269310223778,289437455103,349680407311,368536853618],"경기":[41214710032,1177544960703,1319872008582,1212981505974,1028207466092,873314370497,841489258435,812614330280,853903398517,847042549194,962993612190,1337590623638,1636328527090,1996924065865,2388830848887,2785217989683,2827435419128],"경남":[10119143263,477077962459,443024976953,405804156238,326068198257,264152165755,256313550193,274038532143,298310490496,307242125847,403191426840,468661679157,536895596656,605427697347,727735262509,769696861136,783870171014],"경북":[4375272617,374405259765,409614805772,412383313756,327956735226,259811920924,256787995823,250596717543,283183391436,283812897536,332510400570,336914419817,446095258393,523802130969,589839551481,644777270742,642963537457],"광주":[5746015521,187169466681,196791341359,208986754463,175092060540,130494764364,125773288299,123634383701,126787356491,127817895965,143167334897,170546139490,208202510590,252659655943,283345715469,318337469996,301784640304],"대구":[3759357599,295039565037,340018302341,333028011027,270605858406,213887106573,186810749074,198363436823,226054376928,238081871886,246316282134,207754553223,292913510894,342664315740,356531848579,417625190212,418730580126],"대전":[3895513950,192052706808,208384910984,178167077274,139254923517,108953420712,113263050835,116409635362,124074787685,115576017160,124374391415,139641677560,170820980781,187213367494,222166468296,220109217123,198515303439],"부산":[6274479772,294851376617,343376419013,329213149738,251580297649,185308230005,167636901581,166588656011,180905919079,165066350594,203941746436,23244999205247,419907959814,456447530508,525065682603,585044969076,582520035129],"서울":[12835919817,810396173602,995280439641,1010015395813,872879835616,694069806267,750888229994,774020104962,838161734917,821850171373,897861651195,826959438555,1043420059972,1367928025486,1509318587825,1671623422317,1578578348862],"울산":[5683550923,140815863739,131822351688,129251247094,111993445704,93779075422,97736930223,108094727603,120559083446,109737329996,121982578413,144310929207,192011797847,256538277677,217094481993,241426818170,237045904297],"인천":[5236958439,247168302139,255866147887,229202692801,191891609373,143527306587,153328944310,160672457064,200762899298,195017203683,223108374583,221297561397,283034626839,395257365692,449659454359,500654092717,464817800776],"전남":[8498824554,252813212887,295326988353,282424073853,240106443501,191975053936,192318830185,197288165685,219501066968,259874559830,249226407168,325670072661,392977625248,443029264381,517114439187,601412013513,577943480319],"전북":[6905104920,256988017714,285974255116,262379683469,205864039487,158429995748,168184930905,171182525382,181792345361,183352486443,192030515699,17592078210364,333432468272,369207877015,460513394552,529161207918,511735934803],"제주":[5007597854,90511604735,78455049885,69094098767,56254854679,53279942273,57913745149,53462805602,65654279690,68594005122,82446289333,137065321681,147060114520,176486209373,199185973551,209388105162,205525924689],"충남":[8071152300,348114701973,370672070036,364747568942,294724987413,235082346913,258372232618,245533801883,249055243658,258788113903,281083252705,275336938029,340204234675,381364021793,452128627710,498843386216,454836758158],"충북":[6387593829,223982993828,246728481105,230269075433,214165144496,178780796412,170628514244,174789023917,189264330963,210778296071,237767608063,214574854619,263881302161,273402684955,333548751146,382211207612,402140710043],"세종":[0,0,0,0,18467299285,19485960739,33608250007,37548932328,44666999494,47719494624,54687583326,57198787665,63876326007,76292939808,107234197089,113707172621,124926920280]},"school_counts":{"강원":[17,637,638,640,651,649,651,656,661,660,656,658,660,661,661,660,662],"경기":[63,2166,2215,2256,2283,2321,2366,2401,2441,2472,2503,2563,2618,2653,2676,2692,2729],"경남":[21,951,958,973,976,979,989,991,997,995,999,1002,1013,1019,1024,1027,1031],"경북":[21,979,978,972,960,960,961,951,936,941,937,947,948,947,949,939,939],"광주":[11,411,419,310,313,317,323,326,325,325,327,329,328,328,329,333,334],"대구":[12,430,435,440,442,447,449,464,473,478,479,479,484,487,485,498,497],"대전":[8,293,298,303,305,306,309,309,312,314,315,314,316,319,319,320,322],"부산":[16,619,616,624,635,639,644,649,655,652,652,654,658,661,665,663,665],"서울":[28,1402,1428,1462,1480,1496,1508,1512,1527,1542,1567,1597,1617,1637,1641,1635,1638],"울산":[8,237,239,239,240,244,245,245,248,248,250,255,259,257,257,257,260],"인천":[12,470,489,499,506,506,517,524,530,530,536,538,550,558,562,568,571],"전남":[19,836,843,850,848,841,842,844,850,850,853,855,859,857,851,847,846],"전북":[26,1109,1113,775,777,780,785,787,791,790,792,798,799,801,801,799,793],"제주":[8,172,177,180,181,182,184,184,184,185,185,185,185,186,186,186,188],"충남":[19,754,758,760,733,734,735,733,741,744,746,749,753,756,760,761,763],"충북":[17,488,487,498,492,498,497,498,500,500,502,503,507,504,508,509,512],"세종":[0,0,0,0,42,55,86,92,113,125,129,133,140,143,145,147,151]}};
 const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
 const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
-const STRATEGY = __STRATEGY_JSON__;  // 에듀테크 전략 브리핑(strategy_crypto.load_all)
+const STRATEGY = __STRATEGY_JSON__;
+window.__S5 = __STRENGTH5_JSON__;  // 강점 5분야 온도계(건수만)
+window.__MORNING = __MORNING_JSON__;  // 오늘의 조간 머리기사(공개 지면)  // 에듀테크 전략 브리핑(strategy_crypto.load_all)
 const TREND2027 = __TREND2027_JSON__;  // 교사 트렌드 2027(teacher_trend2027.py)
 const NETI = __NETI_JSON__;
 const KERIS = __KERIS_JSON__;
@@ -6220,7 +6223,7 @@ function renderCompWatch(el, C){
       if (act && window.renderAdminActions) { try { window.renderAdminActions(act); } catch (e) { console.warn('admin actions', e); } }
       const bsc = body.querySelector('#admBranchScore');
       if (bsc && window.renderBranchScore) { try { window.renderBranchScore(bsc); } catch (e) { console.warn('branch score', e); } }
-      ['tpSimInit', 'tpQuoteInit', 'aiOpsInit', 'tbAuthorsInit', 'bmAdminInit'].forEach(f => { if (window[f]) { try { window[f](body); } catch (e) { console.warn(f, e); } } });
+      ['tpSimInit', 'tpQuoteInit', 'aiOpsInit', 'tbAuthorsInit', 'bmAdminInit', 'siInit'].forEach(f => { if (window[f]) { try { window[f](body); } catch (e) { console.warn(f, e); } } });
     } catch (ex) {
       err.textContent = '비밀번호가 맞지 않습니다.';
     } finally { go.disabled = false; document.getElementById('adminPw').value = ''; }
@@ -10768,6 +10771,50 @@ html.gd-skin.gd-skin .vsub button[aria-current="page"]{background:#3a2a1c;color:
 /* 막대 묶음(가로로 여러 칸): 화면이 좁아도 칸이 줄어들어 카드 밖으로 넘치지 않게(모바일 점검 2026-11-20) */
 [style*="align-items:flex-end"] > [style*="flex:1"]{min-width:0;}
 @media (max-width:600px){[style*="align-items:flex-end"] > [style*="flex:1"] > span{font-size:9.5px !important;letter-spacing:-.2px;}}
+/* 🧠 전략 인텔리전스(관리) · 강점 온도계(CP): 입체 시각화 */
+.si-svg{display:block;width:100%;height:auto;overflow:visible;}
+.si-svg .si-v{font-size:11.5px;font-weight:800;fill:var(--ink);}
+.si-svg .si-l{font-size:10.5px;fill:var(--muted);font-weight:600;}
+.si-svg .si-big{font-size:28px;font-weight:900;fill:var(--ink);}
+.si-ring{width:150px;height:150px;display:block;margin:0 auto;}
+.si-nav{position:sticky;top:0;z-index:2;display:flex;gap:6px;overflow-x:auto;padding:8px 2px 10px;margin:0 0 6px;background:linear-gradient(var(--surface),var(--surface) 70%,transparent);}
+.si-nav button{flex:none;appearance:none;font:inherit;cursor:pointer;font-size:12.5px;font-weight:800;padding:7px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);box-shadow:0 4px 10px -8px rgba(0,0,0,.5);}
+.si-nav button:hover{border-color:#4f46e5;color:#4f46e5;}
+.si-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.si-card{grid-column:span 2;min-width:0;padding:16px 18px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(160deg,var(--surface),var(--surface-2));box-shadow:0 18px 34px -26px rgba(15,23,42,.55),inset 0 1px 0 rgba(255,255,255,.6);scroll-margin-top:60px;}
+.si-card header{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
+.si-card header .si-ic{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;background:linear-gradient(145deg,#eef2ff,#c7d2fe);box-shadow:inset 0 -3px 0 rgba(0,0,0,.08),0 6px 12px -8px #4f46e5;}
+.si-card header b{display:block;font-size:15.5px;} .si-card header small{display:block;font-size:11.5px;color:var(--muted);}
+.si-card h5{margin:12px 0 6px;font-size:12.5px;color:var(--ink-2);} .si-card h5 small{font-weight:600;color:var(--muted);}
+.si-card ol,.si-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6;}
+.si-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.si-co{min-width:0;padding:8px 10px;border-radius:14px;background:var(--surface);border:1px solid var(--border);} .si-co p{margin:4px 0 0;font-size:12px;color:var(--muted);}
+.si-dec{display:flex;gap:10px;padding:8px 10px;margin:0 0 6px;border-radius:12px;background:var(--surface);border:1px solid var(--border);}
+.si-dec i{flex:none;width:24px;height:24px;border-radius:8px;background:#4f46e5;color:#fff;font-style:normal;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.si-dec b{display:block;font-size:13px;} .si-dec p{margin:2px 0;font-size:12.5px;color:var(--ink-2);} .si-dec em,.si-nx em{font-style:normal;font-size:11.5px;color:#4f46e5;font-weight:700;}
+.si-nx{padding:6px 0;border-bottom:1px dashed var(--border);font-size:12.5px;} .si-nx b{display:block;} .si-nx p{margin:2px 0;color:var(--muted);}
+.si-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.si-chips span{font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--ink-2);}
+.si-t-up{color:#047857 !important;border-color:#6ee7b7 !important;} .si-t-dn{color:#b91c1c !important;} .si-svg text.si-t-up{fill:#047857;} .si-svg text.si-t-dn{fill:#b91c1c;}
+.si-tb{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;} .si-tb th{text-align:left;font-size:11.5px;color:var(--muted);padding:6px;border-bottom:2px solid var(--border);white-space:nowrap;}
+.si-tb td{padding:6px;border-bottom:1px solid var(--border);vertical-align:top;} .si-tb a{color:inherit;}
+.si-heat td{text-align:center;font-weight:800;background:rgba(79,70,229,calc(var(--a,0) * .55));color:var(--ink);} .si-heat td:first-child{text-align:left;background:none;font-weight:600;}
+.si-heat td.gap{outline:2px solid #ef4444;outline-offset:-2px;background:rgba(239,68,68,.12);} .si-heat sup{color:#047857;font-size:9.5px;margin-left:2px;}
+.si-scroll{overflow-x:auto;}
+.si-list{list-style:none;padding:0 !important;} .si-list li{padding:4px 0;border-bottom:1px dashed var(--border);font-size:12.5px;} .si-list em{font-style:normal;color:var(--muted);font-size:11.5px;}
+.si-co-own{font-weight:900;color:#10b981;} .si-co-r{font-weight:800;color:#b45309;}
+.si-bad{display:inline-block;font-size:11px;font-weight:800;color:#b91c1c;background:#fee2e2;border-radius:6px;padding:1px 6px;} .si-ok{color:#047857;font-weight:800;font-size:12.5px;text-align:center;}
+.si-st{font-size:11.5px;font-weight:900;padding:3px 8px;border-radius:999px;white-space:nowrap;} .si-st-ok{background:#d1fae5;color:#047857;} .si-st-mid{background:#fef3c7;color:#b45309;} .si-st-no{background:var(--surface-2);color:var(--muted);}
+.si-note{font-size:11.5px;color:var(--muted);margin:6px 0 0;} .si-muted{color:var(--muted);font-size:13px;}
+.si-center{text-align:center;}
+.si-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;} .si-row select{font:inherit;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+.si-btn{appearance:none;font:inherit;cursor:pointer;font-size:12.5px;font-weight:800;padding:7px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--ink);margin-top:8px;}
+.si-btn:hover{border-color:#4f46e5;}
+.si-draft{margin-top:10px;padding:16px 18px;border-radius:14px;background:#fff;color:#1f2937;border:1px solid var(--border);box-shadow:inset 0 2px 0 #4f46e5;font-size:13px;line-height:1.65;}
+.si-draft h4{margin:0 0 4px;font-size:16px;} .si-draft h5{color:#4f46e5;}
+.si-map{max-width:420px;margin:0 auto;}
+#s5Panel .si-svg{max-width:760px;margin:0 auto;}
+@media (max-width:760px){.si-grid,.si-cols{grid-template-columns:minmax(0,1fr);} .si-card{padding:12px;} .si-tb{font-size:12px;}}
 /* 재미 요소: 새싹·표정·작물 설명·우체부·소식판·퀘스트·수확 카드 */
 .gd-seed{animation:gdSeed 1s ease-in both;}
 @keyframes gdSeed{0%{transform:translateY(-90px);opacity:0;}20%{opacity:1;}100%{transform:translateY(0);opacity:0;}}
@@ -12208,7 +12255,8 @@ window.farm3d = function (host, C) {
     if (!GROWN.has(t)) { GROWN.add(t); const gg = LS.get('gd.grow.v1', {}), lv0 = villageLv().lv, s0 = stageOf(gg[C.gi % 5] || 0); gg[C.gi % 5] = (gg[C.gi % 5] || 0) + 1; LS.set('gd.grow.v1', gg);
       if (stageOf(gg[C.gi % 5]) > s0) setTimeout(() => confetti(`🌸 ${CH[C.gi % 5].name}가 한 단계 자랐어요!`), 900); else if (villageLv().lv > lv0) setTimeout(() => confetti(`🏡 마을이 커졌어요! ${villageLv().name}`), 900); }
     // ③ 우체부: 다른 밭 소식
-    const post = Object.keys(FIELD_NM).filter(x => x !== t).map(x => { const s2 = safeSpec(x, C); return s2 && s2.bub ? [x, `${FIELD_NM[x]} 소식 · ${s2.bub}`] : null; }).filter(Boolean)[0];
+    const MN = window.__MORNING, post = (MN && MN.headline && t !== 'strategy' && new Date().getHours() < 12) ? ['strategy', `오늘의 조간 · ${MN.headline}`]
+      : Object.keys(FIELD_NM).filter(x => x !== t).map(x => { const s2 = safeSpec(x, C); return s2 && s2.bub ? [x, `${FIELD_NM[x]} 소식 · ${s2.bub}`] : null; }).filter(Boolean)[0];
     const wrap = document.createElement('div'); wrap.className = 'gd-field'; wrap.dataset.t = t; const closed = closedSet().has(t); wrap.dataset.c = String(closed);
     const pills = (S.pills || []).map(p => `<span>${h(p)}</span>`).join(''), ch = CH[C.gi % 5];
     if (closed) {
@@ -12247,6 +12295,7 @@ window.farm3d = function (host, C) {
   window.gdBoard = function(C){
     const n = streak(), v = quest(), nn = LS.get('gd.newcnt.v1', {}), g2 = safeSpec('g2bfull', C), todo = [];
     const near = g2 && g2.items ? g2.items.filter(i => i.dd != null && i.dd <= 3).length : 0;
+    const MN = window.__MORNING; if (MN && MN.headline) todo.push(['strategy', `📰 오늘의 조간 · ${MN.headline}`]);
     if (near) todo.push(['g2bfull', `⏰ 마감 임박 입찰 ${near}건${g2.today0 ? ` (오늘 ${g2.today0}건)` : ''}`]);
     Object.entries(nn).filter(([, x]) => x && x.d === kday() && x.n > 0).sort((a, b) => b[1].n - a[1].n).slice(0, 2).forEach(([k, x]) => todo.push([k, `🌱 ${x.nm || ''} 새싹 ${x.n}개`]));
     (window.__ECO_TOP || []).forEach(x => { if (x && x.tab && x.title) todo.push([x.tab, `📰 ${x.title}`]); });
@@ -12288,6 +12337,177 @@ window.farm3d = function (host, C) {
   };
 })();
 
+/* 🧠 전략 인텔리전스(관리 탭) + 강점 온도계(CP) - 입체 시각화. 외부 글자는 모두 이스케이프 */
+(function(){
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const okUrl = u => /^https:\/\//.test(String(u || ''));
+  const lnk = (u, t) => okUrl(u) ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t)}</a>` : h(t);
+  const sh = (hex, k) => { const n = parseInt(hex.slice(1), 16), f = c => Math.max(0, Math.min(255, Math.round(c * k))); return '#' + [n >> 16, (n >> 8) & 255, n & 255].map(f).map(v => v.toString(16).padStart(2, '0')).join(''); };
+  const won = v => { v = +v || 0; return v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v >= 1e4 ? Math.round(v / 1e4).toLocaleString() + '만' : v.toLocaleString(); };
+  const PAL = ['#4f7cff', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#84cc16'];
+  let gid = 0;
+  // ── 입체 막대(정면·옆면·윗면) ──
+  function bars3d(data, o = {}){
+    const W = o.w || 640, H = o.h || 240, n = data.length || 1, dx = 14, dy = 9, pad = 34, bw = Math.min(46, (W - pad * 2) / n * .58), gap = (W - pad * 2) / n;
+    const mx = Math.max(1, ...data.map(d => +d.v || 0)), base = H - 34, top = 30, id = 'b3' + (++gid);
+    let s = `<svg viewBox="0 0 ${W} ${H}" class="si-svg" role="img" aria-label="${h(o.title || '막대 그래프')}"><defs><linearGradient id="${id}f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>`;
+    s += `<polygon points="${pad - 6},${base} ${W - pad + 6},${base} ${W - pad + 6 + dx},${base - dy} ${pad - 6 + dx},${base - dy}" fill="var(--surface-2)" stroke="var(--border)"/>`;
+    for (let g = 1; g <= 3; g++) { const y = base - (base - top) * g / 3; s += `<line x1="${pad + dx}" y1="${y - dy}" x2="${W - pad + dx}" y2="${y - dy}" stroke="var(--border)" stroke-dasharray="3 4" opacity=".6"/>`; }
+    data.forEach((d, i) => { const v = +d.v || 0, bh = Math.max(2, (base - top) * v / mx), x = pad + gap * i + (gap - bw) / 2, y = base - bh, c = d.c || PAL[i % PAL.length];
+      s += `<g><title>${h(d.l)} · ${h(d.t || v)}</title><ellipse cx="${x + bw / 2 + dx / 2}" cy="${base + 3}" rx="${bw * .7}" ry="5" fill="#000" opacity=".12"/>`
+        + `<polygon points="${x + bw},${y} ${x + bw + dx},${y - dy} ${x + bw + dx},${base - dy} ${x + bw},${base}" fill="${sh(c, .72)}"/>`
+        + `<polygon points="${x},${y} ${x + dx},${y - dy} ${x + bw + dx},${y - dy} ${x + bw},${y}" fill="${sh(c, 1.25)}"/>`
+        + `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" fill="${c}"/><rect x="${x}" y="${y}" width="${bw}" height="${bh}" fill="url(#${id}f)"/>`
+        + `<text x="${x + bw / 2 + dx / 2}" y="${y - dy - 5}" text-anchor="middle" class="si-v">${h(d.t != null ? d.t : v)}</text>`
+        + `<text x="${x + bw / 2}" y="${base + 18}" text-anchor="middle" class="si-l">${h(String(d.l).slice(0, 8))}</text></g>`; });
+    return s + '</svg>';
+  }
+  // ── 겹쳐 쌓은 입체 띠 곡선(뒤 → 앞) ──
+  function ribbons3d(series, days, o = {}){
+    const W = o.w || 760, H = o.h || 300, n = series.length, dx = 14, dy = 11, L = 30, R = 150 + dx * n, top = 22, bot = H - 30 - dy * n;
+    const mx = Math.max(1, ...series.flatMap(s => s.v)), X = i => L + (W - L - R) * i / Math.max(1, days.length - 1), Y = v => bot - (bot - top) * v / mx;
+    let s = `<svg viewBox="0 0 ${W} ${H}" class="si-svg" role="img" aria-label="이슈 수명 곡선">`;
+    [...series].reverse().forEach((se, ri) => { const k = n - 1 - ri, ox = dx * k, oy = dy * k, c = se.c || PAL[k % PAL.length], id = 'rb' + (++gid);
+      const pts = se.v.map((v, i) => [X(i) + ox, Y(v) + oy]);
+      s += `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c}" stop-opacity=".85"/><stop offset="1" stop-color="${c}" stop-opacity=".12"/></linearGradient></defs>`;
+      s += `<path d="M${pts[0][0]},${bot + oy} ${pts.map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ')} L${pts[pts.length - 1][0]},${bot + oy}Z" fill="url(#${id})"/>`;
+      s += `<path d="${pts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ')}" fill="none" stroke="${sh(c, .8)}" stroke-width="2.4"/>`;
+      s += `<line x1="${X(0) + ox}" y1="${bot + oy}" x2="${X(days.length - 1) + ox}" y2="${bot + oy}" stroke="${sh(c, .7)}" opacity=".5"/>`;
+      s += `<text x="${X(days.length - 1) + ox + 6}" y="${bot + oy - 2}" class="si-l" fill="${sh(c, .7)}">${h(se.name)}${se.trend ? ' · ' + h(se.trend) : ''}</text>`; });
+    days.forEach((d, i) => { if (i % 3 === 0 || i === days.length - 1) s += `<text x="${X(i)}" y="${H - 8}" text-anchor="middle" class="si-l">${h(d.slice(5))}</text>`; });
+    return s + '</svg>';
+  }
+  // ── 입체 도시(행 × 열 블록) ──
+  function city3d(rows, cols, o = {}){
+    const cw = o.cw || 46, rh = o.rh || 24, sk = 12, L = 76, bw = cw * .56, ddx = 9, ddy = 7, n = rows.length;
+    const W = L + cols.length * cw + n * sk + 30, H = 40 + n * rh + 30, mx = Math.max(1, ...rows.flatMap(r => r.v)), zmax = rh * 2.6;
+    const X = (c, r) => L + c * cw + (n - 1 - r) * sk, Y = r => 34 + r * rh + rh;
+    let s = `<svg viewBox="0 0 ${W} ${H}" class="si-svg" role="img" aria-label="${h(o.title || '입체 행렬')}">`;
+    rows.forEach((row, r) => { const y = Y(r), x0 = X(0, r) - 8;
+      s += `<polygon points="${X(0, r) - 4},${y} ${X(cols.length, r)},${y} ${X(cols.length, r) + ddx},${y - ddy} ${X(0, r) - 4 + ddx},${y - ddy}" fill="var(--surface-2)" opacity=".7"/>`;
+      s += `<text x="${x0}" y="${y - 2}" text-anchor="end" class="si-l"${row.alert ? ' style="fill:#b45309;font-weight:800"' : ''}>${h(row.n)}${row.alert ? ' 🔔' : ''}</text>`;
+      row.v.forEach((v, c) => { if (!v) { s += `<rect x="${X(c, r) + 2}" y="${y - 3}" width="${bw}" height="3" rx="1.5" fill="var(--border)"/>`; return; }
+        const hz = 5 + zmax * v / mx, x = X(c, r) + 2, col = o.color ? o.color(v / mx, c) : '#4f7cff';
+        s += `<g><title>${h(row.n)} · ${h(cols[c])} · ${v}건</title>`
+          + `<polygon points="${x + bw},${y - hz} ${x + bw + ddx},${y - hz - ddy} ${x + bw + ddx},${y - ddy} ${x + bw},${y}" fill="${sh(col, .62)}"/>`
+          + `<polygon points="${x},${y - hz} ${x + ddx},${y - hz - ddy} ${x + bw + ddx},${y - hz - ddy} ${x + bw},${y - hz}" fill="${sh(col, 1.28)}"/>`
+          + `<rect x="${x}" y="${y - hz}" width="${bw}" height="${hz}" fill="${col}"/><rect x="${x}" y="${y - hz}" width="${bw * .3}" height="${hz}" fill="#fff" opacity=".18"/>`
+          + (v / mx > .45 ? `<text x="${x + bw / 2}" y="${y - hz - ddy - 3}" text-anchor="middle" class="si-v">${v}</text>` : '') + '</g>'; }); });
+    cols.forEach((cl, c) => { s += `<text x="${X(c, n - 1) + 2 + bw / 2}" y="${Y(n - 1) + 16}" text-anchor="middle" class="si-l">${h(cl)}</text>`; });
+    return s + '</svg>';
+  }
+  // ── 입체 고리 게이지 ──
+  function ring3d(score, o = {}){
+    const R = 46, C = 2 * Math.PI * R, f = Math.max(0, Math.min(1, score / 100)), col = score >= 85 ? '#10b981' : score >= 70 ? '#f59e0b' : '#ef4444';
+    return `<svg viewBox="0 0 140 140" class="si-ring"><ellipse cx="70" cy="82" rx="50" ry="14" fill="#000" opacity=".1"/>`
+      + `<circle cx="70" cy="74" r="${R}" fill="none" stroke="${sh(col, .55)}" stroke-width="14" opacity=".35"/>`
+      + `<circle cx="70" cy="66" r="${R}" fill="none" stroke="var(--border)" stroke-width="14"/>`
+      + `<circle cx="70" cy="66" r="${R}" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${(C * f).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 70 66)"/>`
+      + `<text x="70" y="72" text-anchor="middle" class="si-big">${score}</text><text x="70" y="90" text-anchor="middle" class="si-l">${h(o.label || '')}</text></svg>`;
+  }
+  // ── 입체 지도(시도 경계를 기울여 두께 + 학교 기둥) ──
+  function map3d(pins){
+    const G = (typeof KOREA_PROVINCES_GEOJSON !== 'undefined' && KOREA_PROVINCES_GEOJSON) || null; if (!G) return '<p class="si-muted">지도 경계를 불러오지 못했습니다.</p>';
+    const W = 520, H = 560, lon0 = 124.6, lon1 = 130.0, lat0 = 33.0, lat1 = 38.7;
+    const pr = (lo, la) => { const x = (lo - lon0) / (lon1 - lon0) * (W - 80) + 40, y = (lat1 - la) / (lat1 - lat0) * (H - 120) + 30; return [x + (H - y) * .08, y * .9 + 20]; };
+    const ring = cs => cs.map(c => pr(c[0], c[1]).map(v => v.toFixed(1)).join(',')).join(' ');
+    let base = '', topL = '';
+    (G.features || []).forEach(f => { const g = f.geometry, polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+      polys.forEach(p => { const r0 = p[0]; if (!r0 || r0.length < 3) return; const pts = ring(r0);
+        base += `<polygon points="${pts}" fill="#94a3b8" transform="translate(0,9)" opacity=".55"/>`;
+        topL += `<polygon points="${pts}" fill="var(--surface)" stroke="var(--border)" stroke-width=".8"/>`; }); });
+    let pinS = '';
+    [...pins].filter(p => p.ll).sort((a, b) => b.ll[0] - a.ll[0]).forEach(p => { const [x, y] = pr(p.ll[1], p.ll[0]), hz = 16 + p.au * 9, col = p.rival.length ? '#ef4444' : p.au ? '#4f7cff' : '#94a3b8';
+      pinS += `<g><title>${h(p.n)} · 비상 저자 교수 ${p.au}명${p.rival.length ? ' · 경쟁사 협약: ' + h(p.rival.join(', ')) : ''}</title><ellipse cx="${x}" cy="${y}" rx="8" ry="3.5" fill="#000" opacity=".2"/>`
+        + `<rect x="${x - 6}" y="${y - hz}" width="12" height="${hz}" fill="${col}"/><rect x="${x - 6}" y="${y - hz}" width="4" height="${hz}" fill="#fff" opacity=".25"/><ellipse cx="${x}" cy="${y - hz}" rx="6" ry="2.6" fill="${sh(col, 1.3)}"/>`
+        + (p.rival.length ? `<text x="${x}" y="${y - hz - 6}" text-anchor="middle" font-size="13">🚩</text>` : '')
+        + ((p.au || p.rival.length) ? `<text x="${x + 9}" y="${y + 3}" class="si-l" style="font-weight:800">${h(p.sh)}</text>` : '') + '</g>'; });
+    return `<svg viewBox="0 0 ${W} ${H}" class="si-svg si-map" role="img" aria-label="교원양성대학 지도">${base}${topL}${pinS}</svg>`;
+  }
+  window.si3d = {bars3d, ribbons3d, city3d, ring3d};
+  const card = (id, ic, t, sub, body) => `<article class="si-card" id="si-${id}"><header><span class="si-ic">${ic}</span><div><b>${h(t)}</b><small>${h(sub)}</small></div></header>${body}</article>`;
+  window.siInit = function(root){
+    const el = (root || document).querySelector('#siRoot'); if (!el || el.dataset.done) return; el.dataset.done = '1';
+    let P; try { P = JSON.parse(el.dataset.p); } catch (e) { el.innerHTML = '<p class="si-muted">데이터를 읽지 못했습니다.</p>'; return; }
+    const nav = [['week', '🗞️ 주간 종합'], ['curve', '📈 이슈 곡선'], ['budget', '💰 예산 레이더'], ['cal', '🗓️ 수요 캘린더'], ['draft', '📝 제안서 초안'], ['wins', '🏁 경쟁사 낙찰'], ['course', '🧩 연수 비교'], ['big', '🤖 빅테크 대비'], ['univ', '🎓 교대 지도'], ['bundle', '📦 결합 추천'], ['fc', '🔮 예측 추적'], ['qual', '✅ 품질 점수']];
+    let out = `<nav class="si-nav">${nav.map(([k, l]) => `<button type="button" data-si="${k}">${l}</button>`).join('')}</nav><div class="si-grid">`;
+    // ④ 주간 종합
+    const Wk = P.weekly;
+    out += card('week', '🗞️', '주간 종합 브리핑', Wk ? `${Wk.from} ~ ${Wk.to} · 브리핑 ${Wk.n}호 압축` : '이번 주 브리핑 없음', Wk ? `<div class="si-cols"><div><h5>이번 주 흐름</h5><ol>${Wk.heads.map(x => `<li>${h(x)}</li>`).join('')}</ol></div>
+      <div><h5>금주 결정 3건</h5>${Wk.decide.map((d, i) => `<div class="si-dec"><i>${i + 1}</i><div><b>${h(d.idea)}</b><p>${h(d.action)}</p><em>⏱ ${h(d.timing)}</em></div></div>`).join('')}
+      <h5>다음 주 확인 3건</h5>${Wk.next.map(n => `<div class="si-nx"><b>${h(n.issue)}</b><p>${h(n.kpi)}</p><em>${h(n.fc)}</em></div>`).join('')}</div></div><button type="button" class="si-btn" data-copy="week">📋 회의용으로 복사</button>` : '<p class="si-muted">전략 브리핑이 복호화되면 채워집니다.</p>');
+    // ③ 이슈 곡선
+    const CV = P.curves.filter(c => c.v.some(Boolean)).sort((a, b) => b.v.slice(-7).reduce((x, y) => x + y, 0) - a.v.slice(-7).reduce((x, y) => x + y, 0)).slice(0, 6);
+    out += card('curve', '📈', '이슈 수명 곡선', `최근 14일 교육청·언론 소식 건수 · 기준 ${P.asof}`, ribbons3d(CV, P.days, {}) + `<div class="si-chips">${P.curves.map(c => `<span class="si-t-${c.trend === '상승' || c.trend === '새로 뜸' ? 'up' : c.trend === '하강' ? 'dn' : 'eq'}">${h(c.name)} <b>${h(c.trend)}</b>${c.peak ? ` · 정점 ${h(c.peak.slice(5))}` : ''}</span>`).join('')}</div><p class="si-note">상승 = 최근 4일 평균이 그 전 7일 평균의 1.3배 이상 · 소식 기록은 11/8부터 누적</p>`);
+    // ⑤ 예산 레이더
+    const B = P.budget.filter(b => b.n);
+    out += card('budget', '💰', '교육청 예산 레이더', '최근 21일 예산·의회 소식 · 점수 = 건수×2 + 주제 + (삭감 신호 −1)', bars3d(B.slice(0, 10).map((b, i) => ({l: b.s, v: b.score, t: b.score, c: b.cut ? '#ef4444' : PAL[i % 6]})), {h: 230, title: '시도별 예산 신호'})
+      + `<table class="si-tb"><tr><th>순위</th><th>시도</th><th>소식</th><th>주제</th><th>최근 기사</th></tr>${B.slice(0, 8).map((b, i) => `<tr><td>${i + 1}</td><td><b>${h(b.s)}</b>${b.cut ? ' <span class="si-bad">삭감 신호</span>' : ''}</td><td>${b.n}</td><td>${Object.entries(b.tags).map(([k, v]) => `${h(k)} ${v}`).join(' · ') || '-'}</td><td>${b.items.slice(0, 2).map(x => `<div>${h(x.d.slice(5))} ${lnk(x.u, x.t)}</div>`).join('')}</td></tr>`).join('')}</table>`);
+    // ⑥ 수요 캘린더(입체 도시)
+    const CA = P.calendar.filter(c => c.months.some(Boolean) || c.plans.length);
+    out += card('cal', '🗓️', '교육청 연수 수요 캘린더', '과거 연수 계약 월(최근 2년) + 발주계획 · 🔔 = 제안서 준비 시작(D-30)이 1주 안', city3d(CA.map(c => ({n: c.s, v: c.months, alert: c.alert})), ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], {title: '연수 수요 캘린더', color: (f, c) => c === new Date().getMonth() ? '#f59e0b' : f > .6 ? '#4f46e5' : '#60a5fa'})
+      + `<div class="si-chips">${CA.filter(c => c.next.some(x => x.dday != null)).map(c => `<span class="${c.alert ? 'si-t-up' : ''}">${h(c.s)} · ${c.next.filter(x => x.dday != null).map(x => `${h(x.ym.slice(2).replace('-', '.'))} ${x.n}건(D-30까지 ${x.dday}일)`).join(', ')}</span>`).join('')}</div>`);
+    // ⑦ 제안서 초안
+    out += card('draft', '📝', '교육청 제안서 초안', '시도를 고르면 지역 현황으로 1쪽 초안을 만듭니다(수정 후 사용)', `<div class="si-row"><select id="siDraftS">${['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'].map(s => `<option>${s}</option>`).join('')}</select><button type="button" class="si-btn" data-draft="1">📝 초안 만들기</button><button type="button" class="si-btn" data-copy="draft">📋 복사</button><button type="button" class="si-btn" data-print="1">🖨️ 인쇄</button></div><div id="siDraft" class="si-draft"></div>`);
+    // ⑧ 경쟁사 낙찰 패턴(입체 누적 막대)
+    const WN = P.wins.rows.filter(r => r.n >= 3);
+    out += card('wins', '🏁', '경쟁사 낙찰 패턴', '나라장터 연수 계약·낙찰 기록 · 금액대별 건수', `<div class="si-cols">${WN.map(r => `<div class="si-co"><h5>${h(r.c)} <small>${r.n}건 · 합계 ${won(r.sum)} · 중앙값 ${won(r.med)}</small></h5>${bars3d(r.bands.map((v, i) => ({l: P.wins.bands[i], v, c: ['#93c5fd', '#60a5fa', '#3b82f6', '#1d4ed8'][i]})), {w: 360, h: 190})}<p>주요 지역 ${h(r.reg.join('·') || '-')} · 주제 ${h(r.themes.join('·') || '-')} · 수의계약 ${Math.round(r.suic / r.n * 100)}%</p></div>`).join('')}</div>`);
+    // ⑨ 연수 주제 비교(열지도 + 빈칸)
+    const CC = P.courses;
+    out += card('course', '🧩', '경쟁사 연수 주제 비교', `전체 과정 수(괄호: 최근 60일 신규) · 빨간 칸 = 비바샘이 경쟁사 최다의 1/3 미만`, `<div class="si-scroll"><table class="si-tb si-heat"><tr><th>회사</th>${CC.topics.map(t => `<th>${h(t)}</th>`).join('')}<th>연수+상품</th></tr>${CC.rows.map(r => `<tr><td><b>${h(r.co)}</b><small> ${r.total}</small></td>${r.cnt.map((v, i) => { const mx = Math.max(...CC.rows.map(x => x.cnt[i]), 1), gap = r.co === '비바샘연수원' && CC.gaps.includes(CC.topics[i]); return `<td style="--a:${(v / mx).toFixed(2)}" class="${gap ? 'gap' : ''}">${v}${r.new[i] ? `<sup>+${r.new[i]}</sup>` : ''}</td>`; }).join('')}<td>${r.bundle}</td></tr>`).join('')}</table></div>`
+      + `<h5>최근 신규 과정</h5><ul class="si-list">${CC.newest.map(n => `<li><span class="si-co-${n.co === '비바샘연수원' ? 'own' : 'r'}">${h(n.co)}</span> ${h(n.t)} <em>${h((n.d || '').slice(5))}${n.p ? ' · ' + Number(n.p).toLocaleString() + '원' : ''}</em></li>`).join('')}</ul>`);
+    // ⑩ 빅테크 대비
+    const BG = P.bigtech;
+    out += card('big', '🤖', '빅테크 무료 연수 대비', '빅테크·정부 협력 교사 연수 소식 vs 비바샘 AI 과정', `<div class="si-cols"><div><h5>빅테크 교사 연수 소식</h5><ul class="si-list">${BG.news.map(n => `<li>${h(n.d.slice(5))} ${lnk(n.u, n.t)}</li>`).join('') || '<li>최근 소식 없음</li>'}</ul></div>
+      <div><h5>비바샘 AI 과정 ${BG.own_n}개</h5>${bars3d([{l: '학점 인정', v: BG.credit}, {l: '교과·수업 연계', v: BG.subj}, {l: '평가 연계', v: BG.eval}], {w: 360, h: 190})}<p class="si-note">차별 포인트 후보: 직무연수 학점, 교과 수업 적용, 평가 연계. 평가 연계 과정이 ${BG.eval}개로 가장 약한 고리.</p></div></div>`);
+    // ⑪ 교대 지도
+    const U = P.univ;
+    out += card('univ', '🎓', '교원양성대학 선점 지도', '기둥 높이 = 비상 교과서 저자 교수 수 · 🚩 = 최근 경쟁사 협약 소식', `<div class="si-cols"><div>${map3d(U)}</div><div><table class="si-tb"><tr><th>대학</th><th>저자 교수</th><th>경쟁사 협약</th><th>제안</th></tr>${U.map(u => `<tr><td><b>${h(u.sh)}</b></td><td>${u.au}</td><td>${u.rival.length ? `<span class="si-bad">${h(u.rival.join(', '))}</span>` : '-'}${u.mou.slice(0, 1).map(m => `<div class="si-note">${lnk(m.u, m.t)}</div>`).join('')}</td><td>${u.rival.length ? '대응 협약 검토' : u.au ? '저자 교수 통해 특강 타진' : '접점 발굴'}</td></tr>`).join('')}</table></div></div>`);
+    // ⑬ 결합 추천
+    out += card('bundle', '📦', '연수+교재 결합 추천', '뜨는 이슈 × 비바샘 보유 과정 × 경쟁사 묶음 상품', `<table class="si-tb"><tr><th>이슈</th><th>흐름(7일)</th><th>연수 주제</th><th>비바샘 과정</th><th>경쟁 최다</th><th>제안</th></tr>${P.bundle.map(b => `<tr><td><b>${h(b.issue)}</b></td><td>${h(b.trend)} · ${b.n7}건</td><td>${h(b.ctopic)}</td><td>${b.own}</td><td>${b.rival ? `${h(b.rival[0])} ${b.rival[1]}` : '-'}</td><td>${b.own && b.rival && b.own * 2 >= b.rival[1] ? '보유 과정 + 비상 교재 SET 구성' : '신규 과정 기획 후 SET'}</td></tr>`).join('')}</table><p class="si-note">경쟁사 '연수+도서·교구' 묶음 상품 최다 ${Math.max(0, ...P.bundle.map(b => b.bundle_rival))}개 · 샘몰 SET 후보 칸과 함께 검토</p>`);
+    // ② 예측 추적
+    out += card('fc', '🔮', '예측 추적', '브리핑 "추적 이슈"가 이후 실제 소식으로 이어졌는지(키워드 기준)', `<table class="si-tb"><tr><th>브리핑</th><th>추적 이슈 · 예측</th><th>이후 소식</th><th>판정</th></tr>${P.forecast.map(f => `<tr><td>${h(f.d.slice(5))}</td><td><b>${h(f.issue)}</b><div class="si-note">${h(f.fc)}</div></td><td>${f.n}건${f.ex.map(x => `<div class="si-note">${lnk(x.u, x.t)}</div>`).join('')}</td><td><span class="si-st si-st-${f.st === '신호 확인' ? 'ok' : f.st === '약한 신호' ? 'mid' : 'no'}">${h(f.st)}</span></td></tr>`).join('') || '<tr><td colspan="4">2일 이상 지난 브리핑이 쌓이면 채워집니다.</td></tr>'}</table>`);
+    // ⑭ 품질 점수
+    const Q = P.quality, lq = Q[Q.length - 1];
+    out += card('qual', '✅', '브리핑 품질 점수', '원문 링크 30 · 출처 다양성 20 · 사실/해석 분리 20 · 뉴스 수 15 · 구성 15', lq ? `<div class="si-cols"><div class="si-center">${ring3d(lq.score, {label: lq.d.slice(5) + ' 호'})}${lq.score < 80 ? '<p class="si-bad">80점 미만 — 원문 확인 보강 필요</p>' : '<p class="si-ok">기준(80점) 충족</p>'}</div><div>${bars3d(Q.slice(-10).map(q => ({l: q.d.slice(5), v: q.score, c: q.score >= 85 ? '#10b981' : q.score >= 70 ? '#f59e0b' : '#ef4444'})), {w: 420, h: 200})}<p class="si-note">최근 호: 원문 ${lq.orig}% · 출처 다양성 ${lq.div}% · 사실/해석 분리 ${lq.sep}% · 뉴스 ${lq.n}건</p></div></div>` : '<p class="si-muted">브리핑이 복호화되면 채워집니다.</p>');
+    el.innerHTML = out + '</div>';
+    // 동작
+    el.querySelectorAll('[data-si]').forEach(b => b.addEventListener('click', () => { const t = el.querySelector('#si-' + b.dataset.si); if (t) t.scrollIntoView({behavior: 'smooth', block: 'start'}); }));
+    const draft = () => { const s = el.querySelector('#siDraftS').value, row = (typeof DATA !== 'undefined' && Array.isArray(DATA)) ? DATA.find(d => d.region === s) : null, tp = (P.sido_topics[s] || []).map(x => x[0]);
+      const bd = P.budget.find(b => b.s === s), ca = P.calendar.find(c => c.s === s), peak = ca ? ca.months.map((v, i) => [v, i + 1]).filter(x => x[0]).sort((a, b) => b[0] - a[0]).slice(0, 2).map(x => x[1] + '월') : [];
+      const rival = P.wins.rows.filter(r => r.c !== '비바샘연수원' && r.reg.includes(s)).map(r => r.c);
+      el.querySelector('#siDraft').innerHTML = `<h4>[${h(s)}교육청] 교원 역량강화 원격연수 협력 제안(초안)</h4><p class="si-note">작성 ${h(P.asof)} · 비바샘원격교육연수원 · 아래 수치는 자동 정리값이므로 제출 전 확인</p>
+        <h5>1. 지역 현황</h5><ul><li>초·중등 학교 ${row && row.total ? row.total.toLocaleString() + '교' : '(확인 필요)'}</li><li>최근 30일 교육청 관심 주제: ${h(tp.join(', ') || '(소식 부족)')}</li><li>예산 소식 ${bd ? bd.n : 0}건${bd && bd.cut ? ' · 삭감 신호 있음' : ''}${bd && bd.items[0] ? ' — ' + h(bd.items[0].t) : ''}</li><li>연수 발주가 많았던 달: ${h(peak.join(', ') || '(기록 부족)')}</li></ul>
+        <h5>2. 제안 과정</h5><ol>${(tp.length ? tp : ['AI·디지털 교육', 'AI 부정행위·평가', '교권·생활지도']).slice(0, 3).map(t => `<li><b>${h(t)}</b> 맞춤 직무연수(15시간, 학점 인정) — 교과 수업 적용 사례·평가 연계 포함</li>`).join('')}</ol>
+        <h5>3. 차별점</h5><ul><li>비상 교과서·교재와 연계한 수업 자료 즉시 제공</li><li>교과별 AI 수업 적용·평가 설계까지 한 과정에서</li><li>연수 후 수업 나눔·교사 공동체 운영 지원</li></ul>
+        <h5>4. 일정</h5><p>${ca && ca.next.length ? ca.next.map(x => `${h(x.ym)} 수요 예상 ${x.n}건`).join(' · ') : '내년 상반기 연수 계획 수립 시기(1~2월) 협의'}</p>${rival.length ? `<p class="si-note">참고(내부): 이 지역 경쟁 수주 — ${h(rival.join(', '))}</p>` : ''}`; };
+    el.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.draft) draft();
+      if (b.dataset.print) { const d = el.querySelector('#siDraft'); if (!d.innerHTML) draft(); const w = window.open('', '_blank'); if (w) { w.document.write(`<meta charset="utf-8"><title>제안서 초안</title><body style="font-family:system-ui,sans-serif;max-width:760px;margin:30px auto;line-height:1.6">${el.querySelector('#siDraft').innerHTML}</body>`); w.document.close(); w.print(); } }
+      if (b.dataset.copy) { const src = b.dataset.copy === 'week' ? el.querySelector('#si-week') : el.querySelector('#siDraft'); if (b.dataset.copy === 'draft' && !src.innerHTML) draft();
+        const t = (b.dataset.copy === 'week' ? el.querySelector('#si-week') : el.querySelector('#siDraft')).innerText; try { navigator.clipboard.writeText(t); b.textContent = '✅ 복사됨'; setTimeout(() => { b.textContent = '📋 복사'; }, 1500); } catch (er) { /* 복사 불가 */ } } });
+    draft();
+  };
+  // ── CP: 비상 강점 5분야 온도계(유리관) ──
+  window.s5Init = function(){
+    const el = document.getElementById('s5Root'); if (!el || el.dataset.done) return; el.dataset.done = '1';
+    let S; try { S = JSON.parse(el.dataset.p); } catch (e) { return; } if (!S || !S.rows) { el.innerHTML = '<p class="si-muted">데이터 준비 중</p>'; return; }
+    const mx = Math.max(5, ...S.rows.map(r => r.n7)), W = 680, H = 250, col = ['#ec4899', '#0ea5e9', '#a16207', '#10b981', '#8b5cf6'];
+    let s = `<svg viewBox="0 0 ${W} ${H}" class="si-svg" role="img" aria-label="강점 5분야 온도계">`;
+    S.rows.forEach((r, i) => { const x = 60 + i * 128, top = 30, bot = 190, lv = bot - (bot - top) * Math.min(1, r.n7 / mx), c = col[i], id = 'tb' + (++gid);
+      s += `<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${sh(c, .75)}"/><stop offset=".45" stop-color="${sh(c, 1.25)}"/><stop offset="1" stop-color="${sh(c, .7)}"/></linearGradient>
+        <linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".1"/><stop offset=".3" stop-color="#fff" stop-opacity=".55"/><stop offset=".55" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity=".25"/></linearGradient></defs>`
+        + `<ellipse cx="${x}" cy="${bot + 18}" rx="30" ry="7" fill="#000" opacity=".12"/>`
+        + `<rect x="${x - 15}" y="${top}" width="30" height="${bot - top}" rx="15" fill="var(--surface-2)" stroke="var(--border)"/>`
+        + `<rect x="${x - 11}" y="${lv}" width="22" height="${bot - lv}" rx="11" fill="url(#${id})"/><ellipse cx="${x}" cy="${lv + 2}" rx="11" ry="3.5" fill="${sh(c, 1.35)}"/>`
+        + `<circle cx="${x}" cy="${bot + 4}" r="17" fill="url(#${id})"/><rect x="${x - 15}" y="${top}" width="30" height="${bot - top}" rx="15" fill="url(#${id}g)"/>`
+        + `<text x="${x}" y="${lv - 10}" text-anchor="middle" class="si-v">${r.n7}건</text><text x="${x}" y="${bot + 42}" text-anchor="middle" class="si-l">${h(r.ic)} ${h(r.name)}</text>`
+        + `<text x="${x}" y="${bot + 58}" text-anchor="middle" class="si-l si-t-${r.trend === '상승' || r.trend === '새로 뜸' ? 'up' : r.trend === '하강' ? 'dn' : 'eq'}">${h(r.trend)} · 지난주 ${r.prev7}</text>`; });
+    el.innerHTML = s.replace(`viewBox="0 0 ${W} ${H}"`, `viewBox="0 0 ${W} ${H + 20}"`) + '</svg>' + `<p class="si-note">최근 7일 교육청·언론 소식 건수(기준 ${h(S.asof)}) · ${S.rows.filter(r => !r.n7).map(r => h(r.name) + ' 소식 없음 — 기회 점검').join(' · ') || '다섯 분야 모두 소식 있음'}</p>`;
+  };
+})();
+
+(function(){ try { const el = document.getElementById('s5Root'); if (el && window.__S5) { el.dataset.p = JSON.stringify(window.__S5); window.s5Init(); } } catch (e) { console.warn('s5', e); } })();
 (function renderViews(){
   const nav = document.querySelector('nav.tabnav'); if (!nav || typeof activateTab !== 'function') { document.documentElement.classList.remove('vs-boot'); return; }
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
