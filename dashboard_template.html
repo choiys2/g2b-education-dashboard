@@ -10319,7 +10319,10 @@ window.__renderPdfx = function(root, P){
 .cph.cph-iso{background:radial-gradient(ellipse at 50% 0%,#1e293b 0%,#0b1120 70%);border-color:#1e293b;color:#e5e7eb;padding:16px 14px 14px;}
 .cph-iso .cph-top h3{color:#f8fafc;}.cph-iso .cph-top p{color:#94a3b8;}.iso-kicker{display:block;font-size:10.5px;letter-spacing:2px;color:#a3e635;font-weight:800;margin-bottom:2px;}
 .cph-iso .cph-view{background:#111827;border-color:#334155;}.cph-iso .cph-view button{color:#cbd5e1;}.cph-iso .cph-view button[aria-pressed="true"]{background:#a3e635;color:#0b1120;}
-.iso-stage{position:relative;border-radius:12px;overflow:hidden;}.iso-svg{display:block;width:100%;height:auto;cursor:grab;touch-action:pan-y;}.iso-stage.zoomable .iso-svg{touch-action:none;}
+.iso-stage{position:relative;border-radius:12px;overflow:hidden;}.iso-svg{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none;}
+.iso-lab.on rect{stroke:#fde047;stroke-width:3;}
+.iso-pick{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(15,23,42,.94);border:1px solid #fde047;border-radius:10px;padding:6px 8px 6px 12px;color:#f8fafc;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,.35);}
+.iso-pick button{all:unset;cursor:pointer;border-radius:7px;padding:4px 10px;font-weight:800;font-size:12.5px;background:#a3e635;color:#0b1120;}.iso-pick button[data-x]{background:#334155;color:#e2e8f0;padding:4px 8px;}
 .iso-badge{font-size:11.5px;font-weight:800;fill:#f8fafc;}.iso-tag{font-size:10.5px;font-weight:700;fill:#f8fafc;pointer-events:none;}
 .iso-neon{font-size:15px;font-weight:900;letter-spacing:3px;fill:#d9f99d;filter:drop-shadow(0 0 4px #a3e635);}
 .iso-desk{cursor:pointer;}.iso-lab:hover rect{stroke:#fde047;stroke-width:2.4;}
@@ -11112,7 +11115,7 @@ window.renderBranchScore = function(tab){
       furn.push({k: x + y + d, f: () => { cube(x + .15, y + d - .55, .3, .3, 6, '#a16207', world, 1); const [px, py] = P(x + .3, y + d - .4, 16); el('circle', {cx: px, cy: py, r: 7, fill: '#22c55e'}, world); }});
       const per = w < 5 ? 2 : 3;
       G[2].slice(0, 6).forEach((tb, i) => { const cx = x + .7 + (i % per) * 1.75, cy = y + 1.1 + Math.floor(i / per) * 1.9;
-        furn.push({k: cx + cy, f: () => { const g = el('g', {class: 'iso-desk', 'data-t': tb}, world);
+        furn.push({k: cx + cy, f: () => { const g = el('g', {class: 'iso-desk', 'data-desk': tb}, world);
           cube(cx, cy, 1.2, .6, 11, '#f8fafc', g, 1.2); cube(cx + .2, cy + .05, .7, .07, 14, '#1f2937', g, 12);
           const scr = el('polygon', {points: pts([P(cx + .23, cy + .12, 14.5), P(cx + .87, cy + .12, 14.5), P(cx + .87, cy + .12, 25), P(cx + .23, cy + .12, 25)]), fill: ac, class: 'iso-scr', style: `animation-delay:${(i * .37).toFixed(2)}s`}, g); screens.push(scr);
           cube(cx + .4, cy + .75, .4, .35, 6, '#334155', g, 1.2); }});
@@ -11140,7 +11143,7 @@ window.renderBranchScore = function(tab){
       el('rect', {x: bx - bw / 2, y: by - 11, width: bw, height: 21, rx: 6, fill: ac, stroke: '#0f172a', 'stroke-width': 1.5}, LL);
       el('text', {x: bx, y: by + 4, 'text-anchor': 'middle', class: 'iso-badge'}, LL).textContent = nm; });
     labels.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1])).forEach(([x, y, tb, ac], li) => { const [lx, ly] = P(x, y, 36 + (Math.round(x * 10) % 2) * 0), nm = (ICON[tb] || '📄') + ' ' + (SHORT[tb] || name(tb)), tw = nm.length * 9.6 + 16;
-      const g = el('g', {class: 'iso-desk iso-lab', 'data-t': tb}, LL);
+      const g = el('g', {class: 'iso-desk iso-lab', 'data-desk': tb}, LL);
       el('rect', {x: lx - tw / 2, y: ly - 9, width: tw, height: 17, rx: 4, fill: '#0f172a', stroke: tb === cur ? '#fde047' : ac, 'stroke-width': tb === cur ? 2.4 : 1.6, opacity: .92}, g);
       el('text', {x: lx, y: ly + 3.5, 'text-anchor': 'middle', class: 'iso-tag'}, g).textContent = nm; });
     // 캐릭터
@@ -11169,15 +11172,13 @@ window.renderBranchScore = function(tab){
     const log = document.createElement('div'); log.className = 'iso-log'; host.appendChild(log);
     const LOG = ag.filter(w => w.when).map(w => `${w.when.slice(-5) || ''} ${w.a[0]} ${w.a[1]} · ${name(w.home)}`);
     let li = 0; const showLog = () => { if (LOG.length) log.textContent = '▸ ' + LOG[li++ % LOG.length]; }; showLog();
-    // 끌어서 이동·휠 확대
-    let vb = [0, 0, VW, VH], drag = null;
-    const setVB = () => svg.setAttribute('viewBox', vb.map(v => v.toFixed(1)).join(' '));
-    svg.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey && !host.classList.contains('zoomable')) return; e.preventDefault(); const k = e.deltaY > 0 ? 1.1 : .9, r = svg.getBoundingClientRect(), mx = vb[0] + (e.clientX - r.left) / r.width * vb[2], my = vb[1] + (e.clientY - r.top) / r.height * vb[3];
-      vb = [mx - (mx - vb[0]) * k, my - (my - vb[1]) * k, Math.min(VW * 1.4, Math.max(VW * .35, vb[2] * k)), Math.min(VH * 1.4, Math.max(VH * .35, vb[3] * k))]; setVB(); }, {passive: false});
-    svg.addEventListener('pointerdown', e => { if (e.target.closest('.iso-desk')) return; drag = [e.clientX, e.clientY, vb[0], vb[1]]; svg.setPointerCapture(e.pointerId); host.classList.add('zoomable'); });
-    svg.addEventListener('pointermove', e => { if (!drag) return; const r = svg.getBoundingClientRect(); vb[0] = drag[2] - (e.clientX - drag[0]) / r.width * vb[2]; vb[1] = drag[3] - (e.clientY - drag[1]) / r.height * vb[3]; setVB(); });
-    svg.addEventListener('pointerup', () => { drag = null; });
-    svg.addEventListener('dblclick', () => { vb = [0, 0, VW, VH]; setVB(); });
+    // 화면은 가운데 고정(끌기·확대 없음). 책상은 한 번 눌러 고르고 '열기'로 이동해 실수로 넘어가지 않게
+    const pick = document.createElement('div'); pick.className = 'iso-pick'; pick.hidden = true; host.appendChild(pick);
+    let sel = null;
+    const choose = tb => { sel = tb; svg.querySelectorAll('.iso-lab').forEach(g => g.classList.toggle('on', g.dataset.desk === tb));
+      pick.hidden = !tb; if (tb) pick.innerHTML = `<span>${ICON[tb] || '📄'} <b>${h(name(tb))}</b></span><button type="button" data-open>열기 ▶</button><button type="button" data-x aria-label="닫기">✕</button>`; };
+    svg.addEventListener('click', e => { const d = e.target.closest('[data-desk]'); choose(d && d.dataset.desk !== sel ? d.dataset.desk : null); });
+    pick.addEventListener('click', e => { if (e.target.closest('[data-open]') && sel) { home = false; gsel = null; go(sel); } else if (e.target.closest('[data-x]')) choose(null); });
     if (still) return;
     let frame = 0;
     const tick = () => { if (!host.isConnected || !host.offsetParent) return;  // 화면에서 사라지면 멈춤
@@ -11192,7 +11193,7 @@ window.renderBranchScore = function(tab){
   }
   const homeBar = () => `<div class="cph-view" role="group" aria-label="앱 홈 보기"><button type="button" data-hv="3d" aria-pressed="${homeView === '3d'}">🏝️ 3D 오피스</button><button type="button" data-hv="tile" aria-pressed="${homeView !== '3d'}">🟦 타일</button></div>`;
   const iso3dHome = () => { const F2 = (window.__FRESH && window.__FRESH.rows) || []; const ok = F2.filter(r => r.state === '정상').length, chk = F2.filter(r => r.state !== '정상' && r.state !== '없음').length;
-    return `<div class="cph cph-iso"><div class="cph-top"><div><small class="iso-kicker">VIVASAM INTELLIGENCE OFFICE</small><h3>🏝️ 비바샘 인텔리전스 오피스</h3><p>이름표를 누르면 그 화면이 열려요 · 끌어서 이동 · Ctrl+휠 확대 · 두 번 눌러 원래대로</p></div>${homeBar()}</div>`
+    return `<div class="cph cph-iso"><div class="cph-top"><div><small class="iso-kicker">VIVASAM INTELLIGENCE OFFICE</small><h3>🏝️ 비바샘 인텔리전스 오피스</h3><p>이름표를 눌러 고른 뒤 '열기 ▶'로 이동 · 화면은 가운데 고정</p></div>${homeBar()}</div>`
       + `<div class="iso-stage" id="isoStage"></div></div>`; };
   const tileHome = t => {
     const tiles = G => G[2].map((x, i) => { const [k, sub] = num(x), sz = TSIZE[i % TSIZE.length], P = PAL[G[1]] || [G[1]];
