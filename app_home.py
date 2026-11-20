@@ -137,7 +137,10 @@ def system_status():
             wx = {"city": "서울", **{k: c["today"].get(k) for k in ("cond", "icon", "tmax", "tmin", "pop")}}
     except Exception:  # noqa: BLE001
         pass
-    rows = [{k: r.get(k) for k in ("name", "tab", "at", "age", "cad", "state")} for r in F.get("rows") or []]
+    BLD = [("news", r"레이더|브리핑|조간"), ("g2b", r"나라장터|수의계약|낙찰|KERIS|AIEP|학교단위"), ("mkt", r"재정|학교알리미|NEIS|경기데이터|학원"),
+           ("comp", r"카탈로그|선정 여론"), ("tch", r"교사|크리에이터|협력 후보"), ("biz", r"영업|운영 시트|일일 지표")]
+    rows = [{**{k: r.get(k) for k in ("name", "tab", "at", "age", "cad", "state")},
+             "b": next((b for b, rx in BLD if re.search(rx, r.get("name") or "")), "mkt")} for r in F.get("rows") or []]
     return {"fresh": {"rows": rows, "checked": F.get("checked")}, "watch": watch, "wx": wx}
 
 

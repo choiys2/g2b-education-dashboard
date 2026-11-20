@@ -6244,15 +6244,15 @@ window.bmInit = function (host, D) {
 
   // ── 시설: 수집원 → 건물(층 = 수집원 하나)
   const B = [
-    {id: 'news', nm: '뉴스·브리핑 타워', ic: '📰', c: '#3b82f6', x: 3, y: 3, w: 3, d: 3, h: 150, rx: /레이더|브리핑|조간/},
-    {id: 'g2b', nm: '조달 센터', ic: '🏛️', c: '#0d9488', x: 7.5, y: 3, w: 4, d: 3.5, h: 118, rx: /나라장터|수의계약|낙찰|KERIS|AIEP|학교단위/},
-    {id: 'mkt', nm: '시장 연구동', ic: '🔬', c: '#7c3aed', x: 14.5, y: 3, w: 4, d: 3, h: 96, rx: /재정|학교알리미|NEIS|경기데이터|학원/},
-    {id: 'comp', nm: '경쟁사 감시동', ic: '🔭', c: '#dc2626', x: 19.5, y: 3, w: 3, d: 3, h: 126, rx: /카탈로그|선정 여론/},
-    {id: 'tch', nm: '교사 트렌드 스튜디오', ic: '🎙️', c: '#db2777', x: 3, y: 11.5, w: 4, d: 3, h: 84, rx: /교사|크리에이터|협력 후보/},
-    {id: 'biz', nm: '경영 데이터 금고', ic: '🔐', c: '#ca8a04', x: 8, y: 12, w: 3, d: 3, h: 72, rx: /영업|운영 시트|일일 지표/},
+    {id: 'news', nm: '뉴스·브리핑 타워', ic: '📰', c: '#3b82f6', x: 3, y: 3, w: 3, d: 3, h: 150},
+    {id: 'g2b', nm: '조달 센터', ic: '🏛️', c: '#0d9488', x: 7.5, y: 3, w: 4, d: 3.5, h: 118},
+    {id: 'mkt', nm: '시장 연구동', ic: '🔬', c: '#7c3aed', x: 14.5, y: 3, w: 4, d: 3, h: 96},
+    {id: 'comp', nm: '경쟁사 감시동', ic: '🔭', c: '#dc2626', x: 19.5, y: 3, w: 3, d: 3, h: 126},
+    {id: 'tch', nm: '교사 트렌드 스튜디오', ic: '🎙️', c: '#db2777', x: 3, y: 11.5, w: 4, d: 3, h: 84},
+    {id: 'biz', nm: '경영 데이터 금고', ic: '🔐', c: '#ca8a04', x: 8, y: 12, w: 3, d: 3, h: 72},
   ];
-  B.forEach(b => { b.src = rows.filter(r => b.rx.test(r.name)); b.bad = b.src.filter(r => r.state !== '정상' && r.state !== '없음'); });
-  const others = rows.filter(r => !B.some(b => b.rx.test(r.name))); if (others.length) B[2].src.push(...others);
+  B.forEach(b => { b.src = rows.filter(r => r.b === b.id); b.bad = b.src.filter(r => r.state !== '정상' && r.state !== '없음'); });
+  const others = rows.filter(r => !B.some(b => b.id === r.b)); if (others.length) B[2].src.push(...others);  // 분류는 관리 데이터(r.b)에서 온다
   const okN = rows.filter(r => r.state === '정상').length, badN = rows.length - okN, ckOk = checks.filter(c => c.ok).length;
   const lastRun = String(W.at || '').slice(5).replace('-', '/');
 
