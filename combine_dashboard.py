@@ -407,6 +407,16 @@ def _strength5():
         return None
 
 
+def _cpviz():
+    """CP 데이터 시각화 확장 7종(사용자 승인 2026-11-21): 패널별 SVG 묶음."""
+    try:
+        import cp_viz
+        return cp_viz.build_cp()
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] CP 시각화 실패: {type(e).__name__}")
+        return None
+
+
 def _morning():
     """CP 텃밭 소식판·우체부용 오늘의 조간 머리기사(공개 지면 내용만)."""
     try:
@@ -1070,6 +1080,12 @@ def main():
         # </script> 로 스크립트 밖으로 빠져나가는 것을 막는다(JS 문자열에서 <\/ 는 </ 와 같다)
         html = html.replace(token, json.dumps(value, ensure_ascii=False).replace("</", "<\\/"))
 
+    # 데이터 시각화 확장: 서버에서 만든 SVG(문자는 모두 html.escape 처리)를 비활성 <template> 로 넣는다.
+    # JSON 경로는 '<' 를 무력화하므로 쓰지 않고, 이 묶음은 cp_viz 가 만든 마크업만 담는다.
+    cpv = _cpviz() or {}
+    raw = "".join(f'<template data-cpv="{k}">' + ("".join(v) if isinstance(v, list) else (v or "")) + "</template>"
+                  for k, v in cpv.items() if k.isalnum())
+    html = html.replace("<!--__CPVIZ_RAW__-->", raw.replace("</script", "<\\/script"), 1)
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(html)
 
