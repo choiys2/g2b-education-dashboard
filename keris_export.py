@@ -63,21 +63,24 @@ def _unused_months(days):
         cur = nxt
 
 
+SPAN = 6  # 나라장터 조회 기간 상한(g2b_config date_range_chunk_days 와 같음)
+
+
 def _end(end):
     """끝 시각: 지금보다 늦으면 API 가 07(입력범위값 초과)로 거절한다 -> 지금 시각으로 자른다(2026-11 장애 원인)."""
-    return min(end.replace(hour=23, minute=59), datetime.now()).strftime("%Y%m%d%H%M")
+    return min(end, datetime.now()).strftime("%Y%m%d%H%M")
 
 
 FILTERS = [{"ntceInsttCd": INST_CD}, {"dminsttCd": INST_CD}, {"ntceInsttNm": INST_NM}, {"dminsttNm": INST_NM}]
 
 
 def probe(cfg, base, op, diag):
-    """최근 1주로 필터를 하나씩 시험해 서버에서 실제로 걸러지는 것만 고른다(오류·과다 결과는 제외)."""
-    end, begin = datetime.now(), datetime.now() - timedelta(days=7)  # 2026-11 부터 7일 넘는 구간은 07
+    """최근 6일로 필터를 하나씩 시험해 서버에서 실제로 걸러지는 것만 고른다(오류·과다 결과는 제외)."""
+    end, begin = datetime.now(), datetime.now() - timedelta(days=SPAN)  # 2026-11-11 부터 7일 이상 구간은 07
     ok = []
     for flt in FILTERS:
         p = {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 10, "inqryDiv": 1, "type": "json",
-             "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": _end(end), **flt}
+             "inqryBgnDt": begin.strftime("%Y%m%d%H%M"), "inqryEndDt": _end(end), **flt}
         try:
             _, total = call_api(base, op, p, timeout=20, retries=1)
         except Exception as e:
@@ -88,11 +91,11 @@ def probe(cfg, base, op, diag):
             diag.append(f"{op}/{list(flt)[0]}: 필터 미동작(total {total})")
             continue
         ok.append(flt)
-        print(f"  {op}: {list(flt)[0]} 사용(최근 1주 {total}건)", flush=True)
+        print(f"  {op}: {list(flt)[0]} 사용(최근 {SPAN}일 {total}건)", flush=True)
     if not ok:  # 진단: 기관 필터 없이 1건만 조회해 필터 문제인지 기간 문제인지 가른다(키는 기록하지 않음)
         try:
             _, total = call_api(base, op, {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 1, "inqryDiv": 1, "type": "json",
-                                           "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": _end(end)}, timeout=20, retries=1)
+                                           "inqryBgnDt": begin.strftime("%Y%m%d%H%M"), "inqryEndDt": _end(end)}, timeout=20, retries=1)
             diag.append(f"{op}/필터없음: 정상(total {total}) -> 기관 필터 문제")
         except Exception as e:
             msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:100]
@@ -107,7 +110,7 @@ def query(cfg, base, op, flts, begin, end, diag):
         page, total = 1, None
         while total is None or (page - 1) * 100 < total:  # 행 수 상한 100(그 이상은 07)
             p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 100, "inqryDiv": 1, "type": "json",
-                 "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": _end(end), **flt}
+                 "inqryBgnDt": begin.strftime("%Y%m%d%H%M"), "inqryEndDt": _end(end), **flt}
             try:
                 items, total = call_api(base, op, p, timeout=25, retries=1)
             except Exception as e:
@@ -178,7 +181,7 @@ def main():
         chunks = []
         cur = w_begin
         while cur < w_end:
-            nxt = min(cur + timedelta(days=7), w_end)  # 7일 단위(28일 구간은 07)
+            nxt = min(cur + timedelta(days=SPAN), w_end)  # 6일 단위(7일 이상은 07)
             chunks.append((cur, nxt))
             cur = nxt
         for kind, sfx in KINDS.items():

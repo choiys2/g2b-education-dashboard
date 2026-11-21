@@ -72,7 +72,7 @@ def chunks(days):
     end, start = datetime.now(), datetime.now() - timedelta(days=days)
     out, cur = [], start
     while cur < end:
-        nxt = min(cur + timedelta(days=7), end)  # 키워드 검색은 28일 구간에서 07 - 7일 단위(2026-11-10 실측)
+        nxt = min(cur + timedelta(days=6), end)  # 나라장터 조회 기간 상한 6일(7일 이상은 07, 2026-11-11 변경)
         out.append((cur, nxt))
         cur = nxt
     return out[::-1]

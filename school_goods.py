@@ -54,7 +54,7 @@ def grade(name):
     return "기타"
 
 
-def chunks(begin, end, days=7):  # 키워드 검색은 28일 구간에서 07(입력범위 초과) - 7일로 나눔(2026-11-10 실측)
+def chunks(begin, end, days=6):  # 키워드 검색은 28일 구간에서 07(입력범위 초과) - 7일로 나눔(2026-11-10 실측)
     """최신 기간부터 거꾸로(키워드 검색이 오래된 기간에서 07 '입력범위값 초과'를 내면 그 지점에서 멈춘다)."""
     out, cur = [], begin
     while cur < end:
