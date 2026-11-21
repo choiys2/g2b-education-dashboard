@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20",
+ "updated": "2026-11-21",
  "inst": "한국교육학술정보원",
  "bids": {
   "20231035089-000": {
@@ -25275,7 +25275,7 @@
    "getOpengResultListInfoServcPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
    "getOpengResultListInfoServcPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
    "getOpengResultListInfoServcPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoThngPPSSrch/dminsttCd: 네트워크 오류: HTTP Error 500: Internal Server Error url=https://apis.data.go.kr/1230000/as/ScsbidInfoService/getOpengResultListInfoThngPPSSrch?serviceKey=***&pageNo=",
+   "getOpengResultListInfoThngPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
    "getOpengResultListInfoThngPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
    "getOpengResultListInfoThngPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
    "getOpengResultListInfoThngPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
