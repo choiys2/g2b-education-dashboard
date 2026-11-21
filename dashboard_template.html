@@ -11029,6 +11029,32 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .cpx-tbl .tbl-wrap{max-height:320px;overflow:auto;} .cpx-tbl table{font-size:12.5px;width:100%;}
 .g3d-sgg{border-color:var(--ink);} .g3d-up{margin-top:8px;}
 @media (max-width:640px){.cpx-bar{padding:0 8px 8px;} .cpx-per input{width:90px;}}
+/* 📈 영업 분석(관리) · ⭐ 관심 기관 · 📤 내보내기 */
+.sx-exp{margin-left:auto;display:flex;gap:4px;flex:none;} .cpx-tb + .sx-exp{margin-left:6px;}
+.sx-exp button,.sx-wadd button,.sx-woh button,.sx-pb{appearance:none;font:inherit;font-size:11.5px;font-weight:800;cursor:pointer;padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+.sx-exp button:hover,.sx-woh button:hover{border-color:var(--market);}
+.sx-leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;margin-top:6px;} .sx-leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+.sx-wk{margin:0;padding:0;list-style:none;display:grid;gap:8px;} .sx-wk li{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:14px;font-weight:700;} .sx-wk li span{font-size:20px;}
+.sx-ql{display:grid;gap:6px;} .sx-q{border:1px solid var(--border);border-radius:12px;background:var(--surface);}
+.sx-q summary{display:flex;gap:10px;align-items:center;padding:8px 10px;cursor:pointer;list-style:none;} .sx-q summary::-webkit-details-marker{display:none;}
+.sx-sc{flex:none;width:40px;height:40px;border-radius:12px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.sx-qt{min-width:0;font-size:13.5px;font-weight:700;} .sx-qt small{display:block;font-weight:500;color:var(--muted);font-size:11.5px;} .sx-qt a{color:inherit;}
+.sx-qd{padding:0 12px 12px;font-size:12.5px;} .sx-why{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;} .sx-why span{padding:2px 8px;border-radius:999px;background:var(--surface-2);}
+.sx-cmp{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:12px;} .sx-cmp ul{margin:4px 0 0;padding-left:16px;} .sx-cmp p{margin:2px 0 8px;}
+.sx-fcs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;} .sx-fc{border:1px solid var(--border);border-radius:12px;padding:8px 10px;min-width:0;}
+.sx-fc h5{margin:0 0 6px;font-size:15px;} .sx-fc h5 span{font-size:11.5px;color:var(--muted);font-weight:600;} .sx-fc ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;}
+.sx-fc li{font-size:12.5px;line-height:1.4;min-width:0;overflow-wrap:anywhere;} .sx-fc li small{display:block;color:var(--muted);font-size:11px;} .sx-fc li a{color:inherit;}
+.sx-k0,.sx-k1{font-style:normal;font-size:10.5px;font-weight:800;padding:1px 6px;border-radius:999px;margin-right:4px;} .sx-k0{background:color-mix(in srgb,var(--market) 16%,transparent);color:var(--market);} .sx-k1{background:color-mix(in srgb,var(--own) 18%,transparent);color:var(--own);}
+.sx-play{display:flex;gap:10px;align-items:center;margin-bottom:6px;} .sx-rg{flex:1;max-width:260px;accent-color:var(--market);} .sx-pb:disabled{opacity:.5;}
+.sx-fm{display:block;font-size:15px;} .sx-fm small{font-weight:600;color:var(--muted);font-size:11.5px;} .sx-tile{max-width:380px;}
+.sx-sim{display:grid;gap:10px;} .sx-sim label{display:grid;grid-template-columns:150px minmax(0,1fr) ;gap:4px 10px;align-items:center;font-size:13px;} .sx-sim label b{grid-column:1;} .sx-sim input{grid-column:2;grid-row:1 / span 2;accent-color:var(--own);}
+.sx-yrs{display:grid;gap:6px;} .sx-yr{display:grid;grid-template-columns:44px minmax(0,1fr) 64px;gap:8px;align-items:center;font-size:12.5px;} .sx-bar{display:flex;height:16px;border-radius:8px;overflow:hidden;background:var(--surface-2);} .sx-bar i{display:block;height:100%;}
+.sx-need{margin:0;font-size:13.5px;}
+.sx-wadd{display:flex;gap:6px;margin-bottom:8px;} .sx-wadd input{flex:1;min-width:0;font:inherit;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+.sx-wl{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:8px;} .sx-wo{border:1px solid var(--border);border-radius:12px;padding:8px 10px;min-width:0;}
+.sx-woh{display:flex;gap:6px;align-items:center;flex-wrap:wrap;} .sx-woh b{font-size:13.5px;min-width:0;overflow-wrap:anywhere;} .sx-woh em{font-style:normal;font-size:11px;font-weight:800;color:#fff;background:var(--rival);padding:1px 7px;border-radius:999px;} .sx-woh span{font-size:11px;color:var(--muted);} .sx-woh button:first-of-type{margin-left:auto;}
+.sx-wo ul{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:4px;} .sx-wo li{font-size:12px;line-height:1.4;overflow-wrap:anywhere;} .sx-wo li span{color:var(--muted);margin-right:6px;} .sx-wo li small{color:var(--muted);margin-left:6px;} .sx-wo li.nw{font-weight:800;}
+@media (max-width:760px){.cpv-card header{flex-wrap:wrap;} .sx-fcs,.sx-cmp{grid-template-columns:minmax(0,1fr);} .sx-sim label{grid-template-columns:minmax(0,1fr);} .sx-sim input{grid-column:1;grid-row:auto;} .sx-exp button{padding:3px 6px;}}
 /* 🗺️ 입체 지도(공통) · 📊 맨 위 그림 */
 .g3d{border:1px solid var(--border);border-radius:16px;background:linear-gradient(170deg,var(--surface),var(--surface-2));padding:10px 12px;box-shadow:0 16px 30px -26px rgba(15,23,42,.6);}
 .g3d-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;font-size:12.5px;}
@@ -13094,6 +13120,103 @@ window.farm3d = function (host, C) {
   }
   window.cpxCountUp = countUp;
   const cu = () => countUp(document.querySelector('.tabpanel.active')); document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.tabbtn,[data-t],[data-g],[data-go]')) setTimeout(cu, 900); }, true); setTimeout(cu, 1500);
+})();
+(function salesX(){  // 📈 영업 분석 화면 동작: ⭐ 관심 기관 · 📤 그림/표 내보내기 · 🗺️ 영토 재생 · 🧮 매출 구성 시뮬레이터
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const LS = {get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+              set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가 브라우저 무시 */ } }};
+  const SIDO = ['서울','부산','대구','인천','광주','대전','울산','세종','경기','강원','충북','충남','전북','전남','경북','경남','제주'];
+  const WK = 'sx.watch.v1', SEEN = 'sx.watch.seen.v1';
+  const BIDS = () => ((window.__CPXD || {}).B) || [];  // [날짜, 시도, 금액(억), 주제, 낙찰, 제목, 기관]
+  let ORGS = null;
+  const om = (b, o) => { b = String(b || ''); return !!b && (b.includes(o) || (o.length > 6 && o.includes(b))); };
+  const orgs = () => { if (ORGS) return ORGS; const c = {}; BIDS().forEach(b => { const o = String(b[6] || ''); if (o) c[o] = (c[o] || 0) + 1; }); return (ORGS = Object.entries(c).sort((a, b) => b[1] - a[1]).map(x => x[0])); };
+  const amt = v => { const n = +v || 0; return n >= 1 ? n.toFixed(1) + '억' : n > 0 ? Math.round(n * 1e4).toLocaleString() + '만' : '-'; };
+  function renderWatch(el) {
+    const W = LS.get(WK, []), seen = LS.get(SEEN, {}), id = 'sxOrg' + (el.dataset.scope || 'x');
+    const L = W.map(o => { const rows = BIDS().filter(b => om(b[6], o)).sort((a, b) => a[0] < b[0] ? 1 : -1);
+      return {o, rows, nw: rows.filter(b => !seen[o] || b[0] > seen[o]).length}; }).sort((a, b) => b.nw - a.nw);
+    el.innerHTML = `<div class="sx-wadd"><input type="search" list="${id}" placeholder="기관 이름 (예: 경기도교육청)" aria-label="관심 기관 이름"><button type="button" data-sxw="add">＋ 추가</button></div>`
+      + `<datalist id="${id}">${orgs().slice(0, 400).map(o => `<option value="${h(o)}">`).join('')}</datalist>`
+      + (L.length ? `<div class="sx-wl">${L.map(x => `<div class="sx-wo"><div class="sx-woh"><b>${h(x.o)}</b>${x.nw ? `<em>새 공고 ${x.nw}</em>` : '<span>새 공고 없음</span>'}`
+          + `<button type="button" data-sxw="seen" data-o="${h(x.o)}" title="지금까지 본 것으로 표시">✓ 확인</button><button type="button" data-sxw="del" data-o="${h(x.o)}" aria-label="${h(x.o)} 삭제">✕</button></div>`
+          + `<ul>${x.rows.slice(0, 5).map(b => `<li${!seen[x.o] || b[0] > seen[x.o] ? ' class="nw"' : ''}><span>${h(b[0])}</span>${h(b[5] || '')}<small>${h(SIDO[b[1]] || '')} · ${h(amt(b[2]))}</small></li>`).join('') || '<li>최근 1년 공고 없음</li>'}</ul></div>`).join('')}</div>`
+        : '<p class="cpv-note">관심 기관을 추가하면 새 공고가 생길 때 여기 맨 위에 표시됩니다.</p>');
+  }
+  const allWatch = () => document.querySelectorAll('.sx-watch').forEach(renderWatch);
+  function addWatch(btn) {
+    const inp = btn.parentElement.querySelector('input'); const v = (inp.value || '').trim().slice(0, 40); if (!v) return;
+    const W = LS.get(WK, []); if (!W.includes(v)) { W.unshift(v); LS.set(WK, W.slice(0, 30)); } allWatch();
+  }
+  // 📤 내보내기: 그림(PNG) · 표(엑셀에서 열리는 CSV)
+  const fname = c => ((c.querySelector('header b') || {}).textContent || '차트').replace(/[\\/:*?"<>|]/g, '').trim().slice(0, 40) || '차트';
+  const save = (blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 800); };
+  const visSvg = c => [...c.querySelectorAll('svg')].find(s => s.getBoundingClientRect().width > 80 && s.closest('[hidden]') == null);
+  function png(c) {
+    const s = visSvg(c); if (!s) return;
+    const cl = s.cloneNode(true), src = [s, ...s.querySelectorAll('*')], dst = [cl, ...cl.querySelectorAll('*')];
+    src.forEach((e, i) => { const cs = getComputedStyle(e), d = dst[i]; if (!d || !d.style) return;
+      ['fill','stroke','stroke-width','stroke-dasharray','opacity','fill-opacity','font-size','font-weight','font-family','text-anchor'].forEach(p => { const v = cs.getPropertyValue(p); if (v) d.style.setProperty(p, v); }); });
+    const vb = (s.getAttribute('viewBox') || '0 0 800 400').split(/\s+/).map(Number), W = vb[2] || 800, H = vb[3] || 400;
+    cl.setAttribute('width', W); cl.setAttribute('height', H); cl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    const url = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(cl)], {type: 'image/svg+xml;charset=utf-8'}));
+    const img = new Image(); img.onload = () => { const cv = document.createElement('canvas'); cv.width = W * 2; cv.height = H * 2; const g = cv.getContext('2d');
+      g.fillStyle = getComputedStyle(document.body).backgroundColor || '#fff'; g.fillRect(0, 0, cv.width, cv.height); g.drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url);
+      cv.toBlob(b => b && save(b, fname(c) + '.png'), 'image/png'); };
+    img.onerror = () => URL.revokeObjectURL(url); img.src = url;
+  }
+  function csv(c) {
+    const t = c.querySelector('table'); if (!t) return;
+    const q = v => { v = String(v).replace(/\s+/g, ' ').trim(); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    const rows = [...t.querySelectorAll('tr')].map(r => [...r.children].map(x => q(x.textContent)).join(','));
+    save(new Blob(['﻿' + rows.join('\r\n')], {type: 'text/csv;charset=utf-8'}), fname(c) + '.csv');
+  }
+  function scan() {
+    if (document.hidden) return;
+    document.querySelectorAll('.cpv-card:not([data-sxm])').forEach(c => { c.dataset.sxm = '1'; const hd = c.querySelector('header'); if (!hd) return;
+      const hasS = !!c.querySelector('svg'), hasT = !!c.querySelector('table'); if (!hasS && !hasT) return;
+      const sp = document.createElement('span'); sp.className = 'sx-exp';
+      sp.innerHTML = (hasS ? '<button type="button" data-sxe="png" title="그림으로 저장">🖼️ PNG</button>' : '') + (hasT ? '<button type="button" data-sxe="csv" title="표를 엑셀용 파일로 저장">📊 엑셀</button>' : '');
+      hd.appendChild(sp); });
+    document.querySelectorAll('.sx-watch:not([data-on])').forEach(el => { el.dataset.on = '1'; renderWatch(el); });
+    document.querySelectorAll('.sx-sim:not([data-on])').forEach(el => { el.dataset.on = '1'; sim(el); });
+  }
+  // 🗺️ 영토 재생
+  const show = (box, i) => { box.querySelectorAll('.sx-frame').forEach(f => { f.hidden = +f.dataset.f !== i; }); const r = box.querySelector('.sx-rg'); if (r) r.value = i; };
+  function play(btn) {
+    const box = btn.closest('.sx-terr'); if (!box || box._t) return; const n = box.querySelectorAll('.sx-frame').length; let i = 0; btn.disabled = true;
+    box._t = setInterval(() => { show(box, i); if (++i >= n) { clearInterval(box._t); box._t = null; btn.disabled = false; } }, 750);
+  }
+  // 🧮 시뮬레이터
+  function sim(box) {
+    const g = k => +box.querySelector(`input[data-k="${k}"]`).value, b0 = g('b0'), gb = g('gb'), go = g('go');
+    let B = b0, O = 100 - b0; const yrs = [];
+    for (let y = 2026; y <= 2030; y++) { B *= 1 + gb / 100; O *= 1 + go / 100; yrs.push([y, B, O]); }
+    const B27 = b0 * Math.pow(1 + gb / 100, 2), need = Math.sqrt(1.5 * B27 / Math.max(100 - b0, 1)) - 1;
+    const hit = yrs.find(x => x[1] / (x[1] + x[2]) <= .4);
+    box.querySelector('[data-o="b0"]').textContent = b0 + '%'; box.querySelector('[data-o="gb"]').textContent = (gb >= 0 ? '+' : '') + gb.toFixed(1) + '%'; box.querySelector('[data-o="go"]').textContent = (go >= 0 ? '+' : '') + go + '%';
+    box.querySelector('.sx-yrs').innerHTML = yrs.map(([y, B, O]) => { const p = B / (B + O) * 100; return `<div class="sx-yr"><b>${y}</b><span class="sx-bar"><i style="width:${p.toFixed(1)}%;background:var(--market)"></i><i style="width:${(100 - p).toFixed(1)}%;background:var(--own)"></i></span><em>${Math.round(p)} : ${Math.round(100 - p)}</em></div>`; }).join('');
+    box.querySelector('.sx-need').innerHTML = `2027년 40 : 60을 맞추려면 B2C+B2S가 <b>연 ${Math.round(need * 100)}%</b>씩 자라야 합니다(B2G 성장률 그대로일 때). `
+      + (hit ? `지금 가정이면 <b>${hit[0]}년</b>에 B2G 40% 이하 도달.` : '지금 가정으로는 2030년까지 40%에 닿지 않습니다.');
+  }
+  document.addEventListener('click', e => {
+    const t = e.target; if (!t.closest) return;
+    const w = t.closest('[data-sxw]');
+    if (w) { const k = w.dataset.sxw, o = w.dataset.o;
+      if (k === 'add') addWatch(w);
+      else if (k === 'del') { LS.set(WK, LS.get(WK, []).filter(x => x !== o)); allWatch(); }
+      else if (k === 'seen') { const s = LS.get(SEEN, {}); const top = BIDS().filter(b => om(b[6], o)).map(b => b[0]).sort().pop(); s[o] = top || new Date().toISOString().slice(0, 10); LS.set(SEEN, s); allWatch(); }
+      return; }
+    const x = t.closest('button[data-sxe]'); if (x) { e.preventDefault(); e.stopPropagation(); const c = x.closest('.cpv-card'); if (x.dataset.sxe === 'png') png(c); else csv(c); return; }
+    const p = t.closest('[data-sx="play"]'); if (p) play(p);
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest && e.target.closest('.sx-wadd')) { e.preventDefault(); addWatch(e.target.closest('.sx-wadd').querySelector('button')); } });
+  document.addEventListener('input', e => {
+    const t = e.target; if (!t.closest) return;
+    if (t.classList.contains('sx-rg')) { const b = t.closest('.sx-terr'); if (b._t) { clearInterval(b._t); b._t = null; const pb = b.querySelector('.sx-pb'); if (pb) pb.disabled = false; } show(b, +t.value); }
+    const s = t.closest('.sx-sim'); if (s && t.dataset.k) sim(s);
+  });
+  scan(); setInterval(scan, 1500);
 })();
 (function cpvMount(){  // 📊 한눈에 보기: 패널 위쪽에 시각화 묶음을 붙이고, 패널이 다시 그려져도 되살린다
   const C = {}; document.querySelectorAll('#cpvTpl > template[data-cpv]').forEach(tp => { const k = tp.dataset.cpv; const cards = [...tp.content.children].map(x => x.outerHTML); if (cards.length) C[k] = k === 'home' ? cards.join('') : cards; });

@@ -421,7 +421,13 @@ def _cpviz():
     """CP 데이터 시각화 확장 7종(사용자 승인 2026-11-21): 패널별 SVG 묶음."""
     try:
         import cp_viz
-        return cp_viz.build_cp()
+        out = cp_viz.build_cp() or {}
+        try:
+            import sales_analysis  # 공고 예보 달력(사실만) + 관심 기관 즐겨찾기 자리 -> 나라장터 종합
+            out.setdefault("g2bfull", []).extend(sales_analysis.build_cp())
+        except Exception as e:  # noqa: BLE001
+            print(f"[경고] 영업 분석(CP) 실패: {type(e).__name__}")
+        return out
     except Exception as e:  # noqa: BLE001
         print(f"[경고] CP 시각화 실패: {type(e).__name__}")
         return None
