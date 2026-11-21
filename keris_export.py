@@ -72,8 +72,8 @@ FILTERS = [{"ntceInsttCd": INST_CD}, {"dminsttCd": INST_CD}, {"ntceInsttNm": INS
 
 
 def probe(cfg, base, op, diag):
-    """최근 4주로 필터를 하나씩 시험해 서버에서 실제로 걸러지는 것만 고른다(오류·과다 결과는 제외)."""
-    end, begin = datetime.now(), datetime.now() - timedelta(days=28)
+    """최근 1주로 필터를 하나씩 시험해 서버에서 실제로 걸러지는 것만 고른다(오류·과다 결과는 제외)."""
+    end, begin = datetime.now(), datetime.now() - timedelta(days=7)  # 2026-11 부터 7일 넘는 구간은 07
     ok = []
     for flt in FILTERS:
         p = {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 10, "inqryDiv": 1, "type": "json",
@@ -84,11 +84,19 @@ def probe(cfg, base, op, diag):
             msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:160]  # 키는 기록하지 않는다
             diag.append(f"{op}/{list(flt)[0]}: {msg}")
             continue
-        if total > 3000:  # 4주에 KERIS 단독 3천 건은 불가능 -> 서버가 필터를 무시
+        if total > 1000:  # 1주에 KERIS 단독 3천 건은 불가능 -> 서버가 필터를 무시
             diag.append(f"{op}/{list(flt)[0]}: 필터 미동작(total {total})")
             continue
         ok.append(flt)
-        print(f"  {op}: {list(flt)[0]} 사용(최근 4주 {total}건)", flush=True)
+        print(f"  {op}: {list(flt)[0]} 사용(최근 1주 {total}건)", flush=True)
+    if not ok:  # 진단: 기관 필터 없이 1건만 조회해 필터 문제인지 기간 문제인지 가른다(키는 기록하지 않음)
+        try:
+            _, total = call_api(base, op, {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 1, "inqryDiv": 1, "type": "json",
+                                           "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": _end(end)}, timeout=20, retries=1)
+            diag.append(f"{op}/필터없음: 정상(total {total}) -> 기관 필터 문제")
+        except Exception as e:
+            msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:100]
+            diag.append(f"{op}/필터없음: {msg}")
     codes = [f for f in ok if "InsttCd" in list(f)[0]]
     return codes or ok[:2]  # 기관코드 필터가 되면 이름 필터는 생략
 
@@ -97,8 +105,8 @@ def query(cfg, base, op, flts, begin, end, diag):
     out = []
     for flt in flts:
         page, total = 1, None
-        while total is None or (page - 1) * 999 < total:
-            p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 999, "inqryDiv": 1, "type": "json",
+        while total is None or (page - 1) * 100 < total:  # 행 수 상한 100(그 이상은 07)
+            p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 100, "inqryDiv": 1, "type": "json",
                  "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": _end(end), **flt}
             try:
                 items, total = call_api(base, op, p, timeout=25, retries=1)
@@ -106,7 +114,7 @@ def query(cfg, base, op, flts, begin, end, diag):
                 diag.append(f"{op}/{list(flt)[0]} {begin:%Y-%m}: {re.sub(r'serviceKey=[^&]+', 'serviceKey=***', str(e))[:120]}")
                 break
             out.extend(i for i in items if is_keris(i))
-            if not items or page >= 5:
+            if not items or page >= 30:
                 break
             page += 1
             time.sleep(cfg.get("request_interval_sec", 0.15))
@@ -170,7 +178,7 @@ def main():
         chunks = []
         cur = w_begin
         while cur < w_end:
-            nxt = min(cur + timedelta(days=28), w_end)
+            nxt = min(cur + timedelta(days=7), w_end)  # 7일 단위(28일 구간은 07)
             chunks.append((cur, nxt))
             cur = nxt
         for kind, sfx in KINDS.items():
