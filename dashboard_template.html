@@ -12431,7 +12431,7 @@ window.farm3d = function (host, C) {
     const MN = window.__MORNING; if (MN && MN.headline) todo.push(['strategy', `📰 오늘의 조간 · ${MN.headline}`]);
     if (near) todo.push(['g2bfull', `⏰ 마감 임박 입찰 ${near}건${g2.today0 ? ` (오늘 ${g2.today0}건)` : ''}`]);
     Object.entries(nn).filter(([, x]) => x && x.d === kday() && x.n > 0).sort((a, b) => b[1].n - a[1].n).slice(0, 2).forEach(([k, x]) => todo.push([k, `🌱 ${x.nm || ''} 새싹 ${x.n}개`]));
-    (window.__ECO_TOP || []).forEach(x => { if (x && x.tab && x.title) todo.push([x.tab, `📰 ${x.title}`]); });
+    (window.__ECO_TOP || []).forEach(x => { if (x && x.tab && x.title) todo.push([x.tab, `📰 ${String(x.title).replace(/\s*\([^()]*\)\s*$/, '')}`]); });
     const UN = [[3, '🎃 허수아비'], [7, '⛲ 분수'], [30, '🌷 꽃길']], next = UN.find(u => n < u[0]), fri = new Date().getDay() === 5, VL = villageLv(), DX = dex();
     return `<div class="gd-board"><div class="gd-bd-head"><b>📋 마을 소식판</b><span class="gd-streak">🔥 연속 ${n}일 방문</span><span class="gd-unlock">${next ? `다음 선물 ${next[1]} · ${next[0] - n}일 남음` : '마을 장식을 모두 모았어요 🎊'}</span><span class="gd-unlock">🏡 Lv.${VL.lv} ${h(VL.name)}${VL.next > 0 ? ` · ${h(VL.nextName)}까지 ${VL.next}번` : ''}</span><button type="button" class="gd-dexbtn" data-gdex="1">📖 도감 ${DX.r.length}/17</button></div>
       <div class="gd-bd-cols"><div class="gd-bd-col"><h5>오늘 볼 것</h5>${todo.slice(0, 3).map(([k, x]) => `<button type="button" data-gt="${h(k)}">${h(x)}</button>`).join('') || '<p>오늘은 조용한 날이에요 🌤️</p>'}</div>
