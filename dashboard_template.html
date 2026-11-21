@@ -4909,6 +4909,11 @@ window.__ownerQ.push(function renderAiBrief(){
       <div style="color:var(--muted);">초록 테두리 = 공략 우선(점수 55+ · 점유 10% 미만)</div>
       <ol style="margin:10px 0 0 18px;padding:0;">${B.rows.slice(0, 5).map(r => `<li style="margin:4px 0;"><b>${h(r.region)}</b> ${r.score}점 · 점유 ${r.share == null ? '-' : r.share + '%'} ${r.flag ? `· ${h(r.flag)}` : ''}</li>`).join('')}</ol></div></div>
       ${so(`상위 3개 시도(${B.rows.slice(0, 3).map(r => r.region).join('·')})에 4분기 영업 인력을 우선 배치하세요.`)}`;
+    { const G3 = fn => (window.geo3d ? fn() : (window.__g3q = window.__g3q || []).push(fn));
+      G3(() => { const sv = el.querySelector('svg'); if (!sv) return; const d = document.createElement('div'); d.style.cssText = 'flex:1 1 420px;min-width:0;'; sv.replaceWith(d);
+        const by = Object.fromEntries(B.rows.map(r => [r.region, r])), avg = k => B.rows.reduce((a, r) => a + (+r[k] || 0), 0) / (B.rows.length || 1);
+        window.geo3d(d, {title: '영업 우선순위 점수', unit: '점', color: '#0ea5e9', sido: Object.fromEntries(B.rows.map(r => [r.region, r.score])),
+          detail: s2 => { const r = by[s2]; return r ? [['자사 점유(%)', r.share, avg('share')], ['구분', r.flag || '-']] : []; }}); }); }
   });
   safe('perTeacher', () => {
     const B = (OPS && OPS.budget) || {};
@@ -6031,6 +6036,12 @@ window.__ownerQ.push(function renderAiBrief(){
         <b style="font-size:14px;">${['경기', '강원', '경남', '전북'].includes(r) ? '★' : ''}${r}</b><span class="num" style="font-size:12px;">${s}</span>
         ${CP[r] ? `<span style="position:absolute;top:5px;right:6px;width:8px;height:8px;border-radius:50%;background:#d64545;"></span>` : ''}${p.own_count ? `<span style="position:absolute;bottom:4px;font-size:10px;color:var(--ink-2);">자사 ${p.own_count}</span>` : ''}</div>`; }).join('')}</div>
       ${legend(Object.entries(SC).map(([k, c]) => ['테두리 ' + k, c]))}${so('진한 칸(기회점수 높음)인데 테두리가 회색(개척)이고 붉은 점(경쟁사 진입)이 있는 시도가 가장 급한 공략 대상입니다.')}`;
+    { const G3 = fn => (window.geo3d ? fn() : (window.__g3q = window.__g3q || []).push(fn));
+      G3(() => { const g = el.firstElementChild; if (!g) return; const d = document.createElement('div'); g.replaceWith(d);
+        const R = Object.keys(P), avg = k => R.reduce((a, r) => a + (+P[r][k] || 0), 0) / (R.length || 1);
+        window.geo3d(d, {title: '영업 기회점수', unit: '점', color: '#d97706', sido: Object.fromEntries(R.map(r => [r, P[r].opportunity_score || 0])),
+          tip: s2 => { const p = P[s2] || {}; return `<br>기회점수 ${p.opportunity_score ?? '-'} · ${h((LC[s2] || {}).stage || '-')}<br>자사 ${p.own_count || 0}건${CP[s2] ? ' · 경쟁사 낙찰 이력' : ''}`; },
+          detail: s2 => { const p = P[s2]; return p ? [['자사 사업건수', p.own_count || 0, avg('own_count')], ['자사 점유율(%)', p.share_pct || 0, avg('share_pct')], ['영업 단계', (LC[s2] || {}).stage || '-']] : []; }}); }); }
   });
   safe('landing', () => {
     const recs = (typeof PIPE !== 'undefined' && PIPE.records) || [];
@@ -9605,21 +9616,14 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     // 교과별 채택 학교(현재 학교급·시도)
     const sub = SUBJ.map((s, i) => ({s, i, a: U.filter(x => (x.b >> i) & 1).length})).filter(x => x.a).sort((a, b) => b.a - a.a).slice(0, 14);
     $('adSubj').innerHTML = `<div style="font-weight:700;font-size:13px;margin-bottom:6px;">교과별 채택 학교 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">${sd || '전국'} · ${lv === '' ? '초·중·고' : LV[+lv]} · 분모 ${n(U.length)}교</span></div>${sub.map(x => bar(x.s, x.a, U.length, `${n(x.a)}교`, String(x.i) === sb)).join('')}`;
-    // 시군구 지도(채택률 색)
-    if (GEO && GEO.features) {
-      const fs = GEO.features.filter(f => !sd || f.sd === sd), agg = {};
-      U.forEach(s => { if (!s.g) return; const x = agg[s.g] = agg[s.g] || {u: 0, a: 0}; x.u++; if (has(s)) x.a++; });
-      let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
-      fs.forEach(f => f.r.forEach(r => { for (let i = 0; i < r.length; i += 2) { x0 = Math.min(x0, r[i]); x1 = Math.max(x1, r[i]); y0 = Math.min(y0, r[i + 1]); y1 = Math.max(y1, r[i + 1]); } }));
-      const W = 900, H = sd ? 520 : 600, tilt = .62, th = sd ? 8 : 5, s = Math.min((W - 40) / (x1 - x0 || 1), (H - 40 - th) / ((y1 - y0) * tilt || 1)), ox = (W - (x1 - x0) * s) / 2;
-      const P = (x, y) => [ox + (x - x0) * s, 20 + (y - y0) * tilt * s];
-      const path = f => f.r.map(r => { let d = ''; for (let i = 0; i < r.length; i += 2) { const [a, b] = P(r[i], r[i + 1]); d += (i ? 'L' : 'M') + a.toFixed(1) + ',' + b.toFixed(1); } return d + 'Z'; }).join('');
-      const col = r => r == null ? 'var(--surface-2)' : `color-mix(in srgb, ${r < .5 ? '#ef4444' : 'var(--accent)'} ${Math.round(r < .5 ? (0.5 - r) * 120 + 15 : (r - .5) * 150 + 15)}%, var(--surface-2))`;
-      $('adMap').innerHTML = `<div style="font-weight:700;font-size:13px;margin-bottom:4px;">시군구 채택률 지도 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">붉을수록 낮음(50% 미만) · 파랄수록 높음 · 구역에 마우스를 올리면 수치</span></div>
-        <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" aria-label="시군구 교과서 채택률 지도">
-        ${fs.map(f => `<path d="${path(f)}" transform="translate(0,${th})" fill="color-mix(in srgb, var(--ink) 22%, var(--surface-2))"/>`).join('')}
-        ${fs.map(f => { const x = agg[f.c]; const r = x && x.u ? x.a / x.u : null; return `<path d="${path(f)}" fill="${col(r)}" stroke="var(--surface)" stroke-width=".6" data-tip="${h(`<b>${h(f.sd)} ${h(f.n)}</b><br>채택 ${x ? n(x.a) : 0} / ${x ? n(x.u) : 0}교 (${x ? pct(x.a, x.u) : '-'})`)}"/>`; }).join('')}
-        ${sd ? fs.map(f => { const [X, Y] = P(f.xy[0], f.xy[1]), x = agg[f.c]; return x && x.u ? `<text x="${X}" y="${Y + 4}" text-anchor="middle" font-size="9.5" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="2.5" style="pointer-events:none;">${h(f.n.replace(/^(.+?[시군])(.+구)$/, '$2'))} ${Math.round(x.a / x.u * 100)}%</text>` : ''; }).join('') : ''}</svg>`;
+    // 시군구 지도(채택률) → 공통 입체 지도(전국·17개 시도 선택)
+    if (GEO && GEO.features) { const G3 = fn => (window.geo3d ? fn() : (window.__g3q = window.__g3q || []).push(fn));
+      const agg = {}; U.forEach(s => { if (!s.g) return; const x = agg[s.g] = agg[s.g] || {u: 0, a: 0}; x.u++; if (has(s)) x.a++; });
+      const sgg = {}; Object.entries(agg).forEach(([k, x]) => { if (x.u) sgg[k] = Math.round(x.a / x.u * 1000) / 10; });
+      const sido = {}; rows.forEach(x => { sido[x.s2] = Math.round(x.a / x.u * 1000) / 10; });
+      G3(() => window.geo3d($('adMap'), {title: '비상 교과서 채택률', unit: '%', color: '#10b981', sel: sd || '전국', sido, sgg,
+        detail: s2 => { const x = rows.find(r => r.s2 === s2); return x ? [['대상 학교(교)', x.u, null], ['채택 학교(교)', x.a, null]] : []; },
+        onPick: s2 => { $('adSd').value = s2 === '전국' ? '' : s2; draw(); }}));
     }
     // 영업 대상 학교
     const BR = window.__BRANCH, brOf = s => { if (!BR || !s.g) return ''; const hit = (BR.rows || []).filter(r => (r.sgg || []).includes(s.g)); return [...new Set(hit.map(r => r.name.replace(/\s*\(.*\)$/, '')))].slice(0, 2).join(', '); };
@@ -10174,22 +10178,12 @@ window.__renderPdfx = function(root, P){
   }
   function draw(){
     drawTrend();
-    // 시도 지도(플랫폼 유형 색, 입체)
-    if (GEO && GEO.features) {
-      const F = GEO.features; let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
-      F.forEach(f => f.r.forEach(r => { for (let i = 0; i < r.length; i += 2) { x0 = Math.min(x0, r[i]); x1 = Math.max(x1, r[i]); y0 = Math.min(y0, r[i + 1]); y1 = Math.max(y1, r[i + 1]); } }));
-      const W = 560, H = 600, tilt = .62, th = 7, s = Math.min((W - 30) / (x1 - x0), (H - 40) / ((y1 - y0) * tilt)), ox = (W - (x1 - x0) * s) / 2;
-      const P = (x, y) => [ox + (x - x0) * s, 14 + (y - y0) * tilt * s];
-      const path = f => f.r.map(r => { let d = ''; for (let i = 0; i < r.length; i += 2) { const [a, b] = P(r[i], r[i + 1]); d += (i ? 'L' : 'M') + a.toFixed(1) + ',' + b.toFixed(1); } return d + 'Z'; }).join('');
+    // 시도 지도(플랫폼 유형) → 공통 입체 지도(전국·17개 시도 선택)
+    if (GEO && GEO.features) { const G3 = fn => (window.geo3d ? fn() : (window.__g3q = window.__g3q || []).push(fn));
       const SX = {}; S.forEach(x => { SX[x.sido] = x; });
-      const lab = S.map(x => { const ff = F.filter(f => f.sd === x.sido); if (!ff.length) return ''; const cx = ff.reduce((a, f) => a + f.xy[0], 0) / ff.length, cy = ff.reduce((a, f) => a + f.xy[1], 0) / ff.length, [X, Y] = P(cx, cy);
-        return `<text x="${X}" y="${Y}" text-anchor="middle" font-size="11" font-weight="800" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="3" style="pointer-events:none;">${h(x.sido)}<tspan x="${X}" dy="12" font-size="9.5" font-weight="600">${h(x.name)}</tspan></text>`; }).join('');
-      $('apMap').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" aria-label="시도별 AIEP 플랫폼 유형 지도">
-        ${F.map(f => `<path d="${path(f)}" transform="translate(0,${th})" fill="color-mix(in srgb, var(--ink) 22%, var(--surface-2))"/>`).join('')}
-        ${F.map(f => { const x = SX[f.sd] || {}; const on = !pick || pick === f.sd; return `<path class="apS" data-s="${h(f.sd)}" d="${path(f)}" fill="color-mix(in srgb, ${GC[x.group] || '#94a3b8'} ${on ? 62 : 22}%, var(--surface-2))" stroke="color-mix(in srgb, ${GC[x.group] || '#94a3b8'} 40%, var(--surface))" stroke-width=".5" style="cursor:pointer;" data-tip="${h(`<b>${h(f.sd)} · ${h(x.name || '')}</b><br>${h(x.group || '')}`)}"/>`; }).join('')}
-        ${lab}</svg>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:12px;margin-top:4px;">${Object.entries(GC).map(([k, c]) => `<span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:${c};vertical-align:-1px;margin-right:4px;"></span>${k} ${cnt(k)}</span>`).join('')}</div>`;
-      $('apMap').querySelectorAll('.apS').forEach(p => p.addEventListener('click', () => { pick = pick === p.dataset.s ? '' : p.dataset.s; draw(); }));
+      G3(() => window.geo3d($('apMap'), {title: 'AIEP 플랫폼 유형', color: '#6366f1', sel: pick || '전국', cat: Object.fromEntries(S.map(x => [x.sido, GC[x.group] || '#94a3b8'])),
+        tip: sd => `<br>유형 ${h((SX[sd] || {}).group || '-')}`, legend: `<div style="display:flex;flex-wrap:wrap;gap:10px;font-size:12px;margin-top:4px;">${Object.entries(GC).map(([k, c]) => `<span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:${c};vertical-align:-1px;margin-right:4px;"></span>${k} ${cnt(k)}</span>`).join('')}</div>`,
+        onPick: sd => { pick = sd === '전국' ? '' : sd; draw(); }}));
     }
     // 시도 카드
     const rows = S.filter(x => !pick || x.sido === pick).sort((a, b) => Object.keys(GC).indexOf(a.group) - Object.keys(GC).indexOf(b.group));
@@ -10982,6 +10976,30 @@ html.v3d .kpi .kpi-value{text-shadow:0 2px 0 rgba(15,23,42,.08),0 6px 12px rgba(
 @media (prefers-reduced-motion:reduce){html.v3d .kpi,html.v3d .kpi:hover{transition:none;transform:none;}}
 #viewBar .v3dbtn{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;padding:5px 10px;border-radius:8px;cursor:pointer;}
 #viewBar .v3dbtn[aria-pressed="true"]{background:linear-gradient(160deg,#e0e7ff,#c7d2fe);color:#3730a3;border-color:#a5b4fc;font-weight:800;box-shadow:inset 0 -2px 0 rgba(0,0,0,.08);}
+/* 🗺️ 입체 지도(공통) · 📊 맨 위 그림 */
+.g3d{border:1px solid var(--border);border-radius:16px;background:linear-gradient(170deg,var(--surface),var(--surface-2));padding:10px 12px;box-shadow:0 16px 30px -26px rgba(15,23,42,.6);}
+.g3d-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;font-size:12.5px;}
+.g3d-bar select{font:inherit;padding:5px 8px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+.g3d-back{appearance:none;font:inherit;font-size:12px;font-weight:800;cursor:pointer;padding:5px 10px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+.g3d-t{font-weight:800;color:var(--ink-2);}
+.g3d-body{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.g3d-m{flex:1 1 380px;min-width:0;} .g3d-side{flex:1 1 230px;min-width:0;}
+.g3d-map{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 12px 14px rgba(15,23,42,.18));}
+.g3d-map .g3d-p:hover{filter:brightness(1.08);}
+.g3d-map .g3d-n{font-size:12px;font-weight:800;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:3px;pointer-events:none;}
+.g3d-map .g3d-s{font-size:10px;font-weight:700;}
+.g3d-map .g3d-v,.g3d-rank .g3d-v{font-size:12px;font-weight:900;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:3px;}
+.g3d-rank{display:block;width:100%;max-width:380px;height:auto;overflow:visible;} .g3d-rank .g3d-l{font-size:12px;fill:var(--ink-2);font-weight:600;}
+.g3d-h{font-size:12.5px;font-weight:800;margin:4px 0 6px;} .g3d-h small{font-weight:600;color:var(--muted);margin-left:6px;}
+.g3d-card{padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--border);margin-bottom:8px;}
+.g3d-card b{display:block;font-size:15px;} .g3d-big{display:block;font-size:24px;font-weight:900;} .g3d-card small{color:var(--muted);font-size:11.5px;}
+.g3d-ul{margin:6px 0 0;padding-left:18px;font-size:12.5px;}
+.tvz{margin:0 0 14px;padding:10px 12px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(160deg,var(--surface),var(--surface-2));box-shadow:0 14px 26px -24px rgba(15,23,42,.6);}
+.tvz-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;font-size:12.5px;} .tvz-head span{color:var(--muted);flex:1 1 160px;min-width:0;}
+.tvz-go{appearance:none;font:inherit;font-size:12px;font-weight:800;cursor:pointer;padding:4px 10px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+.tvz-fig{max-height:420px;overflow:hidden;} .tvz-fig > svg,.tvz-svg{display:block;width:100%;height:auto;max-height:400px;}
+.tvz-svg .tvz-l{font-size:13px;fill:var(--ink-2);font-weight:600;} .tvz-svg .tvz-v{font-size:13px;fill:var(--ink);font-weight:800;}
+@media (max-width:640px){.g3d{padding:8px;} .g3d-map .g3d-n{font-size:15px;} .g3d-rank .g3d-l,.g3d-rank .g3d-v{font-size:14px;}}
 /* 📊 데이터 시각화 확장(CP 7종·관리 3종) */
 .cpv-box{margin:0 0 18px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(160deg,var(--surface),var(--surface-2));box-shadow:0 18px 34px -28px rgba(15,23,42,.55);}
 .cpv-box>summary{cursor:pointer;list-style:none;padding:12px 16px;font-weight:900;font-size:15px;color:var(--ink);}
@@ -12562,7 +12580,7 @@ window.farm3d = function (host, C) {
 (function(){
   const KEY = 'v3d.off.v1', NS = 'http://www.w3.org/2000/svg';
   const isOn = () => { try { return localStorage.getItem(KEY) !== '1'; } catch (e) { return true; } };
-  const SKIP = '.si-svg,.gd-field,.gd-hero,#farmStage,.cph,#admBm,.rc,#networkSvg,.gd-board,.gd-modal,#siRoot,#s5Root';
+  const SKIP = '.si-svg,.gd-field,.gd-hero,#farmStage,.cph,#admBm,.rc,#networkSvg,.gd-board,.gd-modal,#siRoot,#s5Root,.g3d-m';
   const rgb = c => { const m = String(c || '').match(/rgba?\(([\d.]+)[, ]+([\d.]+)[, ]+([\d.]+)(?:[, /]+([\d.]+))?/); return m ? [+m[1], +m[2], +m[3], m[4] == null ? 1 : +m[4]] : null; };
   const shade = (c, k) => { const v = rgb(c); if (!v) return null; return `rgb(${v.slice(0, 3).map(x => Math.max(0, Math.min(255, Math.round(k > 1 ? x + (255 - x) * (k - 1) : x * k)))).join(',')})`; };
   const mk = (t, a, before) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); e.classList.add('v3d-x'); before.parentNode.insertBefore(e, before); return e; };
@@ -12624,6 +12642,169 @@ window.farm3d = function (host, C) {
     const mo2 = new MutationObserver(later); document.querySelectorAll('.tabpanel').forEach(p => mo2.observe(p, {attributes: true, attributeFilter: ['class', 'hidden']}));
     document.addEventListener('click', e => { if (e.target.closest('.tabbtn,[data-t],[data-g],[data-go],[data-gt]')) later(); }, true); window.addEventListener('hashchange', later); window.addEventListener('resize', later); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 600)); else setTimeout(start, 600);
+})();
+/* 🗺️ 입체 지도(공통): 전국 ↔ 17개 시도 선택, 시도를 고르면 그 시도의 시군구로 확대하고 수치를 입체 막대로 비교한다.
+   cfg = {title, unit, fmt, color, sido:{시도:값}, sgg:{시군구코드:값}, cat:{시도:색}, sel, onPick(시도|'전국'), tip(시도)->html, detail(시도)->[[이름, 값, 전국값]], footer} */
+(function(){
+  const SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const nf = v => v == null || isNaN(v) ? '-' : (Math.abs(v) >= 100 ? Math.round(v).toLocaleString() : (Math.round(v * 10) / 10).toLocaleString());
+  window.geo3d = function(el, cfg){
+    const GEO = window.__GEO; if (!el || !GEO || !GEO.features || !GEO.features.length) return false;
+    const F = GEO.features, st = el.__g3 = el.__g3 || {};
+    st.cfg = cfg; if (cfg.sel !== undefined) st.sel = cfg.sel || '전국'; if (!st.sel) st.sel = '전국';
+    const col = cfg.color || '#4f46e5', fmt = cfg.fmt || nf, unit = cfg.unit || '';
+    const sv = cfg.sido || {}, gv = cfg.sgg || null, cat = cfg.cat || null;
+    const cen = {}; SIDO.forEach(s => { const ff = F.filter(f => f.sd === s); if (ff.length) cen[s] = [ff.reduce((a, f) => a + f.xy[0], 0) / ff.length, ff.reduce((a, f) => a + f.xy[1], 0) / ff.length]; });
+    const vals = SIDO.map(s => +sv[s] || 0), nat = vals.filter(v => v).length ? vals.reduce((a, b) => a + b, 0) / vals.filter(v => v).length : 0;
+    const rank = SIDO.filter(s => sv[s] != null).sort((a, b) => (+sv[b] || 0) - (+sv[a] || 0));
+    function draw(){
+      const sel = st.sel, all = sel === '전국', fs = all ? F : F.filter(f => f.sd === sel);
+      let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+      fs.forEach(f => f.r.forEach(r => { for (let i = 0; i < r.length; i += 2) { x0 = Math.min(x0, r[i]); x1 = Math.max(x1, r[i]); y0 = Math.min(y0, r[i + 1]); y1 = Math.max(y1, r[i + 1]); } }));
+      const W = 720, H = all ? 600 : 500, tilt = .58, th = all ? 8 : 14, top = all ? 70 : 80, hmax = all ? 100 : 110;
+      const s = Math.min((W - 40) / (x1 - x0 || 1), (H - top - th - 20) / ((y1 - y0) * tilt || 1)), ox = (W - (x1 - x0) * s) / 2;
+      const P = (x, y) => [ox + (x - x0) * s, top + (y - y0) * tilt * s];
+      const path = f => f.r.map(r => { let d = ''; for (let i = 0; i < r.length; i += 2) { const [a, b] = P(r[i], r[i + 1]); d += (i ? 'L' : 'M') + a.toFixed(1) + ',' + b.toFixed(1); } return d + 'Z'; }).join('');
+      const sgv = f => gv ? (+gv[f.c] || 0) : null;
+      const mxS = Math.max(1e-9, ...vals), mxG = gv ? Math.max(1e-9, ...fs.map(f => sgv(f))) : 1;
+      const shade = (v, mx) => `color-mix(in srgb, ${col} ${Math.round(14 + 70 * Math.max(0, v) / mx)}%, var(--surface-2))`;
+      const fillOf = f => cat ? (cat[f.sd] || 'var(--surface-2)') : (!all && gv ? shade(sgv(f), mxG) : shade(+sv[f.sd] || 0, mxS));
+      const tipOf = f => esc(`<b>${esc(f.sd)}${all ? '' : ' ' + esc(f.n)}</b>`) + (cfg.tip ? esc(cfg.tip(f.sd, f)) : esc(`<br>${esc(cfg.title || '')} ${fmt(+sv[f.sd] || 0)}${unit}${gv && !all ? ` · 이 지역 ${fmt(sgv(f))}${unit}` : ''}`));
+      let svg = `<svg class="g3d-map" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc((cfg.title || '') + ' 입체 지도 ' + sel)}">`;
+      svg += fs.map(f => `<path d="${path(f)}" transform="translate(0,${th})" fill="color-mix(in srgb, var(--ink) 26%, var(--surface-2))"/>`).join('');
+      svg += fs.map(f => { const on = !all || !st.hov || st.hov === f.sd;
+        return `<path class="g3d-p" data-sd="${esc(f.sd)}" d="${path(f)}" fill="${fillOf(f)}" fill-opacity="${on ? 1 : .55}" stroke="var(--surface)" stroke-width="${all ? .5 : .8}" data-tip="${tipOf(f)}" style="cursor:${all ? 'pointer' : 'default'}"/>`; }).join('');
+      // 입체 기둥
+      const items = [];
+      const prism = (X, Y, v, mx, label, big) => {
+        if (!(v > 0)) return;
+        const bw = big ? 15 : 9, hh = Math.max(4, v / mx * hmax), dx = bw * .6, dy = bw * .38;
+        items.push({y: Y, s: `<g pointer-events="none"><ellipse cx="${X + dx / 2}" cy="${Y + 2}" rx="${bw * .9}" ry="${bw * .32}" fill="#000" opacity=".16"/>
+          <rect x="${X - bw / 2}" y="${Y - hh}" width="${bw}" height="${hh}" fill="${col}"/>
+          <polygon points="${X + bw / 2},${Y - hh} ${X + bw / 2 + dx},${Y - hh - dy} ${X + bw / 2 + dx},${Y - dy} ${X + bw / 2},${Y}" fill="color-mix(in srgb, ${col} 62%, #000)"/>
+          <polygon points="${X - bw / 2},${Y - hh} ${X - bw / 2 + dx},${Y - hh - dy} ${X + bw / 2 + dx},${Y - hh - dy} ${X + bw / 2},${Y - hh}" fill="color-mix(in srgb, ${col} 55%, #fff)"/>
+          <rect x="${X - bw / 2}" y="${Y - hh}" width="${bw * .3}" height="${hh}" fill="#fff" opacity=".22"/>
+          ${label ? `<text x="${X + dx / 2}" y="${Y - hh - dy - 5}" text-anchor="middle" class="g3d-v">${esc(label)}</text>` : ''}</g>`});
+      };
+      if (!cat) {
+        if (all) SIDO.forEach(sd => { if (!cen[sd]) return; const [X, Y] = P(cen[sd][0], cen[sd][1]); prism(X, Y, +sv[sd] || 0, mxS, fmt(+sv[sd] || 0), true); });
+        else if (gv) { const top8 = new Set(fs.slice().sort((a, b) => sgv(b) - sgv(a)).slice(0, 8).map(f => f.c)); fs.forEach(f => { const [X, Y] = P(f.xy[0], f.xy[1]); prism(X, Y, sgv(f), mxG, top8.has(f.c) ? fmt(sgv(f)) : '', false); }); }
+        else if (cen[sel]) { const [X, Y] = P(cen[sel][0], cen[sel][1]); prism(X, Y, +sv[sel] || 0, mxS, fmt(+sv[sel] || 0) + unit, true); }
+      }
+      svg += items.sort((a, b) => a.y - b.y).map(x => x.s).join('');
+      // 이름표
+      if (all) svg += SIDO.filter(sd => cen[sd]).map(sd => { const [X, Y] = P(cen[sd][0], cen[sd][1]); return `<text x="${X}" y="${Y + 15}" text-anchor="middle" class="g3d-n">${esc(sd)}</text>`; }).join('');
+      else { const many = fs.length > 25, keep = new Set(gv ? fs.slice().sort((a, b) => sgv(b) - sgv(a)).slice(0, 10).map(f => f.c) : []);
+        svg += fs.filter(f => !many || keep.has(f.c)).map(f => { const [X, Y] = P(f.xy[0], f.xy[1]); return `<text x="${X}" y="${Y + 13}" text-anchor="middle" class="g3d-n g3d-s">${esc(f.n)}</text>`; }).join(''); }
+      svg += '</svg>';
+      // 옆 패널: 전국이면 순위 막대, 시도면 비교 막대
+      let side = '';
+      if (all && !cat) {
+        const mx = Math.max(1e-9, ...rank.map(sd => +sv[sd] || 0)), RH = 22;
+        side = `<div class="g3d-h">${esc(cfg.title || '')} 순위 <small>막대를 누르면 그 시도로</small></div><svg class="g3d-rank" viewBox="0 0 300 ${rank.length * RH + 6}">` + rank.map((sd, i) => {
+          const v = +sv[sd] || 0, w = Math.max(2, 190 * v / mx);
+          return `<g class="g3d-r" data-sd="${esc(sd)}" style="cursor:pointer"><text x="0" y="${i * RH + 15}" class="g3d-l">${i + 1}. ${esc(sd)}</text><rect x="62" y="${i * RH + 4}" width="${w}" height="14" fill="${col}"/><text x="${66 + w}" y="${i * RH + 15}" class="g3d-v">${fmt(v)}</text></g>`; }).join('') + '</svg>';
+      } else if (!all) {
+        const v = +sv[sel] || 0, rk = rank.indexOf(sel) + 1;
+        const det = (cfg.detail ? cfg.detail(sel) : []) || [];
+        const pairs = [[cfg.title || '값', v, nat], ...det.filter(d => d && d[2] != null)];
+        const RH = 46, mxp = p => Math.max(1e-9, Math.abs(p[1] || 0), Math.abs(p[2] || 0));
+        side = `<div class="g3d-card"><b>${esc(sel)}</b>${cat ? '' : `<span class="g3d-big">${fmt(v)}${esc(unit)}</span><small>${rk ? `전국 ${rk}위 / ${rank.length}` : ''} · 시도 평균 ${fmt(nat)}${esc(unit)}</small>`}</div>`
+          + `<svg class="g3d-rank" viewBox="0 0 300 ${pairs.length * RH + 8}">` + pairs.map((p, i) => {
+            const m = mxp(p), a = 200 * Math.abs(p[1] || 0) / m, b = 200 * Math.abs(p[2] || 0) / m;
+            return `<text x="0" y="${i * RH + 11}" class="g3d-l">${esc(p[0])}</text><rect x="0" y="${i * RH + 15}" width="${Math.max(2, a)}" height="12" fill="${col}"/><text x="${a + 6}" y="${i * RH + 25}" class="g3d-v">${fmt(p[1])}</text>`
+              + `<rect x="0" y="${i * RH + 30}" width="${Math.max(2, b)}" height="9" fill="#94a3b8"/><text x="${b + 6}" y="${i * RH + 39}" class="g3d-l">평균 ${fmt(p[2])}</text>`; }).join('') + '</svg>'
+          + (det.filter(d => d && d[2] == null).length ? `<ul class="g3d-ul">${det.filter(d => d && d[2] == null).map(d => `<li>${esc(d[0])} <b>${esc(typeof d[1] === 'number' ? fmt(d[1]) : d[1])}</b></li>`).join('')}</ul>` : '');
+        if (gv) { const tops = fs.slice().sort((a, b) => sgv(b) - sgv(a)).filter(f => sgv(f) > 0).slice(0, 8), mx = Math.max(1e-9, ...tops.map(f => sgv(f)));
+          if (tops.length) side += `<div class="g3d-h">시군구 상위</div><svg class="g3d-rank" viewBox="0 0 300 ${tops.length * 22 + 6}">` + tops.map((f, i) => { const w = Math.max(2, 170 * sgv(f) / mx); return `<text x="0" y="${i * 22 + 15}" class="g3d-l">${esc(f.n)}</text><rect x="80" y="${i * 22 + 4}" width="${w}" height="14" fill="${col}"/><text x="${84 + w}" y="${i * 22 + 15}" class="g3d-v">${fmt(sgv(f))}</text>`; }).join('') + '</svg>'; }
+      } else if (cat && cfg.legend) side = cfg.legend;
+      const opts = ['전국', ...SIDO].map(sd => `<option value="${sd}"${sd === sel ? ' selected' : ''}>${sd}${sd !== '전국' && sv[sd] != null && !cat ? ' · ' + fmt(+sv[sd]) + unit : ''}</option>`).join('');
+      el.innerHTML = `<div class="g3d"><div class="g3d-bar"><label>지역 <select class="g3d-sel">${opts}</select></label>${all ? '' : '<button type="button" class="g3d-back">← 전국</button>'}<span class="g3d-t">${esc(cfg.title || '')}${unit ? ` (${esc(unit)})` : ''}</span></div>`
+        + `<div class="g3d-body"><div class="g3d-m">${svg}</div><div class="g3d-side">${side}</div></div>${cfg.footer || ''}</div>`;
+    }
+    const pick = sd => { st.sel = sd; draw(); if (cfg.onPick) try { cfg.onPick(sd); } catch (e) { /* 연결 화면 오류 무시 */ } };
+    if (!el.__g3wired) { el.__g3wired = true;
+      el.addEventListener('change', e => { if (e.target.classList.contains('g3d-sel')) pick(e.target.value); });
+      el.addEventListener('click', e => { const c = st.cfg; const b = e.target.closest('.g3d-back'); if (b) return pick('전국');
+        const r = e.target.closest('.g3d-r'); if (r) return pick(r.dataset.sd);
+        const p = e.target.closest('.g3d-p'); if (p && st.sel === '전국') pick(p.dataset.sd); });
+    }
+    draw(); return true;
+  };
+  (window.__g3q || []).splice(0).forEach(fn => { try { fn(); } catch (e) { console.warn('geo3d', e); } });
+  window.__g3q = {push: fn => { try { fn(); } catch (e) { console.warn('geo3d', e); } }};
+})();
+
+/* 시장·파이프라인 시도 지도 → 입체 지도로 교체(원래 평면 지도는 숨김) */
+(function(){
+  const swap = (svgId, cfgf) => { const sv = document.getElementById(svgId); if (!sv || sv.__g3) return; const cfg = cfgf(); if (!cfg) return;
+    const d = document.createElement('div'); d.className = 'g3d-host'; sv.before(d); if (window.geo3d(d, cfg)) { sv.style.display = 'none'; sv.__g3 = true; } else d.remove(); };
+  try { if (typeof DATA !== 'undefined' && Array.isArray(DATA)) swap('provinceMap', () => {
+    const by = {}; DATA.forEach(r => { by[r.region] = r; }); const avg = k => DATA.reduce((a, r) => a + (+r[k] || 0), 0) / (DATA.length || 1);
+    return {title: '초·중 학교 수', unit: '교', color: '#2563eb', sido: Object.fromEntries(DATA.map(r => [r.region, r.total])),
+      tip: sd => { const r = by[sd]; return r ? `<br>학교 ${r.total.toLocaleString()}교 · 초 ${r.elem} · 중 ${r.middle}<br>연간 공고 ${r.g2b_notice} · 낙찰 ${r.g2b_award}${r.strength ? '<br>강점권역' : ''}` : ''; },
+      detail: sd => { const r = by[sd]; return r ? [['초등학교', r.elem, avg('elem')], ['중학교', r.middle, avg('middle')], ['연간 공고', r.g2b_notice, avg('g2b_notice')], ['연간 낙찰', r.g2b_award, avg('g2b_award')], ['공립 비중(%)', r.public_ratio, avg('public_ratio')], ['구분', r.strength ? '강점권역' : (r.opportunity ? '기회지역' : '일반')]] : []; }}; }); } catch (e) { console.warn('g3 market', e); }
+  try { if (typeof PIPE !== 'undefined' && PIPE && (PIPE.byRegion || []).length) swap('pipeMap', () => {
+    const R = PIPE.byRegion, by = {}; R.forEach(r => { by[r.region] = r; }); const avg = k => R.reduce((a, r) => a + (+r[k] || 0), 0) / (R.length || 1);
+    return {title: '영업 기회점수', unit: '점', color: '#d97706', sido: Object.fromEntries(R.map(r => [r.region, r.opportunity_score])),
+      detail: sd => { const r = by[sd]; return r ? [['자사 사업건수', r.own_count, avg('own_count')], ['자사 점유율(%)', r.share_pct, avg('share_pct')], ['시장 예산(억)', (r.market_amount || 0) / 1e8, avg('market_amount') / 1e8]] : []; }}; }); } catch (e) { console.warn('g3 pipe', e); }
+})();
+/* 📊 맨 위 입체 그림 점검: 각 화면(일반 탭·관리 칸) 맨 위(첫 화면 높이 안)에 그림이 없으면
+   그 화면에 이미 있는 그림을 위로 올려 보여 주고(원본은 그대로, '자세히 ↓'로 이동), 그림이 없으면 첫 수치 표를 입체 막대로 만든다. */
+(function(){
+  const NOFIG = '.gd-field,.gd-hero,#farmStage,.cph,.tvz,.cpv-spark,.si-ring,.g3d-rank,.tt,[aria-hidden="true"]';
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const figs = root => [...root.querySelectorAll('svg, canvas, [style*="align-items:flex-end"]')].filter(e => {
+    if (e.closest(NOFIG) || (e.tagName === 'svg' && e.parentElement && e.parentElement.closest('svg'))) return false;
+    const r = e.getBoundingClientRect(); return r.width >= 200 && r.height >= 90;
+  });
+  const titleOf = el => { const s = el.closest('section,.panel,.si-card,.cpv-card,.adm-card,.card,details') || el.parentElement;
+    const t = s && s.querySelector('.panel-title,h2,h3,h4,h5,header b,summary,b,strong'); return t ? t.textContent.trim().replace(/\s+/g, ' ').slice(0, 60) : '주요 그림'; };
+  const num = s => { const m = String(s).replace(/,/g, '').match(/-?\d+(\.\d+)?/); if (!m) return null; let v = +m[0]; if (/억/.test(s)) v *= 1e8; else if (/만/.test(s)) v *= 1e4; return v; };
+  function tableFig(root){
+    for (const tb of root.querySelectorAll('table')) {
+      if (tb.closest(NOFIG)) continue;
+      const rows = [...tb.querySelectorAll('tbody tr')].filter(r => r.cells.length >= 2).slice(0, 40); if (rows.length < 3) continue;
+      const hd = [...(tb.querySelector('thead tr') || {cells: []}).cells].map(c => c.textContent.trim());
+      const nc = rows[0].cells.length; let best = -1;
+      for (let j = 1; j < nc; j++) { const ok = rows.filter(r => r.cells[j] && num(r.cells[j].textContent) != null).length; if (ok >= rows.length * .7) { best = j; break; } }
+      if (best < 0) continue;
+      const data = rows.map(r => [r.cells[0].textContent.trim().replace(/\s+/g, ' ').slice(0, 14), num(r.cells[best].textContent), r.cells[best].textContent.trim().slice(0, 14)]).filter(d => d[1] != null);
+      const top = data.slice().sort((a, b) => Math.abs(b[1]) - Math.abs(a[1])).slice(0, 8); if (top.length < 3) continue;
+      const mx = Math.max(1e-9, ...top.map(d => Math.abs(d[1]))), RH = 30;
+      const svg = `<svg class="tvz-svg" viewBox="0 0 640 ${top.length * RH + 8}" role="img" aria-label="표 요약 막대">` + top.map((d, i) => { const w = Math.max(3, 380 * Math.abs(d[1]) / mx);
+        return `<text x="150" y="${i * RH + 20}" text-anchor="end" class="tvz-l">${esc(d[0])}</text><rect x="160" y="${i * RH + 6}" width="${w}" height="18" fill="${['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#14b8a6', '#f97316'][i % 8]}"/><text x="${168 + w}" y="${i * RH + 20}" class="tvz-v">${esc(d[2])}</text>`; }).join('') + '</svg>';
+      const th = titleOf(tb); return {svg, title: `${th} — ${hd[best] || '수치'} 상위`, target: tb};
+    }
+    return null;
+  }
+  function ensure(root){
+    if (!root || root.offsetParent === null || root.querySelector(':scope > .tvz') ) return;
+    const R = root.getBoundingClientRect(); if (R.height < 200) return;  // 아직 그려지지 않은 화면
+    const fs = figs(root);
+    if (fs.some(e => e.getBoundingClientRect().top - R.top < Math.min(560, window.innerHeight * .75))) return;  // 이미 맨 위에 그림 있음
+    let html = '', title = '', target = null;
+    if (fs.length) {
+      const f = fs[0]; target = f; title = titleOf(f);
+      const c = f.cloneNode(true); c.removeAttribute('id'); c.querySelectorAll('[id]').forEach(x => x.removeAttribute('id'));
+      c.classList && c.classList.add('tvz-clone'); if (c.tagName === 'svg') { c.style.width = '100%'; c.style.height = 'auto'; }
+      html = c.outerHTML;
+    } else { const t = tableFig(root); if (!t) return; html = t.svg; title = t.title; target = t.target; }
+    const box = document.createElement('section'); box.className = 'tvz';
+    box.innerHTML = `<div class="tvz-head"><b>📊 한눈에 보기</b><span>${esc(title)}</span><button type="button" class="tvz-go">자세히 ↓</button></div><div class="tvz-fig">${html}</div>`;
+    box.querySelector('.tvz-go').addEventListener('click', () => target && target.scrollIntoView({behavior: 'smooth', block: 'center'}));
+    const anchor = root.querySelector(':scope > .gd-field'); if (anchor) anchor.after(box); else root.prepend(box);
+    if (window.v3d && window.v3d.run) setTimeout(window.v3d.run, 50);
+  }
+  const roots = () => { const out = []; const a = document.querySelector('.tabpanel.active'); if (!a) return out;
+    if (a.id === 'panel-admin') a.querySelectorAll('.adm-pane:not([hidden])').forEach(p => out.push(p)); else out.push(a); return out; };
+  let t = null; const later = (ms) => { clearTimeout(t); t = setTimeout(() => roots().forEach(r => { try { ensure(r); } catch (e) { console.warn('tvz', e); } }), ms || 1400); };
+  window.tvzRun = () => later(10);
+  document.addEventListener('click', e => { if (e.target.closest('.tabbtn,[data-t],[data-g],[data-go],[data-gt],[data-pane]')) later(); }, true);
+  window.addEventListener('hashchange', () => later());
+  const start = () => { later(1800); const mo = new MutationObserver(() => later(1600)); document.querySelectorAll('.tabpanel').forEach(p => mo.observe(p, {attributes: true, attributeFilter: ['class', 'hidden'], childList: true})); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 (function cpvMount(){  // 📊 한눈에 보기: 패널 위쪽에 시각화 묶음을 붙이고, 패널이 다시 그려져도 되살린다
   const C = {}; document.querySelectorAll('#cpvTpl > template[data-cpv]').forEach(tp => { const k = tp.dataset.cpv; const cards = [...tp.content.children].map(x => x.outerHTML); if (cards.length) C[k] = k === 'home' ? cards.join('') : cards; });
