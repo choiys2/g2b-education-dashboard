@@ -4774,6 +4774,9 @@ window.__ownerQ.push(function renderAiBrief(){
   document.addEventListener('mouseover', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el) showTip(e, el.getAttribute('data-tip')); });
   document.addEventListener('mousemove', e => { if (e.target.closest && e.target.closest('[data-tip]')) moveTip(e); });
   document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('[data-tip]')) hideTip(); });
+  document.addEventListener('click', e => { if (!(e.target.closest && e.target.closest('[data-tip]'))) hideTip(); }, true);  // 휴대폰: 다른 곳을 누르면 닫기
+  document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.tabbtn,[data-t],[data-g],[data-go],[data-gt],[data-pane],.vseg button')) hideTip(); }, true);
+  window.addEventListener('hashchange', hideTip); window.addEventListener('scroll', () => { if (tip.classList.contains('show')) hideTip(); }, {passive: true});
 
   // 패널 삽입: after(요소 id) 다음, 없으면 탭 끝
   function panel(tab, after, title, sub){
@@ -9415,6 +9418,7 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
       <button type="button" class="pill" id="brView">평면으로</button></div>
     <div id="brSidoCard" style="margin-top:10px;"></div>
     <div id="brMapWrap" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;"><div id="brMap" style="flex:1 1 560px;min-width:0;"></div><div id="brLegend" style="flex:0 1 240px;min-width:0;font-size:12px;"></div></div>
+    <div id="brCards" style="margin-top:10px;"></div>
     <div id="brBody" style="margin-top:10px;"></div>`;
   tab.prepend(sec);
   // 학판·교판이 같은 지역을 맡으면 한 줄로 묶는다
@@ -9516,8 +9520,15 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
       ${unc.length ? `<div style="margin-top:8px;color:var(--ink-2);"><b>총판 미연결</b> ${unc.length}곳: ${h(unc.slice(0, 12).join(', '))}${unc.length > 12 ? ' 외' : ''}</div>` : ''}
       ${pick ? `<div style="margin-top:8px;"><b>${h((FC[pick] || {}).n)}</b> 담당 총판만 표에 표시 중 <button type="button" class="pill" id="brClear" style="font-size:11px;">해제</button></div>` : ''}
       <div style="margin-top:8px;color:var(--muted);">경계: 통계청 2018 시군구(공개본) · 인천 2026 개편·군위 편입은 옛 경계로 표시</div>`;
-    el.querySelectorAll('.brSgg').forEach(p => p.addEventListener('click', () => { pick = pick === p.dataset.c ? null : p.dataset.c; focus = null; draw(); }));
-    el.querySelectorAll('.brPin').forEach(p => p.addEventListener('click', e => { e.stopPropagation(); const g = G.find(x => x.code + x.area === p.dataset.k); focus = focus === g ? null : g; pick = null; draw(); }));
+    el.querySelectorAll('.brSgg').forEach(p => p.addEventListener('click', () => { const f = FC[p.dataset.c];
+      if (sd === '전체' && f && SIDO.includes(f.sd)) { if (typeof hideTip === 'function') hideTip(); sel.value = f.sd; pick = null; focus = null; sec.dataset.more = ''; draw(); sec.querySelector('#brMapWrap').scrollIntoView({behavior: 'smooth', block: 'start'}); return; }
+      pick = pick === p.dataset.c ? null : p.dataset.c; focus = null; draw(); }));
+    el.querySelectorAll('.brPin').forEach(p => p.addEventListener('click', e => { e.stopPropagation(); const g = G.find(x => x.code + x.area === p.dataset.k);
+      if (sd === '전체' && g) { if (typeof hideTip === 'function') hideTip(); sel.value = g.sido; focus = g; pick = null; draw(); return; }
+      focus = focus === g ? null : g; pick = null; draw(); }));
+    if (!el.__drill) { el.__drill = true;  // 막대·표시 위를 눌러도 그 아래 구역으로(전국 → 시도)
+      el.addEventListener('click', e => { if (sel.value !== '전체' || (e.target.closest && e.target.closest('.brSgg,.brPin'))) return;
+        const hit = document.elementsFromPoint(e.clientX, e.clientY).find(x => x.classList && x.classList.contains('brSgg')); if (hit) hit.dispatchEvent(new MouseEvent('click', {bubbles: true})); }); }
     const cl = lg.querySelector('#brClear'); if (cl) cl.addEventListener('click', () => { pick = null; draw(); });
     return colorOf;
   }
@@ -9540,6 +9551,25 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-draf
     let R = G.filter(g => (all || g.sido === sd) && (!q || (g.names.map(x => x.name).join(' ') + g.area + g.offices.join(' ') + g.sido).includes(q)) && (!pick || g.sggs.has(pick)))
       .sort((a, b) => all ? (SIDO.indexOf(a.sido) - SIDO.indexOf(b.sido)) || ((b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3)) : (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3));
     const colorOf = drawMap(sd, all ? R : G.filter(g => g.sido === sd).sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3))) || {};
+    (() => {  // 2단계: 시도 지도 아래 지사(총판) 카드 — 위치·담당 구역·관할 교육지원청·핵심 수치, 누르면 지도에서 강조
+      const box = sec.querySelector('#brCards'); if (!box) return;
+      if (all) { box.innerHTML = B ? '<p style="font-size:12px;color:var(--muted);margin:0;">🗺️ 지도에서 시도(구역)를 누르면 그 시도 지도로 들어가 지사 위치와 상세 정보를 봅니다.</p>' : ''; return; }
+      const GS = G.filter(g => g.sido === sd).sort((a, b) => (b.ai + b.dig + b.bids12 * 3) - (a.ai + a.dig + a.bids12 * 3));
+      const head = `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px;"><button type="button" class="pill" id="brBack">← 전국 지도</button><b style="font-size:14px;">전국 › ${h(sd)}</b><span style="font-size:12px;color:var(--muted);">지사 ${GS.length}곳 · 카드를 누르면 지도에서 담당 구역이 강조됩니다</span></div>`;
+      if (!B || !GS.length) { box.innerHTML = head + `<p style="font-size:12px;color:var(--muted);">${B ? '이 시도에 연결된 지사가 없습니다.' : '지사 상세는 로그인 뒤 화면에서 보입니다.'}</p>`; }
+      else {
+        const card = g => { const locs = [...g.locs].map(c => (FC[c] || {}).n).filter(Boolean), ax = adoptOf([...g.sggs]);
+          const kv = (k, v) => `<div style="display:flex;justify-content:space-between;gap:6px;font-size:12px;"><span style="color:var(--muted);">${k}</span><b>${v}</b></div>`;
+          return `<div class="brCard" data-k="${h(g.code + g.area)}" style="cursor:pointer;min-width:0;padding:10px 12px;border-radius:14px;border:${focus === g ? '2px solid var(--ink)' : '1px solid var(--border)'};background:linear-gradient(160deg,var(--surface),var(--surface-2));box-shadow:0 12px 22px -20px rgba(15,23,42,.6);">
+            <div style="display:flex;gap:6px;align-items:center;margin-bottom:4px;"><span style="width:12px;height:12px;border-radius:50%;flex:none;background:${colorOf[g.code + g.area] || 'var(--ink)'};"></span><b style="font-size:13.5px;">${g.names.map(x => h(x.name.replace(/\s*\(.*\)$/, ''))).filter((v, i, A) => A.indexOf(v) === i).join(' · ')}</b></div>
+            <div style="font-size:11.5px;color:var(--ink-2);margin-bottom:6px;">${g.names.map(x => h(x.type)).filter((v, i, A) => A.indexOf(v) === i).join('·')} · 📍 ${h(locs.join(', ') || '위치 미상')}</div>
+            <div style="font-size:11.5px;color:var(--ink-2);margin-bottom:6px;">담당: ${h(g.area)}<br>관할: ${h(g.offices.join(', ') || '-')}</div>
+            ${kv('연수 공고(12개월·90일)', `${n(g.bids12)} · ${n(g.bids90)}`)}${kv('AI 중점 · 디지털 선도', `${n(g.ai)} · ${n(g.dig)}`)}${kv('방학 안내 대상(45일)', n(g.due45))}${ax && ax.u ? kv('비상 교과서 채택', `${(ax.a / ax.u * 100).toFixed(1)}% (${n(ax.a)}/${n(ax.u)})`) : ''}</div>`; };
+        box.innerHTML = head + `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;">${GS.map(card).join('')}</div>`;
+        box.querySelectorAll('.brCard').forEach(c => c.addEventListener('click', () => { const g = G.find(x => x.code + x.area === c.dataset.k); focus = focus === g ? null : g; pick = null; draw(); sec.querySelector('#brMapWrap').scrollIntoView({behavior: 'smooth', block: 'start'}); }));
+      }
+      const bk = box.querySelector('#brBack'); if (bk) bk.addEventListener('click', () => { sel.value = '전체'; pick = null; focus = null; draw(); });
+    })();
     if (!B) { sec.querySelector('#brBody').innerHTML = '<p style="color:var(--muted);font-size:13px;">총판 상세(상호·담당 구역·사무실 위치)는 배포 키로 복호화될 때만 표시됩니다(로그인 화면).</p>'; return; }
     const tag = t => `<span style="display:inline-block;padding:0 6px;border-radius:99px;font-size:10.5px;font-weight:700;background:${t === '교판' ? 'color-mix(in srgb, #10b981 22%, var(--surface-2))' : 'color-mix(in srgb, var(--accent) 18%, var(--surface-2))'};margin-right:3px;">${t}</span>`;
     const dot = g => all ? '' : `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${colorOf[g.code + g.area] || 'transparent'};margin-right:5px;vertical-align:middle;"></span>`;
