@@ -407,6 +407,16 @@ def _strength5():
         return None
 
 
+def _cpx():
+    """연동 시각화 데이터(숫자 위주, 시도·기간 필터용)."""
+    try:
+        import cp_viz_data
+        return cp_viz_data.build_data()
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 연동 시각화 데이터 실패: {type(e).__name__}")
+        return None
+
+
 def _cpviz():
     """CP 데이터 시각화 확장 7종(사용자 승인 2026-11-21): 패널별 SVG 묶음."""
     try:
@@ -1008,7 +1018,7 @@ def main():
         "__TREND2027_JSON__": trend2027,
         # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
         "__STRATEGY_JSON__": _strategy(),
-        "__STRENGTH5_JSON__": _strength5(), "__MORNING_JSON__": _morning(),
+        "__STRENGTH5_JSON__": _strength5(), "__CPX_JSON__": _cpx(), "__MORNING_JSON__": _morning(),
         "__GG_B2S_JSON__": load("history/gg_b2s.json") if os.path.exists("history/gg_b2s.json") else None,  # B2S 경기 시군
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)

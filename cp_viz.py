@@ -417,7 +417,7 @@ def opinion():
 
 def build_cp():
     out = {}
-    for key, fn in (("g2bfull", timing), ("g2bfull", plans), ("g2bfull", amounts), ("strategy", topics), ("competitor", rivals), ("adopt", opinion)):
+    for key, fn in (("adopt", opinion),):  # 나라장터 종합·전략·경쟁사는 화면의 연동 보기(필터)로 그린다
         try:
             html = fn()
         except Exception as e:  # 한 그림 오류가 화면 전체를 막지 않게
@@ -529,6 +529,11 @@ def finance():
 
 def build(sec=None):
     parts = []
+    try:
+        import cp_viz_data
+        parts.append(cp_viz_data.build_admin())  # #7 주제 버블맵 · #8 경쟁사 레이더 · #10 시도 스코어카드
+    except Exception as e:  # noqa: BLE001
+        print(f"  cp_viz_data 관리 건너뜀: {str(e)[:120]}")
     for fn in (market_map, school_share, finance):
         try:
             parts.append(fn())

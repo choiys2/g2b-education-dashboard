@@ -2695,6 +2695,7 @@ const SCHOOL_CONTRACT_TREND = {"years":["2009","2010","2011","2012","2013","2014
 const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
 const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
 const STRATEGY = __STRATEGY_JSON__;
+window.__CPXD = __CPX_JSON__;  // 연동 시각화 데이터(숫자 위주)
 window.__S5 = __STRENGTH5_JSON__;  // 강점 5분야 온도계(건수만)
 window.__MORNING = __MORNING_JSON__;  // 오늘의 조간 머리기사(공개 지면)  // 에듀테크 전략 브리핑(strategy_crypto.load_all)
 const TREND2027 = __TREND2027_JSON__;  // 교사 트렌드 2027(teacher_trend2027.py)
@@ -11015,6 +11016,19 @@ html.v3d .kpi .kpi-value{text-shadow:0 2px 0 rgba(15,23,42,.08),0 6px 12px rgba(
 @media (prefers-reduced-motion:reduce){html.v3d .kpi,html.v3d .kpi:hover{transition:none;transform:none;}}
 #viewBar .v3dbtn{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;padding:5px 10px;border-radius:8px;cursor:pointer;}
 #viewBar .v3dbtn[aria-pressed="true"]{background:linear-gradient(160deg,#e0e7ff,#c7d2fe);color:#3730a3;border-color:#a5b4fc;font-weight:800;box-shadow:inset 0 -2px 0 rgba(0,0,0,.08);}
+/* 🎨 의미 색상(자사 초록·경쟁사 빨강·시장 파랑·경고 노랑) + 색약 모드 */
+:root{--own:#10b981;--rival:#ef4444;--market:#3b82f6;--warn:#f59e0b;--cv1:#4f46e5;--cv2:#0ea5e9;--cv3:#10b981;--cv4:#f59e0b;--cv5:#ef4444;--cv6:#8b5cf6;--cv7:#14b8a6;--cv8:#f97316;}
+html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#0072B2;--cv2:#56B4E9;--cv3:#009E73;--cv4:#E69F00;--cv5:#D55E00;--cv6:#CC79A7;--cv7:#F0E442;--cv8:#000000;}
+.cpx-bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:0 14px 10px;font-size:12.5px;}
+.cpx-bar select{font:inherit;padding:5px 8px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+.cpx-per{display:flex;align-items:center;gap:6px;} .cpx-per input{width:120px;accent-color:var(--market);} .cpx-per b{min-width:44px;}
+.cpx-chip,.cpx-cvd,.cpx-tb,.g3d-up{appearance:none;font:inherit;font-size:12px;font-weight:800;cursor:pointer;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+.cpx-chip{background:color-mix(in srgb, var(--market) 14%, var(--surface));border-color:var(--market);}
+.cpx-cvd[aria-pressed="true"],.cpx-tb[aria-pressed="true"]{background:var(--ink);color:var(--surface);}
+.cpv-card header .cpx-tb{margin-left:auto;flex:none;}
+.cpx-tbl .tbl-wrap{max-height:320px;overflow:auto;} .cpx-tbl table{font-size:12.5px;width:100%;}
+.g3d-sgg{border-color:var(--ink);} .g3d-up{margin-top:8px;}
+@media (max-width:640px){.cpx-bar{padding:0 8px 8px;} .cpx-per input{width:90px;}}
 /* 🗺️ 입체 지도(공통) · 📊 맨 위 그림 */
 .g3d{border:1px solid var(--border);border-radius:16px;background:linear-gradient(170deg,var(--surface),var(--surface-2));padding:10px 12px;box-shadow:0 16px 30px -26px rgba(15,23,42,.6);}
 .g3d-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;font-size:12.5px;}
@@ -12726,7 +12740,7 @@ window.farm3d = function (host, C) {
       let svg = `<svg class="g3d-map" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc((cfg.title || '') + ' 입체 지도 ' + sel)}">`;
       svg += fs.map(f => `<path d="${path(f)}" transform="translate(0,${th})" fill="color-mix(in srgb, var(--ink) 26%, var(--surface-2))"/>`).join('');
       svg += fs.map(f => { const on = !all || !st.hov || st.hov === f.sd;
-        return `<path class="g3d-p" data-sd="${esc(f.sd)}" d="${path(f)}" fill="${fillOf(f)}" fill-opacity="${on ? 1 : .55}" stroke="var(--surface)" stroke-width="${all ? .5 : .8}" data-tip="${tipOf(f)}" style="cursor:${all ? 'pointer' : 'default'}"/>`; }).join('');
+        return `<path class="g3d-p" data-sd="${esc(f.sd)}" data-c="${esc(f.c)}" d="${path(f)}" fill="${fillOf(f)}" fill-opacity="${on ? 1 : .55}" stroke="${!all && st.sgg === f.c ? 'var(--ink)' : 'var(--surface)'}" stroke-width="${!all && st.sgg === f.c ? 2.4 : all ? .5 : .8}" data-tip="${tipOf(f)}" style="cursor:${all ? 'pointer' : 'default'}"/>`; }).join('');
       // 입체 기둥
       const items = [];
       const prism = (X, Y, v, mx, label, big) => {
@@ -12768,6 +12782,10 @@ window.farm3d = function (host, C) {
             return `<text x="0" y="${i * RH + 11}" class="g3d-l">${esc(p[0])}</text><rect x="0" y="${i * RH + 15}" width="${Math.max(2, a)}" height="12" fill="${col}"/><text x="${a + 6}" y="${i * RH + 25}" class="g3d-v">${fmt(p[1])}</text>`
               + `<rect x="0" y="${i * RH + 30}" width="${Math.max(2, b)}" height="9" fill="#94a3b8"/><text x="${b + 6}" y="${i * RH + 39}" class="g3d-l">평균 ${fmt(p[2])}</text>`; }).join('') + '</svg>'
           + (det.filter(d => d && d[2] == null).length ? `<ul class="g3d-ul">${det.filter(d => d && d[2] == null).map(d => `<li>${esc(d[0])} <b>${esc(typeof d[1] === 'number' ? fmt(d[1]) : d[1])}</b></li>`).join('')}</ul>` : '');
+        if (st.sgg) { const f = F.find(x => x.c === st.sgg); if (f) { const X = window.__CPXD || {}, SCH = X.sch || {}, city = (f.n.match(/^(.+?[시군])(.+구)?$/) || [])[1] || f.n, ck = [f.n, city !== f.n ? city + ' ' + f.n.slice(city.length) : null, city].find(k => k && SCH[f.sd + '|' + k]) || null, sc = ck ? SCH[f.sd + '|' + ck] : null, stem = city.replace(/(특별자치시|광역시|특별시|시|군|구)$/, '').slice(0, 4);
+          const bids = ((X.B) || []).filter(b => b[1] === SIDO.indexOf(f.sd) && stem.length >= 2 && String(b[6] || '').includes(stem)).sort((a, b) => b[0] < a[0] ? -1 : 1).slice(0, 3);
+          side = `<div class="g3d-card g3d-sgg"><b>🔎 ${esc(f.sd)} ${esc(f.n)}</b>${gv ? `<span class="g3d-big">${fmt(sgv(f))}${esc(unit)}</span>` : ''}<ul class="g3d-ul">${sc ? `<li>학교 <b>${sc[0].toLocaleString()}</b>교 · 교원 <b>${sc[1].toLocaleString()}</b>명${ck === city && city !== f.n ? ` <small>(${esc(ck)} 전체)</small>` : ''}</li>` : ''}<li>AI 중점 <b>${(GEO.ai || {})[f.c] || 0}</b> · 디지털 선도 <b>${(GEO.dig || {})[f.c] || 0}</b></li>${cfg.sggDetail ? (cfg.sggDetail(f) || []).map(d => `<li>${esc(d[0])} <b>${esc(d[1])}</b></li>`).join('') : ''}</ul>`
+            + (bids.length ? `<div class="g3d-h">최근 관련 연수 공고 <small>기관명 기준</small></div><ul class="g3d-ul">${bids.map(b => `<li>${esc(b[0])} · ${esc(b[5])}</li>`).join('')}</ul>` : '') + `<button type="button" class="g3d-up">← ${esc(f.sd)} 전체</button></div>` + side; } }
         if (gv) { const tops = fs.slice().sort((a, b) => sgv(b) - sgv(a)).filter(f => sgv(f) > 0).slice(0, 8), mx = Math.max(1e-9, ...tops.map(f => sgv(f)));
           if (tops.length) side += `<div class="g3d-h">시군구 상위</div><svg class="g3d-rank" viewBox="0 0 300 ${tops.length * 22 + 6}">` + tops.map((f, i) => { const w = Math.max(2, 170 * sgv(f) / mx); return `<text x="0" y="${i * 22 + 15}" class="g3d-l">${esc(f.n)}</text><rect x="80" y="${i * 22 + 4}" width="${w}" height="14" fill="${col}"/><text x="${84 + w}" y="${i * 22 + 15}" class="g3d-v">${fmt(sgv(f))}</text>`; }).join('') + '</svg>'; }
       } else if (cat && cfg.legend) side = cfg.legend;
@@ -12775,12 +12793,13 @@ window.farm3d = function (host, C) {
       el.innerHTML = `<div class="g3d"><div class="g3d-bar"><label>지역 <select class="g3d-sel">${opts}</select></label>${all ? '' : '<button type="button" class="g3d-back">← 전국</button>'}<span class="g3d-t">${esc(cfg.title || '')}${unit ? ` (${esc(unit)})` : ''}</span></div>`
         + `<div class="g3d-body"><div class="g3d-m">${svg}</div><div class="g3d-side">${side}</div></div>${cfg.footer || ''}</div>`;
     }
-    const pick = sd => { st.sel = sd; draw(); if (cfg.onPick) try { cfg.onPick(sd); } catch (e) { /* 연결 화면 오류 무시 */ } };
+    const pick = sd => { st.sel = sd; st.sgg = null; draw(); try { window.dispatchEvent(new CustomEvent('geo3d:pick', {detail: sd})); } catch (e) { /* 무시 */ } if (cfg.onPick) try { cfg.onPick(sd); } catch (e) { /* 연결 화면 오류 무시 */ } };
     if (!el.__g3wired) { el.__g3wired = true;
       el.addEventListener('change', e => { if (e.target.classList.contains('g3d-sel')) pick(e.target.value); });
       el.addEventListener('click', e => { const c = st.cfg; const b = e.target.closest('.g3d-back'); if (b) return pick('전국');
         const r = e.target.closest('.g3d-r'); if (r) return pick(r.dataset.sd);
-        const p = e.target.closest('.g3d-p'); if (p && st.sel === '전국') pick(p.dataset.sd); });
+        if (e.target.closest('.g3d-up')) { st.sgg = null; return draw(); }
+        const p = e.target.closest('.g3d-p'); if (p && st.sel === '전국') pick(p.dataset.sd); else if (p) { st.sgg = st.sgg === p.dataset.c ? null : p.dataset.c; draw(); } });
     }
     draw(); return true;
   };
@@ -12857,6 +12876,224 @@ window.farm3d = function (host, C) {
   window.addEventListener('hashchange', () => later());
   const start = () => { later(1800); const mo = new MutationObserver(() => later(1600)); document.querySelectorAll('.tabpanel').forEach(p => mo.observe(p, {attributes: true, attributeFilter: ['class', 'hidden'], childList: true})); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+/* 📊 연동 시각화(고도화 A·B·C): 시도·기간 필터를 모든 차트가 함께 따르고(지도에서 고른 시도도 반영), 두 시도 비교·표로 보기·색약 모드·숫자 올라가기.
+   데이터는 숫자 위주 표(window.__CPXD)이고, 문자는 그릴 때 모두 escape 한다. */
+(function(){
+  const D = window.__CPXD; if (!D || !D.B) return;
+  const SIDO = D.sido, KEY = 'cpx.state.v1';
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const nf = v => v == null || isNaN(v) ? '-' : (Math.abs(v) >= 100 ? Math.round(v).toLocaleString() : (Math.round(v * 10) / 10).toLocaleString());
+  const eok = v => v >= 1 ? nf(v) + '억' : Math.round(v * 1e4).toLocaleString() + '만';
+  const PER = [3, 6, 12, 24, 0], PERL = ['3개월', '6개월', '1년', '2년', '전체'];
+  const st = (() => { try { return Object.assign({sido: -1, per: 2, cmp: -1, cvd: false}, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { return {sido: -1, per: 2, cmp: -1, cvd: false}; } })();
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { /* 저장 불가 */ } };
+  document.documentElement.classList.toggle('cvd', !!st.cvd);
+  const today = new Date(Date.now() + 9 * 36e5).toISOString().slice(0, 10);
+  const cut = () => { const m = PER[st.per]; if (!m) return '0000'; const d = new Date(Date.now() + 9 * 36e5); d.setUTCMonth(d.getUTCMonth() - m); return d.toISOString().slice(0, 10); };
+  const inP = d => d >= cut(), inS = (si, s) => (s == null ? st.sido : s) < 0 || si === (s == null ? st.sido : s);
+  const C = i => `var(--cv${(i % 8) + 1})`;
+  const where = () => (st.sido >= 0 ? SIDO[st.sido] : '전국') + ' · ' + PERL[st.per];
+  // ---------------- 차트들 ----------------
+  function chTiming(){
+    const cal = D.cal; if (!cal || !cal.weeks) return null;
+    const rows = SIDO.filter(s => cal.rows[s]).filter(s => st.sido < 0 || s === SIDO[st.sido]);
+    const W = cal.weeks.map(w => new Date(w + 'T00:00:00+09:00')), byM = Array(12).fill(0);
+    D.B.forEach(b => { if (inS(b[1]) && b[0]) byM[+b[0].slice(5, 7) - 1]++; });
+    const mx = Math.max(1, ...byM), CW = 34, LX = 46, RH = st.sido < 0 ? 19 : 34, TOP = 62, H = TOP + RH * rows.length + 26;
+    let s = `<svg class="cpv-svg v3d-no" viewBox="0 0 ${LX + CW * W.length + 10} ${H}">`;
+    W.forEach((w, i) => { const x = LX + i * CW, m = w.getMonth(), bh = 34 * byM[m] / mx / 4.3 * 4.3; if (i === 0 || w.getDate() <= 7) s += `<text x="${x + 2}" y="12" class="cpv-l">${m + 1}월</text>`;
+      s += `<rect x="${x + 6}" y="${52 - bh}" width="${CW - 12}" height="${bh}" rx="2" style="fill:var(--warn)"><title>${m + 1}월 연수 공고 ${byM[m]}건(지난 기록)</title></rect>`; });
+    rows.forEach((sd, j) => { const [vac, ex] = cal.rows[sd], y = TOP + j * RH;
+      s += `<text x="${LX - 6}" y="${y + RH / 2 + 4}" text-anchor="end" class="cpv-l">${esc(sd)}</text>`;
+      vac.forEach((v, i) => { s += `<rect x="${LX + i * CW + 1}" y="${y + 1}" width="${CW - 2}" height="${RH - 2}" rx="3" style="fill:${v ? `color-mix(in srgb, var(--market) ${Math.round(15 + v * 70)}%, var(--surface-2))` : 'var(--surface-2)'}"><title>${esc(sd)} ${esc(cal.weeks[i])} 주${v ? ' · 방학' : ''}${ex[i] ? ' · 시험' : ''}</title></rect>`;
+        if (ex[i]) s += `<circle cx="${LX + i * CW + CW / 2}" cy="${y + RH / 2}" r="3.4" style="fill:var(--rival)"/>`; }); });
+    s += `<g class="cpv-l" transform="translate(${LX},${H - 10})"><rect width="12" height="9" style="fill:var(--market)"/><text x="16" y="9">방학</text><circle cx="80" cy="5" r="4" style="fill:var(--rival)"/><text x="88" y="9">시험 주</text><rect x="150" width="12" height="9" style="fill:var(--warn)"/><text x="166" y="9">같은 달 연수 공고</text></g></svg>`;
+    const top = byM.map((v, i) => [i + 1, v]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    return {icon: '🗓️', title: '연수 수요 타이밍', sub: `시도별 방학·시험 주 × 같은 달 연수 공고 · ${st.sido < 0 ? '전국' : SIDO[st.sido]}`, svg: s,
+      note: `그래서: 공고가 몰리는 달은 ${top.map(t => t[0] + '월(' + t[1] + '건)').join(', ')} — 그 1~2달 전, 방학 직후가 제안 적기입니다.`,
+      table: [['월', '연수 공고'], ...byM.map((v, i) => [i + 1 + '월', v])]};
+  }
+  function chFunnel(){
+    const P = D.P.filter(p => inS(p[1]) && inP(p[0])), B = D.B.filter(b => inS(b[1]) && inP(b[0]));
+    const st4 = [['연수 관련 발주계획', P.length, P.reduce((a, p) => a + p[2], 0)], ['공고로 이어진 계획', P.filter(p => p[4]).length, P.filter(p => p[4]).reduce((a, p) => a + p[2], 0)],
+      ['연수 입찰 공고', B.length, B.reduce((a, b) => a + b[2], 0)], ['낙찰 확인(주요 경쟁사)', B.filter(b => b[4]).length, B.filter(b => b[4]).reduce((a, b) => a + b[2], 0)]];
+    const mx = Math.max(1, ...st4.map(x => x[1])), W = 760, RH = 54;
+    let s = `<svg class="cpv-svg" viewBox="0 0 ${W} ${st4.length * RH + 10}">`;
+    st4.forEach(([nm, n, a], i) => { const w = Math.max(6, 520 * n / mx), x = (W - 200 - w) / 2 + 10, y = 6 + i * RH;
+      s += `<rect x="${x}" y="${y}" width="${w}" height="${RH - 14}" rx="6" style="fill:${[`var(--market)`, `var(--cv2)`, `var(--cv3)`, `var(--rival)`][i]}"><title>${esc(nm)} ${n}건 · ${eok(a)}</title></rect>`
+        + `<text x="${W - 190}" y="${y + 18}" class="cpv-v">${esc(nm)}</text><text x="${W - 190}" y="${y + 34}" class="cpv-l">${n.toLocaleString()}건 · ${eok(a)}${i === 1 ? ` · 계획의 ${st4[0][1] ? Math.round(n / st4[0][1] * 100) : 0}%` : i === 3 ? ` · 공고의 ${st4[2][1] ? Math.round(n / st4[2][1] * 100) : 0}%` : ''}</text>`; });
+    s += '</svg>';
+    const r = st4[0][1] ? Math.round(st4[1][1] / st4[0][1] * 100) : 0;
+    return {icon: '🔻', title: '수주 흐름 퍼널', sub: `① 발주계획 → 공고로 이어짐 · ② 연수 공고 → 낙찰 확인 · ${where()}`, svg: s,
+      note: `그래서: 계획의 ${r}%만 공고로 확인됩니다 — 나머지는 아직 공고 전이거나 다른 이름으로 나옵니다(제목 낱말 겹침으로 연결, 정확도 한계). 계획 단계 접촉이 핵심입니다.`,
+      table: [['단계', '건수', '금액(억)'], ...st4.map(x => [x[0], x[1], nf(x[2])])]};
+  }
+  function chPlans(){
+    const P = D.P.filter(p => inS(p[1]) && inP(p[0])); if (!P.length) return null;
+    const hows = D.hows, W = 760, LX = 60, BW = 560, RH = 30;
+    let keys, val;
+    if (st.sido < 0) { const g = {}; P.forEach(p => { if (p[1] < 0) return; const k = SIDO[p[1]]; (g[k] = g[k] || Array(hows.length).fill(0))[p[3]] += p[2]; });
+      keys = Object.keys(g).sort((a, b) => g[b].reduce((x, y) => x + y) - g[a].reduce((x, y) => x + y)).slice(0, 10); val = g; }
+    else { const g = {}; P.forEach(p => { const k = p[0].slice(0, 7); (g[k] = g[k] || Array(hows.length).fill(0))[p[3]] += p[2]; }); keys = Object.keys(g).sort(); val = g; }
+    const mx = Math.max(1e-9, ...keys.map(k => val[k].reduce((x, y) => x + y)));
+    let s = `<svg class="cpv-svg" viewBox="0 0 ${W} ${24 + RH * keys.length + 26}">`;
+    keys.forEach((k, j) => { let x = LX; const y = 14 + j * RH; s += `<text x="${LX - 8}" y="${y + 15}" text-anchor="end" class="cpv-l">${esc(k)}</text>`;
+      val[k].forEach((v, i) => { if (v <= 0) return; const w = BW * v / mx; s += `<rect x="${x}" y="${y}" width="${Math.max(1, w)}" height="20" style="fill:${C(i)}"><title>${esc(k)} · ${esc(hows[i])} ${eok(v)}</title></rect>`; x += w; });
+      s += `<text x="${x + 10}" y="${y + 15}" class="cpv-v">${eok(val[k].reduce((a, b) => a + b))}</text>`; });
+    s += `<g class="cpv-l" transform="translate(${LX},${24 + RH * keys.length + 14})">${hows.map((hw, i) => `<rect x="${i * 110}" y="-9" width="12" height="9" style="fill:${C(i)}"/><text x="${i * 110 + 16}" y="0">${esc(hw)}</text>`).join('')}</g></svg>`;
+    const sole = P.filter(p => hows[p[3]] === '수의계약').reduce((a, p) => a + p[2], 0), tot = P.reduce((a, p) => a + p[2], 0);
+    return {icon: '🧭', title: '연수 관련 발주계획', sub: `${st.sido < 0 ? '지역별(상위 10)' : '월별'} 금액 × 계약방식 · ${where()}`, svg: s,
+      note: `그래서: ${P.length}건 ${eok(tot)} 중 수의계약 ${eok(sole)}(${tot ? Math.round(sole / tot * 100) : 0}%) — 수의계약 물량은 사전 접촉이 곧 수주입니다.`,
+      table: [[st.sido < 0 ? '지역' : '월', ...hows, '합계(억)'], ...keys.map(k => [k, ...val[k].map(nf), nf(val[k].reduce((a, b) => a + b))])]};
+  }
+  const BK = [['2천만 미만', 0, .2], ['2천~5천만', .2, .5], ['5천만~1억', .5, 1], ['1~3억', 1, 3], ['3억 이상', 3, 1e9]];
+  function chAmounts(){
+    const B = D.B.filter(b => inS(b[1]) && inP(b[0]) && b[2] > 0); if (!B.length) return null;
+    const c = BK.map(([, lo, hi]) => B.filter(b => b[2] >= lo && b[2] < hi)), mx = Math.max(1, ...c.map(x => x.length));
+    let s = '<svg class="cpv-svg" viewBox="0 0 760 240">';
+    BK.forEach(([nm], i) => { const x = 70 + i * 135, bh = 140 * c[i].length / mx, y = 30 + 140 - bh;
+      s += `<rect x="${x}" y="${y}" width="96" height="${Math.max(1, bh)}" style="fill:${C(i)}"><title>${nm} ${c[i].length}건</title></rect><text x="${x + 48}" y="${y - 12}" text-anchor="middle" class="cpv-v">${c[i].length}건</text>`
+        + `<text x="${x + 48}" y="192" text-anchor="middle" class="cpv-l">${nm}</text><text x="${x + 48}" y="208" text-anchor="middle" class="cpv-l">${eok(c[i].reduce((a, b) => a + b[2], 0))}</text>`; });
+    s += '</svg>';
+    const med = B.map(b => b[2]).sort((a, b) => a - b)[B.length >> 1], top = c.map((x, i) => [i, x.length]).sort((a, b) => b[1] - a[1])[0][0];
+    return {icon: '💰', title: '연수 입찰 금액 분포', sub: `금액대별 건수·합계 · ${where()}`, svg: s, note: `그래서: 중앙값 ${eok(med)}, 가장 많은 구간은 '${BK[top][0]}' — 이 금액대 제안 패키지를 표준으로 준비하세요.`,
+      table: [['금액대', '건수', '합계(억)'], ...BK.map((b, i) => [b[0], c[i].length, nf(c[i].reduce((a, x) => a + x[2], 0))])]};
+  }
+  function chGrass(){  // 연간 잔디(입체 기둥)
+    const t0 = new Date(Date.now() + 9 * 36e5); t0.setUTCDate(t0.getUTCDate() - 364); const start = new Date(t0); start.setUTCDate(start.getUTCDate() - start.getUTCDay());
+    const cnt = {}; D.B.forEach(b => { if (inS(b[1])) cnt[b[0]] = (cnt[b[0]] || 0) + 1; });
+    const days = []; for (let d = new Date(start); d.toISOString().slice(0, 10) <= today; d.setUTCDate(d.getUTCDate() + 1)) days.push(d.toISOString().slice(0, 10));
+    const mx = Math.max(1, ...days.map(d => cnt[d] || 0)), cw = 12, ch = 6.5, ox = 70, oy = 40;
+    const P = (x, y) => [ox + x * cw + y * cw * .55, oy + y * ch * 1.6 + x * .9];
+    const items = [];
+    days.forEach((d, i) => { const x = Math.floor(i / 7), y = i % 7, v = cnt[d] || 0, [X, Y] = P(x, y), hh = v ? 4 + 34 * v / mx : 1.5, w = 8, dx = 4, dy = 3;
+      const col = v ? `color-mix(in srgb, var(--own) ${Math.round(30 + 70 * v / mx)}%, var(--surface-2))` : 'var(--surface-2)';
+      items.push(`<g><title>${d} · 연수 공고 ${v}건</title><rect x="${X}" y="${Y - hh}" width="${w}" height="${hh}" style="fill:${col}"/><polygon points="${X + w},${Y - hh} ${X + w + dx},${Y - hh - dy} ${X + w + dx},${Y - dy} ${X + w},${Y}" style="fill:${col};filter:brightness(.72)"/><polygon points="${X},${Y - hh} ${X + dx},${Y - hh - dy} ${X + w + dx},${Y - hh - dy} ${X + w},${Y - hh}" style="fill:${col};filter:brightness(1.2)"/></g>`); });
+    let s = `<svg class="cpv-svg v3d-no" viewBox="0 0 ${ox + 54 * cw + 60} ${oy + 7 * ch * 1.6 + 70}">` + items.join('');
+    days.forEach((d, i) => { if (d.slice(8) <= '07' && i % 7 === 0) { const [X, Y] = P(Math.floor(i / 7), 7); s += `<text x="${X}" y="${Y + 16}" class="cpv-l">${+d.slice(5, 7)}월</text>`; } });
+    ['일', '', '화', '', '목', '', '토'].forEach((w, y) => { if (w) { const [X, Y] = P(0, y); s += `<text x="${X - 8}" y="${Y}" text-anchor="end" class="cpv-l">${w}</text>`; } });
+    s += '</svg>';
+    const wk = Array(7).fill(0); days.forEach(d => { wk[new Date(d + 'T00:00:00Z').getUTCDay()] += cnt[d] || 0; });
+    const busy = ['일', '월', '화', '수', '목', '금', '토'][wk.indexOf(Math.max(...wk))], tot = days.reduce((a, d) => a + (cnt[d] || 0), 0);
+    return {icon: '🌱', title: '연간 공고 잔디', sub: `최근 1년 날마다 연수 공고 수(기둥 높이) · ${st.sido < 0 ? '전국' : SIDO[st.sido]}`, svg: s,
+      note: `그래서: 1년 ${tot}건, 공고가 가장 많은 요일은 ${busy}요일 — 그 요일 오전에 새 공고를 확인하는 루틴을 권합니다.`, table: [['요일', '공고'], ...['일', '월', '화', '수', '목', '금', '토'].map((w, i) => [w, wk[i]])]};
+  }
+  function chForecast(){
+    const m = {}; D.B.forEach(b => { if (inS(b[1]) && b[0]) m[b[0].slice(0, 7)] = (m[b[0].slice(0, 7)] || 0) + 1; });
+    const ks = []; const d = new Date(Date.now() + 9 * 36e5); d.setUTCDate(1); for (let i = 12; i >= 1; i--) { const x = new Date(d); x.setUTCMonth(x.getUTCMonth() - i); ks.push(x.toISOString().slice(0, 7)); }
+    const vals = ks.map(k => m[k] || 0); if (!vals.some(Boolean)) return null;
+    const fut = [0, 1, 2].map(i => { const x = new Date(d); x.setUTCMonth(x.getUTCMonth() + i); const k = x.toISOString().slice(0, 7), ly = (() => { const y = new Date(x); y.setUTCFullYear(y.getUTCFullYear() - 1); return m[y.toISOString().slice(0, 7)]; })();
+      const recent = vals.slice(-3).reduce((a, b) => a + b, 0) / 3; return [k, ly != null ? (ly + recent) / 2 : recent]; });
+    const res = vals.slice(-6).map(v => v - vals.slice(-6).reduce((a, b) => a + b, 0) / 6), sd = Math.sqrt(res.reduce((a, b) => a + b * b, 0) / 6) || 1;
+    const all = [...ks.map((k, i) => [k, vals[i]]), ...fut], mx = Math.max(1, ...all.map(x => x[1] + sd)), W = 760, H = 250, L = 40, B0 = 200;
+    const X = i => L + (W - L - 30) * i / (all.length - 1), Y = v => B0 - (B0 - 20) * v / mx;
+    let s = `<svg class="cpv-svg" viewBox="0 0 ${W} ${H}"><line x1="${L}" y1="${B0}" x2="${W - 20}" y2="${B0}" stroke="var(--border)"/>`;
+    const f0 = ks.length - 1;
+    s += `<polygon points="${[...fut.map((f, i) => `${X(f0 + 1 + i)},${Y(f[1] + sd)}`), ...fut.map((f, i) => `${X(f0 + 1 + i)},${Y(Math.max(0, f[1] - sd))}`).reverse(), `${X(f0)},${Y(vals[f0])}`].join(' ')}" style="fill:var(--warn)" opacity=".22"/>`;
+    s += `<polyline points="${vals.map((v, i) => `${X(i)},${Y(v)}`).join(' ')}" fill="none" style="stroke:var(--market)" stroke-width="3"/>`;
+    s += `<polyline points="${[[f0, vals[f0]], ...fut.map((f, i) => [f0 + 1 + i, f[1]])].map(([i, v]) => `${X(i)},${Y(v)}`).join(' ')}" fill="none" style="stroke:var(--warn)" stroke-width="3" stroke-dasharray="6 5"/>`;
+    all.forEach(([k, v], i) => { s += `<circle cx="${X(i)}" cy="${Y(v)}" r="5" style="fill:${i > f0 ? 'var(--warn)' : 'var(--market)'}"><title>${k} ${i > f0 ? '예상 ' : ''}${nf(v)}건</title></circle>` + (i % 2 === 0 || i > f0 ? `<text x="${X(i)}" y="${B0 + 18}" text-anchor="middle" class="cpv-l">${k.slice(2).replace('-', '.')}</text>` : ''); });
+    s += '</svg>';
+    return {icon: '🔮', title: '다음 3개월 연수 공고 예측', sub: `월별 실제(파랑) + 예상(점선)·범위(음영) · 지난해 같은 달과 최근 3개월 평균 · ${st.sido < 0 ? '전국' : SIDO[st.sido]}`, svg: s,
+      note: `그래서: 다음 3개월 ${fut.map(f => f[0].slice(5) + '월 약 ' + Math.round(f[1]) + '건').join(', ')}(±${Math.round(sd)}) 예상 — 단순 추정이므로 방향만 참고하세요.`,
+      table: [['월', '건수', '구분'], ...all.map(([k, v], i) => [k, nf(v), i > f0 ? '예상' : '실제'])]};
+  }
+  function chTopics(){
+    const T = D.topics, S = D.S.filter(x => inS(x[1]) && inP(x[0]) && x[0]); if (!S.length) return null;
+    const ds = S.map(x => x[0]).sort(), first = ds[0], last = ds[ds.length - 1], span = Math.round((new Date(last) - new Date(first)) / 864e5) + 1, step = span > 60 ? 7 : span > 21 ? 2 : 1;
+    const nb = Math.max(2, Math.ceil(span / step)), bins = Array.from({length: nb}, () => Array(T.length).fill(0));
+    S.forEach(x => { const i = Math.min(nb - 1, Math.floor((new Date(x[0]) - new Date(first)) / 864e5 / step)); T.forEach((_, t) => { if (x[2] & (1 << t)) bins[i][t]++; }); });
+    const mx = Math.max(1, ...bins.map(b => b.reduce((a, c) => a + c, 0))), W = 760, L = 30, PH = 170, dx = (W - L - 170) / (nb - 1);
+    let s = `<svg class="cpv-svg" viewBox="0 0 ${W} 230">`, base = Array(nb).fill(0);
+    T.forEach((n, t) => { const top = bins.map((b, i) => base[i] + b[t]); const pts = [...top.map((v, i) => `${L + i * dx},${14 + PH - PH * v / mx}`), ...base.map((v, i) => `${L + i * dx},${14 + PH - PH * v / mx}`).reverse()];
+      const tot = bins.reduce((a, b) => a + b[t], 0); s += `<polygon points="${pts.join(' ')}" style="fill:${C(t)}" opacity=".85"><title>${esc(n)} ${tot}건</title></polygon><rect x="${W - 160}" y="${14 + t * 21}" width="12" height="12" rx="2" style="fill:${C(t)}"/><text x="${W - 142}" y="${25 + t * 21}" class="cpv-l">${esc(n)} ${tot}</text>`; base = top; });
+    s += `<text x="${L}" y="${PH + 34}" class="cpv-l">${first.slice(5)}</text><text x="${L + (nb - 1) * dx}" y="${PH + 34}" text-anchor="end" class="cpv-l">${last.slice(5)}</text></svg>`;
+    // 시도 × 주제
+    const M = SIDO.map((_, si) => T.map((__, t) => D.S.filter(x => x[1] === si && inP(x[0]) && (x[2] & (1 << t))).length)), mh = Math.max(1, ...M.flat()), CW = 70;
+    let hm = `<svg class="cpv-svg v3d-no" viewBox="0 0 ${50 + CW * T.length} ${36 + 19 * 17}">` + T.map((n, t) => `<text x="${50 + t * CW + CW / 2}" y="24" text-anchor="middle" class="cpv-l">${esc(n.split('·')[0].slice(0, 6))}</text>`).join('');
+    SIDO.forEach((sd, j) => { const y = 32 + j * 19, on = st.sido === j || st.cmp === j; hm += `<text x="44" y="${y + 13}" text-anchor="end" class="cpv-${on ? 'v' : 'l'}">${esc(sd)}</text>` + T.map((_, t) => { const v = M[j][t]; return `<rect x="${50 + t * CW + 1}" y="${y}" width="${CW - 2}" height="17" rx="3" style="fill:color-mix(in srgb, var(--cv1) ${Math.round(6 + 80 * v / mh)}%, var(--surface-2));${on ? 'stroke:var(--ink);stroke-width:1.5' : ''}"><title>${esc(sd)} · ${esc(T[t])} ${v}</title></rect>${v ? `<text x="${50 + t * CW + CW / 2}" y="${y + 13}" text-anchor="middle" class="cpv-c">${v}</text>` : ''}`; }).join(''); });
+    hm += '</svg>';
+    const tot = T.map((_, t) => bins.reduce((a, b) => a + b[t], 0)), lead = tot.indexOf(Math.max(...tot));
+    return {icon: '🌊', title: '교육청 정책 주제 흐름', sub: `${step === 1 ? '일' : step === 2 ? '2일' : '주'} 단위 · ${where()}`, svg: s + '<h5 class="cpv-h">시도 × 주제</h5><div class="cpv-fit">' + hm + '</div>',
+      note: `그래서: ${st.sido < 0 ? '전국' : SIDO[st.sido]}에서 가장 많이 다뤄진 주제는 '${T[lead]}'(${tot[lead]}건) — 이 주제로 교육청 제안서를 먼저 준비하세요.`,
+      table: [['주제', '건수'], ...T.map((n, t) => [n, tot[t]])]};
+  }
+  function chRivals(){
+    const W0 = D.W.filter(w => inS(w[1]) && inP(w[0])); if (!W0.length) return null;
+    const ms = [...new Set(W0.map(w => w[0].slice(0, 7)))].sort().slice(-12), orgs = D.orgs.filter((_, i) => W0.some(w => w[2] === i)).slice(0, 5);
+    const W = 760, LX = 110, RH = 44, dx = (W - LX - 30) / Math.max(1, ms.length - 1), amx = Math.max(1e-9, ...W0.map(w => w[4]));
+    let s = `<svg class="cpv-svg" viewBox="0 0 ${W} ${40 + RH * orgs.length + 20}">` + ms.map((m, i) => `<text x="${LX + i * dx}" y="18" text-anchor="middle" class="cpv-l">${m.slice(2).replace('-', '.')}</text>`).join('');
+    orgs.forEach((o, j) => { const oi = D.orgs.indexOf(o), y = 44 + j * RH; s += `<line x1="${LX - 10}" y1="${y}" x2="${W - 20}" y2="${y}" stroke="var(--border)" stroke-dasharray="3 4"/><text x="${LX - 18}" y="${y + 4}" text-anchor="end" class="cpv-l">${esc(o)}</text>`;
+      ms.forEach((m, i) => { const L = W0.filter(w => w[2] === oi && w[0].startsWith(m)); if (!L.length) return; const a = L.reduce((x, w) => x + w[4], 0), win = L.some(w => w[3]);
+        s += `<circle cx="${LX + i * dx}" cy="${y}" r="${5 + 13 * Math.sqrt(a / amx)}" style="fill:${win ? 'var(--rival)' : 'var(--market)'}" opacity=".85"><title>${esc(o)} ${m} · ${L.length}건 · ${eok(a)}</title></circle>`; }); });
+    s += `<g class="cpv-l" transform="translate(${LX},${40 + RH * orgs.length + 14})"><circle cx="5" cy="-3" r="5" style="fill:var(--market)"/><text x="14" y="1">계약만</text><circle cx="80" cy="-3" r="5" style="fill:var(--rival)"/><text x="89" y="1">낙찰 포함(크기=금액)</text></g></svg>`;
+    const cnt = orgs.map(o => [o, W0.filter(w => w[2] === D.orgs.indexOf(o)).length]).sort((a, b) => b[1] - a[1]);
+    return {icon: '🏁', title: '경쟁사 활동 타임라인', sub: `월별 계약·낙찰 · ${where()}`, svg: s, note: `그래서: ${where()} 가장 활발한 곳은 ${cnt[0][0]}(${cnt[0][1]}건) — 같은 교육청의 다음 사업을 미리 확인하세요.`,
+      table: [['업체', '건수'], ...cnt]};
+  }
+  // ---------------- 두 시도 비교 ----------------
+  function metricsOf(si){
+    const B = D.B.filter(b => b[1] === si && inP(b[0])), P = D.P.filter(p => p[1] === si && inP(p[0])), sch = Object.entries(D.sch).filter(([k]) => k.startsWith(SIDO[si] + '|')).reduce((a, [, v]) => a + v[0], 0);
+    return [['학교 수', sch], ['연수 공고(건)', B.length], ['연수 공고 금액(억)', B.reduce((a, b) => a + b[2], 0)], ['연수 발주계획(건)', P.length], ['발주계획 금액(억)', P.reduce((a, p) => a + p[2], 0)],
+      ['교육청 소식(건)', D.S.filter(x => x[1] === si && inP(x[0])).length], ['경쟁사 활동(건)', D.W.filter(w => w[1] === si && inP(w[0])).length]];
+  }
+  function chCompare(){
+    if (st.sido < 0 || st.cmp < 0 || st.cmp === st.sido) return null;
+    const A = metricsOf(st.sido), Bm = metricsOf(st.cmp), W = 760, M = 380, RH = 34;
+    let s = `<svg class="cpv-svg" viewBox="0 0 ${W} ${40 + RH * A.length}"><text x="${M - 70}" y="20" text-anchor="end" class="cpv-v">${esc(SIDO[st.sido])}</text><text x="${M + 70}" y="20" class="cpv-v">${esc(SIDO[st.cmp])}</text>`;
+    A.forEach(([k, a], i) => { const b = Bm[i][1], mx = Math.max(1e-9, a, b), y = 32 + i * RH, wa = 250 * a / mx, wb = 250 * b / mx;
+      s += `<rect x="${M - 62 - wa}" y="${y}" width="${Math.max(1, wa)}" height="20" style="fill:var(--market)"/><rect x="${M + 62}" y="${y}" width="${Math.max(1, wb)}" height="20" style="fill:var(--warn)"/>`
+        + `<text x="${M}" y="${y + 14}" text-anchor="middle" class="cpv-l">${esc(k)}</text><text x="${M - 68 - wa}" y="${y + 14}" text-anchor="end" class="cpv-v">${nf(a)}</text><text x="${M + 68 + wb}" y="${y + 14}" class="cpv-v">${nf(b)}</text>`; });
+    s += '</svg>';
+    const win = A.filter((x, i) => x[1] > Bm[i][1]).length;
+    return {icon: '⚖️', title: `${SIDO[st.sido]} vs ${SIDO[st.cmp]} 비교`, sub: `${PERL[st.per]} 기준 · 왼쪽 ${SIDO[st.sido]} · 오른쪽 ${SIDO[st.cmp]}`, svg: s,
+      note: `그래서: ${A.length}개 지표 중 ${SIDO[st.sido]}가 ${win}개에서 앞섭니다.`, table: [['지표', SIDO[st.sido], SIDO[st.cmp]], ...A.map((x, i) => [x[0], nf(x[1]), nf(Bm[i][1])])]};
+  }
+  // ---------------- 화면 붙이기 ----------------
+  const PANES = {g2bfull: [chCompare, chTiming, chFunnel, chPlans, chAmounts, chGrass, chForecast], strategy: [chCompare, chTopics], competitor: [chCompare, chRivals]};
+  const card = (c, k) => `<section class="cpv-card" data-k="${k}"><header><span class="cpv-ic">${c.icon}</span><div><b>${esc(c.title)}</b><small>${esc(c.sub)}</small></div><button type="button" class="cpx-tb" aria-pressed="false" title="표로 보기">표</button></header>`
+    + `<div class="cpx-fig">${c.svg}</div><div class="cpx-tbl" hidden><div class="tbl-wrap"><table class="data"><thead><tr>${c.table[0].map(x => `<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${c.table.slice(1).map(r => `<tr>${r.map(x => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`
+    + `<p class="cpv-note">${esc(c.note)}</p></section>`;
+  const bar = () => `<div class="cpx-bar"><label>지역 <select class="cpx-sd">${['전국', ...SIDO].map((s, i) => `<option value="${i - 1}"${i - 1 === st.sido ? ' selected' : ''}>${s}</option>`).join('')}</select></label>`
+    + `<label class="cpx-per">기간 <input type="range" min="0" max="4" step="1" value="${st.per}" class="cpx-rng" aria-label="기간"><b>${PERL[st.per]}</b></label>`
+    + `<label>⇄ 비교 <select class="cpx-cmp"${st.sido < 0 ? ' disabled title="먼저 지역을 고르세요"' : ''}><option value="-1">없음</option>${SIDO.map((s, i) => i === st.sido ? '' : `<option value="${i}"${i === st.cmp ? ' selected' : ''}>${s}</option>`).join('')}</select></label>`
+    + `${st.sido >= 0 ? `<button type="button" class="cpx-chip">📍 ${esc(SIDO[st.sido])} ✕</button>` : ''}<button type="button" class="cpx-cvd" aria-pressed="${st.cvd}">🎨 색약</button></div>`;
+  function render(k){
+    const p = document.getElementById('panel-' + k); if (!p) return;
+    let box = p.querySelector(':scope > .cpx-box');
+    if (!box) { box = document.createElement('details'); box.className = 'cpv-box cpx-box'; box.open = true; const f = p.querySelector(':scope > .gd-field, :scope > .cpv-box'); if (f) f.after(box); else p.prepend(box); }
+    const cs = PANES[k].map(fn => { try { return fn(); } catch (e) { console.warn('cpx', fn.name, e); return null; } }).filter(Boolean);
+    box.innerHTML = `<summary>📊 연동 보기 · ${esc(where())}</summary>${bar()}<div class="cpv-grid">${cs.map((c, i) => card(c, k + i)).join('') || '<p class="cpv-note">데이터 준비 중</p>'}</div>`;
+    countUp(box); if (window.v3d && window.v3d.run) setTimeout(window.v3d.run, 60);
+  }
+  const all = () => Object.keys(PANES).forEach(k => { try { render(k); } catch (e) { console.warn('cpx', k, e); } });
+  window.cpxSet = o => { Object.assign(st, o); if (st.sido < 0) st.cmp = -1; save(); document.documentElement.classList.toggle('cvd', !!st.cvd); all(); };
+  document.addEventListener('change', e => { const t = e.target; if (!t.closest || !t.closest('.cpx-bar')) return;
+    if (t.classList.contains('cpx-sd')) window.cpxSet({sido: +t.value}); else if (t.classList.contains('cpx-cmp')) window.cpxSet({cmp: +t.value}); else if (t.classList.contains('cpx-rng')) window.cpxSet({per: +t.value}); });
+  document.addEventListener('input', e => { const t = e.target; if (t.classList && t.classList.contains('cpx-rng')) { const b = t.parentElement.querySelector('b'); if (b) b.textContent = PERL[+t.value]; } });
+  document.addEventListener('click', e => { const t = e.target; if (!t.closest) return;
+    if (t.closest('.cpx-chip')) window.cpxSet({sido: -1});
+    else if (t.closest('.cpx-cvd')) window.cpxSet({cvd: !st.cvd});
+    else if (t.closest('.cpx-tb')) { const c = t.closest('.cpv-card'), on = t.getAttribute('aria-pressed') !== 'true'; t.setAttribute('aria-pressed', on); c.querySelector('.cpx-fig').hidden = on; c.querySelector('.cpx-tbl').hidden = !on; } });
+  // 지도에서 고른 시도 → 연동
+  window.addEventListener('geo3d:pick', e => { const i = SIDO.indexOf(e.detail); window.cpxSet({sido: i}); });
+  const mo = new MutationObserver(ms => { ms.forEach(m => { const p = m.target; if (p.id && p.id.startsWith('panel-') && PANES[p.id.slice(6)] && !p.querySelector(':scope > .cpx-box')) render(p.id.slice(6)); }); });
+  const start = () => { all(); Object.keys(PANES).forEach(k => { const p = document.getElementById('panel-' + k); if (p) mo.observe(p, {childList: true}); }); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+  // ---------------- 숫자 올라가기(카운트업) ----------------
+  function countUp(root){
+    const els = (root || document).querySelectorAll('.kpi-value, .cpv-k b, .g3d-big, .cph-t .big'); if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const io = new IntersectionObserver(es => es.forEach(en => { if (!en.isIntersecting) return; io.unobserve(en.target); const el = en.target, txt = el.textContent, m = txt.match(/-?[\d,]+(\.\d+)?/); if (!m || el.dataset.cu) return; el.dataset.cu = '1';
+      const end = parseFloat(m[0].replace(/,/g, '')), dec = (m[1] || '').length - 1, pre = txt.slice(0, m.index), post = txt.slice(m.index + m[0].length), t0 = performance.now();
+      if (!isFinite(end) || Math.abs(end) < 2) return;
+      const step = t => { const k = Math.min(1, (t - t0) / 700), v = end * (1 - Math.pow(1 - k, 3)); el.textContent = pre + (dec > 0 ? v.toFixed(dec) : Math.round(v).toLocaleString()) + post; if (k < 1) requestAnimationFrame(step); else el.textContent = txt; };
+      requestAnimationFrame(step); }), {threshold: .4});
+    els.forEach(el => { if (!el.dataset.cu) io.observe(el); });
+  }
+  window.cpxCountUp = countUp;
+  const cu = () => countUp(document.querySelector('.tabpanel.active')); document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.tabbtn,[data-t],[data-g],[data-go]')) setTimeout(cu, 900); }, true); setTimeout(cu, 1500);
 })();
 (function cpvMount(){  // 📊 한눈에 보기: 패널 위쪽에 시각화 묶음을 붙이고, 패널이 다시 그려져도 되살린다
   const C = {}; document.querySelectorAll('#cpvTpl > template[data-cpv]').forEach(tp => { const k = tp.dataset.cpv; const cards = [...tp.content.children].map(x => x.outerHTML); if (cards.length) C[k] = k === 'home' ? cards.join('') : cards; });
