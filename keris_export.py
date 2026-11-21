@@ -29,7 +29,8 @@ BID = "https://apis.data.go.kr/1230000/ad/BidPublicInfoService"
 SCS = "https://apis.data.go.kr/1230000/as/ScsbidInfoService"
 KINDS = {"용역": "Servc", "물품": "Thng"}
 RELEVANT_RE = re.compile(r"연수|교원|교사|역량\s?강화|콘텐츠|교재|강좌|이러닝|원격\s?교육|AI|인공지능|에듀테크|디지털\s?교과서|AIDT|"
-                         r"디지털\s?교육|수업|교육과정|SW\s?교육|코딩|컨소시엄|학습")
+                         r"디지털\s?교육|수업|교육과정|SW\s?교육|코딩|컨소시엄|학습|"
+                         r"독서|인문|문해|찾아가는|교육\s?운영|교육\s?위탁|교육훈련|특강|캠프|워크숍|한마당")
 COMPANIES = {"비상교육(자사)": ["비상교육"], "티처빌": ["테크빌교육"], "아이스크림": ["아이스크림미디어", "아이스크림에듀"],
              "천재교육": ["천재교육", "천재교과서"], "웅진씽크빅": ["웅진씽크빅"], "YBM": ["와이비엠"], "클래스팅": ["클래스팅"]}
 
@@ -62,6 +63,11 @@ def _unused_months(days):
         cur = nxt
 
 
+def _end(end):
+    """끝 시각: 지금보다 늦으면 API 가 07(입력범위값 초과)로 거절한다 -> 지금 시각으로 자른다(2026-11 장애 원인)."""
+    return min(end.replace(hour=23, minute=59), datetime.now()).strftime("%Y%m%d%H%M")
+
+
 FILTERS = [{"ntceInsttCd": INST_CD}, {"dminsttCd": INST_CD}, {"ntceInsttNm": INST_NM}, {"dminsttNm": INST_NM}]
 
 
@@ -71,7 +77,7 @@ def probe(cfg, base, op, diag):
     ok = []
     for flt in FILTERS:
         p = {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 10, "inqryDiv": 1, "type": "json",
-             "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": end.strftime("%Y%m%d2359"), **flt}
+             "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": _end(end), **flt}
         try:
             _, total = call_api(base, op, p, timeout=20, retries=1)
         except Exception as e:
@@ -93,7 +99,7 @@ def query(cfg, base, op, flts, begin, end, diag):
         page, total = 1, None
         while total is None or (page - 1) * 999 < total:
             p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 999, "inqryDiv": 1, "type": "json",
-                 "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": end.strftime("%Y%m%d2359"), **flt}
+                 "inqryBgnDt": begin.strftime("%Y%m%d0000"), "inqryEndDt": _end(end), **flt}
             try:
                 items, total = call_api(base, op, p, timeout=25, retries=1)
             except Exception as e:
@@ -108,7 +114,7 @@ def query(cfg, base, op, flts, begin, end, diag):
 
 
 def classify(t):
-    for name, rx in (("연수·교육", r"연수|교원|교사|역량\s?강화|교육\s?운영|워크숍"), ("콘텐츠·교재", r"콘텐츠|교재|강좌|영상|제작|교과서"),
+    for name, rx in (("연수·교육", r"연수|교원|교사|역량\s?강화|교육\s?운영|워크숍|독서\s?교육|독서\s?프로그램|독서\s?활동|인문|찾아가는|캠프|특강|교육훈련|전문인력\s?교육|교육\s?위탁"), ("콘텐츠·교재", r"콘텐츠|교재|강좌|영상|제작|교과서"),
                      ("AI·에듀테크", r"AI|인공지능|에듀테크|디지털\s?교육|AIDT|코딩|SW\s?교육"),
                      ("연구·컨설팅", r"연구|조사|분석|평가|컨설팅|정책|진단"), ("시스템·SW", r"구축|고도화|개발|유지\s?보수|유지\s?관리|운영|시스템|플랫폼|클라우드|서버|네트워크|보안|DB|정보화|인프라|증설|나이스|NEIS|에듀파인|RISS|e학습터|SW|소프트웨어"),
                      ("홍보·행사", r"홍보|행사|박람회|세미나|포럼|컨퍼런스|대회|전시"), ("물품·장비", r"구매|임차|장비|라이선스|소모품|PC|노트북")):
@@ -138,9 +144,10 @@ def main():
     st = prev.get("status", {})
     covered = st.get("covered_days", st.get("days", 0))  # 지금까지 거슬러 올라간 일수(백필 진행도, 첫 버전은 days)
     diag, fields = [], st.get("fields", {})
+    any_ok = True
 
     def save(note=""):
-        OUT.write_text(json.dumps({"updated": date.today().isoformat(), "inst": INST_NM, "bids": bids, "opening": opens,
+        OUT.write_text(json.dumps({"updated": date.today().isoformat() if any_ok else prev.get("updated", ""), "inst": INST_NM, "bids": bids, "opening": opens,
                                    "awards": awards, "participants": parts,
                                    "status": {"covered_days": covered, "target_days": a.backfill_days, "diag": sorted(set(diag))[:40],
                                               "fields": fields, "note": note}}, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -156,6 +163,9 @@ def main():
         for key, base, op in (("bid", BID, f"getBidPblancListInfo{sfx}PPSSrch"), ("opening", SCS, f"getOpengResultListInfo{sfx}PPSSrch"),
                               ("award", SCS, f"getScsbidListSttus{sfx}PPSSrch")):
             ops[(kind, key)] = (base, op, probe(cfg, base, op, diag))
+    any_ok = any(v[2] for v in ops.values())
+    if not any_ok:
+        print("경고: 모든 조회 필터가 실패 - 갱신일을 올리지 않음(수집 장애 감시에 표시)")
     for w_begin, w_end in windows:
         chunks = []
         cur = w_begin
@@ -227,6 +237,8 @@ def main():
                 break
     for v in awards.values():
         v["co"] = company_of(v.get("winner"))
+    for v in bids.values():  # 분야 기준이 바뀌면 지난 공고도 다시 분류
+        v["cat"], v["rel"] = classify(v.get("t", "")), bool(RELEVANT_RE.search(v.get("t", "")))
     save("완료")
     print(f"KERIS 공고 {len(bids)} · 개찰 {len(opens)} · 낙찰 {len(awards)} · 참가목록 {len(parts)} · 진단 {len(set(diag))}건")
     for d in sorted(set(diag))[:15]:
