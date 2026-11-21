@@ -12657,11 +12657,13 @@ window.farm3d = function (host, C) {
     pipeline: '🤝', branch: '📍', adopt: '📚', leading: '🌟', b2s: '🛒', competitor: '🔍', neti: '🎓', content: '💰', eco: '🌱',
     network: '🕸️', beta: '🧪', admin: '🔒', search: '🔎'};
   const HV_KEY = 'appHomeView.v2';
-  let homeView = (() => { try { const v = localStorage.getItem(HV_KEY); return v === 'tile' ? 'tile' : 'farm'; } catch (e) { return 'farm'; } })();  // 오피스 테마는 뺐다(2026-11-20)  // 처음엔 🌱 텃밭 마을, 오피스·타일은 선택(사용자 지시 2026-11-20)
+  let homeView = (() => { try { const v = localStorage.getItem(HV_KEY); return v === 'tile' ? 'tile' : 'farm'; } catch (e) { return 'farm'; } })();
+  let homeViewG = (() => { try { return localStorage.getItem(HV_KEY + '.g') === 'farm' ? 'farm' : 'tile'; } catch (e) { return 'tile'; } })();  // 그룹 보기의 앱 홈은 타일이 기본(사용자 지시 2026-11-21)
+  const hvNow = () => (mode === 'farm' ? homeView : homeViewG);  // 오피스 테마는 뺐다(2026-11-20)  // 처음엔 🌱 텃밭 마을, 오피스·타일은 선택(사용자 지시 2026-11-20)
   const ROOMC = {'#4f8cff': ['#dbe4ff', '#3b5bdb'], '#f59e0b': ['#fdecc8', '#b45309'], '#10b981': ['#c9f2df', '#047857'], '#ef4444': ['#fde0e0', '#b91c1c'], '#8b5cf6': ['#e6ddff', '#6d28d9']};
   // 자동 업무 캐릭터 - 화면(탭)과 묶인 갱신 상태만 보여 준다(수집 방식·출처 이름은 쓰지 않음)
   const AGENTS = [['🦫', '브리핑 정리', 'strategy'], ['🤖', '입찰 분석', 'g2bfull'], ['🕵️', '경쟁사 변화 확인', 'competitor'], ['🏫', '학교 발주 확인', 'school'], ['📈', '트렌드 갱신', 'trend2027'], ['🗺️', '시장 데이터 갱신', 'market']];
-  const homeBar = () => `<div class="cph-view" role="group" aria-label="앱 홈 테마">${[['farm', '🌱 텃밭'], ['tile', '🟦 타일']].map(([k, l]) => `<button type="button" data-hv="${k}" aria-pressed="${homeView === k}">${l}</button>`).join('')}</div>`;
+  const homeBar = () => `<div class="cph-view" role="group" aria-label="앱 홈 테마">${[['farm', '🌱 텃밭'], ['tile', '🟦 타일']].map(([k, l]) => `<button type="button" data-hv="${k}" aria-pressed="${hvNow() === k}">${l}</button>`).join('')}</div>`;
   const farmHome = () => `<div class="cph cph-farm"><div class="cph-top"><div><small class="fm-kicker">VIVASAM GARDEN VILLAGE</small><h3>🌱 비바샘 텃밭 마을</h3><p>밭(팻말)을 누르면 이랑별 화면이 나와요 · 열매=최신 · 새싹=새로 열림 · 시든 잎=돌봄 필요 · ＋/－로 확대</p></div>${homeBar()}</div><div class="fm-stage" id="farmStage"></div></div>`;
   const tileHome = t => {
     const tiles = G => G[2].map((x, i) => { const [k, sub] = num(x), sz = TSIZE[i % TSIZE.length], P = PAL[G[1]] || [G[1]];
@@ -12704,14 +12706,14 @@ window.farm3d = function (host, C) {
     document.documentElement.classList.toggle('vs-home', isG && home);
     if (isG) {
       box.innerHTML = `<div class="vgroups"><button type="button" data-home="1" style="--gc:#0f6cbd" aria-pressed="${home}">${GD ? '🏡 마을 홈' : '🏠 앱 홈'}<small>${GD ? '텃밭 마을 한눈에' : '타일로 한눈에'}</small>${GD ? '<span class="gd-crop">🏡</span>' : ''}</button>${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${!home && i === g}">${GD ? h(G[0]) + ' 밭' : `${i + 1}. ${h(G[0])}`}<small>${GD ? `${h(name(G[2][0] || ''))}${G[2].length > 1 ? ` 외 ${G[2].length - 1}` : ''}` : `${G[2].length}개 탭`}</small>${GD ? `<span class="gd-crop">${['🌽', '🍅', '🥕', '🎃', '🌻'][i % 5]}</span>` : ''}</button>`).join('')}</div>
-        ${home ? (homeView === 'farm' ? farmHome() : tileHome(t)) : `<div class="vsub">${GROUPS[g][2].map(x => `<button type="button" data-t="${x}" ${x === t ? 'aria-current="page"' : ''}>${h(name(x))}</button>${EXT(x, 'vextl')}`).join('')}</div>`}`;
+        ${home ? (hvNow() === 'farm' ? farmHome() : tileHome(t)) : `<div class="vsub">${GROUPS[g][2].map(x => `<button type="button" data-t="${x}" ${x === t ? 'aria-current="page"' : ''}>${h(name(x))}</button>${EXT(x, 'vextl')}`).join('')}</div>`}`;
       const hb = box.querySelector('[data-home]'); if (hb) hb.addEventListener('click', () => { home = true; gsel = null; draw(); });
       const fh = box.querySelector('.cph-farm .cph-top'); if (GD && fh && window.gdBoard) { try { fh.insertAdjacentHTML('afterend', window.gdBoard({name})); window.gdBoardWire(box, x => { home = false; gsel = null; go(x); }); } catch (e) { console.warn('gdBoard', e); } }
       const fs = box.querySelector('#farmStage'); if (fs) { try {
         const wc = ((typeof WEATHER !== 'undefined' && WEATHER && WEATHER.cities) || []).find(c => c.city === '서울'), wt = wc && wc.today;
         window.farm3d(fs, {groups: GROUPS, name, fresh, icon: ICON, agents: AGENTS, days: Math.max(1, Math.floor((Date.now() - Date.UTC(2026, 7, 13)) / 864e5)), go: x => { home = false; gsel = null; go(x); }, wx: wt ? {cond: wt.cond, icon: wt.icon, tmax: wt.tmax, tmin: wt.tmin} : null});
-      } catch (e) { console.warn('farm', e); homeView = 'tile'; draw(); return; } }  // 텃밭 오류 시 타일로
-      box.querySelectorAll('[data-hv]').forEach(b => b.addEventListener('click', () => { homeView = b.dataset.hv; try { localStorage.setItem(HV_KEY, homeView); } catch (e) { /* 저장 불가 */ } draw(); }));
+      } catch (e) { console.warn('farm', e); if (mode === 'farm') homeView = 'tile'; else homeViewG = 'tile'; draw(); return; } }  // 텃밭 오류 시 타일로
+      box.querySelectorAll('[data-hv]').forEach(b => b.addEventListener('click', () => { const v = b.dataset.hv; if (mode === 'farm') homeView = v; else homeViewG = v; try { localStorage.setItem(mode === 'farm' ? HV_KEY : HV_KEY + '.g', v); } catch (e) { /* 저장 불가 */ } draw(); }));
       const q = box.querySelector('.cph-q'); if (q) q.addEventListener('input', () => { const v = q.value.trim(); box.querySelectorAll('.cph-t[data-q]').forEach(el => el.classList.toggle('cph-hide', !!v && !el.dataset.q.includes(v))); });
     } else if (folded) {
       box.innerHTML = `<div class="vmini">${mode === 'card' ? '카드' : '책장'} 보기 · 지금: <b>${h(name(t))}</b> <button type="button" class="vopen">${mode === 'card' ? '카드' : '책장'} 펼치기</button></div>`;
