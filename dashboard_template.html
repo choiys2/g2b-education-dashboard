@@ -10968,6 +10968,15 @@ header.top .gd-hero .gd-mill,header.top .gd-hero .gd-orb{cursor:pointer;}
 .fm-pick[hidden]{display:none;}.fm-pick b{margin-right:4px;}
 .fm-pick button{all:unset;cursor:pointer;border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:800;background:#dcedc8;color:#33691e;}
 .fm-pick button.wilt{background:#ffe0b2;color:#e65100;}.fm-pick button.sprout,.fm-pick button.grow{background:#e3f2fd;color:#1565c0;}.fm-pick button:hover{filter:brightness(.95);}.fm-pick button[data-x]{background:#efebe9;color:#5b3a1e;}
+.fm-night{position:absolute;left:12px;bottom:12px;max-width:330px;padding:10px 12px;border-radius:14px;background:rgba(14,22,48,.88);color:#fef3c7;border:2px solid #f59e0b;box-shadow:0 0 22px rgba(255,209,102,.45),0 10px 24px -12px #000;font-size:12.5px;z-index:3;animation:fmLantern 3.2s ease-in-out infinite;}
+.fm-night-h{font-weight:900;display:flex;align-items:center;gap:6px;} .fm-night-h b{color:#ffd166;font-size:15px;} .fm-night-h button{margin-left:auto;all:unset;cursor:pointer;width:22px;height:22px;text-align:center;border-radius:6px;background:rgba(255,255,255,.12);font-weight:900;}
+.fm-night ul{list-style:none;margin:6px 0 0;padding:0;} .fm-night li{padding:5px 0;border-top:1px dashed rgba(255,209,102,.35);} .fm-night li a,.fm-night li span{color:#fff7d6;font-weight:800;text-decoration:none;display:block;} .fm-night li a:hover{text-decoration:underline;}
+.fm-night li small{display:block;color:#fcd9a0;font-size:11px;} .fm-night p{margin:6px 0 0;line-height:1.5;} .fm-night p small{color:#fcd9a0;}
+.fm-night-more{all:unset;cursor:pointer;margin-top:6px;font-weight:900;color:#ffd166;font-size:12px;}
+.fm-night.fold ul,.fm-night.fold p,.fm-night.fold .fm-night-more{display:none;}
+@keyframes fmLantern{0%,100%{box-shadow:0 0 18px rgba(255,209,102,.35),0 10px 24px -12px #000;}50%{box-shadow:0 0 30px rgba(255,209,102,.6),0 10px 24px -12px #000;}}
+@media (prefers-reduced-motion:reduce){.fm-night{animation:none;}}
+@media (max-width:760px){.fm-night{position:static;max-width:none;margin:6px;}}
 .fm-zoom{position:absolute;right:12px;bottom:12px;display:flex;align-items:center;gap:4px;background:#fffaf0;border:2px solid #e8d5b0;border-radius:12px;padding:4px;}
 .fm-zoom button{all:unset;cursor:pointer;width:28px;height:28px;text-align:center;line-height:28px;border-radius:8px;font-weight:900;font-size:15px;color:#5b3a1e;background:#fff1d6;}
 .fm-zoom span{min-width:40px;text-align:center;font-size:11.5px;font-weight:900;color:#7cb342;}
@@ -11698,7 +11707,7 @@ window.farm3d = function (host, C) {
   const pts = a => a.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
   let seed = 11; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
   const kst = new Date(Date.now() + 9 * 36e5), hr = C.hour != null ? C.hour : kst.getUTCHours();
-  const night = hr < 6 || hr >= 19, dusk = hr === 6 || hr === 17 || hr === 18;
+  const night = hr < 6 || hr >= 18, dusk = hr === 6 || hr === 17;  // 저녁 6시부터 밤 마을(불·반딧불·내일 마감 등불)
   const wx = C.wx || {}, cond = String(wx.cond || ''), rain = /비|소나기/.test(cond), snow = /눈/.test(cond), cloudy = rain || snow || /흐림|구름많/.test(cond);
   const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mon = C.month != null ? C.month : kst.getUTCMonth() + 1, SEA = mon <= 2 || mon === 12 ? 'winter' : mon <= 5 ? 'spring' : mon <= 8 ? 'summer' : 'autumn';
@@ -11949,6 +11958,19 @@ window.farm3d = function (host, C) {
   const ov = (cls, html) => { const d = document.createElement('div'); d.className = cls; if (html != null) d.innerHTML = html; host.appendChild(d); return d; };
   const ripeN = plots.reduce((a, p) => a + p.ripe, 0), wiltN = plots.reduce((a, p) => a + p.wilt, 0);
   ov('fm-hud', `<div class="fm-chips"><span id="fmClock"></span>${wx.cond ? `<span>${h(wx.icon || '')} 서울 ${h(cond)}${wx.tmax != null ? ` ${h(wx.tmax)}°/${h(wx.tmin)}°` : ''}</span>` : ''}<span>${night ? '🌙 밤' : dusk ? '🌇 노을' : '☀️ 낮'}</span><span>${SEAN}</span><span>${DAY[1]}</span><span>🌾 수확 ${ripeN}</span><span class="${wiltN ? 'w' : ''}">🥀 돌봄 ${wiltN}</span>${C.days ? `<span>🏡 마을 ${C.days}일째</span>` : ''}</div>`);
+  if (night) {  // 🏮 내일 마감 공고(공개 공고 목록에서 마감일만 비교)
+    const ymd = d => new Date(d.getTime() + 9 * 36e5).toISOString().slice(0, 10), now = new Date();
+    const tmr = ymd(new Date(now.getTime() + (hr < 6 ? 0 : 864e5))), wk = ymd(new Date(now.getTime() + 7 * 864e5));
+    const L = [], seen = new Set(), add = (t0, o, d, a, u) => { const k = (t0 || '') + '|' + d; if (!d || seen.has(k)) return; seen.add(k); L.push({t: t0 || '', o: o || '', d, a: +a || 0, u: /^https:\/\//.test(u || '') ? u : ''}); };
+    try { ((typeof G2B_FULL !== 'undefined' && G2B_FULL && G2B_FULL.detail) || []).forEach(r => r && r.마감일 && add(r.공고명 || r.사업명 || r.제목, r.기관 || r.발주기관, String(r.마감일).slice(0, 10), r.예산, r.url)); } catch (e) { /* 데이터 없음 */ }
+    try { ((typeof RFP_ANALYSIS !== 'undefined' && RFP_ANALYSIS && RFP_ANALYSIS.items) || []).forEach(r => r && r.close && add(r.t, r.o, String(r.close).slice(0, 10), r.a, r.u)); } catch (e) { /* 데이터 없음 */ }
+    const due = L.filter(x => x.d === tmr).sort((a, b) => b.a - a.a), week = L.filter(x => x.d > tmr && x.d <= wk).length;
+    const won = v => v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : v >= 1e4 ? Math.round(v / 1e4).toLocaleString() + '만' : '';
+    const nb = ov('fm-night', `<div class="fm-night-h">🏮 ${hr < 6 ? '오늘' : '내일'}(${h(tmr.slice(5).replace('-', '/'))}) 마감 공고 <b>${due.length}</b>건 <button type="button" data-x="1" aria-label="접기">−</button></div>`
+      + (due.length ? `<ul>${due.slice(0, 5).map(x => `<li>${x.u ? `<a href="${h(x.u)}" target="_blank" rel="noopener noreferrer">` : '<span>'}${h(x.t.length > 30 ? x.t.slice(0, 30) + '…' : x.t)}${x.u ? '</a>' : '</span>'}<small>${h(x.o)}${x.a ? ' · ' + won(x.a) : ''}</small></li>`).join('')}</ul>${due.length > 5 ? `<button type="button" class="fm-night-more" data-go="g2bfull">나머지 ${due.length - 5}건 보기 →</button>` : ''}`
+        : `<p>${hr < 6 ? '오늘' : '내일'} 마감인 공고는 없어요. 편히 쉬세요 🌙${week ? `<br><small>이번 주 마감 예정 ${week}건</small>` : ''}</p>`));
+    nb.addEventListener('click', e => { if (e.target.closest('[data-x]')) nb.classList.toggle('fold'); const g = e.target.closest('[data-go]'); if (g) C.go(g.dataset.go); });
+  }
   const side = ov('fm-side', `<div class="fm-side-h">오늘의 밭</div>` + plots.map(p => `<button type="button" data-p="${p.i}"><i>${EMO[p.kind]}</i><span>${h(p.nm)}<small>${p.tabs.length}이랑 · 수확 ${p.ripe}${p.wilt ? ' · 돌봄 ' + p.wilt : ''}</small></span><em class="${p.wilt ? 'w' : ''}">${p.wilt ? '돌봄' : '좋음'}</em></button>`).join(''));
   const pick = ov('fm-pick'); pick.hidden = true; let sel = null;
   const choose = k => { sel = k; LL.querySelectorAll('.fm-sign').forEach(s => s.classList.toggle('on', k != null && (s.dataset.p === k || s.dataset.t === k))); side.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.p === k));
