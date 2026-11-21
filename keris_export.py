@@ -82,7 +82,7 @@ def probe(cfg, base, op, diag):
         p = {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 10, "inqryDiv": 1, "type": "json",
              "inqryBgnDt": begin.strftime("%Y%m%d%H%M"), "inqryEndDt": _end(end), **flt}
         try:
-            _, total = call_api(base, op, p, timeout=20, retries=1)
+            _, total = call_api(base, op, p, timeout=40, retries=2)
         except Exception as e:
             msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:160]  # 키는 기록하지 않는다
             diag.append(f"{op}/{list(flt)[0]}: {msg}")
@@ -95,7 +95,7 @@ def probe(cfg, base, op, diag):
     if not ok:  # 진단: 기관 필터 없이 1건만 조회해 필터 문제인지 기간 문제인지 가른다(키는 기록하지 않음)
         try:
             _, total = call_api(base, op, {"serviceKey": cfg["service_key"], "pageNo": 1, "numOfRows": 1, "inqryDiv": 1, "type": "json",
-                                           "inqryBgnDt": begin.strftime("%Y%m%d%H%M"), "inqryEndDt": _end(end)}, timeout=20, retries=1)
+                                           "inqryBgnDt": begin.strftime("%Y%m%d%H%M"), "inqryEndDt": _end(end)}, timeout=40, retries=2)
             diag.append(f"{op}/필터없음: 정상(total {total}) -> 기관 필터 문제")
         except Exception as e:
             msg = re.sub(r"serviceKey=[^&\s]+", "serviceKey=***", str(e))[:100]
@@ -112,7 +112,7 @@ def query(cfg, base, op, flts, begin, end, diag):
             p = {"serviceKey": cfg["service_key"], "pageNo": page, "numOfRows": 100, "inqryDiv": 1, "type": "json",
                  "inqryBgnDt": begin.strftime("%Y%m%d%H%M"), "inqryEndDt": _end(end), **flt}
             try:
-                items, total = call_api(base, op, p, timeout=25, retries=1)
+                items, total = call_api(base, op, p, timeout=40, retries=2)
             except Exception as e:
                 diag.append(f"{op}/{list(flt)[0]} {begin:%Y-%m}: {re.sub(r'serviceKey=[^&]+', 'serviceKey=***', str(e))[:120]}")
                 break
