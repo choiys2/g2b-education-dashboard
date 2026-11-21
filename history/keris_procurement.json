@@ -25759,27 +25759,7 @@
  "status": {
   "covered_days": 1095,
   "target_days": 1095,
-  "diag": [
-   "getBidPblancListInfoServcPPSSrch/dminsttNm: The read operation timed out",
-   "getBidPblancListInfoThngPPSSrch/dminsttCd: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
-   "getBidPblancListInfoThngPPSSrch/dminsttNm: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
-   "getBidPblancListInfoThngPPSSrch/ntceInsttCd: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
-   "getBidPblancListInfoThngPPSSrch/ntceInsttNm: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
-   "getBidPblancListInfoThngPPSSrch/필터없음: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"",
-   "getOpengResultListInfoServcPPSSrch/dminsttCd: The read operation timed out",
-   "getOpengResultListInfoServcPPSSrch/dminsttNm: The read operation timed out",
-   "getOpengResultListInfoServcPPSSrch/ntceInsttNm: The read operation timed out",
-   "getOpengResultListInfoThngPPSSrch/dminsttCd: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
-   "getOpengResultListInfoThngPPSSrch/dminsttNm: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
-   "getOpengResultListInfoThngPPSSrch/ntceInsttCd: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
-   "getOpengResultListInfoThngPPSSrch/ntceInsttNm: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
-   "getOpengResultListInfoThngPPSSrch/필터없음: The read operation timed out",
-   "getScsbidListSttusServcPPSSrch/dminsttCd: The read operation timed out",
-   "getScsbidListSttusServcPPSSrch/dminsttNm: The read operation timed out",
-   "getScsbidListSttusServcPPSSrch/ntceInsttNm: The read operation timed out",
-   "getScsbidListSttusThngPPSSrch/dminsttCd: The read operation timed out",
-   "getScsbidListSttusThngPPSSrch/ntceInsttCd: The read operation timed out"
-  ],
+  "diag": [],
   "fields": {
    "bid": [
     "VAT",
