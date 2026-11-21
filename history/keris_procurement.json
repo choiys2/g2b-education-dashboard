@@ -10621,6 +10621,42 @@
    "method": "제한경쟁",
    "award": "협상에의한계약-협상에 의한 낙찰자 결정",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01818770&bidPbancOrd=000"
+  },
+  "R26BK01839984-000": {
+   "no": "R26BK01839984",
+   "ord": "000",
+   "t": "학습 커뮤니티 위두랑 서비스 종료 후속조치",
+   "kind": "용역",
+   "cat": "기타",
+   "rel": true,
+   "ntce": "한국교육학술정보원",
+   "dmnd": "한국교육학술정보원",
+   "d": "2026-11-19",
+   "close": "2026-11-30 14:00",
+   "open": "2026-11-30 15:00",
+   "budget": 91423000,
+   "est": 83111818,
+   "method": "제한경쟁",
+   "award": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01839984&bidPbancOrd=000"
+  },
+  "R26BK01841383-000": {
+   "no": "R26BK01841383",
+   "ord": "000",
+   "t": "디지털 대응 독서교육 활성화 지원 위탁운영 사업-「찾아가는 독서·인문 프로그램」",
+   "kind": "용역",
+   "cat": "연수·교육",
+   "rel": true,
+   "ntce": "한국교육학술정보원",
+   "dmnd": "한국교육학술정보원",
+   "d": "2026-11-19",
+   "close": "2026-11-30 14:00",
+   "open": "2026-11-30 15:00",
+   "budget": 399400000,
+   "est": 363090909,
+   "method": "일반경쟁",
+   "award": "협상에의한계약-협상에 의한 낙찰자 결정",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01841383&bidPbancOrd=000"
   }
  },
  "opening": {
@@ -17163,6 +17199,36 @@
    "first": "",
    "first_amt": null,
    "first_rate": ""
+  },
+  "R26BK01795373-000": {
+   "t": "2026년 AI 사이버공격 대응 플랫폼 구축(1단계) 감리 ",
+   "kind": "용역",
+   "d": "2026-11-09",
+   "n": 2,
+   "status": "개찰완료",
+   "first": "주식회사 테크원",
+   "first_amt": 64008000,
+   "first_rate": "0"
+  },
+  "R26BK01800655-000": {
+   "t": "2027~2028년 KERIS 대표 홈페이지 응용S/W 유지관리",
+   "kind": "용역",
+   "d": "2026-11-10",
+   "n": 2,
+   "status": "개찰완료",
+   "first": "케이엘정보통신 주식회사",
+   "first_amt": null,
+   "first_rate": ""
+  },
+  "R26BK01800811-000": {
+   "t": "디지털 매체 활용 독서활동 지원 강화(구독형 전자책) 시범사업",
+   "kind": "용역",
+   "d": "2026-11-10",
+   "n": 2,
+   "status": "개찰완료",
+   "first": "주식회사 부커스",
+   "first_amt": null,
+   "first_rate": ""
   }
  },
  "awards": {
@@ -21585,6 +21651,26 @@
    "rate": "",
    "n": 5,
    "co": ""
+  },
+  "R26BK01795373-000": {
+   "t": "2026년 AI 사이버공격 대응 플랫폼 구축(1단계) 감리 ",
+   "kind": "용역",
+   "d": "2026-11-12",
+   "winner": "주식회사 테크원",
+   "amt": 64008000,
+   "rate": "",
+   "n": 2,
+   "co": ""
+  },
+  "R26BK01804567-000": {
+   "t": "K-에듀파인 고도화에 따른 전산센터 환경 개선용 면진장치 구매",
+   "kind": "물품",
+   "d": "2026-11-06",
+   "winner": "(주)엔타이어세이프",
+   "amt": 438959000,
+   "rate": "99.99",
+   "n": 1,
+   "co": ""
   }
  },
  "participants": {
@@ -25636,42 +25722,63 @@
     "co": ""
    }
   ],
-  "20240132323-000": []
+  "20240132323-000": [],
+  "R26BK01800811-000": [
+   {
+    "corp": "주식회사 부커스",
+    "rank": 1,
+    "amt": null,
+    "rate": "",
+    "co": ""
+   },
+   {
+    "corp": "(주)소울북스",
+    "rank": 2,
+    "amt": null,
+    "rate": "",
+    "co": ""
+   }
+  ],
+  "R26BK01795373-000": [
+   {
+    "corp": "주식회사 테크원",
+    "rank": 1,
+    "amt": 64008000,
+    "rate": "",
+    "co": ""
+   },
+   {
+    "corp": "주식회사 리슨잇",
+    "rank": 2,
+    "amt": 64000000,
+    "rate": "",
+    "co": ""
+   }
+  ]
  },
  "status": {
   "covered_days": 1095,
   "target_days": 1095,
   "diag": [
-   "getBidPblancListInfoServcPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getBidPblancListInfoServcPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getBidPblancListInfoServcPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getBidPblancListInfoServcPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getBidPblancListInfoServcPPSSrch/필터없음: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMs",
-   "getBidPblancListInfoThngPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getBidPblancListInfoThngPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getBidPblancListInfoThngPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getBidPblancListInfoThngPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getBidPblancListInfoThngPPSSrch/필터없음: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMs",
-   "getOpengResultListInfoServcPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoServcPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoServcPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoServcPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoServcPPSSrch/필터없음: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMs",
-   "getOpengResultListInfoThngPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoThngPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoThngPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoThngPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getOpengResultListInfoThngPPSSrch/필터없음: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMs",
-   "getScsbidListSttusServcPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getScsbidListSttusServcPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getScsbidListSttusServcPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getScsbidListSttusServcPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getScsbidListSttusServcPPSSrch/필터없음: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMs",
-   "getScsbidListSttusThngPPSSrch/dminsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getScsbidListSttusThngPPSSrch/dminsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getScsbidListSttusThngPPSSrch/ntceInsttCd: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getScsbidListSttusThngPPSSrch/ntceInsttNm: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMsg\": \"입력범위값 초과 에러\"\n  }\n}} url=https://apis.data.go.kr/1230000",
-   "getScsbidListSttusThngPPSSrch/필터없음: API 오류: {\"nkoneps.com.response.ResponseError\": {\n  \"header\": {\n    \"resultCode\": \"07\",\n    \"resultMs"
+   "getBidPblancListInfoServcPPSSrch/dminsttNm: The read operation timed out",
+   "getBidPblancListInfoThngPPSSrch/dminsttCd: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
+   "getBidPblancListInfoThngPPSSrch/dminsttNm: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
+   "getBidPblancListInfoThngPPSSrch/ntceInsttCd: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
+   "getBidPblancListInfoThngPPSSrch/ntceInsttNm: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
+   "getBidPblancListInfoThngPPSSrch/필터없음: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"",
+   "getOpengResultListInfoServcPPSSrch/dminsttCd: The read operation timed out",
+   "getOpengResultListInfoServcPPSSrch/dminsttNm: The read operation timed out",
+   "getOpengResultListInfoServcPPSSrch/ntceInsttNm: The read operation timed out",
+   "getOpengResultListInfoThngPPSSrch/dminsttCd: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
+   "getOpengResultListInfoThngPPSSrch/dminsttNm: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
+   "getOpengResultListInfoThngPPSSrch/ntceInsttCd: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
+   "getOpengResultListInfoThngPPSSrch/ntceInsttNm: API 오류: {\n  \"OpenAPI_ServiceResponse\": {\n    \"cmmMsgHeader\": {\n      \"errMsg\": \"HTTP_ERROR\",\n      \"returnAuthMsg\": \"HTTP 에러\",\n      \"returnReasonCode\": \"04\"\n  ",
+   "getOpengResultListInfoThngPPSSrch/필터없음: The read operation timed out",
+   "getScsbidListSttusServcPPSSrch/dminsttCd: The read operation timed out",
+   "getScsbidListSttusServcPPSSrch/dminsttNm: The read operation timed out",
+   "getScsbidListSttusServcPPSSrch/ntceInsttNm: The read operation timed out",
+   "getScsbidListSttusThngPPSSrch/dminsttCd: The read operation timed out",
+   "getScsbidListSttusThngPPSSrch/ntceInsttCd: The read operation timed out"
   ],
   "fields": {
    "bid": [
