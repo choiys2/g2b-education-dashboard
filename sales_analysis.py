@@ -638,7 +638,7 @@ def territory(D):
                 tip = f"{sd} · " + " · ".join(f"{'자사' if k == OWN else k} {a}" for k, a in cc.most_common())
             else:
                 v, n, col, tip = "", 0, "var(--surface-2)", f"{sd} · 기록 없음"
-            tiles.append(f'<g><rect x="{gx * 64}" y="{gy * 50 - 40}" width="60" height="46" rx="8" fill="{col}" opacity="{.85 if n else 1}"><title>{h(tip)}</title></rect>'
+            tiles.append(f'<g data-sd="{h(sd)}"><rect x="{gx * 64}" y="{gy * 50 - 40}" width="60" height="46" rx="8" fill="{col}" opacity="{.85 if n else 1}"><title>{h(tip)}</title></rect>'
                          f'<text x="{gx * 64 + 30}" y="{gy * 50 - 18}" text-anchor="middle" style="font-size:13px;font-weight:800;fill:{"#fff" if n else "var(--muted)"}">{h(sd)}</text>'
                          f'<text x="{gx * 64 + 30}" y="{gy * 50 - 2}" text-anchor="middle" style="font-size:11px;fill:{"#fff" if n else "var(--muted)"}">{n or ""}</text></g>')
         own_n = sum(1 for sd in c if c[sd].most_common(1)[0][0] == OWN)

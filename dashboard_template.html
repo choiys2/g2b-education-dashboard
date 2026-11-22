@@ -11055,6 +11055,20 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .sx-woh{display:flex;gap:6px;align-items:center;flex-wrap:wrap;} .sx-woh b{font-size:13.5px;min-width:0;overflow-wrap:anywhere;} .sx-woh em{font-style:normal;font-size:11px;font-weight:800;color:#fff;background:var(--rival);padding:1px 7px;border-radius:999px;} .sx-woh span{font-size:11px;color:var(--muted);} .sx-woh button:first-of-type{margin-left:auto;}
 .sx-wo ul{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:4px;} .sx-wo li{font-size:12px;line-height:1.4;overflow-wrap:anywhere;} .sx-wo li span{color:var(--muted);margin-right:6px;} .sx-wo li small{color:var(--muted);margin-left:6px;} .sx-wo li.nw{font-weight:800;}
 @media (max-width:760px){.cpv-card header{flex-wrap:wrap;} .sx-fcs,.sx-cmp{grid-template-columns:minmax(0,1fr);} .sx-sim label{grid-template-columns:minmax(0,1fr);} .sx-sim input{grid-column:1;grid-row:auto;} .sx-exp button{padding:3px 6px;}}
+/* 🎨 시각화 확장: 트리맵·미니 격자·와플·레이스·시간 여행 */
+.vm-tm:hover rect:first-child{stroke:var(--market);stroke-width:3;}
+.vm-tz b{font-size:15px;} .vm-tz small{color:var(--muted);}
+.vm-minis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(6,auto);gap:6px;max-width:560px;}
+.vm-mini{border:1px solid var(--border);border-radius:10px;padding:4px 6px;background:var(--surface);min-width:0;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:0 6px;}
+.vm-mini b{font-size:12.5px;} .vm-mini span{font-size:11px;font-weight:800;text-align:right;} .vm-mini svg{grid-column:1 / span 2;width:100%;height:30px;}
+.vm-wfw{display:flex;flex-wrap:wrap;gap:16px 28px;} .vm-wf{text-align:center;} .vm-wf b{display:block;font-size:13px;margin-bottom:4px;} .vm-wfs{width:170px;max-width:100%;} .vm-wf p{margin:4px 0 0;font-size:13px;}
+.vm-rrs{position:relative;margin-top:6px;} .vm-rr{position:absolute;left:0;right:0;top:0;height:28px;display:grid;grid-template-columns:120px minmax(0,1fr) 64px;gap:8px;align-items:center;transition:transform .7s ease,opacity .5s;}
+.vm-rn{font-size:12.5px;font-weight:800;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .vm-rb{height:20px;background:var(--surface-2);border-radius:6px;overflow:hidden;} .vm-rb i{display:block;height:100%;border-radius:6px;transition:width .7s ease;} .vm-rr em{font-style:normal;font-size:12px;font-weight:700;}
+.vm-rk{font-size:15px;}
+.vm-ttl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;margin-bottom:10px;} .vm-ttr{flex:1;min-width:140px;max-width:340px;accent-color:var(--market);}
+.vm-tts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(170px,100%),1fr));gap:8px;} .vm-tt{border:1px solid var(--border);border-radius:12px;padding:8px 10px;display:grid;gap:2px;}
+.vm-tt small{color:var(--muted);font-size:11.5px;} .vm-tt b{font-size:18px;} .vm-tt span{font-size:11.5px;color:var(--muted);} .vm-tt em{font-style:normal;font-weight:800;font-size:12.5px;}
+@media (max-width:640px){.vm-rr{grid-template-columns:84px minmax(0,1fr) 56px;} .vm-minis{gap:4px;}}
 /* 🗺️ 입체 지도(공통) · 📊 맨 위 그림 */
 .g3d{border:1px solid var(--border);border-radius:16px;background:linear-gradient(170deg,var(--surface),var(--surface-2));padding:10px 12px;box-shadow:0 16px 30px -26px rgba(15,23,42,.6);}
 .g3d-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;font-size:12.5px;}
@@ -13217,6 +13231,59 @@ window.farm3d = function (host, C) {
     const s = t.closest('.sx-sim'); if (s && t.dataset.k) sim(s);
   });
   scan(); setInterval(scan, 1500);
+})();
+(function vizMore(){  // 🎨 시각화 확장: 트리맵 확대 · 막대 레이스 · 시간 여행 · ✨ 전 화면 교차 강조
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const J = s => { try { return JSON.parse(s || 'null'); } catch (e) { return null; } };
+  const eok = m => { const v = (+m || 0) * 1e6; return v >= 1e8 ? (v / 1e8).toFixed(1) + '억' : Math.round(v / 1e4).toLocaleString() + '만'; };
+  // 🌳 트리맵 확대
+  document.addEventListener('click', e => {
+    const t = e.target; if (!t.closest) return;
+    const g = t.closest('[data-tm]');
+    if (g) { const pn = g.closest('.tabpanel, .adm-pane'), w = g.closest('.vm-tmw') || (pn && pn.querySelector('.vm-tmw')); if (!w) return; if (!g.closest('.vm-tmw')) w.scrollIntoView({behavior: 'smooth', block: 'center'}); const z = [...w.querySelectorAll('.vm-tz')].find(x => x.dataset.tz === g.dataset.tm); if (!z) return; w.querySelector('.vm-tm0').hidden = true; w.querySelectorAll('.vm-tz').forEach(x => { x.hidden = x !== z; }); return; }
+    if (t.closest('[data-tmb]')) { const w = t.closest('.vm-tmw'); w.querySelectorAll('.vm-tz').forEach(x => { x.hidden = true; }); w.querySelector('.vm-tm0').hidden = false; return; }
+    const r = t.closest('[data-vm="race"]'); if (r) race(r);
+  });
+  // 🏁 막대 레이스
+  function race(btn) {
+    const box = btn.closest('.vm-race'); if (!box || box._t) return;
+    const D = J(box.dataset.race), C = J(box.dataset.col) || {}; if (!D || !D.f || !D.f.length) return;
+    const wrap = box.querySelector('.vm-rrs'), lab = box.querySelector('.vm-rk'), names = [...new Set(D.f.flatMap(f => f[1].map(x => x[0])))];
+    wrap.innerHTML = names.map(n => `<div class="vm-rr" data-n="${h(n)}" style="opacity:0"><span class="vm-rn">${n === '비바샘연수원' ? '자사' : h(n)}</span><span class="vm-rb"><i style="width:0;background:${h(C[n] || '#94a3b8')}"></i></span><em></em></div>`).join('');
+    const rows = {}; wrap.querySelectorAll('.vm-rr').forEach(el => { rows[el.dataset.n] = el; });
+    let i = 0; btn.disabled = true;
+    const step = () => {
+      const [k, top] = D.f[i], mx = Math.max(1, ...top.map(x => x[1])), on = new Set(top.map(x => x[0]));
+      lab.textContent = k;
+      top.forEach(([n, v], j) => { const el = rows[n]; el.style.opacity = 1; el.style.transform = `translateY(${j * 34}px)`; el.querySelector('i').style.width = (v / mx * 100).toFixed(1) + '%'; el.querySelector('em').textContent = eok(v); });
+      names.forEach(n => { if (!on.has(n)) { rows[n].style.opacity = 0; rows[n].style.transform = `translateY(${top.length * 34}px)`; } });
+      if (++i >= D.f.length) { clearInterval(box._t); box._t = null; btn.disabled = false; }
+    };
+    step(); box._t = setInterval(step, 900);
+  }
+  // ⏪ 시간 여행
+  document.addEventListener('input', e => {
+    const r = e.target; if (!r.classList || !r.classList.contains('vm-ttr')) return;
+    const w = r.closest('.vm-ttw'), D = J(w.dataset.tt); if (!D) return;
+    const a = D.r[+r.value], b = D.r[D.r.length - 1]; w.querySelector('.vm-ttd').textContent = a[0];
+    w.querySelector('.vm-tts').innerHTML = D.m.map(([nm, u], j) => { const va = a[j + 1], vb = b[j + 1], d = vb - va, cl = d > 0 ? 'var(--own)' : d < 0 ? 'var(--rival)' : 'var(--muted)';
+      return `<div class="vm-tt"><small>${h(nm)}</small><b>${vb.toLocaleString(undefined, {maximumFractionDigits: 1})}${h(u)}</b><span>${h(a[0])}: ${va.toLocaleString(undefined, {maximumFractionDigits: 1})}${h(u)}</span><em style="color:${cl}">${d >= 0 ? '+' : ''}${d.toLocaleString(undefined, {maximumFractionDigits: 1})}${h(u)}</em></div>`; }).join('');
+  });
+  // ✨ 전 화면 교차 강조: 어떤 그림·표에서든 시도에 마우스를 올리면 다른 그림·표의 같은 시도만 밝게
+  const SD = ['서울','부산','대구','인천','광주','대전','울산','세종','경기','강원','충북','충남','전북','전남','경북','경남','제주'], SDS = new Set(SD);
+  const st = document.createElement('style'); st.id = 'xhS'; document.head.appendChild(st);
+  let cur = '', tm = null;
+  const SC = '.cpv-card, .g3d, .tabpanel, .adm-pane';
+  const set = sd => { if (sd === cur) return; cur = sd;
+    st.textContent = sd ? `:is(${SC}) [data-sd]:not([data-sd="${sd}"]){opacity:.28;transition:opacity .15s;} :is(${SC}) tr[data-sd="${sd}"]{background:color-mix(in srgb,var(--market) 14%,transparent);} .vm-mini[data-sd="${sd}"]{border-color:var(--market);box-shadow:0 0 0 2px var(--market);}` : ''; };
+  document.addEventListener('mouseover', e => {
+    if (!e.target.closest) return; const el = e.target.closest('[data-sd]'); const sd = el && SDS.has(el.dataset.sd) ? el.dataset.sd : '';
+    clearTimeout(tm); if (sd) set(sd); else tm = setTimeout(() => set(''), 120);
+  });
+  const tagRows = () => { if (document.hidden) return;
+    document.querySelectorAll('.tabpanel.active table:not([data-xh]), .adm-pane:not([hidden]) table:not([data-xh])').forEach(t => { t.dataset.xh = '1';
+      t.querySelectorAll('tbody tr').forEach(tr => { const c = tr.firstElementChild; const s = c && (c.textContent || '').trim().slice(0, 2); if (s && SDS.has(s) && !tr.dataset.sd) tr.dataset.sd = s; }); }); };
+  tagRows(); setInterval(tagRows, 2000);
 })();
 (function cpvMount(){  // 📊 한눈에 보기: 패널 위쪽에 시각화 묶음을 붙이고, 패널이 다시 그려져도 되살린다
   const C = {}; document.querySelectorAll('#cpvTpl > template[data-cpv]').forEach(tp => { const k = tp.dataset.cpv; const cards = [...tp.content.children].map(x => x.outerHTML); if (cards.length) C[k] = k === 'home' ? cards.join('') : cards; });
