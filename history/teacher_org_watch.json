@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-22 23:42",
+ "generated": "2026-11-22 23:53",
  "since": "2026-05-26",
  "weeks": [
   "2026-05-25",
@@ -48,47 +48,582 @@
   {
    "name": "한국교총",
    "cat": "union",
-   "n": 1,
+   "n": 81,
    "weekly": [
+    1,
+    1,
+    1,
+    1,
     0,
+    3,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2,
+    1,
+    3,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1
+    2,
+    2,
+    4,
+    2,
+    3,
+    1,
+    6,
+    3,
+    4,
+    5,
+    30
    ],
    "tags": {
-    "성명·입장": 1
+    "성명·입장": 48,
+    "평가·입시": 11,
+    "AI·디지털": 5,
+    "연수·행사": 3,
+    "교권·처우": 14,
+    "리더십": 7,
+    "협약·제휴": 1
    },
-   "r4": 1,
-   "p4avg": 0.0,
-   "last": "2026-11-20",
+   "r4": 42,
+   "p4avg": 10.0,
+   "last": "2026-11-22",
    "all": [
+    {
+     "t": "교총 \"○○○ 장관 사퇴, 늦었지만 당연‥국가시험보안센터 설치해야\"",
+     "d": "2026-11-22",
+     "src": "MBC 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBNVEpUbEdoQjc1TUU4Z0VoRG9nVUFraExGTFlpMmtuTmdYcmsyZUFnWjlacDU3U28zRHp5ZTRaMXN3TzVWTTl3ampfdUpQYUF3eXByZWNBME5jVjZzVGVYeUVwYkNNM01hRjVRYXNoYWo4UlBua29z0gF3QVVfeXFMUE1USlRsR2hCNzVNRThnRWhEb2dVQWtoTEZMWWkya25OZ1hyazJlQWdaOVpwNTdTbzNEenllNFoxc3dPNVZNOXdqal91SlBhQXd5cHJlY0EwTmNWNnNUZVh5RXBiQ00zTWFGNVFhc2hhajhSUG5rb3M?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "교총, ○○○ 교육부 장관 사의에 \"늦었지만 당연한 결정\"",
+     "d": "2026-11-22",
+     "src": "조선일보",
+     "u": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPQWZ0SlVBbm5vTG9wbnBzZS04Q25NeWlQZlppZGVGcTNFYndsRkc5UDRWZVhjQUw4Rm1BLU5IQUY0M2x0T3Q1VDFQUmFiREV1bFhMc1l1aGRSUTJfWTNuMkIxaXRrbE9sN2x2M21ZZ0xzckNLNHQ1b0ZManl1N3o3dG9uZ2NDNkk?oc=5",
+     "tg": []
+    },
+    {
+     "t": "제주교총, AI 부정행위 막을 근본 대책 마련해야",
+     "d": "2026-11-22",
+     "src": "제주MBC",
+     "u": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE83dzQtSGJ1WEV0VERJWG85LXp0ajkwOGNmMEplNzBxQkMxT2kwMlVHUE1BelpSd1c3N0dBNXlIZEhuOVZBVHlWZUg1NUxqMkU?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "세종교총, ‘사제동행·가족동행 배드민턴 대회’개최",
+     "d": "2026-11-22",
+     "src": "OTN뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5haXZ6YVpjSGU3Q05vaHM3QWZqS3A1b0hWX2U3ZkZVT1J6Z0JKY0dXNEJMVm1qZjRBRjlocUVxbEVxc3JLaDFQRWR0dTZDVVNpTU5raU9JampFblBFdUVubEZZdlBzSnFK?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "세종교총, 사제·가족이 함께한 배드민턴 대회 개최",
+     "d": "2026-11-22",
+     "src": "웹이코노미",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE9KU05oVFBvRHNYdHJTNXl5c2I4WC1Ram50S1ppMXczV1VSRDkyUzN0TnlJOWV4T2tTVnJUYUU0WWNiNXNBODdPMUw1TmRxM1BEYThLdVp1UkxodWdnYUp4dWRWa0JON1U4VXZIcEI3YkZTdw?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
     {
      "t": "전북교총 “학생 주소·통학버스 노선까지 유출…전북교육청, 학생 안전대책 마련해야”",
      "d": "2026-11-20",
      "src": "데일리시큐",
      "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE51QWxiRUFMZVljTVQwQno3Wnc0cjZ3NjB5QTRrSThHTFRYMmlqb0V0UGs5UjhWUDdMbVRFZjZId1FMWWxkNEFlSlRtc1hlb3RJUjhDZVN0endUaS1ubXVaZ0NRR1R5ZFA1TXViSQ?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "제주교총 \"2026·27학년도 수능 공정성 철저히 검증해야...시험 관리대책 마련하라\"",
+     "d": "2026-11-20",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9KNi16Q1RJY1ZzMVRYY3poaFBUaXVYb0tmZkxJUFhBSm1HaUZOZFRUbG1ndkdDUVdVYUxRR2JHeFJDMGxqYTJMNTVBcDl3NGltSXR2U3plbUFRTE5IMFhpWmpMeHpoRXJsWm9peXFxbUlCeFE?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "○○교총 “학생 주소·통학버스 노선까지 유출…○○교육청, 학생 안전대책 마련해야”",
+     "d": "2026-11-20",
+     "src": "데일리시큐",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE51QWxiRUFMZVljTVQwQno3Wnc0cjZ3NjB5QTRrSThHTFRYMmlqb0V0UGs5UjhWUDdMbVRFZjZId1FMWWxkNEFlSlRtc1hlb3RJUjhDZVN0endUaS1ubXVaZ0NRR1R5ZFA1TXViSQ?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "○○교총, 개인정보 유출에 \"학생 안전대책 강화해야\"",
+     "d": "2026-11-20",
+     "src": "노컷뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE55UkhITHktZk5JdHhTQTNVLUN6cDBKQmJqYTVUV2V5X3NTSXFiX0xXSExiNlBIbHkxTk1LZWVKaVJveGhsamRPVmZjXy1sSW94VkE?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총, 수능 공정성 검증·국가시험보안센터 신설 촉구",
+     "d": "2026-11-20",
+     "src": "한국교육신문",
+     "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1mR0Y0V0pjWE9yQTF5ZzVlMmd3bGYyZjRsaV9ITXF2cUZTSHhIN1gwVHk4S192cFQzLW1ldTFBYjVoRWFzRExxQ2djWkhKVUt4UnZGbGF4MU53Vk1FRkVV?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "제주교총 \"수능 공정성 검증해야...AI 부정행위 대책 시급\"",
+     "d": "2026-11-20",
+     "src": "뉴스제주",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5UemI4MXAtSUxPZDJXd2FUUWJoQWhnUWJZbnFQUzNEYVZ4SWNUVkxhSXV1NG1XSmZUZE5wdVBYLXpEU1Q2Z2VYOHYwZVBnLTlVZmZ0TDE5VkNsYWRHN0x1c2dVZ1VzNkVsUnhZ?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "제주교총 “수능 공정성 검증하고 AI 부정행위 근본 대책 마련해야”",
+     "d": "2026-11-20",
+     "src": "일간제주",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1NRE5RS0d6dmI5ZU92QUhCY25kVGRjR29lQlpacXZJa0MzQ1lISnNFVmNsWTJ2NUdzTkJQWDM2ZHEtOWMyUkV6T09CaXV5QzdfMFFhZzB1WFZWcmtOdHU5WTVOTFZVYVdONUQ4?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "○○교총 “교육청 개인정보 유출, 학교에 민원 전가 말아야”",
+     "d": "2026-11-19",
+     "src": "전라일보",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1MQnJjSEJ3RUJVQVRwdHNpZGpscTg3bUhjN1g4WTFjWXRaVDNmdkt6RmhLV2o1N2NqbW15YWxwQ2FJdHFBUWRYcWV3UGJob1hFVjFpY082emhKMnFDcTdfOVA3OWsyTTVvVHI3bNIBcEFVX3lxTE9ZNmVDNk41cGxDUG54enlFTjFCN25PUm5EaHUwVk5XaGl1Z3hZdXVXM29vbm1fdEUxQng5NWpTSGZNUl9MdUpDUXJTOGQxQ25OTnFBRDgxUEw4SkhDRjdTa1VzdlJGSHFhOGJJbS1yMUQ?oc=5",
+     "tg": [
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "충남교총, 청양군 아침 간편식 사업 철회 요구",
+     "d": "2026-11-18",
+     "src": "OhmyNews",
+     "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1DTFBxWUxxdFRHRGQzbmZ6WW1yUzhQcV9oRG53cndqRXJISE5xaWRNdVNfZmZhNVQwRXpVdGZ5eVRVd085Q1luN01ydzZfMlBQWm1mdVNuWE5BNDZyWm9SRnpMR0xsRTBtQkhhZ1V6d21DSV93eTJn?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "충남교총 “청양군 아침 간편식 사업 철회하라”",
+     "d": "2026-11-18",
+     "src": "로컬투데이",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBLSXNfZG01NkxCN21mSXloazZHM2cxZnpwbFpyalBSODAxeXB0S0VYaHdZN2c4WEpvbUh5eDRXRmZaWlJFM2k4a09nVE5nN1dITDRrMmphRW9EMmZIOS1JaEJiaUg1SjZYNld2RDBfa3k?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총 \"졸속 대책 내놓고 책임은 교사에 전가\" [이슈ON]",
+     "d": "2026-11-18",
+     "src": "YTN",
+     "u": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5Bc1ZXZ0FvZk1TUXhJcDRBSmVvbHVrZVRySEkwLWltcWFCM0wwa1BzT3RoVXZaMlc1Z05kdFg0OWQ1TFUtUUlYZUpYdDduMm8zQ2pOZEdxdEh5Q29PNkE?oc=5",
+     "tg": []
+    },
+    {
+     "t": "\"감독 때 시험 방해, 성추행 시비 우려\"…교총 \"수능 감독 명확한 지침 필요\"",
+     "d": "2026-11-18",
+     "src": "사이렌스",
+     "u": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5EZDhnbXZZZ0QtSEpGZGxnQlZNYlJxc2pQbDlPRlNTYzBSel92V3lfSExpYk1DaUFJLTZlVGo3LWlHbXZrZHdxamlwTm1Md28?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "경기교총 “교권 보호 강화하고 교원 행정업무 분리해야”",
+     "d": "2026-11-17",
+     "src": "경기일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE13OGhkMWZHZWtjd2xRenBhOXRMQUhiTzdhd1pTVVhqcjRqRUJlejF0MzdiU0VTZHNqM09TRld5R0Z2NW5lSzlyeVJpc3VIZEpweDRkZVVPWVJnclE?oc=5",
+     "tg": [
+      "성명·입장",
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "교총 “오늘 차출-내일 교육-모레 투입, 책임 떠넘기기”",
+     "d": "2026-11-17",
+     "src": "동아일보",
+     "u": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBsQXpxRFgwYzBKXzg4WkZOR0V0LVFUb3p4YmU2TTV1LTRBRFZ3cWZaTnZUcjB1UWZpMy1xLUN5bm5oNTM1UGdDM29sOUllVzdZRkg4aUJvdnN2d09PTHdXbENCc0djSGtDbE90UjBhQzRuNllIbkHSAWZBVV95cUxNTDNtMjlrRmltdG40bTFwaE93enNPeko1RHlPRERILVh1ZVcwRDlEVjhYaTAwM2NQcUxwb2xCbkUzdDRhUTdmWDlCdmJOeUdVektocGN0UERReDVNWkcwWjVZcjFpeVE?oc=5",
+     "tg": []
+    },
+    {
+     "t": "제주교총 \"수능 AI 부정행위 방지 대책 환영...감독관 보호 약속, 제도로 보장해야\"",
+     "d": "2026-11-17",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBqOFJQMnNDa3ZHSGJLcVFGZmcxZG91M0xLZVMzWU90YWtRcjdlUTd6a3lHRVU0NVFpZ2t1cTdHYngyd29yajZLTGhxT3l1dUpQbkRpa2IwQ0V2ME1XQnlMZV9pM2NQQnZWWkxVcVAtSFVNLVU?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "제주교총, 수능 감독관 보호 환영…\"제도로 보장해야\"",
+     "d": "2026-11-17",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5vSmk5cWIta29kaGEzMF9Ub0lOS1hYQWpTV3ZrTm80ZVBRUU1DNnhaTXZuZTNoUzVaTVM0ZWtSM2tXdlVaLTRxakJxVTlEOUd6WC05T0tLc3RHUjTSAWBBVV95cUxORW83MmRKVEdzMTJjNFp3Z2s0MTFLOUFaSndtMG52UmlkVC1VNmhQVGpBbk5jUkRPUGJuVEZuWTlwZHl0UnVETGRQMzNwNDZPQjNuN19kSjNNaEZ3V1NHXzQ?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "감독관 차출 ‘번갯불에 콩 볶듯’…교총 “내일 교육하고 모레 투입”",
+     "d": "2026-11-17",
+     "src": "강원도민일보",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBhZHRldUJIYUl0aXkxa2lGbDBJcDJsd2dfWEJOa2gwdWhZVmx3WDZ3eWR5NGd4dXFhMHF2cGlXQ0hmQmE4cWVwTkJ6NlM4QTMySWpRZURORGd4RHBQcTVjNGhINHZLZ1E?oc=5",
+     "tg": []
+    },
+    {
+     "t": "제주교총 \"지방교육재정교부금 개편 반대\"…국회 앞 1인 시위",
+     "d": "2026-11-16",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE00Y2hjYjAtOXIyelVnRW1XLWoyM25UQi16bU9RMXhsUndaTlA2d1lfdldHY3h5Zzd5WFNhenlMUDFtTHJCUWRCVUJFWHE0QllTaXBaODZKdF9xVkNHTWlXZnJIV3FaRDNpUTU4RkxydjFsa2s?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총 \"교육당국, 육안 위주 대책 그쳐...전파차단 등 신속 도입해야\" - 머니투데이",
+     "d": "2026-11-16",
+     "src": "머니투데이",
+     "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1lRVVadEpPVHZmUTBIMW00cGxEck52Sldmanh5VnZucFQ1ZnFlU0s3V3hXS0NwNzk2UUdmWmM5aWVkb1g1eTdxQTUwZnFYSmVHcWJCbkYwRThUTkdnSmZ5dC1HLThYcmoweXh5UTZyOW5oSzlSdUdv0gF8QVVfeXFMTWpMdWhIMHpCR1c1UjJVaGY4UFpuNFVvVkt5R1FOSlMxLWJFVmFfZW1mSmJhNElhZHNpMWo2SEo3OGJ5Um1YWXUwbWxocGRCclk0c1RNLVJTYXJQMUl5dEI2c2w0NEU2VVdSTU9RQUYySDNseXFJdzhjYjhQQg?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교육교부금 4년간 113조원 격차… 제주교총, 개편 반대",
+     "d": "2026-11-16",
+     "src": "파이낸셜뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1QYXBWT1RISzlxMm5nQ2RGeGNkdnFqMFhGN092MDV3MG9WSW42V0JsMTJoNGlhSXVkY3gtMi1ZVEFaVll5UmpxdTMydzN5dUhYa0dVeGtXRk1kUQ?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총 “교육재정 개편 중단…졸속 처리 안 돼”",
+     "d": "2026-11-16",
+     "src": "한국교육신문",
+     "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBlS0FQdWtsRVBITXMybHBENTF0SWM0STRJUE1pOXVuRTg5SGdHbWlKa3h4OVQ2Y0VneWFpT1JpSUd3RF9QNFRLMmFhTEdBbUx3WWk2TFVjei1kZmNmZVFv?oc=5",
+     "tg": []
+    },
+    {
+     "t": "교총 수능 공정성 위한 대책 마련 촉구",
+     "d": "2026-11-16",
+     "src": "한국교육신문",
+     "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE4yVTVtYUJOem15amNlWkNPeGdNMzRDMTZQbzNyaUdIV0V2a0pJRkwtZ0FmOFJHX3lTaFRLZ0ZwZWgzSUtJZzdCZk1LV2hvMkR5YVRvTnhVMW1jX0ZBYWlF?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "제주교총 “정부 지방재정교육교부금 개편 반대”",
+     "d": "2026-11-16",
+     "src": "삼다일보",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTFAyQkxRWXFqUVNfR0hoUS1NR2lSYm5ESTl2bndiSjJ0WGsxaHBjYldlbWVzcTBSRzhoU0NZM3habUM5b2hsaU1LMElSZl81bVZuNVFyaW1KcGVlR3BBVFZzdDQxSzNmcHR2S2hFcg?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "제주교총, 문대림·○○○ 의원에 교부금 개편 반대 전달",
+     "d": "2026-11-16",
+     "src": "뉴스제주",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTFA4cWtaV241eUdST3h2blpNV0hXRVBHdVJNY1ZNaG1PVXBYSVVVMXE0Zlh4WE1rVHEzbEpFQVpLRWVlVVBWcTNKSkptUEJ6RTJ0VVJMS21ZMVloeEJEckNHbkVHVTlxRHZhRHhz?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "제주교총, \"문대림·○○○ 의원 만나 지방교육재정교부금 개편 반대 뜻 전달\"",
+     "d": "2026-11-16",
+     "src": "지금제주",
+     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB3dGg1UkpkdDVFSUFtdWFvTU1KME1BbC1fa01ab2g2Ri0wVldxTE9wd2dyLWtBLXRBRkk3aFJhRW9GcUdBN2xObUFtSU1FV0U2eE5JYmxtaUNfYVdCcHJhRUFOY1hCZWE0RlZ6c0p3?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "○○교총 ○○○ 회장 재임 확정…“교권은 더 단단하게, 현장은 더 든든하게”",
+     "d": "2026-11-13",
+     "src": "KBS 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE8xelcyblNsMmVmdGc0ZW9EN1YtUlk3OXlVTVh2X3hldzVLXzktbGdIX0dVQWw1dlZUODU3c0RJUHNJd3BfNzdOOGhJa0FUSlJValdndFhpVE5pLWM?oc=5",
+     "tg": [
+      "리더십",
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "○○○ ○○교총 회장 재선임…\"체감할 수 있는 변화 이끌겠다\"",
+     "d": "2026-11-13",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE92WXh3X0lMdDBQSktKaFNORnowTTN5SExzcU8zVVZPOTZfX1JZaUFwX291TW5vNWdPWldwSmZNcnJmcml6QkRfZWN1NnpPM2dUUWZmTzlpUXJvZFXSAWBBVV95cUxNa29pU3BaRnIxMk1lTkZnUzIzSUYybE9scEZ0NEZDcXJaM1l6Qkdxc01zazJxWWo2eXpOWG9uTkM1VVFEV0Q1MDdXLU1kZlNacHh4QVRlTXZLM3VONFVJaXE?oc=5",
+     "tg": [
+      "리더십"
+     ]
+    },
+    {
+     "t": "교총 “교원 정년 65세로 연장…연금 공백 해소해야”",
+     "d": "2026-11-13",
+     "src": "에듀프레스",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9pWDQwZ1k1UHd4ZHREQnNiaTFIRks1cmtzSG5yM2F1Z3hWdUxpV3JyTjNOaGwxV19Eb2RYdkUwNWdVdldnRzJhVWVuYVlyejI5U1ZVMzI2WmdpWk9JY05ZQV94Ny1aOUU2?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "제주교총 \"초등 저학년 3시 하교제 공론화 중단 결정 환영\"",
+     "d": "2026-11-11",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1DVGYtV0ZGalpVeFp4QWxCTlJTRGpyZFh3cVVzZHVmMGpjLUNnWUEyb2I1YktVUnUtb2VFczRXQTRoSmcyejN0d0V1VUV0VXpyb1FSYkZ6VVl2MDVJeVJ4UzJRaHBKN2cyMXAwQWtiTHN3TVE?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "제주교총 \"제주도교육청 내년도 예산안, 교부금 늘었지만 학교살림은 제자리\"",
+     "d": "2026-11-10",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE4tZWZPSHQwVHFUSkV0dU92QVphd18yZG0zNk5haWRRNzYwOGpEXzBtZllzdGRMZXlzN3hnbUM0RENFRUZ2ZklpRTRDZU5tM1BfNG9lNHh4ZkNSZjN4SkdvdndLdTViazgyUVZZcm01cWdKeHc?oc=5",
+     "tg": []
+    },
+    {
+     "t": "제주교총 \"교사 텀블러 체액테러 사건, 학교 보안체계 개선해야\"",
+     "d": "2026-11-05",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBQNi00dG41Sy1Ga2Mta2ZiWDNfV2NLRWthYkd1eTJ6N2NhdnFYdHBkTWtrQm9fWUdrRmhhWGgzQVZJMXhWajlKcVVkRV83QzFHWnRCNldrR2VOS1dGWXRQZk5SRWZFRU95bjVLRTRvcnlXUlU?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "강원대 철학과, 강원교총과 지역 교육협력 협약",
+     "d": "2026-11-05",
+     "src": "강원일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1rbG93bE9CQ1JCVEp1M0R2bUI5Z2lheHZpLTRLNjJmNzZadW9uNUNnOHBRZExLWUVsVm5WX2p1UmhpNlVLWFNqdmxhbFRfY2ktSVJDWVhVVmN1S3c?oc=5",
+     "tg": [
+      "협약·제휴"
+     ]
+    },
+    {
+     "t": "제주교총 “스마트안경 수능 부정행위 대응책 마련해야”",
+     "d": "2026-11-04",
+     "src": "KBS 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE94YXlHam14QzMzcFc1LVlsTzhDdUxEcW5MNGRnalYzM3ZXNTBvb0pBc3VhWnpycVhwTTRPb2NQSVM2ZEZxOUJXMmN4WGZmUTN6VDREM0pwUEE2SG8?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "[뉴스핌-교총 특별기획⑦](상) 학교는 공문·보고서에 '허덕'",
+     "d": "2026-11-03",
+     "src": "뉴스핌",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBGS1hoVlBJOGkzUnRVcDM3Q0lIY0FpcWxiUlpFcjdvbjZCTDV5V1QxWmxqNFlYbV9Ld3IzY0U4LTM3M2Y0aXczV3F5WFl4MmpvdkQtMTJBUzluU1hl?oc=5",
+     "tg": []
+    },
+    {
+     "t": "○○○ \"황현필 강연 취소 요구, 후졌다\"... 교총 \"사과하라\"",
+     "d": "2026-10-30",
+     "src": "조선일보",
+     "u": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOSFRYcFV5Q1ZWcFQzODlFUkdzUHhUN0RCbk5jRlBQR1d4VEFsOFhWQjd1bHFORlk5alZBVTNucHYtdzk3NWxHeko2NWdyWERoNml1MndmU1JfUF9LUlhWSThiVzgtbEUyWl9FNl9hR0dUY1hHTzJGZnZCbjlBSEJGOFNraDhrV1E?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총 '뒤떨어진 건 교육감 ○○'…○○○ '후졌다'에 사과 요구",
+     "d": "2026-10-30",
+     "src": "이투데이",
+     "u": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBoamllUEw2YzlFbkd3NDg2T29fb0djSEdxajFzVWVTV3RwN21qUTdKeElaendFbV9BRzVobWRrdGFwQmNnWE0xeTU2QXkwVTdkMTdIUw?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "○○○ 한국교총 회장, ○○○ 교육감 면담...학습권·교권 보호 방안 논의",
+     "d": "2026-10-28",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5uQjUwTUtVeHRRaXNXZmhSTkNnaFVnVEZaNmtpVUc4bVpBeE1jX05YaHd3aG9qcG5remU4U2VtaUljZ3ZrNnpoT3dIYVQyTUJhVmNqNzRZdDJNcmREUVVPYzFkRXBfeHAzdlJWVVAtWHk5cHM?oc=5",
+     "tg": [
+      "리더십",
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "제주 교총·전교조 “교육전문위원 소속 교육청→道 변경 반대”",
+     "d": "2026-10-23",
+     "src": "제주의소리",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5TNXpDbzVrVXpnZDRnVjVmS1NINGtnTjNIU2lNUnFLa2NtUFZGSEJ5Z25LU1htQ0stU0hRV01GREdhbkFwQUNFN0l2YWZRV0FZajhaVFBZeFJDNHJ3Rm9PcHFFc0twRnluR3Zz?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총 \"경기교육청, '편향 발언' 역사강사 강연 취소해야\"",
+     "d": "2026-10-22",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1zVEN5SVQtSjVRekRtY3FjZG40UjV4c0t4eHhQb2lVYXNFMUZfMnYyLXBWQmo2bFExVW91VzFwbEZjNExJZVpXM0pWTFRWa29UVVVJbTlLRklubk3SAWBBVV95cUxORmQyLWxDbmp0bWpmSGREcWU5N2FqUnVmdm4wT09TbERUSXphRGw2MG9ZcnVxSWRvdzZjbndRWkg5Tm82aWlrWFJVMVkycGlqYTdnbFZSQU1nSG9rYlVMODk?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총, 경기도교육청 황현필 초청 강연 취소 촉구…“역사적 정확성·중립성 검토해야",
+     "d": "2026-10-22",
+     "src": "인천일보",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5zMzVqU2U4b2xrWDQtdlpIRGNEVnA2UXlpc094N1RDejdSa0xEeTA3Y3g1WmtUdGlzOExBLUV6X0ZhTzhjMTRFUXJLWlAxcTdvb0R5NlBaVVpaV3ZyS01wRTZjLV9VaXFMeHZnLVUtTno?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총, 경기교육청에 황현필 초청 강연 취소 촉구 \"역사교육 공정성 훼손 우려\"",
+     "d": "2026-10-22",
+     "src": "조선일보",
+     "u": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNeTN1SFdoNUlGV3pCeDFubVdjRnFoek51RmxOMjZ5NnNpYVl2Y1J0MHdEREUySjJUWG11QlF0Z29iUHlGRG9fRzJMOEVycWtLZkYwVGpLbGZ1MXhxcm1DRlB6OWJ4UU0ycFV6S0FoakRPUW1nekk3ZUlWcDVYSlFjNjBPRU9xaHc?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총 \"영주고 학습권 침해 해결책 마련해야\"",
+     "d": "2026-10-20",
+     "src": "제주MBC",
+     "u": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE13WkppYVphNGJIb2k1dEFERnE5YnpLXzh0cllzRWlxZ2JwM1A5YTBESm5sVmdwVmRWSmZDekVQZUpuSlIyVDlDUzBSSVZiU3M?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "제주교총 \"JDC.도교육청, 제2첨단단지 공사 영주고 학습권 침해 해결책 마련하라\"",
+     "d": "2026-10-19",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5qSy1ydHFBaE05TUtRSjllQUcyQTRyZFFfMFNiS292R2VHNDRCbkVGMXJvMGFMZ2lhRUtFaldSLTdvZ2RjUlMwSk5zYnZ1VGtQN1JfUktkMVM0ZTdQQmw2dmVTbzhxVzc1cU15TGVJTFF3dWM?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "○○교총·교사노조 \"교원단체 업무는 교육국에서…행정국 이관 안 돼\"",
+     "d": "2026-10-16",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9hV2tONmNXdV81MG1JZ2pwakZhOUVZbFp2amdwNHpLNjZtNlkwSEJMTkhvb3RtaWhkQU4wNU1leVMyM1JZY3ZCdDlITjhCZ0dLcnRMbA?oc=5",
+     "tg": [
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "교총·교사노조·전교조, 교육활동 보장 법 개정 촉구 전국 교원 집회",
+     "d": "2026-10-09",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5nUnczS1dvdVVicG13RUFEQ3pLc182LWgzcG1DQmZsUWtkaTgtMExxZ1pKNzh6ckpZZDlYSVRTR25wci1ZdUw5RDY0WkdQckdaRUtOU0NpcXpwbEJuQllyWNIBYEFVX3lxTE5nUnczS1dvdVVicG13RUFEQ3pLc182LWgzcG1DQmZsUWtkaTgtMExxZ1pKNzh6ckpZZDlYSVRTR25wci1ZdUw5RDY0WkdQckdaRUtOU0NpcXpwbEJuQllyWA?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총 “배재고엔 분노, ‘암살자(들)’엔 침묵하면 역사교육 원칙 무너져”",
+     "d": "2026-10-07",
+     "src": "문화일보",
+     "u": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBvUzRmdVBGbTRYOTdZejZ2czZBY2VNLU1hS0VuM0liRkFlU0ZVZDFLdHR3c0hid29nak9CU3JFRjhHV25INU9UMVNDeWQzQTRw?oc=5",
+     "tg": []
+    },
+    {
+     "t": "교총도 '암살자(들)' 비판…\"청소년에 왜곡된 역사인식 심을 우려\"",
+     "d": "2026-10-06",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE00M2Jodl9XdVYxdzFFeVNsdzdRc3hVRkpMUUNDUGxOR1FnQVdhOW9QckZYM25QVmlNLW56R3ZxVF9vbE53VVlUUG5YanZfQ05qTUY1blVDSFNESGPSAWBBVV95cUxQTlp5Z2NwdVhGYmZ5UHpHdmFranZzV3U5Tkw0d2FhOEM0QjlmQmQtM1MxQnVrLTlwWXAyYkRQRDUySE5hQ1ZxSF9pbG1SRVRINGRpODJBeWE5X1NaQVNBSWE?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "대전교총 \"신규교사 선발 정원 산정 방식 전환과 한시적 정원 인정을\"",
+     "d": "2026-10-01",
+     "src": "굿모닝충청",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE52bXZjRlNtakRrRXUyYkRxUEhPVFpzRU1ndWJIcWd0U3FiTDBXLXV5SEE4U2JrcVdaRjB1cDBFVVVPaGVwaHJUN1hKWkpCUUwyaTE1UnVSdkFGZXR5dEp5X1dMMTBNaW9nbmxkWHVaQS10Zw?oc=5",
+     "tg": [
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "경남교총, 제1회 ‘교육 진심 포럼’ 개최",
+     "d": "2026-09-30",
+     "src": "경남신문",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1oaVlFTnR0OXJzRmpYWnV6ZGYzaVZTaFA1WW5kaWgzbGpuYmZYdW9hZnJtdEZNNlJUZDdHVEUxdV9qTXpJeFNBcm0yR1NYVDFLbnk4a1VzdmVncVJ4eGZuZ1hCbGFGNG41M0NV?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "제주교총 \"도교육청, 중학교 불법촬영 피해교사 보호.지원 나서라\"",
+     "d": "2026-09-23",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1CejBpejVTMlMwdi1RaEttck5ucXFfa0h5d1BlYVJCYTE4cV9pY29qNjYwZVp2OTYyTmc4SXduYV9HTHBEMGxqaGdJcWJtNVRCcjlHa1ZROEIyNENsQzZZbVQ2YmJOZV9kTjdIUUFXb3JITmM?oc=5",
+     "tg": []
+    },
+    {
+     "t": "[뉴스핌-교총 특별기획③](하) 학부모 진단 거부에 기초학력 '골든타임 끝'",
+     "d": "2026-09-23",
+     "src": "뉴스핌",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFB6OXlvQVdYbXJyNGJXc1FMdm05T3lEdGpoMXdBZlp6QmxXczFnR1VieDhLTzMzU294c2Z5MkIwU0dkNkw5RC1kUElHSVZZNm16U2NVS19VR0N6c3di?oc=5",
+     "tg": []
+    },
+    {
+     "t": "\"아이들 급식 챙긴 교장을 징계?\"... 한국교총·대전교총, 전 둔산여고 교장 선처 촉구",
+     "d": "2026-09-22",
+     "src": "굿모닝충청",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE81eGhEZnlidzEzUEdyUUlpanZ1V2I0OVhNRjJydG1tUFZtQjdFbUJBa3l4NzJCYlJKZ1pTWV85a3RLdGNkVG9RVTlSNk5tX0lSbHk3OVhkTEh4Ql8wTkJMQXN5eFEtbGtVeUtlMGRjazBndw?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "경기교총, SNS에 교사 얼굴 공개한 중학생에 \"교권침해 규탄\"",
+     "d": "2026-09-21",
+     "src": "인천일보",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1xNTFhVnduSVhQX1FwTzFvektYMW5aUE1KSVVJMkpXenJldnpJNERUT3o4elFYOFF0eTRFWDNmRFdZdDlrMFZmTWRVSFVLU3B6bVcwY1V4RkZpMjNCUXAyd1FSV0xWdGtVdzlSRHhjUHQ?oc=5",
+     "tg": [
+      "성명·입장",
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "○○교총, “○○○ 교육감, ○○ 전 육성·천사랑 의혹 설명해야”",
+     "d": "2026-09-15",
+     "src": "KBS 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBHcVVUNzBGOUN1UnBON3ZOVzdUQ096MTRpN3ZoRkxBaVB3YjJXWld3UXBNclpxcUU2UGl0SkV4b1dBSG9pNDM5alM2anU4M09DdWxSMG12ZHZIYTg?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "○○○ ○○교육감 ’5억 필요’ 육성 파장…○○ 교총 “해명해야“",
+     "d": "2026-09-15",
+     "src": "연합뉴스TV",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBKZGNRemJUY05DUFFrbzE5aTRnZmVMUXFpcnBiSV93Sk54YW1VQmFLYVZsVGQ4QUlGVzhHZlR0RnkwcnRReEY0eXlKU0lOT2t5LUZBczUtcGdtNGNwczhjZG91Um9qS2M?oc=5",
      "tg": [
       "성명·입장"
      ]
@@ -98,42 +633,46 @@
   {
    "name": "전교조",
    "cat": "union",
-   "n": 4,
+   "n": 70,
    "weekly": [
+    1,
+    1,
+    2,
+    3,
+    1,
+    2,
+    0,
+    3,
+    3,
+    5,
+    1,
+    0,
+    1,
+    4,
+    1,
+    3,
     0,
     0,
+    4,
+    4,
     0,
+    2,
+    2,
+    2,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    4
+    25
    ],
    "tags": {
-    "성명·입장": 2,
-    "AI·디지털": 4,
-    "평가·입시": 3
+    "성명·입장": 27,
+    "AI·디지털": 10,
+    "평가·입시": 22,
+    "교권·처우": 6,
+    "연수·행사": 1,
+    "협약·제휴": 1,
+    "리더십": 2
    },
-   "r4": 4,
-   "p4avg": 0.0,
+   "r4": 29,
+   "p4avg": 7.0,
    "last": "2026-11-22",
    "all": [
     {
@@ -176,46 +715,1093 @@
       "AI·디지털",
       "평가·입시"
      ]
+    },
+    {
+     "t": "전교조 \"장관 교체만으로 교육개혁 못 해‥입시 중심 교육체제 전환해야\"",
+     "d": "2026-11-22",
+     "src": "MBC 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB6NVo4clh3UVNZRTVuVE1sU0I3RThNNDJ0anNObWREbGI4VmRaVHJUR2ZlcHlrOTdWVk04MTNBZFZPd0QxYlo1a2Eta0J3dFJLbVF5aUtCTWd0bnB1RUlLZ3hiX1ZtMWJZVWU2SkpJSk5id1RCaThN0gF3QVVfeXFMT2NvR1Y5QjJLSW1NVmh5TFNycF9CUkJuYjZsREVNVjVGZFNIVlJvdTdiWjlXeXlrZU5TNnV6ekw0SzRGMkx2M3NRZUlhZC1YSDBlOUJBUU5KN3BhbExINmpyVnVjcy1IeTlza1RMUW1RMzV3QWNaeTg?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조, ‘한식구’ ○○○ 사임에 “수능 대응 리더십 한계 드러내”",
+     "d": "2026-11-22",
+     "src": "중앙일보",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBFRTBJclpKZFd3YjV1YVhBYzRTeWMtUWtITWpDWnNxV01FbWE2UjROOEdDNEtlN3p1dkFrZ19KdFRjbFBQYlBKNEEyUDBEaG8zWFZfZHZR?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "‘친정’ 전교조마저 등돌렸다…○○○에 “AI 부정행위 사전 대비 부족”",
+     "d": "2026-11-22",
+     "src": "문화일보",
+     "u": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFA2NF9RelhucTZpSk81UmFlQmQyYms3eTE1NWtvdnNmQmJBMlA3V0dGMlpXTzhIMmF0eGFZUUFETkE2LVh6R1VDOXg0NWt1U3BY?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "전교조, ○○○ 사임에 \"수능 대응 리더십 한계\"",
+     "d": "2026-11-22",
+     "src": "연합뉴스TV",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBaQXlFZnUxQTAzbWtJbTVTLW44VjUxNUZrdl84VlI0MkR1TnpYTUpBaDhVcG5wVmZpd1VpWXVfYzRhZlJJaUJqa3NsMEpPaGhpbFRpSUl3VWVBeTFIVUVSSFRrZXhiaVU?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조, 한식구였던 ○○○ 사임에 \"수능 대응 리더십 한계\"",
+     "d": "2026-11-22",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9IcDhhbXNnUkxiUXVhUTFheWxGbjJSMUxtT2hMNkYwWW5jSFpqLXNwWWhBTl8zMXoyOXlTYk5zX3JJX0RoTzJhTFBEbUV3c0FSQTVkOG1MeXNhaGPSAWBBVV95cUxNZm5INXQ3RmJTUkpSay1XUktiWE4zWmJUaG1BZEJIMG9vOVRHTU9xNjdiSmtSdEZVMXlUcnU5eURoMzAwRS1LZFhXeHNicVpXM2dBVW1yNjFOWUExVTdiMjg?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "'전교조도 ○○○에 등 돌렸다'…‘한식구’의 쓴소리, 수능 혼란 책임론 '확산'",
+     "d": "2026-11-22",
+     "src": "한국NGO신문",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE00a2pMRnhBbmY0LThwa2hKaDlLZTdVd1ozZXNMemMwUlpDSU1tQllvTm9NdnFXSnV1YWJuSzBETk9hUThyTmVZWElMSG1oeXJ5ZXJpSFBXa21IbVpya0tncHZMT3RHLTl1?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 “○○○, 수능 AI 부정행위 대응서 리더십 한계”",
+     "d": "2026-11-22",
+     "src": "이데일리",
+     "u": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOcmRqdTFVTUM0NjJaWGhVWHVaS1NzaFJxWExNZzdxNEozWkJPRjE4T25wRlY1andIOE56bHhqNVV5MXd3aEppZGllQ0dYeTloZFFPNG8waGdsRFBKbDlsMjBEYzNoMDFKSVM1OUJKbDhkbDRLMlIydHdvQWRJQl9vSA?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "'○○○ 사퇴'에 친정 전교조 \"AI 대응할 교육부 장관 인선해야\" - 머니투데이",
+     "d": "2026-11-22",
+     "src": "머니투데이",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5tWWZOdU9DSy1UVVNtbjBrSGhwbVMyOFFtQkM3M1Y3S1lPcFBFNFpIN3Q2RS1YSmU5aTZDTjRUR1RsVVdHbWY4RjRqaV9PZURxUHlVZUstdmpNVDJmaE1YOHJEQVJCbDhYb0HSAW9BVV95cUxQUEZqZW5PVnd2aGlTTlNxNEhMM3VwWnpER05EYlNkbWN0NGxPY2NBdlJla1RkZUFLZkxhZFJzSGZ1ZXFScmRvb3VmZVcybVpjVUFNRmFrWkNfQlN2U3NEeWliY3NLbVVJZFJlTC1BOGM?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "'○○○ 친정' 전교조 \"수능 위기 대응 리더십에 한계\" 비판",
+     "d": "2026-11-22",
+     "src": "노컷뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE53d211RWZqSWo0Tl9FRVFtVExzNGU4dlk2bVFTSnBZQjlhR2dlQWV3WkNRWXQ0MUFNMXQxUHFpdEdCdlU3cEVGQ0VIT3JGN004Qmc?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "부천 사립유치원 교사 죽음, 사직서 위조 원장 징역형… 전교조 “구조 바꿔야”",
+     "d": "2026-11-20",
+     "src": "민중의소리",
+     "u": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE9HTGpSUTFCSUxUci11dVpsMFFmc1FyQnpwTG5fa2NQRE1vREJVRU43ci11YXBOTjRuNXRSN24xaU9OeXVKdTRlRUxBaw?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 \"수능 감독교사 AI 부정행위로 업무 폭증…인원은 그대로\"",
+     "d": "2026-11-20",
+     "src": "더팩트",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1lV2tONzZiMmR4VHN4dHFYRGM2eDU1MTl4bnBzcTREOFo1UEtQTWplUEU4UTlHeXdibG9kS2VjM3pUMnNpVkhSb21rU3Z6NVpaWUNQWDVR0gFQQVVfeXFMT3BnODE4XzBadWc5QzhLQnVlZDV2TnJ0Und2a1RUN3NJN3dtUGhYT2llMmE2d3ZBOUdscnNaMnljTEx2WGlkMFpOY0dRMEthbXU?oc=5",
+     "tg": [
+      "AI·디지털",
+      "교권·처우",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "수능 끝났지만… 전교조 \"감시와 통제만으론 한계\"",
+     "d": "2026-11-19",
+     "src": "뉴스클레임",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB6RVc3Q0hpX1g3ZUtXNm9mYTV4dnpYWTYzZEpOUXFZYS1fWm1BRzcwam9kanMxZjRQRnNXYkRRQnZXTmYxYVJsdF9IOGY4djliSlJuTlZGT0pidjF0YmJ4Q3R5UldaOVdzMnlUR2VyNkw?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 \"감시·통제 강화로는 부정행위 근본적 해결 불가\"[2027 수능]",
+     "d": "2026-11-19",
+     "src": "뉴시스",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBQc3pYYU1pcHhPbEJ5WkZXRFczTkxzbXlRQnRDODc4aTh1clJOMjBfOXBrREFHTGM1VUw1clkwTEtjeTJYaVVZOUd1NVhhU1c2T1VEZ0lEcnVPMURrdjNObNIBeEFVX3lxTE4ycUZGQ3ZjcEhCMEgxQ2pzeF90WjF4bEpnNlZ3N3duX1lNY1J6RDRiMFlFaHpObzdUUEJ2QXJKYjhodlhCdk1LaHc4eE1HZU8wd2xaQXRsZlBmTnBKVkMyN2U5dEpweDRUREZKNGh5S1B2c25tZHdhZA?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "[2027 수능] 울산 전교조 \"보험까지 가입하며 수능감독해야하나\"",
+     "d": "2026-11-18",
+     "src": "뉴시스",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE52eU5uSkNiZExpblM0NjlYYzdaVUN5ZWtabU1qLXoyQjZqWTBvS2ViZ0I1anRqck5SLUlONjQwczRqdFNSb1N3RDQxLTdTeE5uci1YZ25ULTEyMXkxWTRvNNIBeEFVX3lxTE80d3MwMDQ3NDAyLVQyUFlIaC1CR1Nqa2VCbmpGWlFZSHphM2E2T1V3Uk9nelhhVVFoejFSVVlPdUhUaEZUSXZHeGk2TG5Pdk9DODdWejl3RlZoQ2E4b0dVVWM0Sm5zRHYyYVBVeGVxbDhBX3F3SzkyWg?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 경기지부 \"수능 부정행위 감시 책임 교사에 전가 말아야\"",
+     "d": "2026-11-18",
+     "src": "더팩트",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1SYmpMblVnYVItcm5NQlJXeWdMeTlsZVdCaDJhZnp5MWdLYkVHY3F2bGdwQWFYdXpUS2ZBZU4zNG1IWldDUzJiX1JhWWQ0UldpYW4yM1pnMDctNFHSAVZBVV95cUxNY3pzY3dHVUN3VHAwM3hUSTlqUVoxVmlKMzIzWGxacnVmcDBPS2pDVGtUZDNiMnhXaWkzeG52ckVESTdaOEdOa2U4LXl6YTdEbjRLeFdzUQ?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 강원 “수능 AI 부정행위 대응 책임, 감독 교사에 전가 말라”",
+     "d": "2026-11-17",
+     "src": "강원일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9QYXM5dG5DRTBtUzlGNWU4OHFDaXNacUdZSnBzc1F0a01yUWR0cm5vZzdTUlMzTzdhbUFrX1hvUkxUa1QzZ0VHcGtrcHQ3T0EtMURyVkoteHpfV0k?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "감독관이 옷깃·단추·옷소매 점검…전교조, 교육부 대책에 \"책임전가\" 반발",
+     "d": "2026-11-17",
+     "src": "뉴스핌",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1RUDhibkFlN19SYXFDdkExeVJkU0hFRWRYeDlWTnFuRF9hbGlaUWhPNEh2RWJpZUVENVY2QmtGR1NBV19Zd1pvMXNhWG9ybFA4ak9ad0IwTFkzMEhU?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "전교조 “수능 부정행위 방지 책임, 감독교사에 떠넘겨”",
+     "d": "2026-11-17",
+     "src": "민중의소리",
+     "u": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1qZk5GSXdqdnpKUWhzQWlmUTVTSERVbXRVcFRpNS1OVXE0VVNOZkpySlZ2Mlh6Yll4cmRsakZ5OFgxYmo4TEdvWVlCOA?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 “AI 부정행위 책임, 감독 교사에게 떠넘기지 마라”",
+     "d": "2026-11-17",
+     "src": "OBC 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1GQ3JsRVBON1Z3S2RycmJ6RGJRbkFQcHVhSEptN08wbzFSaUNpalM0anB5ZUJSa2lRdHpWc0VEMDNiUndfbGh6eEJSVzJqUnhiaEFFSW9EMUVCOTZra0YxYkNXWDJZNWdHM1E?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "안경부터 소매까지… 전교조 “수능 감독교사에 과도한 업무”",
+     "d": "2026-11-17",
+     "src": "뉴스클레임",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9keEt5VzNGRXhuY0lBTXdoQkM2dnFRRGFsWHRZb0p6R05mUVp3QldOZGgtanBHRGxhUVpzT21HYktYci1SOU0zOFlRWHFjTVlqXzd1LUo0Q2lybUNUREIzNmlfcUFXLTh2WmJ3RFpEMWHSAXRBVV95cUxOTXNHVVRjT3laYlpjMU44ekcxMEd6UFFXajd4SWZ5TnZLd2xSUm41M09CRHo4MUJldERpV2NDQ3llVU9ubXFzN1BtX1pQTjlhNU44T2VKZk50U1p4MWp5T2VnN1NYZTN4R1B0OGRRd0l2N2FIYQ?oc=5",
+     "tg": [
+      "교권·처우",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 충북지부, 충주시 아침 간편식 조례안 철회 촉구",
+     "d": "2026-11-16",
+     "src": "노컷뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9WY29lWDJnR3dCVUNYaHl5Rk0xeUVsaFpOR1N5SlpzNjc5bWY2UTItSU1xRE9ENzNXSGY1akRraVZxNHhPcDRJUTdMcHdlTzJlaXc?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "전교조 전남지부 \"교육청, 노조청렴평가 부당…철회하라\"",
+     "d": "2026-11-05",
+     "src": "뉴시스",
+     "u": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBjejEyMW5VY3BCOUtHVU8yYUNNOEhsanNwM2pzQ05pY3I1SHpKRDVDOE4wNUNNdThZX2tfZzM4cXNsZVE3cHEzN053VWlrN0d3UU04M0E3VVREQWJrT3BWUHBVOVBKMVlyMnVjZlpSd0tuam1sMjAzRtIBeEFVX3lxTFBjejEyMW5VY3BCOUtHVU8yYUNNOEhsanNwM2pzQ05pY3I1SHpKRDVDOE4wNUNNdThZX2tfZzM4cXNsZVE3cHEzN053VWlrN0d3UU04M0E3VVREQWJrT3BWUHBVOVBKMVlyMnVjZlpSd0tuam1sMjAzRg?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 \"중·고교생 7명 중 1명, 정서적 어려움에 일상생활 지장\"",
+     "d": "2026-11-04",
+     "src": "MBC 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5ENXloamduT0puZGd4dm9PejZDd0ViTERxZHlpRXFpbGZJM1Y5eFRhQ2hVX29sOTFtYmJBdEU0c3JjeVNoaGlBakpJYk1YVU9oVnY5T3llREdDT0NVZEllV3E5TmRPU2FMUkF2M0RiUkhNWVg5Q19j0gF3QVVfeXFMT3NFWFNwR2F4QUVjN21lNWp2X3RZRlJDSkxLcjR3a1Y5dE9tRm1YazhmdG9CdGZBVTIwbzBjVTRuZ01uT3RPRnpoQjN0Nnhqb2hYSU52Z1FaRS1sN1hEdFVqTDNLcWNVNGlIemcxUFUzVEJ1aEZSVVE?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 “교사 82%, 스마트안경 식별 어렵다 느껴”",
+     "d": "2026-10-27",
+     "src": "KBS 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE0xSjhxei1JTWczSGpiMU1pYjRJbFJnNEt1U2J1cTFhX1YzQnF4LVBtVWFmTkdJNVNHRmRndEZmSUx2cS1fYTZpWU54NG9mRnVNcGptOWtXRHU0YTQ?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 제주지부 “학교 지원 조직개편 멈춰세운 제주도의회 규탄\"",
+     "d": "2026-10-26",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1oeTRKSzA1Vnh3WTVWZl9Kd0VnU0dKVXltWjVBckluSXFnUmlUb1U4NHZyV2M0Sjd0RGdfRV9KWEtQX2JfcFpnRTVWd1RWUFhobFotRVhIcG5OcjU3eU1NYXo1UGt0cVFjdFpxNW1OUFpuNm8?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "전남·광주 전교조 \"개당 19만원 멀티탭 구매 경위 조사해야\"",
+     "d": "2026-10-21",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE53NU4xNm9sOEJpNXhhMVNHaU9GVkhsRVVCMTh4cXJKMHU5dGQwd3FWVDJNYklvRWdwUmt1MzJqTEFPcDlxTVJ6aEw0UUZPdThaTFdnYmgtZ0VpTknSAWBBVV95cUxQajRkNENOdzBldzVPTjFNc3h0cy13bWJkZ1ROX0ZIVHAxUWk0ZTZvMnU3NGptb0ZUSGJtUV9vUTY0V2hDNS1vUGwwUXFybEJvbDhNYWNfVkFtQzB3YUkzMWM?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "\"울산교육청·전교조 단협 내용, 교원노조법 범위 벗어나\"",
+     "d": "2026-10-20",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1LcXhfMEZ6blJtN29MeGpfNlQtS1dpWUNsM1dsNlh0NlB1Nzlvc2s0ZXl3cGVYbDZ0M1VjRDVfLWd6Q19VWE44UWF6THNCTThPWU5zZ3VOck1URknSAWBBVV95cUxQdUpIWGd1d1B1dmo2MjlUbnM0TUdDVzVxWVExd3ZtSjAzLUdjTXlQNEktWlFfYnhwOHVXZlZTUXFfR0h5M0NKdUYtYUZmZWcwZ3VOb0xfcUxDTXdrSmxTQ1g?oc=5",
+     "tg": []
+    },
+    {
+     "t": "“교육활동 보장하라”… 교총·교사노조·전교조 대규모 교원 집회",
+     "d": "2026-10-10",
+     "src": "에듀프레스",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9IYnNzcTJtNGhSMDVrVW1DcGpsYVRGd3E4S01WRUVNV2FIWDZYaHhpM0J3bGpwM0pGSjlrUExYa0NrcG5zOWJ1dmx3aFpiMmtyN0xFTm51MVZMemxoSDBqT0FHZmlyYlQ5?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총·교사노조·전교조, 교육활동 보장 법 개정 촉구 전국 교원 집회",
+     "d": "2026-10-09",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5nUnczS1dvdVVicG13RUFEQ3pLc182LWgzcG1DQmZsUWtkaTgtMExxZ1pKNzh6ckpZZDlYSVRTR25wci1ZdUw5RDY0WkdQckdaRUtOU0NpcXpwbEJuQllyWNIBYEFVX3lxTE5nUnczS1dvdVVicG13RUFEQ3pLc182LWgzcG1DQmZsUWtkaTgtMExxZ1pKNzh6ckpZZDlYSVRTR25wci1ZdUw5RDY0WkdQckdaRUtOU0NpcXpwbEJuQllyWA?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "전교조 \"고교 교원 70%, 수능 서·논술형 도입 반대\"",
+     "d": "2026-10-07",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE44ZlNpMzJhYzU3UlpUVVk1NTctdDcxN1hJSWdPYk1oczQ0LTEwUmZtUzNDQmF6d1UyV283LXVsaFViV1RKU0w4WENhQndWZDkwTzJiVEFYUkVockXSAWBBVV95cUxQbm9BQU1TWTVadGRjZ3NNeG12ZW5xc1lLN1dpRHNtZlBGRm13blE2V0dlQkdFLXFlOVVMZnBCYWV1dHhaM3dwX096b2NabjZFNjRXcEMybmhVeDJIaVRiNEo?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 \"수십 년 전 자료로 급여 환수 반대\"",
+     "d": "2026-10-07",
+     "src": "LG헬로비전",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE1HV0FDTWNUdFNqOUNpOENFWnFzajM3QWxMOE1BOW9wRXpYTGtJSVZWY1Z6U3ppTEZjdHk2cGhvQlBtcmg0dFBpbmtWWWZab05MRFRCUlo0ZTY3NkJEdERvTThPU05kNnlrMDJGSnFFN0Z5dw?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "전남광주 전교조, '서논술형' 선도교원 공모 중단 촉구",
+     "d": "2026-10-01",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE12blQ2S1JqUEhrTVNONkVUaVJ0WHU2aUJkeFplb2FaQzBsS19FcXU4QU5nbzNTVHliYWI0R21WZ0lhc1hPWHdWbE1GeTNZeVE4QXZiRjNhREdqWk3SAWBBVV95cUxPQ29Lb0VsUmZmRFMyUmd1S24xZDYwUGg3RHVGdnlYNU11cFZGNG41OV9uaVNjVXBCOHp4eEl5aThRWUZfSnhLNXJ0MzFJMHpJZVlyVklsd05tYThKMkJqd0s?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "‘야자·모의고사 제한’ 단협에 넣은 전교조",
+     "d": "2026-09-29",
+     "src": "조선일보",
+     "u": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPRnJJZ0ZXeHpCbmIyc3ZURl9vOTlKQTFqSGQzMjNVN043RkhVXy03YldlLWhaa3hvSEVZYjcwT1dVSFhJUHhwaHdCbm94TUpNWUxVY1A1Q0t5Szk4UDJ4cnZNaFFvZXYzVkZ3ZXU4VGZpSDRSajZ0WUFLTjdOYm9QbFkxU2VJSGM?oc=5",
+     "tg": []
+    },
+    {
+     "t": "강원교육청-전교조강원지부 ‘제3차 본교섭위원회’",
+     "d": "2026-09-28",
+     "src": "강원일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE00U3RJRS02SFVUTjdXRGI5Q2xLRTJTMGV4cExmbkV5R0hwcGppM1NoZngyMGxvYkVJalNJRmZzNnMzbDIzVTdiWHVzTVpWdUlNR1JZcWhaRVBKa1k?oc=5",
+     "tg": []
+    },
+    {
+     "t": "강원교육청·전교조, 관계 정상화 선포 이후 첫 교섭 진행",
+     "d": "2026-09-28",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE8tRmp2U3UzRXZYUTBFZkx5MUc1dThSejJ3REdzMG56Nk5JdkJLbVVtOUQ5aHRRMUxiUjR6NnN6YnNhRVVhSl83cHppQmJIR1pZcFVGQXVhY2tQa0XSAWBBVV95cUxNWktjN1dZSkZCd3drRHNYQndYN2FWMXIwNncwMlVkNElncnBKQjd0VW1NektTTmp6bk1xYU5sdENoTnF5SERPMHBxX0tDdG93dUY1X1JsVVY5RlkxMU9ZZC0?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 이름서 ‘교직원’ 빼지 않기로…37년 만의 명칭 변경 무산",
+     "d": "2026-09-10",
+     "src": "한겨레",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBjYzhmTnRoWll4Y0JzV3hVYXB0dktsNWpzVW1OZEVGVkNJdEx6OGZ5MWFBbExHZVRpSmtVUDdyc2JUX2dLUFZRSzJ0WVlXbGEyczVRcTRERnZ5UWVJV2JsbXJ2Z0FqTFNtV3c?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 \"○○교육청 '스마트칠판 보급' 의혹 철저히 조사하라\"",
+     "d": "2026-09-09",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1NN19qVE8wZkRnSmlfT1ZiTU1hb0pkMld6bHhOeVc2TnRrQXJNc2pFaXZaaGxMYVdjX29sWGRveWQ5eHRjNnprTUVFNkVqUENSS1ZCX005d2c2OTTSAWBBVV95cUxPclBkUC00eHIxQnVqa3FjcmZROWlWRXZHVWo4WWFKUzl6MW5hb0J6TkVqX0pyWEtOU093bS0xS2I5LXY1c0xMQUtQUWJyM1NaUXV1RVJOYnVBUzdPQ3FMWjA?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "전교조 제주, 교육청 조직개편에 “학교 현장 변화로 증명해야”",
+     "d": "2026-09-07",
+     "src": "제주의소리",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBRSFBNY2kwM0RnbHlPLVQyeGlTSkxXcWdTSVM4UXk1NTZCWEp5a3owUmFwTUdUVTdqTk85cjktT05fSFdoR0xRWUM2SnpXajA2cFQ2R3poNWtvTlpPTlFIWElnV2VrcHBmdU9Z?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "전교조 인천지부·인천시교육청, 교육활동보호 등 20개 조항 합의",
+     "d": "2026-09-01",
+     "src": "인천투데이",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE85UldrQ1hOb1NOWVEzVDcwaUZ3dDg5YU5lTHpLVkxzUzZaWFJ1QXlKeG9OVGpNSko5WUtGRnJXbllDQzZBTldnSUszOFlQVjAtMkVETlZseXNBMk5TZE05aFhpbDlEbjgycTdrWFhfVzg?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 대전지부 \"징계받은 고교 교감 ○○ 철회 요구해야\"",
+     "d": "2026-08-27",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5iZi1vT2toT3BNWDBFQjRaTElRNUxRX1FjLUw0bENUQWF5bHA0VE9FLV9NMzlmTFJzcWwzYXVKaVdpeWs0NlZtbjdmcFJHeWN3LTVybk1JVVp4S1nSAWBBVV95cUxQT0EzaVFUbk43NG9ybWpXMGlIZ190MEFpNTVGQ1h3aVVXY3Z2TmxadFY2XzdzeDhray1JX0hKYkphaFVUVlQ5TlktVTlXa1h3eE1MZk96akJoVEg0TGcyTTc?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "전교조 광주·전남지부 “서·논술형 평가 연수 중단하고 검증부터 하라”",
+     "d": "2026-08-27",
+     "src": "교육언론[창]",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9hZV95b3hOdXh4M0kya1hkbUhUemREX0plQ1ZPQUdMVTl4c0dpSWpsdXIxTWVwaGp4bDRHUG12ejRnWUthdllNR1prOVBsaVZJYTRFZ1lCYjVwc2hqaGZYN0NBM1hzMDVaMGRj0gFvQVVfeXFMTV9pUHBjWms4WHJETlA0bnBMQ2gwbVo2TUloRFFUOHppRnk5UlhTZTNULTljTW5qQ0REOFdkN0FHTUhIbElzWmUtUjV1VnFCZ2Y3WlJLYkxvRzBXLWZ5bVl4TE15R3F3NjRVd0dnZ0w4?oc=5",
+     "tg": [
+      "성명·입장",
+      "연수·행사",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "전교조 대전지부 \"중징계 대상 교감 ○○시킨 A고… 대전교육청 재심의 요구해야\"",
+     "d": "2026-08-27",
+     "src": "굿모닝충청",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE1tbWFnUldSNk56UHBuWnBsNjFUOFVkajVTbnJJM1U2RU1nU0FpWURMWjdIVWRpOE9VTG5aN01UQU5uXzJ3eHl4R2hPUXk5S0FoY2gtRW5Qb3gydThZVWZFNWczOWxUQVRXN0tXdXVDMGhaQQ?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "○○○, 전교조 경기지부와 타운홀 미팅 개최…교권·행정업무 등 4대 현안 논의",
+     "d": "2026-08-26",
+     "src": "경기일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ET1N3blBRd1hfSnlBWWdoZzFEV1YzYUl5VHl3TmxKaERydGliSERsT2pZQk83amJuVS1yaHJhaWpKbkNmYnp5d3dteGxrZG1CcUNMV1FRWnhnVVE?oc=5",
+     "tg": [
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "김석준 부산시교육감 2심 무죄…2심 “전교조 해직교사 특별채용 적법”",
+     "d": "2026-08-21",
+     "src": "한겨레",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9UQm9ES0d3YVc5NGlCMkdpQ0daWjRSeGtfZTlfTDJja0RXZjk1OUhkVHpNYkM5STZSUGU2M0kyTThfTDRpeHdCbkNFbWI2elNmbGU4d1oyZEdLXzM5UTJDaHl6Yzg?oc=5",
+     "tg": []
+    },
+    {
+     "t": "‘성폭력 공론화’ 지혜복 교사에…전교조 “신속히 복직시켜야”",
+     "d": "2026-08-06",
+     "src": "한겨레",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE4yOFlsNENJbUF6NjlnZDY1dlRMUmU0UVI5UUpDR2t6aHVJVVZYcEktTXdIaTJNSWYxV3UwbFBuY1cyY0dla08xNS1DMmlKcnZnaDFCb3pMRDVCeFJadXZYZ2NGVloxM1lXWUE?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 세종지부 \"불가피한 생활조치가 아동학대로 신고돼\"",
+     "d": "2026-07-31",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9YU0RGOHR5bVRXUjdVNDhaRTVXVGx4MklpNFlpQjh4ODFmeDFEcGNDMHZZYk9Tc3UyclVZQ1A2bnc0c2trMmJ4QnBydEZUbzRlYVJuVXUzT2lTUEnSAWBBVV95cUxPU2oyWnRFR0VnSGJiMkR3QkNKUzlRQVZ2X3hWZFUxWlRVLTVQdlpjR2w1QmJISnhlb3FjZVlKdEc2b0VsRndpdUlsRjNfY2xNakhfNWcwRGROV3ZJNmdFbTA?oc=5",
+     "tg": [
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "전교조 세종 \"교사 불가피한 생활조치를 아동학대로 신고\"",
+     "d": "2026-07-31",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE43anp3enBVS2NtWlhFLWRCU1RwMFoxMXczTFlUZkFMS2d2TEVSUXNEMi1sc1dXNVJKRmt0TWVuQm5JV1V6S3JIaWxyLWFlVGJEbE1SS1IxR1NCeEh6WFRz?oc=5",
+     "tg": [
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "전교조 \"전남광주교육청, '갑질 교장' 제대로 조사해야\"",
+     "d": "2026-07-28",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9RVGI1MjVhcGlPZlI0c0ZreHc3VFRyTkRpUnpHekxyUUpKZGtfa3lTVGVCZWoteXZGYUMwMy1MVGM3WlQxZXdMeFJoOUZRc2pqSFVLM3B6MmUxa3fSAWBBVV95cUxQNlU3SlBLTlcybGVieWtkSGtGdWw2b2ltb0lQRVFFX29KZEUyVld6dktiTWNtQXVWQmIyUTE0RFlZVy1PTFhnU1hWc0JXcVZrNVlWQkpuaXY0QUlCbmNUa2c?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "강원교육청·전교조 강원지부, 노사관계 정상화 공동선언",
+     "d": "2026-07-27",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1uQnJpbXRqYWJ2YUhJOS1PSU16b1VlNjBUOTNJbk1Ed2Y1dnVwaWxsX1dDbnowWUZBa0kxOXNYOTdsUWdORXFMb0dkSFNIV2JiVGl2WW8tNkxKajjSAWBBVV95cUxQNnZhenQ1TzZhaW5jaEluVERSM19iMVkxNzNNY2tnb1BjbEhWR0NYU0lpUlZ0QmtZM0R3NThNMzNQVk5UcTRkYXZpSlViclNOUzNaMkpJVElva3ZsWWt4SDQ?oc=5",
+     "tg": []
+    },
+    {
+     "t": "강원교육청-전교조강원지부 “노사관계 정상화” 2년만에 갈등 봉합",
+     "d": "2026-07-27",
+     "src": "강원일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE81cG1tUy1HQS1mdE9pQUt3N0VYeldNWWs0WkJEemg5M0trWks3amM3bVVWc2dLTWNqNllTZ0JYUXZVemtnMkZ1aUlXTVc1dVo2VmRxWUUxWmJPc0k?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 \"학생부 '복붙' 감사에 분노…현장 모르고 꼬투리 잡아\"",
+     "d": "2026-07-23",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE13bURqY2k5RlhzWUxOVzhtRTU3eFllajFQWW9qWW1pb1lycTUwYTB5MENuUDZ1dkdsa0Q5MWJnWG1VQWppc2xMUmhSV1d6elZUQzhPOE8zcEZGMDjSAWBBVV95cUxNTkN0Y3p6dXJVRmkzUGZ1RjFXMnU1U3NsVnZYckVYZHRqcUVMY2syQ3phNUlaUnRPWEQyMk9YLV8tN1FTUlRDTFp6bzZBOVIxLUtROFk3aWwzc0oySDhmM28?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 “감사원, 학교 현장 모른 채 교사만 지적”",
+     "d": "2026-07-23",
+     "src": "이데일리",
+     "u": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQbnhvZ3dQTDkwTkZpbDFUSUNVZi1ZbVhoaVpsN2xqWklzdXZYbzRjdFVaWnM2Y0NCQmdBZ3BvT0YzU1hDVkRIMGlGdjNBZGY2LUxpQzFvZ1YwQTgwRXdOZ2hUQWRZTFJ1UTdHTkR5ajBLOWtJSjRPcVpFMDctUGxNUQ?oc=5",
+     "tg": []
+    },
+    {
+     "t": "기간제교사 채용서류 간소화...도교육청-전교조 제주 정책협약",
+     "d": "2026-07-22",
+     "src": "제주의소리",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5oeno4NFl0MEdpbDNYWnJlRC0tRFJqT2NzMFc4cllIVXVnc3k1Z1hQd3R0aUM5cWM1Y2NEMUNjTU41SEhZMTdmQmVfWTdHUVVNdUIwbkxNMzZ3MHVMODFqbV9LbEZ5dGY3RFhF?oc=5",
+     "tg": [
+      "협약·제휴"
+     ]
+    },
+    {
+     "t": "전교조 충남지부 \"정치기본권 옥죄는 무리한 수사\"",
+     "d": "2026-07-17",
+     "src": "굿모닝충청",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE1ibmF4Mjg5c25jajlBYXJOc1JLUWhoajBhc3B1dnBqQWhXdVhCT01HWURSbl9wQ3lPZHRjY1IweEt1MTYxVG9VUGliSktmdHljZjlma045VWpadXJWR2cxeFVRel9SaWZMUUpOLWMxQzQ3Zw?oc=5",
+     "tg": []
+    },
+    {
+     "t": "충남교육감 ○○ 개입 의혹…전교조 충남지부 압수수색",
+     "d": "2026-07-16",
+     "src": "연합뉴스TV",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBtQ3ZMSjBTOXZQTjJ0aW9QclJwODR5UDdWYnpfNmVIM2YzMDk3U3h5dDJWMVZYdFNlUWZXV2YtVUwtMVM3LUloNjk3R2kwU3BtN2lBSGJTRXF1dGx1bUF0am5xWGNST2s?oc=5",
+     "tg": []
+    },
+    {
+     "t": "전교조 전남·광주 \"서·논술형평가 100% 도입 중단해야\"",
+     "d": "2026-07-14",
+     "src": "DealSite경제TV",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFAwSjAyWkU2SWpySVFoOFRKazdwWWl2Q1ZJazVyMWtsbmZaX3p2WEs2WDdDZkNWWWxGSWpGSUJDM0k1QXpFSktDVE1nYjlLLVpSdW9zVzVn?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
     }
    ]
   },
   {
    "name": "교사노조연맹",
    "cat": "union",
-   "n": 0,
+   "n": 86,
    "weekly": [
     0,
     0,
     0,
+    2,
     0,
+    2,
+    1,
+    1,
     0,
+    3,
+    1,
+    1,
+    1,
+    3,
+    3,
+    6,
+    1,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    1,
+    5,
+    1,
+    1,
+    2,
+    3,
+    9,
+    39
    ],
-   "tags": {},
-   "r4": 0,
-   "p4avg": 0.0,
-   "last": null,
-   "all": []
+   "tags": {
+    "평가·입시": 26,
+    "AI·디지털": 20,
+    "성명·입장": 42,
+    "리더십": 3,
+    "교권·처우": 4,
+    "연수·행사": 1
+   },
+   "r4": 53,
+   "p4avg": 9.0,
+   "last": "2026-11-18",
+   "all": [
+    {
+     "t": "중등교사노조 “수능 첨단 부정행위, 교사 육안 확인에 의존”",
+     "d": "2026-11-18",
+     "src": "한국대학신문",
+     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9laGRad1RoWVpfVlUyV0s0VlNwSHBGR1FGVHllX0V5MEpBQ0Z1RFlqVGVSRDJFUlNMOHRCbU5TTTB5Y01IdjViVlB3YzZ0R0I0RlVfdWZTcnBmMXd2d0cwTTBCeHBRUQ?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "세종교사노조, “수능 AI 부정행위, 감독교사에게 책임 떠넘기지 말라”",
+     "d": "2026-11-18",
+     "src": "세종의소리",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9lTUJRS3hLc3pXQTJRV1JJNHJyaVh3RXlHbWNTM1QxUGRtbTdQVWZWd1BBeGZkc0VjQkZWV1dnSi1PTUZzQjZ4c3JXWDItaHV0NG1ocDV1ZGNuVVpWYWhycXR0XzU1alk?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "[수능 D-1] '맨몸의 검투사 된 감독관'…인천교사노조 만평 눈길",
+     "d": "2026-11-18",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5XRnRfX3l4a3F2Z2ZDRUlVbHNCLXB5X1p6U3FIQ3Q4ek9PbmNvd1lnT0lmWVQ0TVVsX3Y5cmQ0WnJ5US0xUXh5aWhDd0JkOHNvMWhlcXpvelZGQknSAWBBVV95cUxPQ3FxUkpTc1dfLWtkeFhKUU84SWtRUDc5WHFEVGFiS29ROTdjN1lIczRwNnZhUzIwOWdGVHJKVVhKaVZkZjR5OHFFZkttd3JMQXJ3M05lWXRGMFN1U1lsOFI?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "“교사들이여~시력이 너희의 무기다”…인천교사노조, 수능 실태 만평 ‘눈길’",
+     "d": "2026-11-18",
+     "src": "문화일보",
+     "u": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE0tTl9nZHJMQUF3dE8tNTBqSGlqaHF6NFNnd2ZtZnBpYkRSXzNyS3U1RmlEYThlbEUwSXptZG0xNTFmcEdUc3ppYnRhQUM4M2hj?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "“시력이 무기” 맨몸의 검투사 된 감독관…교사노조 만평 눈길",
+     "d": "2026-11-18",
+     "src": "미주중앙일보",
+     "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1vZlZZbzdDRWZCLXY3aEZiRF9hY3lnZTMtUkdDV0VUSHpSYWpiaENFd1RFcUI5ZGVsdjBvOG5RS1lEaXp0czhPYXJlTlBEM1dJa2g0Vm9YazlqYjQtdUI5RHN3?oc=5",
+     "tg": []
+    },
+    {
+     "t": "수능 ‘감독부실’ 신고받겠다는 與…교사노조 “우는데 뺨때려”",
+     "d": "2026-11-18",
+     "src": "문화일보",
+     "u": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE1MUlRyUHdPQ1p6NThKNV9wZVlPeVlJN0VGQUVvNmRhZHpZZjZKdENEdEI4WC02YmNHeVp3NHlFSUM2bmFPc1FVOU5MeWlpaEdm?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "교사노조 \"AI치팅 제보센터, 감독관 부담 키워…폐쇄해야\"",
+     "d": "2026-11-18",
+     "src": "서울뉴스통신",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBhMUZSUVNMLXVxRkYycTBVejBPbFVCVjBiUVcyQUtwUzQ0Ymh4VDctNVhkUzludGkta2RNMF80SkJLZHhhUGUxeGxUdkFIdXNXbmhyUFdRd3RlYTVySjQ0V1FZcVVBd3NCVnpJ?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "교사노조연맹 “AI치팅 제보센터 즉각 폐쇄”",
+     "d": "2026-11-18",
+     "src": "뉴스클레임",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBrVks4RnBnNDVEaXkyQWdRSV80UG9ROVlWaW9NelNrQjN1UkVMWkVIVlI3RldrVnV1WlE3MExTUXR2VHVzOUUwcVVpS1JqWVRVODRGRFVIVVotOWJMb3VTR2VvNnp5Q2ZnaVN4WnZrbjfSAXRBVV95cUxNMlVod1BEb2cyYzdKRjNqLUpuRUxIVmVrT3JtZE15YVFmVkc5MEJJdnpGRDBHUEloLUpNeTRMcnRrRHVIZHE4X2tYR0xad3p4cW1JTXB0alBUSW9PZW9wS3JOcTZrVzlRczViLWxVOEw1ZzViUQ?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "교사노조, 수능 AI 안경 부정행위 대책 촉구",
+     "d": "2026-11-17",
+     "src": "KBS 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBoTW9uMVAyMVBpdnJRS1FjaHVyUnNlRlUzdDlILUk0cTBGNmRSOVRsaURYazlZUnRlNjVuZEtOeW9ZTEtUdGlrU0x5Rmh1N0tUOXU3NFpNSkhNU0N1QWt1cUhJODBrdw?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "인천교사노조 \"수능 부정행위 판별, 교사 개인 전가 안돼\"",
+     "d": "2026-11-17",
+     "src": "MBC 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1kVmhVb2h3MHE3Uklyd2RVUVFzQVcwaXhDa1E2amhlVVVZS0tuX2dSMnJsakRtMGpQaUpranMtNWVLaXJ2SEp6T0RQanJMRHVnaFhQT1h5TUNtOTNUMENsUXVObGJ4XzdwTDFteFlIeE9JZGVnbG1J0gF3QVVfeXFMTlFNbEoyWXRjX2k0WWJNSENjai1RQllXSzBURkstbDJOVV8zSVE4RkJpRzJUQWxDYlRqclR6bFRFeW9FOWlHaWxMc3ZkeGFramwzWnNOVTFBRFpVZ1doQ2hFMTROTi1CTUxPSjY2UkhpSHNaTU9PX3c?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "제주교사노조 \"AI 부정행위 경고 1년전부터 있었음에도...수능 직전 허둥지둥\"",
+     "d": "2026-11-17",
+     "src": "헤드라인제주",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1vMndHSWZvTHpEdVNBSzdJX1B1S2p1QlpyUVgtZ2FUVEozR2o2ZXRTaWc4aDI2TU9nNGtjckhOQ3EtVFEtWmVuMkNEVzl2aEp5WTZtOUM5enVPdE14NGFvUkVURFFXcThBLUxrM0xGNGtCTlU?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "○○교사노조 \"수능 AI 부정행위, 감독 교사 면책 보장해야\"",
+     "d": "2026-11-17",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5pTTJ3Vk5sT2NYYmdlUnZHbEJ6aDJCbjBNb2h2eE5EUlNXOWRUZjlOODBXc19zWS11dmZQV1o4SnVvOVBqRzNSVFNVX3JOZnNKOEp6UWNpdlkwS1XSAWBBVV95cUxOR3ozU3VuU0ExSjEyR056RnhQV0hnRVE3RTlyNnJ0TjlDMDNTMHAyUHYzUy0tWnI4c3NGeThTMkdpc2tkcTFJZmxUMmwwNEtjUWN4M3hyNDRGTGRLci1GdVc?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "인천교사노조 \"수능 부정행위 판별 책임, 교사에 전가 말라\"",
+     "d": "2026-11-17",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1LbWJLX1I5bjVIaHFmSnpDX09jT0pRMF9Ga3FPTXJWa0RSampzaE9hUW5ncnNFYzhITzRFcmRNTk1hVUpGQS1IMjRHN3ItemFiRmtoU2t3WW9ra3fSAWBBVV95cUxNYVdpcVZaUmdLekR1RC1LczJEMHJFbV9tLVMtNklER0ttVVR1em91a0RvdXB5ZzhRSmNSbWw2cGY3eVFmaHVBVEQ4S1FrQlV2dGVHVFJZa0RRU3U1dUlOOHE?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "교사노조연맹 \"수능 부정행위 대책, 교사 헌신에만 기대선 안 돼\"",
+     "d": "2026-11-17",
+     "src": "경기신문",
+     "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5naHhXRFN1WDZWWmE3bzl0U2FydUxTU0gyWHdzU2UyN1pSLTMxRGxFZ0huTVc1bm5jNXNHa2lOV25uOE9pV2tFUVpybXhQLU01MVh6UVduY2FldmJwbUlrYi1n?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "인천교사노조 \"수능 부정행위 판별 책임 감독 교사에 전가 안돼\"",
+     "d": "2026-11-17",
+     "src": "뉴스핌",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9UMUN6RVZ4bkRDanlUTU5TVmFUMGFOa0g5VnRQSlhLcDRQSkF1blp2UnNiamZROXUxODByN0NfdWtGcC1oazFEWHJQRG1VMHF5Z181T2h4NzA5S1pt?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "교사노조, AI 부정행위 교육당국 대응 허술",
+     "d": "2026-11-17",
+     "src": "제주MBC",
+     "u": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFBYeDdSZzBBejFOaVc0bGlXOHplLWlsYnJPYVpuWVliMlVPeGtyOEdaWV92QzlxbTY5ZVF4SXMwZlloYkUtZTFERHJBdXVwMTA?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "교사노조연맹 “지방교육재정교부금 개편 졸속 처리 중단하라”",
+     "d": "2026-11-17",
+     "src": "천지일보",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9Fc0dsd2tkRkZSdktkZnJ2ZFJpSGt4LXdvZ3U5LXV4TUk1OV9HWnJ0bXpmdnBjanhoOFNiYjgzeUVVVmFqMkxwRDRCV05qLWJWV1plUXkxMjhFcTIyOUlwbFBTbmR5X084VEE?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "인천교사노조, AI 부정행위 비상 … “시험 감독 교사에게 책임 떠넘기지 말아야”",
+     "d": "2026-11-17",
+     "src": "인천뉴스",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5LSDN4czZnbEg1X0JFS1A3WWxDRFZ0VkNucHk2aXdaOVVpX3p3UHZSdVh3ay03aEFBODJkeVh1eVJFa2dIeFpWR014ZHZZYkI3MldabjVzQ2lQRmJBMGg4ZU5ER0dET1p2QmJsVHB2TQ?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "인천교사노조, “수능 부정행위 발견 책임, 교사에 전가 말아야”",
+     "d": "2026-11-17",
+     "src": "경기일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1rd2hxWEJZajZHVmR1MkhSYUhpNDVMMjc4SHBwaGYxZFRLMGpkZGY1NG9KdDJVdi1vOVVPNUtaaklxcERxbXFpYUtxbmdoc2VWWldXLUlrbFRMZWc?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "인천교사노조 “수능 AI 부정행위 대응 책임, 감독 교사에 떠넘겨선 안 돼”",
+     "d": "2026-11-17",
+     "src": "중부일보",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5lNXhxTHBwc0t3dWU1QjFYZUU3cmF5bVJNakk1YmtFVExNbnJPRF9DTTd0dGxFR1kzU2Z3cHN1RDdkNUZpREJaZEF1RFRsT0NMWS1VVXRkbkFFbl9JZG1oRHp2SnBjVU1pT0xlcnRUbw?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "경기교사노조 \"AI 부정행위 단속 책임 전가 말고 교사 보호해야\"",
+     "d": "2026-11-17",
+     "src": "매일경제 마켓",
+     "u": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBXamVuVWNKN2N6S1lTSHJYSVpuSXRmaTVTU1pPblNPZDlTa3d4b0NMUHBQZnpqSnhQWGQ3VnRhdHd1UWVFWXUzMkRCdVo0X3B0N2c?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "○○교사노조 \"사후 추적보다 예방이 먼저…금속탐지기 전수 검색 도입해야“",
+     "d": "2026-11-17",
+     "src": "전북의소리",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFA1Q0R1RTJaSks1bGtRMzVUSko5aFV3cGF3ajM2LWNYdDJpZ1FFR0NrQVduYnAwcjE4Zm5wTTQ2R3NqOV9iODdfTmRWbW5EUHFfQnhROGFiSkQ0ZXlaVXdveGxZampacVE?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "\"면책은 말이 아니라 제도로\" ○○교사노조, 수능 감독 교사 책임 보장 촉구",
+     "d": "2026-11-17",
+     "src": "전북미래교육신문",
+     "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9pRk5zeWhVbEpYU0RYOWplVVRjVGxncWRJTTl0TElweWNqYmh2M1BUNmNrN0stN2hhSmlxLWd0Rjduck5HS0VLQ3hUMDVRbmJKUHZDUlMwVUNBNlFGdzdr?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "인천교사노조 “수능 감독 교사에 책임 전가 말아야”",
+     "d": "2026-11-17",
+     "src": "인천in 시민의 손으로 만드는 인터넷신문",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1pTWg2ZElzQVNQWF9xVmtXU2J3aEdMcDAySHBhb0QwT3FSTUR1LXpCdnJoX2g0WnNvUnE0MWhtd2tvRVAtTjExQi1WOGk1SlFWN0d5cEVGN0o4ekp3Tm1CQWh1UFVCWDI1ZFFIVQ?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "세종교사노조, “수능 AI 부정행위 대응, 감독교사에게 책임 떠넘기지 말라”",
+     "d": "2026-11-17",
+     "src": "충청메시지",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9yOWh1VEgxWFlHNERhanREb1dkSjVtZGNNOVRqb0RCWElOcDBzX0p6UEhMRkxDT3kwcU9RUThmSWRWOEpab0JaOG5YdEg0dnJCTzRycjBHRmdDencwLXhlcGlmcjlZZVBWVGRn?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "경기교사노조 \"AI 부정행위 단속 책임 교사에 떠넘기지 말아야\"",
+     "d": "2026-11-17",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE95anVNcDF1eXdtSThVY29GbEVUNFZrZHJSd0lwTDhQN3Fab01tLWh0WXVWT1REMUVkcDRmbEUzdkJ2MEFPWGlrTllRUXl0QkVNYzlhNzlR?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "인천교사노조 \"수능 첨단기기 부정행위 대응책 마련해야\"",
+     "d": "2026-11-17",
+     "src": "뉴시스",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1fRmx1NjhvYjdudlZocGU3cHEwUFZicEdRTmdkdFBFb0ZGRy1TMFpxUHFQdDlzT1RSTnpWbVVCOWhTVFhYaHoyLWotVk5OQnpFbTVmQm02cmN0NnluaEVDWtIBeEFVX3lxTFBZQVh1X3BxWi1DYlpMRXlTOEhBQXN0bWs3NnRzS3ptUHBEM2NlX2ExdzNlX0NFVFF0UUdOd3JXSGtmUHNTZUF6M2hldldYczlrZ1p4Q3F0cDRkRXFMYWNUbkxoVjMxOUlKTFhRMjV2MS1qX2dHZ1R5NA?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "정부 \"조금 더 헌신\" 교사노조연맹 \"필요한 건 지원\"",
+     "d": "2026-11-17",
+     "src": "뉴스클레임",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9pdjkwd3ZEWWtfTjA2ekh0OWJwc3RIOHMydG5pci12ejBiOF9Yb2c1OVREUHpVVGNsSUFEaDhLNEVIZmUycmo3MFR2NkIwNGpWYlIxZ3lGeGU4VjdCVUlyQUFnR3RjNUZadFJ3cVhMWnY?oc=5",
+     "tg": []
+    },
+    {
+     "t": "○○교사노조 \"AI 스마트안경 부정행위, 교사에게 책임 떠넘겨서 안 돼\"",
+     "d": "2026-11-17",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFB4ekh3LUJUejNIbzZaYUoxTVJiVlBKX3ZPcDc0UE4zX3hWRlliR0ZXQmFSelJSNkhyTGd2ZlhTbG1rM0xReThKMUptWE1oczdQeUpibw?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "부산교사노조 \"수능 부정행위 대응, 교사에만 의존해선 안돼\"",
+     "d": "2026-11-17",
+     "src": "뉴시스",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1DbHpwSmdUaHpZeXFka1N3VnZkbzZQNWY4Wmh3UGJadUdYS08zcmMtVEVrZEs3ekpCSzdEQ0FUeHZFZDVxdmczZXUtejFaOWI0VzJsaUN4ZE5pc0ZvV1NiaNIBeEFVX3lxTFBkZDA3ZHZvb1R2NWlSRS0xUTN5aFctaXg2T0g5dFhRemxhWnJSWkF0N1FqNzJaV0lWTTE5RE0wWWR3TFVBUHJKS0FOZDg4TExQOHNCbzJ5MnJPZWhqME5Ha1pfSjZJakdtNUR3dl9VRm9oZEJQN1R2ZQ?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "경기교사노조, “안경·단추까지 뒤져라”…수능 AI 단속 “책임 떠넘기지 말라”",
+     "d": "2026-11-17",
+     "src": "OBC 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1KU0VlQXNYNFh1RDhzTE1BOTV3RHBHUHlZMkQ2WjcyaDVoci1lV0dHSjhQdDh2NTJWQ0U4LTBqQUQ0QWF0MlNGRHhjUExoZ1pYcUxDSnBVUDhsUHZWMDRtYmRoUElGRXNVd3c?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "특수교사노조 \"장애학생 차별 발언 강력 비판\"",
+     "d": "2026-11-16",
+     "src": "Tbc.co.kr",
+     "u": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNRnFKb0c2bWNFY2FaWDlwUXZYbzVCVklxdWhvMlA3SkJXZUZCdUItWG1QLUljVkozN0w0c1BGNkU0d0Z3QlBTUUV1THVZVWZtM0tNdmduTGhmc2ZvWmhKWWgxWVdiVUtsYVdUdnpRTG44UmVuX2JxOFpZQ3E2YnBFNzVnYk13Zw?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "충남교사노조 \"AI 커닝 단속 기준·책임 주체 명확히 해야\"",
+     "d": "2026-11-16",
+     "src": "티제이비",
+     "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9CaU9KYnpqazcwbXVSYUJfZjRFQncySHdXcFF3NmVuREt0NFUzUmJfMWY2MmRyelFZSEU5QmhBengxOUgzX0EtR2FtT2xpeU51emR2UjZzNWpFYnNfQ0oyZWl3?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "대구교사노조, \"AI 부정행위 대책 내놔야\"",
+     "d": "2026-11-16",
+     "src": "Tbc.co.kr",
+     "u": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOSEh5RWxlaXhnODNkbGZLcEp1VVM4d044eExCLWM2bFpFa1NCVmYzTjNvbGNVampmVXBPSVN1SG5DUnF0alZic3AyRzI3RndoSzlLZVU2SE5BTGdnM3Q0a3JlM09YOXd6ZUVFZUVGNnhFa2U4aUhCRzJwNGZlWG9jVWhURGo1QQ?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "특수교사노조 \"경북도의회 행정감사서 장애학생 차별 발언\"",
+     "d": "2026-11-16",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE53WGJuMV9KNExJZWxkYWsyck1EbUc2QWZKcXVDcHNienlzdm5yS1V4V3o2OGRxS2IxVGtORTZVa3BjTi0td3ZwbkJ0WVotNlk2aTBPU1BMajdienPSAWBBVV95cUxQVTFPMjZPTmF6a3pEZi03SzJiQzZnZHRLQ2Nyd2VGZnhZd0ptUE9HWlk3UEkzTUFPZVFiSkRZTC01S09UZXBwdnlCQTdwTkdBaWFRNWhMejZIVVM2ejdzTUI?oc=5",
+     "tg": []
+    },
+    {
+     "t": "충남교사노조 \"충남교육청, AI 부정행위 대책 구체화해야\"",
+     "d": "2026-11-16",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9tTmNWQk80Q1lTSVJjUHYyVmRMOVlUbl9uNXlTMTNDa2ZMNl9nUDRrdHpuX1M5OGlJdnJRTnhBRTBkMHh3eG83ZmNKVUh0Ry1zWHgwbVFsYjZzZGfSAWBBVV95cUxNeWFCNTNZYTc5RHBqaTRfQUtkZVNzT1F1RmRYY0tvNERUNXFOUER6bEtURDFDcUVFSF9XeXdOUE0wUHVuSEdTT2d3ZmsxbFRHQUR5LUV0aG5tdXJxVHBVd24?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "○○교육연대 \"'○○법 위반 송치' 교사노조위원장, 불기소해야\"",
+     "d": "2026-11-16",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5ISV8wWkJZRkNWSnNjUmloVDVJanlSMFU5Vm1SYnFla3dkWHN2djBFUl9ZX3g1NWpYRFNpU3V5Q3ROczI4LTctUGs5RVpUNTZvTGxHNHRsNkF1MFHSAWBBVV95cUxQb3JSdTY1bmVtYm9qLS1CYXJNeUR2bUJfLWg4aGRzS0VMQ2xXbk1XUnRrMlRBRjVabllIUlVNLU9xMjcxLXp3MG5oWHU1cEJEUTdqTjlZVHBzdUVNZHFCd1c?oc=5",
+     "tg": [
+      "리더십",
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "충남교사노조 \"수능 AI 부정행위 대책 촉구… 책임은 교육청에\"",
+     "d": "2026-11-16",
+     "src": "대전일보",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1BSTk4cHNZWlI5TGhTcEd2UGR2N01wc0N0QUtqUm1oc2t4Y0NoQjhmU3gtdW9wOEpvRjNHenVXQTNhNWZReFpyc1JFR0xsblRDTk43UjVCb0Qza0VPUERaQUhoUTFuckN5UHVtQnVqRQ?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "충남교사노조 “수능 ‘AI 부정행위’ 책임, 교사에 떠넘겨선 안 돼”",
+     "d": "2026-11-16",
+     "src": "공뉴스",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9paFVRdEZyT3hpSTc0TXcxQzJhT3JIWWxCaVUwbzNuSUlQZU4xN3FWVVVQeVoteGVCZVkwdU5YYkMwREVzWVN2QzE2cmxHYVo4RFU5T2VGLUVVV2ZxVmd0T1Z3UnZLNDZIVFdCUg?oc=5",
+     "tg": [
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "광주교사노조, \"수학여행 야간 대기 초과근무 인정해야\"",
+     "d": "2026-11-13",
+     "src": "KBC광주방송",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5UUmR1MVA3NlBWTHpkNkZ0eDNfa1kzUWJQVmZXMXpheGMyOU9wRjNfdUNGOWlRRXJmYjZUY3Nqd0pyWFFvYzJZZF9qbFpMNmxEcDkydFFIcThKMld4cmFVWA?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "충북교사노조 \"교원 자격 한시적 개방 즉각 철회하라\"",
+     "d": "2026-11-12",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9Yb082bURTalR3amR6ajMzSldOdDFwZVFQR19rRkphQzdCUG1qMEFCT2tvek1qc3hsSHhEYWY2YV9oZ19Pa2F2NlFMa0pnTUNjTExuYVdHS0RzaGPSAWBBVV95cUxON2FmbjlGa2pvcGlwVGw4a3FNVDRFT1BaejBFTDlKaFYycWhIYWFfNXhfZDNmQXFMeXluY0ZxcHRhWUhZUm9zdXdaY0RUT2dLWXZnZzc2eGs0LWl1QUphaTc?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "강원교사노조 \"교실 CCTV 설치 요구한 도의회 강력 규탄한다\"",
+     "d": "2026-11-12",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9vZnNKOEd1ZlllV2J3LWNmUk93UjNTTmlVTUF2NFNsajQtMUNCdkR6bzZhZ1FZeVFSVTlaSTdWVDhvc2gyT2NMMVFkTmRxaFhOWmw1RVhjS0c4bXPSAWBBVV95cUxNU0lFT2x4VTF6M1lHUXBmN281dERJcnRyN0Z1V3B3dDVVZUdrZmdRYzdhT0dyX2Q3ZFZ5bngzQU1kakwxQjVCMUZrYXRUWnVDckJpTzFyWkVRaG5OMWtEWjg?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "광주교사노조 \"수학여행 교사 야간 대기도 초과근무 인정해야\"",
+     "d": "2026-11-12",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1jZW5CREZRd3ZqZ2ZZWXJ4SFNDSkNZM3Q4SlFweFVZcUNoS0g2Y3VoRjhLM2lxbGJkNk1IMVRRYVh6OXhRVFJHYUI0SjlmSnVvenlLT2NnWW5MX2_SAWBBVV95cUxOdW9XRV8xYV8zQVNlRzV5RTZsYnU2TTZkY3hOWVhMdHhNNGdfUTZPdFdQakJtUi1lQkFJUUpmaXVUWnZZSkFqTGd6N01INWpJRUpEVi10Ql85THJPaHA4LWc?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "한국노총, ○○법위반 ○○교사노조 위원장 송치에 \"불기소해야\"",
+     "d": "2026-11-12",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1TS1pnTnNoNGhhazhGODRLZGNOMmRqTjFoX0o5TnN1UGJhMktvRGNtLVZUUVUzYkNsb0VXN3ljTXI0UGdQb3ZGeWluQXI1TU90eUdUT2VLZHpWazDSAWBBVV95cUxPTGlZaFI4dk1FWF8yWTBrSnJ6Tm9xc3BTLXJBU2c2X2FYV1JSTkpwOTZ1SWxoSGctTFByVFh4c3RHZ09FckF1UEI0Tjl1RFp4aXdfaTh4UkgydzJ6LXpuNm4?oc=5",
+     "tg": [
+      "리더십",
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교권보호관 개방형직위 전환 추진에 충남교사노조 반발",
+     "d": "2026-11-10",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE8wakFkY1RxUWlJS3BRMmdZcW5Ob2xFdHpMRWRsRUlubXpEMzhyd0JSb2kwaXhyQkZOR0VZa3hkNW1HZVROa0NZUmtvS2hGRkk4MUgxbmJ2TVJhS3PSAWBBVV95cUxNaXVDTnc2WWZraXhwODJCRkJDM1RMZ1o3dU9ySDROMFkyMW4tenJsUTJBSEhvamN1NEU5T2xJMTJQNjBMc3MwTlRubnV2LVFGMHRxOW84Tml5eUtDUHpXNTU?oc=5",
+     "tg": [
+      "성명·입장",
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "강원교사노조 \"교원 자격 개방 반대...지역 여건 반영 교원 확충 먼저\"",
+     "d": "2026-11-10",
+     "src": "YTN",
+     "u": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1CUzRXT1FiTEVmb3lxYUpUcFF3Q1hTWV8xQUduemNkMUt4alZqUnVvV3FXMlZ6MGdFVzZnTjk2a21aNHhkb0NWMVZKalZyazcxMkhGb1BMYzQzaDc0NHc?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "경기교사노조 “외부 전문가 한시적 교원자격 부여 방안 폐기해야”",
+     "d": "2026-11-10",
+     "src": "경기일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5HR0F6emE2NHFnWG9SSHFDdU1HdWRZUTlEazdrNDE5SElSQTQtbllyWDRyaFMxMjJrNWFBUFN4dEhuMm9ueW1uMURSUG9qb0lsU2JOcjRLUzZIQ3c?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "\"같은 군 복무, 다른 호봉\"…교사노조, 산정기준 개선 촉구",
+     "d": "2026-11-10",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBaejVqRGZMdko0aHFNNlZFNnlFUE9sdTVCR3NYenlXTlpzOHBGbHVKUTc0V1BnVFZydXlIblE2ZWNHVnhTM2ctNFNxWl9XeGJsdzRINjJB?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교사노조 \"가르칠 권리·정치기본권 보장해야\"",
+     "d": "2026-11-05",
+     "src": "더에듀",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdEUtaG1TLXJjekJUeDlfVUM4aC1Jc2YwMWpSYzZCQzVlN2lybVNGQTZWU25hdXBFN0FEUkxTY1g3NWVhZFJlNWVveklYcXo2V1BESTQySi1tQzg?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "“수학여행 중 잠들면 근무 아닌가”…대구교사노조, 야간 초과근무 기준 반발",
+     "d": "2026-11-04",
+     "src": "경북매일",
+     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9GaWZ5VnRDa0hUZG5OdExERmVQU0xyZ18tZzhITGFhSlJ4QS0zeXZqZTFoZWxrRnR1c01qR0d6bFhFLTBoOC1SMWVsV3haRGdmOC0yMjlCSDdrUQ?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "부산교사노조 \"위기 학생 지원, 학교에만 쏠리지 않게 해야\"",
+     "d": "2026-11-03",
+     "src": "MBC 뉴스",
+     "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5KejJ3a3JDS2JoMkRYLXpqbHF5cVZ5aFJCM1MzN01kc3d2YjJ4VWpBMjVaYzJTbUdfbUZIT3hHY2pMN3o3WmhoazNSTVJFNHRZZU9IelZCb2lTa3lVN0o1QXJsY3NBU1UxbEI4Q3hWazAydHRMWlFF0gF3QVVfeXFMT056N283V1Zwazl1dDNWRVBUSUdvNlZQZ29LNzgtUloxS1luUEVhSE4zSmxQTnpQR2p0ZlczdFoyTzktQ0FrMlk1M0N2S1pmRkIzdnNJQ0loM1Z2Q3lfOGVFSEhiMFh2cjg0OGRZaDdtN2dWQjJDVzA?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "○○○ ○○교사노조 위원장, 공무원 ○○운동 금지 위반 혐의 검찰 송치",
+     "d": "2026-10-30",
+     "src": "교육플러스",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1Ja21ldGRPV1UzUkZuanhFdk1FQWR0M2h6M2VrSXNoeXl4LU5jOUpoTW9OY3B2aFI5aHpiVm94WmVqRG5nV1pCb0xROVA4Sm9PaEZub3paMEhLUUVVb3FtQmdKWE8yWlk?oc=5",
+     "tg": [
+      "리더십"
+     ]
+    },
+    {
+     "t": "경기교사노조 “AI 안경 점검 등 수능 감독 부담·책임 전가 중단하라”",
+     "d": "2026-10-26",
+     "src": "경기일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE91WmRVbVo0SnpCLS10a3lGVno4T2pNQVF0YW0yS1ViT2lmRmQwN3FoQjE3c216NFFlTUlQU0JQdm9FQV91RkwwU3BsSWFOQ2x6VHNIQkpYdnkwN2c?oc=5",
+     "tg": [
+      "성명·입장",
+      "AI·디지털",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "울산교사노조 \"수능 전 첨단 부정행위 대응 수단 마련하라\"",
+     "d": "2026-10-19",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5HcUFBMl9ZOU9PMWM0TF9tMGttSl9Fb0swc1E4Q0lRalcwcDU3YWRxNGUtNGlHa0pWQlNGMEg1eFlpdGVWa0RZQ3BrUnBQdzlOUHFTbHJrcnhFa2PSAWBBVV95cUxPcGh1S3BLN0JhbnNmNzNEdE1PZXFIa3JuUHVLc1g3S1BlQ3VmbXdacTUzekdjVWFfU0FvRl9ySDE1LW1Ra0JnNGtwNHlLZzZyRTdiVHpyeV8zR09VOEVJaE4?oc=5",
+     "tg": [
+      "성명·입장",
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "세종교사노조, ‘세종손글씨대회 한글로 채우다’ 시상식",
+     "d": "2026-10-13",
+     "src": "세종의소리",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5lRm9uQmFtemJzZmNZZzg0anQzTnYtUVJkd1pvdlYya291N254RDFBcEI5ZWx3QjhMMG1hYVRrcFJlVk03OHM1ZkVORUZzYzVhdU42bmk1YUk2a0hFMGVhMVFpNHRZOE0?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "“교육활동 보장하라”… 교총·교사노조·전교조 대규모 교원 집회",
+     "d": "2026-10-10",
+     "src": "에듀프레스",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9IYnNzcTJtNGhSMDVrVW1DcGpsYVRGd3E4S01WRUVNV2FIWDZYaHhpM0J3bGpwM0pGSjlrUExYa0NrcG5zOWJ1dmx3aFpiMmtyN0xFTm51MVZMemxoSDBqT0FHZmlyYlQ5?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "교총·교사노조·전교조, 교육활동 보장 법 개정 촉구 전국 교원 집회",
+     "d": "2026-10-09",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5nUnczS1dvdVVicG13RUFEQ3pLc182LWgzcG1DQmZsUWtkaTgtMExxZ1pKNzh6ckpZZDlYSVRTR25wci1ZdUw5RDY0WkdQckdaRUtOU0NpcXpwbEJuQllyWNIBYEFVX3lxTE5nUnczS1dvdVVicG13RUFEQ3pLc182LWgzcG1DQmZsUWtkaTgtMExxZ1pKNzh6ckpZZDlYSVRTR25wci1ZdUw5RDY0WkdQckdaRUtOU0NpcXpwbEJuQllyWA?oc=5",
+     "tg": [
+      "성명·입장"
+     ]
+    },
+    {
+     "t": "“교권보호 제도… 현장에선 작동 안 해” 세종교사노조",
+     "d": "2026-10-08",
+     "src": "세종의소리",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE80T2czSVV5VnZXaFF6R1d4QkgtM0dmOEN2LV81eldqM0Y1RDZ6TERLZ01LSWloSHBiYll4djIwck50LTRVdC1xaHVFS2kxeU9xSVNRNWFxTUhxaHM3dHpNS0FSdWFuTGc?oc=5",
+     "tg": [
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "\"NET 잇다, 메이커교육?\" 광주교사노조, 외국어 혼용 지적",
+     "d": "2026-10-08",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CYmZPU3NOaFRlOGlhWjdnT1lndlAyYy1nRUo4WGZCTDlwOGVNSTVBSzdWcXRfanVoYjlyUjY5TnVYSDdMVG1lbjdOMDlYWGRXZ1c3VnI4YWxNNFHSAWBBVV95cUxNTUhFNWdlallsNjE1akRReFNUUlNjYjRDNDc5UlVUdHhyRkd1TXNoYTlDNms4NzQxSGk5THF2V1JMclRMV3JkZy04bzg0OWtoNHJYNnZoTElKemp3ZWJ5UGk?oc=5",
+     "tg": []
+    },
+    {
+     "t": "교사노조연맹, 교육부 장관에 '교사 정치기본권에 관한 종합연구' 전달",
+     "d": "2026-10-07",
+     "src": "교육언론[창]",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTFAtVFFINFBzN042ajEzT1FPVVR6ZjVubXVaVXZBUnhRYnpvaXNoLW1vVnFsNnZpX1IwYUtLeVNkTm9kbjlWMzZLYUZoYUxRQ19nWjU0NC1ibUVTRlRGNHZzZUVPSWtTWGVyUXdTTtIBcEFVX3lxTE5XSEdGWk80cjlvU1hQYTMwTUFidlpEQlQ1UTVyd3h3MlBRV3BuWkx4UlZnS1VCOUlOY05fSm02dU1TZklESDhFeDFzWHRGaWdWeGltTTRVNldzU2ZZUnU3Rk8tYlZ3ZzRtNkdrWXRrZ2g?oc=5",
+     "tg": []
+    }
+   ]
   },
   {
    "name": "실천교육교사모임",
@@ -420,117 +2006,324 @@
   {
    "name": "티처빌 연수원",
    "cat": "pub",
-   "n": 0,
+   "n": 9,
    "weekly": [
     0,
+    1,
     0,
     0,
+    3,
     0,
     0,
     0,
     0,
+    1,
     0,
     0,
     0,
     0,
     0,
     0,
+    1,
     0,
     0,
     0,
     0,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-   ],
-   "tags": {},
-   "r4": 0,
-   "p4avg": 0.0,
-   "last": null,
-   "all": []
-  },
-  {
-   "name": "천재 T셀파",
-   "cat": "pub",
-   "n": 0,
-   "weekly": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-   ],
-   "tags": {},
-   "r4": 0,
-   "p4avg": 0.0,
-   "last": null,
-   "all": []
-  },
-  {
-   "name": "미래엔 엠티처",
-   "cat": "pub",
-   "n": 2,
-   "weekly": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    1,
     0,
     0,
     2
    ],
    "tags": {
-    "AI·디지털": 1,
-    "평가·입시": 1
+    "연수·행사": 5,
+    "교권·처우": 3,
+    "AI·디지털": 5
    },
-   "r4": 2,
-   "p4avg": 0.0,
+   "r4": 3,
+   "p4avg": 0.5,
+   "last": "2026-11-18",
+   "all": [
+    {
+     "t": "테크빌교육 티처빌, 국립중앙박물관 유물 활용 교원 직무연수 선봬",
+     "d": "2026-11-18",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBBTlk4SzdNSzJVRjRud252YlRqenl5NnZuWDA5S3lPUHJUMlJ2SnFUZTZoU1JyY1pPTUhvdXpmRVdUYkctaU1YWmpOTGpNUkg1eU04blJxeFdNWVU4SktKR0lNU1Y?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "테크빌교육, 박물관 유물과 교실 잇는 교사 연수 과정 출시",
+     "d": "2026-11-18",
+     "src": "이뉴스투데이",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE52czVQNEpnS2J5U1FZRlQzTUg1OURhcHlKaEY0MmlpVFkwZlp1Ylhhek1mS3BpNXpmYVNJMjk1QUZUdldzcGt3U1JFQ1M4TTQ0R2JpRHBUODQ4WGQ4SXNHUTh4ZUhVLWlUN2oxcG5yQkXSAXRBVV95cUxQb2VEV3JKb3U3UlJtNWRyQUpEN3cxZUcza3IwNGJ6RW9QSmluT2xpX1Joako1WndKLURFbU5EWnd0TUUtODc1c0YtQThlWXI2bURwQW1zWXZpNGN6MW04eEVkTC1GelpSMFRvNmMzYWt5MS1Vcg?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "\"독서토론이 업무 혁신으로\"…테크빌교육, 독서경영 최우수상",
+     "d": "2026-10-27",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9yczczaC11ak53Zl96SEhwdUhVdzhzd0x5WFJpWkV1amQ3Z2QtdnBFMjhLVVp2T0JEWElmOXJqT1BvRzEyTGRIQVVCVDJOVkpUZFFSelhrUG11WHVEUDFkY3dDM3o?oc=5",
+     "tg": [
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "테크빌교육, AI 교무실 선보인다…학교 공동 업무 지원 확대",
+     "d": "2026-09-17",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBqYUlhalVIVnItTTY0WXdXVGdLQWxJX3F2SjZMWmtyUS03MGliUHctOXRxVmI1V0JQMmxWOWJHU3JZa1FpQWlaQWtnamxoVnVVb0VVZnQ0aU1kR3ItUUh1c1hhcng?oc=5",
+     "tg": [
+      "AI·디지털",
+      "교권·처우"
+     ]
+    },
+    {
+     "t": "[#에듀픽] 수리연 '미술에 수를 놓다' 강연·공단기 '교재 재정비'·티처빌 '여름방학 취미 득템전'·'스피킹맥스 소장학습관' 출시·데이원 '백준온라인저지 인수'",
+     "d": "2026-07-30",
+     "src": "뉴스웍스",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE00RFRoMUNhT3E1bS1xRWNhdzFPUm5oVllubTFUMkFUbGkwZWoyUXg0Q0RaUHM5R1llSzdOVjd1UWt4TjdKUXprSzZkR2N3U0p0N3JESUtWSlk1SDNscmxPd2I0QVBhR3YycS1DTEl5NNIBc0FVX3lxTFA1Z2ZNb3FldDkzT3B1U1NrNUdnWU9UcWFqY0dSazRyWmtyalg0MHNqUk5Qcms2Y256YnJNZHFuQzR2VkltZHhYZVN3NzJsNGJacU9rWWRFUXhxY3ZybVNaNE91Y0VSc0Q5MTVveTJoMnVfQUU?oc=5",
+     "tg": []
+    },
+    {
+     "t": "테크빌교육 티처빌, AI 튜터로 교사 연수 탐색부터 문의 대응까지 지원",
+     "d": "2026-06-25",
+     "src": "전자신문",
+     "u": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE13aVp5T1Y3ZjBTOWdCVlB1OEVqZ083LXlVMlcyRGtOM3I0MzRCWjRPa3NkUnlFQktoRF9LLTFYTjhlM1N1MzNEODdveUJkUQ?oc=5",
+     "tg": [
+      "연수·행사",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "테크빌교육 티처빌, 'AI 학습튜터' 도입…교사 맞춤형 연수 탐색 지원",
+     "d": "2026-06-25",
+     "src": "신아일보",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFA2M3REV0hwM2l5SWZhWVZvcXBaSXNBdm15bnJFN3FLRXZqVHBaeTIxMzQxS0h4WHQ3ZFBWOGRqcHJHWU9GblUyLU5pblhlZnFNd25OSGxfel80SlVqLUNhOV9TVFAzQWFHVFY4S0ZaTXg?oc=5",
+     "tg": [
+      "연수·행사",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "AI가 바꾸는 교원 연수… 티처빌, 'AI 학습튜터' 베타 서비스 출시",
+     "d": "2026-06-25",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5POFFGbWd2dHF4bXhXY3Zsa1F5RFZGMW45cFV4Tl9CeHd0cnlraEgwTS14cUNiVjJFUmpLQVc5SlZkRDdtN25iNy1NWk9xcnRRVFVBbFJmaUhIWEpfSThqZmgybXI?oc=5",
+     "tg": [
+      "연수·행사",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "“교사 업무 덜고 수업 집중 돕는다”… 테크빌교육 ‘마이클’ [쉽게 쓴 에듀AI]",
+     "d": "2026-06-06",
+     "src": "IT조선",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE41LWRPRzNNSnF3U1poTTd0bkFXVC1VVU8tMHpOM3k2aWsyc0VlcmxtRU9VNFJzY0dOaGljSFlPNGdEbWdSZVhXZWNwRWNGNXdZOUpsYmg4eTdoanFkUVNmTV9OSXEtLW4yTTVVeWltdTfSAXRBVV95cUxPR2RlTndyQWdBNkFrTVlLdm93RGdaZlI4ZVkxdHdmRGNLOFdZVHdCbG95dEltOThQMGxJenFuSTBGRGVobFEtN3VIZnc5OE9taXlvZDZDZWhNVTJ1dDNTZ1FvUFM5YzJLbHNDSHp3RzFzblJsRw?oc=5",
+     "tg": [
+      "AI·디지털",
+      "교권·처우"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "천재 T셀파",
+   "cat": "pub",
+   "n": 13,
+   "weekly": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3,
+    0,
+    2,
+    0,
+    2,
+    0,
+    0,
+    4,
+    0,
+    0,
+    2
+   ],
+   "tags": {
+    "AI·디지털": 6,
+    "연수·행사": 3,
+    "평가·입시": 2
+   },
+   "r4": 6,
+   "p4avg": 3.5,
+   "last": "2026-11-22",
+   "all": [
+    {
+     "t": "T셀파, 현직 교사와 '바이브코딩 원데이 클래스' 진행",
+     "d": "2026-11-22",
+     "src": "아시아경제",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBrd2JHeXJaYVRzaXFodkk0TDFhX2x1MDc0YzEyVXJyMU9SSUw0UDZ5VUVfTW9zSkQyVVg4aDlEcHBZQUYydWZQM185YXdYRWJpZVZFaVRyeU4xRzlsd1dTOQ?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "\"코딩 몰라도 앱 만든다\"…T셀파, 교사 대상 AI 바이브코딩 실습 교육",
+     "d": "2026-11-22",
+     "src": "뉴스탭",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1PQXlvOThSRWpEejBNaktFYkJZVWFyd1FmbGprbHl4S2xWYUk1TEs1dFhGR3F2LVFxdEw5cVlTZ3hMWE5iSkxLTEhGd195ZVlYSl9CVkRreFBfdEVOakx1T1ktM2E5cUNjYkt3Yw?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "천재교육 T셀파, ‘맞춤형 AI 영상 제작 원데이클래스’ 개최",
+     "d": "2026-10-26",
+     "src": "조선에듀",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5aVVVUWHdadUdxczRXYXNrVjRXTTRTRXFZcnJ2RzBOMk1vaHZMbVJJX2Vya2N6d2ZFSzM4SndaTVJSNVVkSUN4RjNZMVMyQURxcmMyWnhFS21XNldxVG55cVkwazYxUG50SnNPOVdyRQ?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "천재교육 T셀파, AI 활용 수업 영상 제작 원데이클래스 운영",
+     "d": "2026-10-26",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9yUlNRcHlsLWNUY0lEeG1FbW1La3JEc0tCNUUyaFRjcnJNcTh2cGxwT2c2NDNCXzhIa3pNWDFqeWV1OVNQYUt0T0xENDZxVl9saEV1dGFIOXZ5Q0REcWZYcWZNMEg?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "교사가 직접 AI로 수업 영상 만든다…천재교육 T셀파 워크숍",
+     "d": "2026-10-26",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9UX203YzdkZUZYTkZsVzlXbjdEeWd3cllzQ015bjVsOURoUHlhd0RNUTdYaWd6aUZuQ0N5ckRYOXZoVjViVlo2UllUaUlpWTNmSWNfck9lLXNkdw?oc=5",
+     "tg": [
+      "연수·행사",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "T셀파, 교사 대상 'AI 영상 제작 원데이클래스' 진행",
+     "d": "2026-10-26",
+     "src": "아시아경제",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBlUXQzcm51czlzVWZJWnEwOVVlSU4tZ0NRM1NBeElzdTI1X1dmeWctSllZMWUzQzZUbVRLQ01UZVozVFFoV1d6Z01vVHdTZklOdWZGZnJJb3ZFVDBjTmpzeA?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "천재교육 T셀파, 교사 대상 ‘지니아튜터 GO!’ 연수 운영",
+     "d": "2026-10-07",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBQRmx6NzUxZi04bWdKOTBTMlIwdS1BYUNsc0IyYi1xV2ttOWFRenVlQlpqNDg2RHpxd0RkeWlEVFY1eXdHYVE5UnM5bFYzNlprZ2Z1TkQwWDlKd1EtUEhCbEliVHo?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "천재교육 T셀파, 교사 대상 ‘지니아튜터 GO!’ 연수 참여자 모집",
+     "d": "2026-10-07",
+     "src": "조선에듀",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1YR050TU84dkZ0VDByNlhCQkF6VzFURjNvRDNzN2ZMcmhTU1ZUNnFqQkhaV2FBLWNfTEN3eUpocnBqT3VwUUtiNzVBU0YwODdrRDlmajZ6STR3TU53emdtS1hXUzFReXZwZEo2QVFCVQ?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "천재교육 T셀파, 현직 교사 제작 중·고교 중간고사 평가자료 공개",
+     "d": "2026-09-21",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5QNUtwcGxQS1ZSZlFYdjdKN09LYTktcjFYYXI5Y2xrUExncXdnTE5hMVFmVFVtOHhnVllidkZIVlBQUEVRUjJoZEdTemFsMkFHWTNFRHJidndGZ3M0?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "T셀파, 2학기 중간고사 대비 중·고등 평가자료 공개…현직 교사가 직접 출제",
+     "d": "2026-09-21",
+     "src": "뉴스탭",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTFB6YkRNUHVqOHE5QXktdTFpWWlnUkpYUi1MYlJEcEdqcm5qYnZvVDNYc080b2hYOU00d3JBTDlKWlFUeTZjNUt0Q1hEaTI0dUVBVm84dzdEaEtUR2xXd0tKbmRwR3FEY0dGLW9uYg?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "천재교육 T셀파, 교사 대상 ‘우리 반 책 만들기’ 원데이 클래스",
+     "d": "2026-09-08",
+     "src": "헤럴드경제",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1jdi1DR3hWT0phamZod0d1TnBxUGVGeFJqcTB0SkE3cms5bm5maUw1RWduR0JhbU9xeUVWOU9CX25NcjFEdHRZWnlRY0VZNXpya2FTRV9B?oc=5",
+     "tg": []
+    },
+    {
+     "t": "천재교육 T셀파, ‘클래스보드 X Canva 활용 우리 반 책 만들기’ 원데이 클래스 개최",
+     "d": "2026-09-08",
+     "src": "E동아",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9uQ0s3Rms4UTNLQ3VvYjlQenJ3cEljOFdSd2FIanFyU1JzZjIzOE9KSnowUEM1Rmt4S1hsUmRWTU8zeFE2bFlwbkRRUWE5dndFc3J2dUtNODJMZWVib210dGVCN1A5S28?oc=5",
+     "tg": []
+    },
+    {
+     "t": "천재교육 T셀파, 교사 대상 ‘우리 반 책 만들기’ 클래스 운영",
+     "d": "2026-09-08",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5JN25McTV6NHBUek4xQXB5VVZOZmk2MFptd2lHVng5NzZIbVRJMUQzZzRfczRHYWtDS1k0eEZuOGdUWXBsN25WM0JnX1pOa0VFMWIwZnUwbm1DZ0x3TlhrYWE1MWM?oc=5",
+     "tg": []
+    }
+   ]
+  },
+  {
+   "name": "미래엔 엠티처",
+   "cat": "pub",
+   "n": 8,
+   "weekly": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    2
+   ],
+   "tags": {
+    "AI·디지털": 4,
+    "평가·입시": 1,
+    "연수·행사": 1
+   },
+   "r4": 3,
+   "p4avg": 0.5,
    "last": "2026-11-22",
    "all": [
     {
@@ -550,17 +2343,76 @@
      "tg": [
       "평가·입시"
      ]
+    },
+    {
+     "t": "‘수업 준비부터 학교 행정까지’…미래엔, 초등 교사 지원 강화",
+     "d": "2026-10-27",
+     "src": "경기일보",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9sOFh1azJJRXZSTHF3X1A5djlpTzNveTBSV0tzbkdScUduaFhHbENFOWhYRXlub2d4eVJSS1RMQTNWS0tlVWJtME5QLUJFVXBNSTZGWm5hWDdnalU?oc=5",
+     "tg": []
+    },
+    {
+     "t": "오픈소스컨설팅, 미래엔 협업툴 전사로 넓힌다…라이선스 효율화 지원",
+     "d": "2026-09-17",
+     "src": "지디넷코리아",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5TTEhrM2JrQ3Zpc0tNb0VkYTdwYjNlNXloX01FclNLbEFsRG90R3dfLWY4cmcwQ09rV2RBa2R2UUpnWXRiVlpuUmZTWlF0d2VTRjU0NFF3?oc=5",
+     "tg": []
+    },
+    {
+     "t": "미래엔, 초등 교사 위한 교육 상품 전문몰 ‘엠티처몰’ 그랜드 오픈",
+     "d": "2026-08-24",
+     "src": "뉴스와이어",
+     "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5nVDRpN2tIQzY0Y2dkNnh3MkVCMkk3V1ZQRnlKY0UtVDhlMjlwSjBhdHAtdVhfa3Fsb1MwOXhac0FseVpERXBNRWZ5UjFwTGNMMWVYM1Z1VUc3RWhiMXVz?oc=5",
+     "tg": []
+    },
+    {
+     "t": "미래엔, ‘2026 에듀플러스위크 미래교육박람회’서 특수교육 디지털 서비스 공개",
+     "d": "2026-08-11",
+     "src": "Daum",
+     "u": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9MQmRyaXZGNWprVzdlaWdacmpmSUc4WGhLaElaR1RlYldZR1lROUUwWnFfWEpMWEh0U3ZRb2ltYk1Md1lRQmxtbGY2MTNNVFU?oc=5",
+     "tg": [
+      "연수·행사",
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "[교육 트렌드] ㈜미래엔, 엠티처 ‘특수교육 초등 국어 AI 클래스’ 5~6학년 전 단원 오픈 外",
+     "d": "2026-07-09",
+     "src": "베이비뉴스",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1TVlRQTmdMcllULXpMa25ZaHl0YnE3OHlYdXZPamhlRVMteWx1Y1NkSjIycGxNcVNVWGxLOGJ3dWx2R2pURWZhQUFtWU5ub1dxMzNHZldWOGRkeG1zMVRFMXVTclRNRGdnS1RxcA?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "미래엔, 엠티처 ‘특수교육 초등 국어 AI 클래스’ 5~6학년 전 단원 오픈",
+     "d": "2026-07-09",
+     "src": "뉴스와이어",
+     "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE81eGFmX3NKQnB0Q2pFcVRkX2pyQXhveWYzNldrNE9lRDAxbEpFM1hYdDdYZUdZMTZkZjhleTROSkhXUVNkZWFFUVBiT25lWHFXeXhWWEd3dmlLNXhFUHYw?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
     }
    ]
   },
   {
    "name": "지학사",
    "cat": "pub",
-   "n": 0,
+   "n": 6,
    "weekly": [
     0,
     0,
     0,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
     0,
     0,
     0,
@@ -571,61 +2423,103 @@
     0,
     0,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    2,
     0,
     0
    ],
-   "tags": {},
-   "r4": 0,
+   "tags": {
+    "연수·행사": 1
+   },
+   "r4": 2,
    "p4avg": 0.0,
-   "last": null,
-   "all": []
+   "last": "2026-11-05",
+   "all": [
+    {
+     "t": "지학사, 반복 학습으로 중학 국어 문법 익히는 ‘개념있는 중학 국어 문법’ 드릴북 2종 출간",
+     "d": "2026-11-05",
+     "src": "E동아",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE50cVA1QnBGcnpqRFgtT194Y3d6UnFHQ3RuUFhfckstaFFCdWFUVklfQTZPaTU3R0xqUzJwcXZpa0Y3VTRvM2pCeHhGdWRvTU5Ya1UtREJIYm1ubFFXUkVGV09VSTJlZ3M?oc=5",
+     "tg": []
+    },
+    {
+     "t": "지학사, 입문부터 완성까지 반복 연습으로 끝내는 '개념있는 중학 국어 문법' 드릴북 2종 출간",
+     "d": "2026-11-05",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1NMnF2a21mVTdGTHJMQWJOa01xRndGbmdBa0J4VmlDSVJjVVdra3dPSFFRVDB1bDMtUTFVQXV0cHJwaTh2VTU4MGFPNlZkMVJQV19PUEJBOG5vMXVEdjcxYmN1aDVFQmRzeVQ0THpESFU?oc=5",
+     "tg": []
+    },
+    {
+     "t": "지학사, 수학 선생님 서포터즈 ‘풍쌤 1기’ 모집",
+     "d": "2026-08-21",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBuRGptQXIzVEJqY0Vick9DS2VRNF9YWjVXd3BEWXFRVFFFYTZiOXNXbUx2ZTg4Uy03cjNLbS16QTJFYXpOSDIwV212TFJPb3JlMTNEWndZOWF1TlM1WHlHR05fTTZWRHhFOGlTQ05WNS0?oc=5",
+     "tg": []
+    },
+    {
+     "t": "지학사, 제38기 풍산자 수학 장학생 모집… “장학금 연간 총 1,200만 원”",
+     "d": "2026-07-23",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE16a3J0am1JcW1oSTRaQzg1OG1VMkdQSEI0N1U3ZTFsNFMzTElac3lCbnRuck94U0RYXzFXcVVicTNFUmF2azhRSDg0MW1nR2ttOFZ3LUVwa1VHbWhyQ3BzMVZ5dGJaNFVTa2U5cHZJY1g?oc=5",
+     "tg": []
+    },
+    {
+     "t": "지학사 풍산자수학연구소, 안양·시흥시 수학경시대회 설명회 참여",
+     "d": "2026-07-16",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE90d2NfUW9HcjA2Qm1RaGJjLWhqRWs0UGtESUhTVk1USkt2N1ZlbGRKOWpmWGJMY1R5enBfY0tMbHJqVzUtRUZVM3FXcEhObHlEQzZvVllLS2pyNjd4VW9IVDJ6TUpsclFfczBXMkJiNW8?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "지학사, 최상위권 수학 완성 프로젝트 ‘최고난도’ 시리즈 출간",
+     "d": "2026-06-17",
+     "src": "조선에듀",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBod0pTQzZPeXNnaExVQy1QTXZLaFRjOUpMOGNFS2hrZXktVWxzMjBoUHNQb1AyYUxnbVI5M1oxZnVTS1d0MjlYaWQ1Qm1ZLUhNamdOZll5aUF6Qk83bmRYN2hsRUpjNndpQTV0VklTcw?oc=5",
+     "tg": []
+    }
+   ]
   },
   {
    "name": "동아출판",
    "cat": "pub",
-   "n": 3,
+   "n": 28,
    "weekly": [
+    1,
+    0,
+    2,
+    1,
+    1,
     0,
     0,
     0,
     0,
+    1,
+    0,
+    2,
+    1,
     0,
     0,
+    1,
     0,
+    3,
+    1,
+    3,
+    3,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    3,
+    2,
     0,
     3
    ],
-   "tags": {},
-   "r4": 3,
-   "p4avg": 0.0,
+   "tags": {
+    "연수·행사": 5,
+    "리더십": 1,
+    "평가·입시": 1,
+    "AI·디지털": 4
+   },
+   "r4": 8,
+   "p4avg": 5.5,
    "last": "2026-11-17",
    "all": [
     {
@@ -648,16 +2542,214 @@
      "src": "비욘드포스트",
      "u": "https://news.google.com/rss/articles/CBMifEFVX3lxTE0tZVJsUmVhVGR3bWdvUTNBbU12eXNUWHVlTzZtei15RzVLMU5zU3N1TllUbFVhdkJWaGRBeE8xWWdZMlYzaGZxbXc1Qkw3bVhzaXlIUTYtQWlJZ1pMMWgzR19PdFotbklwSWZOTVpMQ0hJNDNjbU1uUTFGbXI?oc=5",
      "tg": []
+    },
+    {
+     "t": "동아출판, 초·중·고 국어 전문 브랜드 ‘빠작’ 개정판·신간 출시",
+     "d": "2026-11-02",
+     "src": "에듀플러스",
+     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9NWGM1ZDRPbnZaaHBOQkpIcmFRUjBYTy1JZ2ZISU02TVdBem04M3Z6Mjh4RnpvVkJBX0J4Zk1lSWR6QVJqSVYzUUp6RXZQSTdHbU9hRXJsOXV1VXpLYW04Yk1kTmpnQnUtRGFSSS1R0gFyQVVfeXFMTms4TW9DNWoweGJyRlMtYVBsMTI1UGFYVDZLTlFPM0NKbFplR0tIcEQ1WTd6UC11SC1WOHgxNUc2bnhrUWZOMmhVNWxvSktGRG1LSlJqdDFSaWF6SThrenBNalg5blZSSTFRRmZLZGR4bG1R?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, 2022 개정 교육과정 반영한 '빠작' 시리즈 확대",
+     "d": "2026-11-02",
+     "src": "비욘드포스트",
+     "u": "https://news.google.com/rss/articles/CBMifEFVX3lxTE0zQWV1ZUVORVQ1MEtlNm5hZl8wdGNPU1lPNDNnSHowYURaZktsSWN0NnJ5R0lKSkNUVmlzeGZieDN6a1NxMXFKV0xpRUUyWExoR0wwX1FJbkJxdjZPd09ZMkRJZVRZWVVvNTQ0NWhGd1dnVHBsbE9NUjByVF8?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, 교사 대상 세미나 ‘두클래스 윗 미’ 그림책편 성료",
+     "d": "2026-10-29",
+     "src": "공감신문",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9iV0VFdXFKb2hZNjBoQThNYWZra0p4UVpENDhWNXNRbmJULTR5V1NkcnF3Nk9CQ3lVbUxNb1BhNWJhZmVwc2J6Q0t4OFBfR0NabGRyZ05mV2tUUEZhZVhJMHVsa3FhdEJp?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "발표하는 ○○○ 동아출판 대표",
+     "d": "2026-10-28",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBBLVVJOVBsX3JOQV93WlRQSVBsUWVuZTBjbmYzeWRMUEZyVHUtWUZab2hVajBBNXlnZUM3RHFvMG1ONmRYUE1rb0JVbTNHVFpkcEdFYS1iX1VWdDDSAWBBVV95cUxQMWYyS2U1c2YwYVRTN1lSUXp6NjVMZ3BzcHRuZ2JFeXFrNjNhM3E4VzFxVVBSdm1sWEVqX3JEX3Z2UE9PbFlsOTRfR1VJWGZuc3RJdkhGR3o2eFQyeGNZSWE?oc=5",
+     "tg": [
+      "리더십"
+     ]
+    },
+    {
+     "t": "동아출판, ‘두클래스 윗 미’ 그림책편 성료…한국사 세미나 진행",
+     "d": "2026-10-27",
+     "src": "아시아투데이",
+     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1KMHhhVE50SDcyMlE0VWNGV05rWi14di1PR2R1cFMxMmc3VXJScmlIS0g2WVpmdmFQd0JwQXVjNnZ0MjV6bDZMTHpmZGI3ZE92dWN1R3Etd3NmeVJKek00Ul9YQ2lWamkwYnRGclFB?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "동아출판, 초중고 수학 전문서 ‘매쓰티어’ 신간 출시",
+     "d": "2026-10-15",
+     "src": "조선에듀",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE54N1NGdHBoMWV1dHpLN1dJWFJnbTdweE5UM0dKdG1wRzZpUFloNjdxNUIzcEJsZVVDZERnVGp6VGZVVUNCU0t3R3NpcWZVTy0yS2lmU0xvQmJwcXY1UWFxY3ROZ1NJNlgxOEh5cERBdw?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, 수학 전문서 '매쓰티어' 출시…초등 심화부터 고교 내신까지",
+     "d": "2026-10-15",
+     "src": "인더스트리뉴스",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE9ISUE1MTYwTGlPbndGYUZObTFpT1NETUloWVpsZF9pLW5ZNWhOSkJsQlU5czRNV0NLTzJVU3NjSjZWQ2k1WlRzbHRaSUdEVThSX2tpNUszdUY2WlhZTjlpV2dIc1VnQ1ZZYlAzRzFkeFJvQQ?oc=5",
+     "tg": [
+      "평가·입시"
+     ]
+    },
+    {
+     "t": "동아출판, 초중고 수학 전문서 '매쓰티어' 시리즈 출시",
+     "d": "2026-10-15",
+     "src": "비욘드포스트",
+     "u": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBZMDlPbzd5dnBYcTFnRDlxVnYyYzBuQ2d0Ynk3dzlSMDB1eEJvZ2tNeFZ1Rk1oME1Eb0ZQa1dlY1lMdm1Qc1JXZTlSNTBnWVVJdi0wRGt4N0Z6dVIxb2tsQzMxa0pUaXM5SWlPTmVadl9ndkRmVUpKOEpvaw?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, 초등 문해력-보건 교재 2종 승인",
+     "d": "2026-10-08",
+     "src": "CNB뉴스",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9rbXhiUW16VVdmVS1NMFZSbVhIUE03NGc5Zm9MSC13emNuRzlTM0p4NzBZLU14MVJNSXB6UUgxbmV4cHpFaWpkUExVSThKbzd2MG5NdTJzQWdUbmo0LUJnUDhLRGk4YkxSSWdr?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, 초등 인정도서 2종 ○○ 승인… 2027학년도 학교 현장 활용",
+     "d": "2026-10-08",
+     "src": "조선에듀",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE42NjZ6d3dnV2FxWTdHd1VWRjV3SW02VlBlVEFjMmxic2RlUEpBWFdSajMwRmZ6WldKdVB4S2dLQzRNc09oR2NWMEpWaU5IdG5XVnM2UzdxZnZKV0ppWDVDNmNxVkVCZkd2dmhkN0xLdw?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판 초등 인정도서 2권, 경기도교육감 ○○ 승인",
+     "d": "2026-10-08",
+     "src": "아시아투데이",
+     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5oMFNaN0paUG5TS1NTcjQ2RXVUek45ZGh0N1VkLUJVWWNQWjhJY0lmU3ZpRDBLZDl4VFZIRTRia0YzNjNGeFdxeDB0R3JSSkJSMDk3UWpLbkNLcHRZazlwd3p0VFlkOV9ZQkZGWnZ3?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, 교사 앰배서더 '두클러너 12기' 모집",
+     "d": "2026-09-28",
+     "src": "비욘드포스트",
+     "u": "https://news.google.com/rss/articles/CBMifEFVX3lxTE11c2lmSTdSRWdzWHpSVjZjSzZab3lReUEzU0JHd0k2YUFLVTNIVGNhSlRZVmxoOGh3Z054Z1FRNExIQlNrSUtjVlpEeGRVQm5yV29TV1hLRXFxeUhvWFliYUM0V1pLMXJEZEtKeEpaLUY2LVJrX1ZHckpnRkY?oc=5",
+     "tg": []
+    },
+    {
+     "t": "[교육 트렌드] 동아출판, ‘시각적 문해력 쑥쑥 그림책’ 인정도서 본심사 합격 外",
+     "d": "2026-09-22",
+     "src": "베이비뉴스",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXcENrcXNxeEZxaDRQdUkySkdjTFVqdEQ4R1VEVjdmTHFtbWxzczB1OFVHVHcxRFd3U1Z1S0MtTks5R3dKVWxoTnZjcWhYazRxOEpiakJMWXVBMDJMRWNOR2RjR1piS2xqYV9GaQ?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, ‘시각적 문해력 쑥쑥 그림책’ 인정도서 본심사 합격···그림책으로 생각을 읽고 표현하는 수업 제안",
+     "d": "2026-09-21",
+     "src": "스포츠경향",
+     "u": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFB6dms2MW02ajBuX2dXeWs5cjh1RzEwOF8zbGRnSXpmeFF3VXlwUjIxaDQzWlFibFpMd3JWUkp6bWxSdVJJZ1dxTHZHUEM2UTF4dlRnS0FsTFNvWHlDT2fSAWNBVV95cUxOUnlCTUM4cXQwS0kxZVJPaFdlN0R3OW5pMVF6ei1sUHFyM215aGRMQk9Za1dkOTNCc1lma3JLTkozS2E2bl9Tci1NcXNrRXZGVEJJbk1DcC1rSUtoUkZwRmNON0E?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, 학교자율시간 맞춤 그림책 수업 제안",
+     "d": "2026-09-21",
+     "src": "앳스타일",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1iZjJPbkh3N1JMaW9aWTU4aDRxZUU5REtTZl9ZSUUyMUF2U2xja3ItV3I4cWxLckhMREdzVEtVTnI4SGJSOEF2WVJXQktiTWc2enNsVk9sQmFLYWpzQ0JqTkxWSnhucnBSQmfSAW5BVV95cUxOQmptbzRwcndFc3lLdERQZ3RUNWVocjF2MUc5VC0tcGxxdXBRcVhCTFMwU18wUXpNQWhzWEFyWVFvLWNQY0RCT1lReUVxQ2s3UGl6a2JIbUtnN2R5YW5HQkkwUUo5bk1xQllpeHB0UQ?oc=5",
+     "tg": []
+    },
+    {
+     "t": "예스24, 동아출판과 주도적 학교 독서교육 체계 활성화 나서",
+     "d": "2026-09-08",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9FTTJ6X3N6bE5KbjlrVG9OTzFTX0FmeUNVUmo5d0VKd2JaOGZKQUU3bzhHXzNJdnFrVXc0SnctNmN5c1h1Y2EtYWNiMm9EU1hiZ0xLVVo2TXpOMHo3ZWZZ?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, 2학기 맞아 두클래스 개편…교과 콘텐츠·편의성 강화",
+     "d": "2026-08-18",
+     "src": "인더스트리뉴스",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE5heUxkNEVBMng3NmhMVl9HWTNoWkktaTNBa3FUckFoQ3ZYVDMzZC1NS3p5b2o3S1lVRmU0ZjJPUUN6V3pCZFJkWDRVeWdrV1kwNXJhZlg0S3Z4MEFHaFVNdWl0akZiUThqSzRCVjkyVEpNUQ?oc=5",
+     "tg": []
+    },
+    {
+     "t": "동아출판, AI가 바꾼 교실…학생만 배우지 않는다",
+     "d": "2026-08-11",
+     "src": "글로벌이코노믹",
+     "u": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNVlFtMTh1dTZWcUZGcUhZR1E1bzQ1OERrbWFIdUg2b1RqQ3l3UDM3QTNYUXlvU1hOZDhaX2RVVkx0a3pZY0dvSXJTN1VHWE5NSG1EbHJNcTRWbkpCd0VkSnNoMERKN01DZUtFTWFmeDVuQVNwWTBCMjdrNUIzcWFLaUVQZ1VWaDVxbVo4?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "동아출판, ‘2026 에듀플러스위크 미래교육박람회’ 참가",
+     "d": "2026-08-10",
+     "src": "E동아",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5kQ3IxYnlFaEtveVBoWC1HQklCdC1mTVNJY3k2My1SS3F1UGZoTjlta0tadmR0anRUYlJGZEttY3JtY21WLTA1d0RHc25Gb01zOGRnVWpIVW0zeUFvUHpYMXVhaHZZNDA?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "‘보는 환경교육’ 넘어 학생이 직접 해법 제안…동아출판, 시네마그린틴 후원",
+     "d": "2026-07-30",
+     "src": "글로벌이코노믹",
+     "u": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQTXJNeVl5MFRRb0JfNGF5MEFiRjdrTVNKTVVLcmFrZFE1SHlxblRkaExHOEV5Q0NUZ0VLR2VFX2RheS1rbjlPOFREZ0dwZDg4X3ZTUDVQNVVzQ3Z5b09RVldiZEdkN1VMSzZxeHB1NTBLN29UX2tKTWdPU1VVUDBkTkt0UHI0YzFMUFd3?oc=5",
+     "tg": []
+    },
+    {
+     "t": "AI 수업, 교실에서 답을 찾는다…동아출판 우수사례 공모전 개최",
+     "d": "2026-06-22",
+     "src": "인더스트리뉴스",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTFBGMjNFVmlBa3ROOXVjMkNmdEhpMnd0UmNyM2lYVjBKR0M5QjNkdy1EblpCVXdxdDI5c2pLVWVYcE1yU0Zxbnh5TlhqelFuQVVvSk10Z29fWldFT25sUGtjUDdxZGZ6b3BvQlFvZFVRakdfUQ?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "동아출판, AI 디지털 교육자료 활용 웨비나 개최…영어·수학 수업 적용 사례 공유",
+     "d": "2026-06-15",
+     "src": "에너지경제신문",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9nR29zZ3ZaWXNNbVU5blpPNVdLSWpVVVZGRXpxeWp5SHZoY0Y5MmQ1Vkd6aXM1S3djSlhiWWcxdVI1X2h2dk9IMmhYdXpjOEtrQndNbGhSdmJuSkU?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
+    },
+    {
+     "t": "동아출판 두클래스, 교사 대상 수업 세미나 운영",
+     "d": "2026-06-08",
+     "src": "뉴스핌",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBwZ3JYRlcxY0VfXzRfbllrLWtoSU5TS3NDd0Z1V2pDQ2tYdFNJalRtVFA1U1dOZVRhZ3Y3MTlIY2w3eTBHdG5uTzRFNFBLRFVWRjBNMUdJRGtzWWJ1?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "동아출판 두클래스, 현직 교사 위한 ‘두클래스 윗 미’ 세미나 운영",
+     "d": "2026-06-08",
+     "src": "조선에듀",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBGNmd6VnNVWmJmZFI4RGJHVjkwSkVkSkZVTXQ3RmJfSGx3YXI4VWtQVm9xb3YyWFRnZjlubWxDclJjSUhRVUJSZWxPWVNOSnlTVEZKQ2JGNXJmYWM4dTRnWElQUmh1RzlDdWdxV2dMNA?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "동아출판, AI 교육자료 활용 확대",
+     "d": "2026-05-28",
+     "src": "뉴스핌",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5aRFhnbXNpVkU2MGdZWERCd0xnR282LVo3RG5KTFNPVDZSdXc1TUhIWEtSNnUxODhXTTZObVN0bzRnWVJMSEJ2LVlCSWZtcER1UzR6a29SYWcwcmNR?oc=5",
+     "tg": [
+      "AI·디지털"
+     ]
     }
    ]
   },
   {
    "name": "비바샘 연수원",
    "cat": "pub",
-   "n": 5,
+   "n": 15,
    "weekly": [
     0,
     0,
+    1,
     0,
     0,
     0,
@@ -669,25 +2761,26 @@
     0,
     0,
     0,
+    4,
+    0,
+    1,
     0,
     0,
     0,
+    3,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    1,
     0,
     0,
     5
    ],
    "tags": {
-    "평가·입시": 4
+    "평가·입시": 4,
+    "연수·행사": 2,
+    "협약·제휴": 1
    },
-   "r4": 5,
-   "p4avg": 0.0,
+   "r4": 6,
+   "p4avg": 4.0,
    "last": "2026-11-22",
    "all": [
     {
@@ -732,15 +2825,91 @@
      "tg": [
       "평가·입시"
      ]
+    },
+    {
+     "t": "비상교육, 교육서비스주 저PER 1위... 1.82배",
+     "d": "2026-10-28",
+     "src": "버핏연구소",
+     "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1Ia05STXRtNlpLRk5jN3RUalFPVlJsNDQydUdva3hMVXdTQWVObFAyaS1vekFqSVBEbVNkcXNnWWw2N0JRQ1lNUUg4NzlYNEVfNFNTV1RjbWZ5WkRTUlIzU1lR?oc=5",
+     "tg": []
+    },
+    {
+     "t": "비상교육, 교육영상·교과서로 독일 디자인 어워드 4건 수상",
+     "d": "2026-10-16",
+     "src": "뉴스락",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBLV1FNZXljWUhLb3BTN0YxVndKa3J3TGI5R3JPOGlVdnQ2Z3NaQlRUYkFGc1BZRmc2cmpsWTFIY1paUGpKMGt4U2s1T1BRWENaQURCM0tpbm1KbFlYSk5rYnF5OGtabllHOVdONA?oc=5",
+     "tg": []
+    },
+    {
+     "t": "비상교육, ‘제2회 세계 문화와 영어 수업안 경진대회’ 시상",
+     "d": "2026-10-14",
+     "src": "조선에듀",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBYVlI5RTZabWVvVmtZUkF2M2JOcGdHcGl1MmE0MFNFZkdVNlNUZUhRTXp6Z09oNHpWNnFkRllEQmFQRFZUbmNPWUJzQmVGOThaNHZtbHg5ZHB5QnNqdWo2MFBVWjJhOWR3OWZQY3l4VQ?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "비상교육, 세계 문화·영어 수업안 경진대회 시상",
+     "d": "2026-10-14",
+     "src": "신아일보",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE43NDM1endpeEZnemdNU3NrM1VlLUEtY3J1TjZCTmhwRkxOdDd1d0c0clJwLU5FZml2RWtHSUZsNm16NENMZm9BSmdnNEdDMDdQVDVvSkpFaWFXLTAxTXFHbWthd0VsMEJFbzJvV1ZfN3g?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "비상교육, 학교 맞춤형 교육과정 지원…인정교과서 2종 출시",
+     "d": "2026-09-17",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5tWXEyYnhjdEgwODFMSll3cXllclNEXzdHWGhweEE4MWtYd2ZxOGc5ZnczaG5mNmpsSVBxenZXa2ZWZDdCTFZjRERJcl93MEdNbmxmVkNWenBMVHdaSXFYNU9TQzM?oc=5",
+     "tg": []
+    },
+    {
+     "t": "비상교육 비바샘, 교과서 속 지역 찾아간다…수업용 영상 13편 공개",
+     "d": "2026-09-04",
+     "src": "지디넷코리아",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1PQ3dFeE9sSWYtWFhTOU9RZ3NMMEdIaWo3QmdNZHV6M1dhZE9HckJYam8wMnFsX0FqRHhwYkJ0WGJJcEFXYmdIelF1SEJscUJwRUk3dm5B?oc=5",
+     "tg": []
+    },
+    {
+     "t": "교과서 밖으로 나온 지역 이야기… 비바샘, 교사와 만든 교육영상 공개",
+     "d": "2026-09-04",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE40X1NUSDNhWTFGR05PNnNxY2o2NVFwLXJyelVXOHotdWNRWEVTX0hraURvSjBPZmxTRTdTNTAxMjdEcVVBeDI1UjZYSUlQWUQ1UUVXb293UUlodE9qSnR5TWpwUWI?oc=5",
+     "tg": []
+    },
+    {
+     "t": "비상교육, 중3 교과서 5종 7책 합격… 초중고 출원 과목 ‘모두 통과’",
+     "d": "2026-08-31",
+     "src": "IT조선",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5SXzlCQUwzQ2EwX1lrXzM4TnZaNWFvNjdta25tYnpxQkQ4R0hBY0lGYlNqTWVBTmhHcXJpYWlEVlBBREYxNHZHbjM5RUZ2Ym1zWWhMX0JHcjJXR1lUVXowNFNVQnJROHZoUWdCNUxBWjHSAXRBVV95cUxQZ3pkWjM2dWE5TEptLWF5Wlc5ZmNpSVJONUgtVGU0RnpIQXVsUWhaTVdqNzVSejBCWGdJVDJGRXFpaWNIS1dVNmRkUURBVFNNeXZQdnRhNTFobjg3UW9VOUR2RzRjMlJpYkhVUW9nWmFxblg0eA?oc=5",
+     "tg": []
+    },
+    {
+     "t": "비상교육, 2022 개정 중학교 3학년 교과서 검정 합격…초중고 전 과목 100% 합격",
+     "d": "2026-08-31",
+     "src": "MTN 머니투데이방송",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBKTXplRUs3VlQ4U3FsaklXUWdQaU1yTFJoemZNYU94WWdTc2xBRDFjd2w1UEFqS1NiVUl5TXVPXzdyUnJWcjFhNFFVRTVib2R5bE1LdWhsRS1Eclh1d1FmSml6cm0?oc=5",
+     "tg": []
+    },
+    {
+     "t": "경인교대-비상교육, 예비교원 역량 강화 위해 맞손",
+     "d": "2026-06-10",
+     "src": "전자신문",
+     "u": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9BWVIybzRwX01iMWthbDhSV3A4bzlQSk55VTV4QXpVV2RTUWQ4aHZhNFh4T1dpTG5mTVdiOWUtN1lBNVpzei1hX3dtUE80Zw?oc=5",
+     "tg": [
+      "협약·제휴"
+     ]
     }
    ]
   },
   {
    "name": "한국교사크리에이터협회",
    "cat": "study",
-   "n": 0,
+   "n": 1,
    "weekly": [
-    0,
+    1,
     0,
     0,
     0,
@@ -767,11 +2936,25 @@
     0,
     0
    ],
-   "tags": {},
+   "tags": {
+    "협약·제휴": 1,
+    "AI·디지털": 1
+   },
    "r4": 0,
    "p4avg": 0.0,
-   "last": null,
-   "all": []
+   "last": "2026-05-30",
+   "all": [
+    {
+     "t": "한빛앤·교사크리에이터협회, 에듀테크 콘텐츠 개발 협력",
+     "d": "2026-05-30",
+     "src": "위클리포스트",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBlblRVZlNUVWprMHJTWDlXbktTMDM0dVhrb1J6TThUUURfZy1sMGV4dmRNUUZ1cGdfZm1iTFZ5Tk56OWtydVh1NVMyTzBFeDZQcVBiczNpSzdZVUIxTEtpSVJVeWJIRmxrREJJ?oc=5",
+     "tg": [
+      "협약·제휴",
+      "AI·디지털"
+     ]
+    }
+   ]
   },
   {
    "name": "대한교사협회",
@@ -940,10 +3123,12 @@
   {
    "name": "시도교육감협의회",
    "cat": "policy",
-   "n": 0,
+   "n": 4,
    "weekly": [
     0,
     0,
+    1,
+    1,
     0,
     0,
     0,
@@ -963,22 +3148,58 @@
     0,
     0,
     0,
-    0,
-    0,
-    0,
+    2,
     0,
     0
    ],
-   "tags": {},
-   "r4": 0,
+   "tags": {
+    "연수·행사": 1,
+    "리더십": 2
+   },
+   "r4": 2,
    "p4avg": 0.0,
-   "last": null,
-   "all": []
+   "last": "2026-11-06",
+   "all": [
+    {
+     "t": "전국시도교육감협의회, 교육의 미래를 여는 로드맵 '지방교육자치를 말하다'콘퍼런스 개최",
+     "d": "2026-11-06",
+     "src": "대한민국교육신문",
+     "u": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9wbHhOdUpVcGxPOXFJUXRkc3UzN1JVd3plVDlSSDFtWHFFYngwYWtUT3I4RVFzZHFYVWlid3JPanZ2cDVfajI1U2ZHaHdhOE9STG5hbklBRFFKZkxRc3dRYnRtQQ?oc=5",
+     "tg": [
+      "연수·행사"
+     ]
+    },
+    {
+     "t": "교육감협의회, '교육재정 상생안' 제시",
+     "d": "2026-11-05",
+     "src": "LG헬로비전",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE9VZmJwblNuWG9UaTREOERhNjRDU0g1SFVIdEZQLWlFU1NMTUVfVUVfRlQ4dUlkM0Qza3JTanNDZEc3WW9JS1pXYXczdVAyZjIzZS1BUTFFalZUQndhaUdXQWEtY3REc09iTHRSSG5nbU1DQdIBdkFVX3lxTE04ajNBNVdyVnl0ZWlyUFRrbkQ0N1phT0RZalV2LUNRZ1I0X1ZuejZ1a1pTRkpMa1FuT3Z0Rnp4RlVsNGFrVmNPaFdMSjFWdUt3ZGpNWi1RZXA3dmF5bU9qbTc1djZIQTV6WldXUENBZm42NE9PZWc?oc=5",
+     "tg": []
+    },
+    {
+     "t": "[속보] 정근식 서울시교육감, 제 11대 대한민국교육감협의회장 ○○",
+     "d": "2026-06-15",
+     "src": "에듀프레스",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE80YzlSTDJNd0x6RUUwVlhEcE9qOFllZVE2dXdsOGQ3eWNBMjNhM09hRkJTMWJtN1V1bC1Va1dxb1BQb2VLamRjMkZmOEdtQmhvX2xuQ25VbzlZZjBTVzNTSElPWXdUTTdD?oc=5",
+     "tg": [
+      "리더십"
+     ]
+    },
+    {
+     "t": "강은희 대한민국교육감협의회장 ○○ 마무리…○○ 회장은 누구",
+     "d": "2026-06-14",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBieTN5YXBvSUJ3Rnh3cmxzY0FScVgtcVp1S0dhVnp1V1k2UFhKbXFfNWJ2SXJGeTdCZVFNVWVTUTYxMnB2Znk2dTAzal9URlRVMWRBQXI2OEplUQ?oc=5",
+     "tg": [
+      "리더십"
+     ]
+    }
+   ]
   },
   {
    "name": "교원단체 교섭·협의",
    "cat": "policy",
-   "n": 0,
+   "n": 1,
    "weekly": [
     0,
     0,
@@ -998,7 +3219,7 @@
     0,
     0,
     0,
-    0,
+    1,
     0,
     0,
     0,
@@ -1009,13 +3230,149 @@
    ],
    "tags": {},
    "r4": 0,
-   "p4avg": 0.0,
-   "last": null,
-   "all": []
+   "p4avg": 0.5,
+   "last": "2026-09-28",
+   "all": [
+    {
+     "t": "강원도교육청, 스마트폰 사용문화 개선·교원 단체교섭 재개",
+     "d": "2026-09-28",
+     "src": "강원신문",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFB3Q2dzNjdiam9NRVRrOGx2NHhJd05mbHFYX1ZfdzhRTVJRYXUtVnlKMElZU1o2aXdCSjVIVnJyRkwyVnlQNUZSZDU4eExZRzJrbG5MRDJENFkxVEFDdlFnZlBpTWxGVF9G?oc=5",
+     "tg": []
+    }
+   ]
   }
  ],
- "leadership": [],
+ "leadership": [
+  {
+   "t": "○○교육연대 \"'○○법 위반 송치' 교사노조위원장, 불기소해야\"",
+   "d": "2026-11-16",
+   "src": "연합뉴스",
+   "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5ISV8wWkJZRkNWSnNjUmloVDVJanlSMFU5Vm1SYnFla3dkWHN2djBFUl9ZX3g1NWpYRFNpU3V5Q3ROczI4LTctUGs5RVpUNTZvTGxHNHRsNkF1MFHSAWBBVV95cUxQb3JSdTY1bmVtYm9qLS1CYXJNeUR2bUJfLWg4aGRzS0VMQ2xXbk1XUnRrMlRBRjVabllIUlVNLU9xMjcxLXp3MG5oWHU1cEJEUTdqTjlZVHBzdUVNZHFCd1c?oc=5",
+   "tg": [
+    "리더십",
+    "성명·입장"
+   ],
+   "org": "교사노조연맹",
+   "cat": "union"
+  },
+  {
+   "t": "○○교총 ○○○ 회장 재임 확정…“교권은 더 단단하게, 현장은 더 든든하게”",
+   "d": "2026-11-13",
+   "src": "KBS 뉴스",
+   "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE8xelcyblNsMmVmdGc0ZW9EN1YtUlk3OXlVTVh2X3hldzVLXzktbGdIX0dVQWw1dlZUODU3c0RJUHNJd3BfNzdOOGhJa0FUSlJValdndFhpVE5pLWM?oc=5",
+   "tg": [
+    "리더십",
+    "교권·처우"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "○○○ ○○교총 회장 재선임…\"체감할 수 있는 변화 이끌겠다\"",
+   "d": "2026-11-13",
+   "src": "연합뉴스",
+   "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE92WXh3X0lMdDBQSktKaFNORnowTTN5SExzcU8zVVZPOTZfX1JZaUFwX291TW5vNWdPWldwSmZNcnJmcml6QkRfZWN1NnpPM2dUUWZmTzlpUXJvZFXSAWBBVV95cUxNa29pU3BaRnIxMk1lTkZnUzIzSUYybE9scEZ0NEZDcXJaM1l6Qkdxc01zazJxWWo2eXpOWG9uTkM1VVFEV0Q1MDdXLU1kZlNacHh4QVRlTXZLM3VONFVJaXE?oc=5",
+   "tg": [
+    "리더십"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "한국노총, ○○법위반 ○○교사노조 위원장 송치에 \"불기소해야\"",
+   "d": "2026-11-12",
+   "src": "연합뉴스",
+   "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1TS1pnTnNoNGhhazhGODRLZGNOMmRqTjFoX0o5TnN1UGJhMktvRGNtLVZUUVUzYkNsb0VXN3ljTXI0UGdQb3ZGeWluQXI1TU90eUdUT2VLZHpWazDSAWBBVV95cUxPTGlZaFI4dk1FWF8yWTBrSnJ6Tm9xc3BTLXJBU2c2X2FYV1JSTkpwOTZ1SWxoSGctTFByVFh4c3RHZ09FckF1UEI0Tjl1RFp4aXdfaTh4UkgydzJ6LXpuNm4?oc=5",
+   "tg": [
+    "리더십",
+    "성명·입장"
+   ],
+   "org": "교사노조연맹",
+   "cat": "union"
+  },
+  {
+   "t": "○○○ ○○교사노조 위원장, 공무원 ○○운동 금지 위반 혐의 검찰 송치",
+   "d": "2026-10-30",
+   "src": "교육플러스",
+   "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1Ja21ldGRPV1UzUkZuanhFdk1FQWR0M2h6M2VrSXNoeXl4LU5jOUpoTW9OY3B2aFI5aHpiVm94WmVqRG5nV1pCb0xROVA4Sm9PaEZub3paMEhLUUVVb3FtQmdKWE8yWlk?oc=5",
+   "tg": [
+    "리더십"
+   ],
+   "org": "교사노조연맹",
+   "cat": "union"
+  },
+  {
+   "t": "○○○ 한국교총 회장, ○○○ 교육감 면담...학습권·교권 보호 방안 논의",
+   "d": "2026-10-28",
+   "src": "헤드라인제주",
+   "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5uQjUwTUtVeHRRaXNXZmhSTkNnaFVnVEZaNmtpVUc4bVpBeE1jX05YaHd3aG9qcG5remU4U2VtaUljZ3ZrNnpoT3dIYVQyTUJhVmNqNzRZdDJNcmREUVVPYzFkRXBfeHAzdlJWVVAtWHk5cHM?oc=5",
+   "tg": [
+    "리더십",
+    "교권·처우"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "발표하는 ○○○ 동아출판 대표",
+   "d": "2026-10-28",
+   "src": "연합뉴스",
+   "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBBLVVJOVBsX3JOQV93WlRQSVBsUWVuZTBjbmYzeWRMUEZyVHUtWUZab2hVajBBNXlnZUM3RHFvMG1ONmRYUE1rb0JVbTNHVFpkcEdFYS1iX1VWdDDSAWBBVV95cUxQMWYyS2U1c2YwYVRTN1lSUXp6NjVMZ3BzcHRuZ2JFeXFrNjNhM3E4VzFxVVBSdm1sWEVqX3JEX3Z2UE9PbFlsOTRfR1VJWGZuc3RJdkhGR3o2eFQyeGNZSWE?oc=5",
+   "tg": [
+    "리더십"
+   ],
+   "org": "동아출판",
+   "cat": "pub"
+  },
+  {
+   "t": "[속보] 정근식 서울시교육감, 제 11대 대한민국교육감협의회장 ○○",
+   "d": "2026-06-15",
+   "src": "에듀프레스",
+   "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE80YzlSTDJNd0x6RUUwVlhEcE9qOFllZVE2dXdsOGQ3eWNBMjNhM09hRkJTMWJtN1V1bC1Va1dxb1BQb2VLamRjMkZmOEdtQmhvX2xuQ25VbzlZZjBTVzNTSElPWXdUTTdD?oc=5",
+   "tg": [
+    "리더십"
+   ],
+   "org": "시도교육감협의회",
+   "cat": "policy"
+  },
+  {
+   "t": "강은희 대한민국교육감협의회장 ○○ 마무리…○○ 회장은 누구",
+   "d": "2026-06-14",
+   "src": "뉴스1",
+   "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBieTN5YXBvSUJ3Rnh3cmxzY0FScVgtcVp1S0dhVnp1V1k2UFhKbXFfNWJ2SXJGeTdCZVFNVWVTUTYxMnB2Znk2dTAzal9URlRVMWRBQXI2OEplUQ?oc=5",
+   "tg": [
+    "리더십"
+   ],
+   "org": "시도교육감협의회",
+   "cat": "policy"
+  }
+ ],
  "stance": [
+  {
+   "t": "교총 \"○○○ 장관 사퇴, 늦었지만 당연‥국가시험보안센터 설치해야\"",
+   "d": "2026-11-22",
+   "src": "MBC 뉴스",
+   "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBNVEpUbEdoQjc1TUU4Z0VoRG9nVUFraExGTFlpMmtuTmdYcmsyZUFnWjlacDU3U28zRHp5ZTRaMXN3TzVWTTl3ampfdUpQYUF3eXByZWNBME5jVjZzVGVYeUVwYkNNM01hRjVRYXNoYWo4UlBua29z0gF3QVVfeXFMUE1USlRsR2hCNzVNRThnRWhEb2dVQWtoTEZMWWkya25OZ1hyazJlQWdaOVpwNTdTbzNEenllNFoxc3dPNVZNOXdqal91SlBhQXd5cHJlY0EwTmNWNnNUZVh5RXBiQ00zTWFGNVFhc2hhajhSUG5rb3M?oc=5",
+   "tg": [
+    "성명·입장",
+    "평가·입시"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "제주교총, AI 부정행위 막을 근본 대책 마련해야",
+   "d": "2026-11-22",
+   "src": "제주MBC",
+   "u": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE83dzQtSGJ1WEV0VERJWG85LXp0ajkwOGNmMEplNzBxQkMxT2kwMlVHUE1BelpSd1c3N0dBNXlIZEhuOVZBVHlWZUg1NUxqMkU?oc=5",
+   "tg": [
+    "성명·입장",
+    "AI·디지털"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
   {
    "t": "'○○○ 사퇴'에 친정 전교조 \"AI 대응할 교육부 장관 인선해야\"",
    "d": "2026-11-22",
@@ -1042,6 +3399,42 @@
    "cat": "union"
   },
   {
+   "t": "전교조 \"장관 교체만으로 교육개혁 못 해‥입시 중심 교육체제 전환해야\"",
+   "d": "2026-11-22",
+   "src": "MBC 뉴스",
+   "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB6NVo4clh3UVNZRTVuVE1sU0I3RThNNDJ0anNObWREbGI4VmRaVHJUR2ZlcHlrOTdWVk04MTNBZFZPd0QxYlo1a2Eta0J3dFJLbVF5aUtCTWd0bnB1RUlLZ3hiX1ZtMWJZVWU2SkpJSk5id1RCaThN0gF3QVVfeXFMT2NvR1Y5QjJLSW1NVmh5TFNycF9CUkJuYjZsREVNVjVGZFNIVlJvdTdiWjlXeXlrZU5TNnV6ekw0SzRGMkx2M3NRZUlhZC1YSDBlOUJBUU5KN3BhbExINmpyVnVjcy1IeTlza1RMUW1RMzV3QWNaeTg?oc=5",
+   "tg": [
+    "성명·입장",
+    "평가·입시"
+   ],
+   "org": "전교조",
+   "cat": "union"
+  },
+  {
+   "t": "'○○○ 사퇴'에 친정 전교조 \"AI 대응할 교육부 장관 인선해야\" - 머니투데이",
+   "d": "2026-11-22",
+   "src": "머니투데이",
+   "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5tWWZOdU9DSy1UVVNtbjBrSGhwbVMyOFFtQkM3M1Y3S1lPcFBFNFpIN3Q2RS1YSmU5aTZDTjRUR1RsVVdHbWY4RjRqaV9PZURxUHlVZUstdmpNVDJmaE1YOHJEQVJCbDhYb0HSAW9BVV95cUxQUEZqZW5PVnd2aGlTTlNxNEhMM3VwWnpER05EYlNkbWN0NGxPY2NBdlJla1RkZUFLZkxhZFJzSGZ1ZXFScmRvb3VmZVcybVpjVUFNRmFrWkNfQlN2U3NEeWliY3NLbVVJZFJlTC1BOGM?oc=5",
+   "tg": [
+    "성명·입장",
+    "AI·디지털"
+   ],
+   "org": "전교조",
+   "cat": "union"
+  },
+  {
+   "t": "'○○○ 친정' 전교조 \"수능 위기 대응 리더십에 한계\" 비판",
+   "d": "2026-11-22",
+   "src": "노컷뉴스",
+   "u": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE53d211RWZqSWo0Tl9FRVFtVExzNGU4dlk2bVFTSnBZQjlhR2dlQWV3WkNRWXQ0MUFNMXQxUHFpdEdCdlU3cEVGQ0VIT3JGN004Qmc?oc=5",
+   "tg": [
+    "성명·입장",
+    "평가·입시"
+   ],
+   "org": "전교조",
+   "cat": "union"
+  },
+  {
    "t": "전북교총 “학생 주소·통학버스 노선까지 유출…전북교육청, 학생 안전대책 마련해야”",
    "d": "2026-11-20",
    "src": "데일리시큐",
@@ -1053,26 +3446,86 @@
    "cat": "union"
   },
   {
-   "t": "좋은교사운동 제주모임 등, 도교육청 조직개편 조례안 부결 반발",
-   "d": "2026-10-27",
-   "src": "제주일보",
-   "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9IaDBZZ05SZjUtb1lmOE1lbmRWcFFsMWZjVnVpc3BSSllqVmlmYTJ6WjZORVo1a1lFNzdMT3A5OVB0cjZzR0otMlN3UlNkTS1rZUJyLXNZLVloR2x3VkRYTUZBWWdKcFhpUGlZZw?oc=5",
+   "t": "제주교총 \"2026·27학년도 수능 공정성 철저히 검증해야...시험 관리대책 마련하라\"",
+   "d": "2026-11-20",
+   "src": "헤드라인제주",
+   "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9KNi16Q1RJY1ZzMVRYY3poaFBUaXVYb0tmZkxJUFhBSm1HaUZOZFRUbG1ndkdDUVdVYUxRR2JHeFJDMGxqYTJMNTVBcDl3NGltSXR2U3plbUFRTE5IMFhpWmpMeHpoRXJsWm9peXFxbUlCeFE?oc=5",
    "tg": [
-    "성명·입장"
+    "성명·입장",
+    "평가·입시"
    ],
-   "org": "좋은교사운동",
+   "org": "한국교총",
    "cat": "union"
   },
   {
-   "t": "실천교육교사모임 “경기도교육청의 악성 민원인 형사 고발 환영”",
-   "d": "2026-08-12",
-   "src": "인천투데이",
-   "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB3X3pwWllmMHJIb2tGV0JKZWJJV2hZemtJTFJUc1lQWXZwVnFfSzdCM2RSNTdWVWZIbk1GSGxpMHVxTWxGSU9oeGhwOVZzazgwelY4cnpzOGxCbWJHVHEyczdtOUZTekR4S1hZLVJtZUU?oc=5",
+   "t": "○○교총 “학생 주소·통학버스 노선까지 유출…○○교육청, 학생 안전대책 마련해야”",
+   "d": "2026-11-20",
+   "src": "데일리시큐",
+   "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE51QWxiRUFMZVljTVQwQno3Wnc0cjZ3NjB5QTRrSThHTFRYMmlqb0V0UGs5UjhWUDdMbVRFZjZId1FMWWxkNEFlSlRtc1hlb3RJUjhDZVN0endUaS1ubXVaZ0NRR1R5ZFA1TXViSQ?oc=5",
+   "tg": [
+    "성명·입장"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "○○교총, 개인정보 유출에 \"학생 안전대책 강화해야\"",
+   "d": "2026-11-20",
+   "src": "노컷뉴스",
+   "u": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE55UkhITHktZk5JdHhTQTNVLUN6cDBKQmJqYTVUV2V5X3NTSXFiX0xXSExiNlBIbHkxTk1LZWVKaVJveGhsamRPVmZjXy1sSW94VkE?oc=5",
+   "tg": [
+    "성명·입장"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "교총, 수능 공정성 검증·국가시험보안센터 신설 촉구",
+   "d": "2026-11-20",
+   "src": "한국교육신문",
+   "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1mR0Y0V0pjWE9yQTF5ZzVlMmd3bGYyZjRsaV9ITXF2cUZTSHhIN1gwVHk4S192cFQzLW1ldTFBYjVoRWFzRExxQ2djWkhKVUt4UnZGbGF4MU53Vk1FRkVV?oc=5",
    "tg": [
     "성명·입장",
-    "교권·처우"
+    "평가·입시"
    ],
-   "org": "실천교육교사모임",
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "제주교총 \"수능 공정성 검증해야...AI 부정행위 대책 시급\"",
+   "d": "2026-11-20",
+   "src": "뉴스제주",
+   "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5UemI4MXAtSUxPZDJXd2FUUWJoQWhnUWJZbnFQUzNEYVZ4SWNUVkxhSXV1NG1XSmZUZE5wdVBYLXpEU1Q2Z2VYOHYwZVBnLTlVZmZ0TDE5VkNsYWRHN0x1c2dVZ1VzNkVsUnhZ?oc=5",
+   "tg": [
+    "성명·입장",
+    "AI·디지털",
+    "평가·입시"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "제주교총 “수능 공정성 검증하고 AI 부정행위 근본 대책 마련해야”",
+   "d": "2026-11-20",
+   "src": "일간제주",
+   "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1NRE5RS0d6dmI5ZU92QUhCY25kVGRjR29lQlpacXZJa0MzQ1lISnNFVmNsWTJ2NUdzTkJQWDM2ZHEtOWMyUkV6T09CaXV5QzdfMFFhZzB1WFZWcmtOdHU5WTVOTFZVYVdONUQ4?oc=5",
+   "tg": [
+    "성명·입장",
+    "AI·디지털",
+    "평가·입시"
+   ],
+   "org": "한국교총",
+   "cat": "union"
+  },
+  {
+   "t": "충남교총, 청양군 아침 간편식 사업 철회 요구",
+   "d": "2026-11-18",
+   "src": "OhmyNews",
+   "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1DTFBxWUxxdFRHRGQzbmZ6WW1yUzhQcV9oRG53cndqRXJISE5xaWRNdVNfZmZhNVQwRXpVdGZ5eVRVd085Q1luN01ydzZfMlBQWm1mdVNuWE5BNDZyWm9SRnpMR0xsRTBtQkhhZ1V6d21DSV93eTJn?oc=5",
+   "tg": [
+    "성명·입장"
+   ],
+   "org": "한국교총",
    "cat": "union"
   }
  ]
