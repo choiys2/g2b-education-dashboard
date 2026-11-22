@@ -23,6 +23,12 @@ ALIAS = [("테크빌", "티처빌"), ("아이스크림", "아이스크림"), ("�
 FAMILY = {"KERIS 입찰": "KERIS", "KERIS 낙찰": "KERIS"}
 
 
+def _typ(v):
+    """원자료의 자리표시('유형 확인 필요' 등)는 화면에 내보내지 않는다."""
+    v = (v or "").strip()
+    return "" if ("확인" in v or v in ("-", "?")) else v
+
+
 def corp(n):
     n = CORP_RE.sub("", (n or "").strip()).strip()
     return next((v for k, v in ALIAS if k in n), n)
@@ -110,7 +116,7 @@ def build(branch=None, adoption=None, aiep=None, programs=None, industry=None, o
             for c in r.get("codes") or []:
                 s = sgg(c)
                 if s:
-                    link(pn, s, "지역 연계 사업", f"{r['sido']} {r['sgg']} {r.get('type', '')} · {r.get('pitch', '')}")
+                    link(pn, s, "지역 연계 사업", " · ".join(x for x in (f"{r['sido']} {r['sgg']}", _typ(r.get('type')), r.get('pitch', '')) if x))
                     link(s, f"시도:{r['sido']}", "지역 연계 사업")
     # 6) 지역 총판(로그인): 총판 - 시군
     for r in (branch or {}).get("rows") or []:
@@ -159,10 +165,17 @@ def build(branch=None, adoption=None, aiep=None, programs=None, industry=None, o
             ai = sum(((geo or {}).get("ai") or {}).get(c, 0) for c in cs)
             if op >= 10 or ai >= 5:
                 bs = sorted({b for c in cs for b in br_by[c]})
+                ty = _typ(r.get("type"))
+                parts = [pg["name"]] + ([f"전환 대상 {op}교"] if op else []) + ([f"AI 중점학교 {ai}곳"] if ai else [])
+                body = f"{pg['name']}{'(' + ty + ')' if ty else ''} 지정 시군입니다. "
+                if u:  # 채택 자료가 있을 때만 채택·전환 숫자를 쓴다(0/0 표기 금지)
+                    body += f"비바샘 회원은 있고 비상 교과서는 안 쓰는 학교가 {op}곳(채택 {a}/{u}교). "
+                if ai:
+                    body += f"AI 중점학교가 {ai}곳 있습니다. "
+                body += f"{('관할 총판 ' + ', '.join(bs[:2]) + '와 ') if bs else ''}사업비 연계 연수{' + 교과서 전환' if op else ''} 제안을 묶을 수 있습니다."
                 ins.append({"score": op * 2 + ai * 3 + 10, "kind": "시군 결합 기회", "tab": "pipeline", "anchor": "rpPanel",
-                            "title": f"{r['sido']} {r['sgg']} — {pg['name']} × 전환 대상 {op}교 × AI 중점 {ai}교",
-                            "body": f"{pg['name']}({r.get('type', '')}) 시군인데 비바샘 회원은 있고 비상 교과서는 안 쓰는 학교가 {op}곳(채택 {a}/{u}교). "
-                                    f"{('관할 총판 ' + ', '.join(bs[:2]) + '와 ') if bs else ''}사업비 연계 연수 + 교과서 전환 제안을 묶을 수 있습니다.",
+                            "title": f"{r['sido']} {r['sgg']} — " + " × ".join(parts),
+                            "body": body,
                             "keys": [f"시군:{gname[c][0]} {gname[c][1]}" for c in cs if c in gname][:1] + [f"시도:{r['sido']}", f"사업:{pg['name']}"]})
     # 시도: AIEP 활용 연수 공고 + 높은 채택률
     sd_ad = defaultdict(lambda: [0, 0])
@@ -199,11 +212,12 @@ def build(branch=None, adoption=None, aiep=None, programs=None, industry=None, o
                         "title": f"{c['sido']} '{c.get('topic')}' 기회점수 {c.get('score')} × 지역 연계 사업 시군 {prog_sd[c['sido']]}곳",
                         "body": f"교육청 공고 수요가 큰 주제를 지역 사업 시군의 사업비 연수로도 제안할 수 있습니다. {c.get('action', '')}",
                         "keys": [f"시도:{c['sido']}"]})
-    seen, out = set(), []
+    seen, out, per = set(), [], Counter()
     for x in sorted(ins, key=lambda x: -x["score"]):
-        if x["title"] in seen:
+        if x["title"] in seen or per[x["kind"]] >= 4:  # 같은 종류가 화면을 채우지 않게 종류당 4개까지
             continue
         seen.add(x["title"])
+        per[x["kind"]] += 1
         out.append(x)
     E = [{"a": a, "b": b, "n": e["n"], "src": sorted(e["src"])} for (a, b), e in edges.items()]
     N = [n for n in nodes.values() if n["w"]]

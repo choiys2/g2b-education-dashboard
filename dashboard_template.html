@@ -2446,7 +2446,7 @@ document.addEventListener('click', function (e) {
       <div class="icon">i</div>
       <div>
         <h3>관계망 — 지역 · 경쟁사 · 발주기관 · 비바샘연수원</h3>
-        <p>나라장터 종합 탭의 경쟁사 데이터를 노드-링크 그래프로 그렸습니다. 경쟁사는 자신의 주요지역·주요수주기관과 연결되고, 비바샘연수원(강조 노드)은 실제 활동 중인 지역과 연결됩니다. 노드를 드래그해서 재배치할 수 있습니다.</p>
+        <p>낙찰 상위 경쟁사 12곳이 어느 지역·어느 발주기관에서 주로 수주하는지, 비바샘연수원이 활동 중인 지역과 어디서 겹치는지 보여줍니다. <b>주황 테두리 = 경합 지역</b>(자사 활동 + 경쟁사 주요 지역). 점을 누르면 연결된 것만 강조되고, 끌어서 옮길 수 있습니다. 위 '생태계 연결'은 모든 자료를 잇는 탐색기, 이 그림은 경쟁 구도 요약입니다.</p>
       </div>
     </div>
 
@@ -7890,7 +7890,7 @@ window.__ownerQ.push(function renderExec(){
       if (!c.available) return;
       const s = c.standalone || c.consolidated;
       const debtRatio = s && s.debt_ratio != null ? Number(s.debt_ratio) : null;
-      const avgRate = (g2b.competitor_totals[name] || {}).avg_rate;
+      const avgRate = ((g2b.competitor_totals || {})[name] || {}).avg_rate;
       if (debtRatio == null) return;
       if (debtRatio >= 200 && avgRate != null) {
         lines.push(`<b>${name}</b>은 부채비율 ${debtRatio.toFixed(0)}%로 재무 레버리지가 높은 편이고, 나라장터 평균 낙찰률은 ${avgRate}%입니다 — 낙찰률이 낮게 유지된다면 저가 수주로 매출을 방어하고 있을 가능성을 살펴볼 만합니다.`);
@@ -7997,7 +7997,7 @@ window.__ownerQ.push(function renderExec(){
       const health = debtRatio == null ? 0 : Math.max(0, 100 - Math.min(debtRatio, 200) / 2);
       const activity = name === '비바샘연수원'
         ? (PIPE.records || []).length
-        : (g2b.competitor_totals[name] || {}).deal_count || 0;
+        : ((g2b.competitor_totals || {})[name] || {}).deal_count || 0;
       const naverRows = naverC[name] || [];
       const searchInterest = naverRows.length
         ? naverRows.slice(-3).reduce((s, d) => s + d.ratio, 0) / Math.min(3, naverRows.length)
@@ -8672,113 +8672,84 @@ window.__ownerQ.push(function renderExec(){
   input.addEventListener('input', search);
 })();
 
-/* ================= 관계망 (force-directed graph, pure JS) ================= */
+/* ================= 관계망 (force-directed graph, pure JS) =================
+   경쟁사 상위 12곳 ─ 주요 지역·주요 발주기관, 비바샘연수원 ─ 활동 지역. 같은 지역에 자사·경쟁사가 함께 걸리면 '경합 지역'(주황 테두리).
+   배치는 고정 난수(매번 같은 모양), 이름은 모두 이스케이프, 점을 누르거나 올리면 이웃만 강조. */
 (function networkGraph(){
-  const svg = document.getElementById('networkSvg');
+  const svg = document.getElementById('networkSvg'); if (!svg) return;
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const W = 1160, H = 620, CX = W/2, CY = H/2;
-
-  const nodes = [];
-  const edges = [];
-  const nodeIndex = {};
-  function addNode(id, type, label){
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const nodes = [], edges = [], nodeIndex = {};
+  function addNode(id, type, label, full){
     if (nodeIndex[id] !== undefined) return nodeIndex[id];
-    const idx = nodes.length;
-    const angle = Math.random()*Math.PI*2, r = 80 + Math.random()*180;
-    nodes.push({ id, type, label, x: CX+Math.cos(angle)*r, y: CY+Math.sin(angle)*r, vx:0, vy:0 });
-    nodeIndex[id] = idx;
-    return idx;
+    const angle = rnd()*Math.PI*2, r = 80 + rnd()*180;
+    nodes.push({ id, type, label, full: full || label, x: CX+Math.cos(angle)*r, y: CY+Math.sin(angle)*r, vx:0, vy:0, self:false, comp:0 });
+    return (nodeIndex[id] = nodes.length - 1);
   }
-  function addEdge(a, b){ edges.push([a,b]); }
-
-  addNode('__self__', 'self', '비바샘연수원');
-  const topComp = G2B_FULL.competitor.slice(0, 12);
-  topComp.forEach(c => {
+  const addEdge = (a, b, kind) => edges.push([a, b, kind]);
+  let comps = [], pipe = [];
+  try { comps = (G2B_FULL.competitor || []).slice(0, 12); } catch (e) { comps = []; }
+  try { pipe = (PIPE.byRegion || []).filter(r => r.own_count > 0); } catch (e) { pipe = []; }
+  if (!comps.length && !pipe.length) { svg.outerHTML = '<p style="color:var(--muted);font-size:13px;padding:20px;">데이터 준비 중</p>'; return; }
+  const selfI = addNode('__self__', 'self', '비바샘연수원');
+  nodes[selfI].x = CX; nodes[selfI].y = CY;
+  comps.forEach(c => {
     const cIdx = addNode('comp:'+c.낙찰업체, 'comp', c.낙찰업체);
-    if (c.주요지역 && c.주요지역 !== '-') {
-      const rIdx = addNode('region:'+c.주요지역, 'region', c.주요지역);
-      addEdge(cIdx, rIdx);
-    }
-    if (c.주요수주기관 && c.주요수주기관 !== '-') {
-      const oIdx = addNode('org:'+c.주요수주기관, 'org', c.주요수주기관.length>14 ? c.주요수주기관.slice(0,13)+'…' : c.주요수주기관);
-      addEdge(cIdx, oIdx);
-    }
+    if (c.주요지역 && c.주요지역 !== '-') { const rIdx = addNode('region:'+c.주요지역, 'region', c.주요지역); nodes[rIdx].comp++; addEdge(cIdx, rIdx, '주요 지역'); }
+    if (c.주요수주기관 && c.주요수주기관 !== '-') { const o = String(c.주요수주기관).trim().split(/\s+/).pop(); addEdge(cIdx, addNode('org:'+o, 'org', o.length > 12 ? o.slice(0, 11)+'…' : o, o), '주요 발주기관'); }
   });
-  PIPE.byRegion.filter(r=>r.own_count>0).forEach(r => {
-    const rIdx = addNode('region:'+r.region, 'region', r.region);
-    addEdge(nodeIndex['__self__'], rIdx);
-  });
-
-  const REPEL = 2400, SPRING = 0.012, REST_LEN = 90, DAMP = 0.86, GRAVITY = 0.0025;
-  for (let iter = 0; iter < 260; iter++) {
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i+1; j < nodes.length; j++) {
-        let dx = nodes[j].x - nodes[i].x, dy = nodes[j].y - nodes[i].y;
-        let d2 = dx*dx + dy*dy || 0.01;
-        let d = Math.sqrt(d2);
-        const f = REPEL / d2;
-        const fx = (dx/d)*f, fy = (dy/d)*f;
-        nodes[i].vx -= fx; nodes[i].vy -= fy;
-        nodes[j].vx += fx; nodes[j].vy += fy;
-      }
+  pipe.forEach(r => { const rIdx = addNode('region:'+r.region, 'region', r.region); nodes[rIdx].self = true; addEdge(selfI, rIdx, `자사 활동(${r.own_count}건)`); });
+  const REPEL = 2600, SPRING = 0.012, REST_LEN = 95, DAMP = 0.86, GRAVITY = 0.0025;
+  for (let iter = 0; iter < 300; iter++) {
+    for (let i = 0; i < nodes.length; i++) for (let j = i+1; j < nodes.length; j++) {
+      const dx = nodes[j].x - nodes[i].x, dy = nodes[j].y - nodes[i].y, d2 = dx*dx + dy*dy || 0.01, d = Math.sqrt(d2), f = REPEL / d2;
+      nodes[i].vx -= dx/d*f; nodes[i].vy -= dy/d*f; nodes[j].vx += dx/d*f; nodes[j].vy += dy/d*f;
     }
-    edges.forEach(([a,b]) => {
-      const na = nodes[a], nb = nodes[b];
-      const dx = nb.x-na.x, dy = nb.y-na.y;
-      const d = Math.sqrt(dx*dx+dy*dy) || 0.01;
-      const f = (d - REST_LEN) * SPRING;
-      const fx = (dx/d)*f, fy = (dy/d)*f;
-      na.vx += fx; na.vy += fy;
-      nb.vx -= fx; nb.vy -= fy;
-    });
-    nodes.forEach(n => {
-      n.vx += (CX-n.x)*GRAVITY; n.vy += (CY-n.y)*GRAVITY;
-      n.vx *= DAMP; n.vy *= DAMP;
-      n.x += n.vx; n.y += n.vy;
-      n.x = Math.max(30, Math.min(W-30, n.x));
-      n.y = Math.max(30, Math.min(H-30, n.y));
-    });
+    edges.forEach(([a,b]) => { const na = nodes[a], nb = nodes[b], dx = nb.x-na.x, dy = nb.y-na.y, d = Math.sqrt(dx*dx+dy*dy) || 0.01, f = (d - REST_LEN) * SPRING;
+      na.vx += dx/d*f; na.vy += dy/d*f; nb.vx -= dx/d*f; nb.vy -= dy/d*f; });
+    nodes.forEach((n, i) => { if (i === selfI) { n.vx = n.vy = 0; return; }
+      n.vx += (CX-n.x)*GRAVITY; n.vy += (CY-n.y)*GRAVITY; n.vx *= DAMP; n.vy *= DAMP; n.x += n.vx; n.y += n.vy;
+      n.x = Math.max(60, Math.min(W-60, n.x)); n.y = Math.max(34, Math.min(H-34, n.y)); });
   }
-
+  const nb = nodes.map(() => new Set()); edges.forEach(([a,b]) => { nb[a].add(b); nb[b].add(a); });
   const COLOR = { self:'var(--accent-2)', comp:'var(--accent)', region:'var(--muted)', org:'var(--good)' };
-  const RADIUS = { self:16, comp:11, region:7, org:8 };
-
+  const RADIUS = { self:18, comp:11, region:8, org:8 };
+  const TYPE = { self:'자사', comp:'경쟁사', region:'지역', org:'발주기관' };
+  let focus = null;
   function render(){
-    let lines = '';
-    edges.forEach(([a,b]) => {
-      lines += `<line x1="${nodes[a].x}" y1="${nodes[a].y}" x2="${nodes[b].x}" y2="${nodes[b].y}" stroke="var(--border)" stroke-width="1.4"/>`;
-    });
-    let circles = '';
+    const on = i => focus === null || i === focus || nb[focus].has(i);
+    let lines = '', circles = '';
+    edges.forEach(([a,b,k]) => { const hi = focus !== null && (a === focus || b === focus);
+      lines += `<line x1="${nodes[a].x.toFixed(1)}" y1="${nodes[a].y.toFixed(1)}" x2="${nodes[b].x.toFixed(1)}" y2="${nodes[b].y.toFixed(1)}" stroke="${a === selfI ? 'var(--accent-2)' : 'var(--border)'}" stroke-width="${hi ? 3 : a === selfI ? 2 : 1.4}" stroke-dasharray="${k === '주요 발주기관' ? '4 3' : ''}" opacity="${focus === null || hi ? 1 : .15}"/>`; });
     nodes.forEach((n, i) => {
-      const r = RADIUS[n.type];
-      circles += `<g class="net-node" data-i="${i}" style="cursor:grab;">
-        <circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${COLOR[n.type]}" stroke="var(--surface)" stroke-width="2"/>
-        <text x="${n.x}" y="${n.y - r - 5}" text-anchor="middle" font-size="${n.type==='self'?12:10}" fill="var(--ink-2)" font-weight="${n.type==='self'?800:600}">${n.label}</text>
+      const r = RADIUS[n.type], war = n.type === 'region' && n.self && n.comp;
+      const links = [...nb[i]].map(j => nodes[j].full);
+      const tip = `<b>${esc(TYPE[n.type])} · ${esc(n.full)}</b>${war ? '<br>⚔️ 경합 지역 — 자사 활동 + 경쟁사 ' + n.comp + '곳의 주요 지역' : ''}<br>연결: ${esc(links.slice(0, 8).join(', '))}${links.length > 8 ? ' 외 ' + (links.length - 8) : ''}`;
+      circles += `<g class="net-node" data-i="${i}" data-tip="${esc(tip)}" tabindex="0" role="button" aria-label="${esc(TYPE[n.type] + ' ' + n.full)}" style="cursor:grab;touch-action:none;opacity:${on(i) ? 1 : .2}">
+        ${war ? `<circle cx="${n.x.toFixed(1)}" cy="${n.y.toFixed(1)}" r="${r + 5}" fill="none" stroke="var(--warning)" stroke-width="2.5"/>` : ''}
+        <circle cx="${n.x.toFixed(1)}" cy="${n.y.toFixed(1)}" r="${r}" fill="${COLOR[n.type]}" stroke="var(--surface)" stroke-width="2"/>
+        <text x="${n.x.toFixed(1)}" y="${(n.y + r + 13).toFixed(1)}" text-anchor="middle" font-size="${n.type==='self'?13:11}" fill="var(--ink)" font-weight="${n.type==='self'||n.type==='comp'?800:600}" paint-order="stroke" stroke="var(--surface)" stroke-width="4">${esc(n.label)}</text>
       </g>`;
     });
     svg.innerHTML = lines + circles;
   }
   render();
-
-  // 드래그로 재배치
-  let dragging = null;
-  const ptToSvg = (evt) => {
-    const rect = svg.getBoundingClientRect();
-    return { x: (evt.clientX-rect.left)/rect.width*W, y: (evt.clientY-rect.top)/rect.height*H };
-  };
-  svg.addEventListener('pointerdown', e => {
-    const g = e.target.closest('.net-node');
-    if (!g) return;
-    dragging = +g.dataset.i;
-    svg.setPointerCapture(e.pointerId);
-  });
-  svg.addEventListener('pointermove', e => {
-    if (dragging === null) return;
-    const p = ptToSvg(e);
-    nodes[dragging].x = p.x; nodes[dragging].y = p.y;
-    nodes[dragging].vx = 0; nodes[dragging].vy = 0;
-    render();
-  });
-  ['pointerup','pointerleave'].forEach(evt => svg.addEventListener(evt, () => { dragging = null; }));
+  const war = nodes.filter(n => n.type === 'region' && n.self && n.comp).map(n => n.full);
+  const leg = svg.closest('section') && svg.closest('section').querySelector('.network-legend');
+  if (leg) leg.insertAdjacentHTML('beforeend', `<span><i style="background:transparent;border:2.5px solid var(--warning);"></i>경합 지역(자사+경쟁사)</span><span style="color:var(--muted);">실선 = 주요 지역·자사 활동 · 점선 = 주요 발주기관 · 점을 누르면 이웃만 강조, 끌어서 옮기기</span>`
+    + (war.length ? `<div style="flex-basis:100%;font-size:12.5px;margin-top:4px;"><b>⚔️ 경합 지역 ${war.length}곳</b> ${esc(war.join(' · '))} — 자사가 활동 중인데 경쟁사 상위 업체의 주요 지역이기도 한 곳</div>` : '')
+    + (pipe.length ? '' : `<div style="flex-basis:100%;font-size:12.5px;color:var(--muted);">비바샘연수원 활동 지역: 데이터 준비 중</div>`));
+  // 드래그로 재배치(움직임 4px 미만이면 '누름'으로 보고 이웃 강조 전환)
+  let dragging = null, moved = 0, start = null;
+  const ptToSvg = evt => { const rect = svg.getBoundingClientRect(); return { x: (evt.clientX-rect.left)/rect.width*W, y: (evt.clientY-rect.top)/rect.height*H }; };
+  svg.addEventListener('pointerdown', e => { const g = e.target.closest('.net-node'); if (!g) { if (focus !== null) { focus = null; render(); } return; }
+    dragging = +g.dataset.i; moved = 0; start = ptToSvg(e); svg.setPointerCapture(e.pointerId); });
+  svg.addEventListener('pointermove', e => { if (dragging === null) return; const p = ptToSvg(e); moved = Math.max(moved, Math.hypot(p.x - start.x, p.y - start.y));
+    if (moved < 4) return; nodes[dragging].x = Math.max(20, Math.min(W-20, p.x)); nodes[dragging].y = Math.max(20, Math.min(H-20, p.y)); render(); });
+  svg.addEventListener('pointerup', () => { if (dragging !== null && moved < 4) { focus = focus === dragging ? null : dragging; render(); } dragging = null; });
+  svg.addEventListener('pointercancel', () => { dragging = null; });
+  svg.addEventListener('keydown', e => { const g = e.target.closest('.net-node'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); const i = +g.dataset.i; focus = focus === i ? null : i; render(); } });
 })();
 
 /* ================= 베타 기능 (경쟁사 트렌드 / 파이프라인 모멘텀) ================= */
@@ -10486,42 +10457,76 @@ window.__renderPdfx = function(root, P){
   const sec = document.createElement('section'); sec.className = 'panel'; sec.id = 'ecoPanel';
   sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">생태계 연결 — 흩어진 데이터를 한 지도로<span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;">노드 ${(E.nodes || []).length.toLocaleString()} · 연결 ${(E.edges || []).length.toLocaleString()} · 매일 갱신</span></p>
     <p class="panel-desc">연수 공고·경쟁사 낙찰·KERIS 입찰·시도 AIEP·지역 연계 사업·지역 총판·교과서 채택·기업·대학 트렌드를 시도·시군·기관·기업·사업·플랫폼 키로 이었습니다. 여러 데이터에 동시에 걸리는 지점을 '연결 인사이트'로 뽑고, 아래 탐색기에서 아무 항목이나 골라 연결된 모든 근거를 봅니다.</p></div></div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px;margin-bottom:10px;">${Object.entries(E.kinds || {}).map(([k, v]) => `<span style="padding:2px 9px;border-radius:99px;background:color-mix(in srgb, ${KC[k] || '#94a3b8'} 20%, var(--surface-2));"><b>${h(k)}</b> ${v}</span>`).join('')}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px;margin-bottom:10px;">${Object.entries(E.kinds || {}).map(([k, v]) => `<button type="button" class="eco-kc" data-ek="${h(k)}" title="${h(k)}만 골라 찾기" style="background:color-mix(in srgb, ${KC[k] || '#94a3b8'} 20%, var(--surface-2));"><b>${h(k)}</b> ${v}</button>`).join('')}</div>
     <div style="font-weight:800;font-size:14px;margin-bottom:6px;">연결 인사이트 <span style="font-size:11.5px;color:var(--muted);font-weight:500;">여러 데이터가 겹치는 곳 · 점수순 · 카드를 누르면 탐색기에서 연결을 봅니다</span></div>
     <div id="ecoIns" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:8px;"></div>
+    ${(E.insights || []).length > 6 ? `<button type="button" class="pill" id="ecoMore" style="margin-top:8px;">인사이트 ${Math.min(12, E.insights.length) - 6}개 더 보기</button>` : ''}
     <div style="font-weight:800;font-size:14px;margin:16px 0 6px;">연결 탐색기</div>
-    <div class="filter-row" style="gap:8px;flex-wrap:wrap;"><select id="ecoKind"><option value="">종류 전체</option>${Object.keys(E.kinds || {}).map(k => `<option>${h(k)}</option>`).join('')}</select><input id="ecoQ" type="search" list="ecoList" placeholder="시도·시군·기관·기업·사업 이름" style="flex:1 1 220px;min-width:0;"><datalist id="ecoList"></datalist></div>
+    <div class="filter-row" style="gap:8px;flex-wrap:wrap;"><select id="ecoKind"><option value="">종류 전체</option>${Object.keys(E.kinds || {}).map(k => `<option>${h(k)}</option>`).join('')}</select><input id="ecoQ" type="search" list="ecoList" placeholder="이름 일부 입력 (예: 구미, 티처빌, 경기)" aria-label="연결 탐색기 검색" style="flex:1 1 220px;min-width:0;"><datalist id="ecoList"></datalist></div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;"><div id="ecoGraph" style="flex:1 1 460px;min-width:0;"></div><div id="ecoFacts" style="flex:1 1 320px;min-width:0;"></div></div>`;
   tab.prepend(sec);
   const $ = id => sec.querySelector('#' + id);
-  $('ecoIns').innerHTML = (E.insights || []).slice(0, 12).map((x, i) => `<div class="ecoCard" data-i="${i}" style="border:1px solid var(--border);border-left:4px solid ${x.kind.includes('시군') ? KC['시군'] : x.kind.includes('AIEP') ? KC['플랫폼'] : x.kind.includes('기업') ? KC['기업'] : KC['사업']};border-radius:10px;padding:8px 10px;cursor:pointer;">
+  $('ecoIns').innerHTML = (E.insights || []).slice(0, 12).map((x, i) => `<div class="ecoCard${i >= 6 ? ' eco-extra' : ''}" data-i="${i}" style="border:1px solid var(--border);border-left:4px solid ${x.kind.includes('시군') ? KC['시군'] : x.kind.includes('AIEP') ? KC['플랫폼'] : x.kind.includes('기업') ? KC['기업'] : KC['사업']};border-radius:10px;padding:8px 10px;cursor:pointer;">
     <div style="font-size:10.5px;color:var(--muted);font-weight:700;">${h(x.kind)}</div><div style="font-weight:700;font-size:13px;margin:2px 0;">${h(x.title)}</div><div style="font-size:12px;color:var(--ink-2);line-height:1.5;">${h(x.body)}</div>
     ${x.tab ? `<button type="button" class="pill ecoGo" data-tab="${h(x.tab)}" data-a="${h(x.anchor || '')}" style="font-size:11px;margin-top:5px;">${h(TABN[x.tab] || x.tab)} 탭에서 보기 →</button>` : ''}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">아직 겹치는 지점이 없습니다.</p>';
-  let cur = (E.insights && E.insights[0] && E.insights[0].keys[0]) || 'sido:경기';
-  const fillList = () => { const k = $('ecoKind').value; $('ecoList').innerHTML = (E.nodes || []).filter(n => !k || n.kind === k).sort((a, b) => b.w - a.w).slice(0, 400).map(n => `<option value="${h(n.kind + ':' + n.name)}">`).join(''); };
-  function show(id){
-    const c = N[id]; if (!c) return; cur = id;
-    const nb = (adj[id] || []).slice().sort((a, b) => b.n - a.n), top = nb.slice(0, 28);
-    const W = 520, H = 420, cx = W / 2, cy = H / 2;
-    const pos = top.map((e, i) => { const a = (i / top.length) * Math.PI * 2 - Math.PI / 2, r = 150 + (i % 2) * 28; return {e, x: cx + Math.cos(a) * r * 1.15, y: cy + Math.sin(a) * r * .82}; });
-    $('ecoGraph').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" aria-label="${h(c.name)} 연결 그래프">
-      ${pos.map(p => `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="color-mix(in srgb, var(--ink) 25%, transparent)" stroke-width="${Math.min(5, 0.8 + p.e.n * .5)}"/>`).join('')}
-      ${pos.map(p => { const t = N[p.e.to] || {kind: '', name: p.e.to}; return `<g class="ecoN" data-id="${h(p.e.to)}" style="cursor:pointer;" data-tip="${h(`<b>${h(t.kind)} · ${h(t.name)}</b><br>근거 ${p.e.n}건 · ${h(p.e.src.join(', '))}`)}"><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${Math.min(14, 6 + Math.sqrt(t.w || 1))}" fill="${KC[t.kind] || '#94a3b8'}" stroke="var(--surface)" stroke-width="2"/><text x="${p.x.toFixed(1)}" y="${(p.y + 22).toFixed(1)}" text-anchor="middle" font-size="10" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="3">${h((t.name || '').slice(0, 12))}</text></g>`; }).join('')}
-      <circle cx="${cx}" cy="${cy}" r="26" fill="${KC[c.kind] || '#94a3b8'}" stroke="var(--surface)" stroke-width="3"/><text x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#fff">${h(c.kind)}</text>
-      <text x="${cx}" y="${cy + 44}" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="3">${h(c.name)}</text></svg>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:11px;">${Object.entries(KC).map(([k, v]) => `<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${v};margin-right:3px;"></span>${k}</span>`).join('')}</div>`;
-    const byK = {}; nb.forEach(e => { const t = N[e.to]; if (t) (byK[t.kind] = byK[t.kind] || []).push({t, e}); });
-    $('ecoFacts').innerHTML = `<div style="font-weight:800;font-size:14px;">${h(c.kind)} · ${h(c.name)} <span style="font-size:11.5px;color:var(--muted);font-weight:500;">연결 ${nb.length}곳</span></div>
-      ${Object.entries(byK).map(([k, a]) => `<div style="margin-top:6px;font-size:12px;"><b style="color:${KC[k] || 'inherit'};">${h(k)} ${a.length}</b> ${a.slice(0, 12).map(x => `<button type="button" class="pill ecoJump" data-id="${h(x.t.id)}" style="font-size:10.5px;padding:1px 7px;margin:1px;">${h(x.t.name)}${x.e.n > 1 ? ' ' + x.e.n : ''}</button>`).join('')}${a.length > 12 ? ' …' : ''}</div>`).join('')}
-      <div style="font-weight:700;font-size:12.5px;margin:10px 0 4px;">근거</div><div style="max-height:260px;overflow:auto;font-size:12px;">${(c.facts || []).map(f => `<div style="padding:3px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">${h(f.src)}</span> ${h(f.t)}</div>`).join('') || '<span style="color:var(--muted);">개별 근거 없음(연결만)</span>'}</div>`;
-    sec.querySelectorAll('.ecoN, .ecoJump').forEach(g => g.addEventListener('click', () => show(g.dataset.id)));
-    $('ecoQ').value = c.kind + ':' + c.name;
+  let cur = (E.insights && E.insights[0] && E.insights[0].keys[0]) || '시도:경기';
+  const KORD = Object.keys(KC), hist = [];
+  const label = n => n ? n.name : '';
+  const fillList = () => { const k = $('ecoKind').value; $('ecoList').innerHTML = (E.nodes || []).filter(n => !k || n.kind === k).sort((a, b) => b.w - a.w).slice(0, 400).map(n => `<option value="${h(n.name)}" label="${h(n.kind)}">`).join(''); };
+  // 이름 → 노드(종류 필터 우선, 같은 이름이면 연결 많은 쪽)
+  const find = v => { v = (v || '').trim().replace(/^[^:]{1,4}:/, ''); if (!v) return null; const k = $('ecoKind').value;
+    const pool = (E.nodes || []).filter(n => !k || n.kind === k); const by = f => pool.filter(f).sort((a, b) => b.w - a.w)[0];
+    return by(n => n.name === v) || by(n => n.name.startsWith(v)) || by(n => n.name.includes(v)) || null; };
+  function show(id, back){
+    const c = N[id]; if (!c) return; if (!back && cur && cur !== id && N[cur]) hist.push(cur); cur = id;
+    const all = (adj[id] || []).slice().sort((a, b) => b.n - a.n), MAX = ($('ecoGraph').clientWidth || 640) < 520 ? 12 : 20;
+    // 표시 대상: 연결 많은 순 상위 MAX → 종류별로 묶어 원 둘레에 부채꼴로 배치(같은 종류가 한쪽에 모인다)
+    const top = all.slice(0, MAX).sort((a, b) => (KORD.indexOf((N[a.to] || {}).kind) - KORD.indexOf((N[b.to] || {}).kind)) || b.n - a.n);
+    // 좌·우 두 줄 배치: 이름이 바깥쪽으로 붙어 서로 겹치지 않는다(종류 순서대로 위→아래)
+    const narrow = ($('ecoGraph').clientWidth || 640) < 520, n = top.length, W = narrow ? 400 : 640, fs = narrow ? 13 : 11;
+    const half = Math.ceil(n / 2), sp = narrow ? 30 : 26, H = Math.max(220, half * sp + 100), cx = W / 2, cy = (H - 40) / 2, ny = H - 34;  // ny: 가운데 이름표(맨 아래, 이름 줄과 안 겹침)
+    const rx = narrow ? 92 : 170;
+    const pos = top.map((e, i) => { const left = i >= half, j = left ? i - half : i, cnt = left ? n - half : half;
+      const y = cy + (j - (cnt - 1) / 2) * sp, bow = Math.abs(y - cy) / (H / 2);  // 위·아래로 갈수록 살짝 안쪽(둥근 모양)
+      return {e, side: left ? -1 : 1, x: cx + (left ? -1 : 1) * rx * (1 - .25 * bow * bow), y}; });
+    const maxN = Math.max(1, ...top.map(e => e.n));
+    const cut = s => { const m = narrow ? 6 : 12; return s.length > m ? s.slice(0, m - 1) + '…' : s; };
+    const nodeSvg = p => { const t = N[p.e.to] || {kind: '', name: p.e.to}, col = KC[t.kind] || '#94a3b8', rr = Math.min(narrow ? 9 : 11, 5 + Math.sqrt(t.w || 1) * .8);
+      const anc = p.side > 0 ? 'start' : 'end', lx = p.x + p.side * (rr + 5), ly = p.y + 4;
+      return `<g class="ecoN" data-id="${h(p.e.to)}" tabindex="0" role="button" aria-label="${h(t.kind + ' ' + t.name + ' 중심으로 보기')}" style="cursor:pointer;" data-tip="${h(`<b>${h(t.kind)} · ${h(t.name)}</b><br>근거 ${p.e.n}건 · ${h(p.e.src.join(', '))}<br><span style=\"opacity:.75\">누르면 이 항목을 중심으로 다시 그립니다</span>`)}">`
+        + `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${rr.toFixed(1)}" fill="${col}" stroke="var(--surface)" stroke-width="2"/>`
+        + `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anc}" font-size="${fs}" font-weight="600" fill="var(--ink)" paint-order="stroke" stroke="var(--surface)" stroke-width="4">${h(cut(t.name || ''))}${p.e.n > 1 ? ` <tspan fill="var(--muted)" font-size="10">×${p.e.n}</tspan>` : ''}</text></g>`; };
+    const nameW = Math.min(W - 40, 14 + [...c.name].length * 13);
+    const kinds = {}; top.forEach(e => { const k = (N[e.to] || {}).kind; if (k) kinds[k] = (kinds[k] || 0) + 1; });
+    $('ecoGraph').innerHTML = `<div class="eco-gbar">${hist.length ? `<button type="button" class="pill" data-eco="back">← ${h(cut(label(N[hist[hist.length - 1]])))}</button>` : ''}<span>점을 누르면 그 항목을 중심으로 다시 그립니다 · 선 굵기 = 근거 건수</span></div>`
+      + `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" aria-label="${h(c.name)} 연결 그래프">`
+      + pos.map(p => `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="${KC[(N[p.e.to] || {}).kind] || '#94a3b8'}" stroke-opacity=".45" stroke-width="${(1 + (p.e.n / maxN) * 4).toFixed(1)}"/>`).join('')
+      + pos.map(nodeSvg).join('')
+      + `<circle cx="${cx}" cy="${cy}" r="24" fill="${KC[c.kind] || '#94a3b8'}" stroke="var(--surface)" stroke-width="3"/>`
+      + `<line x1="${cx}" y1="${cy + 24}" x2="${cx}" y2="${ny}" stroke="${KC[c.kind] || '#94a3b8'}" stroke-width="1.5" stroke-dasharray="3 3"/><rect class="v3d-x" x="${(cx - nameW / 2).toFixed(1)}" y="${ny}" width="${nameW.toFixed(1)}" height="24" rx="12" fill="var(--surface)" stroke="${KC[c.kind] || '#94a3b8'}" stroke-width="1.5"/>`
+      + `<text x="${cx}" y="${ny + 17}" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">${h(c.name)}</text>`
+      + (n ? '' : `<text x="${cx}" y="${cy - 40}" text-anchor="middle" font-size="12" fill="var(--muted)">연결된 항목이 없습니다</text>`)
+      + `</svg><div class="eco-leg">${Object.entries(kinds).map(([k, v]) => `<span><i style="background:${KC[k]}"></i>${h(k)} ${v}</span>`).join('')}${all.length > MAX ? `<span class="eco-more">연결 ${all.length}곳 중 근거 많은 ${MAX}곳만 표시 — 전체는 오른쪽 목록</span>` : ''}</div>`;
+    const byK = {}; all.forEach(e => { const t = N[e.to]; if (t) (byK[t.kind] = byK[t.kind] || []).push({t, e}); });
+    const facts = (c.facts || []).filter(f => f.t && f.t.trim());
+    $('ecoFacts').innerHTML = `<div style="font-weight:800;font-size:15px;"><span class="eco-kb" style="background:${KC[c.kind] || '#94a3b8'}">${h(c.kind)}</span> ${h(c.name)} <span style="font-size:12px;color:var(--muted);font-weight:500;">연결 ${all.length}곳 · 근거 ${facts.length}건</span></div>`
+      + `<p style="font-size:11.5px;color:var(--muted);margin:4px 0 2px;">이름 옆 ×숫자 = 이어 준 근거 건수. 누르면 그 항목으로 이동합니다.</p>`
+      + Object.entries(byK).sort((a, b) => KORD.indexOf(a[0]) - KORD.indexOf(b[0])).map(([k, a]) => `<div class="eco-row"><b style="color:${KC[k] || 'inherit'};">${h(k)} ${a.length}</b><div>${a.slice(0, 15).map(x => `<button type="button" class="pill ecoJump" data-id="${h(x.t.id)}">${h(x.t.name)}${x.e.n > 1 ? ` <small>×${x.e.n}</small>` : ''}</button>`).join('')}${a.length > 15 ? `<details><summary>외 ${a.length - 15}곳 더 보기</summary>${a.slice(15, 80).map(x => `<button type="button" class="pill ecoJump" data-id="${h(x.t.id)}">${h(x.t.name)}</button>`).join('')}</details>` : ''}</div></div>`).join('')
+      + `<div style="font-weight:700;font-size:13px;margin:12px 0 4px;">근거 <span style="font-weight:500;color:var(--muted);font-size:11.5px;">어떤 자료에서 이어졌는지</span></div><div class="eco-facts">${facts.map(f => `<div><span class="eco-src">${h(f.src)}</span>${h(f.t)}</div>`).join('') || '<span style="color:var(--muted);">개별 근거 없음 — 다른 항목과의 연결로만 잡힌 항목입니다</span>'}</div>`;
+    $('ecoQ').value = c.name;
   }
-  sec.querySelectorAll('.ecoCard').forEach(cd => cd.addEventListener('click', ev => { if (ev.target.closest('.ecoGo')) return; const x = E.insights[+cd.dataset.i]; show(x.keys[0]); $('ecoGraph').scrollIntoView({behavior: 'smooth', block: 'center'}); }));
+  // 위임(다시 그려도 이벤트가 한 번만 걸린다): 그래프 점·목록 버튼·뒤로
+  sec.addEventListener('click', e => { const j = e.target.closest('.ecoN, .ecoJump'); if (j) { show(j.dataset.id); return; }
+    if (e.target.closest('[data-eco="back"]') && hist.length) show(hist.pop(), true); });
+  sec.addEventListener('keydown', e => { const j = e.target.closest('.ecoN'); if (j && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); show(j.dataset.id); } });
+  sec.querySelectorAll('.ecoCard').forEach(cd => cd.addEventListener('click', ev => { if (ev.target.closest('.ecoGo')) return; const x = E.insights[+cd.dataset.i]; const k = (x.keys || []).find(k => N[k]); if (k) show(k); $('ecoGraph').scrollIntoView({behavior: 'smooth', block: 'center'}); }));
   sec.querySelectorAll('.ecoGo').forEach(b => b.addEventListener('click', () => { if (typeof activateTab === 'function') activateTab(b.dataset.tab); const a = document.getElementById(b.dataset.a); if (a) setTimeout(() => a.scrollIntoView({behavior: 'smooth', block: 'start'}), 50); }));
+  sec.querySelectorAll('[data-ek]').forEach(b => b.addEventListener('click', () => { $('ecoKind').value = b.dataset.ek; fillList(); $('ecoQ').value = ''; $('ecoQ').focus(); }));
+  const more = $('ecoMore'); if (more) more.addEventListener('click', () => { sec.classList.add('eco-all'); more.remove(); });
   $('ecoKind').addEventListener('change', fillList);
-  $('ecoQ').addEventListener('change', () => { const v = $('ecoQ').value.trim(); const id = N[v] ? v : (E.nodes || []).find(n => (n.kind + ':' + n.name) === v || n.name === v || n.name.includes(v)); show(typeof id === 'string' ? id : id && id.id); });
-  fillList(); show(cur);
+  $('ecoQ').addEventListener('change', () => { if (N[cur] && $('ecoQ').value.trim() === N[cur].name) return;  // 그래프가 채운 값(포커스 이동 때 생기는 change)은 무시
+    const n = find($('ecoQ').value); if (n) show(n.id); else { $('ecoGraph').querySelector('.eco-gbar span').textContent = '찾는 이름이 없습니다 — 일부만 입력해도 됩니다'; } });
+  fillList(); if (!N[cur]) cur = ((E.nodes || []).slice().sort((a, b) => b.w - a.w)[0] || {}).id; const c0 = cur; cur = null; show(c0);
 })();
 </script>
 <script>
@@ -11093,6 +11098,18 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .province-shape:focus-visible{outline:none;filter:brightness(1.12) drop-shadow(0 0 0 var(--accent)) drop-shadow(0 0 3px var(--accent));}
 .gd-scene .gd-crop:focus-visible{filter:drop-shadow(0 0 4px var(--accent));}
 :is(.sx-q summary,.vm-tm,.vm-mini,[data-tm]):focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+/* 🕸️ 생태계 연결 탐색기 */
+.ecoCard.eco-extra{display:none;} .eco-all .ecoCard.eco-extra{display:block;}
+.eco-kc{appearance:none;font:inherit;font-size:12px;border:0;border-radius:99px;padding:3px 10px;cursor:pointer;color:var(--ink);} .eco-kc:hover{outline:2px solid var(--border);}
+.eco-gbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:11.5px;color:var(--muted);margin-bottom:4px;min-height:28px;}
+.eco-leg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11.5px;margin-top:4px;} .eco-leg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:-1px;} .eco-more{color:var(--muted);}
+.eco-kb{display:inline-block;font-size:11px;color:#fff;border-radius:99px;padding:1px 8px;vertical-align:2px;}
+.eco-row{display:flex;gap:8px;margin-top:7px;font-size:12px;align-items:flex-start;} .eco-row > b{flex:none;min-width:56px;padding-top:3px;}
+.eco-row .pill{font-size:11px;padding:2px 8px;margin:1px;} .eco-row small{color:var(--muted);} .eco-row details{display:inline;} .eco-row summary{display:inline;cursor:pointer;font-size:11px;color:var(--accent);margin-left:4px;}
+.eco-facts{max-height:280px;overflow:auto;font-size:12px;} .eco-facts > div{padding:4px 0;border-bottom:1px solid var(--border);line-height:1.5;}
+.eco-src{display:inline-block;font-size:10.5px;font-weight:700;color:var(--ink-2);background:var(--surface-2);border-radius:6px;padding:0 6px;margin-right:6px;}
+#ecoGraph .ecoN:focus{outline:none;} #ecoGraph .ecoN:focus circle,#ecoGraph .ecoN:hover circle{stroke:var(--ink);stroke-width:2.5;}
+@media (pointer:coarse){.eco-row .pill{min-height:34px;padding:4px 10px;} .eco-kc{min-height:34px;}}
 /* 📰 CP 키메시지 띠 · 📱 이번 주 스토리 */
 .km-bar{margin:12px 0;padding:8px 10px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(120deg,var(--surface),color-mix(in srgb,var(--market) 7%,var(--surface)));box-shadow:0 12px 24px -22px rgba(15,23,42,.6);}
 body:has(#panel-admin.active) .km-bar{display:none;}
