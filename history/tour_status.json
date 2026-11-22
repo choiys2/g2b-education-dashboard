@@ -1,5 +1,5 @@
 {
- "at": "2026-11-22 13:08",
+ "at": "2026-11-22 17:21",
  "places": 260,
  "by_region": {
   "서울": 26,
@@ -21,6 +21,7 @@
   "제주": 15
  },
  "errors": [
-  "충북 컨벤션: The read operation timed out"
+  "울산 연수원: <urlopen error _ssl.c:994: The handshake operation timed out>",
+  "강원 수련원: <urlopen error _ssl.c:994: The handshake operation timed out>"
  ]
 }
