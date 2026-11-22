@@ -2740,6 +2740,25 @@ const PH_KEY = __PH_KEY_JSON__;
       else fetch(URL_, {method: 'POST', body: body, headers: {'Content-Type': 'application/json'}, keepalive: true});
     } catch (e) {}
   };
+  // 사용 KPI(2026-11-22): 기능 이름만 보낸다(입력값·내용·개인정보 없음). 같은 기능은 세션당 1번만 센다.
+  const sent = new Set();
+  window.__phFeat = function(f){
+    f = String(f).slice(0, 40); if (sent.has(f)) return; sent.add(f);
+    try {
+      const body = JSON.stringify({api_key: PH_KEY, event: 'feature_use', distinct_id: sid, properties: {f: f, sid: sid, $process_person_profile: false}});
+      if (navigator.sendBeacon) navigator.sendBeacon(URL_, new Blob([body], {type: 'application/json'}));
+    } catch (e) {}
+  };
+  const FEAT = [['[data-sxe="png"]', 'export_png'], ['[data-sxe="csv"]', 'export_excel'], ['[data-sxw="add"]', 'watch_add'], ['.lm-btn', 'listen_morning'],
+    ['[data-tm]', 'treemap_zoom'], ['[data-vm="race"]', 'race_play'], ['[data-sx="play"]', 'territory_play'], ['.cpx-tb', 'table_view'], ['.tvz-go', 'summary_more'],
+    ['.sx-q summary', 'bid_compare_open'], ['.cpx-chip', 'region_filter'], ['.g3d-p', 'map_drill'], ['.gd-dexbtn', 'farm_dex']];
+  document.addEventListener('click', e => { if (!e.target.closest) return;
+    for (const [sel, f] of FEAT) if (e.target.closest(sel)) { window.__phFeat(f); break; }
+    const v = e.target.closest('#viewNav [data-g], .view-toggle [data-v], [data-hv]'); if (v) window.__phFeat('view_' + (v.dataset.g || v.dataset.v || v.dataset.hv || '').slice(0, 12));
+  }, true);
+  document.addEventListener('input', e => { const t = e.target; if (!t.classList) return;
+    if (t.classList.contains('vm-ttr')) window.__phFeat('time_travel'); else if (t.closest && t.closest('.sx-sim')) window.__phFeat('revenue_sim');
+    else if (t.classList.contains('cpx-rng') || t.classList.contains('cpx-sd') || t.classList.contains('cpx-cmp')) window.__phFeat('cpx_filter'); }, true);
 })();
 const PDFX = __PDF_JSON__;  // 관리 > 전략 실행판(관리 비밀번호 암호문, 내용·용어는 암호문 안에만)
 const G2B_STALE = __G2B_STALE_JSON__;  // 나라장터 API 장애로 이전 정상 수집분을 쓴 날만 값이 있다
@@ -6177,6 +6196,7 @@ function openOwner(O, adminBody){
 }
 // 관리 탭 안의 분야별 칸(경영 종합 · 이번 주 할 일 · 경쟁사 변화 · 2027 경영계획 · 시스템 구조)
 window.admPane = function(k){
+  try { if (window.__phTab) window.__phTab('adm:' + k); } catch (e) {}  // 관리 칸 열람도 사용 KPI 에 포함(칸 이름만)
   document.querySelectorAll('#adminBody .adm-pane').forEach(p => p.hidden = p.dataset.pane !== k);
   document.querySelectorAll('#adminBody .adm-tabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.pane === k));
   const tabs = document.querySelector('#adminBody .adm-tabs');
@@ -11079,6 +11099,12 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .sx-dna{border:1px solid var(--border);border-radius:14px;padding:10px 12px;background:var(--surface);min-width:0;}
 .sx-dna b{font-size:14px;} .sx-dl{margin:6px 0;font-size:13px;line-height:1.5;font-weight:700;color:var(--ink-2,var(--ink));} .sx-da{margin:6px 0 0;font-size:12.5px;line-height:1.5;}
 @media (pointer:coarse){.lm-btn{min-height:40px;}}
+/* 📊 사용 KPI(관리) */
+.uk-ks{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr));gap:8px;margin-bottom:10px;} .uk-k{border:1px solid var(--border);border-radius:12px;padding:8px 10px;display:grid;gap:2px;}
+.uk-k small{font-size:12px;color:var(--muted);} .uk-k b{font-size:22px;} .uk-k span{font-size:12px;color:var(--muted);}
+.uk-ws{display:flex;align-items:flex-end;gap:6px;height:110px;padding:6px 0;overflow-x:auto;} .uk-w{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:38px;font-size:11.5px;} .uk-w i{display:block;width:22px;border-radius:6px 6px 0 0;background:var(--market);} .uk-w small{color:var(--muted);}
+.uk-f{display:grid;grid-template-columns:150px minmax(0,1fr) 48px;gap:8px;align-items:center;margin:5px 0;font-size:12.5px;} .uk-f i{height:12px;border-radius:6px;background:var(--surface-2);overflow:hidden;} .uk-f i b{display:block;height:100%;background:var(--own);} .uk-f em{font-style:normal;font-weight:800;text-align:right;}
+@media (max-width:640px){.uk-f{grid-template-columns:110px minmax(0,1fr) 40px;}}
 /* 🎭 가상 이사회(관리) */
 .br-m{border:1px solid var(--border);border-radius:14px;padding:4px 12px;margin-bottom:8px;background:var(--surface);} .br-m summary{cursor:pointer;padding:6px 0;font-size:14px;}
 .br-dis{margin:4px 0 8px;font-size:12px;color:var(--muted);} .br-facts{font-size:12.5px;background:var(--surface-2);border-radius:10px;padding:8px 10px;margin-bottom:8px;} .br-facts ul{margin:4px 0 0;padding-left:18px;line-height:1.6;}
