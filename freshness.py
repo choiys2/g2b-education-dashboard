@@ -147,6 +147,7 @@ TAB_SOURCES = {
     "search": [("검색 대상 공고", *LIVE, "d")],
     "network": [("연결 데이터", *LIVE, "d"), ("지역 연계 사업", "static_data/region_programs.json", "", "m")],
     "admin": [("교사 세그먼트 근거", "_private/strategy_room/teacher_segments.json", "as_of", "m"), ("회원 분석 집계", "_private/strategy_room/member_analysis.json", "as_of", "m")],
+    "orgs": [("교사단체 소식", "history/teacher_org_watch.json", "generated", "w")],
     "member": [("회원 이수 집계", "_private/strategy_room/member_analysis.json", "as_of", "m")],
     "beta": [("경쟁사 낙찰(최근 건)", "history/competitor_wins.jsonl", "date", "r")],
 }

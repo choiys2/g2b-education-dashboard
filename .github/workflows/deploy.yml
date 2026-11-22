@@ -60,6 +60,7 @@ on:
       - "gg_data.py"
       - ".github/workflows/gg_data.yml"
       - "teacher_group_news.py"
+      - "teacher_org_watch.py"
       - ".github/workflows/teacher_group_news.yml"
       - "pool_groups.py"
       - "proposal_draft.py"

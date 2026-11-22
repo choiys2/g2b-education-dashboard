@@ -761,6 +761,13 @@ svg { max-width: 100%; }
 .mb-t{border-collapse:collapse;width:100%;font-size:12.5px}.mb-t th,.mb-t td{border-bottom:1px solid var(--border,#e5e7eb);padding:5px 6px;text-align:right;color:var(--ink)}.mb-t th{color:var(--muted);font-weight:700}
 .mb-t th:first-child,.mb-t td:first-child,.mb-t td.l{text-align:left}.mb-t small{color:var(--muted)}.mb-scroll{overflow-x:auto}.mb-heat td{text-align:center}
 .mb-ret{display:inline-block;min-width:54px;padding:2px 6px;border-radius:5px;background:linear-gradient(90deg,rgba(79,140,255,.35) var(--w),transparent var(--w));font-weight:700}
+.ow-heat{border-collapse:separate;border-spacing:2px;font-size:11.5px}.ow-heat th{color:var(--muted);font-weight:600;white-space:nowrap;text-align:left}.ow-wk{min-width:14px}
+.ow-cell{width:14px;height:14px;border-radius:3px}.ow-nm{white-space:nowrap;padding-right:8px;color:var(--ink)}.ow-r4{padding-left:6px;font-weight:700;color:var(--ink);white-space:nowrap}.ow-cat td{font-weight:700;padding-top:6px}
+.ow-stack{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--surface-2)}.ow-stack i{display:block;height:100%}
+.ow-list{list-style:none;margin:0;padding:0;font-size:12.5px}.ow-list li{padding:5px 0;border-bottom:1px solid var(--border,#e5e7eb);line-height:1.45;color:var(--ink)}.ow-list small{color:var(--muted)}.ow-d{color:var(--muted);font-variant-numeric:tabular-nums}
+.ow-tag{display:inline-block;font-size:10.5px;padding:0 5px;border-radius:4px;margin-left:3px;color:var(--c);border:1px solid var(--c)}
+.ow-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.ow-chips button{border:1px solid var(--border,#d1d5db);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:4px 12px;font:inherit;font-size:12.5px;cursor:pointer}.ow-chips button.on{background:var(--accent,#4f8cff);color:#fff;border-color:transparent}
+.ow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:10px}.ow-card{background:var(--surface-2);border-radius:10px;padding:10px 12px}.ow-ch{display:flex;justify-content:space-between;gap:8px;font-size:13.5px;color:var(--ink)}.ow-ch span{font-size:11.5px;font-weight:700}.ow-meta{font-size:12px;color:var(--muted);margin:2px 0 4px}
 </style>
 
 <div class="wrap">
@@ -829,6 +836,7 @@ document.addEventListener('click', function (e) {
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="trend2027">교사 트렌드 2027</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="member">연수원 회원분석</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="orgs">교사단체 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="biz2027">기업·대학 트렌드 2027</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="aiep">시도 AIEP</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
@@ -2045,6 +2053,13 @@ document.addEventListener('click', function (e) {
       <p>연수원 이수 기록을 학교급·지역·연령·성별·주제·시기·재방문으로 나눠 봅니다. 회원 수와 수강 건수, 비중만 보여 줍니다. 수치는 집계값이며 개인 정보는 담지 않습니다.</p>
     </div></div>
   </div><!-- /panel-member -->
+
+  <div class="tabpanel" id="panel-orgs">
+    <div class="callout"><div class="icon">i</div><div>
+      <h3>교사단체 분석 — 교원단체·출판사 연수원·연구회·정책 협의체의 움직임</h3>
+      <p>기관별 최근 소식을 주 단위로 모아 활동량·이슈 유형·리더십(회장·임원)·성명 동향을 봅니다. 인물은 직함으로만 표기하고, 내용은 기사 원문 링크로 확인합니다.</p>
+    </div></div>
+  </div><!-- /panel-orgs -->
 
   <div class="tabpanel" id="panel-competitor">
 
@@ -13076,7 +13091,7 @@ window.farm3d = function (host, C) {
 /* 📊 맨 위 입체 그림 점검: 각 화면(일반 탭·관리 칸) 맨 위(첫 화면 높이 안)에 그림이 없으면
    그 화면에 이미 있는 그림을 위로 올려 보여 주고(원본은 그대로, '자세히 ↓'로 이동), 그림이 없으면 첫 수치 표를 입체 막대로 만든다. */
 (function(){
-  const NOFIG = '.gd-field,.gd-hero,#farmStage,.cph,.tvz,.cpv-spark,.si-ring,.g3d-rank,.tt,[aria-hidden="true"]';
+  const NOFIG = '.gd-field,.gd-hero,#farmStage,.cph,.tvz,.cpv-spark,.si-ring,.g3d-rank,.tt,.ow-heat,[aria-hidden="true"]';
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const figs = root => [...root.querySelectorAll('svg, canvas, [style*="align-items:flex-end"]')].filter(e => {
     if (e.closest(NOFIG) || (e.tagName === 'svg' && e.parentElement && e.parentElement.closest('svg'))) return false;
@@ -13497,6 +13512,41 @@ window.farm3d = function (host, C) {
   const keep = () => { const s = P.querySelector(':scope > .tab-asof'); if (s ? s.nextElementSibling !== sec : P.firstElementChild !== sec) (s ? s.after(sec) : P.prepend(sec)); };
   new MutationObserver(keep).observe(P, {childList: true}); keep();  // 한눈에 보기 등이 늦게 끼어들어도 '데이터 기준' 바로 아래 유지
 })();
+(function teacherOrgView(){  // 🏛️ 교사단체 분석(CP): 교원단체·노조 / 출판사·연수원 / 연구회 / 정책 협의체 활동 움직임. 사용자 요청 2026-11-22
+  const D = __ORGWATCH_JSON__, P = document.getElementById('panel-orgs'); if (!P) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const lk = (u, t) => /^https:\/\//.test(u || '') ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t)}</a>` : h(t);
+  if (!D) { P.insertAdjacentHTML('beforeend', '<section class="panel"><p class="panel-desc">데이터 준비 중</p></section>'); return; }
+  const CC = {union: '#dc2626', pub: '#4f8cff', study: '#10b981', policy: '#a855f7'}, TC = {'리더십': '#f59e0b', '성명·입장': '#dc2626', '연수·행사': '#10b981', '협약·제휴': '#0ea5e9', 'AI·디지털': '#6366f1', '교권·처우': '#ec4899', '평가·입시': '#64748b'};
+  const O = D.orgs, W = D.weeks, cats = Object.keys(D.cats);
+  const sec = (id, t, sub, body) => `<section class="panel mb-panel" id="${id}"><div class="panel-head"><div><p class="panel-title">${t}${sub ? `<span class="mb-sub">${sub}</span>` : ''}</p></div></div>${body}</section>`;
+  const tg = x => (x.tg || []).map(t => `<span class="ow-tag" style="--c:${TC[t] || '#64748b'}">${h(t)}</span>`).join('');
+  const r4 = O.reduce((a, o) => a + o.r4, 0), act = O.filter(o => o.n).length, top = O.slice().sort((a, b) => b.r4 - a.r4)[0];
+  const out = [];
+  out.push(sec('owKpi', '🏛️ 교사단체·출판사 연수원 움직임', `최근 180일 · 매주 갱신 · 기준 ${h((D.generated || '').slice(0, 10))}`,
+    `<div class="mb-cards">${[['추적 기관', `${O.length}곳`, `소식이 잡힌 곳 ${act}곳`], ['최근 4주 소식', `${r4}건`, '모든 기관 합계'], ['가장 활발', top && top.r4 ? h(top.name) : '-', top && top.r4 ? `최근 4주 ${top.r4}건` : ''],
+      ['리더십·임원', `${D.leadership.length}건`, '회장·위원장·선거·취임 소식'], ['성명·입장', `${D.stance.length}건`, '정책 온도계']].map(c => `<div class="mb-card"><div class="mb-ck">${h(c[0])}</div><div class="mb-cv">${c[1]}</div><div class="mb-cd">${h(c[2])}</div></div>`).join('')}</div>
+     <p class="mb-note">인물 이름은 직함으로만 표기합니다(○○○). 자세한 내용은 기사 원문에서 확인하세요.</p>`));
+  // 활동 히트맵
+  const mx = Math.max(1, ...O.flatMap(o => o.weekly));
+  const head = `<tr><th>기관</th>${W.map((w, i) => `<th class="ow-wk">${i % 4 === 0 ? h(w.slice(5).replace('-', '/')) : ''}</th>`).join('')}<th>4주</th></tr>`;
+  const rows = cats.map(c => `<tr class="ow-cat"><td colspan="${W.length + 2}" style="color:${CC[c]}">● ${h(D.cats[c])}</td></tr>` + O.filter(o => o.cat === c).map(o => `<tr><td class="ow-nm">${h(o.name)}</td>${o.weekly.map((v, i) => `<td class="ow-cell" title="${h(W[i])} 주: ${v}건" style="background:${v ? `color-mix(in srgb, ${CC[c]} ${Math.round(20 + 80 * v / mx)}%, transparent)` : 'var(--surface-2)'}"></td>`).join('')}<td class="ow-r4">${o.r4 > o.p4avg ? '▲' : o.r4 < o.p4avg ? '▼' : ''}${o.r4}</td></tr>`).join('')).join('');
+  out.push(sec('owHeat', '📡 활동 움직임 — 주간 소식 히트맵', '최근 26주 · 진할수록 소식 많음 · ▲▼ = 직전 대비', `<div class="mb-scroll"><table class="ow-heat">${head}${rows}</table></div>`));
+  // 분류별 이슈 구성
+  const comp = cats.map(c => { const t = {}; O.filter(o => o.cat === c).forEach(o => Object.entries(o.tags || {}).forEach(([k, v]) => t[k] = (t[k] || 0) + v)); const s = Object.values(t).reduce((a, b) => a + b, 0);
+    return `<div class="mb-row" style="grid-template-columns:minmax(90px,22%) 1fr auto"><span class="mb-l">${h(D.cats[c])}</span><span class="ow-stack">${s ? D.tags.filter(k => t[k]).map(k => `<i style="width:${(t[k] / s * 100).toFixed(1)}%;background:${TC[k]}" title="${h(k)} ${t[k]}건"></i>`).join('') : ''}</span><span class="mb-v">${s}</span></div>`; }).join('');
+  out.push(sec('owIssue', '🧩 분류별 이슈 구성', '소식 제목의 주제 유형(한 기사에 여러 유형 가능)', `<div class="mb-bars">${comp}</div><div class="mb-lg" style="margin-top:8px">${D.tags.map(k => `<span><i style="background:${TC[k]}"></i>${h(k)}</span>`).join('')}</div>`));
+  // 리더십·성명
+  const li = L => L.length ? `<ul class="ow-list">${L.map(x => `<li><span class="ow-d">${h(x.d.slice(5))}</span> <b style="color:${CC[x.cat]}">${h(x.org)}</b> ${lk(x.u, x.t)} <small>${h(x.src)}</small></li>`).join('')}</ul>` : '<p class="mb-note">최근 180일 해당 소식 없음</p>';
+  out.push(sec('owLead', '👔 리더십·임원 동향 · 📢 성명·입장', '회장·위원장·선거·취임 / 성명·촉구·비판', `<div class="mb-g2"><div><h5>리더십·임원</h5>${li(D.leadership)}</div><div><h5>성명·입장</h5>${li(D.stance)}</div></div>`));
+  // 기관별 카드
+  const card = o => `<div class="ow-card" data-c="${h(o.cat)}"><div class="ow-ch"><b>${h(o.name)}</b><span style="color:${CC[o.cat]}">${h(D.cats[o.cat])}</span></div><div class="ow-meta">180일 ${o.n}건 · 최근 4주 ${o.r4}건${o.last ? ' · 최근 ' + h(o.last) : ''}</div>${o.items.length ? `<ul class="ow-list">${o.items.slice(0, 4).map(x => `<li><span class="ow-d">${h(x.d.slice(5))}</span> ${lk(x.u, x.t)} ${tg(x)}</li>`).join('')}</ul>` : '<p class="mb-note">최근 공개 소식 없음</p>'}</div>`;
+  out.push(sec('owCards', '🗂️ 기관별 최근 소식', '', `<div class="ow-chips">${['all', ...cats].map(c => `<button type="button" data-f="${c}" class="${c === 'all' ? 'on' : ''}">${c === 'all' ? '전체' : h(D.cats[c])}</button>`).join('')}</div><div class="ow-grid">${O.slice().sort((a, b) => b.r4 - a.r4 || b.n - a.n).map(card).join('')}</div>`));
+  P.insertAdjacentHTML('beforeend', out.join(''));
+  P.querySelector('.ow-chips').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; P.querySelectorAll('.ow-chips button').forEach(x => x.classList.toggle('on', x === b));
+    P.querySelectorAll('.ow-card').forEach(c => c.style.display = b.dataset.f === 'all' || c.dataset.c === b.dataset.f ? '' : 'none'); });
+})();
+
 (function memberView(){  // 👥 연수원 회원분석(CP: 회원 수·수강 건수·비중만, 매출 제외). 사용자 요청 2026-11-22
   const D = __MEMBER_JSON__, P = document.getElementById('panel-member'); if (!P) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -13774,12 +13824,12 @@ window.farm3d = function (host, C) {
   const KEY = 'viewMode.v1', load = () => { try { return localStorage.getItem(KEY) || DEF; } catch (e) { return DEF; } };
   const save = v => { try { v === DEF ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, v); } catch (e) { /* 저장 불가 환경 */ } };
   const GROUPS = [
-    ['시장·정책', '#4f8cff', ['market', 'strategy', 'trend2027', 'member', 'biz2027']],
+    ['시장·정책', '#4f8cff', ['market', 'strategy', 'trend2027', 'member', 'orgs', 'biz2027']],
     ['조달·발주', '#f59e0b', ['g2bfull', 'keris', 'g2b', 'school', 'aiep']],
     ['영업 B2G·B2S', '#10b981', ['pipeline', 'branch', 'adopt', 'leading', 'b2s']],
     ['경쟁·성과', '#ef4444', ['competitor', 'neti', 'content', 'eco']],
     ['연결·관리', '#8b5cf6', ['network', 'beta', 'admin']]];
-  const SHORT = {strategy: '전략브리핑', trend2027: '교사트렌드2027', member: '회원분석', biz2027: '기업·대학2027', g2bfull: '나라장터종합', g2b: 'AI발주', school: '학교단위발주',
+  const SHORT = {strategy: '전략브리핑', trend2027: '교사트렌드2027', member: '회원분석', orgs: '교사단체', biz2027: '기업·대학2027', g2bfull: '나라장터종합', g2b: 'AI발주', school: '학교단위발주',
     aiep: '시도AIEP', pipeline: 'B2G영업', branch: '지역총판', adopt: '교과서채택', leading: 'AI중점학교', b2s: 'B2S·샘몰', competitor: '경쟁사분석',
     neti: '이수현황', content: '콘텐츠·매출', eco: '교사생태계', network: '생태계', beta: '베타', admin: '관리'};
   const btn = {}; nav.querySelectorAll('.tabbtn').forEach(b => { if (!b.hidden) btn[b.dataset.tab] = b; });
@@ -13818,7 +13868,7 @@ window.farm3d = function (host, C) {
   let mode = load(), gsel = null, folded = false;
   let home = !(typeof parseHashState === 'function' && parseHashState().tab);  // 처음 열면 앱 홈(주소에 탭이 있으면 그 탭)
   const TSIZE = ['l', 'w', 's', 's', 'w', 's', 's'];
-  const ICON = {market: '🗺️', strategy: '🧭', trend2027: '📈', member: '👥', biz2027: '🏢', g2bfull: '🏛️', keris: '💾', g2b: '🤖', school: '🏫', aiep: '🧩',
+  const ICON = {market: '🗺️', strategy: '🧭', trend2027: '📈', member: '👥', orgs: '🏛️', biz2027: '🏢', g2bfull: '🏛️', keris: '💾', g2b: '🤖', school: '🏫', aiep: '🧩',
     pipeline: '🤝', branch: '📍', adopt: '📚', leading: '🌟', b2s: '🛒', competitor: '🔍', neti: '🎓', content: '💰', eco: '🌱',
     network: '🕸️', beta: '🧪', admin: '🔒', search: '🔎'};
   const HV_KEY = 'appHomeView.v2';
