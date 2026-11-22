@@ -16,8 +16,8 @@ SOURCES = [
     ("나라장터 연수 입찰 누적", "history/training_bids.jsonl", "d", 4, "나라장터 종합"),
     ("학교·교육청 수의계약", "history/edu_contracts_status.json", "date", 2, "학교단위 발주"),
     ("경쟁사 낙찰·계약", "history/competitor_contracts_status.json", "date", 2, "경쟁사"),
-    ("경쟁사 강좌 카탈로그", "history/competitor_course_catalog.json", "captured_date", 2, "콘텐츠·매출"),
-    ("경쟁사 몰 카탈로그", "history/competitor_mall_catalog.json", "captured_date", 3, "콘텐츠·매출"),
+    ("경쟁사 강좌 카탈로그", "history/competitor_course_catalog.json", "captured_date", 8, "콘텐츠·매출"),
+    ("경쟁사 몰 카탈로그", "history/competitor_mall_catalog.json", "captured_date", 8, "콘텐츠·매출"),
     ("KERIS 조달", "history/keris_procurement.json", "updated", 2, "KERIS"),
     ("지방교육재정(예산)", "history/eduinfo_status.json", "date", 3, "시장 분석"),
     ("학교알리미 시장", "history/schoolinfo_status.json", "date", 3, "B2S"),
@@ -90,8 +90,96 @@ def build(full_live=None, today=None):
         rows.insert(0, {"name": "나라장터 실시간 수집", "tab": "나라장터 종합", "at": asof, "age": age, "cad": 1, "state": state,
                         "note": ({"history": "수집 실패 - 누적 이력으로 대체", "cache": "수집 실패 - 마지막 정상 수집분 사용"}.get(fb, f"대체본({fb})") if fb else "")})
     bad = [r for r in rows if r["state"] != "정상"]
-    return {"checked": datetime.now().strftime("%Y-%m-%d %H:%M"), "rows": rows, "n": len(rows), "ok": len(rows) - len(bad),
-            "bad": [r["name"] for r in bad]}
+    T = tabs(full_live)
+    return {"checked": T["built"], "rows": rows, "n": len(rows), "ok": len(rows) - len(bad),
+            "bad": [r["name"] for r in bad], "tabs": T["tabs"], "built": T["built"]}
+
+
+# ---------------- 탭 머리 '데이터 기준' 띠 (사용자 지시 2026-11-22: 탭별 갱신 날짜·시각을 탭 위에 항상 노출) ----------------
+# CP 화면에도 나가므로 이름은 일반 표현만(출처·도구·포털명 금지). 주기: d=매일, w=매주, m=수시(사람이 고칠 때)
+# (표시 이름, 파일, 시각 키, 주기, jsonl 이면 최신 자료일 키)
+MANUAL_ASOF = {  # 날짜 키가 없는 정리 파일 - 파일을 고칠 때 이 날짜도 같이 고친다(깊은 git 이력이 있으면 git 날짜가 우선)
+    "static_data/industry_trend_2027.json": "2026-11-15", "static_data/aiep_platforms.json": "2026-11-10",
+    "static_data/region_programs.json": "2026-11-10", "static_data/textbook_adoption.enc.json": "2026-11-10",
+}
+LIVE = ("*live", None)
+TAB_SOURCES = {
+    "market": [("교육재정 통계", "history/eduinfo_status.json", "date", "d"), ("학교 시장 정보", "history/schoolinfo_status.json", "date", "d"), ("공고 집계", *LIVE, "d")],
+    "strategy": [("에듀테크 뉴스", "history/edutech_radar.json", "collected_at", "d"), ("전략 브리핑", "strategy_briefings", "*enc", "d"), ("조간", "briefings", "*json", "d")],
+    "keris": [("KERIS 공고·낙찰", "history/keris_procurement.json", "updated", "d")],
+    "g2bfull": [("입찰·계약 공고", *LIVE, "d"), ("연수 공고(최근 건)", "history/training_bids.jsonl", "d", "r"),
+                ("경쟁사 계약", "history/competitor_contracts_status.json", "date", "d"), ("경쟁사 낙찰(최근 건)", "history/competitor_wins.jsonl", "date", "r")],
+    "neti": [("연수 이수 통계", "static_data/neti_completion.json", "as_of", "m")],
+    "g2b": [("AI·에듀테크 공고", *LIVE, "d")],
+    "school": [("학교 직접 발주", "history/school_goods.json", "updated", "w"), ("학교·교육청 수의계약", "history/edu_contracts_status.json", "date", "d")],
+    "leading": [("AI 중점학교 명단", "static_data/ai_schools_2026.json", "captured", "m"), ("AI 중점학교 동향", "static_data/ai_school_updates.json", "checked", "m")],
+    "competitor": [("경쟁사 강좌", "history/competitor_course_catalog.json", "captured_date", "w"), ("경쟁사 몰 상품", "history/competitor_mall_catalog.json", "captured_date", "w"),
+                   ("경쟁사 계약", "history/competitor_contracts_status.json", "date", "d")],
+    "trend2027": [("교사 관심 검색어", "history/teacher_interest_trends.json", "buzz_date", "w"), ("교사 크리에이터", "history/teacher_creator_trends.json", "youtube.captured_date", "w"),
+                  ("교사단체 소식", "history/teacher_group_news.json", "generated", "r"), ("AI 키워드 분석", "history/teacher_trend2027_ai.json", "date", "w")],
+    "biz2027": [("기업·대학 동향 정리", "static_data/industry_trend_2027.json", "", "m"), ("협력 후보 소식", "history/partner_news.json", "generated", "w")],
+    "aiep": [("AIEP 조달", "history/aiep_market.json", "updated", "d"), ("시도 플랫폼 정리", "static_data/aiep_platforms.json", "", "m")],
+    "pipeline": [("영업 파이프라인", "history/pipeline_status.json", "date", "d"), ("입찰 운영 현황", "history/sheets_ops_status.json", "date", "d")],
+    "branch": [("총판 현황", "static_data/branch_summary.json", "as_of", "m")],
+    "adopt": [("교과서 채택 현황", "static_data/textbook_adoption.enc.json", "", "m")],
+    "b2s": [("학교 시장 정보", "history/schoolinfo_status.json", "date", "d"), ("학사일정 표본", "history/neis_schedule.json", "generated", "w"),
+            ("경기 시군 통계", "history/gg_b2s.json", "generated", "w")],
+    "content": [("과정 매출·인증", "_private/content_pl/course_pl.json", "as_of", "m"), ("경쟁사 강좌", "history/competitor_course_catalog.json", "captured_date", "w")],
+    "eco": [("교사 생태계 변화", "history/teacher_ecosystem.json", "generated", "w"), ("생태계 정리표", "static_data/teacher_ecosystem.json", "as_of", "m")],
+    "search": [("검색 대상 공고", *LIVE, "d")],
+    "network": [("연결 데이터", *LIVE, "d"), ("지역 연계 사업", "static_data/region_programs.json", "", "m")],
+    "beta": [("경쟁사 낙찰(최근 건)", "history/competitor_wins.jsonl", "date", "r")],
+}
+CAD = {"d": ("매일", 2, 4), "w": ("매주", 8, 15), "m": ("수시", 90, 10 ** 6), "r": ("발생 시", 45, 10 ** 6)}  # (표시, 1단계 기준일, 2단계 기준일)
+# 상태: d·w = 정상/지연/중단(수집이 멈춤), m = 정상/오래됨(사람이 고칠 때가 됨), r = 정상/새 자료 없음(수집은 되지만 새 건이 안 생김)
+
+
+def _git_date(path):
+    import subprocess
+    try:
+        if subprocess.run(["git", "rev-parse", "--is-shallow-repository"], capture_output=True, text=True, timeout=5).stdout.strip() == "true":
+            return None
+        return subprocess.run(["git", "log", "-1", "--format=%cs", "--", path], capture_output=True, text=True, timeout=5).stdout.strip() or None
+    except Exception:
+        return None
+
+
+def tabs(full_live=None, now=None):
+    """탭별 데이터 기준 시각. at = 가장 오래된 구성 자료의 기준(보수적), latest = 가장 최근 수집."""
+    try:
+        from zoneinfo import ZoneInfo
+        now = now or datetime.now(ZoneInfo("Asia/Seoul"))
+    except Exception:
+        now = now or datetime.now()
+    today = now.date()
+    g = full_live or {}
+    live_at = (str(g.get("_asof") or g.get("generated_at") or "")[:16]) or now.strftime("%Y-%m-%d %H:%M")
+    if live_at and len(live_at) == 10 and live_at == now.strftime("%Y-%m-%d"):  # 오늘 수집분일 때만 이번 배포 시각을 붙인다
+        live_at = live_at + " " + now.strftime("%H:%M")
+    out = {}
+    for tab, srcs in TAB_SOURCES.items():
+        items = []
+        for lab, path, key, cad in srcs:
+            if path == "*live":
+                s = live_at
+            elif not key:
+                s = _git_date(path) or MANUAL_ASOF.get(path)
+            else:
+                s = _stamp(path, key)
+            s = str(s or "")
+            m = DT.search(s) or re.search(r"(\d{4}-\d{2})(?!-)", s)
+            if not m:
+                items.append({"l": lab, "at": None, "cad": CAD[cad][0], "state": "없음"})
+                continue
+            ds = m.group(1) if len(m.group(1)) == 10 else m.group(1) + "-01"
+            age = (today - date.fromisoformat(ds)).days
+            at = m.group(1) + (" " + m.group(2) if m.lastindex and m.lastindex >= 2 and m.group(2) else "")
+            st = "정상" if age <= CAD[cad][1] else {"m": "오래됨", "r": "새 자료 없음"}.get(cad) or ("지연" if age <= CAD[cad][2] else "중단")
+            if path == "*live" and g.get("_fallback"):
+                st = "대체본"
+            items.append({"l": lab, "at": at, "age": max(age, 0), "cad": CAD[cad][0], "state": st})
+        out[tab] = items
+    return {"built": now.strftime("%Y-%m-%d %H:%M"), "tabs": out}
 
 
 if __name__ == "__main__":
