@@ -11136,7 +11136,7 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 /* 🛒 샘몰 트렌드 HOT 10 */
 .st-asof{font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;}
 .st-kw{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px;} .st-kw span{font-size:12px;background:var(--surface-2);border-radius:99px;padding:2px 10px;} .st-kw a{color:var(--ink-2);text-decoration:none;}
-.st-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px;}
+.st-tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:10px;}
 .st-tabs button{appearance:none;font:inherit;font-size:13px;font-weight:800;padding:8px 6px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;min-height:44px;}
 .st-tabs button small{display:block;font-size:10.5px;font-weight:500;color:var(--muted);} .st-tabs button[aria-selected="true"]{background:var(--accent-2);color:#fff;border-color:var(--accent-2);} .st-tabs button[aria-selected="true"] small{color:#dbeafe;}
 .st-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:8px;}
@@ -11145,9 +11145,12 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .st-it:nth-child(-n+3) .st-rk{background:#dc2626;}
 .st-m{min-width:0;font-size:12.5px;line-height:1.5;} .st-m b{font-size:13.5px;margin-right:6px;} .st-p{white-space:nowrap;font-weight:700;color:var(--accent-2);margin-right:6px;}
 .st-ev{white-space:nowrap;display:inline-block;font-size:10.5px;font-weight:700;border-radius:99px;padding:0 7px;} .st-ev.d{background:#d1fae5;color:#065f46;} .st-ev.c{background:#fee2e2;color:#991b1b;}
+.st-chs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:8px;margin-bottom:10px;} .st-ch{border:1px solid var(--border);border-radius:12px;padding:9px 11px;font-size:12px;} .st-ch > b{font-size:14px;} .st-ch > small{display:block;color:var(--muted);margin:2px 0 4px;} .st-ch ol{margin:0;padding-left:18px;line-height:1.55;} .st-ch a{color:inherit;}
+.st-mx{font-size:12px;} .st-mx td.num{color:#dc2626;font-weight:800;}
 .st-cpn{font-size:12.5px;color:var(--ink-2);margin:0 0 10px;line-height:1.6;} .st-cpm{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:10px;margin:10px 0;font-size:12.5px;} .st-cpm > div{border:1px solid var(--border);border-radius:12px;padding:9px 11px;} .st-cpm ul{margin:4px 0 0;padding-left:18px;columns:2;} .st-cpm small{color:var(--muted);} .st-ev.g{background:#fef3c7;color:#92400e;}
 .st-is,.st-why{color:var(--ink-2);margin-top:2px;} .st-is a{color:inherit;}
 .st-plan{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:12.5px;} .st-plan ul{margin:4px 0;padding-left:18px;} .st-caution{margin:6px 0 0;color:#b45309;font-size:12px;}
+@media (max-width:900px){.st-tabs{grid-template-columns:repeat(3,1fr);}}
 @media (max-width:640px){.st-tabs{grid-template-columns:repeat(2,1fr);} .st-cpm ul{columns:1;}}
 /* 👩‍🏫 교사 세그먼트 전략(관리) */
 .ts .ts-sum{margin:0;padding-left:18px;font-size:13px;line-height:1.65;} .ts .ts-sum li{margin:3px 0;}
@@ -13426,39 +13429,41 @@ window.farm3d = function (host, C) {
       c.addEventListener('contentvisibilityautostatechange', e => { if (!e.skipped && window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run()); }); } });
   mark(); setTimeout(mark, 3000);
 })();
-(function samallTrend(){  // 🛒 B2S·샘몰 기획 탭 맨 위: 교사 맞춤 5만~10만 원대 HOT 10(연령·성별 4그룹). 사용자 요청 2026-11-22
+(function samallTrend(){  // 🛒 B2S·샘몰 기획 탭 맨 위: 교사 맞춤 5만~10만 원대 HOT 10(연령·성별 4그룹 + 컴퓨터 용품) · 채널 대조(쿠팡·올리브영·다이소). 사용자 요청 2026-11-22
   const T = __SAMALL_TREND_JSON__, P = document.getElementById('panel-b2s'); if (!T || !P || !(T.segments || []).length) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const lk = (u, t) => /^https:\/\//.test(u || '') ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t)}</a>` : h(t);
-  const CP = T.coupang || null;
-  const cpHit = n => CP ? (CP.signals || []).find(s => s.kw && new RegExp(s.kw).test(n)) : null;
+  const CH = (T.channels && T.channels.list) || [];
+  const hits = n => CH.map(c => ({c, s: (c.signals || []).find(g => g.kw && new RegExp(g.kw).test(n))})).filter(x => x.s);
+  const groups = T.segments.map(s => ({name: s.name, sub: s.sub, items: s.items})).concat(T.pc ? [{name: T.pc.name, sub: T.pc.sub, items: T.pc.items, note: T.pc.note}] : []);
   const sec = document.createElement('section'); sec.className = 'panel st-panel'; sec.id = 'samallTrend';
   sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">🛒 ${h(T.title)}<span class="st-asof">${h(T.as_of)} 기준</span></p><p class="panel-desc">${h(T.note)}</p></div></div>
     <div class="st-kw">${(T.keywords || []).map(k => `<span title="${h(k.t)}">${lk(k.url, '#' + k.k)}</span>`).join('')}</div>
-    <div class="st-tabs" role="tablist">${T.segments.map((s, i) => `<button type="button" role="tab" data-st="${i}" aria-selected="${i === 0}">${h(s.name)}<small>${h(s.sub)}</small></button>`).join('')}${CP ? `<button type="button" role="tab" data-st="cp" aria-selected="false">🛍️ 쿠팡 대조<small>공개 판매 신호</small></button>` : ''}</div>
+    <div class="st-tabs" role="tablist">${groups.map((s, i) => `<button type="button" role="tab" data-st="${i}" aria-selected="${i === 0}">${h(s.name)}<small>${h(s.sub)}</small></button>`).join('')}${CH.length ? `<button type="button" role="tab" data-st="ch" aria-selected="false">🛍️ 채널 대조<small>${h(CH.map(c => c.name).join('·'))}</small></button>` : ''}</div>
     <div class="st-body"></div>
     <div class="st-plan"><b>샘몰 운영 제안</b><ul>${(T.plan || []).map(x => `<li>${h(x)}</li>`).join('')}</ul><p class="st-caution">⚠️ ${h(T.caution)}</p></div>`;
   const body = sec.querySelector('.st-body');
-  function drawCp(){
-    sec.querySelectorAll('[data-st]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.st === 'cp')));
-    const all = []; T.segments.forEach(s => s.items.forEach(x => all.push({s: s.name, x, m: cpHit(x.n)})));
-    const hit = all.filter(r => r.m), miss = all.filter(r => !r.m);
-    body.innerHTML = `<p class="st-cpn">${h(CP.note)}</p>
-      <ol class="st-list">${(CP.signals || []).map((g, k) => `<li class="st-it"><span class="st-rk">${k + 1}</span><div class="st-m"><b>${h(g.n)}</b><div class="st-is">🛍️ ${lk(g.url, g.sig)}</div>
-        ${g.kw ? `<div class="st-why">우리 HOT 10과 겹침: <b>${all.filter(r => r.m === g).length}개</b> ${h([...new Set(all.filter(r => r.m === g).map(r => r.s))].join(' · '))}</div>` : ''}</div></li>`).join('')}</ol>
-      <div class="st-cpm"><div><b>✅ 쿠팡 신호와 겹침 ${hit.length}개</b> — 대형몰에서도 잘 팔리는 품목: 가격 경쟁이 세므로 '교사용 구성·묶음'으로 차별화<ul>${hit.map(r => `<li>${h(r.x.n)} <small>${h(r.s)}</small></li>`).join('')}</ul></div>
-      <div><b>🔎 쿠팡 신호 없음 ${miss.length}개</b> — 교사 큐레이션으로 단독 기획 여지(가설 품목은 샘몰 판매로 검증)<ul>${miss.map(r => `<li>${h(r.x.n)} <small>${h(r.s)}</small></li>`).join('')}</ul></div></div>
-      <p class="st-cpn"><b>시사점</b> ${h(CP.gap)}<br>${h(CP.how)}</p>`;
+  const badges = n => hits(n).map(x => `<span class="st-ev c" title="${h(x.c.name)}: ${h(x.s.sig)}">${h(x.c.short)}✓</span>`).join(' ');
+  function drawCh(){
+    const all = []; groups.forEach(g => g.items.forEach(x => all.push({g: g.name, x, m: hits(x.n)})));
+    const none = all.filter(r => !r.m.length);
+    body.innerHTML = `<p class="st-cpn">${h(T.channels.note)}</p>
+      <div class="st-chs">${CH.map(c => `<div class="st-ch"><b>${h(c.name)}</b><small>${h(c.role)}</small><ol>${(c.signals || []).map(g => `<li><b>${h(g.n)}</b> — ${lk(g.url, g.sig)}</li>`).join('')}</ol></div>`).join('')}</div>
+      <div class="tbl-wrap"><table class="data st-mx"><thead><tr><th>그룹</th><th>품목</th>${CH.map(c => `<th class="num">${h(c.short)}</th>`).join('')}<th>판단</th></tr></thead><tbody>
+      ${all.map(r => { const k = new Set(r.m.map(x => x.c.key)); const ds = k.has('ds'), n = k.size;
+        const v = !n ? (r.g === (T.pc || {}).name ? '<span style="color:var(--muted)">IT 전문몰 영역 — 3채널 비교 밖</span>' : '<b style="color:#16a34a">단독 기획 후보</b> <small>(검증 필요)</small>') : ds ? '저가 대체재 있음 → 묶음·품질' : n >= 2 ? '검증된 수요 → 교사용 구성' : '수요 확인';
+        return `<tr><td><small>${h(r.g)}</small></td><td>${h(r.x.n)}</td>${CH.map(c => `<td class="num">${k.has(c.key) ? '✓' : ''}</td>`).join('')}<td>${v}</td></tr>`; }).join('')}</tbody></table></div>
+      <p class="st-cpn"><b>시사점</b> 세 채널 신호 없음 <b>${none.length}개</b> / 전체 ${all.length}개(컴퓨터 용품 포함). '신호 없음'은 공개 신호를 못 찾았다는 뜻이지 수요가 없다는 뜻이 아닙니다 — 샘몰 기획전 반응으로 검증하세요. ${h(T.channels.gap)}<br>${h(T.channels.how || '')}</p>`;
   }
   function draw(i){
-    if (i === 'cp') return drawCp();
-    const s = T.segments[i];
-    sec.querySelectorAll('[data-st]').forEach(b => b.setAttribute('aria-selected', String(+b.dataset.st === i)));
-    body.innerHTML = `<ol class="st-list">${s.items.map((x, k) => `<li class="st-it"><span class="st-rk">${k + 1}</span><div class="st-m"><b>${h(x.n)}</b><span class="st-p">${h(x.p)}원</span>
-      ${cpHit(x.n) ? '<span class="st-ev c" title="쿠팡 공개 판매 신호와 겹침">쿠팡✓</span> ' : ''}<span class="st-ev ${x.ev === '데이터' ? 'd' : 'g'}" title="${x.ev === '데이터' ? '기사·랭킹으로 확인된 흐름' : '교사 생활에서 추론 — 판매 데이터로 검증 필요'}">${h(x.ev)}</span>
+    sec.querySelectorAll('[data-st]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.st === String(i))));
+    if (i === 'ch') return drawCh();
+    const s = groups[i];
+    body.innerHTML = (s.note ? `<p class="st-cpn">${h(s.note)}</p>` : '') + `<ol class="st-list">${s.items.map((x, k) => `<li class="st-it"><span class="st-rk">${k + 1}</span><div class="st-m"><b>${h(x.n)}</b><span class="st-p">${h(x.p)}원</span>
+      ${badges(x.n)} <span class="st-ev ${x.ev === '데이터' ? 'd' : 'g'}" title="${x.ev === '데이터' ? '기사·랭킹으로 확인된 흐름' : '교사 생활에서 추론 — 판매 데이터로 검증 필요'}">${h(x.ev)}</span>
       <div class="st-is">📈 ${lk(x.url, x.issue)}</div><div class="st-why">👩‍🏫 ${h(x.why)}</div></div></li>`).join('')}</ol>`;
   }
-  sec.addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (b) draw(b.dataset.st === 'cp' ? 'cp' : +b.dataset.st); });
+  sec.addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (b) draw(b.dataset.st === 'ch' ? 'ch' : +b.dataset.st); });
   draw(0);
   P.prepend(sec);  // 데이터 기준 띠가 다시 맨 위로 올라간다
   const keep = () => { const s = P.querySelector(':scope > .tab-asof'); if (s ? s.nextElementSibling !== sec : P.firstElementChild !== sec) (s ? s.after(sec) : P.prepend(sec)); };
