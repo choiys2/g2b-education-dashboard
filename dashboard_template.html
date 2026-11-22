@@ -11152,6 +11152,12 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .st-plan{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:12.5px;} .st-plan ul{margin:4px 0;padding-left:18px;} .st-caution{margin:6px 0 0;color:#b45309;font-size:12px;}
 @media (max-width:900px){.st-tabs{grid-template-columns:repeat(3,1fr);}}
 @media (max-width:640px){.st-tabs{grid-template-columns:repeat(2,1fr);} .st-cpm ul{columns:1;}}
+.sm-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 10px;} .sm-kpi > div{border:1px solid var(--border);border-radius:12px;padding:8px 12px;} .sm-kpi b{display:block;font-size:22px;color:var(--accent-2);} .sm-kpi small{color:var(--muted);font-size:12px;}
+.sm-tabs{grid-template-columns:repeat(3,1fr) !important;}
+.sm-tools{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:8px;} .sm-tools li{display:flex;gap:10px;border:1px solid var(--border);border-radius:12px;padding:9px 11px;font-size:12.5px;} .sm-tools li > div{min-width:0;flex:1;} .sm-tools small{color:var(--muted);}
+.sm-bar{display:flex;align-items:center;gap:6px;margin:4px 0;} .sm-bar i{display:block;height:7px;border-radius:4px;background:#6366f1;min-width:4px;} .sm-bar em{font-style:normal;font-size:11px;color:var(--muted);white-space:nowrap;}
+.sm-ideas{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:8px;} .sm-idea{display:flex;gap:10px;border:1px solid var(--border);border-radius:12px;padding:10px 12px;font-size:12.5px;} .sm-idea p{margin:3px 0;line-height:1.5;} .sm-idea b{font-size:14px;} .sm-rev{color:#047857;font-weight:600;}
+@media (max-width:640px){.sm-kpi{grid-template-columns:1fr 1fr;} .sm-kpi > div:last-child{grid-column:1 / -1;} .sm-tabs{grid-template-columns:1fr !important;}}
 /* 👩‍🏫 교사 세그먼트 전략(관리) */
 .ts .ts-sum{margin:0;padding-left:18px;font-size:13px;line-height:1.65;} .ts .ts-sum li{margin:3px 0;}
 .ts-segs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:10px;}
@@ -13468,6 +13474,29 @@ window.farm3d = function (host, C) {
   P.prepend(sec);  // 데이터 기준 띠가 다시 맨 위로 올라간다
   const keep = () => { const s = P.querySelector(':scope > .tab-asof'); if (s ? s.nextElementSibling !== sec : P.firstElementChild !== sec) (s ? s.after(sec) : P.prepend(sec)); };
   new MutationObserver(keep).observe(P, {childList: true}); keep();  // 한눈에 보기 등이 늦게 끼어들어도 '데이터 기준' 바로 아래 유지
+})();
+(function samMade(){  // 🧩 샘몰 트렌드 바로 아래: 샘메이드 추천 · 바이브 코딩 HOT(교사 사용 에듀테크 · 교사 제작 도구 · 상품 기획). 사용자 요청 2026-11-22
+  const D = __SAMMADE_JSON__, P = document.getElementById('panel-b2s'); if (!D || !P) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const lk = (u, t) => /^https:\/\//.test(u || '') ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t)}</a>` : h(t);
+  const C = D.courses || {}, mx = Math.max(1, ...(D.tools || []).map(t => t.cnt));
+  const pi = on => on ? '<span class="st-ev g" title="학생이 계정·이름으로 쓰면 학습지원 SW 기준 확인·학운위 심의 대상">학생 사용·심의 대상</span>' : '<span class="st-ev d" title="학생 정보를 넣지 않고 교사가 수업 준비·업무에 쓰는 용도(학생 이름·성적은 입력 금지)">교사 업무용</span>';
+  const sec = document.createElement('section'); sec.className = 'panel st-panel'; sec.id = 'samMade';
+  sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">🧩 ${h(D.title)}<span class="st-asof">${h(D.as_of)} 기준</span></p><p class="panel-desc">${h(D.note)}</p></div></div>
+    <div class="sm-kpi"><div><b>${C.vibe || 0}개</b><small>바이브 코딩 연수 강좌</small></div><div><b>${C.vibe_own || 0}개</b><small>그중 비바샘 — ${C.vibe ? Math.round(C.vibe_own / C.vibe * 100) : 0}%</small></div><div><b>${(C.total || 0).toLocaleString()}개</b><small>분석한 연수 강좌 (${h(C.asof || '')})</small></div></div>
+    <div class="st-tabs sm-tabs" role="tablist"><button type="button" data-sm="0" aria-selected="true">👩‍🏫 교사가 쓰는 에듀테크<small>연수 강좌 언급 순</small></button><button type="button" data-sm="1" aria-selected="false">🛠️ 바이브 코딩 HOT 10<small>교사가 직접 만드는 도구</small></button><button type="button" data-sm="2" aria-selected="false">💡 샘메이드 상품 기획<small>매출·명성</small></button></div>
+    <div class="sm-body"></div>
+    <div class="st-plan"><p class="st-caution">⚠️ ${h(D.caution)}</p><small>${(D.sources || []).map(s => lk(s.url, s.t)).join(' · ')}</small></div>`;
+  const body = sec.querySelector('.sm-body');
+  const views = [
+    () => `<ol class="sm-tools">${(D.tools || []).slice(0, 12).map((t, k) => `<li><span class="st-rk">${k + 1}</span><div><b>${h(t.n)}</b> <small>${h(t.cat)}</small> ${pi(t.pi)}<div class="sm-bar"><i style="width:${t.cnt / mx * 100}%"></i><em>${t.cnt}개 강좌</em></div><div class="st-why">👩‍🏫 ${h(t.use)}</div></div></li>`).join('')}</ol>`,
+    () => `<ol class="st-list">${(D.vibe || []).map((x, k) => `<li class="st-it"><span class="st-rk">${k + 1}</span><div class="st-m"><b>${h(x.n)}</b><span class="st-p">${h(x.p)}</span>${pi(x.pi)} <span class="st-ev ${x.ev === '데이터' ? 'd' : 'g'}">${h(x.ev)}</span><div class="st-is">📈 ${lk(x.url, x.issue)}</div><div class="st-why">👩‍🏫 ${h(x.why)}</div></div></li>`).join('')}</ol>`,
+    () => `<div class="sm-ideas">${(D.ideas || []).map((x, k) => `<div class="sm-idea"><span class="st-rk">${k + 1}</span><div><b>${h(x.n)}</b><p>${h(x.what)}</p><p class="st-why">📊 ${h(x.why)}</p><p class="sm-rev">💰 ${h(x.rev)}</p></div></div>`).join('')}</div>`];
+  const draw = i => { sec.querySelectorAll('[data-sm]').forEach(b => b.setAttribute('aria-selected', String(+b.dataset.sm === i))); body.innerHTML = views[i](); };
+  sec.addEventListener('click', e => { const b = e.target.closest('[data-sm]'); if (b) draw(+b.dataset.sm); });
+  draw(0);
+  const keep = () => { const a = document.getElementById('samallTrend') || P.querySelector(':scope > .tab-asof'); if (a && a.parentNode === P) { if (a.nextElementSibling !== sec) a.after(sec); } else if (!sec.parentNode) P.prepend(sec); };
+  keep(); new MutationObserver(keep).observe(P, {childList: true});  // 샘몰 트렌드 바로 아래 유지
 })();
 (function keyMsg(){  // 📰 오늘의 키메시지 띠 · 📱 이번 주 시장 스토리 · 🎯 내 관점 · 🔔 변화 배지 · 💡 알고 계셨나요 (선택·방문 기록은 이 브라우저에만)
   const K = window.__KM, bar = document.getElementById('kmBar');

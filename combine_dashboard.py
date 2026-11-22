@@ -435,6 +435,26 @@ def _cpviz():
         return None
 
 
+def _sammade():
+    """B2S·샘몰 '샘메이드 추천·바이브 코딩' — 교원연수 강좌 제목에서 에듀테크·바이브 코딩 언급 수를 배포 때마다 다시 센다."""
+    try:
+        import re as _re
+        d = load("static_data/sammade.json")
+        C = load("history/competitor_course_catalog.json") if os.path.exists("history/competitor_course_catalog.json") else {}
+        titles = [(c, str(x.get("title") or x.get("t") or "")) for c, v in (C.get("companies") or {}).items()
+                  for x in ((v.get("courses") if isinstance(v, dict) else v) or [])]
+        for tl in d.get("tools") or []:
+            rx = _re.compile(tl.pop("rx"))
+            tl["cnt"] = sum(1 for _, t in titles if rx.search(t))
+        d["tools"] = sorted([t for t in d.get("tools") or [] if t["cnt"]], key=lambda t: -t["cnt"])
+        vb = [c for c, t in titles if "바이브" in t]
+        d["courses"] = {"total": len(titles), "asof": C.get("captured_date"), "vibe": len(vb), "vibe_own": sum(1 for c in vb if c == "비바샘연수원")}
+        return d
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 샘메이드 실패: {type(e).__name__}")
+        return None
+
+
 def _keymsg():
     """CP 키메시지 띠·이번 주 스토리 데이터(시장 사실 숫자만)."""
     try:
@@ -1043,7 +1063,7 @@ def main():
         "__TREND2027_JSON__": trend2027,
         # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
         "__STRATEGY_JSON__": _strategy(),
-        "__STRENGTH5_JSON__": _strength5(), "__CPX_JSON__": _cpx(), "__KEYMSG_JSON__": _keymsg(), "__SAMALL_TREND_JSON__": load("static_data/samall_trend.json") if os.path.exists("static_data/samall_trend.json") else None, "__MORNING_JSON__": _morning(),
+        "__STRENGTH5_JSON__": _strength5(), "__CPX_JSON__": _cpx(), "__KEYMSG_JSON__": _keymsg(), "__SAMMADE_JSON__": _sammade(), "__SAMALL_TREND_JSON__": load("static_data/samall_trend.json") if os.path.exists("static_data/samall_trend.json") else None, "__MORNING_JSON__": _morning(),
         "__GG_B2S_JSON__": load("history/gg_b2s.json") if os.path.exists("history/gg_b2s.json") else None,  # B2S 경기 시군
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)

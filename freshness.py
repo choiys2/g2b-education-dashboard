@@ -141,7 +141,7 @@ TAB_SOURCES = {
     "adopt": [("교과서 채택 현황", "static_data/textbook_adoption.enc.json", "", "m")],
     "b2s": [("학교 시장 정보", "history/schoolinfo_status.json", "date", "d"), ("학사일정 표본", "history/neis_schedule.json", "generated", "w"),
             ("경기 시군 통계", "history/gg_b2s.json", "generated", "w"), ("2025 학교 구매 실적", "static_data/school_contract_national_2025.json", "generated_at", "m"),
-            ("샘몰 트렌드 HOT 10", "static_data/samall_trend.json", "as_of", "m")],
+            ("샘몰 트렌드 HOT 10", "static_data/samall_trend.json", "as_of", "m"), ("샘메이드 추천", "static_data/sammade.json", "as_of", "m")],
     "content": [("과정 매출·인증", "_private/content_pl/course_pl.json", "as_of", "m"), ("경쟁사 강좌", "history/competitor_course_catalog.json", "captured_date", "w")],
     "eco": [("교사 생태계 변화", "history/teacher_ecosystem.json", "generated", "w"), ("생태계 정리표", "static_data/teacher_ecosystem.json", "as_of", "m"), ("생태계 과제", "static_data/eco_tasks.json", "", "m")],
     "search": [("검색 대상 공고", *LIVE, "d")],
