@@ -36,7 +36,7 @@ def call_neis(op, params, retries=3):
                 return json.loads(resp.read().decode("utf-8"))
         except Exception as e:
             if attempt == retries - 1:
-                print(f"[경고] NEIS 호출 실패 {op} {params}: {e}", file=sys.stderr)
+                print(f"[경고] NEIS 호출 실패 {op} {sorted(k for k in params if k.upper() != 'KEY')}: {e}", file=sys.stderr)
                 return None
             time.sleep(1)
 

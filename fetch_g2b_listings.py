@@ -40,6 +40,12 @@ from datetime import datetime, timedelta
 from urllib.request import urlopen
 from urllib.error import URLError, HTTPError
 from urllib.parse import urlencode
+import re as _re
+
+
+def _mask(s):
+    """오류 문구·로그에서 인증키를 가린다(CLAUDE.md 보안 5번). 공개 저장소의 실행 로그는 누구나 볼 수 있다."""
+    return _re.sub(r"(serviceKey|ServiceKey|KEY|key)=[^&\s\"']+", r"\1=***", str(s))
 
 from score_listings import KEYWORDS_HIGH, KEYWORDS_MID, score_listing
 
@@ -69,18 +75,18 @@ def call_api(base_url, operation, params, timeout=15, retries=2):
             # 429(요청 과다)는 짧은 재시도로 회복되지 않는 경우가 많아 더 오래 쉰다.
             time.sleep(5 if getattr(e, "code", None) == 429 else 1)
     else:
-        raise RuntimeError(f"네트워크 오류: {last_err} url={url}")
+        raise RuntimeError(f"네트워크 오류: {_mask(last_err)} url={_mask(url)}")
 
     try:
         data = json.loads(raw)
     except json.JSONDecodeError:
-        raise RuntimeError(f"JSON 파싱 실패(응답이 JSON이 아님): {raw[:200]} url={url}")
+        raise RuntimeError(f"JSON 파싱 실패(응답이 JSON이 아님): {raw[:200]} url={_mask(url)}")
 
     if "response" not in data:
-        raise RuntimeError(f"API 오류: {raw[:300]} url={url}")
+        raise RuntimeError(f"API 오류: {raw[:300]} url={_mask(url)}")
     header = data["response"]["header"]
     if header.get("resultCode") != "00":
-        raise RuntimeError(f"API 오류[{header.get('resultCode')}]: {header.get('resultMsg')} url={url}")
+        raise RuntimeError(f"API 오류[{header.get('resultCode')}]: {header.get('resultMsg')} url={_mask(url)}")
     body = data["response"]["body"]
     items = body.get("items") or []
     if isinstance(items, dict):
