@@ -32,10 +32,18 @@ jobs:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
         run: python teacher_org_watch.py
+      - name: SNS 핵심 계정 지표(Meta 공식 API, 토큰 있을 때만)
+        env:
+          META_IG_TOKEN: ${{ secrets.META_IG_TOKEN }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          STRATEGY_KEY: ${{ secrets.STRATEGY_KEY }}
+        run: |
+          pip install -q cryptography
+          python sns_collect.py
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add history/teacher_group_news.json history/teacher_org_watch.json 2>/dev/null || true
+          git add history/teacher_group_news.json history/teacher_org_watch.json history/sns_metrics.enc.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: 교사단체 소식 $(TZ=Asia/Seoul date +%F)"
           for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done
