@@ -46,6 +46,11 @@ def _pick(d, key):
 
 def _stamp(path, key):
     p = Path(path)
+    if path.startswith("_private/") and not p.exists():  # 로컬 점검: 비공개 저장소를 다른 곳에 받아 둔 경우
+        import os
+        alt = os.environ.get("PRIVATE_DATA_DIR", "").strip()
+        if alt:
+            p = Path(alt) / path[len("_private/"):]
     if key.startswith("*"):
         ext = key[1:]
         fs = sorted(p.glob(f"????-??-??.{ 'enc.json' if ext == 'enc' else 'json'}")) if p.exists() else []
