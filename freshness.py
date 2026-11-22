@@ -146,7 +146,8 @@ TAB_SOURCES = {
     "eco": [("교사 생태계 변화", "history/teacher_ecosystem.json", "generated", "w"), ("생태계 정리표", "static_data/teacher_ecosystem.json", "as_of", "m"), ("생태계 과제", "static_data/eco_tasks.json", "", "m")],
     "search": [("검색 대상 공고", *LIVE, "d")],
     "network": [("연결 데이터", *LIVE, "d"), ("지역 연계 사업", "static_data/region_programs.json", "", "m")],
-    "admin": [("교사 세그먼트 근거", "_private/strategy_room/teacher_segments.json", "as_of", "m")],
+    "admin": [("교사 세그먼트 근거", "_private/strategy_room/teacher_segments.json", "as_of", "m"), ("회원 분석 집계", "_private/strategy_room/member_analysis.json", "as_of", "m")],
+    "member": [("회원 이수 집계", "_private/strategy_room/member_analysis.json", "as_of", "m")],
     "beta": [("경쟁사 낙찰(최근 건)", "history/competitor_wins.jsonl", "date", "r")],
 }
 CAD = {"d": ("매일", 2, 4), "w": ("매주", 8, 15), "m": ("수시", 90, 10 ** 6), "r": ("발생 시", 45, 10 ** 6)}  # (표시, 1단계 기준일, 2단계 기준일)

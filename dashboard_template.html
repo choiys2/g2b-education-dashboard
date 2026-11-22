@@ -747,6 +747,20 @@ svg { max-width: 100%; }
 .rc-zoom button{all:unset;cursor:pointer;width:28px;height:28px;text-align:center;line-height:28px;border-radius:7px;font-weight:900;font-size:15px;color:#3e2723;background:#ead8b8;}.rc-zoom span{min-width:40px;text-align:center;font-size:11.5px;font-weight:900;color:#8d5a34;}
 @media (max-width:760px){.rc{display:flex;flex-direction:column;background:#f5ead6;}.rc-hud{position:static;order:-2;padding:10px;}.rc-flow{position:static;transform:none;order:-1;justify-content:center;padding:4px 0;}.rc-side{display:none;}.rc-scale,.rc-log,.rc-pick{position:static;transform:none;max-width:none;width:auto;margin:6px 10px 0;}.rc-zoom{position:static;align-self:flex-end;margin:6px;}.rc-ban b{font-size:24px;}.rc-ban strong{font-size:36px;}}
 @media (prefers-reduced-motion: reduce){.rc-graze,.rc-peck,.rc-bee,.rc-wave,.rc-blink,.rc-flame,.rc-smoke,.rc-spark,.rc-bounce,.rc-trot,.rc-bob,.rc-swim,.rc-tw,.rc-cloud,.rc-rain line,.rc-snow circle{animation:none;}}
+.mb-panel .mb-sub{font-size:12px;font-weight:600;color:var(--muted);margin-left:8px}
+.mb-persona{font-size:16px;line-height:1.6;background:var(--surface-2);border-left:4px solid var(--accent,#4f8cff);border-radius:8px;padding:12px 14px;margin:4px 0 12px}
+.mb-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px}
+.mb-card{background:var(--surface-2);border-radius:10px;padding:10px 12px}.mb-ck{font-size:12.5px;color:var(--muted);font-weight:700}.mb-cv{font-size:19px;font-weight:800;margin:3px 0;color:var(--ink)}.mb-cd{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.mb-note{font-size:12px;color:var(--muted);margin:8px 0 0;line-height:1.5}.mb-panel h5{margin:12px 0 6px;font-size:13px;color:var(--ink-2)}
+.mb-g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:16px;align-items:start}
+.mb-bars{display:flex;flex-direction:column;gap:5px}.mb-row{display:grid;grid-template-columns:minmax(60px,34%) 1fr auto;gap:8px;align-items:center;font-size:12.5px}
+.mb-l{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}.mb-track{height:12px;background:var(--surface-2);border-radius:6px;overflow:hidden}.mb-fill{display:block;height:100%;border-radius:6px}
+.mb-v{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ink)}.mb-chip{font-weight:700;font-size:11.5px;margin-left:4px}
+.mb-svg{width:100%;height:auto;display:block}.mb-grid{stroke:var(--border,#e5e7eb);stroke-width:1}.mb-ax{font-size:10.5px;fill:var(--muted)}
+.mb-lg{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--ink-2)}.mb-lg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.mb-t{border-collapse:collapse;width:100%;font-size:12.5px}.mb-t th,.mb-t td{border-bottom:1px solid var(--border,#e5e7eb);padding:5px 6px;text-align:right;color:var(--ink)}.mb-t th{color:var(--muted);font-weight:700}
+.mb-t th:first-child,.mb-t td:first-child,.mb-t td.l{text-align:left}.mb-t small{color:var(--muted)}.mb-scroll{overflow-x:auto}.mb-heat td{text-align:center}
+.mb-ret{display:inline-block;min-width:54px;padding:2px 6px;border-radius:5px;background:linear-gradient(90deg,rgba(79,140,255,.35) var(--w),transparent var(--w));font-weight:700}
 </style>
 
 <div class="wrap">
@@ -814,6 +828,7 @@ document.addEventListener('click', function (e) {
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="leading">AI 중점·선도학교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="competitor">경쟁사 연수 분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="trend2027">교사 트렌드 2027</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="member">연수원 회원분석</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="biz2027">기업·대학 트렌드 2027</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="aiep">시도 AIEP</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="pipeline">B2G영업</button>
@@ -2023,6 +2038,13 @@ document.addEventListener('click', function (e) {
       <p>공공 입찰(나라장터)·네이버 검색·블로그/카페·유튜브 교사 채널·교사몰·경쟁 연수원 신규 강좌를 주제별로 정규화해 합산합니다. <b>점수·성장률·단계는 데이터 계산값</b>이고, 키워드 이름과 설명 문장만 AI가 짓습니다(근거 수치는 카드에 그대로 표시). 순위는 분기마다 기록해 직전 분기와 비교합니다.</p>
     </div></div>
   </div><!-- /panel-trend2027 -->
+
+  <div class="tabpanel" id="panel-member">
+    <div class="callout"><div class="icon">i</div><div>
+      <h3>연수원 회원분석 — 누가·언제·무엇을·어디서 듣는가</h3>
+      <p>연수원 이수 기록을 학교급·지역·연령·성별·주제·시기·재방문으로 나눠 봅니다. 회원 수와 수강 건수, 비중만 보여 줍니다. 수치는 집계값이며 개인 정보는 담지 않습니다.</p>
+    </div></div>
+  </div><!-- /panel-member -->
 
   <div class="tabpanel" id="panel-competitor">
 
@@ -13475,6 +13497,85 @@ window.farm3d = function (host, C) {
   const keep = () => { const s = P.querySelector(':scope > .tab-asof'); if (s ? s.nextElementSibling !== sec : P.firstElementChild !== sec) (s ? s.after(sec) : P.prepend(sec)); };
   new MutationObserver(keep).observe(P, {childList: true}); keep();  // 한눈에 보기 등이 늦게 끼어들어도 '데이터 기준' 바로 아래 유지
 })();
+(function memberView(){  // 👥 연수원 회원분석(CP: 회원 수·수강 건수·비중만, 매출 제외). 사용자 요청 2026-11-22
+  const D = __MEMBER_JSON__, P = document.getElementById('panel-member'); if (!P) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const hs = v => h(v).replace(/&lt;(\/?)strong&gt;/g, '<$1strong>');
+  if (!D) { P.insertAdjacentHTML('beforeend', '<section class="panel"><p class="panel-desc">데이터 준비 중</p></section>'); return; }
+  const n = v => (v || 0).toLocaleString(), pc = (a, b) => b ? (a * 100 / b).toFixed(1) : '0.0';
+  const sec = (id, t, sub, body) => `<section class="panel mb-panel" id="${id}"><div class="panel-head"><div><p class="panel-title">${t}${sub ? `<span class="mb-sub">${sub}</span>` : ''}</p></div></div>${body}</section>`;
+  const bar = (rows, opt = {}) => { const mx = Math.max(1, ...rows.map(r => r.v)); return `<div class="mb-bars">${rows.map(r => `<div class="mb-row"><span class="mb-l">${h(r.l)}</span><span class="mb-track"><span class="mb-fill" style="width:${(r.v / mx * 100).toFixed(1)}%;background:${r.c || opt.c || 'var(--accent,#4f8cff)'}"></span></span><span class="mb-v">${r.t != null ? r.t : n(r.v)}</span></div>`).join('')}</div>`; };
+  const gcol = g => g == null ? '#94a3b8' : g > 0 ? '#059669' : g > -50 ? '#f59e0b' : '#dc2626';
+  const chip = g => g == null ? '' : `<span class="mb-chip" style="color:${gcol(g)}">${g > 0 ? '+' : ''}${g.toFixed(1)}%</span>`;
+  // 꺾은선(SVG) — series: [{name, v:[...], c}]
+  const line = (labels, series, H = 150) => { const W = 520, L = 40, B = 22, mx = Math.max(1, ...series.flatMap(s => s.v.filter(x => x != null)));
+    const X = i => L + i * (W - L - 10) / Math.max(1, labels.length - 1), Y = v => 8 + (H - B - 8) * (1 - v / mx);
+    const grid = [0, .5, 1].map(f => `<line x1="${L}" x2="${W - 10}" y1="${Y(mx * f)}" y2="${Y(mx * f)}" class="mb-grid"/><text x="${L - 4}" y="${Y(mx * f) + 4}" text-anchor="end" class="mb-ax">${n(Math.round(mx * f))}</text>`).join('');
+    const xl = labels.map((l, i) => `<text x="${X(i)}" y="${H - 6}" text-anchor="middle" class="mb-ax">${h(l)}</text>`).join('');
+    const ps = series.map(s => { const pts = s.v.map((v, i) => v == null ? null : [X(i), Y(v)]).filter(Boolean);
+      return `<polyline fill="none" stroke="${s.c}" stroke-width="2.5" points="${pts.map(p => p.join(',')).join(' ')}"/>${pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="${s.c}"><title>${h(s.name)} ${h(labels[i])}: ${n(s.v[i])}</title></circle>`).join('')}`; }).join('');
+    const lg = series.length > 1 ? `<div class="mb-lg">${series.map(s => `<span><i style="background:${s.c}"></i>${h(s.name)}</span>`).join('')}</div>` : '';
+    return `<svg viewBox="0 0 ${W} ${H}" class="mb-svg" role="img">${grid}${xl}${ps}</svg>${lg}`; };
+  const out = [];
+  // ① 회원 특성 정의
+  out.push(sec('mbDefine', '👥 연수원 회원 특성 정의', `${h(D.period)} · 이수 ${n(D.rows)}건 · 회원 ${n(D.members)}명`,
+    `<div class="mb-persona">${hs(D.persona)}</div><div class="mb-cards">${D.cards.map(c => `<div class="mb-card"><div class="mb-ck">${h(c.i)} ${h(c.k)}</div><div class="mb-cv">${h(c.v)}</div><div class="mb-cd">${h(c.d)}</div></div>`).join('')}</div><p class="mb-note">${h(D.caution)}</p>`));
+  // ② 연도·구간
+  const Y = D.years, S = D.seg;
+  out.push(sec('mbYears', '📉 연도별 이용 회원·수강', '2026 = 1~7월',
+    `<div class="mb-g2"><div>${line(Y.map(y => y.y + (y.partial ? '*' : '')), [{name: '회원', v: Y.map(y => y.mem), c: '#4f8cff'}, {name: '수강', v: Y.map(y => y.rows), c: '#f59e0b'}])}</div>
+     <div><table class="mb-t"><tr><th>구간</th><th>회원</th><th>1인 평균</th><th>재구매율</th><th>VIP(6회+)</th></tr>${S.labels.map((l, i) => `<tr><td>${h(l)}</td><td>${n(S.members[i])}</td><td>${S.avg_purchase[i]}건</td><td>${S.rp[i]}%</td><td>${S.vip_rate[i]}%</td></tr>`).join('')}</table>
+     <p class="mb-note">재구매는 늘고(30→37%) 단골(VIP)은 줄었다 — 두 번은 오지만 꾸준히 오지는 않는다.</p></div></div>`));
+  // ③ 학교급
+  const sm = D.school.reduce((a, x) => a + x.mem, 0), LC = {유치원: '#ec4899', 초등: '#10b981', 중등: '#4f8cff', 특수: '#a855f7', 기타: '#94a3b8'};
+  const yrs = [...new Set(D.school_year.map(x => x.y))].sort();
+  const sy = Object.keys(LC).map(k => ({name: k, c: LC[k], v: yrs.map(y => (D.school_year.find(x => x.k === k && x.y === y) || {}).mem ?? null)}));
+  out.push(sec('mbSchool', '🏫 학교급(유·초·중고·특수)', '회원 수 · 중등 = 중+고',
+    `<div class="mb-g2"><div>${bar(D.school.map(x => ({l: x.k, v: x.mem, c: LC[x.k], t: `${n(x.mem)}명 · ${pc(x.mem, sm)}%`})))}
+      <table class="mb-t" style="margin-top:10px"><tr><th>학교급</th><th>가장 많이 들은 과정</th><th>수강</th></tr>${Object.entries(D.school_top).map(([k, v]) => `<tr><td>${h(k)}</td><td class="l">${h(v[0])}</td><td>${n(v[1])}</td></tr>`).join('')}</table></div>
+     <div>${line(yrs.map(String), sy)}<p class="mb-note">'특수'는 2020~21년에 몰렸다가 사라져 특성화·직업계고가 섞였을 수 있습니다(해석 주의). 초등은 고교학점제 영향이 없어 순수 콘텐츠 수요에 가깝습니다.</p></div></div>`));
+  // ④ 지역
+  const R = D.region.filter(r => r.r !== '기타/미확인').sort((a, b) => b.mem - a.mem), rm = R.reduce((a, x) => a + x.mem, 0);
+  out.push(sec('mbRegion', '📍 지역(17개 시도)', '막대 = 누적 회원 · 색 = 2020→2024 수강 규모 증감',
+    `<div class="mb-g2"><div>${bar(R.map(r => ({l: r.r, v: r.mem, c: gcol(r.g), t: `${n(r.mem)} ${chip(r.g)}`})))}</div>
+     <div><table class="mb-t"><tr><th>시도</th><th>회원 비중</th><th>1인 수강</th><th>2023→24</th></tr>${R.map(r => `<tr><td>${h(r.r)}</td><td>${pc(r.mem, rm)}%</td><td>${(r.rows / r.mem).toFixed(2)}</td><td>${chip(r.g2) || '-'}</td></tr>`).join('')}</table>
+     <p class="mb-note"><span style="color:#059669">●</span> 증가 <span style="color:#f59e0b">●</span> 0~50% 감소 <span style="color:#dc2626">●</span> 50% 넘게 감소. 최근 1년은 경기·전북이 함께 성장.</p></div></div>`));
+  // ⑤ 연령·성별
+  const am = D.age.reduce((a, x) => a + x.mem, 0), gm = D.gender.reduce((a, x) => a + x.mem, 0);
+  const tops = o => `<table class="mb-t"><tr><th>구분</th><th>1위</th><th>2위</th><th>3위</th></tr>${Object.entries(o).map(([k, v]) => `<tr><td>${h(k)}</td>${v.map(x => `<td class="l">${h(x[0])} <small>${n(x[1])}</small></td>`).join('')}</tr>`).join('')}</table>`;
+  out.push(sec('mbAge', '🎂 연령·성별', '연령 = 생년월일 기준 · 성별 = 추정',
+    `<div class="mb-g2"><div><h5>연령대</h5>${bar(D.age.map(x => ({l: x.k, v: x.mem, c: '#6366f1', t: `${n(x.mem)}명 · ${pc(x.mem, am)}% · 1인 ${(x.rows / x.mem).toFixed(2)}건`})))}</div>
+     <div><h5>성별(추정)</h5>${bar(D.gender.map(x => ({l: x.k, v: x.mem, c: x.k.startsWith('여') ? '#ec4899' : x.k.startsWith('남') ? '#0ea5e9' : '#94a3b8', t: `${n(x.mem)}명 · ${pc(x.mem, gm)}%`})))}<p class="mb-note">이름 기반 추정이라 참고만 — 미확인이 37%입니다.</p></div></div>
+     <h5>연령대별 인기 과정</h5><div class="mb-scroll">${tops(D.top_age)}</div><h5>성별 인기 과정</h5><div class="mb-scroll">${tops(D.top_gender)}</div>
+     <p class="mb-note">연령·성별과 무관하게 고교학점제 과정이 상위 — 2020~22년 의무 연수 수요가 전 연령을 덮었습니다. 여성 추정 회원만 '그림책 수업'이 3위로 올라와 초등·국어 수업 콘텐츠 선호가 보입니다.</p>`));
+  // ⑥ 선호 주제·스타일
+  const CY = D.cat_year.slice().sort((a, b) => b.v[4] - a.v[4]), cmx = Math.max(1, ...CY.flatMap(c => c.v));
+  const heat = v => `background:rgba(79,140,255,${(0.08 + 0.85 * v / cmx).toFixed(2)})`;
+  const ST = D.style;
+  out.push(sec('mbPref', '🎯 선호 주제·수강 스타일', '카테고리별 수강 건수 2020~2024 · 2024 순',
+    `<div class="mb-scroll"><table class="mb-t mb-heat"><tr><th>카테고리</th>${[2020, 2021, 2022, 2023, 2024].map(y => `<th>${y}</th>`).join('')}<th>추세</th></tr>${CY.map(c => `<tr><td>${h(c.k)}</td>${c.v.map(v => `<td style="${heat(v)}">${n(v)}</td>`).join('')}<td>${c.v[0] ? chip((c.v[4] / c.v[0] - 1) * 100) : '<span class="mb-chip" style="color:#059669">신규</span>'}</td></tr>`).join('')}</table></div>
+     <div class="mb-g2" style="margin-top:12px"><div><h5>수강 스타일</h5><div class="mb-cards"><div class="mb-card"><div class="mb-ck">⚡ 바로 쓰는 실천형</div><div class="mb-cv">${ST.prac}%</div><div class="mb-cd">베스트 ${ST.of}개 중 ${ST.n}개 제목이 '당장·바로·요점·핵심만·실천' — 예: ${ST.ex.map(h).join(' / ')}</div></div>
+       <div class="mb-card"><div class="mb-ck">📦 필수 이수형</div><div class="mb-cv">1인 1.5건</div><div class="mb-cd">1년에 1~2과정만 듣는다 — 학점·의무 충족이 1차 동기</div></div></div></div>
+     <div><h5>베스트 과정 TOP 10</h5>${bar(D.best.map((b, i) => ({l: (i + 1) + '. ' + b.t, v: b.rows, c: '#14b8a6'})))}</div></div>`));
+  // ⑦ 시기
+  const M = Array.from({length: 12}, (_, i) => (i + 1) + '월');
+  out.push(sec('mbMonth', '🗓️ 수강 시기(연수 시작 월)', '2020~2024 합계 vs 2025 · 2026(1~7월)',
+    `<div class="mb-g2"><div>${line(M, [{name: '2020~24 합계', v: D.month, c: '#4f8cff'}])}</div><div>${line(M, [{name: '2025', v: D.month_2025, c: '#f59e0b'}, {name: '2026', v: D.month_2026.map((v, i) => i < 7 ? v : null), c: '#dc2626'}])}</div></div>
+     <p class="mb-note">4·5·9월(학기 초)에 수강이 몰립니다. 신청·결제는 그 직전(2~3월, 8월)일 가능성이 커서 안내는 한 달 먼저, 운영·상담 인력은 수강 달에 배치하는 이원 달력이 맞습니다. ${D.month_2025[3] ? `2026년 4월은 ${n(D.month_2026[3])}건으로 2025년 4월(${n(D.month_2025[3])}건)보다 ${Math.round((1 - D.month_2026[3] / D.month_2025[3]) * 100)}% 적습니다.` : ''}</p>`));
+  // ⑧ 재방문(코호트)
+  const CO = D.cohort, crow = (k, y) => { const o = (CO[k] || {})[y] || {}; return [o['코호트크기'], ...Object.keys(o).filter(x => x.includes('잔존')).map(x => o[x])]; };
+  out.push(sec('mbCohort', '🔁 첫 수강 이후 다시 오는 비율', '첫 수강 연도별 · 구간 안에서만',
+    `<table class="mb-t"><tr><th>첫 수강</th><th>인원</th><th>첫해</th><th>+1년</th><th>+2년</th></tr>${[['A_2020-22', '2020'], ['A_2020-22', '2021'], ['A_2020-22', '2022'], ['B_2023-24', '2023'], ['B_2023-24', '2024']].map(([k, y]) => { const r = crow(k, y); return `<tr><td>${y}</td><td>${n(r[0])}</td>${[1, 2, 3].map(i => `<td>${r[i] != null ? `<span class="mb-ret" style="--w:${r[i]}%">${r[i]}%</span>` : ''}</td>`).join('')}</tr>`; }).join('')}
+     <tr><td>2025</td><td>${n((CO.C_2025 || {})['2025']?.['코호트크기'])}</td><td><span class="mb-ret" style="--w:100%">100%</span></td><td><span class="mb-ret" style="--w:${(CO.C_2025 || {})['2025→26partial']?.['2026partial잔존율(%)'] || 0}%">${(CO.C_2025 || {})['2025→26partial']?.['2026partial잔존율(%)'] ?? '-'}%</span> <small>(2026.7까지)</small></td><td></td></tr></table>
+     <p class="mb-note">다음 해에 다시 오는 회원은 15~21% — 5명 중 4명은 한 번 듣고 떠납니다. 첫 과정 직후 '다음 과정' 경로가 핵심 과제입니다.</p>`));
+  // ⑨ 교과서 연계
+  const TB = D.textbook;
+  out.push(sec('mbTextbook', '📚 교과서·교과 연계 — 비상 강점 5분야', '2020~2024 수강 기준',
+    `<div class="mb-cards">${TB.rows.map(r => `<div class="mb-card"><div class="mb-ck">${h(r.k)}</div><div class="mb-cv">${r.has ? n(r.rows) + '건' : '전용 과정 없음'}</div><div class="mb-cd">${r.has ? '전체 수강의 ' + r.share + '%' : '수강 분류에 해당 교과 과정이 따로 잡히지 않음'}</div></div>`).join('')}</div>
+     <p class="mb-note">교과서와 바로 이어지는 과정은 독서·진로 정도이고, 과학·한국사·수학 교과 연수는 분류상 보이지 않습니다(분류 안 된 '기타'가 ${TB.etc_share}%). 비상 교과서 강점 분야가 연수 회원에게는 아직 상품으로 닿지 않았다는 뜻 — <b>교과서 단원 연계 연수(교과 협의회 단위 B2S)</b>가 빈자리입니다. 다음 단계: 학교명 기준으로 비상 교과서 채택 학교와 회원 학교를 맞춰 보면 '채택교 교사의 연수 전환율'을 잴 수 있습니다.</p>`));
+  P.insertAdjacentHTML('beforeend', out.join(''));
+})();
+
 (function samMade(){  // 🧩 샘몰 트렌드 바로 아래: 샘메이드 추천 · 바이브 코딩 HOT(교사 사용 에듀테크 · 교사 제작 도구 · 상품 기획). 사용자 요청 2026-11-22
   const D = __SAMMADE_JSON__, P = document.getElementById('panel-b2s'); if (!D || !P) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -13673,12 +13774,12 @@ window.farm3d = function (host, C) {
   const KEY = 'viewMode.v1', load = () => { try { return localStorage.getItem(KEY) || DEF; } catch (e) { return DEF; } };
   const save = v => { try { v === DEF ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, v); } catch (e) { /* 저장 불가 환경 */ } };
   const GROUPS = [
-    ['시장·정책', '#4f8cff', ['market', 'strategy', 'trend2027', 'biz2027']],
+    ['시장·정책', '#4f8cff', ['market', 'strategy', 'trend2027', 'member', 'biz2027']],
     ['조달·발주', '#f59e0b', ['g2bfull', 'keris', 'g2b', 'school', 'aiep']],
     ['영업 B2G·B2S', '#10b981', ['pipeline', 'branch', 'adopt', 'leading', 'b2s']],
     ['경쟁·성과', '#ef4444', ['competitor', 'neti', 'content', 'eco']],
     ['연결·관리', '#8b5cf6', ['network', 'beta', 'admin']]];
-  const SHORT = {strategy: '전략브리핑', trend2027: '교사트렌드2027', biz2027: '기업·대학2027', g2bfull: '나라장터종합', g2b: 'AI발주', school: '학교단위발주',
+  const SHORT = {strategy: '전략브리핑', trend2027: '교사트렌드2027', member: '회원분석', biz2027: '기업·대학2027', g2bfull: '나라장터종합', g2b: 'AI발주', school: '학교단위발주',
     aiep: '시도AIEP', pipeline: 'B2G영업', branch: '지역총판', adopt: '교과서채택', leading: 'AI중점학교', b2s: 'B2S·샘몰', competitor: '경쟁사분석',
     neti: '이수현황', content: '콘텐츠·매출', eco: '교사생태계', network: '생태계', beta: '베타', admin: '관리'};
   const btn = {}; nav.querySelectorAll('.tabbtn').forEach(b => { if (!b.hidden) btn[b.dataset.tab] = b; });
@@ -13717,7 +13818,7 @@ window.farm3d = function (host, C) {
   let mode = load(), gsel = null, folded = false;
   let home = !(typeof parseHashState === 'function' && parseHashState().tab);  // 처음 열면 앱 홈(주소에 탭이 있으면 그 탭)
   const TSIZE = ['l', 'w', 's', 's', 'w', 's', 's'];
-  const ICON = {market: '🗺️', strategy: '🧭', trend2027: '📈', biz2027: '🏢', g2bfull: '🏛️', keris: '💾', g2b: '🤖', school: '🏫', aiep: '🧩',
+  const ICON = {market: '🗺️', strategy: '🧭', trend2027: '📈', member: '👥', biz2027: '🏢', g2bfull: '🏛️', keris: '💾', g2b: '🤖', school: '🏫', aiep: '🧩',
     pipeline: '🤝', branch: '📍', adopt: '📚', leading: '🌟', b2s: '🛒', competitor: '🔍', neti: '🎓', content: '💰', eco: '🌱',
     network: '🕸️', beta: '🧪', admin: '🔒', search: '🔎'};
   const HV_KEY = 'appHomeView.v2';
