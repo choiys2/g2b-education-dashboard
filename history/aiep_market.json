@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21",
+ "updated": "2026-11-22",
  "bids": {
   "R26BK01597241-000": {
    "t": "인공지능 맞춤형 교수학습 플랫폼(AIEP) 연계 통합 포털 임차 및 계정 관리 용역 사업",
@@ -34,7 +34,7 @@
    "d": "2026-08-11",
    "budget": 163695320,
    "method": "수의계약",
-   "kw": "AIEP",
+   "kw": "교수학습플랫폼",
    "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01675207&bidPbancOrd=000"
   },
   "R26BK01802851-000": {
@@ -46,8 +46,68 @@
    "d": "2026-11-03",
    "budget": 160500000,
    "method": "제한경쟁",
-   "kw": "AIEP",
+   "kw": "아이로",
    "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01802851&bidPbancOrd=000"
+  },
+  "R26BK01708034-000": {
+   "t": "우리아이 교수학습 플랫폼 생성형 인공지능(AI) 웍스AI 라이선스 구입",
+   "kind": "물품",
+   "cat": "구축·운영",
+   "org": "울산광역시교육청",
+   "r": "울산",
+   "d": "2026-09-01",
+   "budget": 65800000,
+   "method": "수의계약",
+   "kw": "교수학습 플랫폼",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01708034&bidPbancOrd=000"
+  },
+  "R26BK01746203-000": {
+   "t": "다채움-한국교육과정평가원 평가서비스 연계 및 활용체계 구축 위탁 용역",
+   "kind": "용역",
+   "cat": "연수·활용",
+   "org": "충청북도교육청",
+   "r": "충북",
+   "d": "2026-10-13",
+   "budget": 198987920,
+   "method": "제한경쟁",
+   "kw": "다채움",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01746203&bidPbancOrd=000"
+  },
+  "R26BK01685665-000": {
+   "t": "2026. 충북 다차원 학생성장 플랫폼 다채움 품질 제고",
+   "kind": "용역",
+   "cat": "구축·운영",
+   "org": "충청북도교육청",
+   "r": "충북",
+   "d": "2026-08-18",
+   "budget": 1409830000,
+   "method": "수의계약",
+   "kw": "다채움",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01685665&bidPbancOrd=000"
+  },
+  "R26BK01719926-000": {
+   "t": "[긴급] 2026년 광주아이온(AI-ON) 운영 기능개선 및 유지관리 사업",
+   "kind": "용역",
+   "cat": "구축·운영",
+   "org": "전남광주통합특별시교육청 전남광주통합특별시교육청AI교육원",
+   "r": "전남",
+   "d": "2026-09-14",
+   "budget": 850000000,
+   "method": "제한경쟁",
+   "kw": "아이온",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01719926&bidPbancOrd=000"
+  },
+  "R26BK01767120-000": {
+   "t": "2026. AI 빅데이터 플랫폼[아이모두] 교수학습 지원 협업 플랫폼 사용권 구매 용역",
+   "kind": "용역",
+   "cat": "구축·운영",
+   "org": "전남광주통합특별시교육청 전남광주통합특별시교육청전남창의융합교육원",
+   "r": "전남",
+   "d": "2026-10-13",
+   "budget": 99000000,
+   "method": "일반경쟁",
+   "kw": "아이모두",
+   "u": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01767120&bidPbancOrd=000"
   }
  },
  "awards": {
@@ -94,6 +154,61 @@
    "v": "",
    "amt": 81000000,
    "n": 1
+  },
+  "R26BK01708034-000": {
+   "t": "우리아이 교수학습 플랫폼 생성형 인공지능(AI) 웍스AI 라이선스 구입",
+   "kind": "물품",
+   "org": "울산광역시교육청",
+   "r": "울산",
+   "d": "2026-09-07",
+   "winner": "자이림",
+   "v": "",
+   "amt": 58154040,
+   "n": 2
+  },
+  "R26BK01746203-000": {
+   "t": "다채움-한국교육과정평가원 평가서비스 연계 및 활용체계 구축 위탁 용역",
+   "kind": "용역",
+   "org": "충청북도교육청",
+   "r": "충북",
+   "d": "2026-10-29",
+   "winner": "주식회사 에이아이데이타",
+   "v": "",
+   "amt": 197000000,
+   "n": 5
+  },
+  "R26BK01685665-000": {
+   "t": "2026. 충북 다차원 학생성장 플랫폼 다채움 품질 제고",
+   "kind": "용역",
+   "org": "충청북도교육청",
+   "r": "충북",
+   "d": "2026-08-21",
+   "winner": "주식회사 에이아이데이타",
+   "v": "",
+   "amt": 1378000000,
+   "n": 1
+  },
+  "R26BK01719926-000": {
+   "t": "[긴급] 2026년 광주아이온(AI-ON) 운영 기능개선 및 유지관리 사업",
+   "kind": "용역",
+   "org": "전남광주통합특별시교육청 전남광주통합특별시교육청AI교육원",
+   "r": "전남",
+   "d": "2026-10-02",
+   "winner": "주식회사 버블콘",
+   "v": "",
+   "amt": 838999000,
+   "n": 3
+  },
+  "R26BK01767120-000": {
+   "t": "2026. AI 빅데이터 플랫폼[아이모두] 교수학습 지원 협업 플랫폼 사용권 구매 용역",
+   "kind": "용역",
+   "org": "전남광주통합특별시교육청 전남광주통합특별시교육청전남창의융합교육원",
+   "r": "전남",
+   "d": "2026-11-04",
+   "winner": "테크빌교육(주)",
+   "v": "티처빌",
+   "amt": 98000000,
+   "n": 2
   }
  },
  "participants": {
@@ -152,6 +267,94 @@
     "amt": 274386280,
     "v": ""
    }
+  ],
+  "R26BK01767120-000": [
+   {
+    "corp": "테크빌교육(주)",
+    "rank": 1,
+    "amt": 98000000,
+    "v": "티처빌"
+   },
+   {
+    "corp": "즐거운학교 주식회사",
+    "rank": null,
+    "amt": 99000000,
+    "v": ""
+   }
+  ],
+  "R26BK01746203-000": [
+   {
+    "corp": "주식회사 에이아이데이타",
+    "rank": 1,
+    "amt": 197000000,
+    "v": ""
+   },
+   {
+    "corp": "주식회사 로동",
+    "rank": 2,
+    "amt": 158000000,
+    "v": ""
+   },
+   {
+    "corp": "주식회사 블루스카이",
+    "rank": 3,
+    "amt": 172913252,
+    "v": ""
+   },
+   {
+    "corp": "주식회사 이지온",
+    "rank": 4,
+    "amt": 194833000,
+    "v": ""
+   },
+   {
+    "corp": "주식회사 내일은개발",
+    "rank": 5,
+    "amt": 187150000,
+    "v": ""
+   }
+  ],
+  "R26BK01719926-000": [
+   {
+    "corp": "주식회사 버블콘",
+    "rank": 1,
+    "amt": 838999000,
+    "v": ""
+   },
+   {
+    "corp": "트래시스 (주)",
+    "rank": null,
+    "amt": 757800000,
+    "v": ""
+   },
+   {
+    "corp": "(주)엔에스데블",
+    "rank": null,
+    "amt": 845000000,
+    "v": ""
+   }
+  ],
+  "R26BK01708034-000": [
+   {
+    "corp": "자이림",
+    "rank": 1,
+    "amt": 58154040,
+    "v": ""
+   },
+   {
+    "corp": "선",
+    "rank": null,
+    "amt": 58022380,
+    "v": ""
+   }
+  ],
+  "R26BK01685665-000": [
+   {
+    "corp": "주식회사 에이아이데이타",
+    "rank": 1,
+    "amt": 1378000000,
+    "v": ""
+   }
   ]
  },
  "status": {
@@ -181,107 +384,9 @@
    "우리아이",
    "하이러닝"
   ],
-  "stop07": {
-   "getBidPblancListInfoServcPPSSrch|AIEP": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|AIEP": "2026-11-20",
-   "getBidPblancListInfoThngPPSSrch|AIEP": "2026-11-20",
-   "getScsbidListSttusThngPPSSrch|AIEP": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|교수학습 플랫폼": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|교수학습 플랫폼": "2026-11-20",
-   "getBidPblancListInfoThngPPSSrch|교수학습 플랫폼": "2026-11-20",
-   "getScsbidListSttusThngPPSSrch|교수학습 플랫폼": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|교수학습플랫폼": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|교수학습플랫폼": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|교수·학습 플랫폼": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|교수·학습 플랫폼": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|교수학습지원 플랫폼": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|교수학습지원 플랫폼": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|AI 맞춤형": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|AI 맞춤형": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|AI맞춤형": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|AI맞춤형": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|AI 교육플랫폼": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|AI 교육플랫폼": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|AI교육플랫폼": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|AI교육플랫폼": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|AI 교육 플랫폼": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|AI 교육 플랫폼": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|하이러닝": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|하이러닝": "2026-11-20",
-   "getBidPblancListInfoThngPPSSrch|하이러닝": "2026-11-20",
-   "getScsbidListSttusThngPPSSrch|하이러닝": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|다채움": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|다채움": "2026-11-20",
-   "getBidPblancListInfoThngPPSSrch|다채움": "2026-11-20",
-   "getScsbidListSttusThngPPSSrch|다채움": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|마주온": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|마주온": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|에듀아이": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|에듀아이": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|아이로": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|아이로": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|SEN스쿨": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|SEN스쿨": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|바당": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|바당": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|아이온": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|아이온": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|아이든": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|아이든": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|아이모두": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|아이모두": "2026-11-20",
-   "getBidPblancListInfoThngPPSSrch|아이모두": "2026-11-20",
-   "getScsbidListSttusThngPPSSrch|아이모두": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|AI배움터": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|AI배움터": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|우리아이": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|우리아이": "2026-11-20",
-   "getBidPblancListInfoServcPPSSrch|AI드림": "2026-11-20",
-   "getScsbidListSttusServcPPSSrch|AI드림": "2026-11-20"
-  },
-  "diag": [
-   "getBidPblancListInfoServcPPSSrch AI 교육 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch AI 교육플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch AI 맞춤형 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch AIEP 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch AI교육플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch AI드림 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch AI맞춤형 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch AI배움터 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch SEN스쿨 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 교수·학습 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 교수학습 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 교수학습지원 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 교수학습플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 다채움 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 마주온 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 바당 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 아이든 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 아이로 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 아이모두 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 아이온 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 에듀아이 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 우리아이 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoServcPPSSrch 하이러닝 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoThngPPSSrch AIEP 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoThngPPSSrch 교수학습 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoThngPPSSrch 다채움 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoThngPPSSrch 아이모두 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getBidPblancListInfoThngPPSSrch 하이러닝 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch AI 교육 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch AI 교육플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch AI 맞춤형 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch AIEP 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch AI교육플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch AI드림 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch AI맞춤형 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch AI배움터 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch SEN스쿨 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch 교수·학습 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch 교수학습 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러",
-   "getScsbidListSttusServcPPSSrch 교수학습지원 플랫폼 11-13~11-20: code 07 입력범위값 초과 에러"
-  ],
+  "stop07": {},
+  "diag": [],
   "note": "완료",
-  "sec": 222
+  "sec": 1692
  }
 }
