@@ -1,6 +1,6 @@
 {
- "at": "2026-11-22 11:54",
- "places": 230,
+ "at": "2026-11-22 13:08",
+ "places": 260,
  "by_region": {
   "서울": 26,
   "부산": 16,
@@ -10,7 +10,7 @@
   "대전": 2,
   "울산": 0,
   "세종": 2,
-  "경기": 0,
+  "경기": 30,
   "강원": 28,
   "충북": 1,
   "충남": 18,
@@ -21,8 +21,6 @@
   "제주": 15
  },
  "errors": [
-  "경기 숙박: <urlopen error _ssl.c:994: The handshake operation timed out>",
-  "전북 컨벤션: <urlopen error _ssl.c:994: The handshake operation timed out>",
-  "제주 연수원: <urlopen error _ssl.c:994: The handshake operation timed out>"
+  "충북 컨벤션: The read operation timed out"
  ]
 }
