@@ -11055,6 +11055,8 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .sx-woh{display:flex;gap:6px;align-items:center;flex-wrap:wrap;} .sx-woh b{font-size:13.5px;min-width:0;overflow-wrap:anywhere;} .sx-woh em{font-style:normal;font-size:11px;font-weight:800;color:#fff;background:var(--rival);padding:1px 7px;border-radius:999px;} .sx-woh span{font-size:11px;color:var(--muted);} .sx-woh button:first-of-type{margin-left:auto;}
 .sx-wo ul{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:4px;} .sx-wo li{font-size:12px;line-height:1.4;overflow-wrap:anywhere;} .sx-wo li span{color:var(--muted);margin-right:6px;} .sx-wo li small{color:var(--muted);margin-left:6px;} .sx-wo li.nw{font-weight:800;}
 @media (max-width:760px){.cpv-card header{flex-wrap:wrap;} .sx-fcs,.sx-cmp{grid-template-columns:minmax(0,1fr);} .sx-sim label{grid-template-columns:minmax(0,1fr);} .sx-sim input{grid-column:1;grid-row:auto;} .sx-exp button{padding:3px 6px;}}
+/* ⚡ 아주 큰 표·목록 묶음은 화면에 보일 때 배치(탭 전환 지연 줄임) */
+.cv-lazy{content-visibility:auto;contain-intrinsic-size:auto 1400px;}
 /* 🎨 시각화 확장: 트리맵·미니 격자·와플·레이스·시간 여행 */
 .vm-tm:hover rect:first-child{stroke:var(--market);stroke-width:3;}
 .vm-tz b{font-size:15px;} .vm-tz small{color:var(--muted);}
@@ -12739,7 +12741,7 @@ window.farm3d = function (host, C) {
   }
   let busy = false;
   function run(){ if (busy || !isOn()) return; busy = true; try { const root = document.querySelector('.tabpanel.active') || document; root.querySelectorAll('svg').forEach(s => { try { svg3d(s); } catch (e) { /* 한 그림 오류는 건너뜀 */ } }); html3d(root); } finally { busy = false; } }
-  let t = null; const later = () => { clearTimeout(t); t = setTimeout(run, 350); };
+  let t = null; const later = () => { clearTimeout(t); t = setTimeout(run, 60); };
   function clear(){ document.querySelectorAll('.v3d-x').forEach(e => e.remove()); document.querySelectorAll('[data-v3d-n]').forEach(s => { delete s.dataset.v3dN; s.classList.remove('v3d-map'); }); document.querySelectorAll('.v3d-bar,.v3d-tube').forEach(e => e.classList.remove('v3d-bar', 'v3d-tube')); }
   window.v3d = {run, clear, isOn, set(on){ try { on ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, '1'); } catch (e) { /* 저장 불가 */ } document.documentElement.classList.toggle('v3d', on); if (on) { document.querySelectorAll('[data-v3d-n]').forEach(s => delete s.dataset.v3dN); run(); } else clear(); }};
   document.documentElement.classList.toggle('v3d', isOn());
@@ -12747,7 +12749,7 @@ window.farm3d = function (host, C) {
     document.querySelectorAll('.tabpanel').forEach(p => mo.observe(p, {childList: true, subtree: true}));
     const mo2 = new MutationObserver(later); document.querySelectorAll('.tabpanel').forEach(p => mo2.observe(p, {attributes: true, attributeFilter: ['class', 'hidden']}));
     document.addEventListener('click', e => { if (e.target.closest('.tabbtn,[data-t],[data-g],[data-go],[data-gt]')) later(); }, true); window.addEventListener('hashchange', later); window.addEventListener('resize', later); };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 600)); else setTimeout(start, 600);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(start)); else requestAnimationFrame(start);
 })();
 /* 🗺️ 입체 지도(공통): 전국 ↔ 17개 시도 선택, 시도를 고르면 그 시도의 시군구로 확대하고 수치를 입체 막대로 비교한다.
    cfg = {title, unit, fmt, color, sido:{시도:값}, sgg:{시군구코드:값}, cat:{시도:색}, sel, onPick(시도|'전국'), tip(시도)->html, detail(시도)->[[이름, 값, 전국값]], footer} */
@@ -12891,7 +12893,9 @@ window.farm3d = function (host, C) {
     return null;
   }
   function ensure(root){
-    if (!root || root.offsetParent === null || root.querySelector(':scope > .tvz') ) return;
+    if (!root || root.offsetParent === null) return;
+    const old = root.querySelector(':scope > .tvz'); if (old && (old.dataset.kind !== 'table' || !figs(root).length)) return;
+    if (old) old.remove();  // 표로 만든 임시 요약 -> 실제 그림이 생겼으니 교체
     const R = root.getBoundingClientRect(); if (R.height < 200) return;  // 아직 그려지지 않은 화면
     const fs = figs(root);
     if (fs.some(e => e.getBoundingClientRect().top - R.top < Math.min(560, window.innerHeight * .75))) return;  // 이미 맨 위에 그림 있음
@@ -12902,19 +12906,24 @@ window.farm3d = function (host, C) {
       c.classList && c.classList.add('tvz-clone'); if (c.tagName === 'svg') { c.style.width = '100%'; c.style.height = 'auto'; }
       html = c.outerHTML;
     } else { const t = tableFig(root); if (!t) return; html = t.svg; title = t.title; target = t.target; }
-    const box = document.createElement('section'); box.className = 'tvz';
+    const box = document.createElement('section'); box.className = 'tvz'; box.dataset.kind = fs.length ? 'fig' : 'table';
     box.innerHTML = `<div class="tvz-head"><b>📊 한눈에 보기</b><span>${esc(title)}</span><button type="button" class="tvz-go">자세히 ↓</button></div><div class="tvz-fig">${html}</div>`;
     box.querySelector('.tvz-go').addEventListener('click', () => target && target.scrollIntoView({behavior: 'smooth', block: 'center'}));
     const anchor = root.querySelector(':scope > .gd-field'); if (anchor) anchor.after(box); else root.prepend(box);
-    if (window.v3d && window.v3d.run) setTimeout(window.v3d.run, 50);
+    if (window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run());
   }
   const roots = () => { const out = []; const a = document.querySelector('.tabpanel.active'); if (!a) return out;
     if (a.id === 'panel-admin') a.querySelectorAll('.adm-pane:not([hidden])').forEach(p => out.push(p)); else out.push(a); return out; };
-  let t = null; const later = (ms) => { clearTimeout(t); t = setTimeout(() => roots().forEach(r => { try { ensure(r); } catch (e) { console.warn('tvz', e); } }), ms || 1400); };
-  window.tvzRun = () => later(10);
-  document.addEventListener('click', e => { if (e.target.closest('.tabbtn,[data-t],[data-g],[data-go],[data-gt],[data-pane]')) later(); }, true);
+  const now = () => roots().forEach(r => { try { ensure(r); } catch (e) { console.warn('tvz', e); } });
+  let ts = [];  // 바로 한 번(다음 프레임) + 늦게 그려지는 화면을 위해 짧게 몇 번 더 확인
+  const later = () => { ts.forEach(clearTimeout); requestAnimationFrame(now); ts = [60, 150, 300, 600, 1200].map(ms => setTimeout(now, ms)); };
+  window.tvzRun = later;
+  if (typeof window.activateTab === 'function' && !window.activateTab.__tvz) {  // 탭을 여는 순간 바로 점검(클릭·주소·앱 이동 모두)
+    const _a = window.activateTab; window.activateTab = function(){ const r = _a.apply(this, arguments); later(); if (window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run()); return r; }; window.activateTab.__tvz = 1; }
+  document.addEventListener('click', e => { if (e.target.closest('.tabbtn,[data-t],[data-g],[data-go],[data-gt],[data-pane]')) setTimeout(later, 0); }, true);
   window.addEventListener('hashchange', () => later());
-  const start = () => { later(1800); const mo = new MutationObserver(() => later(1600)); document.querySelectorAll('.tabpanel').forEach(p => mo.observe(p, {attributes: true, attributeFilter: ['class', 'hidden'], childList: true})); };
+  let mt = null;
+  const start = () => { later(); const mo = new MutationObserver(() => { cancelAnimationFrame(mt); mt = requestAnimationFrame(now); }); document.querySelectorAll('.tabpanel').forEach(p => mo.observe(p, {attributes: true, attributeFilter: ['class', 'hidden'], childList: true})); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 /* 📊 연동 시각화(고도화 A·B·C): 시도·기간 필터를 모든 차트가 함께 따르고(지도에서 고른 시도도 반영), 두 시도 비교·표로 보기·색약 모드·숫자 올라가기.
@@ -13231,6 +13240,12 @@ window.farm3d = function (host, C) {
     const s = t.closest('.sx-sim'); if (s && t.dataset.k) sim(s);
   });
   scan(); setInterval(scan, 1500);
+})();
+(function lazyHeavy(){  // ⚡ 요소가 2천 개 넘는 큰 묶음(학교 상세 표 등)은 보일 때만 배치 -> 탭 전환이 바로 그려지게
+  const mark = () => document.querySelectorAll('.tabpanel > section, .tabpanel > details, .tabpanel > div').forEach(c => {
+    if (!c.classList.contains('cv-lazy') && c.getElementsByTagName('*').length > 2000) { c.classList.add('cv-lazy');
+      c.addEventListener('contentvisibilityautostatechange', e => { if (!e.skipped && window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run()); }); } });
+  mark(); setTimeout(mark, 3000);
 })();
 (function vizMore(){  // 🎨 시각화 확장: 트리맵 확대 · 막대 레이스 · 시간 여행 · ✨ 전 화면 교차 강조
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
