@@ -435,6 +435,15 @@ def _cpviz():
         return None
 
 
+def _keymsg():
+    """CP 키메시지 띠·이번 주 스토리 데이터(시장 사실 숫자만)."""
+    try:
+        return __import__("keymsg").build()
+    except Exception as e:  # noqa: BLE001
+        print(f"[경고] 키메시지 실패: {type(e).__name__}")
+        return None
+
+
 def _morning():
     """CP 텃밭 소식판·우체부용 오늘의 조간 머리기사(공개 지면 내용만)."""
     try:
@@ -1034,7 +1043,7 @@ def main():
         "__TREND2027_JSON__": trend2027,
         # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
         "__STRATEGY_JSON__": _strategy(),
-        "__STRENGTH5_JSON__": _strength5(), "__CPX_JSON__": _cpx(), "__MORNING_JSON__": _morning(),
+        "__STRENGTH5_JSON__": _strength5(), "__CPX_JSON__": _cpx(), "__KEYMSG_JSON__": _keymsg(), "__MORNING_JSON__": _morning(),
         "__GG_B2S_JSON__": load("history/gg_b2s.json") if os.path.exists("history/gg_b2s.json") else None,  # B2S 경기 시군
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)

@@ -833,6 +833,8 @@ document.addEventListener('click', function (e) {
 
   <div id="g2bStaleNote" role="status" hidden style="margin:10px 0 0;padding:9px 14px;border-radius:10px;font-size:13px;background:color-mix(in srgb, var(--warning) 18%, var(--surface));border:1px solid color-mix(in srgb, var(--warning) 45%, transparent);"></div>
 
+  <section id="kmBar" class="km-bar" hidden aria-label="오늘의 키메시지"></section>
+
   <div class="tabpanel active" id="panel-market">
 
   <section class="kpis" id="kpis"></section>
@@ -2695,6 +2697,7 @@ const SCHOOL_CONTRACT_TREND = {"years":["2009","2010","2011","2012","2013","2014
 const KOSIS_FINANCE = __KOSIS_FINANCE_JSON__;
 const COMPETITOR_TRAINING = __COMPETITOR_TRAINING_JSON__;
 const STRATEGY = __STRATEGY_JSON__;
+window.__KM = __KEYMSG_JSON__;  // CP 키메시지(시장 사실 숫자)
 window.__CPXD = __CPX_JSON__;  // 연동 시각화 데이터(숫자 위주)
 window.__S5 = __STRENGTH5_JSON__;  // 강점 5분야 온도계(건수만)
 window.__MORNING = __MORNING_JSON__;  // 오늘의 조간 머리기사(공개 지면)  // 에듀테크 전략 브리핑(strategy_crypto.load_all)
@@ -11090,6 +11093,29 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .province-shape:focus-visible{outline:none;filter:brightness(1.12) drop-shadow(0 0 0 var(--accent)) drop-shadow(0 0 3px var(--accent));}
 .gd-scene .gd-crop:focus-visible{filter:drop-shadow(0 0 4px var(--accent));}
 :is(.sx-q summary,.vm-tm,.vm-mini,[data-tm]):focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+/* 📰 CP 키메시지 띠 · 📱 이번 주 스토리 */
+.km-bar{margin:12px 0;padding:8px 10px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(120deg,var(--surface),color-mix(in srgb,var(--market) 7%,var(--surface)));box-shadow:0 12px 24px -22px rgba(15,23,42,.6);}
+body:has(#panel-admin.active) .km-bar{display:none;}
+.km-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+.km-msg{appearance:none;flex:1 1 320px;min-width:0;display:flex;align-items:center;gap:8px;text-align:left;font:inherit;font-size:14.5px;font-weight:800;color:var(--ink);background:transparent;border:0;cursor:pointer;padding:6px 4px;animation:kmIn .35s ease-out;}
+.km-i{font-size:20px;flex:none;} .km-t{min-width:0;} .km-go{margin-left:auto;color:var(--muted);font-size:18px;}
+@keyframes kmIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+.km-dots{display:flex;gap:4px;} .km-dots i{width:6px;height:6px;border-radius:50%;background:var(--border);} .km-dots i.on{background:var(--market);width:16px;border-radius:3px;}
+.km-b,.km-new{appearance:none;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--ink);min-height:32px;}
+.km-b em{font-style:normal;font-size:10.5px;color:#fff;background:var(--rival);border-radius:999px;padding:1px 6px;margin-left:5px;}
+.km-new{background:color-mix(in srgb,var(--warn) 22%,var(--surface));border-color:var(--warn);}
+.km-pref{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:8px 4px 2px;font-size:13px;} .km-pref select{font:inherit;padding:5px 8px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--ink);} .km-pref small{color:var(--muted);}
+.km-story{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:16px;}
+.km-sbox{width:min(560px,100%);background:var(--surface);border-radius:22px;padding:14px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);}
+.km-shead{display:flex;align-items:center;gap:8px;margin-bottom:10px;} .km-shead span{flex:1;font-size:12px;color:var(--muted);} .km-shead button{appearance:none;border:0;background:var(--surface-2);border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;color:var(--ink);}
+.km-cards{display:grid;grid-auto-flow:column;grid-auto-columns:100%;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px;}
+.km-card{scroll-snap-align:center;border-radius:18px;padding:22px 20px;min-height:300px;display:flex;flex-direction:column;gap:10px;color:#fff;
+  background:linear-gradient(150deg,hsl(calc(200 + var(--i) * 28) 70% 42%),hsl(calc(230 + var(--i) * 28) 65% 30%));}
+.km-ci{font-size:32px;} .km-big{font-size:46px;font-weight:900;letter-spacing:-1px;line-height:1.05;} .km-card p{margin:0;font-size:17px;font-weight:700;line-height:1.5;flex:1;}
+.km-card .km-b{align-self:flex-start;background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.4);color:#fff;} .km-card small{opacity:.8;font-size:12px;}
+@media (max-width:640px){.km-msg{flex-basis:100%;font-size:14px;} .km-big{font-size:38px;} .km-card{min-height:260px;}}
+@media (pointer:coarse){.km-b,.km-new{min-height:40px;}}
+@media (prefers-reduced-motion:reduce){.km-msg{animation:none;}}
 /* 🎧 듣는 조간 */
 .lm-btn{appearance:none;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--ink);min-height:32px;}
 .lm-btn[aria-pressed="true"]{background:var(--ink);color:var(--surface);}
@@ -13307,6 +13333,86 @@ window.farm3d = function (host, C) {
     if (!c.classList.contains('cv-lazy') && c.getElementsByTagName('*').length > 2000) { c.classList.add('cv-lazy');
       c.addEventListener('contentvisibilityautostatechange', e => { if (!e.skipped && window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run()); }); } });
   mark(); setTimeout(mark, 3000);
+})();
+(function keyMsg(){  // 📰 오늘의 키메시지 띠 · 📱 이번 주 시장 스토리 · 🎯 내 관점 · 🔔 변화 배지 · 💡 알고 계셨나요 (선택·방문 기록은 이 브라우저에만)
+  const K = window.__KM, bar = document.getElementById('kmBar');
+  if (!K || !K.sd || !bar) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const LS = {get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+              set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가 */ } }};
+  const PK = 'km.pref.v1', SK = 'km.seen.v1', STK = 'km.story.v1', WD = ['월', '화', '수', '목', '금', '토', '일'];
+  const week = (() => { const d = new Date(); const j = new Date(d.getFullYear(), 0, 1); return d.getFullYear() + '-' + Math.ceil(((d - j) / 864e5 + j.getDay() + 1) / 7); })();
+  const pref = () => LS.get(PK, {sd: '', tp: ''});
+  const won = v => (+v >= 1 ? (+v).toFixed(1).replace(/\.0$/, '') + '억' : Math.round(+v * 1e4).toLocaleString() + '만');
+  const fcTot = (K.fc || []).reduce((a, x) => a + x[1], 0), fcMax = (K.fc || []).slice().sort((a, b) => b[1] - a[1])[0];
+  function facts() {
+    return (K.facts || []).map(f => f.k === 'wday' ? {big: f.pct + '%', t: `연수 공고의 ${f.pct}%는 ${f.d.map(d => WD[d]).join('·')}요일에 나온다`}
+      : f.k === 'h2' ? {big: f.m + '월', t: `하반기에는 ${f.m}월에 공고가 가장 많다(${f.n}건)`}
+      : f.k === 'rich' ? {big: won(f.med), t: `공고 1건 규모가 가장 큰 곳은 ${f.sd}(중앙값 ${won(f.med)})`} : null).filter(Boolean);
+  }
+  function msgs() {
+    const p = pref(), S = p.sd && K.sd[p.sd], out = [];
+    const top = K.top_sd[0], topS = K.sd[top] || {};
+    out.push(S ? {i: '💰', big: won(S.amt), t: `${p.sd} 연수 공고 1년 ${won(S.amt)} — 전국의 ${S.sh}%`, go: 'g2bfull'}
+               : {i: '💰', big: won(K.tot), t: `교원연수 공고 시장 1년 ${won(K.tot)} · 가장 큰 곳은 ${top}(${topS.sh}%)`, go: 'g2bfull'});
+    const pk = (S && S.peak.length ? S.peak : K.peak) || [];
+    out.push({i: '📅', big: pk.map(m => m + '월').join('·'), t: `${S ? p.sd + ((((p.sd.charCodeAt(p.sd.length - 1) - 0xAC00) % 28) ? '은 ' : '는 ')) : ''}공고가 ${pk.map(m => m + '월').join('·')}에 가장 많이 나온다`, go: 'g2bfull'});
+    const tp1 = K.tp[0] || ['-', 0], pt = p.tp && K.tp.find(x => x[0] === p.tp);
+    out.push(pt ? {i: '🧠', big: pt[1] + '%', t: `${p.tp}: 주제가 분류된 공고의 ${pt[1]}%${(K.rising || []).includes(p.tp) ? ' · 최근 3개월 늘어나는 중' : ''}`, go: 'strategy'}
+                : {i: '🧠', big: tp1[1] + '%', t: `공고 주제 1위 ${tp1[0]}(${tp1[1]}%)${(K.rising || []).length ? ' · 떠오르는 주제: ' + K.rising.join('·') : ''}`, go: 'strategy'});
+    out.push(S ? {i: '🗺️', big: S.up[0] + '건', t: `${p.sd} 최근 3개월 공고 ${S.up[0]}건(이전 3개월 ${S.up[1]}건)`, go: 'g2bfull'}
+               : {i: '🗺️', big: (K.up || []).length + '곳', t: `최근 3개월 공고가 늘어난 곳: ${(K.up || []).join('·') || '없음'}`, go: 'g2bfull'});
+    out.push(S ? {i: '🔮', big: S.fc + '건', t: `${p.sd} 다음 3개월 공고 예정 ${S.fc}건`, go: 'g2bfull'}
+               : {i: '🔮', big: fcTot + '건', t: `다음 3개월 공고 예정 약 ${fcTot}건${fcMax ? ' · ' + (+fcMax[0].slice(5)) + '월이 가장 많음(' + fcMax[1] + '건)' : ''}`, go: 'g2bfull'});
+    const F = facts(); if (F.length) { const f = F[(+week.split('-')[1]) % F.length]; out.push({i: '💡', big: f.big, t: '알고 계셨나요? ' + f.t, go: 'g2bfull', fact: 1}); }
+    return out;
+  }
+  // 🔔 지난 방문 이후 새 공고
+  const seen0 = LS.get(SK, null), today = new Date().toISOString().slice(0, 10);
+  function newCount() {
+    if (!seen0) return 0; const B = ((window.__CPXD || {}).B) || [], si = ((window.__CPXD || {}).sido || []).indexOf(pref().sd);
+    return B.filter(b => b[0] > seen0 && (si < 0 || b[1] === si)).length;
+  }
+  window.addEventListener('pagehide', () => LS.set(SK, today));
+  if (!seen0) LS.set(SK, today);
+  let idx = 0, timer = null, M = msgs();
+  function render() {
+    M = msgs(); idx = idx % M.length; const p = pref(), n = newCount(), m = M[idx];
+    const storyNew = LS.get(STK, '') !== week;
+    bar.innerHTML = `<div class="km-row">${n ? `<button type="button" class="km-new" data-km="new" title="지난 방문 이후 새로 나온 연수 공고">🔔 새 공고 ${n}</button>` : ''}`
+      + `<button type="button" class="km-msg" data-km="go" aria-live="polite"><span class="km-i">${m.i}</span><span class="km-t">${h(m.t)}</span><span class="km-go">›</span></button>`
+      + `<span class="km-dots">${M.map((_, i) => `<i class="${i === idx ? 'on' : ''}"></i>`).join('')}</span>`
+      + `<button type="button" class="km-b" data-km="story">📱 이번 주 스토리${storyNew ? '<em>NEW</em>' : ''}</button>`
+      + `<button type="button" class="km-b" data-km="pref" aria-expanded="false">🎯 ${p.sd || p.tp ? h([p.sd, p.tp].filter(Boolean).join(' · ')) : '내 관점'}</button></div>`
+      + `<div class="km-pref" hidden><label>지역 <select data-kp="sd"><option value="">전국</option>${Object.keys(K.sd).map(s => `<option${s === p.sd ? ' selected' : ''}>${h(s)}</option>`).join('')}</select></label>`
+      + `<label>관심 주제 <select data-kp="tp"><option value="">전체</option>${K.tp.map(x => `<option${x[0] === p.tp ? ' selected' : ''}>${h(x[0])}</option>`).join('')}</select></label>`
+      + `<small>고른 관점은 이 브라우저에만 저장됩니다.</small></div>`;
+    bar.hidden = false;
+  }
+  const next = () => { if (bar.matches(':hover') || bar.querySelector('.km-pref:not([hidden])') || document.hidden) return; idx = (idx + 1) % M.length; render(); };
+  // 📱 이번 주 시장 스토리
+  function story() {
+    LS.set(STK, week);
+    const cards = msgs().concat(facts().slice(1).map(f => ({i: '💡', big: f.big, t: '알고 계셨나요? ' + f.t, go: 'g2bfull'})));
+    const dlg = document.createElement('div'); dlg.className = 'km-story'; dlg.setAttribute('role', 'dialog'); dlg.setAttribute('aria-label', '이번 주 시장 스토리');
+    dlg.innerHTML = `<div class="km-sbox"><div class="km-shead"><b>📱 이번 주 시장 스토리</b><span>${h(K.asof)} 기준 · 옆으로 넘겨 보세요</span><button type="button" data-km="close" aria-label="닫기">✕</button></div>`
+      + `<div class="km-cards">${cards.map((c, i) => `<article class="km-card" style="--i:${i}"><span class="km-ci">${c.i}</span><div class="km-big">${h(c.big)}</div><p>${h(c.t)}</p>`
+      + `<button type="button" class="km-b" data-km="goto" data-go="${h(c.go)}">자세히 보기 ›</button><small>${i + 1} / ${cards.length}</small></article>`).join('')}</div></div>`;
+    document.body.appendChild(dlg); dlg.querySelector('[data-km="close"]').focus();
+    const close = () => { dlg.remove(); document.removeEventListener('keydown', esc); render(); };
+    const esc = e => { if (e.key === 'Escape') close(); }; document.addEventListener('keydown', esc);
+    dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('[data-km="close"]')) close();
+      const g = e.target.closest('[data-km="goto"]'); if (g) { close(); if (typeof activateTab === 'function') activateTab(g.dataset.go); window.scrollTo({top: bar.offsetTop - 10, behavior: 'smooth'}); } });
+  }
+  bar.addEventListener('click', e => {
+    const b = e.target.closest('[data-km]'); if (!b) return; const k = b.dataset.km;
+    if (k === 'go' && typeof activateTab === 'function') { activateTab(M[idx].go); }
+    else if (k === 'new' && typeof activateTab === 'function') { activateTab('g2bfull'); LS.set(SK, today); }
+    else if (k === 'story') story();
+    else if (k === 'pref') { const pn = bar.querySelector('.km-pref'); pn.hidden = !pn.hidden; b.setAttribute('aria-expanded', !pn.hidden); }
+  });
+  bar.addEventListener('change', e => { const s = e.target.closest('[data-kp]'); if (!s) return; const p = pref(); p[s.dataset.kp] = s.value; LS.set(PK, p); idx = 0; render(); bar.querySelector('.km-pref').hidden = false; });
+  render(); timer = setInterval(next, 6000);
 })();
 (function listenMorning(){  // 🎧 귀로 듣는 30초 조간: 브라우저 내장 음성(무료, 외부 전송 없음)으로 오늘 조간 요약을 읽어 준다
   const M = window.__MORNING, S = window.speechSynthesis;
