@@ -441,7 +441,15 @@ def _morning():
         f = sorted(__import__("pathlib").Path("briefings").glob("????-??-??.json"))[-1]
         d = json.loads(f.read_text(encoding="utf-8"))
         L = d.get("lead") or {}
-        return {"date": d.get("date"), "kicker": L.get("kicker", ""), "headline": L.get("headline", "")}
+        import re as _r
+        txt = lambda s: _r.sub(r"\s+", " ", _r.sub(r"<[^>]+>", "", str(s or ""))).strip()
+        # 🎧 듣는 조간(약 30~45초): 날짜 · 머리기사 · 리드 · 시사점 2개 (태그 제거한 공개 지면 문장만)
+        y, m, dd = (d.get("date") or "0000-00-00").split("-")
+        say = [f"{int(m)}월 {int(dd)}일 {d.get('weekday', '')}요일 조간입니다.", txt(L.get("headline")) + ".", txt(L.get("lede"))[:180]]
+        for im in (d.get("implications") or [])[:1]:
+            say.append(f"{txt(im.get('news'))}. {txt(im.get('impact'))[:90]}")
+        say.append("이상 오늘의 조간이었습니다.")
+        return {"date": d.get("date"), "kicker": L.get("kicker", ""), "headline": L.get("headline", ""), "say": " ".join(x for x in say if x)}
     except Exception:
         return None
 

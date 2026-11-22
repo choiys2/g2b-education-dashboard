@@ -11070,6 +11070,20 @@ html.cvd{--own:#009E73;--rival:#D55E00;--market:#0072B2;--warn:#E69F00;--cv1:#00
 .province-shape:focus-visible{outline:none;filter:brightness(1.12) drop-shadow(0 0 0 var(--accent)) drop-shadow(0 0 3px var(--accent));}
 .gd-scene .gd-crop:focus-visible{filter:drop-shadow(0 0 4px var(--accent));}
 :is(.sx-q summary,.vm-tm,.vm-mini,[data-tm]):focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+/* 🎧 듣는 조간 */
+.lm-btn{appearance:none;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--ink);min-height:32px;}
+.lm-btn[aria-pressed="true"]{background:var(--ink);color:var(--surface);}
+.lm-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin:0 0 12px;padding:8px 12px;border:1px solid var(--border);border-radius:14px;background:var(--surface);font-size:13px;font-weight:700;}
+/* 🧬 교육청 DNA 카드 */
+.sx-dnas{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:10px;}
+.sx-dna{border:1px solid var(--border);border-radius:14px;padding:10px 12px;background:var(--surface);min-width:0;}
+.sx-dna b{font-size:14px;} .sx-dl{margin:6px 0;font-size:13px;line-height:1.5;font-weight:700;color:var(--ink-2,var(--ink));} .sx-da{margin:6px 0 0;font-size:12.5px;line-height:1.5;}
+@media (pointer:coarse){.lm-btn{min-height:40px;}}
+/* 🎭 가상 이사회(관리) */
+.br-m{border:1px solid var(--border);border-radius:14px;padding:4px 12px;margin-bottom:8px;background:var(--surface);} .br-m summary{cursor:pointer;padding:6px 0;font-size:14px;}
+.br-dis{margin:4px 0 8px;font-size:12px;color:var(--muted);} .br-facts{font-size:12.5px;background:var(--surface-2);border-radius:10px;padding:8px 10px;margin-bottom:8px;} .br-facts ul{margin:4px 0 0;padding-left:18px;line-height:1.6;}
+.br-say{display:flex;gap:10px;margin:8px 0;} .br-ic{font-size:22px;flex:none;} .br-say b{font-size:13.5px;} .br-say small{color:var(--muted);font-weight:600;} .br-say p{margin:3px 0 0;font-size:13px;line-height:1.6;}
+.br-out{border-left:4px solid var(--own);padding:4px 10px;margin:10px 0;font-size:13px;} .br-out p{margin:4px 0;}
 /* 🛡️ 품질 점검(관리) */
 .qa-kpi{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 10px;font-size:12.5px;color:var(--muted);} .qa-kpi b{display:block;font-size:22px;color:var(--ink);}
 .qa-list{display:grid;gap:6px;} .qa-it{border:1px solid var(--border);border-radius:12px;background:var(--surface);}
@@ -13267,6 +13281,30 @@ window.farm3d = function (host, C) {
     if (!c.classList.contains('cv-lazy') && c.getElementsByTagName('*').length > 2000) { c.classList.add('cv-lazy');
       c.addEventListener('contentvisibilityautostatechange', e => { if (!e.skipped && window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run()); }); } });
   mark(); setTimeout(mark, 3000);
+})();
+(function listenMorning(){  // 🎧 귀로 듣는 30초 조간: 브라우저 내장 음성(무료, 외부 전송 없음)으로 오늘 조간 요약을 읽어 준다
+  const M = window.__MORNING, S = window.speechSynthesis;
+  if (!M || !M.say || !S || typeof SpeechSynthesisUtterance === 'undefined') return;
+  let on = false;
+  const label = () => on ? '⏹ 그만 듣기' : '🎧 30초 조간 듣기';
+  const sync = () => document.querySelectorAll('.lm-btn').forEach(b => { b.textContent = label(); b.setAttribute('aria-pressed', on); });
+  const play = () => {
+    if (on) { S.cancel(); on = false; return sync(); }
+    const u = new SpeechSynthesisUtterance(M.say); u.lang = 'ko-KR'; u.rate = 1.08;
+    const v = (S.getVoices() || []).find(x => /^ko/i.test(x.lang)); if (v) u.voice = v;
+    u.onend = u.onerror = () => { on = false; sync(); };
+    S.cancel(); S.speak(u); on = true; sync();
+  };
+  const mk = () => { const b = document.createElement('button'); b.type = 'button'; b.className = 'lm-btn'; b.textContent = label(); b.setAttribute('aria-pressed', on); b.title = '오늘의 조간 요약을 소리로 들려 드려요'; return b; };
+  document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.lm-btn')) { e.preventDefault(); e.stopPropagation(); play(); } }, true);
+  const mount = () => {
+    document.querySelectorAll('.gd-bd-head:not([data-lm])').forEach(h => { h.dataset.lm = '1'; h.appendChild(mk()); });  // 텃밭 마을 소식판
+    const sp = document.getElementById('panel-strategy');
+    if (sp && !sp.querySelector(':scope > .lm-bar')) { const d = document.createElement('div'); d.className = 'lm-bar';
+      d.innerHTML = '<span>📰 오늘의 조간</span>'; d.appendChild(mk()); const f = sp.querySelector(':scope > .gd-field'); if (f) f.after(d); else sp.prepend(d); }
+  };
+  mount(); setInterval(() => { if (!document.hidden) mount(); }, 2000);
+  window.addEventListener('pagehide', () => S.cancel());
 })();
 (function vizMore(){  // 🎨 시각화 확장: 트리맵 확대 · 막대 레이스 · 시간 여행 · ✨ 전 화면 교차 강조
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

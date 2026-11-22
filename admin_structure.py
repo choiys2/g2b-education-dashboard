@@ -346,7 +346,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("home", "🏠 앱 홈"), ("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조"), ("intel", "🧠 전략 인텔리전스"), ("vizm", "📊 시장 지도·재정"), ("salesx", "📈 영업 분석"), ("vizx", "🎨 경영 시각화"), ("qa", "🛡️ 품질 점검"), ("authors", "📚 교과서 저자"), ("apps", "⭐ 개인 앱스토어")]
+    panes = [("home", "🏠 앱 홈"), ("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조"), ("intel", "🧠 전략 인텔리전스"), ("vizm", "📊 시장 지도·재정"), ("salesx", "📈 영업 분석"), ("vizx", "🎨 경영 시각화"), ("qa", "🛡️ 품질 점검"), ("board", "🎭 가상 이사회"), ("authors", "📚 교과서 저자"), ("apps", "⭐ 개인 앱스토어")]
     nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
            + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
            + "</div>")
@@ -509,6 +509,7 @@ def build_html(exec_sources=None):
             + pane("salesx", _safe_build("sales_analysis", sec))
             + pane("vizx", _safe_build("viz_more", sec))
             + pane("qa", _safe_build("quality_report", sec))
+            + pane("board", _safe_build("board_room", sec))
             + pane("authors", _safe_build("textbook_authors", sec))
             + pane("apps", store_html)
             + "</div>")

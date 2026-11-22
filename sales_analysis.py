@@ -739,6 +739,74 @@ def watch_box(scope):
                  f'<div class="sx-watch" data-scope="{h(scope)}"><p class="cpv-note">데이터 준비 중</p></div>')
 
 
+# ---------------- 🧬 교육청 DNA 카드(사용자 승인 2026-11-22) ----------------
+def dna(D):
+    T = _topics()
+    cut = TODAY - timedelta(days=365)
+    G = defaultdict(lambda: {"b": [], "c": [], "names": Counter()})
+    for x in D["TB"]:
+        o = str(x.get("o") or "")
+        if "교육청" not in o.split()[0] if o else True:
+            continue
+        sd = next((s for s in SIDO if str(x.get("r") or "").startswith(s)), "")
+        if sd and x["dd"] >= cut:
+            G[sd]["b"].append(x)
+            G[sd]["names"][o.split()[0]] += 1
+    for x in D["CC"]:
+        o = str(x.get("org") or "")
+        if not o or "교육청" not in o.split()[0]:
+            continue
+        sd = next((s for s in SIDO if str(x.get("region") or "").startswith(s)), "")
+        if sd and x["dd"] >= cut:
+            G[sd]["c"].append(x)
+    if not G:
+        return _card("🧬", "교육청 DNA 카드", "", EMPTY)
+    cards = []
+    order = sorted(G, key=lambda s: -(len(G[s]["b"]) + len(G[s]["c"])))
+    for sd in order:
+        g = G[sd]
+        B, C = g["b"], g["c"]
+        name = g["names"].most_common(1)[0][0] if g["names"] else f"{sd} 교육청"
+        mon = Counter(x["dd"].month for x in B)
+        peak = [f"{m}월" for m, _ in mon.most_common(2)]
+        tp = Counter()
+        for x in B:
+            for n, rx in T:
+                if rx.search(str(x.get("t") or "")):
+                    tp[n] += 1
+        tops = [n for n, _ in tp.most_common(2)]
+        amts = sorted(x["a"] for x in B if x["a"] > 0)
+        med = amts[len(amts) // 2] if amts else 0
+        meth = Counter(x.get("method") or "-" for x in C)
+        sui = meth.get("수의계약", 0) / len(C) * 100 if C else None
+        vend = Counter(_vend(x.get("competitor")) for x in C)
+        own = vend.get(OWN, 0)
+        top_v = [(v, n) for v, n in vend.most_common() if v != "기타"]
+        regular = top_v[0] if top_v else None
+        own_sh = own / len(C) * 100 if C else 0
+        # 한 줄 성격: 공고(경쟁입찰 위주)와 확인된 계약(소액 수의계약 위주)을 나눠 쓴다
+        line = (f"{'·'.join(peak)}에 " if peak else "") + (f"{'·'.join(tops)} 공고가 몰림" if tops else "연수 공고가 나옴") \
+            + (f"(중앙값 {_eok(med)})" if med else "") \
+            + (f" · 확인된 연수 계약은 {'수의계약' if sui >= 60 else '경쟁입찰'} 위주({len(C)}건)" if sui is not None else " · 확인된 계약 기록 없음")
+        # 제안 각도(규칙)
+        S5 = [n for n, _ in _strength()]
+        hit = [n for n in tops if any(n.split("·")[0] in s5 for s5 in S5)]
+        if regular and regular[0] != OWN and own_sh < 20:
+            angle = f"단골은 {regular[0]}({regular[1]}건). {('강점 주제(' + hit[0] + ')로 ') if hit else ''}소액 수의계약 시범 과정부터 파고들기"
+        elif own_sh >= 30:
+            angle = f"자사 점유 {own_sh:.0f}% — 재구매 주기 관리와 상위 과정 확장"
+        else:
+            angle = f"{peak[0] + ' 공고 시즌' if peak else '다음 공고'} 4~6주 전 맞춤 제안서 선제 발송"
+        chips = "".join(f"<span>{h(c)}</span>" for c in (
+            [f"공고 {len(B)}건"] + ([f"성수기 {'·'.join(peak)}"] if peak else []) + ([f"주제 {'·'.join(tops)}"] if tops else [])
+            + ([f"중앙값 {_eok(med)}"] if med else []) + ([f"수의계약 {sui:.0f}%"] if sui is not None else [])
+            + ([f"자사 점유 {own_sh:.0f}%"] if C else [])))
+        cards.append(f'<div class="sx-dna" data-sd="{h(sd)}"><b>{h(name)}</b><p class="sx-dl">“{h(line)}”</p><div class="sx-why">{chips}</div>'
+                     f'<p class="sx-da">🎯 {h(angle)}</p></div>')
+    note = "지난 1년 연수 공고·확인된 계약으로 교육청마다 '사는 방식'을 요약했습니다(규칙 기반 · 기록이 적은 곳은 참고용). 방문 전 10초 브리핑용."
+    return _card("🧬", "교육청 DNA 카드", "언제 · 무엇을 · 얼마에 · 어떻게 사는가", f'<div class="sx-dnas">{"".join(cards)}</div>', note)
+
+
 # ---------------- 조립 ----------------
 def _safe(fn, *a, **k):
     try:
@@ -750,7 +818,7 @@ def _safe(fn, *a, **k):
 
 def build(sec=None):
     D = _load()
-    parts = [_safe(weekly, D), watch_box("adm"), _safe(win_score, D), _safe(forecast, D), _safe(golden, D), _safe(flow, D), _safe(price, D),
+    parts = [_safe(weekly, D), _safe(dna, D), watch_box("adm"), _safe(win_score, D), _safe(forecast, D), _safe(golden, D), _safe(flow, D), _safe(price, D),
              _safe(repurchase, D), _safe(gaps, D), _safe(bump, D), _safe(territory, D), _safe(anomalies, D), _safe(simulator)]
     body = "".join(p for p in parts if p)
     return f'<div class="cpv-wrap sx-wrap"><div class="cpv-grid">{body or EMPTY}</div></div>'
