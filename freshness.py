@@ -98,16 +98,26 @@ def build(full_live=None, today=None):
 # ---------------- 탭 머리 '데이터 기준' 띠 (사용자 지시 2026-11-22: 탭별 갱신 날짜·시각을 탭 위에 항상 노출) ----------------
 # CP 화면에도 나가므로 이름은 일반 표현만(출처·도구·포털명 금지). 주기: d=매일, w=매주, m=수시(사람이 고칠 때)
 # (표시 이름, 파일, 시각 키, 주기, jsonl 이면 최신 자료일 키)
-MANUAL_ASOF = {  # 날짜 키가 없는 정리 파일 - 파일을 고칠 때 이 날짜도 같이 고친다(깊은 git 이력이 있으면 git 날짜가 우선)
-    "static_data/industry_trend_2027.json": "2026-11-15", "static_data/aiep_platforms.json": "2026-11-10",
-    "static_data/region_programs.json": "2026-11-10", "static_data/textbook_adoption.enc.json": "2026-11-10",
+MANUAL_ASOF = {  # 날짜 키가 없는 수동 파일: (기준일, 내용 지문). 파일을 고치면 날짜·지문을 같이 고친다.
+    # 지문이 다르면(고쳤는데 날짜를 안 고침) 빌드 로그에 경고하고 기록된 날짜(더 오래된 쪽)를 그대로 쓴다 - 보수적으로 '오래됨'이 뜨게.
+    # 깊은 git 이력이 있으면 git 날짜가 우선.
+    "static_data/industry_trend_2027.json": ("2026-11-15", "3de025b58c"),
+    "static_data/aiep_platforms.json": ("2026-11-10", "325bb6561f"),
+    "static_data/region_programs.json": ("2026-11-10", "1b667fc052"),
+    "static_data/textbook_adoption.enc.json": ("2026-11-10", "bd75b28dea"),
+    "static_data/eco_tasks.json": ("2026-11-12", "2a9b4107e5"),
+    "static_data/pool_people.enc.json": ("2026-11-09", "764497a722"),
+    "static_data/branch_network.enc.json": ("2026-11-12", "d215256665"),
+    "static_data/aiep_private.enc.json": ("2026-11-10", "ac0d617f9b"),
+    "static_data/industry_trend_private.enc.json": ("2026-11-10", "2a7532287c"),
+    "static_data/own_profile.json": ("2026-10-04", "19f8142806"),
 }
 LIVE = ("*live", None)
 TAB_SOURCES = {
     "market": [("교육재정 통계", "history/eduinfo_status.json", "date", "d"), ("학교 시장 정보", "history/schoolinfo_status.json", "date", "d"), ("공고 집계", *LIVE, "d")],
     "strategy": [("에듀테크 뉴스", "history/edutech_radar.json", "collected_at", "d"), ("전략 브리핑", "strategy_briefings", "*enc", "d"), ("조간", "briefings", "*json", "d")],
     "keris": [("KERIS 공고·낙찰", "history/keris_procurement.json", "updated", "d")],
-    "g2bfull": [("입찰·계약 공고", *LIVE, "d"), ("연수 공고(최근 건)", "history/training_bids.jsonl", "d", "r"),
+    "g2bfull": [("자사 강점 프로필", "static_data/own_profile.json", "", "m"), ("입찰·계약 공고", *LIVE, "d"), ("연수 공고(최근 건)", "history/training_bids.jsonl", "d", "r"),
                 ("경쟁사 계약", "history/competitor_contracts_status.json", "date", "d"), ("경쟁사 낙찰(최근 건)", "history/competitor_wins.jsonl", "date", "r")],
     "neti": [("연수 이수 통계", "static_data/neti_completion.json", "as_of", "m")],
     "g2b": [("AI·에듀테크 공고", *LIVE, "d")],
@@ -115,17 +125,19 @@ TAB_SOURCES = {
     "leading": [("AI 중점학교 명단", "static_data/ai_schools_2026.json", "captured", "m"), ("AI 중점학교 동향", "static_data/ai_school_updates.json", "checked", "m")],
     "competitor": [("경쟁사 강좌", "history/competitor_course_catalog.json", "captured_date", "w"), ("경쟁사 몰 상품", "history/competitor_mall_catalog.json", "captured_date", "w"),
                    ("경쟁사 계약", "history/competitor_contracts_status.json", "date", "d")],
-    "trend2027": [("교사 관심 검색어", "history/teacher_interest_trends.json", "buzz_date", "w"), ("교사 크리에이터", "history/teacher_creator_trends.json", "youtube.captured_date", "w"),
+    "trend2027": [("교사단체·강사 공급 정리", "static_data/teacher_groups.json", "generated", "m"), ("강사풀", "static_data/pool_people.enc.json", "", "m"),
+                  ("교사 관심 검색어", "history/teacher_interest_trends.json", "buzz_date", "w"), ("교사 크리에이터", "history/teacher_creator_trends.json", "youtube.captured_date", "w"),
                   ("교사단체 소식", "history/teacher_group_news.json", "generated", "r"), ("AI 키워드 분석", "history/teacher_trend2027_ai.json", "date", "w")],
-    "biz2027": [("기업·대학 동향 정리", "static_data/industry_trend_2027.json", "", "m"), ("협력 후보 소식", "history/partner_news.json", "generated", "w")],
-    "aiep": [("AIEP 조달", "history/aiep_market.json", "updated", "d"), ("시도 플랫폼 정리", "static_data/aiep_platforms.json", "", "m")],
+    "biz2027": [("기업·대학 동향 정리", "static_data/industry_trend_2027.json", "", "m"), ("협력 후보 소식", "history/partner_news.json", "generated", "w"),
+                ("기업 협력 메모", "static_data/industry_trend_private.enc.json", "", "m")],
+    "aiep": [("AIEP 조달", "history/aiep_market.json", "updated", "d"), ("시도 플랫폼 정리", "static_data/aiep_platforms.json", "", "m"), ("시도 협력 메모", "static_data/aiep_private.enc.json", "", "m")],
     "pipeline": [("영업 파이프라인", "history/pipeline_status.json", "date", "d"), ("입찰 운영 현황", "history/sheets_ops_status.json", "date", "d")],
-    "branch": [("총판 현황", "static_data/branch_summary.json", "as_of", "m")],
+    "branch": [("총판 현황", "static_data/branch_summary.json", "as_of", "m"), ("총판 지역망", "static_data/branch_network.enc.json", "", "m")],
     "adopt": [("교과서 채택 현황", "static_data/textbook_adoption.enc.json", "", "m")],
     "b2s": [("학교 시장 정보", "history/schoolinfo_status.json", "date", "d"), ("학사일정 표본", "history/neis_schedule.json", "generated", "w"),
-            ("경기 시군 통계", "history/gg_b2s.json", "generated", "w")],
+            ("경기 시군 통계", "history/gg_b2s.json", "generated", "w"), ("2025 학교 구매 실적", "static_data/school_contract_national_2025.json", "generated_at", "m")],
     "content": [("과정 매출·인증", "_private/content_pl/course_pl.json", "as_of", "m"), ("경쟁사 강좌", "history/competitor_course_catalog.json", "captured_date", "w")],
-    "eco": [("교사 생태계 변화", "history/teacher_ecosystem.json", "generated", "w"), ("생태계 정리표", "static_data/teacher_ecosystem.json", "as_of", "m")],
+    "eco": [("교사 생태계 변화", "history/teacher_ecosystem.json", "generated", "w"), ("생태계 정리표", "static_data/teacher_ecosystem.json", "as_of", "m"), ("생태계 과제", "static_data/eco_tasks.json", "", "m")],
     "search": [("검색 대상 공고", *LIVE, "d")],
     "network": [("연결 데이터", *LIVE, "d"), ("지역 연계 사업", "static_data/region_programs.json", "", "m")],
     "beta": [("경쟁사 낙찰(최근 건)", "history/competitor_wins.jsonl", "date", "r")],
@@ -142,6 +154,17 @@ def _git_date(path):
         return subprocess.run(["git", "log", "-1", "--format=%cs", "--", path], capture_output=True, text=True, timeout=5).stdout.strip() or None
     except Exception:
         return None
+
+
+def _manual(path):
+    d, fp = MANUAL_ASOF.get(path, (None, None))
+    try:
+        import hashlib
+        if fp and hashlib.md5(Path(path).read_bytes()).hexdigest()[:10] != fp:
+            print(f"[경고] 수동 자료 기준일 갱신 필요: {path} (내용이 바뀌었는데 freshness.MANUAL_ASOF 날짜가 그대로)")
+    except OSError:
+        pass
+    return d
 
 
 def tabs(full_live=None, now=None):
@@ -163,7 +186,7 @@ def tabs(full_live=None, now=None):
             if path == "*live":
                 s = live_at
             elif not key:
-                s = _git_date(path) or MANUAL_ASOF.get(path)
+                s = _git_date(path) or _manual(path)
             else:
                 s = _stamp(path, key)
             s = str(s or "")
