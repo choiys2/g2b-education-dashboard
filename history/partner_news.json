@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-15 23:22",
- "since": "2026-05-19",
+ "generated": "2026-11-23 00:15",
+ "since": "2026-05-27",
  "via": {
   "naver": 0,
   "google": 34
@@ -38,67 +38,43 @@
   },
   "경인교육대학교": {
    "kind": "univ",
-   "n": 8,
+   "n": 12,
    "items": [
     {
-     "t": "경인교육대학교-포자랩스, AI 음악 교육 산학협력 체결",
-     "d": "2026-10-23",
-     "src": "경기도민일보 미디어",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBEYjRRSmNPamFac2lpeENQTEc1em5iT0ZsRXNGaVE2Y0x2SkFuelFFaVgxWUJqVWl6bS1lQ1VVXzY0ZTUyWTMzYkt3Mm9ydDZWazRBZkg1cjMyT2JnSEY0Z1U3b0lVR1NDT1E?oc=5"
+     "t": "경인교육대학교, ‘제5회 세계를 품은 인천교육 한마당’ 참가",
+     "d": "2026-11-17",
+     "src": "인천뉴스",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5iSTVCdTFRNlRrRlpGaDNKSjI4cjd1MFh6VnBaaGowbDRrQllOdkxvSlUzcjV5LUczbzd1OHlpbkwyYXBMZy1GcnJRVURCVFFKMC1peU5BSy1sTTZWYnR3Vm94UW9GN0tmckdNeDZiRQ?oc=5"
+    },
+    {
+     "t": "인천 경인교육대학교 똑똑HA지누, 전국 12개 대학 참여 ‘똑똑! 수학 실천연구회’ 대상 수상",
+     "d": "2026-11-17",
+     "src": "뉴뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFB2dm5EYzZGU3U2ZTJnVk1oaG1EdmtsVDE3dnlfM1dCbE03LU5yQUhqcnB5THVqNVktSS1pNTBUTWZpeXhKek52elo4WERsQ3FRRjgtWnNoTHp2RUxqMzQ1alE3b1dCUQ?oc=5"
+    },
+    {
+     "t": "검단구-경인교육대학교, 초·중학생 영재교육 사업 협약 체결",
+     "d": "2026-11-17",
+     "src": "한국현대미술신문",
+     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE4yYXJBeWNaRm1aZEtoNFY1WmdfTjJnNmMtLXRfOTdlWEl1c2ppSl85OEpqTUQyYlRCVHdkNjY4TmJtUXAwQnZKV09WZ2NTNnR0c2RhWXJyR0ZBdw?oc=5"
+    },
+    {
+     "t": "인천광역시교육청난정평화교육원, 강화 교동도에서 경인교육대학교 예비교사 평화교육",
+     "d": "2026-11-16",
+     "src": "인천교육일보",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1uYXRkWTlEel9QQ1FCbURkMzUzWGdPbFoxRlNQM3dGVFY5UFNUOGszT0E4cjRGTjBKVkVZaEhWNmNhLTlGTHNBOVhMWTk1MmtJRmxWbVlBeEFjc3NsNFVRR0hyNDUycGRu?oc=5"
+    },
+    {
+     "t": "경인교육대학교-인천 검단구, 영재교육 운영지원 업무협약 체결",
+     "d": "2026-11-16",
+     "src": "인천뉴스",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1pLUJ4bDlaR1RXdjZoOHY5UlhZM191TUhxQ3FVNVV0TmUtcFhxcmFCX3pPS1RfQ2dTSlpXOWR1R2tkMmUwdmYtOWJBOEhKeXNfdkM1ZE1BS0c2SDM3UHJzcTk2TzN5a0JjcWpJMGowTQ?oc=5"
     },
     {
      "t": "경인교육대학교-주식회사 포자랩스, AI 기반 미래 음악교육 활성화에 함께 나선다",
      "d": "2026-10-22",
      "src": "인천뉴스",
      "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5fTTV2YmpkdWg5TzE5QnJqYjRtcUJ4VEZRNmFESFdrYzN5QjdLdUxiZFp5RS1zOVpoWjRxb0Q2RE9OVGdIZ0lIb0otUEMwZEh1WlBiTkVRa0xDQjVBaXd3Zk00N1p1Q0lPZUN0SUZIdw?oc=5"
-    },
-    {
-     "t": "경인교육대학교, 개교 80주년 졸업생 오케스트라 음악회 개최",
-     "d": "2026-10-22",
-     "src": "경기도민일보 미디어",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBLb2dvN2VtT1RJNFJ5a1B5WlNJVGlaMjg4TG5jak1IcUgxdUlfeDhCYUVZNjBkNjJraGFhQzhtTWlWZ2N3cVN1RmdWU0xncFdVX1d1UzJQeVN0aFBGT1FiRjlJbDV5MDl5ZkE?oc=5"
-    },
-    {
-     "t": "경인교육대학교, 10월 31일 ‘2026 대한민국 청소년 디지털 마인드맵 축제’ 개최",
-     "d": "2026-10-02",
-     "src": "경기도민일보 미디어",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE10NkhRSzVIR3RNQUZBakhMeXd3OC10QjhFS1ZPTy05Zy1JcFozc2lUMDkyS254LWtWdUpiWmpESFVHX0tuQXotY0dqc2F4eTlOYWtJaWI0OHpMOEFVX1dkd1V2RnRfTmlWRVE?oc=5"
-    },
-    {
-     "t": "경인교육대학교, 학생 주도 ‘2026 캠퍼스 플래닝 프로젝트’ 개최",
-     "d": "2026-09-29",
-     "src": "경기도민일보 미디어",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5vLVlWNFFZcVk2S3htNFRPT0l5eDVzVmZUVlBFQXMtX2g5Wmp4SXVFSzYwVVlyeHBNU2h4OGFtX2pRdFM3U0lwOEt2X2RURWF1R2NCdVIteUtrM1duZG1nWVgwUFpvaUJFaHc?oc=5"
-    },
-    {
-     "t": "경인교육대학교, 한국경영대상 교육혁신 부문 대상 수상",
-     "d": "2026-09-17",
-     "src": "경기도민일보 미디어",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBTTHp1RnBfUjJVNG1yLW5TNmFmMEFlQU9xem9BN2J0LXQ0bUI1alBDX2hMNFlrWUROb2NQOTlqbXg2cHNjclROMWsxT0E5OFlYV1RDSjR4UUpwQkJrcnNSUVBRbGgwOVRjdXc?oc=5"
-    }
-   ]
-  },
-  "춘천교육대학교": {
-   "kind": "univ",
-   "n": 3,
-   "items": [
-    {
-     "t": "춘천시, 대학연합축제 성황리....강원대학교, 한림대학교, 춘천교육대학교, 한림성심대학교, 송곡대학교 참여",
-     "d": "2026-09-10",
-     "src": "우리투데이",
-     "u": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9Gck4xTWh5clFrQmJWaUk2UnRVcWt0UDZxcFlYZ3JaMHlYel9NSFNZZXNocnFwR0FuQktaaHg4d1RRTVphcjcyaEg3WXo2OGlkWU9iSkhnSjlyYUxpWmloSWNxYw?oc=5"
-    },
-    {
-     "t": "춘천교육대학교 '2026 춘천시 영어캠프' 개막",
-     "d": "2026-08-04",
-     "src": "베리타스알파",
-     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9FQ29xS2RfT0NpS2ZSMDVnZzc3ZWpadkRSLVpZMDA4aE1DR202MlFFVkc2X1dTcVg0akhxV0ppbmdjWW9DNk9Ic0hQamRVQ01hNFV0VU13WjQzam5xaE1JVGJFS21LVl9FcFVqQg?oc=5"
-    },
-    {
-     "t": "[라이즈 선도대학을 가다/춘천교육대학교] 강원 교육의 허브, 강원의 미래를 열다",
-     "d": "2026-06-28",
-     "src": "한국대학신문",
-     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBTUGNIWXZBdVlLLVNBVzZ3d0dFN2E1QVVHMG05RHRnZV9kam9pY1RtM1doSmI0Z1ZYV1NaSDFCMXkyZjJrSENEaXB3Y0I3QXVmNEQ0NldYd0NyUm9Ic2Vvai1uMEVyUQ?oc=5"
     }
    ]
   },
@@ -146,14 +122,8 @@
   },
   "전주교육대학교": {
    "kind": "univ",
-   "n": 5,
+   "n": 4,
    "items": [
-    {
-     "t": "전주교육대학교 이혜진 윤리교육과 교수, 발전기금 100만원 기탁",
-     "d": "2026-10-11",
-     "src": "전라일보",
-     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5TamtJNXJwT2pCU3pDS1VZWFpmNE02SEttbDJESVQzbXNJUXNuWkVNZlVCaEQ4WjlqZlUwVVEzSXNkcnBiR1NfeTVhXzhFTjBCMllQUUFLSUppZmx5cWtPSW5qUFBXd1ctY1JZYdIBcEFVX3lxTE9JRWh3QkZUWUVTNDdiSHl6ZkotM3RPeWVUZmpHaDhYU3BpcGhrT3lVb1dDcjM3dTlEcnlnb1UyaFc5UmtYampoOU9RUXFwNzVmWXo3dEU1OHFIUVp5aXNVSkJMTE85cVR1ajgwc0xzT3Y?oc=5"
-    },
     {
      "t": "전주교육대학교, 7개 기관과 교육혁신선도지역 업무협약 체결...“지역이 함께 키우는 인재, 교육혁신의 판을 짠다”",
      "d": "2026-09-30",
@@ -182,13 +152,19 @@
   },
   "광주교육대학교": {
    "kind": "univ",
-   "n": 5,
+   "n": 6,
    "items": [
+    {
+     "t": "[대한민국 스승상] 교육은 이벤트가 아니다(최원오 광주교육대학교 국어교육과 교수)",
+     "d": "2026-11-18",
+     "src": "고려대학교",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE8wQ2lxRGw1T19KSDU5UnRhaktaT0ZEMU1pYUlJVGhtUjY5bEVQX1BDc2M0TTdJVmxMX19aQjRaelN6Wl94cUljSVlXMlZwRjA4d254MTVCR1h5WlZ6TmNwdDgwYlM4VXPSAWtBVV95cUxOZE5YRE9RX3pzRjZHWGRJNnlKaDNlbUU1SzJuTnliemtxaENrM1J4REtGaVk2YjZsN3JNbi12OHNVNF9CeURmZWpKMFFuMVlhYUNCZk15cFNzRHJVRDJ4M3paQU13Q2F2RlpTNA?oc=5"
+    },
     {
      "t": "광주교육대학교, ‘2026년 늘봄 싱크탱크 대학 운영사업 성과공유회’ 개최",
      "d": "2026-11-12",
-     "src": "www.ngtv.tv",
-     "u": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE4xTG5zMXZzWm1wMkxvSEo0R0RRWXlqaFdVSDFzQ2NCeG51Y3dBVWprdk1hRmVpMVE3a0d2QkEweHNPXzk1RmJQYTdDRHpyVFZvRVpuSy1ZRnotSS1tNm1FOGY3Yw?oc=5"
+     "src": "m.ngtv.tv",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5rQ0lDbzFmMGR1eU5lZFF5OC1wQ2ZoT3BWMDNaR3JQYUV3TjBGM01XZTZvLU9FWlFqZHVNU184Y2JrSUFtN1VhR0E1UXVjbzJmVGVHdXpkZDlyR2NkS1pscw?oc=5"
     },
     {
      "t": "광주교육대학교, 해남교육지원청과 손잡고 문해력 프로그램 운영 > 뉴스",
@@ -218,8 +194,20 @@
   },
   "진주교육대학교": {
    "kind": "univ",
-   "n": 4,
+   "n": 5,
    "items": [
+    {
+     "t": "[아침 논단]위대한 한글, 문해력이 답이다 (김성규 진주교육대학교 총장)",
+     "d": "2026-11-22",
+     "src": "경남일보",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTFAtQTZmR1BqSU1oa2NfcHZvWHBEaHkyS3ZBYXNXT3JKZUljRDFFUkREZlVDN2JRbGNYdTU4azlIWXIyTkowS2NZdFBBQzVDeTA2RW1EMzM5VDk4eWFCX2lhSWFFcUVBQVlybkNn?oc=5"
+    },
+    {
+     "t": "[경일춘추]진주교대의 기원, 다시 생각해보기 (김자중 진주교육대학교 교수)",
+     "d": "2026-11-18",
+     "src": "경남일보",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE8zQjUzMWtDWDZyNWtMclY0TktsVzYtSHpRenJGRDVmREN1a3h3TmhjcjVnOHZWX1pTMnZ1NmwyU0xhQllqZHBZMDJXWDcwbzlka25tRTlVbGNQNWVIRFI4ejVPWGxFYlc1V0NZ?oc=5"
+    },
     {
      "t": "[경일춘추]'천년진주교육사’를 쓰며(김자중 진주교육대학교 교수)",
      "d": "2026-11-04",
@@ -233,12 +221,6 @@
      "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5jZHVTWjFBcjFiTFd1d0FjQlRVazdDbjB6TDN0dkx2RzFXcWdTSW1wSEpiOGlsNkxTUXVzVkhvMDBtNlA2aTdwdDBqc3c5NWNNR0ZOREZtdnZwRWNiYWRPTmNpRHNfVExJd1I0?oc=5"
     },
     {
-     "t": "진주시-진주교육대학교 ‘참진주여성대학’ 위탁교육 업무 협약",
-     "d": "2026-08-19",
-     "src": "경남경제",
-     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5Ta3hoQm9RYm5lMVY0VVRmc0JuRzlwOFlHUDlrUE9aSF9CLW5mSEZEQTVNM000RGRDVjZwQXJNamt5UGFIMGVmS2RmYnRwVzM1ejFGWnVQTWlpYVN0Q2x6MWhXYTnSAWhBVV95cUxQeHMwaVJKSkxtYkJkY29UcW1sTEdDeUVFR2J0ZjBMbW0xU0ZPMmNZaXlLLThlMkpBUURiLVhYSUczVy1NNXJ3SDVFVGVxQ29GcXRNSnFnUHVwQnNnaF9acXlRRHVuSlVtWg?oc=5"
-    },
-    {
      "t": "[앵커 선도대학을 가다/진주교육대학교] 경남 아이들의 배움 지키는 ‘지역교육 플랫폼’",
      "d": "2026-08-07",
      "src": "한국대학신문",
@@ -248,8 +230,20 @@
   },
   "대구교육대학교": {
    "kind": "univ",
-   "n": 5,
+   "n": 9,
    "items": [
+    {
+     "t": "대구교육대학교, iM금융 「진로탐색캠프」 3회차 마무리… 금융 분야 진로 탐색 기회 제공",
+     "d": "2026-11-16",
+     "src": "시사뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBBUGhQX2U1SE9kc1RQaU5oOGtlQ1lzY3VKTXo3a3VLcXhKTlItWld2N1FESXJpcE9qMERRb2tYbWRBcHVxd0s0ck9ZaWxyWU9ITGcwUGN5N0E0ZWRYRE13d0xVRQ?oc=5"
+    },
+    {
+     "t": "일상 속 금융에서 미래 직업까지… 대구교육대학교, iM금융 「진로탐색캠프」 2회차 운영",
+     "d": "2026-11-10",
+     "src": "시사뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9aRjd6SWtuYlZQRkZmTTFZM2JkUFFETktxODZEbFk2d0ZOZWVFd2VqUHIweG1fdU5SaUlhS0tYazV2X3FvbzVNN0UtWDVoWVBtQjZtdGNQZGxfMlVCcVJRelgzUQ?oc=5"
+    },
     {
      "t": "대구교육대학교 배상식 총장, ‘영유아 사교육 인식 개선’ 릴레이 챌린지 참여",
      "d": "2026-11-03",
@@ -273,19 +267,19 @@
      "d": "2026-08-31",
      "src": "시사뉴스",
      "u": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9IR3RIRjZ6QUkxTUdJSDcxa3lLcmJpa19aQkFRT3liTDNDTk1FWlBhcnNQQU92d3VsYi1nY0hMUk1sOGh5Y2swMC1nZHpLRE9IN0JES1pnWXVDRTBFS2dfMVNmZw?oc=5"
-    },
-    {
-     "t": "[라이즈 선도대학을 가다/대구교육대학교] RISE 사업으로 지역 교육인재 양성과 정주여건 강화 선도",
-     "d": "2026-06-09",
-     "src": "한국대학신문",
-     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9YLTRaRzdDU0FxaWs1Q1BodkoxNG5iSWF1bkVOQUVXYzB1TnA4ck1QM0NKd1ByaHRVV2Nzb3I3MWNJeTllRGluZ1QwV1ZIWmwzVW40NUY2S05CLWhHaDMyS0Zjb1hvZw?oc=5"
     }
    ]
   },
   "부산교육대학교": {
    "kind": "univ",
-   "n": 6,
+   "n": 7,
    "items": [
+    {
+     "t": "부산교육대학교서 ‘2026 교사 게임리터러시’ 현장 연수, 전국으로 교육 확산",
+     "d": "2026-10-19",
+     "src": "www.dt.co.kr",
+     "u": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBSOTZDT2ZlM1VJTGU2TFEzLXVhSHRhYmg0a0RNdDZ0MmtRVnlXY3JzYW0tMzJuaHV3RTRXNmZtRHhWTTVBdnk0UjJGVjdZUQ?oc=5"
+    },
     {
      "t": "“부산교육대학교 이름으로 마지막 무대 가슴 뭉클”",
      "d": "2026-10-18",
@@ -315,36 +309,24 @@
      "d": "2026-08-17",
      "src": "씨원뉴스",
      "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE8tWjBYdE9MempvVF8xbkxRb3I2SzZvT1llbmNGdWNoZkNDUUZaQ2dWZGQwLUpMNUgydHNOYkJNRWZfSURKZEZqaXVQc2hEd1dhYmdkWk16a0ZjX2pMNHJ3UTRMaVcyQ2c?oc=5"
-    },
-    {
-     "t": "부산교육대학교, 통합 이후 교원양성 모델 모색 위한 80주년 포럼 개최",
-     "d": "2026-06-11",
-     "src": "경향신문",
-     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5oVWtLV0IyR0VpcmJOc3pKMGRGTzRMdlAwREN5bVNsdmZGUjNPRUo2c2VZRTN2ZWtQSC03MktCTWVSYVpKOWxSRWphRXFCWVM0NjViMXM3Q1F4d9IBX0FVX3lxTE5aekZoSjVLMnhqUFI1V2o4YlZtbno3anBqVUtrU21PNnY3OWhQR2QySTJDWnNpUFpTa0xtdnNENW9RSm1FeE52MjhmV2ZGMHlQTFlwemR6Y2dDM1daMnZr?oc=5"
     }
    ]
   },
   "한국교원대학교": {
    "kind": "univ",
-   "n": 17,
+   "n": 12,
    "items": [
     {
-     "t": "한국교원대학교 연구진, 유럽 이러닝 국제학술대회서 AI·정보교육 연구 7편 발표",
-     "d": "2026-11-11",
-     "src": "중앙매일",
-     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBLOEU1UU00cXpsdUk5bUtkdXEwbTlRblBrTmtUcGpMOTk1c3BFWXNUYnpLZTBZeFFvc3FoYXp4c2pKYXpGZ0M5cFl6NkMwZE5ISHluanRNWXZUYk1CeUktcTBPb2N2TzA?oc=5"
+     "t": "경기도교육청-한국교원대학교, ‘AI시대의 교육혁신 및 연구 협력’ 실현 맞손",
+     "d": "2026-11-18",
+     "src": "대한민국교육신문",
+     "u": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9wdWNnNVJVU0s4ZkpTbEVfYjZjSm9PeUFSTzJDclU5SFBrWGo3MWo5eXhINlI4OXFZYlM0dWNVcFB1SWEwOTRTbEp4MnpCdnR1bG8xanpESUh2WFcyaHh3c3ZiOA?oc=5"
     },
     {
-     "t": "한국교원대학교 교육혁신센터 핵심역량 도입 10년 맞아 ‘2026 HIGHER Festa’ 개최",
-     "d": "2026-10-28",
-     "src": "베리타스알파",
-     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE04anZ1cnZiRVV4YnNTMzRLaWw1VE1qRGMyRWFsWEhFU1Q1ck5MZmZBeGVSeHlGb1RPZVc1NGxWTVhPOFctYjEzUWY4QUItcHRyb044N201bWdKVFNIR0FGVnh0RnNpUjhKWU4xYw?oc=5"
-    },
-    {
-     "t": "한국교원대학교 교육박물관, 2026 특별기획전'누구나, 언제나, 어디서나-새로운 교육을 꿈구다' 개최",
-     "d": "2026-10-27",
-     "src": "중앙매일",
-     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBiSWN3NGNGaTVEbGo2cTlUWEtBdUhBTGVfM1pkSV8yLWxXTG1GTWN2WWl6cVAxbEdDcndKMzAwYlhUdEF1V2FoOHEwMlFPRkFrOE9tWEh1SndrYjlWRGp5RjZNanVWMXc?oc=5"
+     "t": "경기도교육청·한국교원대학교, AI·디지털 교육혁신 업무협약…교원 역량 강화·특수체육 영재 육성 협력",
+     "d": "2026-11-16",
+     "src": "월드장애인사랑뉴스",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBTSDZpUGhMYWhpdVUwNWRUQnYtZ2t6Ql9uLTZsN3VhMjdWTW1YV0FlREYyRzdXMXRoT2xPLVQ3dXRpSGgzcWhiaEJWWHMyeDdtYkZ1ZTA5QkdDd3VfaHRDOWpjaXFabDhGeGw1VjcxMA?oc=5"
     },
     {
      "t": "[교수초빙] 한국교원대학교 2027학년도 1학기 전임교원 초빙 공고",
@@ -363,97 +345,115 @@
      "d": "2026-10-12",
      "src": "뉴스투데이",
      "u": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBHMnNXekFzazBuVE9mODdpSk05RDJuMVJxeXQyU05rUHBxZk1JczdjT3hfc2FlWDBfX3pQUDdndkZ4VXpqNzZjZnhiRzd3OS1VeE5wNXppQWF2ajMySmc?oc=5"
+    },
+    {
+     "t": "한국교원대학교 「AI 시대 교육대전환 정책 해커톤」 성공적 개최",
+     "d": "2026-09-08",
+     "src": "중앙매일",
+     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5Ca2dPUXMya3BjdUVWR2wwWVd3TjlTWTNLZnlobFkxQWdTa1h4cXVESGw4c19yR25LYS1ILXl0bW9QQWZGN2E5RlpqLVRMT05rLW10S05nTXpSN2dkYjd1NjM1MElEWVU?oc=5"
     }
    ]
   },
   "제주대학교": {
    "kind": "univ",
-   "n": 52,
+   "n": 56,
    "items": [
     {
-     "t": "인드림헬스케어 “약물유전체 기능 제주대학교병원 적용”",
-     "d": "2026-11-13",
-     "src": "메디포뉴스",
-     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5mQXRxbUxMSlQ2VmVUa1d6dEpGZTdQRnRsamhoNW5EbWV1eWkzdW42ZlFiNUUtblhHX3ZaVWczSHBhcUpxR21mVlE1Q1pYRTMtYkhMdTM5WUM1TFhOSDY5MXdRQi0?oc=5"
+     "t": "제주대학교 평화연구소, 공동학술회의 개최…다중위기 시대 세계질서 변화와 영사외교 과제 논의",
+     "d": "2026-11-22",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBjSlNQR3J3T1ZWZnFVXzUyam9Pa2JEamw3NU1uNllVTEJTUjRiYXdtYU40Q0JfYlFyZDBXcWc3TEFGblloUVVMUHVDRHlvWWc3REVFSEk5RUdWVkxCSkZNUTlPVWI4SjNEYmtTYmd0cWE?oc=5"
     },
     {
-     "t": "이케다 총영사, 제주대학교 통번역대학원 강연",
-     "d": "2026-11-10",
-     "src": "주제주일본국총영사관",
-     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTFBMN0RVNUNJcjA1czRZTjNNaXAtdlZNejdyaGVwT3Nvd3g2UUhEN0x5WGh3X0VPRnBfY1FzVG1IMFV0QkRaaS1ueG5lcXJ4ZmNweVJIMExOMWUxSWwyeXVaMEMwSGo4V01UZkJGOFZReWpfQQ?oc=5"
+     "t": "제주대학교 해양과학대학, 일본 나가사키서 글로벌 전공역량 강화…국제필드실습 운영",
+     "d": "2026-11-22",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1XLVp4TVJRdHQ4YnNOcnh2Q1h4RUE5UDZFLTJHaUI0aFE0QklnejFyaXNQZE1ObEtQMHlwaTNvYks3T2JGTnBMZlVXdTdLMkoxUFEwaEhTc1JXWkFDQW5hVE9Oa0ljb0Y4VnpueUJqWWM?oc=5"
     },
     {
-     "t": "제주대학교 부설동물병원, 2.5배 규모로 증축..방사선치료 시설도 확충",
-     "d": "2026-11-04",
-     "src": "데일리벳",
-     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5LTE14VXhqN3Z3MVE2bWwxV1FFU0FTYnZ4elZ3Yl9rUHBKLXR6X3VoY1JEQk92MXdZcTdBdkhiSWNZSXlQcFM4QWhjRVhPSWpEQmJOQS0tVWNKQQ?oc=5"
+     "t": "제주대학교, 서울 AI 콘텐츠 기업탐방 및 제작 체험 프로그램 성료",
+     "d": "2026-11-22",
+     "src": "미래경제뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE0ydFZZX1lOdzhaalUtdGFUazEtYlhQdk0wdzltTGttY09NbmZ1eWw5UEhtZGJoeUlhcC0tNGhNMXZZc2diWEVpZzlZdEVJdl9aQ0FzTjNiaV9nYUxrQ2I5SUI5M01sUQ?oc=5"
     },
     {
-     "t": "제주대학교, 부설동물병원 증축...\"전문 진료.임상교육 기반 강화\"",
-     "d": "2026-10-30",
-     "src": "헤드라인제주",
-     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBDbXhsSlBCTmhYRnZSelJuUEptNFZ3QWJIbC1tOVZHX3Z5bzZOZ3lacGlvN1J5eXlPMWJEVGU2eldsSzM1SGs2OEJZNEYwTTFsYjlZeXJleF9WVklidzRubU9MZmtaZDlnOE9kZ3JPV3VHSXM?oc=5"
+     "t": "제주대학교, 유자은 건국대 이사장에 명예 경영학박사 학위 수여…대학 간 상생협력 성과 인정",
+     "d": "2026-11-22",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9NdUlEYlJ4NUpxcGQ4YmJsSTc2b1preHI0MTEzZG9BNFVYcUkxclVIY19RRGozUHFoN0lZNndWRThHaXhEbUllc0ExNWJwVUNlTnd2alhtQkYyWkoyQjQtZE5BLTROR2xxN0NJZ2dpcjE?oc=5"
     },
     {
-     "t": "제주대학교병원, 인권경영 선포...\"사회적 책임 강화\"",
-     "d": "2026-10-29",
-     "src": "헤드라인제주",
-     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1vX04wa2RjRlV5SjNpSU1lZmFJb3hOeERhZDRTTTJuUHVEQVZGQW54ZTBEMWxIMjMxUXRzMU8xRjJUOXNGUVZncEdyVWxBVzNsYlA0RGJsMldYMW9GTDFHYlk1Z1JmNmdZNU54U2dhdlZVYWs?oc=5"
+     "t": "제주대학교 양주은 박사과정생, 한국지리정보학회 우수발표상 수상...굴포천 복원 전·후 열환경 분석",
+     "d": "2026-11-22",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1Bd0hydWR2a29aQkVoZlREcGh1cjZiT3Z1THZGQ0t1WnprSWxwUmIzQlE1VmNUYnNNV3JjcjlmT0pIMGNSWm5EamVuNTJSN2toZmFOUjR5bWVfQ2RBOXZMMFF2aXFpWThrNy1KM0NGenM?oc=5"
     },
     {
-     "t": "제주대학교 영어교육과, 11월 14일 고등학생 영어에세이 대회 개최",
-     "d": "2026-10-28",
-     "src": "제주일보",
-     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE83YzducmdvMFM4SUdwRENWSDZCWXJZXzNUaExsV3Q0SXh6NjNfSkYybTZNUWk3d3BYTVgwNktCWVlDN0ZuZVJ4ZkxDQ1d3clhhdXpaN256Q1ZQRE5kZzRJMmFPQnRlV3ZCbW5PUw?oc=5"
+     "t": "경상국립대학교-제주대학교, 대학 AI 전환 협력 업무협약 체결",
+     "d": "2026-11-20",
+     "src": "국제뉴스",
+     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5tX0VyS1c2YzFHdDRXb3ByNUpyc2pjRlhQbF9lcy02N2FtZ1k1TFRHVFVVZkpWc2ktTzFQVHZpVVVuMklQdWN3Q19kRDI0YWZMTG5Delpsd1dSUlZjWnV5UWtXeWMyVHNfSDgzNUpB?oc=5"
     }
    ]
   },
   "이화여자대학교": {
    "kind": "univ",
-   "n": 46,
+   "n": 57,
    "items": [
+    {
+     "t": "이화여자대학교, 2026 캠퍼스 특허 유니버시아드 대통령상 수상…반도체 특허분석 역량 입증",
+     "d": "2026-11-21",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1uM1NzWUpxM19nYTJncVZuZTNVdUExdm1adl92czNWb25QejhncUZFWG04RjYwNHAwZG5Cc3dfZ1IzWTZpVjMzbHAwMGFwVVViZEY5YUZtNVVrM3kwamFkV2paSkhRVXpWT2ZUYXhNbU4?oc=5"
+    },
+    {
+     "t": "이화여자대학교 한국여성연구원, 제7회 ‘이화-현우 여성과 평화 학술상’ 시상…김미선·이라영 저자 선정",
+     "d": "2026-11-20",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBZOEk3R19yMTdXMjQwQUFPMEN5ZmZWWmZiYngxd2JDOEIzbWgzRkhfUkUzelRhMk9ReUx2V29pNVladS1SS2MtY3hacnhubU5nVW9IMkFhc0ZVMnRYRlF3LXFsaFhpTV9RcmV1VTh0VUs?oc=5"
+    },
+    {
+     "t": "이화여자대학교, 11월 23일 ‘2026 윤후정 통일포럼’ 개최…한반도 평화 해법 모색",
+     "d": "2026-11-18",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1oM2ZNeXMtS3lZYU03eDZHLWw5aDhpcFRWSnBtMnp6eVJzU21YUGtfdThpSThDOTFGYVNfVzg0YjRwTlBEMGtTaXdCU1FUUTliWHdBam1seFBVZXRqQy1pQmF3MnhZVEZEWHdNS05iQUM?oc=5"
+    },
+    {
+     "t": "이화여자대학교, 127℃ 고온에서도 빛나는 초박막 반도체 구현…차세대 광전자 소자 개발 가능성 열어",
+     "d": "2026-11-18",
+     "src": "한국강사신문",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5xRWlBQlRjU0FhcHlORHJSLS0yamV3QXA4UTdkQ1dhUGYtQzJnSjFHTDlyWDJ6eUFCZnY2UnVhVUtfeGQzejNKTWgzNTlJYTBLeFpBNlhrUmNQMkFvXzZuWnZ3aHk2QVR1cWtxclpoWG8?oc=5"
+    },
+    {
+     "t": "한국 법과인권교육학회 · 이화여자대학교 법학연구소, 2026 하반기 학술대회",
+     "d": "2026-11-11",
+     "src": "법률신문",
+     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE04WHBiYUp4ZGNianB2UXAtSjJ4aHczZGplZlRoMGVFSnIwZHk2RVRNMFdWaVlNOE9wUlp5TEw2RUFxQ3ZYenBldGNSTGRmTUM1ZHgteWpaRlRxZ1QzWHgyUm9ldENEYUNGSGVBVHNB0gFyQVVfeXFMT1ZETE13QTNiaG5mVzFESktVbXJjYk1waV9QeWtWWHVYcHlFTzd2RVNzM2dOU3owTWtMdmRUb2ZsYkt0WUV4STJ5b2NadE94cFJvdmRHMHo0dlZkQ05NQk9KSk5zT3dCYWU1ZjJwTmp5ZEx3?oc=5"
+    },
     {
      "t": "이화여자대학교–겐트대학교, 나노·바이오 융합 국제심포지엄 ‘BioNexus 2026’ 개최… 공동연구·인재 교류 확대",
      "d": "2026-11-11",
      "src": "한국강사신문",
      "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9icC0xOW5vQVFWRERCbUNINmpreHdHSmlseXNORjEtbzRxUkxuVHNkLTRSaEZuTDh2SHdOdTExVDNaZ2dJQ0tiZE5uOUZfVjZZTGRXalUtRW5DcHhacGVmNDlWd1ZrOFFJN1U1U3FsRjQ?oc=5"
-    },
-    {
-     "t": "한국 법과인권교육학회 · 이화여자대학교 법학연구소, 2026 하반기 학술대회",
-     "d": "2026-11-10",
-     "src": "법률신문",
-     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE9WRExNd0EzYmhuZlcxREpLVW1yY2JNcGlfUHlrVlh1WHB5RU83dkVTczNnTlN6ME1rTHZkVG9mbGJLdFlFeEkyeW9jWnRPeHBSb3ZkRzB6NHZWZENOTUJPSkpOc093QmFlNWYycE5qeWRMd9IBckFVX3lxTE9WRExNd0EzYmhuZlcxREpLVW1yY2JNcGlfUHlrVlh1WHB5RU83dkVTczNnTlN6ME1rTHZkVG9mbGJLdFlFeEkyeW9jWnRPeHBSb3ZkRzB6NHZWZENOTUJPSkpOc093QmFlNWYycE5qeWRMdw?oc=5"
-    },
-    {
-     "t": "2026학년도 상반기 이화여자대학교 잡페어(Job Fair) 개최",
-     "d": "2026-11-10",
-     "src": "이대학보",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE11TzZWZEhFM1VUZlpHLTZwOTlSRmdXUGhQUndWNmJqd2VxSlpMS0FJQUZMdGZrMWtNMU0zMTFSWER0WnIta29odE0zX24tVDhMNFFSX0kya3FkWGc0T2FGLUpKYlJxazB6OGfSAW5BVV95cUxQbkNyRVVoRmU5Q05HSkwzR0VKck1pTEpwdk9LaWdrYnhlOEdmcTE1Z2RaVldjQ28xMXl6VlNhdm5oNWVYYTMyZklJS0MzSUdRR2ZGVl9HX2RLanB3cUkwZjRJbW9MZ28zcmliaUsxQQ?oc=5"
-    },
-    {
-     "t": "이화여자대학교 차선신·최선 교수팀, 항생제 내성 극복할 새로운 작용 원리 규명…원자 수준의 탈아실화 메커니즘 밝혀",
-     "d": "2026-11-04",
-     "src": "한국강사신문",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5SOFYtYTRETWJqZ2ZBTGRubEhId3lrQmlYM3pjNGJ4ME8tU3lFVXIxbXFLUjBPZ2VfaDZ5ZVdDSWZwX1d3eDYwMXR2WDU2WGVFdXJaS1lfZ2pfSjRQR2lsNzlvYWlpTy11cXZEVHpJcm4?oc=5"
-    },
-    {
-     "t": "이화여자대학교, ‘사회과학에서의 AI와 머신러닝’ 국제 컨퍼런스 개최…한국·일본·대만 연구자 연구 성과 공유",
-     "d": "2026-11-02",
-     "src": "한국강사신문",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE84d2FYbHRjSkViMFVrYkRWZzNpdjZLM3hIbDE0Vm1WTWppMHhPbFJXSERoWmZBSG9UVndtYndnZWJPUUFwV0tmY2htZnRfLU03Rk9ycU5DalBQdUZWMmFWbzNBQTBBaHVrQ0o3d0JLcG4?oc=5"
-    },
-    {
-     "t": "이화여자대학교 임재웅 교수팀, 유연한 MOF 구조 고정 기술 개발…중수 속 미량의 물 검출 성공",
-     "d": "2026-10-31",
-     "src": "한국강사신문",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1zeDM5NnBfRW9zWjlUdWRWWmJNZEJFZnZVdU16NGpmWTkzU3MyaWZFUldUM0piUzR6cllzUXY2RktCR0dhTTFyN1F4enhqSjh3Y3l1MGY4TUZ0NnpUdG9qRGVxQmtkdkhmczV2NEJ2WWw?oc=5"
     }
    ]
   },
   "중앙대학교": {
    "kind": "univ",
-   "n": 44,
+   "n": 47,
    "items": [
+    {
+     "t": "[MD포토] 중앙대학교 `2026 대학축구 U리그 왕중왕전 우승`",
+     "d": "2026-11-20",
+     "src": "마이데일리",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE8tWmlRMkc5aFN1MzNwbWlzbEV1SFpzRTZKQ0VGdUE0VkZVMGZCWFRndWl3Z2I2dVA5QnFvY1NBMXdMSU9nejdKMzBuYlY4Rm40SEZDeXBQdER2UkJIVE0xeA?oc=5"
+    },
+    {
+     "t": "안성시, 중앙대학교 광명병원과 모자·소아 필수의료 협력체계 구축",
+     "d": "2026-11-20",
+     "src": "이뉴스투데이",
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBCVERBMXRvVEp6M3hSdGRuTUp1ZDJvWUpqcDdsQm03V2JXUURKR0VrLUVua0tWTVg0UTRSQ0pTaEdDa0I5bVRHVlFlQlJZNi1HY1NZTW44WnFUdHBfcnlWNjFfTjZHZ2ZqUXJfSmcyT1_SAXRBVV95cUxNamZobkxIYTZjT2JvZDlGSWNfMGFtd0d6NVBLVHY2RXVBemdMTlJSNmRQTVVkeXRnaFJMajJCZjR6MGZSMTl4Ulk4Y2RjQ1BnN1JFaVB5aDRFSGRvOG9YbkJaUGZMRlhlSDJkNGJTNVMyaHNLNw?oc=5"
+    },
     {
      "t": "Hearts2Hearts社群貼文 - 저는 한국 중앙대학교로 교환할 기회를",
      "d": "2026-11-14",
@@ -477,24 +477,12 @@
      "d": "2026-11-13",
      "src": "한겨레",
      "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE0wenNkcndEOG1aRk5WM193X3NneFNZcmN6ZlowVGkxYm50U3hyaXd5NzhPVTJsN2pVTlNSYkVDSFFLMHNIUWZfYnptTDBybjUtNGhhSms5QzZwVG1MLTh4WEI4cjlSUWs?oc=5"
-    },
-    {
-     "t": "강민규 (중앙대학교) | 한빛사 인터뷰 > 한빛사",
-     "d": "2026-11-12",
-     "src": "BRIC",
-     "u": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPbTlmQ3FOdGhpSFZWWlAzUHhvVEpzUWxaX3JBb0JVVG1QN25paHVqOElOeGhrRXR4UG93NE5tSG5CdktnMl9VNlZka01pRGtxVnVnamxVQUlmOUFwamJoa3RkaHNwLURWcndrSDlQaVFMelZlbjNub0VDeElfS2VoUFdYbWhzS25yQ1BBSFduSEE?oc=5"
-    },
-    {
-     "t": "[전문] 중앙대학교 건축학부 이정형 교수 , RTK 뉴스 창간 9주년 기념 축사",
-     "d": "2026-11-12",
-     "src": "알티케이뉴스",
-     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9jZWhQb1FER3VNZTlxM2NYeGx0Tkc5MEFKSkVCVXE5WnlRSkVMMFBCR2FWOW9VM3lBXy1XRWlLdWo5SFk2T3dQSDNNdnRrT3NrSThjbURQZXRGdEVZT1NXLXVGTEpDUlVsUEp2THJn?oc=5"
     }
    ]
   },
   "한양대학교": {
    "kind": "univ",
-   "n": 48,
+   "n": 46,
    "items": [
     {
      "t": "한양대학교 예술·체육대학–강동문화재단, 지역 문화예술 발전을 위한 업무협약 체결",
@@ -509,28 +497,28 @@
      "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE0wdmFDZktQdXFadzJGX2hhYVZHT1VrLVMxQWZSa1dpWHVfQVdHTkdYTFBzVWhZTHJJdFp1NDhYenB1M3lVQzgzbHZZRzFubWZMWjJQZnJOTDhoOG9JS2pQemQtczRrUQ?oc=5"
     },
     {
-     "t": "[오늘의 교직원 채용정보] 한양대학교, 2027년 상반기 신입 및 경력 교직원 채용",
-     "d": "2026-11-09",
-     "src": "아웃소싱타임스",
-     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTFBvbkgwRUh6dVBIdGlvTnNGZzZMMzdKV1hFT0tkcEJBa1ZRZ2V6ZWxnR0hKLWhYbmJOelRhSkE0WG9GekdEaUJvM3MwYU5RLUUtc3RlUE05UjNIUXZDT09fMXh3dlctS3dGaEZ3dkxwVW05dw?oc=5"
+     "t": "[영상] 한양대학교 라치오스 축제, 나 때는 말이야~",
+     "d": "2026-11-04",
+     "src": "뉴스H",
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE00M295N0lIQWFXZXpaSFFac2dPMTFxX2lKcHZTSExaVFo4bWtlNHZyRmhVYmJoaVl0UWwyVjhUbi12M0NqdG1kUGxoQ1lWbjh4Y3dTNV9HbFB5anozaTAxYkNVYi1ESExJcG9n?oc=5"
+    },
+    {
+     "t": "한양대학교병원, 혁신형 의사과학자 3인 선정 ... 최성지, 안성준, 이현 교수",
+     "d": "2026-11-04",
+     "src": "뉴스H",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE8yZHc5dlBwOVctQ2FHM1M5OEFCNzlqRmNwa3VXck04Z2tXeTBxWEo3TjV5Z2djZjh6aUhCNFZ4amVNTFhMeGxhLXFpaGt1cEoxcUl4UGdyaldybHZhZnZVcFZRektjZEJwSGc?oc=5"
+    },
+    {
+     "t": "한양대학교병원 의약품안전센터 김현진 계장, 한국의약품안전관리원장 표창 받아",
+     "d": "2026-11-04",
+     "src": "뉴스H",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE4tUzRIdGxFMzZDTW9wakxwWTdMS2wxbzgyaVYtRG9GckMwTmhSTThBZGk4OVRORVktMFlSNWpsbXpfMFRqT09wV280VFY5bDl0ZllSRGU3S0JXdDdtTHRyS0pZaENvWDMw?oc=5"
     },
     {
      "t": "한양대학교 신현상 글로벌사회혁신단장, ‘사랑의열매’와 함께 미래 사회문제 조기 발굴",
      "d": "2026-11-02",
      "src": "뉴스H",
      "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9NcVF2RjJ4U1RjMFhLb0tjUTlBZUxCTFpEQ3lzck84eW9XeXd6c09Lc0duUEtpb0hqSkU1YUtNeUlLc00ydTRYMG4yTGQzODlWVmFEbDBoZzZ2QXFMbEdfNEwwZGFja3pyNWEw?oc=5"
-    },
-    {
-     "t": "대만 국립정치대학교 법학원, 한국 한양대학교 법학전문대학원, 중국 인민대학교 법학원, 일본 교토대학교 법학연구과, 2026년 동아시아 민사법 국제학술대회 (2026 East Asia Civil Law Conference)",
-     "d": "2026-10-30",
-     "src": "법률신문",
-     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1vY3NOWG1fdVFvV0N4b0tZcE9wRm5INmJpWjJMY0dGcllsWHNlREpfV0FBR0cyUldGNGlXM2toYzJUUy1RdDBHTVdXWE9ZeXlNdENRSEZSb0RDVUtYOVV6ekh0N3JQc0Y5MWdOQlRR0gFyQVVfeXFMTzZHT2xwbVlURFJrQTFZd2NfeFNpcmlrMlVpa05ucDl3OXJlNWN5M3FDc0ZMREhRXy1IVC1rNndFanpFemFFSHgxNHo4SW43QlZIMWZEMWVuTng0eTZhOFgzdkFENGwzNkltdUFEVTFhSmhR?oc=5"
-    },
-    {
-     "t": "한양대학교암병원, 30일 유방암 검진·치료 건강강좌",
-     "d": "2026-10-21",
-     "src": "메디포뉴스",
-     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9TZGctVlA5Q1RRWnZhbmVCcEU4aW83d2RzYmozV2pfbzNBUGhqZGIwTFh1YmVuU1BzZFIwV0ZLeGpSR25MaTNsdTJRZEFxQkNGWGE5MldJNkJ0cV9nc2I0WlM5a0Q?oc=5"
     }
    ]
   },
@@ -539,22 +527,28 @@
    "n": 33,
    "items": [
     {
-     "t": "건국대학교 주지봉 교수, 탄소중립 시대 화학산업 혁신 이끈다…산업통상부 장관 표창 영예",
-     "d": "2026-11-06",
+     "t": "건국대학교 이현출 교수, 『21세기 정치와 한국민주주의: 정치학 개론』 출간…정치 양극화부터 인공지능 시대의 민주적 책임까지 폭넓게 다뤄",
+     "d": "2026-11-22",
      "src": "한국강사신문",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1CTDBaM3pHaDh1M0VDY0w0OEo3WjRzU2duazFLNzJaa2VhLU1MWVVVQmRBT09XMFRPQUswUEROSFFhZDJVYlI5Ml9aWjZYdW9VU2N0c1NVRktYeUJVME8yLWpHOVBnZzV5dTJaTmY5djU?oc=5"
+     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9Bd1ZaWktMVHJ2T0ltejdyRkZJWkhYUlBDUlMwSHBWYmpDME9FWmpXZXVpS1pjenhnejBxUjJVdXRPZDlvVE8tdlRBa01LNDE4d3NIRUpGSEUxclBvUl9Za3Zncm9mVGJvdHppVVpDRnQ?oc=5"
+    },
+    {
+     "t": "[부음] 유광하 건국대학교병원 병원장 부친상",
+     "d": "2026-11-18",
+     "src": "병원신문",
+     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTFB6dFpDN1J4ZjMzU1pxdExNWmd2aTNoMlN0OEg4X3lIWVE1SHNBWVkyV3Rmb0ZTYm5PemRLRF9ZaE9VdG9oQzFaaFpHY3ZENjJpa2NnYVRmMjFDdnppSzVWa2VQWkQxZ2xPemc?oc=5"
+    },
+    {
+     "t": "건국대학교, 초저선량 X선 검출기 개발·단계별 창업보육 프로그램 운영",
+     "d": "2026-11-18",
+     "src": "여성소비자신문",
+     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1zWm90bTZqemw4RWI5dHhCdWlNdC1BMjhmWHlIZzFPd3ByN29nTjhhVi1ldVBqWmVjVng2QnFiSEIxcGVDVWozOWhPTGhZWDI2Q1Z5VF9CanRrSFhBV2lZTmJjR3lLUQ?oc=5"
     },
     {
      "t": "가을 찾아온 건국대학교 캠퍼스",
      "d": "2026-11-05",
      "src": "뉴스1",
      "u": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1OTkdkdExxQUNXb0VfZDZSeURicVczZzRPNnpBQTRVdkg0bW04LUQ3Z3ozUnF1blQzRlM1NlhxMV83V0tDTGhGbE12dw?oc=5"
-    },
-    {
-     "t": "(사)한국이민법학회 · 한국형사·법무정책연구원 · 건국대학교 법학연구소, 2026년 하반기 공동학술대회",
-     "d": "2026-10-12",
-     "src": "법률신문",
-     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE42VW93cDQtdXBUZG9PWDZVMFJBZ0pmQklBbHMxVWRHb3RXc1haazAyQU9MVUlkcVlYME5OS0hKanhVWTlYNlo3QVdMaktzeS1ZdmJTWnRNdC1hcW1WaTA0NjlUR1M0UkxHZjBwRURn0gFyQVVfeXFMUGhQNTVGTmFfZWtURS1tbFQxTjU1X3oyZEFqdF9HUDNKWjlZeE9WblhqSl9iVGM4SG1pN1NidVA4S201S2xMREF3RFlfT1NTdGpHbzJYX3VIcEdUVlpzLVRaTURTREl3N00zX1QybHRfZWdR?oc=5"
     },
     {
      "t": "외부 코트를 이용하는 불편을 딛고 테니스 열정 뜨거운 건국대학교 테니스 동아리",
@@ -567,19 +561,19 @@
      "d": "2026-10-03",
      "src": "한국강사신문",
      "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9VYzNlNzZuWEZ2WU1iMFFhNklPMU4xbFV5eHhTd0NvdjdZQnZVWDJSVWdlX21QZzA1UjJmYzhpRzdiblJKTXJUV05ycmk4cjJ2SXhqbzVKSW9KdW5VN3RzRjJTTkNpRnY0QXNRb1duQjg?oc=5"
-    },
-    {
-     "t": "건국대학교 박신애 교수팀, 신체장애인 직업재활 돕는 ‘스마트 치유농업’ 전국 현장실증…스마트농업과 과제지향형 농작업 접목",
-     "d": "2026-09-30",
-     "src": "한국강사신문",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9xdGRGOG40WXlTa29pUFNDUWVpUk5Oa1V4TE9lckhXOEV6V3NyN2FOMkx6RTVwRFc4ZlZ6bE9OWWg1dFFoZ1UxMk5HaU9GbS1Tdm1Ocnl2RTFWZFZtT2lSaHB0enJUd2NwbnZVUmZ1U3Q?oc=5"
     }
    ]
   },
   "광운대학교": {
    "kind": "univ",
-   "n": 19,
+   "n": 17,
    "items": [
+    {
+     "t": "더코알라, 광운대학교와 AI·SW 교육 산학협력 업무협약(MOU) 체결",
+     "d": "2026-11-18",
+     "src": "livesnews.com",
+     "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1Idk1BQmstd3dsSUFOVXNsU1NKa1p4WWhPdWJ6cjFTX2tvS2R3Wm9yTkh1czZ0N2YwMFVTNmNoN1lZQXc3ZmlON1JoaVlKdWpmZVZSN3hFR0x4enQtYktPMkJB?oc=5"
+    },
     {
      "t": "친구 따라 시작한 아이스하키 광운대학교 최강호 선수 특별 인터뷰",
      "d": "2026-11-12",
@@ -587,10 +581,10 @@
      "u": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE0wMlZ2RGlRNHA4Wk5Sbzk0LU9uMlZQZHJ2bm9DOVh5dzZ0dExGaDRSZFFSQjRCeGtleUhKekdZQkxGNzhaM3ZTUzc3Y0RVSEtaWjVJ?oc=5"
     },
     {
-     "t": "광운대학교 캠퍼스타운, AI+X Connect Forum을 통한 AI 스타트업 성장과 산업 협력의 장 마련",
+     "t": "광운대학교 캠퍼스타운, Advanced AI Course 프로그램으로 양자컴퓨팅xAI 교육 추진",
      "d": "2026-11-09",
      "src": "한경매거진",
-     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9ra1VVODR3dkxMOE5aMWRZTzltSjJkWWJWbGc0eFJqZDJEWUNLVG5sZWR3YnhpY0VaaDdGdWVqbDdORDk3d245YzBKYVJYd3JpbmlBaXlzcThFR3BkU1ljQmZIUUNNOVhybUc4?oc=5"
+     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTE41SjlrdDNYbDNPZnFzVl9jVUxoZW51c1VDMzBveVV6VzUyM3gwb1JDQXdNQ1ZjVVp0QXJ3bTI3cC15blVDMFp6WGgteDlsUG14QWZfMGNGOEQwd2l0dE1KSFlST3NnNFZ0alBZ?oc=5"
     },
     {
      "t": "광운대학교 로봇특성화대학사업단–엑스와이지, 휴머노이드 공급·AI 로봇 인재 양성 MOU 체결",
@@ -605,12 +599,6 @@
      "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFB3aGlXQTZqSGFEeTlBR0xScWZEdS1RT1YtOGFYUURmalZmVmc5Y0lYblRfeExUMFF6dDNPTzFnUE5zM19fYXBHWTJnbmdRMTRQc3o3WnVLNGFWSW9LNmhFa21ZaGQ?oc=5"
     },
     {
-     "t": "광운대학교, 중국 청도 3개 대학과 글로벌 교육 협력 확대",
-     "d": "2026-10-16",
-     "src": "매일일보",
-     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBqRl9pSUUzdENkVlRCUXI0aVFiczNjWm9abXdHbE5IUllnSHNkNktSbkN0QTJINmp4NU5GMEtnZVd2MFhhbzFMN1VrVzBJdktGQ3dmeWxvSVo5YnJuV1JnUTlTMFA?oc=5"
-    },
-    {
      "t": "광운대학교 교수 18명, 2026 ‘세계 상위 2% 과학자’ 선정",
      "d": "2026-10-15",
      "src": "매일일보",
@@ -623,40 +611,40 @@
    "n": 39,
    "items": [
     {
-     "t": "연세대학교, 삼성전자·구글코리아 현직자와 함께하는 ‘2026 커리어 브릿지 페어’ 개최",
-     "d": "2026-11-15",
-     "src": "한국강사신문",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1iQWQzekRkV2t2SlhrX294bzBWaW1XNFJEVFN0ZWlEWUYxWi1GQ1h6amZlYmpkQXBxY3RSSUtaUXA5T3VCOFNQR3JtRTdQX0RqeWNjaXdxY2kwTk5xdTBJdHp4ZkFTT25ac1hPU0t2aVQ?oc=5"
+     "t": "서해구, 나를 알아가는 특별한 여정...연세대학교와 함께하는 토요멘토링 캠프 개최",
+     "d": "2026-11-17",
+     "src": "인천교육일보",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBncXQtZ3BMRFZKMWk0WlhOa3BvbnJvTmJ0enNNQmw4UW9lU1B2Mk1xUmlsZ3FfVFRteWNFT2JrRjBOaFFzeGMzNmwxNGxyS0FnZ2ZZajBnMktLZG56V2xaM2FxQ1pkWVJY?oc=5"
     },
     {
-     "t": "연세대학교, AI-RAN Alliance 서울 총회 개최…엔비디아 등 글로벌 기업과 차세대 AI 통신 기술 협력 모색",
-     "d": "2026-11-14",
-     "src": "한국강사신문",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1lV3VkMUhsdkc3d2RJOXRfUFhHZnhXNkhsWnMxMUVJV2hOanNDSUYyRzgtMExidWEyNUh4cm1fUXFEQ3NHaU16ZlBTMGYwYktuY2UxUmFVcHB2aXVhNWFBSGNqWEc0T1hRMXJqVkJNTmk?oc=5"
-    },
-    {
-     "t": "연세대학교, 제12회 추계 인문학 캠프 개최…한상훈 교수·곽효환 시인·이기훈 교수 참여",
-     "d": "2026-11-14",
-     "src": "한국강사신문",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBEOUcybXpvLVBMLXRTalE1bVlYeEpLUWZVVGFyWFV5YnducjlNRlZveEF2UjU0UFBia1BFRUM4eU5VMDBBZ2pEeG85QTg4bzM3aEpINHRUWXpkRXUzV0FSWmhyYk1vcE1fSXpNclJLMTc?oc=5"
-    },
-    {
-     "t": "박중권 (연세대학교 의과대학) | 한빛사 인터뷰 > 한빛사",
-     "d": "2026-11-12",
-     "src": "BRIC",
-     "u": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQXzViT0FUY05DRWJRazMybkNVZU1LMVFlMjVpU2lBTXZkeEVXdnN0TnNSYkhCVWRfM1lRckQzM0diUmYybTN2YjNwaTNLWjdKZ1NKdDJTeVFKSHRHZ3p2WkVvMm9kTUd2Ui1mb0ZRU3p6RTJ0eXh6dHNiMEl3dEZzVll3bkZGZVJxdTlOTmN1XzI?oc=5"
+     "t": "[게시판] 연세대학교 동서문제연구원, 18일 훈민정음 세계화 포럼 개최",
+     "d": "2026-11-16",
+     "src": "연합뉴스",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE56NERVQkY1bWl5UWpxcjN2WlBueEZtdURQMW51VUlyeGNkVWcwNlhuTzFuU1dKd3ExZDBjUUJ1dFRPUWY5S0tiLVlRdHQtMHY1ZFJHeFBSZWMxRVXSAWBBVV95cUxOTVlOVmh4UUFpSHlGMHZla0RGYjdZQ1VkQ3llRlBETkhienNSemEyY29oT2FTQkUwTXVtNlpHTC1ZbUFEc3JOSjF4Xy1mTFEydDkwbExOUlBlbkxKMUZ1ZUo?oc=5"
     },
     {
      "t": "문일 연세대학교 명예특임교수 “가장 추운 계절에도 종자씨만큼은 지켜야 한다”",
-     "d": "2026-11-11",
+     "d": "2026-11-12",
      "src": "월간수소경제",
      "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFB4ak92MkthVjBZLVNvdmgzN0NvNXVOcVlhUUhzZmdPT1BMX3lOOW4wN0hnczFYMU01Q29kX1pTS1A3U2p6RkNNVzBocHZObm5UMXR2b1ZnSVVTOWZVRUZxQTZ5bmpYZw?oc=5"
     },
     {
-     "t": "연세대학교에서 열린 농심천심의 날",
+     "t": "TUIDE社区帖子 - 오늘 연세대학교 축제 너무 재밌었어요!! 오랜만에",
      "d": "2026-11-11",
-     "src": "뉴스핌",
-     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1wYTV1dzg5NDM3dGRhTkREcG9aUTJqSlNqeVhtWkVucEtJMVVNR1RZQTV4U1FvdFh6NXNGc1RaeUotalJ6VFM5M2FyRFdYQkNFZXQtYUU1UmtLV2lt?oc=5"
+     "src": "Weverse",
+     "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5iNTg1WFc0Z0QyUmVIWFBRWXY4Y1Mwd2hwNkN6MmxZMHdOWUFxSklnSng5Z3RYSTBiQlZjcGtyN1dHd016U2xuYW1KQmxQX1N1emRSRTNvOWFLSWtyWUFZTk5R?oc=5"
+    },
+    {
+     "t": "Hearts2Heartsコミュニティの投稿 - 연세대학교 즐거웠습니다💙 오늘 들어가셔서 몸 따뜻하게 하시길 바랍니다! - YE-ON",
+     "d": "2026-11-07",
+     "src": "Weverse",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9XR0FqNkFLVm5wLVB0NEdRRUJsc1dnZHdCTk1fb0lYQ0FyQ3M3YlVlTXZUelhzV3RLSkV4ZlFYOFVKQkw5dFk3MVotNFBHOGtUYzROclY0QUJuWjB3VWJNSnliOEpFWDhl?oc=5"
+    },
+    {
+     "t": "위버스 ILLIT Media - [FULL CAM] ILLIT (아일릿) 'MORE' | @연세대학교",
+     "d": "2026-11-03",
+     "src": "Weverse",
+     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFAzZVhjdXNCcXM5dXY1RndKZzJaM3NsLTFKTEQ3ZlFwdnhVRkRNOEhEamw2UHBzR0kzalFiUTBHLWZhT015UVppeVJoMWVuYzg0MnhJOGlkcGNQbmI2?oc=5"
     }
    ]
   },
@@ -674,49 +662,49 @@
   },
   "네패스": {
    "kind": "company",
-   "n": 52,
+   "n": 50,
    "items": [
     {
-     "t": "특징주, 네패스-뉴로모픽 반도체 테마 상승세에 8.02% ↑",
-     "d": "2026-11-11",
-     "src": "매일경제 마켓",
-     "u": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1LQ3hMS0JXRDNvbk9FbGx0ZFlfekR6cGxMblBqUDQ5ajlnWllQeElnVEtwWWc2dVlLVHZlbjM3UVRqeWhpcEozNXE3VG1BbDN1a2c?oc=5"
+     "t": "차세대 반도체도 투매 못 피했다…네패스 후공정 밸류체인 직격탄",
+     "d": "2026-11-22",
+     "src": "핀포인트뉴스",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE53QmNWdG0xV0lGVEdZWGJ0Z1d3dl92TlJaS2NuT2ZaM0RRejZkbTFyVzNKMFdzcHBrUlNxa1owZEw1ZzYyNmtSR0RwdHFabk81dWZSVU4xelhvUTZnTlB5UkNrWE1LWVlBcnhWc2lFUngwNU3SAXdBVV95cUxNZ21Vc1paWE1jNjdNMXNFazZxUHJIYlRvMGNXQ3VISjZvMUxrZEhvSmJ6Z1h5RXAzdlpsS0VKTFpkTktONFlIRFRJMy1ZeGRPS1k4VG9VQThJdmxhZVo4VGZEbjc2Um9xTFNiQURhMnBGZURMdzJlNA?oc=5"
     },
     {
-     "t": "네패스 “안전하고 책임 있는 AI 교육, 미래인재 육성” [AI 대상 2026]",
-     "d": "2026-11-10",
-     "src": "IT조선",
-     "u": "https://news.google.com/rss/articles/CBMidEFVX3lxTE13MG83amdkdGZJM2phQkEzMnFmOVZkbjZzVXRaT0VTTzJyVjNGV0s0UnVIa2dRRF9idXF4R0djYWx1dWZwT1Z1OFZkaHpXWlowRlNYYU5OZzk5VnpXR1J3WlNmcHk2bjA2cGxvdm5BWlk0aWNv0gF0QVVfeXFMTXcwbzdqZ2R0ZkkzamFCQTMycWY5VmRuNnNVdFpPRVNPMnJWM0ZXSzRSdUhrZ1FEX2J1cXhHR2NhbHV1ZnBPVnU4VmRoeldaWjBGU1hhTk5nOTlWeldHUndaU2ZweTZuMDZwbG92bkFaWTRpY28?oc=5"
+     "t": "네패스 야하드, 발달장애인 해양과학관 체험 지원",
+     "d": "2026-11-20",
+     "src": "중부매일",
+     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAwNkpPbU5BTWl6cFZ2T0VILTM0aWs4NVJHa0ZRZVlGbHBVdUFTNGhjNklDeHdwSm9nRFpqOWs5alN3ckFtZUplWDNmVFpmWUoxLXI2Q2NPWEQ1LWJLMG1LTFZvTG5HY3N1SzNpM2RR0gFuQVVfeXFMUDA2Sk9tTkFNaXpwVnZPRUgtMzRpazg1UkdrRlFlWUZscFV1QVM0aGM2SUN4d3BKb2dEWmo5azlqU3dyQW1lSmVYM2ZUWmZZSjEtcjZDY09YRDUtYkswbUtMVm9Mbkdjc3VLM2kzZFE?oc=5"
     },
     {
-     "t": "[시뮬레이션으로 여는 충북 제조혁신] 네패스아크, 반도체 검사공정 AMR 도입 효과 가상 검증",
-     "d": "2026-11-09",
+     "t": "중국에 발목 잡힌 AMD…하나마이크론·네패스 수혜 가능성 주목",
+     "d": "2026-11-19",
+     "src": "핀포인트뉴스",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1sWkd6U2JmTFpjWmw0SjNUQjRId0RaNXNtQ3AxU1EzQ1BEOW1rOXVjTWZyUUpRSUkyYTRpZU9IYl9GbzBMMXdLc1hGMGRXQ2Vtc3EyZHZNVE03czZ1T3MzWWFYb0tKVWpSNkZQb2hPSWNCWmPSAXdBVV95cUxPeExQcjRKOWRzWjIyMm9kekZzeVVLQVBCZjVsQWxMc2dLLWJrbzVRd2ZfWXNLNGNrN3FoUWM0RzV1cnlCN0JrMFdHS2E1eUpLMFlCQzVjMEtjYUdkRHlOa2xsU3pHelY5cDFydWdVbkVtbFp0Z0xnYw?oc=5"
+    },
+    {
+     "t": "네패스, 하나마이크론과 첨단 반도체 패키징 협력 맞손",
+     "d": "2026-11-16",
      "src": "전자신문",
-     "u": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9nQmJSY1NCTXZzM01FQVlhTFh2Qzk2YjNHV3F5ajI2MEZhYkYyMTBiLTJJcGc1R1BoSzZMU1hrRkF0NEJ5U2VJQ0E5X3RtZw?oc=5"
+     "u": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9POVRKRXY2VktxTFduOVpRZkpJOXlLclZTUS1aTW10V05paGpENVpYeVhEbjVrNGw2TDNBN256a0h3enVIZHM0alVWcnNMQQ?oc=5"
     },
     {
-     "t": "이창우 네패스 부회장, 대통령 표창…\"리쇼어링 기여\"",
-     "d": "2026-11-06",
-     "src": "이데일리",
-     "u": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOS0RLOHhURDNpLXJweTJKb3Q0QjJpOHM2ZTd0dlFOcWx4OVIwbEJiamNpMkp5ejRSc2h1RGlUcDRsZmR5b1lDaTN3bVN6dXhTLTRqcVFrSUE2cnFDa2VOV2trVmk0NTRUQWhqcWRQZzVRemJSXzQ3dWpFR3o3c005ZQ?oc=5"
-    },
-    {
-     "t": "네패스 부회장 이창우, 기업 국내 복귀 공로 인정 받아 대통령 표창 수상",
-     "d": "2026-11-06",
+     "t": "네패스·하나마이크론, 반도체 후공정 기술·생산 인프라 협력 나서",
+     "d": "2026-11-16",
      "src": "비즈니스포스트",
-     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5Uc3hTZ3F4Zy1ueExITkRDVVhsRmFacm9HSDFBX2gyZ1NKX000UVNWVTRJY0EwUTBEUDJGWFdRdjlSbElua2NsT01lcnFETW1TeWN4bzAyMlR3N2ItajY0NTc4SGRidUVZNTItZEdpVS01Sjg?oc=5"
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBlU2RZWUFWTWVHRFkzV09VTVh3NmZxVXZ6TEU2SXluWjdjZ3RiX01nbXJLb1J3Qjg0YTVOWUpfd1NYU09INU11TWxYM0VnNUlYanNha0VENXdqNkRLSTlBbHJrM0gzRnB2OVN1Z3VFdHFnX1E?oc=5"
     },
     {
-     "t": "이창우 네패스 부회장, 지역경제 활성화 공로로 대통령 표창",
-     "d": "2026-11-06",
-     "src": "문화일보",
-     "u": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE1YdzRIeThVVUtoSTFHX3luQmVzMEZLbWFKaDBKblJvZURQdW5CTnkzZ0xMR0IwdkxQQzRqS3h5eGRJTHVmNmVHd0gzQjQ4cXFt?oc=5"
+     "t": "네패스·하나마이크론, 첨단 패키징 맞손…AI 반도체 시장 공략",
+     "d": "2026-11-16",
+     "src": "이투데이",
+     "u": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE43UUw4aEJkajJBUHlEcnJnVXJyUDMyRTRXVHJpbkdvMnRCTzJsdThvSzRZVW81VUUxb1RaQ2o0alM2VVFVNlp0b3EwSWhhSDNZRkNqaQ?oc=5"
     }
    ]
   },
   "팀모노리스": {
    "kind": "company",
-   "n": 6,
+   "n": 3,
    "items": [
     {
      "t": "팀모노리스, '모두의 AI 챌린지' 운영⋯AI 체험 기회 확대",
@@ -725,28 +713,10 @@
      "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9rWkhnWUJIdVlNS3dfcTQwb3hBLWxQV1JfbDlmV0F3RzItTV9PYV94XzMtdXdjZzV5cTk4MWRjODRDNExKNFJZNU8ybjhYUFR3QVBNaEphZEsxdHRUVG5FQmllRHFGTTTSAWtBVV95cUxPWDJvYzlfN2ViQ1huRXVJcTZOWXFuU2ZCNGNDR1I1VEFEaWR0b2lyYkZpMF8xMlhSaV8zYTRuNUIza1NCTFNlaC1yT3QtLUE5aTFYWWNmN3lVVWM3M19oRFItSTN0VG5ELW5waw?oc=5"
     },
     {
-     "t": "팀모노리스, 'GESS 에듀케이션 어워드 2026' STEM·코딩 부문 최종 후보 선정",
-     "d": "2026-11-04",
-     "src": "이데일리",
-     "u": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNZFBjbTBaTnZmb0R2alp2c2wxSlhGaEZ6VUp4OC1uUEE4YnFEZjJvSG9mMFBFUk5Tc0R2M0pFQzRILXNIdUI4amRRTF9tUmFrd0FaTEZVMWxkXzluYWtBTEdVS1U2QUVMemt6dE16Tm4zZ0l5dmtJM1Y0aGZBOE9sMQ?oc=5"
-    },
-    {
-     "t": "팀모노리스, 과기정통부 ‘모두의 AI 챌린지’ 운영…일상 속 AI 활용 경험 넓힌다",
-     "d": "2026-11-04",
-     "src": "뉴스로드",
-     "u": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBCeHR0VlJGMU5wTTloSFFVZVg4bmwtNXRQQmtia2xsU0FEcjR3Z2F2cC1VZXU0N1JfYlhFdkw1c3BxczRsb2tLMVJ5OEdQSFQteVBNb00yMDdGRktZLTQtdnNJQ0NNblhRNzE00gFvQVVfeXFMUGRNOEdocnB1YjkyRU1VN3YxSFhTRUdwV1pmLWdBLVIzb1FBOGlPdnljakpaYUF4TnJnSFdSOHo1bWN1TENvdlBmQ2JpRmpYSnIweVpVdHBUODdZQlVLNWRqWGNrT2VLQklwMF9xaENj?oc=5"
-    },
-    {
      "t": "팀모노리스·스마트인재개발원, ‘2026 AI 동행 프로젝트’ 데이터AI 분과 마무리 단계",
      "d": "2026-09-01",
      "src": "동아일보",
      "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE93WTBnXzhyNWcxc1JxWXhBMjA2QkJ4QnRnb0xyZ0tTa1Ffdmhmajl6UEhmZWtCYUxSaVpWVG1UN1BISWZxYnI2V3NzNVRBT3lKbzVVZ1U3eUpFWjV3U0Nvak5hajNqOUxMSHVKYlhEd9IBZkFVX3lxTE9YZnI2WlhjaG1JVjNsUzVBX0ROUnFiZ2k4WHhULTZia3lvMy1jZW9Jam8wQ01lZUxnMVgtWUlRcDdieW83TUpXYTFLV01iWjdNXzlPOTBoc3E1ZDZ4Mk9WUk91VGhmQQ?oc=5"
-    },
-    {
-     "t": "팀모노리스, 대만 NTCU서 AI 교육 워크숍···'코들' 기반 학습분석 사례 공유",
-     "d": "2026-08-13",
-     "src": "현대경제신문",
-     "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFAxVlprWFBnN3VBWWdSVFNCTWtucXhFUFBJVGJlOW1oTTRxbC1PbU9IVmJSWWZ3WDhlZGpzckUwV2VUbjRnc0NONF9yam54ZUFtMjViTzFRRFZ2bmUzRDMydG1ObHZxMVHSAWtBVV95cUxNdncwR3U2Z3RBaXdKaHhmamRVVFd6ODR6QkE5ckw1TmVsOWNxanJ2eG5MTFZPNDd5eEJzaUh5YVJiRng0UzQtZGZIQV95bHUzX0lVaHFGUFFUWEdsc09MSkd3Z3M1WC1Idkg4MA?oc=5"
     },
     {
      "t": "팀모노리스, 대만 국립타이중교육대와 AI 교육 협력 논의",
@@ -758,8 +728,20 @@
   },
   "티처빌": {
    "kind": "company",
-   "n": 4,
+   "n": 5,
    "items": [
+    {
+     "t": "테크빌교육 티처빌, 국립중앙박물관 유물 활용 교원 직무연수 선봬",
+     "d": "2026-11-18",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBBTlk4SzdNSzJVRjRud252YlRqenl5NnZuWDA5S3lPUHJUMlJ2SnFUZTZoU1JyY1pPTUhvdXpmRVdUYkctaU1YWmpOTGpNUkg1eU04blJxeFdNWVU4SktKR0lNU1Y?oc=5"
+    },
+    {
+     "t": "[#에듀픽] 수리연 '미술에 수를 놓다' 강연·공단기 '교재 재정비'·티처빌 '여름방학 취미 득템전'·'스피킹맥스 소장학습관' 출시·데이원 '백준온라인저지 인수'",
+     "d": "2026-07-30",
+     "src": "뉴스웍스",
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE00RFRoMUNhT3E1bS1xRWNhdzFPUm5oVllubTFUMkFUbGkwZWoyUXg0Q0RaUHM5R1llSzdOVjd1UWt4TjdKUXprSzZkR2N3U0p0N3JESUtWSlk1SDNscmxPd2I0QVBhR3YycS1DTEl5NNIBc0FVX3lxTFA1Z2ZNb3FldDkzT3B1U1NrNUdnWU9UcWFqY0dSazRyWmtyalg0MHNqUk5Qcms2Y256YnJNZHFuQzR2VkltZHhYZVN3NzJsNGJacU9rWWRFUXhxY3ZybVNaNE91Y0VSc0Q5MTVveTJoMnVfQUU?oc=5"
+    },
     {
      "t": "테크빌교육 티처빌, AI 튜터로 교사 연수 탐색부터 문의 대응까지 지원",
      "d": "2026-06-25",
@@ -777,12 +759,6 @@
      "d": "2026-06-25",
      "src": "매일일보",
      "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5POFFGbWd2dHF4bXhXY3Zsa1F5RFZGMW45cFV4Tl9CeHd0cnlraEgwTS14cUNiVjJFUmpLQVc5SlZkRDdtN25iNy1NWk9xcnRRVFVBbFJmaUhIWEpfSThqZmgybXI?oc=5"
-    },
-    {
-     "t": "[#에듀픽] 티처빌 'AI 학습튜터' 출시·공단기 '신규 강사진 영입'·대성 '디파인 출시'",
-     "d": "2026-06-25",
-     "src": "뉴스웍스",
-     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1GQW1lZ1FPTjZSLUpRRFFrcEkzMlVtRlVlQ3VSb0xTemtZbWE2MFdUT21TM1JvMWViRzdGck1SZ2o4NllCZkxmSjA0eHZKYXJhLXhFV1lWZ1dhWjB5LV84MEVRbVlSQ2lpZjQyajhXb9IBc0FVX3lxTE56ZzNVNjFNSUFWQmZ2WDlxV1JKMUtJSmxobEYzakNSLU43LWtSTnNWeDJPT1BVRVhndkxCeGlOTTB5N21BOUhPeUlOVHZnZTNfdFZGcUFNeTl6RzJHcktXbk9NN0x2NmpGTzBUajhKZE1ZS0U?oc=5"
     }
    ]
   },
@@ -818,43 +794,43 @@
   },
   "한국능률협회": {
    "kind": "company",
-   "n": 19,
+   "n": 20,
    "items": [
     {
-     "t": "KMA 한국능률협회, 제638회 최고경영자조찬회 개최",
-     "d": "2026-11-02",
+     "t": "지난 18일 우리은행은 한국능률협회컨설팅(KMAC)이 주관한 2026년 '한국의 소비자보호지수(KCPI)' 평가에서 은행 부문 '금융소비자보호 우수기업'으로 선정됐다. 정진완 우리은행장(왼쪽)과 한수희 한국능률협회컨설팅 대표가 인증식에서 기념 촬영을 하고 있다. [사",
+     "d": "2026-11-21",
+     "src": "전자신문",
+     "u": "https://news.google.com/rss/articles/CBMilhBBVV95cUxNcWEyRzhPVkphQ1dheHlUMkNueGJKNHU1S0tNcDlrTGZFWkJFdlVxVjRLRVVTY1FZeXhfU2lZb0h3cWtBV1dpWmhCaGpRX09TdDdldE5ZZm9BeERoc2N2SHdmMllzNWRYaVVpTlExTFdjTUpvQ1loMV9qZkhrMW03cnpoUjVZbkhKTEdQNW5PTno3Nko5TnVNZ09BNnBSZXV6dlZqYVFtdDdQeXBscFRCc1p6S3FpZi1rY1pnOVBVam1XR2ROeE1sTW1aX2RhNC1LMXJhbS1sYVZmUi1rbDFWWUp3SlhVTF9jdGYzSi05MU1VWVFjZF9CQzNIMHB1Q3l0WDc0SnBqLVVKWXByZ0xCQmZJUDJkejBiRm1FMEZJWlY0VlZ2OHQxdl9kdDdsTGxCVThWM3h2S3E3SU1ldmRIeWJISDd0OG4zb3V2NXhFMUJCUE1tNkxtZ2xxZFRVZUtPVkpYc2Y4ZThJZjhvd3lWRTBNdk1yTkRlUGJEUzR3Z252TFpiS085bDl3UlMtUE9mWVl5cF9mQUJJRkJNQWRaTVRkM21PcEJBa184OVN5ZHB4ZmpEVWlpME8temFsQjhXQzRsdDcxc2otVnNzSVQ0ZExyVDJ4b3Z1NVRhNnZ2Mm9VUHU3YlNBcS1rSlZQT3haeS1yUWNoQmJuSVFodW1rdmFaeUFTX3AxREM3NXdmUTJodVl3UGxLYno4UkRHbUJBN0d2Y3MwLXFDMUUwcU0xMXJRN2RIbkVJT2dxSGEtcGRLWnhLcV9uUDNna0Q3Sld4YTR3XzN6SmVqdlg0TXAxb0ZOSnBMaGVCckJXQ0hwanhNODFxdEVuOVZmOWJmTkFfMjFHOEhRamZWRzhKNDhtSVEza05aY3BZWEh6RHd6UkFCVzZqcWdDYnRPV1dHUnZDRFhDWmF6aDR0TElsREM4SXVVWlAwUDZaXzdCOEhjaXE2VnNZTXhvNTYwTUhzWDN2R0s4emZtQ0xmLXJYZTkyd3FWS1gxUzNVeHFuc0pLbDFCRXFxeXI1M3B6TmlRNXNLNWNRY2pVR0t2emUyTkY1c0Q0cVVTQ1VscmdQMnlOdWtTUHZJelIzLVVRbUlBOGlTM0IzZkwzSTNROXQ5amQ5czFyb25MVThQQzNZSUNqMzQxMUY0TGl5SWN4UGJIT0ozNng5dDJLbUJFcF9pOXpObFdKOTBJd25ldVBMREtmMGJGLXRhamZQcGxScFdBUGJuaWI4WlN3dlRlcDRHVXB0R1U0R3pxTk1ncVNId2h3dnE1WDBSVlc1MlBJT1VjWWhUQVF6MU95UGQ0VTNTX0FPelNuMjBWTXc3cVh1OTJPTjUtcEFjOTNiRkotQXlwa2hGS2R4X2hzMXRXV012WFNyOEVJYXJyYXRKUHV4ajZsaGFORHNiZmtZMDhpSkx0WUpraDVUSUFKZWRvZ1dYbXhTRUJLX1F3UDRWX3RzdU9VNElxRjFNMzlJblNOSlRrb1RfT3cyY3FLNzJ0cER4eld3dk5ZX1c1V1JuQ3dtdWw3NVNsQ0VCMDRqSm9hVjdXLTBGcXFZQWE3NjEtNGVHQzN2Z09iQTVqaWo5Q3FIQktVaW5KRUxSSkE0c0EtS0VEaUl5eGloVVNsRjZSdlJpZ3RKajJKYkdNUTZZczlNN1g3N09vQlg5ODdObHM0OHpIdHZCTEFBX1o4bUdBN3QxY0ZoVl9IaEU0VUxjUFZnZ0ZCRWlZQzZlYllXbV9PX1d3ZERjZFdtWFAwNkp6OFJ5clJlQWFQUDJ2bHpaVVJuNDZlc3lIRjdSbXNERFFjOWpWaFZWM3lKa1RheW56N1ctb1VfNGhuQ29famNBZ2x1bWVKaDVWSG5MRG0yQmhESV90S3NyRjgwQUwwaHpJZHpuTlNpQVp1MWpoZHdvUFRnQk9fb2VuSDVYc0ZkRlBqa3F2d3hhSEgzdGlHWDMxX3NGQlhXZ1Q2NEpBX09BNWdKUHRXMU9fbmNYclBOd2wyajM3V3BIWGFHVGtUaFlfQ2dRZEhLVGYzY21zZktpdFVtYUVOTGpfRTllTGlUcUpHZDAtMUdsUURDWG9ESk41MVZJV0pveEdCemNrRmVoMVh4U0NiTEZLXzRrQjJWT01mc3Vyby1sQUQ2VlFPcUtFZ1A3U21lLVMyVTNrNlAxeGhQYnFFTmtmTFBqSVhORU9fWkFCQkhQdjhMeHhDUXROTU8yWUp3VGxTbEU2SmtYSF9SNXdBZ0ppamJjcXFDMHhyaU1MZXNNUTBtLWtoTDdjR1RhcUhkYTNWT2c1eTNCZDBoUV80b244UVRMSVpQWXBodTljU1RkU2FvZm0wajNoTnpVVjFhbFJtbE04NGdPUGJhS3lzSmppZjZmR3hsWlZoa3I5di05UjhlWkhJV3Vfdl9pejZ0SFNDSU54TGhwUjJyQ3g2MmpvdnU3SURnVVVLenlJV25yNFNmNzIxTnMxQ1hoNjU0WlBFTnA4VmZEZFBwOXE1MFJpY1IzTU9pYlktRjg1aFNPc2h3STNsU0Y5cmw0RGxrRE1acVZQdlozeE1qSnNKeEpTbFM0VEZQbkpJOG9tcEk3U3V0OWZvRTd6VDU0ZEVOOXRWTVpGR3VKa05OYnVqMHFvNTNSVGJXazNxb2dWek9sWTFNd055clU3RFVFUWp6SWppSkFZNGR0c042dEE5dWY1NUx2LWlzSWZJYTJueG9ZdDhoMmZUeXFmMzl2c00xdklvR3BGZ05ydFA3Rmd3b0VvNlM0ZkE?oc=5"
+    },
+    {
+     "t": "한국능률협회·동아일보, 고립·은둔 청년 미디어 분야 진로 지원…99명 수료",
+     "d": "2026-11-18",
+     "src": "세계일보",
+     "u": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9HLUhjOGhuMURpUXNlNWtEUC16QU91bzJBcHZHUGttcHpJZ3hwS3drTFU4UmhZOFJyWmhTR3RsbWFsOXdEOWZtSGNSb09rbDFKeENfb0lsMDbSAVRBVV95cUxOOXZ4S3p4X0lpMjZSeVNsakhNNGRpcXFUbDBmTzJpUmZqd0hWdF94RFNYR3luaEJ5d3U0cEd0OVo4S1VwdnF4LXF1bm9wa3lSWXBPLVo?oc=5"
+    },
+    {
+     "t": "한국능률협회, 미디어 산업 진출 청년 지원 ‘D-Bridge’ 수료생 99명 배출",
+     "d": "2026-11-18",
+     "src": "서울경제TV",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFAtY1AteGxWek40VWJqNFlCd1FrSDI0SEJpQUFORjZ0UGY1bi1nblpyQmtDRFotQWVFd0F5QzE2YXBycHJ2VjF4RDRYWVowV3lfaUlDNW1IVWNHb0ZQMUg1WWZnSjY?oc=5"
+    },
+    {
+     "t": "한국능률협회·동아일보, 고립·은둔 청년 미디어 직무교육 성료…99명 수료",
+     "d": "2026-11-18",
+     "src": "www.dt.co.kr",
+     "u": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9QTVM5dG1JM3pUejJENS16eXdoZDdRY29TbGttTjc1RmhtZUliNFZkUk5BNUY5N3BlbUFqYWN5anNsb09sazNMUnlBLXBtZw?oc=5"
+    },
+    {
+     "t": "한국능률협회, 미디어 현직자와 함께한 ‘D-Bridge 미디어 커리어 빌드업’ 마무리",
+     "d": "2026-11-18",
      "src": "서울신문",
-     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE14Q2xfNnFjZjhTN285a1paUk5vV3c4RkZETzluUEdSc04xNUdmSVFEcDU3WU1qZVdLLXFrU2ZGQkc4M29mZ1VFZGxUZVpJV0hhTGFCaWtGbDNZVi1zQTZMdDlOb3Y0R0JidDNnbWxxaw?oc=5"
+     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE51Z1BfMEZBdVh6WW1kWmQ3a0YydVFWR2NTRXFKVHRjLTlvSjZkbF9ld2x1WVBfMjJPZ0hVZ1BJbHVJZTlWT2RheUkwZlduRDBUaE9tejRmb0w1cVczczFCcXFRUVJvSWVxbjhkdmhqMA?oc=5"
     },
     {
      "t": "두레시닝·한국능률협회컨설팅, 데이터·AI 기반 컨설팅 서비스 협력",
      "d": "2026-10-23",
      "src": "한국경제",
      "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9oSmtVQVFVTEZVQldILWNHM2Jmcm9pZzJvQTFoWF9kVTFYclk2MDBRX215NDdOUFpnbDFyZE1oaWx0ZXE3VHJhYnBfS3Fqb09lVExUbEVoNTU0QQ?oc=5"
-    },
-    {
-     "t": "한국능률협회, ‘D-Bridge 미디어 커리어 빌드업’으로 청년 사회 진출 지원",
-     "d": "2026-10-22",
-     "src": "서울신문",
-     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBxV2UxUGFOZ1pIM0VVQUxILTdEcFVTUnBIemlnaU5GODFfVlNaRjhZS05OTXlYSnBQbHI0cWh2SGJrQXItOUxXVHlDV1NybUJYcWg4UVphek0xdUNabmRyTThuSC02N3l4TTRTNnJVNA?oc=5"
-    },
-    {
-     "t": "KMA 한국능률협회, ‘2027 KMA 멤버십’ 개편… 기업 HR 실무 지원 확대",
-     "d": "2026-10-20",
-     "src": "서울신문",
-     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE95ZnUxanBSQVV3dDYySWdMSERBZFA2QVJITUxLWjZpYmdOQVAzNFhRSEhfckVGVVJPTXhrTlRYeHNQak9laE14Zm9jR09zenpieTVmNkRPRGZQTmtMSUZQcVg2R192OWZLYmFmQjQ0SQ?oc=5"
-    },
-    {
-     "t": "한국능률협회컨설팅·S-OIL 등 10월 신입 채용 진행",
-     "d": "2026-10-08",
-     "src": "비욘드포스트",
-     "u": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9OakVSbVB6VS00OTdPeGRhX0t3ZUFpTTI3VDRKSmlDU0JCc1hDT3huREZCM3FwdEVLLWpET25CY3JwTFduTXRoN3BWRDdVbzZWeGY3WGpmZm8wUi1JcXhmM2hWTUlDWlRCNnZlNm03SU9oc3FjRF9FU0IwcHc?oc=5"
-    },
-    {
-     "t": "KMA 한국능률협회, 제637회 최고경영자조찬회 개최...AI 시대 새 인재상과 조직 혁신",
-     "d": "2026-10-02",
-     "src": "서울신문",
-     "u": "https://news.google.com/rss/articles/CBMib0FVX3lxTE4tWEItTjZkUFozOWVYd3BBSFNtMkdnWVUzMk5HYTBiVHlFS3h0bHNsZm1YRGlHeDZoM2IyZGlGaXdCVWlPdTQzRlJ3RkY3cFNJZVFoWWdjMkxzRlN4VVlaUFNrQkptdDBhWUF0VnNlaw?oc=5"
     }
    ]
   },
@@ -863,35 +839,59 @@
    "n": 4,
    "items": [
     {
+     "t": "경희대, MS·알파코와 'AI Connect Copilot' 운영 - 머니투데이",
+     "d": "2026-11-20",
+     "src": "머니투데이",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE9EdjdRLTFyd2k3UkFLbGE0RzQyNjdFd2V6UW5jb05TWjI1MWtFSkE2VTh5N2RtRFB2b2hKSFlhcVBFVVZjRUdEQVp4ekZONzNMZU91WkprMlRjZ3BwdXlvVW9iN0ZmX0lSeGpleVpFQjZoQdIBckFVX3lxTE9EdjdRLTFyd2k3UkFLbGE0RzQyNjdFd2V6UW5jb05TWjI1MWtFSkE2VTh5N2RtRFB2b2hKSFlhcVBFVVZjRUdEQVp4ekZONzNMZU91WkprMlRjZ3BwdXlvVW9iN0ZmX0lSeGpleVpFQjZoQQ?oc=5"
+    },
+    {
      "t": "알파코 K-하이테크 플랫폼, '2026 비즈콘 시즌2' 개최…AI 시대 업무 혁신 모색 - 머니투데이",
      "d": "2026-11-11",
      "src": "머니투데이",
      "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1Va1NuaXVMY1JYRHhaX3ltektsU3pkeG13bjhFeVh4VmNKVmNkSTlLZEZBM1lvNmFUOHNjd3VPdnZqYU1sNHVFcjlTTGYwX2tGMnU3V1gtWlJUN3NPN1BLZWtucVVMaVpVNHRlddIBckFVX3lxTFA5cWNLemhzZ0xfRFFwaUgySThETmJUSGo4TE0xUTlxa3ZuMUthWkxLdmJXX0Uxa3RDU2dDUURpY21mcmJfNnpWSk12azAxcFI5UXpFaV9tQkNxb0xoSVhzZmIzS2tKdXJ6cWY1a0pYdGVIZw?oc=5"
     },
     {
-     "t": "알파코, '베스트챔프(Best of CHAMP+) 2026' 2관왕…3년 연속 최우수 기관 - 머니투데이",
-     "d": "2026-09-14",
+     "t": "성수동이 강의실 된다… 알파코, 재직자 AX 프로그램 운영 - 머니투데이",
+     "d": "2026-10-06",
      "src": "머니투데이",
-     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE4tQWxfc3MtNFZjOVh6SmFINkxzNEtSMDRoZ2VTTWNrbnRaMzlXWXpMYWJnUlQ1dW5OcWNSbHR4bVRaRXhzZG03UEdYU1dGaWhZVlVYRzJNanZHSTIwcDlJR1MwQUtnVUdURE44MtIBckFVX3lxTE5UeWxtT0FvTGtFUFJuRWhqTFBoV3ZNWmFPdjNja0pOaEVuMHVnTzN3aG9fNW96Snl4S21xU2xXLXlpQlhMQWp2cGxGaVJDSUlGQmVlVlNTTmpYZTI4bElrTVctajBuODZNRTRScjExTEhQUQ?oc=5"
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBBd2lqSEk3bkNKNTMycTd0ajNVajl4VXNwTURoTDFGLTlvWEROMlFtc0ZDbl9EMklDNlQzUE0zQW9mZjQ5UnNmNjhCWVg4anJ6VWprXy1rYUxfdVc5ekFBUk1URm1wdHRpS2lHU9IBckFVX3lxTE93WWR6TElqeldJaXMzVWdWOU9Ra2pJcVRGSW9aSkMwVVBMaURKc0dVRDAwLTNjN1RxTFdvTEdGODRFRnJhTDdudnQxSXBfT3liREItd29yYm5QbjMwZG42NE56RVRDeGxfVk9RVjRmWjVNZw?oc=5"
     },
     {
      "t": "하나은행·알파코, 금융권 취업 맞춤형 'K-뉴딜 금융 아카데미' 참가자 모집 - 머니투데이",
      "d": "2026-06-29",
      "src": "머니투데이",
      "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1hRG0zYkJ1eF9nQXh5aUhnWFJGRUJqUHJrb1VGVG5OUExkaTNPUUl4MnR1Znh6ejhVeFZsUEhiUG5QOVp5RjY2Uy13a1BwSDl1RmZ1dzVwNE8yRlFmbDJ0MHNiOTFBb1FiU2tlVtIBckFVX3lxTE9FOFVSQjVtSFE4MTkzNUZxZnlKWm16OUxBdHl1OEc1ejFzQ04tTDE4Mm0wV0JONDNzX1M4TjFlVHY2UEQ1SHBacHZiMFF0b2hVVVJaMXlPajE3NVh6eDlmUUlUcjM3cVMtVGdUZ3l0UGZFQQ?oc=5"
-    },
-    {
-     "t": "알파코, '생성형 AI 업무자동화 실무: 클로드 활용 실전 바이브코딩' 과정 개설 - 머니투데이",
-     "d": "2026-06-19",
-     "src": "머니투데이",
-     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBUQkh0UWRPQmNjUjkxdWtsNE1mV2trZnNkNFlxR1pxVDFaSTRtZEVQR2JEWUQzY0RzYnpFOG1DbmZVT0ZjcWFzN1BUWjFldi1IRTRUTk1yQUR2bmpCdjNjRUN2Z0VSQzZMMlFQTNIBckFVX3lxTFBjZG0xY21YMnZvdk1zMENGNXhNMzVoc19CVG1PanBsZTl0VmRTMWVfTktJSHNneGdyRmstU0FwQktyR2xEckJkTzJRMXY2ZG1WTUhHOXBvd05teHA3Z0JTVEZzQ2ZPeTlXbGo0eHVXa0IwUQ?oc=5"
     }
    ]
   },
   "KTcs": {
    "kind": "company",
-   "n": 39,
+   "n": 40,
    "items": [
+    {
+     "t": "KTcs·KTis, 대구·대전 취약계층에 김장김치 1200kg 전달",
+     "d": "2026-11-19",
+     "src": "매일일보",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE8tS0FjMEZMZVVVbHYtSGl5WmVZLWdueERINnpXU3FQOEZEQV9qSXFCaE1WbmpiUTBoV2dMcWZFN2VWWjk2U3daT2ZPOG9WaTNjM0pjWFlBXzF2VkJSVlJnY0R2emo?oc=5"
+    },
+    {
+     "t": "KTcs·KTis, 겨울맞이 연합 봉사…김장김치 1200kg 기부",
+     "d": "2026-11-19",
+     "src": "파이낸셜포스트",
+     "u": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1sbHNqYWFiUnh4MFlFaG1hU21QSE5xWlRfR1JUdVY5VmpfZmVZUlQ2Slh4aFUwZzI3VGVJODRpZDJBbHFsNXQzQl9wb3Fla2JTNEJXWkJ3TnBaa3NNbjFMTElzZFZDc2lVZ0I3eDJRZGJUS1Za?oc=5"
+    },
+    {
+     "t": "KTcs, 김장김치 1200㎏로 이웃에 '겨울 온기' 전한다",
+     "d": "2026-11-18",
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1VV21PNlN4Rlkwcld1d29lQVZQXzBHT09sTlR4VmlKaGhJVkdpdXFuNFdmQlRvamJZcno2WUJfMnVqOUhfcnZQY3VBS0ZUT1FKeUpLdFgwZFF0Tk1vMVJvdA?oc=5"
+    },
+    {
+     "t": "KTcs, 이웃에 온기나눔…김장김치 1200kg 전달",
+     "d": "2026-11-18",
+     "src": "프라임경제",
+     "u": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5zaWZ6Sm9mUHhuMm8xVjRGRFcxbk1yNTZZMVFNbmNoc3R5VWlXOXZzVG5uN3BNV0hYd1lRRFZaNVlZbDBzaWg0SU1tVllCR09rSDg2Q2FiNUx5MjViWDFWd3VDc0hsSkZCSTF3eGdvUDlySUx1ZExiWg?oc=5"
+    },
     {
      "t": "KTcs, 장 초반 10% 급등…3Q 호실적·주주환원 - 머니투데이",
      "d": "2026-11-09",
@@ -903,90 +903,60 @@
      "d": "2026-11-09",
      "src": "지디넷코리아",
      "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9mTmwzdEc2NzQ0UHB2a21Hc1NJakxMU2NVZ1Q5MmNFZFBFNHBjOTQ4dTVwb2I0dTU4M0tja05kRTlPSG8xNF9wVnRxU3Jkc2FSN2ZPc0FR?oc=5"
-    },
-    {
-     "t": "KTcs, 3분기 영업이익 '역대 최대'…자사주 346만주 소각",
-     "d": "2026-11-09",
-     "src": "뉴스핌",
-     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE14OXJzMFRJWDBzZnZ4eWVrdVB0OFNXeVlPMEtVOTJFMElkbFd6QVk2em9iQkg1T085RWs3ejlHY2dPMWh6VFIxc0gtMGFhX3M4WGk1UGhHVzhKa3RY?oc=5"
-    },
-    {
-     "t": "KTcs, 3분기 영업익 `역대 최대`…첫 중기 주주환원 정책도",
-     "d": "2026-11-09",
-     "src": "디지털데일리",
-     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5CQ0x3YVBnOHFaRjJCdHFSYTBxdFY5dTdKcWJPazNnTEE1Yjd0ZTVlMF94RVhHOFd2ck85WS1EV2h2YW5QTzJ0dGdpdGlOLXM3bWg5X3JRaS13dEdWM2RXZ1Qxbzc?oc=5"
-    },
-    {
-     "t": "KTcs, 3분기 영업익 110억 '역대 최대'⋯자사주 87억 소각",
-     "d": "2026-11-09",
-     "src": "아이뉴스24",
-     "u": "https://news.google.com/rss/articles/CBMiS0FVX3lxTFBFaHNMUHdkQ2RXTzZMYXRURy1raGFraGZ1VjlpaTRjMzNJWlUxUHVfYnNiTHAtQ0lHNldsNnBONmJLTnR6RV90Y09MUQ?oc=5"
-    },
-    {
-     "t": "KTcs, 3분기 영업익 110억 '역대 최대'…배당 늘린다",
-     "d": "2026-11-08",
-     "src": "뉴스1",
-     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1xLTBqWDh5Y1UwSWpVb2k3MTVQQUlSYl9UN2s5MFVWOHRRYXlvLWxEUWllZU1FdGZsQ3J6WVh1akc1emNEend4T01kZEJET1hCLWN1X2c0ZEVSaExxOWhGVA?oc=5"
     }
    ]
   },
   "엘리스그룹": {
    "kind": "company",
-   "n": 58,
+   "n": 59,
    "items": [
     {
-     "t": "과기정통부, 대한민국 인터넷대상 시상…대통령상에 엘리스그룹",
-     "d": "2026-11-15",
-     "src": "전자신문",
-     "u": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFB1VXJVcXo2RFczT25uTDh3ZmRyVGU5Q3JFUXJXeTVhbklfS0s1VTNibGkybG13ZkNQU2VJUVBXQjRoOU9lUjE1LWRMaTFPdw?oc=5"
+     "t": "[Who Is ?] 김재원 엘리스그룹 대표이사",
+     "d": "2026-11-21",
+     "src": "비즈니스포스트",
+     "u": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5VLXhGSmZ0Zk9tMEJNalpwQ21HSlJ6LVRQR0pwUTZIN1JNamp5OHBzZWdScWpjX3kxb2JpVHBlWmk4di1IcHVHc3Z2SnNGRDRERl9hQ2JQNU1xMTBKbjZiU291eU5ZdkdUYzAxYlZ3SGhuTW8?oc=5"
     },
     {
-     "t": "‘인터넷 대상’ 대통령상에 엘리스그룹",
-     "d": "2026-11-15",
-     "src": "조선일보",
-     "u": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQYzNWRHUzTG9YMnJjQXZzeGt0aHpZWGxUb1JlRUlEOVRmVVpYX281YUhIRkpwM1pJaG9LQkw5MHJ2SS14ZTl1VUFndWExZXhlTnY3bnlQWHpCbzZucVJuVzhtT0h5SXVsTXp0Nzg5Tlk1ZzNQMm1vVDVHaFFQbWJLRVpDNA?oc=5"
+     "t": "엘리스그룹, 기업 데이터로 AI 인재 키운다… 뷰티·제조 현업 과제 연계",
+     "d": "2026-11-19",
+     "src": "디지털데일리",
+     "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9uX2ZMOGd6S1V5SnFHRkNmYmlzNUdSdHhXakdSUG90WUZDSGhhWjZUdjVQbzEtNnk5NDBKNkJ0RzlOYnpkbXhjazZVcGxZT0FHYWh6VWE4WnB1VmdtWk1UMEJPc04?oc=5"
     },
     {
-     "t": "엘리스그룹, 'B300' 기반 AI 데이터센터 베타 서비스 개시",
-     "d": "2026-11-13",
-     "src": "AI타임스",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1IOWpDSmJPaFozVV9TbERKVW9TWGh4TFZCVTB3ZHVZZm5BSnVnQXJHVzdYaHFjM0Z4VVdLT0RUTEtGZUdxZU5vbmxtZmRLQWt1VjI2UF9NTHdvLWFCbURGZ29NTnVFVjFXZVE?oc=5"
+     "t": "엘리스그룹, 뷰티·제조 현업 과제로 AI 인재 양성…기업 AX 지원",
+     "d": "2026-11-19",
+     "src": "테크월드",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE45eWp6NnFlcWNUMnQ4ai0wcEpiOXR5dHhQaGcyb01pNzJQOHNEM1N5OHhybTBSVllvS0FvWHZYRDdPeEJReGpYUWtHNVI2eUVJdndvUE42RUE2eVV0RnJVbXlyODBzZWVL?oc=5"
     },
     {
-     "t": "엘리스그룹, 대한민국 인터넷대상 대통령상수상…AI 데이터센터 구축 공로",
-     "d": "2026-11-13",
-     "src": "AI타임스",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE85eV94THh1SENqS2JhemtxTEZvY2tIYmJRZmh3aUU5VTBSMU4zMEstV25fWlVVTFdjWWhtV1lCSG96ZHZob2wxV2FOcV9Idm5XXy1GQXIzd3lodW42ZnVyU21EeDdLaUNxMGc?oc=5"
+     "t": "실무 교육부터 인턴·협력사 추천까지…엘리스그룹, AX 특화 교육생 모집",
+     "d": "2026-11-19",
+     "src": "지디넷코리아",
+     "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5KMVBEYXEwWnJua2FDZTB0NklwMHAxXzhYTEtHMHhwQ01VQ29FR01EMVFLZzZKNkw5aWRrWUhfUzNwS1NrcUFZOU01Q3NOekJfN2h6Z3ZB?oc=5"
     },
     {
-     "t": "AI 데이터센터 기술로 대통령상…엘리스그룹 인터넷대상 수상(종합)",
-     "d": "2026-11-13",
-     "src": "연합뉴스",
-     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1vR1RycHNfb1k1OXk0Y2ppekVCd3pGZHFTNWpXM0M2UHRJZUUtb2tOekJMU1VyUko1RlZyWmhQUU9BT1FVUWJmX1RqdXI5ckxhTVNZOUJicW9yZHZsU21DatIBYEFVX3lxTE1vR1RycHNfb1k1OXk0Y2ppekVCd3pGZHFTNWpXM0M2UHRJZUUtb2tOekJMU1VyUko1RlZyWmhQUU9BT1FVUWJmX1RqdXI5ckxhTVNZOUJicW9yZHZsU21Dag?oc=5"
+     "t": "엘리스그룹, 뷰티∙제조 현업 과제로 AI 인재 양성 교육생 모집",
+     "d": "2026-11-19",
+     "src": "벤처타임즈",
+     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1nQXJfc25XNjJjZV9meGsyX1RrWktrR3RzM1h5UFFOaElSZVc4UmFtTHpJT1hHNk92TmFyT0pfWGZVaFZNbzd4SkRpUndoZW9jS01kSUpHb1p0YUFZaVBGWnZCR1U4Zw?oc=5"
     },
     {
-     "t": "[AI픽] 엘리스그룹, 엔비디아 B300 기반 AI 데이터센터 가동",
-     "d": "2026-11-13",
-     "src": "연합뉴스",
-     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9IRmljcUR5dExUbmZVWGhMTFV0cklzd2pNYWdoV3lfSy1URzNkZUlTQ0x3VUNId19xbk9ZNHBRVGY0WENHdjIxVkNrMG5JVi13VjVaNU9FN1VTMXRWOW5IStIBYEFVX3lxTE9IRmljcUR5dExUbmZVWGhMTFV0cklzd2pNYWdoV3lfSy1URzNkZUlTQ0x3VUNId19xbk9ZNHBRVGY0WENHdjIxVkNrMG5JVi13VjVaNU9FN1VTMXRWOW5ISg?oc=5"
+     "t": "엘리스그룹, 오호라, 제일연마 실제 과제로 AI 인재 교육",
+     "d": "2026-11-19",
+     "src": "AI 매터스",
+     "u": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9mdGpaZ3dDVlh4LUJ2cUJSNVBpQVVlX1liUFJNbGpGM2ZhNlhFYTlUMFRhWUZTdGxkMGdoZ1NOV2l6UnF1b1o5NTJ5YUxjYXhWSnF6RA?oc=5"
     }
    ]
   },
   "천재교육": {
    "kind": "company",
-   "n": 52,
+   "n": 50,
    "items": [
     {
-     "t": "천재교육 '바로 독해' 시리즈 전면 개정",
+     "t": "천재교육, 개정 '바로 독해' 소개 영상 공개…교사 200명에 교재 증정",
      "d": "2026-11-13",
-     "src": "파이낸셜뉴스",
-     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9YWmxQdDdYcjJpOWVwX2xLN04zVzhEZjR3WmV0cm1tYjkzQ2tWa09UNkhzTVRMMGlGNkNiLVRaOG9HelRoVEtFMnZDSVFpWll4aTBLSDU0ZTMtQQ?oc=5"
-    },
-    {
-     "t": "천재교육, 전면 개정 ‘바로 독해’ 시리즈’ 교육 영상 공개",
-     "d": "2026-11-13",
-     "src": "에듀플러스",
-     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE16ZnkyQVY1amFxaHFmU0xkczZzSkU4emZMaTFPUks5OVdrb2tpMEtnUlBNRW9pTTJ4em9PVk9BTGVIbS1NbTVZTUpxejVHVWlaNTdoWnM5NjRVYWNtZ1Rpb0l2dVd1a1hfdDRjMXVB0gFyQVVfeXFMUDFRQnpEREJGMFNtMUo5cWZGU2FpUUJJTkxLU2tOUl9JZk80dEJjR1FkYk9lUWdTNjFvdWJpSXFnZHFRa29sbS1CWjFvQ09YdkVlTkZFUjR6SXFWWUg2alpwSExTSFcteGs0bHEzSHQ1MS1n?oc=5"
+     "src": "뉴스1",
+     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBZUU41cjg3UGdrbENGaEFzcUd1RWtWRTVUems3QWFfOV9kQ3pDTUg2MTZlZlNFMGpwQU95MlZZaFUyVTVaaHBLS1VVQTNRUmUwaldpNDNodkdlZw?oc=5"
     },
     {
      "t": "천재교육 ‘바로 독해’ 시리즈 전면 개정…교사용 교재 200명에게 쏜다",
@@ -995,22 +965,28 @@
      "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5NQ3VidUF4Tk9rQy04aFd4V29BT3NLMUN2OUhxeVJmLWVpWEtqcXRxenRFbWtoYWRzZHF5alptTzBHUENDb1ozTzBFZnZ6OFY0RW1UbmdPZ2ZaZURaUXQxRlIxc0dELXpnRjFRaA?oc=5"
     },
     {
-     "t": "천재교육, 개정 '바로 독해' 소개 영상 공개…교사 200명에 교재 증정",
-     "d": "2026-11-12",
+     "t": "[똑똑한교육] 웅진 스마트올중학, 재능교육, YBM인강, 아이스크림미디어, 대교뉴이프, 천재교육",
+     "d": "2026-11-13",
+     "src": "에너지경제신문",
+     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5IRVR1cUVuM3JhSldMcFc1YnlydEdybm5xR0ItYjRocWdmaExPNG1iMmpiSnAwb04xdWpFOU43NVVPNHFobjBreVZ1MzJpbi13dG5VTVN2Q2I1UlU?oc=5"
+    },
+    {
+     "t": "천재교육, 싱가포르 교육박람회서 AI 수업 지원 기술 선보여",
+     "d": "2026-11-09",
      "src": "뉴스1",
-     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBZUU41cjg3UGdrbENGaEFzcUd1RWtWRTVUems3QWFfOV9kQ3pDTUg2MTZlZlNFMGpwQU95MlZZaFUyVTVaaHBLS1VVQTNRUmUwaldpNDNodkdlZw?oc=5"
+     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBLVGQtR3hiN2cxRldtWWRqMnRGOFd2LWNOYThmWE40SXBxRW0xZWsxb3k0anJXY0JCcjFudGZkT0I2R1R5U0QyU2x6VXVkVWZMSDNQeEtmVjVfdw?oc=5"
     },
     {
-     "t": "천재교육, 영어 참고서 '바로 독해' 개정…교육 영상 공개",
-     "d": "2026-11-12",
-     "src": "아시아경제",
-     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1jZjBpSUpzUWR2cXBac1hUNmtFOVBZejFDblZYYXZOcDIzOUZuSVY4ZU9Hb0hlLTRVZFYzNGFNaHZnT1lWWWRSZ05ha2NuTTFZbmp1bkVCXzlMdUM3YmhyOQ?oc=5"
+     "t": "천재교육, AI 디지털 교육 솔루션 들고 세계시장 공략… 싱가포르 EDUtech Asia 참가",
+     "d": "2026-11-09",
+     "src": "뉴스탭",
+     "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTE42a3BhNTRiODNNQ1gtNTFaVDBvOGtscTgxbU0yZUlCQU9SbktYUDUyVlB3NmJPal92NUhqOG5HUlBMYkdFX3JBT2JXb0xYY2VCZi1xUkpWdUNRczhoT2JLMEoxR2w0VnpyRTRBeQ?oc=5"
     },
     {
-     "t": "비상교육·천재교육 포함 5곳 털어보니…아이 정보 다루면서 접속기록도 안 남겼다",
-     "d": "2026-11-12",
-     "src": "콕스뉴스",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5WMjdTUXp2ZnR2UlR2aDZjcUFBUkdEOWNYOURHUXZJVHhWcW9DOFpIdEN3Tmt6SldWM293eEN5SzVWaXNyV3hRYkhfZVhSd2N6WXlOd1p5Z2wyLTByT243em9xdjhpQ1VwSUE?oc=5"
+     "t": "\"AI 이렇게 써요\"…천재교육, 수업제작역량 강화",
+     "d": "2026-10-26",
+     "src": "뉴시스",
+     "u": "https://news.google.com/rss/articles/CBMieEFVX3lxTE51VU9rZU8tWmRWRkk2YS1YVzMzb3BLci1LNjdsdjlDbzRXUGJEYWR2NUl0WlZxTU14dE1MNTBUNVdVMDhfN3BfNWNRdElwOS04WnRyRTh4NUplekJwUmttZkxkZGdDTXo1N1hudUFRU2VEV0VyTEpUVNIBeEFVX3lxTE51VU9rZU8tWmRWRkk2YS1YVzMzb3BLci1LNjdsdjlDbzRXUGJEYWR2NUl0WlZxTU14dE1MNTBUNVdVMDhfN3BfNWNRdElwOS04WnRyRTh4NUplekJwUmttZkxkZGdDTXo1N1hudUFRU2VEV0VyTEpUVA?oc=5"
     }
    ]
   },
@@ -1018,6 +994,18 @@
    "kind": "company",
    "n": 50,
    "items": [
+    {
+     "t": "아이스크림미디어, 신규 사업 정관 변경…“AI 교육 등 신규 사업 추진”",
+     "d": "2026-11-18",
+     "src": "주주경제신문",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5NMGhSSmJCcnVHc0JqWmt0WUV2S2JyeVBnb3JrTVlyWmtkUTA5YjBsNFNicjc1NlFLaG1hMmJ4dkxrX0xrbmhQMW9oQjBvMkhzTWFLdFZnZ213WldfVXFzbG52YUVDcjRo?oc=5"
+    },
+    {
+     "t": "아이스크림미디어, 데이터센터·AI 사업목적 추가 위한 임시주총 소집",
+     "d": "2026-11-18",
+     "src": "디지털투데이",
+     "u": "https://news.google.com/rss/articles/CBMie0FVX3lxTE0yZHVvY2luZ19MdER0VE90VjhYVVI1Y2lMZXNRX3EtU3hhSXg2VjE0bFV0bFhWcFlXMXJlSTRrRGxla3FEYWFoUUd6ZjZKUl9oQTJUQjFjQnhnZDNnaWdYYjFQWFZqTklOUVFZaWhaVkhHLWFxeHZ0Y2d6aw?oc=5"
+    },
     {
      "t": "아이스크림미디어의 그림책 '물음표의 책' 질문하는 힘 키운다",
      "d": "2026-11-13",
@@ -1031,70 +1019,58 @@
      "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5IRVR1cUVuM3JhSldMcFc1YnlydEdybm5xR0ItYjRocWdmaExPNG1iMmpiSnAwb04xdWpFOU43NVVPNHFobjBreVZ1MzJpbi13dG5VTVN2Q2I1UlU?oc=5"
     },
     {
-     "t": "아이스크림미디어, 잔니 로다리 어린이책 ‘물음표의 책’ 출간",
+     "t": "아이스크림미디어, '물음표의 책' 출간",
      "d": "2026-11-13",
-     "src": "비욘드포스트",
-     "u": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5aSW0weTQ0elRMRkF4VjJwdWo4UUE0MjV1Y2VWN2VoakFKdS1ZXzhWbTN2bmJsOG42ZDZoSkZFTVlPQXlfZDRLS2tEUHNlWURfU212elktM0xSWjR1d2t0enlCOERvMzhFYWlMSEc3NWgtSHRWX0RiUGtnS3Y?oc=5"
+     "src": "아시아경제",
+     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1ZZkYwVFQxaUkxTkVpdndKOGt0TmllWDdJbWVjMGxha19DZncxM0tZRk9OQV9OM1NWejVmOG9RMVlTYjBlMlNFamU0V3JWRC1VamZHMkZZc05SVVJhcF9BZw?oc=5"
     },
     {
      "t": "아이스크림미디어, ‘그림약방’으로 시니어 돌봄 확장",
      "d": "2026-11-12",
      "src": "이투데이",
      "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9jM0FKbWN4QXdUOWMtbDJ4UlRlX1lRNmhNUDZXQ1o0NDJYV2ZZWkUzSnZkNVAwNmdvZXpxTElCVkJNdHIwWHdjUGxyRzF0eGpxSndtbGZoMGNndw?oc=5"
-    },
-    {
-     "t": "아이스크림미디어, 어린이 질문 담은 '물음표의 책' 출간",
-     "d": "2026-11-12",
-     "src": "뉴스1",
-     "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE56RGpiT21oVjZHeHR6cTJFMHlVMHNvTTBjV2QtSHJ5RW82SFNOcHBkdTZDc0xjSlIzODVPVEZBb1FzQ253WFhpQTFiUnBvQ2Z6ejB0M2NqYmo3QQ?oc=5"
-    },
-    {
-     "t": "[단독]20만 교사 정보유출 아이스크림미디어, 정보보호 수년째 미인증 - 머니투데이",
-     "d": "2026-11-11",
-     "src": "머니투데이",
-     "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9YVkMzZENvWDBPaTZ6ckRHYTlQZVBySFY5OHF2R2x2ODR5a0FOTzZQSnJiWEN5WnI0bHNsUXdIQnRvUFFYNGhHOHdQSGFhTG82QnBGaDliSkRHZWtVZXBqZlhQQlhfUzd4YXfSAW9BVV95cUxOTGRwU3I5V3UwdTN2V3gyVV9hVGREVWhrbU1XWnc4aVVjNWpzT0pYNEJZcnctUmlvc1dPOW1VWVNJZWJoSHczUjdIUG1OUWNKVERpdmV2Z2c2cUtmQjJOLVJISTNFV09hRG1scHhzbGs?oc=5"
     }
    ]
   },
   "문해력 교육": {
    "kind": "topic",
-   "n": 36,
+   "n": 35,
    "items": [
     {
-     "t": "산간 지역 주민들에게 \"디지털 문해력 교육\"을 제공합니다.",
-     "d": "2026-11-12",
+     "t": "후에 시의 특별 문해력 교육 수업을 통해 지식의 빛이 비춰지고 있습니다.",
+     "d": "2026-11-21",
      "src": "Vietnam.vn",
-     "u": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNYnRvV3N5SUgydndtYW9KZkhyaElSby14SEJJRWNOYmpsV0hHTThLdTNGNzBJSG40aVdYUXEtdWlkUDB5WjBUYm9kb0JmQmhJSjNvLURVVi1zc0doYWREYlE0N0d6dktKYTNUV21DWjU5RDVxS0tzajZJNjl2V0xZbA?oc=5"
+     "u": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQOTFQUFB3bmVVWkJUYWVtcmdYQU8yaE1BYU5NVWRZUU1aVFZzc05lRkdYWlRzS0lVWnNORVFnQWd0NEkxdFgwdE5UeFA3dXhjcGNhbS1HWTJfNFIySzVLSi02SFI2UjgwMDAxYU5pSXRTX05fY2pmV0N1T0xJNWpBN1Q5dm1HQks4UF85Yk1JQm1CM1c3MHBWdlNRLTg?oc=5"
     },
     {
-     "t": "대구서부교육지원청, 제2회 초등 문해력 ‘키다리 한마당’ 개최",
+     "t": "문해력·등교거부 지원 연구…부산광역시교육청, 해외 8개국 사례 검토",
+     "d": "2026-11-20",
+     "src": "교육을 비추다",
+     "u": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE4zdnduaGFwSHpqNVk0Nmdkc0lNR1ZULXEwbWZJOXRLMU9XM3hqdWlOdFkwRWI5dXowU1dBajFjWWtkRDNzcE5mOEw3NDRHM2JnX2JQdm1RR1NNUzRSN1ROY01kT3YxQQ?oc=5"
+    },
+    {
+     "t": "성주군, 작은도서관서 독서와 미술 접목한 문해력 교육 성과 선보여",
+     "d": "2026-11-19",
+     "src": "프라임경제",
+     "u": "https://news.google.com/rss/articles/CBMickFVX3lxTE9UcjlkNlJicDVTREQxSUtZV1dUX25NSEUycUtVZjBzbUtadzBJeEdiR01ZVVhGWUlDMWYtenk1N282UTI0SG1scmFmcHFvdkotZUJTZk9Ea085YndCclpuVlVlRzhtbThxeXpfN3VZUlE4QQ?oc=5"
+    },
+    {
+     "t": "탄사 코뮌이 21명을 대상으로 2단계 문해력 교육 과정을 개설했습니다.",
+     "d": "2026-11-17",
+     "src": "Vietnam.vn",
+     "u": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOQUVBekgzb0d6N3l0Q2c1dXQwaGtobncyNFhHRDNYZ1hWMjZ5bEcyb1ZDam1aTlNmTndMR2E4VWYwWEtrYzBmc1BFUGJNYjhpb05CcUw5a3VmZmJKaVNPbnRsbUpteFZKWHBwbHJzQXlTMkF5U0dJY1FSQ0NTWVluQkR3?oc=5"
+    },
+    {
+     "t": "[아유경제_교육] 중구, 유명학원 영어ㆍ문해력 교육 과정 도입",
+     "d": "2026-11-11",
+     "src": "아유경제",
+     "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5XT1ZGTzkyU0NwYjd5a21WSmlFRTlRdUhMRkx0bWhfc0JoRXAyRlViOGtuaVYxWGNRalhkdUNfRmU2alVDOW5GUFh2eWcwbGwzNUNyVUVZczBzcm5tYXhrd1h1RFA4MHV4?oc=5"
+    },
+    {
+     "t": "중구, 지역 교육시설에 유명 영어·문해력 학원 교육과정 도입",
      "d": "2026-11-10",
-     "src": "누리일보",
-     "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9JME5fRk9kZG9yS1VkNkxNeVNfTEdDZDNLaUNZY2l1Vm8tclhkWng1S0ZwTjRIMGxhc1pGV0dSYlVRMjdqaWFPbmJ0dkRuYzZPSDdkeXVDb3hyRWli?oc=5"
-    },
-    {
-     "t": "김현기 강남구청장, AI 시대 ‘문해력 교육’ 승부수…‘책 읽는 학교’ 11개교로 확대",
-     "d": "2026-10-31",
-     "src": "헤럴드경제 미주판",
-     "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5uR0Vydjl1Yncwa2JDM1VfcmFEQmp5RTlieER6a055TGRJUUxfMEtkS05uYzJxeTRLUjYtM0RVYWNRQ1h1aGVfb1dlNWpETlhHeWxfczRtUTV4dERub2Z5eA?oc=5"
-    },
-    {
-     "t": "한국언론진흥재단, 미디어 문해력 교육 연극 ‘점프×컷’ 초연",
-     "d": "2026-10-30",
-     "src": "주간한국",
-     "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBJUnJJdWF0VHhzTnFLRDE3THVqOEg5X0FmMTE2LXBYWUdfMXQ0eS1oMzFpX2ViRzMwblN5N2E4cW9jbU01OGM0Qm9NSEVEREdVbjJaWTJoNGRuX0E1TjAxVDl6b24wWmViQXdUNEZMS0PSAXRBVV95cUxQWGdfZTB3YzJocUJ4dEh5VjAxdE44LVEwSDBhT0xVWjFiaHh1Y21TcTdTWW4ySGJwT09LeVdGLXdlcW1YRjVITFFKMjk4TzBOY0NpV1hTcm5hNzRtS0RlU09JWE11MzlMMER0NGRqNzJTdDk1cQ?oc=5"
-    },
-    {
-     "t": "미디어 문해력 교육 연극 '점프X컷', 일반 관객 대상 초연",
-     "d": "2026-10-29",
-     "src": "연합뉴스",
-     "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBFaEE1aWZqVVBRbFNIMmlreFAwUHc1NlllMUZMTUI3aHVCM2lqTkV2TU5DQlN5NGJPelFFck9sa2Q0eVdrR3JCS05Wc3hla1I5Y1YxY050ZXZRNUXSAWBBVV95cUxNRUZxdUF6eE5LS1ZFdjdQODB6eWVrVXVlRXlhYl9DQ201aDNQOFdnNVZreHFZbHFhMVdEbUMyZlNPN3JFSnhxNWM1S1lESDdub2pSLTdKR3RfOVpxa2pQcnc?oc=5"
-    },
-    {
-     "t": "문해력 저하 해법은 한자교육?…초등생 교과서 한자 병기 논란 재점화",
-     "d": "2026-10-28",
-     "src": "매일신문",
-     "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE05NGZ0YmdmMHEtb1RQMHcxM0xORXlVcFdFRnVLUjRnVDRIR1BkRjRldzk0OXI1ZFUzTEtKRG5MTUdkV1JUSXVnYmpVbC1vOWd2MnZ6eFVMQ0tBM2FrWDZNMkV3?oc=5"
+     "src": "전국매일신문",
+     "u": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9QQ1pBbk1saTUxam8tTDhCZXVway1XMlA1a0FPWkkxYTFnbmlTVVg4WTVVOWRobDBPbks0OFZGbFk3eUtHVWg4a1VLUTROMXFSTHd4YTYxbVJDekdKbG5FMlY5YkhRLXFINWVuTTZR?oc=5"
     }
    ]
   }
