@@ -846,6 +846,7 @@ document.addEventListener('click', function (e) {
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="adopt">교과서 채택</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="b2s">B2S·샘몰 기획</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="content">콘텐츠·매출</button>
+    <a class="tablink" id="salesLink" data-after="content" href="#" target="_blank" rel="noopener noreferrer" hidden title="매출 자료(별도 페이지 · 초대된 계정만 열람)">매출 자료 ↗</a>
     <a class="tablink" id="poolLink" data-after="content" href="#" target="_blank" rel="noopener noreferrer" hidden title="강사풀(별도 페이지 · 초대된 계정만 열람)">강사풀 ↗</a>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="eco">교사 생태계 비교</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="search" hidden>통합검색</button>
@@ -10611,7 +10612,7 @@ window.__renderPdfx = function(root, P){
 /* 결과보고 등 바깥 링크: 주소는 비공개 저장소(config/links.json)에서 배포 때만 넣는다 */
 (function extLinks(){
   const L = __EXT_LINKS_JSON__ || {};
-  [['reportLink', 'report_auto'], ['opsPlanLink', 'ops_plan']].forEach(([id, k]) => {
+  [['reportLink', 'report_auto'], ['opsPlanLink', 'ops_plan'], ['salesLink', 'sales_data']].forEach(([id, k]) => {
     const a = document.getElementById(id), u = L[k];
     if (a && typeof u === 'string' && /^https:\/\/claude\.ai\//.test(u)) { a.href = u; a.hidden = false; }
   });
@@ -13892,7 +13893,7 @@ window.farm3d = function (host, C) {
   };
   // 탭 줄 바깥 링크(결과보고·강사풀 등): data-after 탭 바로 뒤에 붙인다(주소가 설정된 것만)
   const EXT = (x, cls) => [...nav.querySelectorAll('a.tablink[data-after]')].filter(a => a.dataset.after === x && !a.hidden && /^https:/.test(a.href))
-    .map(a => `<a class="${cls}" href="${h(a.href)}" target="_blank" rel="noopener noreferrer" title="${h(a.title)}">${cls.includes('cph') ? '<span class="ic">' + ({opsPlanLink: '📋', reportLink: '📝', poolLink: '👥'}[a.id] || '🔗') + '</span>' : ''}${h(a.textContent)}</a>`).join('');
+    .map(a => `<a class="${cls}" href="${h(a.href)}" target="_blank" rel="noopener noreferrer" title="${h(a.title)}">${cls.includes('cph') ? '<span class="ic">' + ({opsPlanLink: '📋', reportLink: '📝', poolLink: '👥', salesLink: '💰'}[a.id] || '🔗') + '</span>' : ''}${h(a.textContent)}</a>`).join('');
   // 🌱 텃밭: 머리글 마을 전경 + 지금 탭 맨 위 이랑 장면(다른 보기로 바꾸면 걷어 낸다)
   let gdHeroOn = false;
   function gdSync(on, t){
