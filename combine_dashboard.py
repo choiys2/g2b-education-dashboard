@@ -483,6 +483,13 @@ def _morning():
         return None
 
 
+def _newsstand():
+    """텃밭 신문소: 가장 최근 조간(공개 지면) 전체 — 머리기사·섹션·시사점만(내부 전략 없음)."""
+    f = sorted(__import__("pathlib").Path("briefings").glob("????-??-??.json"))[-1]
+    d = json.loads(f.read_text(encoding="utf-8"))
+    return {k: d.get(k) for k in ("date", "weekday", "lead", "sections", "implications")}
+
+
 def _strategy():
     """에듀테크 전략 브리핑 복호화 - 결과 상태만 로그에 남긴다(내용은 출력하지 않음)."""
     import strategy_crypto
@@ -1063,7 +1070,7 @@ def main():
         "__TREND2027_JSON__": trend2027,
         # 07:00 에듀테크 전략 브리핑(저장소에는 암호문만, STRATEGY_KEY 로 여기서만 복호화)
         "__STRATEGY_JSON__": _strategy(),
-        "__STRENGTH5_JSON__": _strength5(), "__CPX_JSON__": _cpx(), "__KEYMSG_JSON__": _keymsg(), "__SAMMADE_JSON__": _sammade(), "__MEMBER_JSON__": _safe(lambda: __import__("member_view").cp(), "회원 분석"), "__BUDGET27_JSON__": _safe(lambda: __import__("budget_view").cp(), "2027 교육부 예산"), "__ORGWATCH_JSON__": _safe(lambda: __import__("teacher_org_view").cp(), "교사단체 분석"), "__SAMALL_TREND_JSON__": load("static_data/samall_trend.json") if os.path.exists("static_data/samall_trend.json") else None, "__MORNING_JSON__": _morning(),
+        "__STRENGTH5_JSON__": _strength5(), "__CPX_JSON__": _cpx(), "__KEYMSG_JSON__": _keymsg(), "__SAMMADE_JSON__": _sammade(), "__MEMBER_JSON__": _safe(lambda: __import__("member_view").cp(), "회원 분석"), "__BUDGET27_JSON__": _safe(lambda: __import__("budget_view").cp(), "2027 교육부 예산"), "__ORGWATCH_JSON__": _safe(lambda: __import__("teacher_org_view").cp(), "교사단체 분석"), "__SAMALL_TREND_JSON__": load("static_data/samall_trend.json") if os.path.exists("static_data/samall_trend.json") else None, "__MORNING_JSON__": _morning(), "__NEWSSTAND_JSON__": _safe(_newsstand, "텃밭 신문소"),
         "__GG_B2S_JSON__": load("history/gg_b2s.json") if os.path.exists("history/gg_b2s.json") else None,  # B2S 경기 시군
         "__NEIS_SCHED_JSON__": load("history/neis_schedule.json") if os.path.exists("history/neis_schedule.json") else None,  # B2S 학사일정
         "__POOL_URL_JSON__": _pool_url(),  # 강사풀 링크(시크릿)

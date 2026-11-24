@@ -779,6 +779,37 @@ html.vs-side body{padding-left:96px;}
 @media (max-width:760px){html.vs-side body{padding-left:0;padding-bottom:78px;}.vside{top:auto;right:0;width:auto;height:70px;display:flex;overflow-x:auto;overflow-y:hidden;padding:4px 6px;border-right:0;border-top:1px solid var(--border,#e5e7eb);box-shadow:0 -2px 12px rgba(0,0,0,.08);}
 .vside-g{display:flex;margin:0;}.vside-h{writing-mode:vertical-rl;border-top:0;border-left:2px solid var(--gc);margin:4px 2px;padding:2px;font-size:9.5px;}.vside-i{width:64px;flex:0 0 64px;padding:6px 2px;}.vside-i[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--gc);}}
 @media print{.vside{display:none;}html.vs-side body{padding-left:0;}}
+.np-ov{position:fixed;inset:0;z-index:9000;background:rgba(17,24,39,.55);display:flex;align-items:center;justify-content:center;padding:14px;}
+.np-paper{position:relative;width:min(920px,100%);max-height:92vh;display:flex;flex-direction:column;background:#fffdf5;color:#111;border:4px solid #111;border-radius:6px;box-shadow:10px 10px 0 #111;font-family:inherit;transform:rotate(-.4deg);
+ background-image:radial-gradient(#11111110 1.2px,transparent 1.3px);background-size:9px 9px;}
+.np-x{all:unset;position:absolute;right:-14px;top:-14px;width:34px;height:34px;border-radius:50%;background:#facc15;border:3px solid #111;text-align:center;line-height:30px;font-weight:900;cursor:pointer;box-shadow:3px 3px 0 #111;z-index:2;}
+.np-mast{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;padding:10px 16px 8px;border-bottom:4px double #111;}
+.np-mast h1{margin:0;font-size:clamp(24px,4.4vw,40px);font-weight:900;letter-spacing:-1px;text-align:center;text-shadow:3px 3px 0 #facc15;}.np-mast h1 span{display:inline-block;color:#ef4444;transform:rotate(-6deg);font-size:.7em;}
+.np-mast-l,.np-mast-r{font-size:11px;font-weight:800;}.np-mast-r{text-align:right;}
+.np-tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:3px solid #111;scrollbar-width:thin;}
+.np-tabs button{all:unset;flex:none;cursor:pointer;display:flex;align-items:center;gap:4px;padding:5px 10px;border:2.5px solid #111;border-radius:10px;background:#fff;font-size:12.5px;font-weight:900;box-shadow:2px 2px 0 #111;}
+.np-tabs button[aria-selected="true"]{background:var(--c);color:#fff;transform:translateY(-2px) rotate(-1deg);box-shadow:3px 4px 0 #111;}
+.np-body{flex:1;overflow-y:auto;padding:16px 18px;}
+.np-page{position:relative;border:3px solid #111;border-radius:8px;background:#fff;padding:18px 18px 14px;box-shadow:5px 5px 0 var(--c);animation:npIn .25s ease-out;}
+@keyframes npIn{from{transform:translateX(18px) rotate(1deg);opacity:0;}to{transform:none;opacity:1;}}
+.np-burst{position:absolute;right:14px;top:-18px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-size:26px;background:#facc15;border:3px solid #111;clip-path:polygon(50% 0,61% 32%,98% 22%,70% 50%,98% 78%,61% 68%,50% 100%,39% 68%,2% 78%,30% 50%,2% 22%,39% 32%);}
+.np-label{display:inline-block;background:var(--c);color:#fff;font-weight:900;font-size:12px;padding:3px 10px;border:2px solid #111;border-radius:4px;transform:rotate(-2deg);margin-bottom:10px;}
+.np-kick{font-weight:900;color:var(--c);font-size:13px;}.np-hl{margin:4px 0 6px;font-size:clamp(20px,3.2vw,30px);line-height:1.25;font-weight:900;letter-spacing:-.5px;}
+.np-sub{margin:0 0 10px;font-weight:700;color:#374151;}.np-lede{font-size:15px;line-height:1.7;}
+.np-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;}.np-fact{border:2px solid #111;border-radius:8px;padding:8px;background:#fef9c3;font-size:13px;}.np-fact i{display:block;font-style:normal;font-weight:900;color:var(--c);font-size:11px;}
+.np-h3{margin:4px 0 10px;font-size:18px;line-height:1.45;font-weight:900;}
+.np-bubble{position:relative;border:2.5px solid #111;border-radius:16px;padding:10px 12px;background:#eff6ff;font-size:14px;line-height:1.6;margin-top:6px;}.np-bubble::after{content:'';position:absolute;left:26px;top:-11px;border:9px solid transparent;border-bottom-color:#111;border-top:0;}
+.np-ol{margin:0;padding-left:22px;font-size:15px;line-height:1.65;}.np-ol li{margin:6px 0;}.np-time{font-size:12px;font-weight:800;color:#b45309;white-space:nowrap;}
+.np-ul{list-style:none;margin:0;padding:0;}.np-ul li{border-bottom:2px dashed #d1d5db;padding:8px 0;font-size:14px;line-height:1.6;}.np-ul li b{display:block;}.np-ul li span{display:block;color:#374151;}.np-why{color:#1d4ed8!important;}
+.np-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;}.np-card{border:2.5px solid #111;border-left:8px solid var(--c);border-radius:8px;padding:8px;font-size:13px;background:#fff;}.np-card b{display:block;}.np-card em{font-style:normal;color:var(--c);}
+.np-t{width:100%;border-collapse:collapse;font-size:13px;}.np-t th,.np-t td{border-bottom:2px solid #111;padding:6px 4px;text-align:left;vertical-align:top;}.np-t a{font-weight:900;}
+.np-imp{display:inline-block;min-width:22px;text-align:center;border:2px solid #111;border-radius:6px;font-weight:900;}.np-imp.i상{background:#fecaca;}.np-imp.i중{background:#fde68a;}.np-imp.i하{background:#e5e7eb;}
+.np-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}.np-act button{all:unset;cursor:pointer;padding:7px 12px;border:2.5px solid #111;border-radius:10px;font-weight:900;font-size:13px;background:#facc15;box-shadow:3px 3px 0 #111;}.np-act .np-go{background:#fff;}
+.np-act button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #111;}.np-empty{font-weight:800;color:#6b7280;}
+.np-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 14px;border-top:3px solid #111;font-size:12px;font-weight:900;}.np-foot button{all:unset;cursor:pointer;padding:4px 10px;border:2px solid #111;border-radius:8px;background:#fff;}
+.np-paper a{color:#1d4ed8;}
+@media (max-width:600px){.np-mast{grid-template-columns:1fr;text-align:center;}.np-mast-r{text-align:center;}.np-paper{transform:none;box-shadow:5px 5px 0 #111;}.np-body{padding:12px 10px;}.np-page{padding:16px 12px 12px;}}
+@media (prefers-reduced-motion:reduce){.np-page{animation:none;}}
 </style>
 
 <div class="wrap">
@@ -2749,6 +2780,7 @@ const STRATEGY = __STRATEGY_JSON__;
 window.__KM = __KEYMSG_JSON__;  // CP 키메시지(시장 사실 숫자)
 window.__CPXD = __CPX_JSON__;  // 연동 시각화 데이터(숫자 위주)
 window.__S5 = __STRENGTH5_JSON__;  // 강점 5분야 온도계(건수만)
+window.__NEWSSTAND = __NEWSSTAND_JSON__;  // 📰 텃밭 신문소: 오늘의 조간(공개 지면) 전체
 window.__MORNING = __MORNING_JSON__;  // 오늘의 조간 머리기사(공개 지면)  // 에듀테크 전략 브리핑(strategy_crypto.load_all)
 const TREND2027 = __TREND2027_JSON__;  // 교사 트렌드 2027(teacher_trend2027.py)
 const NETI = __NETI_JSON__;
@@ -11335,10 +11367,10 @@ body:has(#panel-admin.active) .km-bar{display:none;}
 .g3d-card b{display:block;font-size:15px;} .g3d-big{display:block;font-size:24px;font-weight:900;} .g3d-card small{color:var(--muted);font-size:11.5px;}
 .g3d-ul{margin:6px 0 0;padding-left:18px;font-size:12.5px;}
 .tvz{margin:0 0 14px;padding:10px 12px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(160deg,var(--surface),var(--surface-2));box-shadow:0 14px 26px -24px rgba(15,23,42,.6);}
-.tvz-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;font-size:12.5px;} .tvz-head span{color:var(--muted);flex:1 1 160px;min-width:0;}
+.tvz-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;font-size:12.5px;} .tvz-head span{color:var(--muted);flex:1 1 160px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .tvz-go{appearance:none;font:inherit;font-size:12px;font-weight:800;cursor:pointer;padding:4px 10px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
-.tvz-fig{max-height:420px;overflow:hidden;} .tvz-fig > svg,.tvz-svg{display:block;width:100%;height:auto;max-height:400px;}
-.tvz-svg .tvz-l{font-size:13px;fill:var(--ink-2);font-weight:600;} .tvz-svg .tvz-v{font-size:13px;fill:var(--ink);font-weight:800;}
+.tvz-fig{max-height:300px;overflow:hidden;position:relative;} .tvz-fig > svg{display:block;max-width:100%;height:auto;max-height:290px;margin:0 auto;} .tvz-svg,.tvz-fig > svg.tvz-svg{display:block;width:100%;max-width:640px;height:auto;max-height:290px;margin:0 auto;} .tvz-fig > :not(svg){max-height:290px;overflow:hidden;margin:0 auto;}
+.tvz-svg .tvz-l{font-size:12px;fill:var(--ink-2);font-weight:600;} .tvz-svg .tvz-v{font-size:12px;fill:var(--ink);font-weight:800;}
 @media (max-width:640px){.g3d{padding:8px;} .g3d-map .g3d-n{font-size:15px;} .g3d-rank .g3d-l,.g3d-rank .g3d-v{font-size:14px;}}
 /* 📊 데이터 시각화 확장(CP 7종·관리 3종) */
 .cpv-box{margin:0 0 18px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(160deg,var(--surface),var(--surface-2));box-shadow:0 18px 34px -28px rgba(15,23,42,.55);}
@@ -12064,6 +12096,95 @@ window.fmBgm = (function () {
     volume(v) { S.vol = Math.max(0, Math.min(1, +v)); save(); if (out) out.gain.value = .25 * S.vol; },
     stop };
 })();
+/* 📰 텃밭 신문소(사용자 요청 2026-11-24) — 오늘 꼭 볼 핵심만 만화풍 신문으로. 주제 10개 탭, 각 탭 = 핵심 면 → '상세 면'(쪽 넘김) → 대시보드 해당 화면 이동.
+   내용 = 오늘의 조간(공개 지면) + 에듀테크 전략 브리핑(로그인 뒤 CP 탭과 같은 범위). 모든 글자 escape, <strong> 만 살림, 링크는 https 만. */
+window.fmNewsstand = function (go) {
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const rich = v => h(v).replace(/&lt;(\/?)strong&gt;/g, '<$1strong>');
+  const plain = v => String(v == null ? '' : v).replace(/<[^>]+>/g, '');
+  const lk = (u, t) => /^https:\/\//.test(u || '') ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t || '원문 ↗')}</a>` : '';
+  let ST = null; try { ST = (typeof STRATEGY !== 'undefined' && STRATEGY && STRATEGY.available && (STRATEGY.issues || [])[0]) || null; } catch (e) { ST = null; }
+  const NP = window.__NEWSSTAND || null;
+  const sec = id => ((NP && NP.sections) || []).find(s => s.id === id) || {items: []};
+  const chg = a => ((ST && ST.changes) || []).filter(c => c.area === a);
+  const T = [];
+  const add = (ic, nm, color, core, detail, to) => { if (core || detail) T.push({ic, nm, color, core: core || '', detail: detail || '', to}); };
+  const li = arr => arr.length ? `<ul class="np-ul">${arr.join('')}</ul>` : '';
+  const sitem = it => `<li><b>${rich(it.title)}</b><span>${rich(it.body || '')}</span></li>`;
+  const citem = c => `<li><b>${rich(c.fact)}</b><span class="np-why">💭 ${rich(c.interpretation || '')}</span></li>`;
+  const L = (NP && NP.lead) || {};
+  // 1 헤드라인
+  add('📰', '1면 헤드라인', '#e11d48', L.headline ? `<div class="np-kick">${h(L.kicker || '오늘의 1면')}</div><h2 class="np-hl">${rich(L.headline)}</h2><p class="np-sub">${rich(L.sub || '')}</p><div class="np-facts">${(L.facts || []).map(f => `<div class="np-fact"><i>${h(f.label)}</i>${rich(f.text)}</div>`).join('')}</div>` : '',
+    L.lede ? `<p class="np-lede">${rich(L.lede)}</p>` : '', 'strategy');
+  // 2 핵심 요약
+  const SUM = (ST && ST.summary) || [];
+  add('⚡', '오늘의 핵심', '#f59e0b', SUM.length ? `<ol class="np-ol">${SUM.slice(0, 3).map(s => `<li>${rich(s)}</li>`).join('')}</ol>` : '',
+    (ST && ST.top_news && ST.top_news.length) ? `<table class="np-t"><tr><th>뉴스</th><th>날짜</th><th>중요</th></tr>${ST.top_news.map(n => `<tr><td>${h(n.title)} ${lk(n.url, '↗')}</td><td>${h((n.date || '').slice(5))}</td><td><span class="np-imp i${h(n.importance)}">${h(n.importance)}</span></td></tr>`).join('')}</table>` : (SUM.length > 3 ? `<ol class="np-ol" start="4">${SUM.slice(3).map(s => `<li>${rich(s)}</li>`).join('')}</ol>` : ''), 'strategy');
+  // 3 정책
+  const P1 = chg('정책'), E1 = sec('education').items || [];
+  add('🏛️', '정책', '#2563eb', P1[0] ? `<h3 class="np-h3">${rich(P1[0].fact)}</h3><div class="np-bubble">💭 ${rich(P1[0].interpretation)}</div>` : (E1[0] ? `<h3 class="np-h3">${rich(E1[0].title)}</h3><p>${rich(E1[0].body)}</p>` : ''),
+    li(P1.slice(1).map(citem).concat(E1.map(sitem))), 'market');
+  // 4 시장·교육청
+  const M1 = chg('시장'), EC = sec('economy').items || [];
+  add('💹', '시장·교육청', '#059669', M1[0] ? `<h3 class="np-h3">${rich(M1[0].fact)}</h3><div class="np-bubble">💭 ${rich(M1[0].interpretation)}</div>` : (EC[0] ? `<h3 class="np-h3">${rich(EC[0].title)}</h3><p>${rich(EC[0].body)}</p>` : ''),
+    li(M1.slice(1).map(citem).concat(EC.map(sitem))), 'pipeline');
+  // 5 경쟁사
+  const C1 = chg('경쟁사');
+  add('🥊', '경쟁사', '#dc2626', C1[0] ? `<h3 class="np-h3">${rich(C1[0].fact)}</h3><div class="np-bubble">💭 ${rich(C1[0].interpretation)}</div>` : '', li(C1.slice(1).map(citem)), 'competitor');
+  // 6 교사 생태계
+  const G1 = chg('교사·강사 생태계');
+  add('👩‍🏫', '교사 생태계', '#7c3aed', G1[0] ? `<h3 class="np-h3">${rich(plain(G1[0].fact).slice(0, 140))}${plain(G1[0].fact).length > 140 ? '…' : ''}</h3><div class="np-bubble">💭 ${rich(G1[0].interpretation)}</div>` : '',
+    li(G1.map(citem)), 'eco');
+  // 7 에듀테크 기업
+  const ED = sec('edtech').items || [], SO = sec('society').items || [];
+  add('🏢', '에듀테크·사회', '#0891b2', ED[0] ? `<h3 class="np-h3">${rich(ED[0].title)}</h3><p>${rich(ED[0].body)}</p>` : '', li(ED.slice(1).map(sitem).concat(SO.map(sitem))), 'biz2027');
+  // 8 비바샘 영향
+  const IM = (ST && ST.impact) || [], DIRC = {'기회': '#16a34a', '위협': '#dc2626', '중립': '#64748b'};
+  add('🎯', '비바샘 영향', '#ea580c', IM.length ? `<div class="np-grid">${IM.map(x => `<div class="np-card" style="--c:${DIRC[x.direction] || '#64748b'}"><b>${h(x.biz)} <em>${h(x.direction)}</em></b><span>${rich(plain(x.impact).slice(0, 80))}…</span></div>`).join('')}</div>` : '',
+    li(IM.map(x => `<li><b>${h(x.biz)} · ${h(x.direction)}</b><span>${rich(x.impact)}</span></li>`)), 'strategy');
+  // 9 기회·실행
+  const OP = (ST && ST.opportunities) || [];
+  add('🚀', '기회·실행', '#16a34a', OP.length ? `<ol class="np-ol">${OP.slice(0, 3).map(o => `<li><b>${rich(o.idea)}</b> <span class="np-time">⏰ ${h(o.timing)}</span></li>`).join('')}</ol>` : '',
+    li(OP.map(o => `<li><b>${rich(o.idea)}</b><span>▶ ${rich(o.action)} <i>(${h(o.link)} · ${h(o.timing)})</i></span></li>`)), 'strategy');
+  // 10 추적 이슈 + 시사점
+  const WA = (ST && ST.watch) || [], IMPL = (NP && NP.implications) || [];
+  add('🔭', '추적·시사점', '#475569', WA.length ? `<ol class="np-ol">${WA.slice(0, 3).map(w => `<li><b>${h(w.issue)}</b> → ${rich(w.forecast)}</li>`).join('')}</ol>` : (IMPL[0] ? `<ol class="np-ol">${IMPL.slice(0, 3).map(i => `<li><b>${h(i.news)}</b> — ${rich(i.impact)}</li>`).join('')}</ol>` : ''),
+    li(WA.map(w => `<li><b>${h(w.issue)}</b><span>📡 ${rich(w.kpi_signal)}<br>🔮 ${rich(w.forecast)}</span></li>`).concat(IMPL.map(i => `<li><b>${h(i.news)}</b><span>${rich(i.impact)}</span></li>`))), 'strategy');
+  const date = (ST && ST.date) || (NP && NP.date) || '';
+  const wd = (ST && ST.weekday) || (NP && NP.weekday) || '';
+  let old = document.getElementById('fmNews'); if (old) old.remove();
+  const ov = document.createElement('div'); ov.id = 'fmNews'; ov.className = 'np-ov'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', '오늘의 텃밭 신문');
+  if (!T.length) { ov.innerHTML = `<div class="np-paper"><button type="button" class="np-x" aria-label="닫기">✕</button><p style="padding:30px;text-align:center;font-weight:800;">데이터 준비 중</p></div>`; }
+  else ov.innerHTML = `<div class="np-paper"><button type="button" class="np-x" aria-label="닫기">✕</button>
+    <header class="np-mast"><div class="np-mast-l">VOL.${h(date.replace(/-/g, '.'))} (${h(wd)})</div><h1>텃밭 데일리 <span>NEWS!</span></h1><div class="np-mast-r">오늘 꼭 볼 것만 · ${T.length}개 주제</div></header>
+    <nav class="np-tabs" role="tablist">${T.map((t, i) => `<button type="button" role="tab" data-i="${i}" style="--c:${t.color}" aria-selected="${i === 0}">${t.ic}<span>${h(t.nm)}</span></button>`).join('')}</nav>
+    <div class="np-body"></div>
+    <footer class="np-foot"><button type="button" class="np-prev">◀ 이전 주제</button><span class="np-pg"></span><button type="button" class="np-next">다음 주제 ▶</button></footer></div>`;
+  document.body.appendChild(ov);
+  let ti = 0, page = 0;
+  const body = ov.querySelector('.np-body');
+  const render = () => { if (!T.length) return; const t = T[ti];
+    ov.querySelectorAll('.np-tabs button').forEach(b => b.setAttribute('aria-selected', String(+b.dataset.i === ti)));
+    body.style.setProperty('--c', t.color);
+    body.innerHTML = page === 0
+      ? `<article class="np-page np-core"><div class="np-burst">${t.ic}</div><div class="np-label">핵심 · ${h(t.nm)}</div>${t.core || '<p class="np-empty">오늘 이 주제의 새 소식은 없어요.</p>'}
+         <div class="np-act">${t.detail ? '<button type="button" class="np-more">📖 상세 면 보기 →</button>' : ''}${t.to ? `<button type="button" class="np-go" data-to="${h(t.to)}">🧭 대시보드에서 자세히</button>` : ''}</div></article>`
+      : `<article class="np-page np-detail"><div class="np-label">상세 · ${h(t.nm)}</div>${t.detail}<div class="np-act"><button type="button" class="np-back">← 핵심 면으로</button>${t.to ? `<button type="button" class="np-go" data-to="${h(t.to)}">🧭 대시보드에서 자세히</button>` : ''}</div></article>`;
+    ov.querySelector('.np-pg').textContent = `${ti + 1} / ${T.length} · ${page ? '상세 면' : '핵심 면'}`;
+    body.scrollTop = 0; };
+  ov.addEventListener('click', e => { const b = e.target.closest('button');
+    if (e.target === ov || (b && b.classList.contains('np-x'))) { ov.remove(); return; }
+    if (!b) return;
+    if (b.dataset.i != null) { ti = +b.dataset.i; page = 0; }
+    else if (b.classList.contains('np-more')) page = 1;
+    else if (b.classList.contains('np-back')) page = 0;
+    else if (b.classList.contains('np-prev')) { ti = (ti + T.length - 1) % T.length; page = 0; }
+    else if (b.classList.contains('np-next')) { ti = (ti + 1) % T.length; page = 0; }
+    else if (b.dataset.to) { ov.remove(); if (typeof go === 'function') go(b.dataset.to); return; }
+    render(); });
+  ov.addEventListener('keydown', e => { if (e.key === 'Escape') ov.remove(); else if (e.key === 'ArrowRight') { ti = (ti + 1) % T.length; page = 0; render(); } else if (e.key === 'ArrowLeft') { ti = (ti + T.length - 1) % T.length; page = 0; render(); } });
+  render(); const x = ov.querySelector('.np-x'); if (x) x.focus();
+};
 window.farm3d = function (host, C) {
   const NS = 'http://www.w3.org/2000/svg';
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -12213,6 +12334,17 @@ window.farm3d = function (host, C) {
     for (let k = 0; k <= 3; k++) { const [a, b] = P(x + 2.6, y + k * .8, 0), [c, d] = P(x + 2.6, y + k * .8, 30); el('line', {x1: a, y1: b, x2: c, y2: d, stroke: '#ffffff', 'stroke-width': 1.6}, g); }
     for (let k = 0; k < 4; k++) { const [a, b] = P(x + .5 + k * .7, y + 2.2, 4); el('circle', {cx: a, cy: b - 6, r: 6, fill: '#66bb6a', opacity: .85}, g); el('circle', {cx: a + 2, cy: b - 10, r: 2.4, fill: '#f06292'}, g); }
     el('title', {}, g).textContent = '2027 온실 · 기획 중인 과제'; }});
+  objs.push({k: 22.3 + 6.0 + 1.4, f: () => { const g = el('g', {class: 'fm-bld fm-kiosk', 'data-news': '1', role: 'button', tabindex: '0', 'aria-label': '신문소 — 오늘의 핵심 신문 보기'}, world), x = 22.3, y = 6.0;  // 📰 신문소(허수아비 망루 옆)
+    shadow(g, x + .8, y + .8, 36, 15); box(g, x, y, 1.6, 1.6, 30, '#fde68a', 0, '#f59e0b');
+    el('polygon', {points: pts([P(x - .15, y + 1.75, 30), P(x + 1.75, y + 1.75, 30), P(x + 1.75, y + 1.75, 40), P(x - .15, y + 1.75, 40)]), fill: '#ef4444'}, g);  // 차양
+    for (let k = 0; k < 4; k++) el('polygon', {points: pts([P(x - .15 + k * .475, y + 1.75, 30), P(x + .08 + k * .475, y + 1.75, 30), P(x + .08 + k * .475, y + 1.75, 40), P(x - .15 + k * .475, y + 1.75, 40)]), fill: '#fff'}, g);
+    { const [a, b] = P(x + .8, y + 1.75, 35); el('text', {x: a, y: b + 4, 'text-anchor': 'middle', class: 'fm-arc-t', style: 'fill:#111;font-size:9px'}, g).textContent = 'NEWS'; }
+    for (let k = 0; k < 3; k++) { const [a, b] = P(x + .3 + k * .5, y + 1.6, 8); el('rect', {x: a - 6, y: b - 12, width: 12, height: 15, rx: 1.5, fill: '#fff', stroke: '#1f2937', 'stroke-width': 1.2}, g); el('line', {x1: a - 4, y1: b - 8, x2: a + 4, y2: b - 8, stroke: '#1f2937', 'stroke-width': 1.4}, g); el('line', {x1: a - 4, y1: b - 4, x2: a + 3, y2: b - 4, stroke: '#9ca3af', 'stroke-width': 1}, g); }
+    const [ba, bb] = P(x + .8, y + .8, 70), bg = el('g', {class: still ? '' : 'fm-arc-bob'}, g);  // 클릭 유도 말풍선
+    el('rect', {x: ba - 50, y: bb - 22, width: 100, height: 24, rx: 12, fill: '#fff', stroke: '#111', 'stroke-width': 2.4}, bg);
+    el('path', {d: `M${ba - 5} ${bb + 2} l5 8 l5 -8 z`, fill: '#fff', stroke: '#111', 'stroke-width': 2}, bg);
+    el('text', {x: ba, y: bb - 6, 'text-anchor': 'middle', class: 'fm-tt'}, bg).textContent = '📰 호외요 호외!';
+    el('title', {}, g).textContent = '📰 신문소 · 오늘 꼭 볼 핵심 신문'; }});
   const ARC = ((window.__EXT_LINKS || {}).arcade || '');  // 🕹️ 오락실(사용자 요청 2026-11-24): 텃밭 테마에서만, 누르면 게임 새 창
   const ARC_OK = /^https:\/\/claude\.ai\//.test(ARC);
   if (ARC_OK) objs.push({k: 24.2 + 16.6 + 1.6, f: () => { const g = el('g', {class: 'fm-bld fm-arc', 'data-arc': '1', role: 'link', tabindex: '0', 'aria-label': '오락실 — 게임 열기(새 창)'}, world), x = 24.2, y = 16.6;
@@ -12327,6 +12459,7 @@ window.farm3d = function (host, C) {
   plots.forEach(p => sign(p.sign, `${EMO[p.kind]} ${p.nm} 밭${p.wilt ? ' · 🥀' + p.wilt : ''}`, p.wilt ? '#f59e0b' : p.col, {'data-p': p.i}));
   sign(P(8, 20.2, 92), '🧺 수확 창고', '#e57373', {'data-t': 'strategy'}); sign(P(21.5, 19.4, 74), '🌱 2027 온실', '#4fc3f7', {'data-t': 'biz2027'});
   if (ARC_OK) sign(P(25.6, 18.6, 40), '🕹️ 오락실', '#e040fb', {'data-arc': '1'});
+  sign(P(23.9, 9.1, 0), '📰 신문소', '#ef4444', {'data-news': '1'});
   sign(P(1.4, 9.4, 140), '🌬️ 시장 풍차', '#9ccc65', {'data-t': 'market'}); sign(P(21.8, 10.2, 96), '🔭 허수아비 망루', '#9575cd', {'data-t': 'competitor'});
   // 말풍선(SVG)
   const bubG = el('g', {class: 'fm-bub'}, svg);
@@ -12361,6 +12494,8 @@ window.farm3d = function (host, C) {
     pick.innerHTML = `<b>${p ? EMO[p.kind] + ' ' + h(p.nm) + ' 밭' : (C.icon[k] || '📄') + ' ' + h(C.name(k))}</b>${tabs.map(t => { const s = ST(C.fresh(t)); return `<button type="button" data-go="${t}" class="${s}">${C.icon[t] || '📄'} ${h(C.name(t))}</button>`; }).join('')}<button type="button" data-x aria-label="닫기">✕</button>`; };
   const openArc = () => { if (ARC_OK) { const w = window.open(ARC, '_blank', 'noopener,noreferrer'); if (w) w.opener = null; } };
   svg.addEventListener('click', e => { if (e.target.closest('[data-arc]')) { e.stopImmediatePropagation(); openArc(); } }, true);
+  svg.addEventListener('click', e => { if (e.target.closest('[data-news]') && window.fmNewsstand) { e.stopImmediatePropagation(); window.fmNewsstand(C.go); } }, true);
+  svg.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('[data-news]') && window.fmNewsstand) { e.preventDefault(); window.fmNewsstand(C.go); } });
   svg.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('[data-arc]')) { e.preventDefault(); openArc(); } });
   svg.addEventListener('click', e => { const t = e.target.closest('[data-p],[data-t]'); const k = t ? (t.dataset.p != null ? t.dataset.p : t.dataset.t) : null; choose(k != null && k !== sel ? k : null); });
   side.addEventListener('click', e => { const b = e.target.closest('[data-p]'); if (b) choose(b.dataset.p); });
@@ -13249,7 +13384,10 @@ window.farm3d = function (host, C) {
     if (fs.length) {
       const f = fs[0]; target = f; title = titleOf(f);
       const c = f.cloneNode(true); c.removeAttribute('id'); c.querySelectorAll('[id]').forEach(x => x.removeAttribute('id'));
-      c.classList && c.classList.add('tvz-clone'); if (c.tagName === 'svg') { c.style.width = '100%'; c.style.height = 'auto'; }
+      const ow = Math.round(f.getBoundingClientRect().width), vbw = f.viewBox && f.viewBox.baseVal && f.viewBox.baseVal.width;
+      // 원본보다 키우지 않는다(글자가 커져 넘치던 문제, 2026-11-24): 원본 표시 폭과 viewBox 폭 중 작은 값, 최대 720px
+      c.classList && c.classList.add('tvz-clone'); if (c.tagName === 'svg') { const w = Math.min(ow || 720, vbw || 720, 720); c.style.width = w + 'px'; c.style.maxWidth = '100%'; c.style.height = 'auto'; }
+      else { c.style.maxWidth = Math.min(ow || 720, 720) + 'px'; c.style.fontSize = '12px'; }
       html = c.outerHTML;
     } else { const t = tableFig(root); if (!t) return; html = t.svg; title = t.title; target = t.target; }
     const box = document.createElement('section'); box.className = 'tvz'; box.dataset.kind = fs.length ? 'fig' : 'table';
