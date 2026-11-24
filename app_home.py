@@ -197,7 +197,7 @@ def build(labels, live=None, apps=None, status=None):
                 '<button type="button" data-ahv="bm" aria-pressed="true">🐄 농장 작업장</button><button type="button" data-ahv="tile" aria-pressed="false">🟦 타일</button></div>'
                 f'<div id="admBm" style="margin-bottom:16px;" data-p="{E(json.dumps(status, ensure_ascii=False, separators=(",", ":")))}"></div>')
     return (CSS + head + f'<div class="ah"{" id=admTiles hidden" if status else ""}><div class="ah-top"><div><h3>🔒 관리 앱 홈</h3>'
-            f'<p>경영 앱 {n}개 · 개인 앱 {len(apps)}개 — 타일을 누르면 열리고, 위 탭 줄의 「🏠 앱 홈」으로 돌아옵니다</p></div>'
+            f'<p>경영 앱 {n}개 · 개인 앱 {len(apps)}개 — 타일을 누르면 열리고, 위 「🗺️ 메뉴 구조도」로 돌아옵니다</p></div>'
             '<input class="ah-q" type="search" placeholder="앱 검색 (예: 손익, 할 일)" aria-label="앱 검색" '
             'oninput="(function(q){q=q.trim();document.querySelectorAll(\'#adminBody .ah-t[data-q]\').forEach(function(t){t.classList.toggle(\'ah-hide\',!!q&&t.dataset.q.indexOf(q)<0);});})(this.value)"></div>'
             f'<div class="ah-groups">{"".join(groups)}</div>{store_section(apps)}</div>')

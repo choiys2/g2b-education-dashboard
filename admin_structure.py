@@ -348,23 +348,38 @@ def build_html(exec_sources=None):
         plan_html = ""
     panes = [("home", "🏠 앱 홈"), ("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조"), ("intel", "🧠 전략 인텔리전스"), ("vizm", "📊 시장 지도·재정"), ("salesx", "📈 영업 분석"), ("vizx", "🎨 경영 시각화"), ("qa", "🛡️ 품질 점검"), ("board", "🎭 가상 이사회"), ("usage", "📊 사용 KPI"), ("tseg", "👩‍🏫 교사 세그먼트"), ("member", "👥 회원 분석(매출)"), ("orgw", "🏛️ 교사단체 해석"), ("snsw", "📱 SNS 핵심 계정"), ("bud27", "💰 2027 예산 해석"), ("authors", "📚 교과서 저자"), ("apps", "⭐ 개인 앱스토어")]
     # 두 단계 메뉴(사용자 결정 2026-11-24: A 업무 흐름형 · 왼쪽 세로 메뉴 · 연계 바로가기) — 묶음(1단) → 칸(2단)
-    ADM_GROUPS = [("🏠", "오늘", ["home", "actions", "schedule", "weekly"]),
-                  ("🧭", "경영 판단", ["exec", "decide", "plan", "bud27", "board", "vizx"]),
-                  ("🔭", "시장·정책", ["intel", "edu", "vizm", "strat", "comp"]),
-                  ("🤝", "B2G·B2S 영업", ["sales", "salesx", "branch", "tb3", "authors"]),
-                  ("👤", "회원·상품 B2C", ["member", "tseg", "b2c", "cpl", "samall", "mkt"]),
-                  ("🏛️", "교사 생태계", ["orgw", "snsw"]),
-                  ("⚙️", "운영", ["aiops", "qa", "usage", "sys", "apps"])]
+    # 메뉴(사용자 결정 2026-11-24 수정: CP 그룹 보기와 같은 구조) — 위 줄 묶음 카드(1단) → 아래 줄 칸 버튼(2단) + 홈 '메뉴 구조도'
+    ADM_GROUPS = [("☀️", "오늘", "#d97706", ["actions", "schedule", "weekly"]),
+                  ("🧭", "경영 판단", "#0f6cbd", ["exec", "decide", "plan", "bud27", "board", "vizx"]),
+                  ("🔭", "시장·정책", "#4f8cff", ["intel", "edu", "vizm", "strat", "comp"]),
+                  ("🤝", "B2G·B2S 영업", "#10b981", ["sales", "salesx", "branch", "tb3", "authors"]),
+                  ("👤", "회원·상품 B2C", "#8b5cf6", ["member", "tseg", "b2c", "cpl", "samall", "mkt"]),
+                  ("🏛️", "교사 생태계", "#ef4444", ["orgw", "snsw"]),
+                  ("⚙️", "운영", "#64748b", ["aiops", "qa", "usage", "sys", "apps"])]
     lab_of = dict(panes)
-    grouped = {k for _, _, ks in ADM_GROUPS for k in ks}
+    grouped = {k for *_, ks in ADM_GROUPS for k in ks} | {"home"}
     rest = [k for k, _ in panes if k not in grouped]  # 새 칸이 생기면 '운영'에 자동 포함
     if rest:
-        ADM_GROUPS[-1] = (ADM_GROUPS[-1][0], ADM_GROUPS[-1][1], ADM_GROUPS[-1][2] + rest)
-    nav = ("<nav class='adm-side adm-tabs' aria-label='관리 메뉴'>"
-           + "".join(f"<div class='adm-g' data-g='{gi}'><button type='button' class='adm-gh' aria-expanded='true' onclick='admGroup(this)'>{ic} {gn}<small>{len(ks)}</small></button>"
-                     + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(k == 'home').lower()}' onclick='admPane(\"{k}\")'>{lab_of.get(k, k)}</button>" for k in ks if k in lab_of)
-                     + "</div>" for gi, (ic, gn, ks) in enumerate(ADM_GROUPS))
-           + "</nav>")
+        ic, gn, gc, ks = ADM_GROUPS[-1]
+        ADM_GROUPS[-1] = (ic, gn, gc, ks + rest)
+    ADM_GROUPS = [(ic, gn, gc, [k for k in ks if k in lab_of]) for ic, gn, gc, ks in ADM_GROUPS]
+    gbtn = "".join(f"<button type='button' class='adm-gc' data-g='{gi}' style='--gc:{gc}' aria-pressed='false' onclick='admGroup({gi})'>"
+                   f"<b>{gi + 1}. {ic} {gn}</b><small>{len(ks)}칸</small></button>"
+                   for gi, (ic, gn, gc, ks) in enumerate(ADM_GROUPS))
+    subs = "".join(f"<div class='adm-sub' data-g='{gi}' style='--gc:{gc}' hidden>"
+                   + "".join(f"<button type='button' data-pane='{k}' aria-pressed='false' onclick='admPane(\"{k}\")'>{lab_of[k]}</button>" for k in ks)
+                   + "</div>" for gi, (ic, gn, gc, ks) in enumerate(ADM_GROUPS))
+    nav = ("<nav class='adm-cp adm-tabs' aria-label='관리 메뉴'><div class='adm-grow'>"
+           "<button type='button' class='adm-gc adm-home' data-pane='home' style='--gc:#475569' aria-pressed='true' onclick='admPane(\"home\")'>"
+           "<b>🗺️ 메뉴 구조도</b><small>전체 한눈에</small></button>" + gbtn + "</div>" + subs
+           + "<div class='adm-crumb' id='admCrumb'>관리 › 🗺️ 메뉴 구조도</div></nav>")
+    # 홈 맨 위 구조도: 묶음 → 칸 전체를 한 장에(누르면 그 칸으로)
+    adm_map = ("<section class='adm-map' aria-label='관리 메뉴 구조도'><div class='adm-map-root'>🔒 관리 <small>%d묶음 · %d칸 — 칸 이름을 누르면 바로 열립니다</small></div><div class='adm-map-g'>"
+               % (len(ADM_GROUPS), sum(len(g[3]) for g in ADM_GROUPS))
+               + "".join(f"<div class='adm-map-c' style='--gc:{gc}'><button type='button' class='adm-map-h' onclick='admGroup({gi})'>{gi + 1}. {ic} {gn}<small>{len(ks)}</small></button>"
+                         + "".join(f"<button type='button' class='adm-map-i' onclick='admPane(\"{k}\")'>{lab_of[k]}</button>" for k in ks) + "</div>"
+                         for gi, (ic, gn, gc, ks) in enumerate(ADM_GROUPS))
+               + "</div></section>")
     links_bar = "<div class='adm-links' id='admLinks' hidden></div>"
     try:
         mg = __import__("mgmt_owner")
@@ -501,7 +516,7 @@ def build_html(exec_sources=None):
         print(f"[경고] 앱 홈 실패: {type(e).__name__}: {str(e)[:120]}")
         home_html = store_html = ""
     return (css + '<div class="adm adm-2d">' + nav + '<div class="adm-main">' + links_bar
-            + pane("home", home_html, True)
+            + pane("home", adm_map + home_html, True)
             + pane("exec", tp_html + blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>')
             + pane("decide", blocks["decide"] + cand_html + ob_hand)
             + pane("weekly", weekly_html)
