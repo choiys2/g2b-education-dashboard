@@ -170,7 +170,7 @@ setTimeout(function(){r.classList.remove("vs-boot");},4000);})();</script>
   .theme-btn{
     appearance:none;border:none;background:transparent;cursor:pointer;
     font-size:13px;line-height:1;padding:5px 9px;border-radius:100px;opacity:.5;
-    transition:opacity .12s, background .12s;
+    transition:opacity .12s var(--ease-out), background .12s;
   }
   .theme-btn:hover{opacity:.85;}
   .theme-btn.active{background:var(--surface);opacity:1;box-shadow:0 1px 2px rgba(0,0,0,.08);}
@@ -216,7 +216,7 @@ setTimeout(function(){r.classList.remove("vs-boot");},4000);})();</script>
     position:relative; width:100%; display:flex; justify-content:center; padding:18px 0 8px;
   }
   #provinceMap{ width:100%; max-width:480px; height:auto; }
-  .province-shape{ cursor:pointer; transition:filter .12s; }
+  .province-shape{ cursor:pointer; transition:filter .12s var(--ease-out); }
   .province-shape:hover, .province-shape:focus-visible{ filter:brightness(1.12); outline:none; }
   .province-label{
     font-size:10.5px; font-weight:600; fill:var(--ink); text-anchor:middle; dominant-baseline:middle;
@@ -237,7 +237,7 @@ setTimeout(function(){r.classList.remove("vs-boot");},4000);})();</script>
 
   /* shared floating tooltip */
   #tooltip{
-    position:fixed;z-index:50;pointer-events:none;opacity:0;transition:opacity .1s;
+    position:fixed;z-index:50;pointer-events:none;opacity:0;transition:opacity .1s var(--ease-out);
     background:var(--ink);color:var(--page);border-radius:8px;padding:10px 13px;
     font-size:12.5px;line-height:1.6;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);
     max-width:230px;
@@ -294,7 +294,7 @@ setTimeout(function(){r.classList.remove("vs-boot");},4000);})();</script>
     appearance:none;border:none;background:transparent;cursor:pointer;
     font-family:inherit;font-size:14px;font-weight:600;color:var(--ink-2);
     padding:11px 4px;margin-right:22px;border-bottom:2px solid transparent;
-    transition:color .12s;
+    transition:color .12s var(--ease-out);
   }
   .tabbtn:hover{color:var(--ink);}
   .tabbtn.active{color:var(--accent);border-bottom-color:var(--accent);}
@@ -320,7 +320,7 @@ setTimeout(function(){r.classList.remove("vs-boot");},4000);})();</script>
   .co-tab{
     font-family:inherit;display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:132px;
     padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface-2);
-    color:var(--ink-2);cursor:pointer;text-align:left;transition:border-color .15s, background .15s;
+    color:var(--ink-2);cursor:pointer;text-align:left;transition:border-color .15s var(--ease-out), background .15s;
   }
   .co-tab:hover{border-color:color-mix(in srgb, var(--co, var(--accent)) 55%, transparent);}
   .co-tab[aria-pressed="true"]{
@@ -537,14 +537,14 @@ setTimeout(function(){r.classList.remove("vs-boot");},4000);})();</script>
      장식/인터랙션만 3D로 - 차트 자체(막대·파이·레이더)는 절대 3D로 왜곡하지 않는다.
      값 비교의 정확성이 깨지기 때문. prefers-reduced-motion에서는 전부 끈다. */
   @media (prefers-reduced-motion:no-preference){
-    .school-card, .segment-card{ transition:transform .15s ease-out, box-shadow .15s ease-out; }
+    .school-card, .segment-card{ transition:transform .15s var(--ease-out), box-shadow .15s var(--ease-out); }
     .school-card:hover, .segment-card:hover{ box-shadow:0 18px 34px -14px rgba(0,0,0,.32); }
     .kpi{ animation:kpiFlipIn .5s cubic-bezier(.2,.8,.2,1) both; }
     .kpis .kpi:nth-child(1){animation-delay:.02s;} .kpis .kpi:nth-child(2){animation-delay:.06s;}
     .kpis .kpi:nth-child(3){animation-delay:.10s;} .kpis .kpi:nth-child(4){animation-delay:.14s;}
     .kpis .kpi:nth-child(5){animation-delay:.18s;} .kpis .kpi:nth-child(6){animation-delay:.22s;}
     .map-stage{ perspective:1400px; }
-    #provinceMap, #pipeMap{ transition:transform .2s ease-out; }
+    #provinceMap, #pipeMap{ transition:transform .2s var(--ease-out); }
   }
   @keyframes kpiFlipIn{
     from{ opacity:0; transform:perspective(600px) rotateX(-35deg) translateY(10px); }
@@ -736,7 +736,7 @@ svg { max-width: 100%; }
 .rc-scale b{display:block;margin-bottom:4px;}.rc-scale div{display:flex;gap:6px;align-items:center;margin:3px 0;}.rc-scale span{width:62px;color:#8d6e63;white-space:nowrap;}
 .rc-scale em{position:relative;flex:1;height:8px;border-radius:4px;background:#e0cfae;}.rc-scale em i{display:block;height:100%;border-radius:4px;}.rc-scale u{position:absolute;top:-3px;width:2px;height:14px;background:#2e7d32;}.rc-scale strong{width:34px;text-align:right;}
 .rc-log{position:absolute;left:12px;bottom:12px;background:#f5ead6;border:2px solid #c9a87a;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;color:#3e2723;max-width:52%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.rc-ban{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(.85);text-align:center;pointer-events:none;opacity:0;transition:opacity .35s,transform .35s;}.rc-ban.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.rc-ban{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(.85);text-align:center;pointer-events:none;opacity:0;transition:opacity .35s var(--ease-out),transform .35s;}.rc-ban.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
 .rc-ban small{display:inline-block;font-size:15px;font-weight:900;letter-spacing:2px;padding:3px 14px;border-radius:6px;background:#b5e48c;color:#33691e;}.rc-ban.w small{background:#ffe0b2;color:#c2410c;}
 .rc-ban b{display:block;font-size:42px;font-weight:900;color:#fff;-webkit-text-stroke:2.5px #3e2723;text-shadow:0 4px 0 #3e2723;margin-top:6px;}
 .rc-ban strong{display:block;font-size:62px;font-weight:900;color:#ffd166;-webkit-text-stroke:3px #3e2723;text-shadow:0 5px 0 #3e2723;line-height:1.05;}.rc-ban strong.w{color:#ffb74d;}
@@ -812,6 +812,21 @@ html.vs-side body{padding-left:96px;}
 .np-paper a{color:#1d4ed8;font-weight:800;}
 @media (max-width:760px){.np-cols{column-count:1;}.np-mast{grid-template-columns:1fr;text-align:center;}.np-mast-l,.np-mast-r{display:none;}.np-paper{transform:none;box-shadow:5px 5px 0 #111;height:94vh;}.np-body{padding:10px 8px 8px;}.np-page{padding:12px 10px 8px;}.np-facts{grid-template-columns:1fr;}.np-burst{display:none;}}
 @media (prefers-reduced-motion:reduce){.np-page.np-anim{animation:none;}}
+/* ── 디자인 팁 반영(2026-11-24): 빈 화면·숫자 정렬·움직임 기준·모바일 터치·팝업 ── */
+:root{--ease-out:cubic-bezier(.22,1,.36,1);--ease-inout:cubic-bezier(.65,0,.35,1);--dur-1:150ms;--dur-2:250ms;}
+.es{display:flex;align-items:center;gap:8px;margin:6px 0;padding:10px 12px;border:1px dashed var(--border,#d1d5db);border-radius:10px;color:var(--muted);font-size:12.5px;font-weight:600;background:color-mix(in srgb,var(--surface-2,#f4f6fa) 60%,transparent);}
+.es::before{content:'⏳';font-size:15px;}
+table td,table th,.kpi .val,.mb-v,.mb-cv,.cpv-k b,.num,[class*="num"]{font-variant-numeric:tabular-nums;}
+table.data td.num,table.data th.num{text-align:right;}
+.panel-title,.np-hl,.np-art h3,h2,h3,h4{text-wrap:balance;}
+p,li,.panel-desc{text-wrap:pretty;}
+button,a,[role="button"],summary,.tabbtn,select,input{-webkit-tap-highlight-color:transparent;}
+@media (hover:none){.vbook:hover,.cph-t:hover,html.gd-skin.gd-skin .vgroups button:hover,html.v3d .kpi:hover,.fm-arc:hover{transform:none;filter:none;}.school-card:hover,.segment-card:hover{box-shadow:none;}}  /* 터치 기기: 눌린 채 남는 들림·확대 효과 끔 */
+html.np-lock{overflow:hidden;}
+@media (max-width:760px){.tabbtn,.vseg button,.cph-view button,.np-tabs button,.ow-chips button,.st-tabs button,.fm-zoom button,.fm-bgm>button{min-height:36px;}
+ .tvz-go,.cpx-tb,.vreset,.v3dbtn{min-height:36px;}
+ html.vs-side.vs-scroll-down .vside{transform:translateY(100%);}
+ .vside{transition:transform var(--dur-2) var(--ease-out);}}
 </style>
 
 <div class="wrap">
@@ -3601,7 +3616,7 @@ const GRADE_COLOR = {'초':'var(--accent)', '중':'var(--accent-2)', '고':'var(
   const gradeStr = ['초','중','고'].map(g => `${g} ${byGrade[g]||0}`).join(' · ');
   const under20m = SCHOOL_GOODS.filter(r => r.예산 <= 20000000).length;
   const tiles = [
-    {lbl:'매칭 건수', val: fmt(SCHOOL_GOODS.length)+'건', sup:`나라장터 등록 건 전체(하한선 없음) · 수집 ${(SCHOOL_GOODS_META && SCHOOL_GOODS_META.updated) || '-'} · 매주 월 자동`},
+    {lbl:'매칭 건수', val: fmt(SCHOOL_GOODS.length)+'건', sup:`나라장터 등록 건 전체(하한선 없음) · 기준 ${(SCHOOL_GOODS_META && SCHOOL_GOODS_META.updated) || '-'} · 매주 월 자동`},
     {lbl:'구매 학교 수', val: fmt(schools)+'개교', sup:gradeStr},
     {lbl:'총 구매 규모', val: fmtWon(total), sup:'AI·에듀테크 키워드 매칭'},
     {lbl:'2천만원 이하 소액 건', val: fmt(under20m)+'건', sup:`전체의 ${Math.round(under20m/(SCHOOL_GOODS.length||1)*100)}% · S2B 경유분은 별도(미포함)`},
@@ -4984,7 +4999,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const B = V.org_bubble || [];
     const el = panel('g2bfull', null, '⑤ 발주기관 버블', '최근 12개월 연수 공고 · x 발주 건수 · y 평균 금액 · 크기 = 자사 수주');
     if (!el) return;
-    if (!B.length) { el.innerHTML = empty('데이터 없음'); return; }
+    if (!B.length) { el.innerHTML = empty('데이터 준비 중'); return; }
     const W = 760, H = 320, P = 46, mxN = Math.max(...B.map(b => b.n)), mxA = Math.max(...B.map(b => b.avg));
     const x = n => P + (n / mxN) * (W - P - 16), y = a => H - 30 - Math.sqrt(a / mxA) * (H - 50);
     const yt = [0.1, 0.5, 1].map(t => mxA * t * t);
@@ -5116,7 +5131,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const P = (V.contracts || {}).prices || [];
     const el = panel('competitor', 'contractPanel', '⑬ 업체별 계약 단가 분포', '점 = 계약 1건 · 굵은 선 = 중앙값');
     if (!el) return;
-    if (!P.length) { el.innerHTML = empty('데이터 없음'); return; }
+    if (!P.length) { el.innerHTML = empty('데이터 준비 중'); return; }
     const W = 760, L = 100, mx = Math.max(...P.map(p => p.a)), x = a => L + Math.log10(Math.max(1e5, a) / 1e5) / Math.log10(mx / 1e5) * (W - L - 20);
     const cos = CO_ORDER.filter(c => P.some(p => p.c === c));
     const med = c => { const a = P.filter(p => p.c === c).map(p => p.a).sort((x, y) => x - y); return a[Math.floor(a.length / 2)]; };
@@ -5133,7 +5148,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const C = (V.contracts || {}).comp_only || [];
     const el = panel('competitor', 'contractPanel', '⑭ 경쟁사만 수주한 발주기관', '자사 계약 0건 · 경쟁사 계약금액 순');
     if (!el) return;
-    el.innerHTML = C.length ? hbars(C.map(o => ({k: `${o.r} ${o.org}`, v: o.amt, label: `${fmtWon(o.amt)} · ${o.n}건`, c: CO[o.who] || 'var(--muted)', tip: `${o.org} — 주 수주사 ${o.who}, ${o.n}건 ${fmtWon(o.amt)}`})), {lw: 200, vw: 120}) + legend(['티처빌', '아이스크림', '한교원'].map(k => [k + ' 주도', CO[k]])) + so('자사가 한 번도 계약하지 못한 기관입니다. 재계약 캘린더(B2G영업 탭)와 맞춰 D-60에 첫 접촉하세요.') : empty('데이터 없음');
+    el.innerHTML = C.length ? hbars(C.map(o => ({k: `${o.r} ${o.org}`, v: o.amt, label: `${fmtWon(o.amt)} · ${o.n}건`, c: CO[o.who] || 'var(--muted)', tip: `${o.org} — 주 수주사 ${o.who}, ${o.n}건 ${fmtWon(o.amt)}`})), {lw: 200, vw: 120}) + legend(['티처빌', '아이스크림', '한교원'].map(k => [k + ' 주도', CO[k]])) + so('자사가 한 번도 계약하지 못한 기관입니다. 재계약 캘린더(B2G영업 탭)와 맞춰 D-60에 첫 접촉하세요.') : empty('데이터 준비 중');
   });
   safe('courseTimeline', () => {
     const C = V.courses || {};
@@ -5505,7 +5520,7 @@ window.__ownerQ.push(function renderAiBrief(){
   safe('netiKpi', () => {
     const el = panel('neti', null, '한눈에 보기', `${NT.source || ''} · 기준 ${NT.as_of || ''}`);
     if (!el) return;
-    if (!NT.available) { el.innerHTML = empty('데이터 없음'); return; }
+    if (!NT.available) { el.innerHTML = empty('데이터 준비 중'); return; }
     const K = NT.kpi, E = K.est || {};
     const tile = (lab, val, sub) => `<div style="flex:1;min-width:150px;border:1px solid var(--border);border-radius:12px;padding:12px 14px;"><div style="font-size:12px;color:var(--muted);">${lab}</div><div style="font-size:24px;font-weight:800;margin:4px 0;">${val}</div><div style="font-size:11.5px;color:var(--ink-2);">${sub}</div></div>`;
     el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:10px;">
@@ -5667,7 +5682,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const P = (B2S_BOARD && B2S_BOARD.products) || [];
     const el = panel('b2s', null, '㉒ 샘몰 상품 우선순위 매트릭스', 'x 수요 점수 · y 자사 공백(경쟁사 강좌 대비 자사 부족)');
     if (!el) return;
-    if (!P.length) { el.innerHTML = empty('데이터 없음'); return; }
+    if (!P.length) { el.innerHTML = empty('데이터 준비 중'); return; }
     const gap = p => p.comp_courses ? Math.max(0, 1 - p.own / Math.max(1, p.comp_avg || p.comp_courses / 3)) * 100 : 0;
     const W = 640, H = 360, P0 = 40, mxD = Math.max(...P.map(p => p.demand)), x = d => P0 + d / mxD * (W - P0 - 20), y = g => H - 30 - g / 100 * (H - 50);
     const mD = mxD / 2;
@@ -5713,7 +5728,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const bp = items.map(b => b.price).filter(Boolean).sort((a, b) => a - b);
     const q = p => bp.length ? bp[Math.floor((bp.length - 1) * p)] : null;
     if (bp.length) rows.push(['경쟁사 결합상품', {n: bp.length, p25: q(.25), median: q(.5), p75: q(.75)}, '#f59e0b']);
-    if (!rows.length) { el.innerHTML = empty('데이터 없음'); return; }
+    if (!rows.length) { el.innerHTML = empty('데이터 준비 중'); return; }
     const mx = Math.max(...rows.map(r => r[1].p75)) * 1.2, W = 640, L = 130, x = v => L + v / mx * (W - L - 30);
     el.innerHTML = `<svg viewBox="0 0 ${W} ${rows.length * 46 + 28}" style="width:100%;max-width:${W}px;">
       ${[0, .25, .5, .75, 1].map(t => `<text x="${x(mx * t)}" y="${rows.length * 46 + 18}" text-anchor="middle" font-size="10" fill="var(--muted)">${fmt(Math.round(mx * t / 1000))}천원</text>`).join('')}
@@ -5875,7 +5890,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const el = panel('content', null, '㊱ 과정별 매출 파레토', '누적 매출 상위 과정');
     if (!el) return;
     const rows = ((C || {}).rows || []).filter(r => r.total > 0).sort((a, b) => b.total - a.total);
-    if (!rows.length) { el.innerHTML = empty('매출 데이터 없음'); return; }
+    if (!rows.length) { el.innerHTML = empty('데이터 준비 중'); return; }
     const tot = rows.reduce((a, r) => a + r.total, 0), top = rows.slice(0, 30);
     let cum = 0; const n20 = Math.max(1, Math.round(rows.length * .2)), s20 = rows.slice(0, n20).reduce((a, r) => a + r.total, 0);
     const W = 760, H = 260, P0 = 40, bw = (W - P0 - 10) / top.length, mxv = top[0].total;
@@ -5890,7 +5905,7 @@ window.__ownerQ.push(function renderAiBrief(){
     const el = panel('content', null, '㊲ 분야별 강사 보유 수', '26 콘텐츠DT 강사 열 집계 · 이름은 싣지 않음');
     if (!el) return;
     const I = Object.entries((C || {}).inst_by_field || {}).sort((a, b) => b[1] - a[1]);
-    el.innerHTML = I.length ? hbars(I.map(([k, v]) => ({k, v, label: v + '명'})), {lw: 120, vw: 50}) + so('강사가 1~2명뿐인 분야는 섭외 리스크가 큽니다. SME Pool 확충 우선 분야로 쓰세요.') : empty('강사 열 데이터 없음');
+    el.innerHTML = I.length ? hbars(I.map(([k, v]) => ({k, v, label: v + '명'})), {lw: 120, vw: 50}) + so('강사가 1~2명뿐인 분야는 섭외 리스크가 큽니다. SME Pool 확충 우선 분야로 쓰세요.') : empty('데이터 준비 중');
   });
   safe('channelReal', () => {
     if (typeof COURSE_PL === 'object' && COURSE_PL && (COURSE_PL.courses || []).length) return;  // 과정별 손익 엑셀 데이터로 대체(2026-11-18)
@@ -7385,7 +7400,7 @@ window.__ownerQ.push(function renderExec(){
       </ul>` : '<p style="color:var(--muted);font-size:12.5px;padding:6px 0;margin:0;">상세 공고 내역을 찾지 못했습니다.</p>';
     return `
       <tr class="org-row" style="cursor:pointer;">
-        <td style="font-weight:600;">${r.기관} <span class="expand-arrow" style="color:var(--muted);font-size:10px;display:inline-block;transition:transform .15s;">▸</span></td>
+        <td style="font-weight:600;">${r.기관} <span class="expand-arrow" style="color:var(--muted);font-size:10px;display:inline-block;transition:transform .15s var(--ease-out);">▸</span></td>
         <td class="num">${r.건수}건</td>
         <td class="num amount">${r.총예산}</td>
         <td class="num">${r.평균사업비}</td>
@@ -7481,7 +7496,7 @@ window.__ownerQ.push(function renderExec(){
     return `
       <tr class="comp-row" data-vendor="${r.낙찰업체}" style="cursor:pointer;">
         <td>${r.순위}</td>
-        <td style="font-weight:600;">${r.낙찰업체} <span class="expand-arrow" style="color:var(--muted);font-size:10px;display:inline-block;transition:transform .15s;">▸</span></td>
+        <td style="font-weight:600;">${r.낙찰업체} <span class="expand-arrow" style="color:var(--muted);font-size:10px;display:inline-block;transition:transform .15s var(--ease-out);">▸</span></td>
         <td class="num">${r.낙찰건수}건</td>
         <td class="num amount">${r.총낙찰금액}</td>
         <td class="num">${r.평균낙찰률}</td>
@@ -7667,7 +7682,7 @@ window.__ownerQ.push(function renderExec(){
       return sortDir*(av-bv);
     });
     tbody.innerHTML = rows.map(r => {
-      const shareTxt = r.share_pct == null ? '시장데이터 없음' : r.share_pct+'%';
+      const shareTxt = r.share_pct == null ? '데이터 준비 중' : r.share_pct+'%';
       const scoreColor = r.opportunity_score >= 60 ? 'var(--warning)' : (r.opportunity_score >= 35 ? 'var(--accent)' : 'var(--muted)');
       return `<tr>
         <td style="font-weight:600;">${r.strength ? '<span class="strength-dot-inline" style=\"display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;\"></span>' : ''}${r.region}</td>
@@ -7800,8 +7815,8 @@ window.__ownerQ.push(function renderExec(){
   if (!tbody || typeof KOSIS_FINANCE === 'undefined') return;
   const rows = (KOSIS_FINANCE.regions || []).slice().sort((a,b) => b.amount_won - a.amount_won);
   if (!rows.length) {
-    noteEl.textContent = '데이터 준비 중입니다.';
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:24px;">데이터 없음</td></tr>';
+    noteEl.textContent = '데이터 준비 중';
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:24px;">데이터 준비 중</td></tr>';
     return;
   }
   noteEl.textContent = KOSIS_FINANCE.note || '';
@@ -7825,7 +7840,7 @@ window.__ownerQ.push(function renderExec(){
   const COLORS = ['var(--accent)','var(--accent-2)','var(--accent-purple)','var(--warning)','var(--accent-pink)'];
   const compColor = c => COLORS[comps.indexOf(c) % COLORS.length] || 'var(--muted)';
 
-  const emptyNote = '낙찰 매트릭스 데이터 준비 중입니다(누적에 며칠 걸립니다).';
+  const emptyNote = '데이터 준비 중 · 매일 갱신';
   document.getElementById('kpisCompetitor').innerHTML = comps.map(c => {
     const t = g2b.competitor_totals[c] || {};
     return `<div class="kpi">
@@ -7903,7 +7918,7 @@ window.__ownerQ.push(function renderExec(){
   const financeAvailable = Object.entries(financeCompanies).filter(([,c]) => c.available);
   document.getElementById('compFinanceDesc').textContent = financeAvailable.length
     ? `${finance.data_source || ''} · ${finance.note || ''}`
-    : '데이터 없음';
+    : '데이터 준비 중';
   document.getElementById('compFinanceTableBody').innerHTML = Object.entries(financeCompanies).map(([name, c]) => {
     if (!c.available) {
       return `<tr>
@@ -7923,7 +7938,7 @@ window.__ownerQ.push(function renderExec(){
       <td class="num">${s.total_assets!=null ? fmt(Math.round(s.total_assets/1e8))+'억' : '-'}</td>
       <td class="num">${s.debt_ratio!=null ? Number(s.debt_ratio).toFixed(1)+'%' : '-'}</td>
     </tr>`;
-  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px;">데이터 없음</td></tr>';
+  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px;">데이터 준비 중</td></tr>';
 
   // ---- 매출 추이(5개년) 라인차트 ----
   (function drawFinanceTrend(){
@@ -8018,7 +8033,7 @@ window.__ownerQ.push(function renderExec(){
     const svg = document.getElementById('compNaverTrendChart');
     const descEl = document.getElementById('compNaverDesc');
     if (typeof NAVER_TREND === 'undefined' || !NAVER_TREND.companies) {
-      descEl.textContent = '데이터 없음';
+      descEl.textContent = '데이터 준비 중';
       return;
     }
     descEl.innerHTML = `기준일 ${h(NAVER_TREND.captured_date)} · ${NAVER_TREND.weekly ? '매주 갱신' : '참고 스냅샷'} · ${h(NAVER_TREND.note)}`;
@@ -8127,7 +8142,7 @@ window.__ownerQ.push(function renderExec(){
   document.getElementById('compContentDesc').textContent =
     Object.keys(contentCompanies).length
       ? `캡처일 ${content.captured_date || '-'} · 비로그인 공개 화면 기준`
-      : '데이터 없음';
+      : '데이터 준비 중';
   document.getElementById('compContentCards').innerHTML = Object.entries(contentCompanies).map(([name, c]) => {
     const diff = c.diff || {new: [], removed: []};
     const newTitles = new Set(diff.new.map(e => e.title));
@@ -8153,7 +8168,7 @@ window.__ownerQ.push(function renderExec(){
         ${(c.events||[]).map(e => `<li>${newTitles.has(e.title) ? '<span style="color:var(--warning);font-weight:700;">🆕</span> ' : ''}<b>${e.title}</b><br><span style="color:var(--muted);font-size:12px;">${e.period||''}</span></li>`).join('') || '<li style="color:var(--muted);">이벤트 없음</li>'}
       </ul>
     </div>`;
-  }).join('') || '<div style="color:var(--muted);padding:20px;">데이터 없음</div>';
+  }).join('') || '<div style="color:var(--muted);padding:20px;">데이터 준비 중</div>';
 
   // ---- 연수 콘텐츠: 3사 전체 강좌 + 신규 표시(이벤트 제외) ----
   (function renderCourseCatalog(){
@@ -8176,7 +8191,7 @@ window.__ownerQ.push(function renderExec(){
 
     const tabsEl = document.getElementById('courseCompanyTabs');
     if (!all.length) {
-      document.getElementById('compNewCourseDesc').textContent = '데이터 없음 — 카탈로그 수집 전입니다.';
+      document.getElementById('compNewCourseDesc').textContent = '데이터 준비 중 · 매주 갱신';
       return;
     }
     document.getElementById('compNewCourseDesc').textContent =
@@ -8289,7 +8304,7 @@ window.__ownerQ.push(function renderExec(){
     const COLOR = {'비바샘연수원':'var(--accent)','티처빌':'var(--accent-2)','아이스크림':'var(--warning)'};
     const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     if (!g.matrix || !g.matrix.length) {
-      document.getElementById('gapDesc').textContent = '데이터 없음 — 강좌 카탈로그 수집 전입니다.';
+      document.getElementById('gapDesc').textContent = '데이터 준비 중 · 매주 갱신';
       return;
     }
     // 자사를 맨 앞에
@@ -9130,7 +9145,7 @@ window.__ownerQ.push(function renderExec(){
     if (x && x.items && x.items.length) { const i = x.items[0]; return `<a href="${h(i.u)}" target="_blank" rel="noopener noreferrer" style="font-size:12px;">${h(i.t)}</a><div style="font-size:11px;color:var(--muted);">${h(i.d)} · ${h(i.src)}${x.n > 1 ? ` · 외 ${x.n - 1}건` : ''}</div>`; }
     return `<a href="${h(o.news)}" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--muted);">뉴스 검색 ↗</a>`;
   };
-  if (!G) { const el = mk('교사단체·강사 공급', ''); el.innerHTML = '<p style="color:var(--muted);font-size:13px;">강사풀 집계 파일 없음(static_data/teacher_groups.json)</p>'; return; }
+  if (!G) { const el = mk('교사단체·강사 공급', ''); el.innerHTML = '<p class="es">데이터 준비 중</p>'; return; }
   const LEAD = {}; ((P && P.leaders) || []).forEach(x => { LEAD[x.org] = x.leader; });
   let T27 = {}; try { T27 = TREND2027 || {}; } catch (e) {}
   const TS = Object.fromEntries((T27.topics || []).map(t => [t.id, t]));
@@ -9991,7 +10006,7 @@ window.__renderPdfx = function(root, P){
   const cards = xs => `<div style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;">${xs.join('')}</div>`;
   const so = t => `<p class="tt-note" style="font-size:13px;line-height:1.6;"><b>그래서</b> ${t}</p>`;
   const NT = k => h((P.notes || {})[k] || '');
-  const tbl = (head, rows, minw) => `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;${minw ? 'min-width:' + minw + 'px;' : ''}"><thead><tr>${head.map(x => `<th${/^#/.test(x) ? ' class="num"' : ''}>${h(x.replace(/^#/, ''))}</th>`).join('')}</tr></thead><tbody>${rows.join('') || `<tr><td colspan="${head.length}" style="color:var(--muted);">데이터 없음</td></tr>`}</tbody></table></div>`;
+  const tbl = (head, rows, minw) => `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;${minw ? 'min-width:' + minw + 'px;' : ''}"><thead><tr>${head.map(x => `<th${/^#/.test(x) ? ' class="num"' : ''}>${h(x.replace(/^#/, ''))}</th>`).join('')}</tr></thead><tbody>${rows.join('') || `<tr><td colspan="${head.length}" style="color:var(--muted);">데이터 준비 중</td></tr>`}</tbody></table></div>`;
   const bar = (r, c) => `<span style="display:inline-block;width:80px;height:8px;border-radius:4px;background:var(--surface-2);vertical-align:middle;overflow:hidden;"><span style="display:block;height:100%;width:${Math.max(0, Math.min(100, r * 100)).toFixed(1)}%;background:${c || 'var(--accent)'};"></span></span>`;
   const pct = (xs, v) => { const s2 = xs.filter(x => x != null).sort((a, b) => a - b); if (!s2.length || v == null) return .5; let k = 0; while (k < s2.length && s2[k] <= v) k++; return k / s2.length; };
 
@@ -10348,7 +10363,7 @@ window.__renderPdfx = function(root, P){
       <div style="flex:1 1 340px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">AIEP 관련 낙찰 업체(3년) <span style="color:var(--muted);font-weight:500;font-size:11.5px;">낙찰 금액 순 · 참여 = 개찰 참가 횟수</span></div>
         ${V.length ? V.map(v => `<div style="display:grid;grid-template-columns:110px 1fr 120px;gap:8px;align-items:center;font-size:12px;margin:3px 0;"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;${v.name === dev ? 'font-weight:800;color:var(--accent);' : ''}">${h(v.name)}</span><span style="background:var(--surface-2);height:12px;border-radius:4px;position:relative;"><span style="position:absolute;inset:0 auto 0 0;width:${(v.amt / mx * 100).toFixed(1)}%;border-radius:4px;background:${v.name === dev ? 'var(--accent)' : 'color-mix(in srgb, var(--accent) 45%, var(--surface-2))'};"></span></span><span style="text-align:right;">${won(v.amt)} · 낙찰 ${v.win} · 참여 ${v.part}</span></div>`).join('') : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 데이터 준비 중입니다.</p>`}</div>
       <div style="flex:1 1 340px;min-width:0;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">${h(dev)} 조달 이력 <span style="color:var(--muted);font-weight:500;font-size:11.5px;">AIEP 개발사 · KERIS·교육청 입찰 참여/낙찰</span></div>
-        ${K.concat(DR.map(r => ({t: r.t, d: r.d, url: r.u, winner: r.winner, amt: r.amt, org: r.org, own: r.wv === dev}))).map(r => `<div style="font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);"><a href="${h(r.url || '')}" target="_blank" rel="noopener noreferrer">${h(r.t)}</a> <span style="color:var(--muted);">(${h(r.d)}${r.org ? ' · ' + h(r.org) : ' · KERIS'})</span><br>${r.own ? `<b style="color:var(--accent);">낙찰</b> ${won(r.amt)}` : `참여${r.amt ? ' ' + won(r.amt) : ''} · 낙찰 ${h(r.winner || '-')}${r.n ? ` · ${r.n}개사 경쟁` : ''}`}</div>`).join('') || '<p style="color:var(--muted);font-size:12.5px;">이력 없음(수집 진행 중)</p>'}
+        ${K.concat(DR.map(r => ({t: r.t, d: r.d, url: r.u, winner: r.winner, amt: r.amt, org: r.org, own: r.wv === dev}))).map(r => `<div style="font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);"><a href="${h(r.url || '')}" target="_blank" rel="noopener noreferrer">${h(r.t)}</a> <span style="color:var(--muted);">(${h(r.d)}${r.org ? ' · ' + h(r.org) : ' · KERIS'})</span><br>${r.own ? `<b style="color:var(--accent);">낙찰</b> ${won(r.amt)}` : `참여${r.amt ? ' ' + won(r.amt) : ''} · 낙찰 ${h(r.winner || '-')}${r.n ? ` · ${r.n}개사 경쟁` : ''}`}</div>`).join('') || '<p class="es">데이터 준비 중 · 매주 갱신</p>'}
         <p class="tt-note">${h(dev)}는 KERIS '초등 AI교육 담당교원 역량 강화 연수'(12.1억)에 응찰했습니다 — 플랫폼 개발사가 활용 연수 시장까지 들어오고 있어, 제휴(연수는 비바샘 담당)와 경쟁을 함께 봐야 합니다.</p></div></div>
       <div style="font-weight:700;font-size:13px;margin:12px 0 6px;">AIEP·시도 플랫폼 관련 나라장터 공고 ${M.length ? n(M.length) + '건' : ''} <span style="color:var(--muted);font-weight:500;font-size:11.5px;">${st.n_bids != null ? `공고 ${n(st.n_bids)} · 낙찰 ${n(st.n_awards)} 누적` : ''} · 구축·운영 vs 연수·활용</span></div>
       ${M.length ? `<div class="tbl-wrap"><table class="data" style="font-size:12.5px;min-width:820px;"><thead><tr><th>공고</th><th>발주</th><th>구분</th><th class="num">예산·낙찰</th><th>낙찰 업체</th><th class="num">경쟁</th><th>일자</th></tr></thead><tbody>${M.slice(0, 60).map(r => `<tr${r.dev ? ' style="background:color-mix(in srgb, var(--accent) 10%, transparent);"' : ''}><td>${r.u ? `<a href="${h(r.u)}" target="_blank" rel="noopener noreferrer">${h(r.t)}</a>` : h(r.t)}${r.dev ? ` <span class="pill" style="font-size:10px;">${h(dev)}</span>` : ''}</td><td style="font-size:11.5px;">${h(r.org)}</td><td>${h(r.cat || '-')}</td><td class="num">${won(r.amt || r.budget)}</td><td style="font-size:11.5px;">${h(r.winner || '-')}</td><td class="num">${r.n || '-'}</td><td style="white-space:nowrap;">${h(r.d)}</td></tr>`).join('')}</tbody></table></div>` : `<p style="color:var(--muted);font-size:12.5px;">나라장터 AIEP 조달 데이터 준비 중입니다. 준비되면 이 표와 업체 막대가 채워집니다.</p>`}`;
@@ -10439,7 +10454,7 @@ window.__renderPdfx = function(root, P){
   const ttl = (t, s) => `<div style="font-weight:800;font-size:14px;margin-bottom:8px;">${t}${s ? ` <span style="font-size:11.5px;color:var(--muted);font-weight:500;">${s}</span>` : ''}</div>`;
   // KERIS AI 교원연수 위탁 낙찰 흐름(공개 조달)
   const KA = D.keris_ai || [], mxA = Math.max(1, ...KA.map(a => a.amt || 0));
-  const keris = KA.length ? KA.slice(0, 10).map(a => `<div style="display:grid;grid-template-columns:70px 1fr 150px;gap:8px;align-items:center;font-size:12px;margin:4px 0;"><span style="color:var(--muted);">${h((a.d || '').slice(0, 7))}</span><span><a href="${h(a.u)}" target="_blank" rel="noopener noreferrer">${h(a.t)}</a><span style="display:block;height:8px;margin-top:2px;border-radius:3px;width:${((a.amt || 0) / mxA * 100).toFixed(1)}%;background:${/네패스/.test(a.winner) ? '#8b5cf6' : /아이스크림/.test(a.winner) ? '#ef4444' : 'color-mix(in srgb, var(--accent) 55%, var(--surface-2))'};"></span></span><span style="text-align:right;"><b>${h(a.winner.replace(/주식회사|\(주\)|사단법인|\(사\)/g, '').trim())}</b><br>${won(a.amt)}${a.n ? ` · ${a.n}개사` : ''}</span></div>`).join('') : '<p style="color:var(--muted);font-size:12.5px;">KERIS 조달 수집분 없음</p>';
+  const keris = KA.length ? KA.slice(0, 10).map(a => `<div style="display:grid;grid-template-columns:70px 1fr 150px;gap:8px;align-items:center;font-size:12px;margin:4px 0;"><span style="color:var(--muted);">${h((a.d || '').slice(0, 7))}</span><span><a href="${h(a.u)}" target="_blank" rel="noopener noreferrer">${h(a.t)}</a><span style="display:block;height:8px;margin-top:2px;border-radius:3px;width:${((a.amt || 0) / mxA * 100).toFixed(1)}%;background:${/네패스/.test(a.winner) ? '#8b5cf6' : /아이스크림/.test(a.winner) ? '#ef4444' : 'color-mix(in srgb, var(--accent) 55%, var(--surface-2))'};"></span></span><span style="text-align:right;"><b>${h(a.winner.replace(/주식회사|\(주\)|사단법인|\(사\)/g, '').trim())}</b><br>${won(a.amt)}${a.n ? ` · ${a.n}개사` : ''}</span></div>`).join('') : '<p class="es">데이터 준비 중 · 매일 갱신</p>';
   // 2027 예산 막대
   const B = R.budget || [], mxB = Math.max(1, ...B.map(b => Math.max(b.y2026, b.y2027)));
   const budget = B.map(b => `<div style="font-size:12px;margin:6px 0;"><div style="display:flex;justify-content:space-between;"><b>${h(b.k)}</b><span>${b.y2026 ? b.y2026.toLocaleString() + '억 → ' : '신규 '}<b style="color:var(--accent);">${b.y2027.toLocaleString()}억</b>${b.y2026 ? ` (+${Math.round((b.y2027 / b.y2026 - 1) * 100)}%)` : ''}</span></div>
@@ -10671,7 +10686,7 @@ window.__renderPdfx = function(root, P){
   if (!body) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const rich = v => h(v).replace(/&lt;strong&gt;/g, '<strong>').replace(/&lt;\/strong&gt;/g, '</strong>');
-  if (!S.available) { body.innerHTML = `<p style="color:var(--muted);font-size:13px;">전략 브리핑 준비 중 — ${h(S.reason || '데이터 없음')}${S.n_files ? ` (저장된 호 ${S.n_files}개)` : ''}</p>`; if (pick) pick.hidden = true; return; }
+  if (!S.available) { body.innerHTML = '<p class="es">데이터 준비 중 · 매일 07시 갱신</p>'; if (pick) pick.hidden = true; return; }
   const I = S.issues || [];
   const IMP = {'상': '#ef4444', '중': '#f59e0b', '하': '#94a3b8'};
   const chip = (t, c) => `<span style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;background:${c || '#94a3b8'};white-space:nowrap;">${h(t)}</span>`;
@@ -10683,7 +10698,7 @@ window.__renderPdfx = function(root, P){
     document.getElementById('stratDate').textContent = `${d.date || ''} (${d.weekday || ''})`;
     const R = d.radar || {};
     const radar = `<div style="font-size:12px;padding:8px 10px;border-radius:8px;margin-bottom:8px;background:${R.status === 'ok' ? 'color-mix(in srgb, #10b981 12%, transparent)' : 'color-mix(in srgb, var(--warning) 18%, transparent)'};">
-      <b>에듀테크 레이더</b> ${R.status === 'ok' ? `확인 — 수집 ${h(R.collected_at || '')} · 최근 기사 ${h(R.n_items ?? '')}건 분석` : `미확인(${h(R.status || '수집본 없음')}) — 공식 출처·언론 보도로 대체`}${d.limited ? ' · <b>오늘 새롭게 확인된 변화가 제한적</b>' : ''}</div>`;
+      <b>업계 뉴스</b> ${R.status === 'ok' ? `확인 — 기준 ${h(R.collected_at || '')} · 최근 기사 ${h(R.n_items ?? '')}건 분석` : '미확인 — 공식 발표·언론 보도로 대체'}${d.limited ? ' · <b>오늘 새롭게 확인된 변화가 제한적</b>' : ''}</div>`;
     body.innerHTML = radar
       + sec(1, '오늘의 핵심 요약', `<ol style="margin:0;padding-left:20px;font-size:13.5px;line-height:1.6;">${(d.summary || []).map(x => `<li>${rich(x)}</li>`).join('')}</ol>`)
       + sec(2, '중요 뉴스 TOP', tbl([['#', '34px'], ['뉴스·내용'], ['발표일', '96px'], ['발표 주체·출처', '150px'], ['중요도', '58px']],
@@ -10802,7 +10817,7 @@ window.__renderPdfx = function(root, P){
   .vshelf{display:flex;align-items:flex-end;gap:6px;padding:22px 8px 0 132px;min-height:196px;border-bottom:11px solid #5a3e28;box-shadow:0 10px 12px -8px #000;margin-bottom:14px;position:relative;min-width:max-content;}
   .vshelf .nm{position:absolute;left:6px;bottom:12px;width:120px;font-size:13.5px;color:#f1e3d3;font-weight:800;line-height:1.35;}
   .vshelf .nm small{display:block;font-size:11px;color:#b69c82;font-weight:600;}
-  .vbook{appearance:none;border:0;font:inherit;position:relative;width:52px;border-radius:4px 4px 2px 2px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 0 6px;color:#fff;box-shadow:inset -6px 0 0 #0002,inset 2px 0 0 #fff2,0 2px 4px #0006;cursor:pointer;transition:transform .18s;}
+  .vbook{appearance:none;border:0;font:inherit;position:relative;width:52px;border-radius:4px 4px 2px 2px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 0 6px;color:#fff;box-shadow:inset -6px 0 0 #0002,inset 2px 0 0 #fff2,0 2px 4px #0006;cursor:pointer;transition:transform .18s var(--ease-out);}
   .vbook:hover{transform:translateY(-6px);}
   .vbook .t{writing-mode:vertical-rl;text-orientation:upright;font-size:11.5px;font-weight:800;line-height:1.05;text-shadow:0 1px 2px #0005;}
   .vbook .v{font-size:10px;font-weight:800;background:#0004;border-radius:4px;padding:1px 3px;}
@@ -10852,7 +10867,7 @@ html.gd-skin #viewBar .vreset{border-radius:999px;border-style:dashed;border-col
 /* 그룹 메뉴 = 나무 팻말 */
 html.gd-skin.gd-skin .vgroups{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;border:0;margin-bottom:10px;}
 html.gd-skin.gd-skin .vgroups button{position:relative;padding:16px 14px 12px;border-radius:16px;border:0;font-size:15px;font-weight:900;color:#fff8ea;text-shadow:0 1px 0 rgba(0,0,0,.25);
-  background:linear-gradient(180deg,#d9a46b,#b97c45);box-shadow:0 10px 20px -12px rgba(90,55,20,.8),0 2px 0 rgba(255,255,255,.35) inset,0 -3px 0 rgba(0,0,0,.12) inset;transition:transform .15s;}
+  background:linear-gradient(180deg,#d9a46b,#b97c45);box-shadow:0 10px 20px -12px rgba(90,55,20,.8),0 2px 0 rgba(255,255,255,.35) inset,0 -3px 0 rgba(0,0,0,.12) inset;transition:transform .15s var(--ease-out);}
 html.gd-skin.gd-skin .vgroups button:hover{transform:translateY(-2px);}
 html.gd-skin.gd-skin .vgroups button::before,html.gd-skin.gd-skin .vgroups button::after{content:'';position:absolute;top:8px;width:7px;height:7px;border-radius:50%;background:#7a4f2a;box-shadow:0 1px 0 rgba(255,255,255,.4);}
 html.gd-skin.gd-skin .vgroups button::before{left:9px;} html.gd-skin.gd-skin .vgroups button::after{right:9px;left:auto;bottom:auto;height:7px;}
@@ -11098,7 +11113,7 @@ header.top .gd-hero .gd-mill,header.top .gd-hero .gd-orb{cursor:pointer;}
 .fm-drop{animation:fmDrop .9s ease-in forwards;}@keyframes fmDrop{from{transform:translateY(0);opacity:1;}to{transform:translateY(22px);opacity:0;}}
 .fm-fall ellipse{animation:fmFall 9s linear infinite;}@keyframes fmFall{from{transform:translate(0,-60px) rotate(0);}to{transform:translate(70px,260px) rotate(300deg);}}
 .fm-zz{animation:fmZz 2.2s ease-in-out infinite;}@keyframes fmZz{0%{opacity:0;transform:translate(0,4px);}50%{opacity:1;}100%{opacity:0;transform:translate(6px,-10px);}}
-.fm-ban{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(.85);text-align:center;pointer-events:none;opacity:0;transition:opacity .35s,transform .35s;}
+.fm-ban{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(.85);text-align:center;pointer-events:none;opacity:0;transition:opacity .35s var(--ease-out),transform .35s;}
 .fm-ban.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
 .fm-ban small{display:inline-block;font-size:15px;font-weight:900;letter-spacing:2px;padding:3px 14px;border-radius:999px;background:#b5e48c;color:#33691e;}.fm-ban.w small{background:#ffe0b2;color:#e65100;}
 .fm-ban b{display:block;font-size:44px;font-weight:900;color:#fff;-webkit-text-stroke:2.5px #5b3a1e;text-shadow:0 4px 0 #5b3a1e;margin-top:6px;}
@@ -11146,7 +11161,7 @@ header.top .gd-hero .gd-mill,header.top .gd-hero .gd-orb{cursor:pointer;}
 .cph-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:20px;}
 .cph h4{margin:0 0 8px;font-size:12.5px;font-weight:700;color:var(--ink-2, #374151);}.cph h4 i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;}
 .cph-tiles{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:82px;gap:8px;}
-.cph-t{all:unset;box-sizing:border-box;border-radius:6px;padding:10px 12px;color:#fff;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;transition:transform .12s,box-shadow .12s;text-decoration:none;}
+.cph-t{all:unset;box-sizing:border-box;border-radius:6px;padding:10px 12px;color:#fff;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;transition:transform .12s var(--ease-out),box-shadow .12s;text-decoration:none;}
 .cph-t:hover,.cph-t:focus-visible{transform:scale(1.03);box-shadow:0 6px 16px rgba(0,0,0,.18);outline:2px solid var(--accent, #2563eb);outline-offset:1px;}
 .cph-t[aria-current]{outline:2px solid var(--ink, #111);outline-offset:1px;}
 .cph-t{position:relative;}.cph-t .ic{position:absolute;top:8px;right:10px;font-size:22px;line-height:1;}.cph-l .ic{font-size:34px;top:12px;left:12px;right:auto;}.cph-w .nm{padding-right:30px;}.cph-ext .ic{position:static;display:block;margin:0 0 4px;font-size:20px;}
@@ -11163,7 +11178,7 @@ html.v3d .v3d-bar::before{content:"";position:absolute;left:0;right:-5px;top:-5p
 html.v3d .v3d-bar::after{content:"";position:absolute;top:-5px;right:-5px;width:5px;bottom:0;background:inherit;filter:brightness(.68);transform:skewY(-45deg);transform-origin:left top;pointer-events:none;}
 html.v3d .v3d-tube{background-image:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0) 50%,rgba(0,0,0,.2))!important;box-shadow:0 2px 4px -1px rgba(15,23,42,.35);border-radius:999px;}
 html.v3d .v3d-tube:not(:only-child){border-radius:inherit;}
-html.v3d .kpi{background-image:linear-gradient(160deg,rgba(255,255,255,.65),rgba(255,255,255,0) 55%);box-shadow:0 16px 28px -20px rgba(15,23,42,.6),0 2px 0 rgba(15,23,42,.06),inset 0 1px 0 rgba(255,255,255,.8);transform:translateZ(0);transition:transform .25s,box-shadow .25s;}
+html.v3d .kpi{background-image:linear-gradient(160deg,rgba(255,255,255,.65),rgba(255,255,255,0) 55%);box-shadow:0 16px 28px -20px rgba(15,23,42,.6),0 2px 0 rgba(15,23,42,.06),inset 0 1px 0 rgba(255,255,255,.8);transform:translateZ(0);transition:transform .25s var(--ease-out),box-shadow .25s;}
 html.v3d .kpi:hover{transform:translateY(-3px) perspective(600px) rotateX(3deg);box-shadow:0 22px 34px -20px rgba(15,23,42,.7),inset 0 1px 0 rgba(255,255,255,.8);}
 html.v3d .kpi .kpi-value{text-shadow:0 2px 0 rgba(15,23,42,.08),0 6px 12px rgba(15,23,42,.12);}
 @media (prefers-color-scheme:dark){html.v3d .kpi{background-image:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,0) 55%);}}
@@ -11343,8 +11358,8 @@ body:has(#panel-admin.active) .km-bar{display:none;}
 .vm-mini{border:1px solid var(--border);border-radius:10px;padding:4px 6px;background:var(--surface);min-width:0;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:0 6px;}
 .vm-mini b{font-size:12.5px;} .vm-mini span{font-size:11px;font-weight:800;text-align:right;} .vm-mini svg{grid-column:1 / span 2;width:100%;height:30px;}
 .vm-wfw{display:flex;flex-wrap:wrap;gap:16px 28px;} .vm-wf{text-align:center;} .vm-wf b{display:block;font-size:13px;margin-bottom:4px;} .vm-wfs{width:170px;max-width:100%;} .vm-wf p{margin:4px 0 0;font-size:13px;}
-.vm-rrs{position:relative;margin-top:6px;} .vm-rr{position:absolute;left:0;right:0;top:0;height:28px;display:grid;grid-template-columns:120px minmax(0,1fr) 64px;gap:8px;align-items:center;transition:transform .7s ease,opacity .5s;}
-.vm-rn{font-size:12.5px;font-weight:800;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .vm-rb{height:20px;background:var(--surface-2);border-radius:6px;overflow:hidden;} .vm-rb i{display:block;height:100%;border-radius:6px;transition:width .7s ease;} .vm-rr em{font-style:normal;font-size:12px;font-weight:700;}
+.vm-rrs{position:relative;margin-top:6px;} .vm-rr{position:absolute;left:0;right:0;top:0;height:28px;display:grid;grid-template-columns:120px minmax(0,1fr) 64px;gap:8px;align-items:center;transition:transform .7s var(--ease-out),opacity .5s;}
+.vm-rn{font-size:12.5px;font-weight:800;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .vm-rb{height:20px;background:var(--surface-2);border-radius:6px;overflow:hidden;} .vm-rb i{display:block;height:100%;border-radius:6px;transition:width .7s var(--ease-out);} .vm-rr em{font-style:normal;font-size:12px;font-weight:700;}
 .vm-rk{font-size:15px;}
 .vm-ttl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;margin-bottom:10px;} .vm-ttr{flex:1;min-width:140px;max-width:340px;accent-color:var(--market);}
 .vm-tts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(170px,100%),1fr));gap:8px;} .vm-tt{border:1px solid var(--border);border-radius:12px;padding:8px 10px;display:grid;gap:2px;}
@@ -11826,7 +11841,7 @@ window.renderBranchScore = function(tab){
   b7.innerHTML = PE && Object.values(PE).some(v => v.length)
     ? `<details><summary style="cursor:pointer;font-size:13px;">펼쳐 보기 (${Object.values(PE).reduce((s, v) => s + v.length, 0)}건 · ${h(PP.generated || '')})</summary>${tbl(['서비스', '이름 후보(빈도순)'], Object.entries(PE).filter(([, v]) => v.length).map(([k, v]) => [h(k), v.slice(0, 40).map(h).join(', ')]))}
        <p style="font-size:12px;color:var(--muted);">홈페이지 글자에서 "OOO 선생님/강사" 형태를 뽑은 후보입니다. 섭외·접촉 전 반드시 공식 이력으로 확인하고, 개인에게 직접 접촉하지 않고 단체·연구회를 통해 제안합니다.</p></details>`
-    : '<p style="font-size:12px;color:var(--muted);">데이터 준비 중입니다.</p>';
+    : '<p style="font-size:12px;color:var(--muted);">데이터 준비 중</p>';
 
   /* ---------- 고도화 ①~⑨ ---------- */
   const N = v => (v == null ? '-' : (+v).toLocaleString());
@@ -11924,7 +11939,7 @@ window.renderBranchScore = function(tab){
   {
     const AD = window.__ADOPT;
     const b = mk('⑮ 교과서 채택 × 경쟁 플랫폼 노출', '비상 미채택 학교 = 경쟁사 교과서·교사 플랫폼을 쓰는 학교(추정) · 로그인 뒤 데이터');
-    if (!AD || !AD.schools) b.innerHTML = '<p style="font-size:12px;color:var(--muted);">채택 데이터가 없습니다(로그인 뒤 복호화).</p>';
+    if (!AD || !AD.schools) b.innerHTML = '<p class="es">데이터 준비 중</p>';
     else {
       const U = AD.schools.filter(s => s.u), by = {};
       U.forEach(s => { const x = by[s.sd] = by[s.sd] || {n: 0, a: 0, lock: 0, open: 0}; x.n++; if (s.c) x.a++; else if (s.m) x.open++; else x.lock++; });
@@ -11995,7 +12010,7 @@ window.renderBranchScore = function(tab){
     b.innerHTML = top.length ? tbl(['#', '채널', '점수', '구독자', '최근 30일 영상', '주제(★ 강점)', '제안 방식'], top.map((c, i) => [i + 1, h(c.title), `<b>${c.score}</b>`, N(c.subs), N(c.recent30), (c.topics || []).map(t => (STR.has(t) ? '★' : '') + h(TN[t] || t)).join(', ') || '-',
         c.st.length ? `강점 '${h(TN[c.st[0]] || c.st[0])}' 라이브 공동 진행 → 채널관 입점` : c.subs >= 50000 ? '대형 채널: 공동 기획 1편으로 시작' : '연구회·단체 경유 입점 제안']))
       + note(`미입점 ${C2.length}개 중 상위 20개입니다(쌤OTT 입점 추정 ${CR.length - C2.length}개 제외). 개인에게 바로 연락하지 않고 소속 연구회·교사단체를 통해 제안합니다.`)
-      : '<p style="font-size:12px;color:var(--muted);">교사 유튜버 수집 데이터가 없습니다.</p>';
+      : '<p class="es">데이터 준비 중 · 매주 갱신</p>';
   }
 
   // ⑳ (B4) 플랫폼별 여론 핵심 문구 → 비바샘 개선 과제
@@ -12158,6 +12173,11 @@ window.fmNewsstand = function (go) {
     <footer class="np-foot"><button type="button" class="np-prev">◀ 이전</button><span class="np-pg"></span><button type="button" class="np-next">다음 ▶</button></footer></div>`
     : `<div class="np-paper"><button type="button" class="np-x" aria-label="닫기">✕</button><p style="padding:30px;text-align:center;font-weight:800;">데이터 준비 중</p></div>`;
   document.body.appendChild(ov);
+  const prevFocus = document.activeElement; document.documentElement.classList.add('np-lock');
+  const closeObs = new MutationObserver(() => { if (!document.body.contains(ov)) { document.documentElement.classList.remove('np-lock'); closeObs.disconnect(); if (prevFocus && prevFocus.focus) try { prevFocus.focus(); } catch (e) { /* 초점 복귀 실패 무시 */ } } });
+  closeObs.observe(document.body, {childList: true});
+  ov.addEventListener('keydown', e => { if (e.key !== 'Tab') return; const f = [...ov.querySelectorAll('button,a[href],[tabindex]:not([tabindex="-1"])')].filter(x => x.offsetParent); if (!f.length) return;
+    const first = f[0], last = f[f.length - 1]; if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); } });
   if (!T.length) { ov.addEventListener('click', e => { if (e.target === ov || e.target.closest('.np-x')) ov.remove(); }); return; }
   const pageEl = ov.querySelector('.np-page');
   // 면 나누기: 블록을 하나씩 넣어 보다가 넘치면 새 면(면 안 스크롤 없음)
@@ -14101,7 +14121,7 @@ window.farm3d = function (host, C) {
   let cur = '', tm = null;
   const SC = '.cpv-card, .g3d, .tabpanel, .adm-pane';
   const set = sd => { if (sd === cur) return; cur = sd;
-    st.textContent = sd ? `:is(${SC}) [data-sd]:not([data-sd="${sd}"]){opacity:.28;transition:opacity .15s;} :is(${SC}) tr[data-sd="${sd}"]{background:color-mix(in srgb,var(--market) 14%,transparent);} .vm-mini[data-sd="${sd}"]{border-color:var(--market);box-shadow:0 0 0 2px var(--market);}` : ''; };
+    st.textContent = sd ? `:is(${SC}) [data-sd]:not([data-sd="${sd}"]){opacity:.28;transition:opacity .15s var(--ease-out);} :is(${SC}) tr[data-sd="${sd}"]{background:color-mix(in srgb,var(--market) 14%,transparent);} .vm-mini[data-sd="${sd}"]{border-color:var(--market);box-shadow:0 0 0 2px var(--market);}` : ''; };
   document.addEventListener('mouseover', e => {
     if (!e.target.closest) return; const el = e.target.closest('[data-sd]'); const sd = el && SDS.has(el.dataset.sd) ? el.dataset.sd : '';
     clearTimeout(tm); if (sd) set(sd); else tm = setTimeout(() => set(''), 120);
@@ -14121,6 +14141,11 @@ window.farm3d = function (host, C) {
   const all = () => Object.keys(C).filter(k => k !== 'home').forEach(one);
   all(); const mo = new MutationObserver(() => all());
   Object.keys(C).forEach(k => { const p = document.getElementById('panel-' + k); if (p) mo.observe(p, {childList: true}); });
+})();
+(function sideBarAutoHide(){  // 세로 보기 모바일 하단 바: 아래로 스크롤하면 숨기고 위로 올리면 다시 보임(모바일 팁 023)
+  let y0 = window.scrollY, tk = false;
+  window.addEventListener('scroll', () => { if (tk) return; tk = true; requestAnimationFrame(() => { const y = window.scrollY; const r = document.documentElement;
+    if (Math.abs(y - y0) > 8) { r.classList.toggle('vs-scroll-down', y > y0 && y > 120); y0 = y; } tk = false; }); }, {passive: true});
 })();
 (function renderViews(){
   const nav = document.querySelector('nav.tabnav'); if (!nav || typeof activateTab !== 'function') { document.documentElement.classList.remove('vs-boot'); return; }
