@@ -130,7 +130,7 @@ TAB_SOURCES = {
     "leading": [("AI 중점학교 명단", "static_data/ai_schools_2026.json", "captured", "m"), ("AI 중점학교 동향", "static_data/ai_school_updates.json", "checked", "m")],
     "competitor": [("경쟁사 강좌", "history/competitor_course_catalog.json", "captured_date", "w"), ("경쟁사 몰 상품", "history/competitor_mall_catalog.json", "captured_date", "w"),
                    ("경쟁사 계약", "history/competitor_contracts_status.json", "date", "d")],
-    "trend2027": [("교사단체·강사 공급 정리", "static_data/teacher_groups.json", "generated", "m"), ("강사풀", "static_data/pool_people.enc.json", "", "m"),
+    "trend2027": [("교사 커뮤니티 동향", "history/teacher_pulse.json", "generated", "d"), ("교사단체·강사 공급 정리", "static_data/teacher_groups.json", "generated", "m"), ("강사풀", "static_data/pool_people.enc.json", "", "m"),
                   ("교사 관심 검색어", "history/teacher_interest_trends.json", "buzz_date", "w"), ("교사 크리에이터", "history/teacher_creator_trends.json", "youtube.captured_date", "w"),
                   ("교사단체 소식", "history/teacher_group_news.json", "generated", "r"), ("AI 키워드 분석", "history/teacher_trend2027_ai.json", "date", "w")],
     "biz2027": [("기업·대학 동향 정리", "static_data/industry_trend_2027.json", "", "m"), ("협력 후보 소식", "history/partner_news.json", "generated", "w"),

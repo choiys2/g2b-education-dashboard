@@ -346,7 +346,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 계획 섹션 오류가 관리 탭 전체를 막지 않게
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
-    panes = [("home", "🏠 앱 홈"), ("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조"), ("intel", "🧠 전략 인텔리전스"), ("vizm", "📊 시장 지도·재정"), ("salesx", "📈 영업 분석"), ("vizx", "🎨 경영 시각화"), ("qa", "🛡️ 품질 점검"), ("board", "🎭 가상 이사회"), ("usage", "📊 사용 KPI"), ("tseg", "👩‍🏫 교사 세그먼트"), ("member", "👥 회원 분석(매출)"), ("orgw", "🏛️ 교사단체 해석"), ("snsw", "📱 SNS 핵심 계정"), ("bud27", "💰 2027 예산 해석"), ("authors", "📚 교과서 저자"), ("apps", "⭐ 개인 앱스토어")]
+    panes = [("home", "🏠 앱 홈"), ("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조"), ("intel", "🧠 전략 인텔리전스"), ("vizm", "📊 시장 지도·재정"), ("salesx", "📈 영업 분석"), ("vizx", "🎨 경영 시각화"), ("qa", "🛡️ 품질 점검"), ("board", "🎭 가상 이사회"), ("usage", "📊 사용 KPI"), ("tseg", "👩‍🏫 교사 세그먼트"), ("member", "👥 회원 분석(매출)"), ("orgw", "🏛️ 교사단체 해석"), ("snsw", "📱 SNS 핵심 계정"), ("pulse", "📡 커뮤니티 동향"), ("bud27", "💰 2027 예산 해석"), ("authors", "📚 교과서 저자"), ("apps", "⭐ 개인 앱스토어")]
     # 두 단계 메뉴(사용자 결정 2026-11-24: A 업무 흐름형 · 왼쪽 세로 메뉴 · 연계 바로가기) — 묶음(1단) → 칸(2단)
     # 메뉴(사용자 결정 2026-11-24 수정: CP 그룹 보기와 같은 구조) — 위 줄 묶음 카드(1단) → 아래 줄 칸 버튼(2단) + 홈 '메뉴 구조도'
     ADM_GROUPS = [("☀️", "오늘", "#d97706", ["actions", "schedule", "weekly"]),
@@ -354,7 +354,7 @@ def build_html(exec_sources=None):
                   ("🔭", "시장·정책", "#4f8cff", ["intel", "edu", "vizm", "strat", "comp"]),
                   ("🤝", "B2G·B2S 영업", "#10b981", ["sales", "salesx", "branch", "tb3", "authors"]),
                   ("👤", "회원·상품 B2C", "#8b5cf6", ["member", "tseg", "b2c", "cpl", "samall", "mkt"]),
-                  ("🏛️", "교사 생태계", "#ef4444", ["orgw", "snsw"]),
+                  ("🏛️", "교사 생태계", "#ef4444", ["pulse", "orgw", "snsw"]),
                   ("⚙️", "운영", "#64748b", ["aiops", "qa", "usage", "sys", "apps"])]
     lab_of = dict(panes)
     grouped = {k for *_, ks in ADM_GROUPS for k in ks} | {"home"}
@@ -546,6 +546,7 @@ def build_html(exec_sources=None):
             + pane("member", _safe_build("member_view", sec))
             + pane("orgw", _safe_build("teacher_org_view", sec))
             + pane("snsw", _safe_build("sns_watch", sec))
+            + pane("pulse", _safe_build("teacher_pulse_view", sec))
             + pane("bud27", _safe_build("budget_view", sec))
             + pane("authors", _safe_build("textbook_authors", sec))
             + pane("apps", store_html)

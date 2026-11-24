@@ -827,6 +827,21 @@ html.np-lock{overflow:hidden;}
  .tvz-go,.cpx-tb,.vreset,.v3dbtn{min-height:36px;}
  html.vs-side.vs-scroll-down .vside{transform:translateY(100%);}
  .vside{transition:transform var(--dur-2) var(--ease-out);}}
+.tp-top{border-left:4px solid #6366f1;}
+.tp-hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}.tp-sub{font-size:12px;color:var(--muted);}
+.tp-msg{margin:6px 0 12px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,#6366f1 9%,var(--surface));}
+.tp-msg>b{display:block;font-size:16px;line-height:1.45;margin-bottom:6px;text-wrap:balance;}.tp-msg ol{margin:0;padding-left:20px;font-size:13.5px;line-height:1.65;}
+.tp-g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:16px;}.tp-g h5{margin:0 0 8px;font-size:13px;}
+.tp-bar{display:grid;grid-template-columns:minmax(90px,38%) 1fr 32px;align-items:center;gap:8px;font-size:12.5px;margin:4px 0;}.tp-bar em{font-style:normal;font-size:10px;font-weight:800;color:#dc2626;}
+.tp-bar i{display:block;height:10px;border-radius:5px;background:var(--surface-2);overflow:hidden;}.tp-bar i b{display:block;height:100%;border-radius:5px;}.tp-bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;}
+.tp-w{font-size:12px;color:var(--ink-2);margin:10px 0 0;line-height:1.6;}.tp-note{font-size:11.5px;color:var(--muted);margin:8px 0 0;}
+.tp-orgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:8px;}
+.tp-org{border:1px solid var(--border,#e5e7eb);border-radius:10px;padding:8px 10px;font-size:12.5px;min-width:0;}
+.tp-on{display:flex;justify-content:space-between;gap:6px;}.tp-on span{color:var(--muted);font-size:11.5px;white-space:nowrap;}
+.tp-one{margin:4px 0;line-height:1.5;}.tp-mute{color:var(--muted);}.tp-tags{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0;}
+.tp-tags span{font-size:11px;padding:1px 7px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);}
+.tp-org ul{margin:4px 0 0;padding-left:16px;}.tp-org li{line-height:1.45;margin:2px 0;overflow-wrap:anywhere;}.tp-org li small{color:var(--muted);}
+@media (max-width:760px){.tp-g{grid-template-columns:minmax(0,1fr);}}
 .adm-2d{display:block;}
 .adm-cp{margin:0 0 12px;}
 .adm-grow{display:grid;grid-template-columns:repeat(auto-fit,minmax(136px,1fr));gap:8px;}
@@ -6325,7 +6340,7 @@ function openOwner(O, adminBody){
 window.ADM_LINKS = [
   ['같은 고객(B2C)', ['member', 'tseg', 'b2c', 'cpl', 'samall']],
   ['B2G 흐름', ['bud27', 'edu', 'vizm', 'salesx', 'sales']],
-  ['사람 네트워크', ['orgw', 'snsw', 'authors', 'tseg']],
+  ['사람 네트워크', ['pulse', 'orgw', 'snsw', 'authors', 'tseg']],
   ['경쟁 대응', ['comp', 'intel', 'strat', 'decide']],
   ['경영 보고', ['exec', 'weekly', 'plan', 'board', 'actions']],
   ['교과서·총판', ['tb3', 'branch', 'authors', 'samall']]];
@@ -13470,7 +13485,7 @@ window.farm3d = function (host, C) {
     const box = document.createElement('section'); box.className = 'tvz'; box.dataset.kind = fs.length ? 'fig' : 'table';
     box.innerHTML = `<div class="tvz-head"><b>📊 한눈에 보기</b><span>${esc(title)}</span><button type="button" class="tvz-go">자세히 ↓</button></div><div class="tvz-fig">${html}</div>`;
     box.querySelector('.tvz-go').addEventListener('click', () => target && target.scrollIntoView({behavior: 'smooth', block: 'center'}));
-    const anchor = root.querySelector(':scope > .gd-field'); if (anchor) anchor.after(box); else root.prepend(box);
+    const anchor = root.querySelector(':scope > .tp-top') || root.querySelector(':scope > .gd-field'); if (anchor) anchor.after(box); else root.prepend(box);
     if (window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run());
   }
   const roots = () => { const out = []; const a = document.querySelector('.tabpanel.active'); if (!a) return out;
@@ -13672,7 +13687,7 @@ window.farm3d = function (host, C) {
   function render(k){
     const p = document.getElementById('panel-' + k); if (!p) return;
     let box = p.querySelector(':scope > .cpx-box');
-    if (!box) { box = document.createElement('details'); box.className = 'cpv-box cpx-box'; box.open = true; const f = p.querySelector(':scope > .gd-field, :scope > .cpv-box'); if (f) f.after(box); else p.prepend(box); }
+    if (!box) { box = document.createElement('details'); box.className = 'cpv-box cpx-box'; box.open = true; const f = p.querySelector(':scope > .tp-top') || p.querySelector(':scope > .gd-field, :scope > .cpv-box'); if (f) f.after(box); else p.prepend(box); }
     const cs = PANES[k].map(fn => { try { return fn(); } catch (e) { console.warn('cpx', fn.name, e); return null; } }).filter(Boolean);
     box.innerHTML = `<summary>📊 연동 보기 · ${esc(where())}</summary>${bar()}<div class="cpv-grid">${cs.map((c, i) => card(c, k + i)).join('') || '<p class="cpv-note">데이터 준비 중</p>'}</div>`;
     countUp(box); if (window.v3d && window.v3d.run) setTimeout(window.v3d.run, 60);
@@ -13919,6 +13934,30 @@ window.farm3d = function (host, C) {
   P.insertAdjacentHTML('beforeend', out.join(''));
   P.querySelector('.ow-chips').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; P.querySelectorAll('.ow-chips button').forEach(x => x.classList.toggle('on', x === b));
     P.querySelectorAll('.ow-card').forEach(c => c.style.display = b.dataset.f === 'all' || c.dataset.c === b.dataset.f ? '' : 'none'); });
+})();
+
+(function teacherPulse(){  // 📡 오늘의 교사 커뮤니티 핵심 — 교사 트렌드 2027 최상단(사용자 요청 2026-11-24, 매일 갱신)
+  const D = __PULSE_JSON__, P = document.getElementById('panel-trend2027'); if (!P) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const box = document.createElement('section'); box.className = 'panel tp-top'; box.id = 'tpTop';
+  const head = sub => `<div class="tp-hd"><p class="panel-title">📡 오늘의 교사 커뮤니티 핵심</p><span class="tp-sub">${sub}</span></div>`;
+  if (!D) box.innerHTML = head('매일 갱신') + '<p class="panel-desc">데이터 준비 중</p>';
+  else {
+    const M = D.msg || {}, TC = ['#6366f1', '#10b981', '#f59e0b', '#ec4899', '#0ea5e9', '#a855f7', '#ef4444', '#14b8a6', '#64748b', '#84cc16'];
+    const tps = (D.tp || []).slice(0, 6), mx = Math.max(1, ...tps.map(t => t.n));
+    const org = o => `<div class="tp-org"><div class="tp-on"><b>${h(o.name)}</b><span>7일 ${o.n}건</span></div>${o.one ? `<p class="tp-one">${h(o.one)}</p>` : ''}`
+      + `${o.tp.length ? `<div class="tp-tags">${o.tp.map(([k, n]) => `<span>${h(k)} ${n}</span>`).join('')}</div>` : (o.n ? '' : '<p class="tp-one tp-mute">이번 주 공개 활동 적음</p>')}`
+      + `${o.links.length ? `<ul>${o.links.map(l => `<li><small>${h(l.k)} ${h((l.d || '').slice(5))}</small> <a href="${h(l.u)}" target="_blank" rel="noopener noreferrer">${h(l.t)}</a></li>`).join('')}</ul>` : ''}</div>`;
+    box.innerHTML = head(`기준 ${h(D.date)} · 최근 7일 ${D.n}건 · 매일 갱신${M.by === 'ai' ? ' · AI 초안' : ''}`)
+      + `<div class="tp-msg"><b>${h(M.head)}</b><ol>${(M.lines || []).map(l => `<li>${h(l)}</li>`).join('')}</ol></div>`
+      + `<div class="tp-g"><div><h5>🔥 주제 흐름 (최근 7일)</h5>${tps.length ? tps.map((t, i) => `<div class="tp-bar"><span>${h(t.k)}${t.new ? ' <em>NEW</em>' : ''}</span><i><b style="width:${(t.n / mx * 100).toFixed(0)}%;background:${TC[i % TC.length]}"></b></i><span>${t.n}</span></div>`).join('') : '<p class="tp-one tp-mute">데이터 준비 중</p>'}`
+      + `${(D.w || []).length ? `<p class="tp-w">자주 보인 말 · ${D.w.map(h).join(' · ')}</p>` : ''}${D.base < 21 ? '<p class="tp-note">평소 대비 급상승 판정은 기록이 3주 이상 쌓이면 정확해집니다.</p>' : ''}</div>`
+      + `<div><h5>🏛️ 단체별 이번 주</h5><div class="tp-orgs">${(D.orgs || []).map(org).join('')}</div></div></div>`
+      + '<p class="tp-note">인물 이름은 직함으로만 표기합니다(○○○). 공개된 기사·글·영상 제목을 주제별로 묶은 것으로, 비공개 커뮤니티·개인 계정 활동은 포함하지 않습니다.</p>';
+  }
+  // 맨 위(텃밭 장면 바로 아래)에 둔다 — 한눈에 보기 등 다른 박스는 이 박스 뒤에 붙는다(.tp-top 기준)
+  const place = () => { const f = P.querySelector(':scope > .gd-field') || P.querySelector(':scope > .tab-asof'), want = f ? f.nextElementSibling : P.firstElementChild; if (want !== box) { if (f) f.after(box); else P.prepend(box); } };
+  place();
 })();
 
 (function memberView(){  // 👥 연수원 회원분석(CP: 회원 수·수강 건수·비중만, 매출 제외). 사용자 요청 2026-11-22
@@ -14186,7 +14225,7 @@ window.farm3d = function (host, C) {
   const one = k => { const p = document.getElementById('panel-' + k); if (!p || !Array.isArray(C[k]) || !C[k].length || p.querySelector(':scope > .cpv-box')) return;
     const b = document.createElement('details'); b.className = 'cpv-box'; b.open = true;
     b.innerHTML = `<summary>📊 한눈에 보기 · ${C[k].length}</summary><div class="cpv-grid">${C[k].join('')}</div>`;
-    const f = p.querySelector(':scope > .gd-field'); if (f) f.after(b); else p.prepend(b); };
+    const f = p.querySelector(':scope > .tp-top') || p.querySelector(':scope > .gd-field'); if (f) f.after(b); else p.prepend(b); };
   const all = () => Object.keys(C).filter(k => k !== 'home').forEach(one);
   all(); const mo = new MutationObserver(() => all());
   Object.keys(C).forEach(k => { const p = document.getElementById('panel-' + k); if (p) mo.observe(p, {childList: true}); });
