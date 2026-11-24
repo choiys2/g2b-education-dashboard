@@ -347,9 +347,25 @@ def build_html(exec_sources=None):
         print(f"[경고] 2027 경영계획 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
         plan_html = ""
     panes = [("home", "🏠 앱 홈"), ("exec", "경영 종합"), ("decide", "결정 보드"), ("weekly", "주간보고"), ("schedule", "내 일정"), ("actions", "이번 주 할 일"), ("comp", "경쟁사 변화"), ("edu", "교육청 인사이트"), ("strat", "27 전략실"), ("samall", "샘몰 SET 후보"), ("b2c", "B2C 매출 전략"), ("branch", "총판 성적표"), ("tb3", "3년차 교과서"), ("sales", "영업 도구"), ("mkt", "마케팅 보드"), ("aiops", "AI 업무 도구"), ("cpl", "콘텐츠 손익"), ("plan", "2027 경영계획"), ("sys", "시스템 구조"), ("intel", "🧠 전략 인텔리전스"), ("vizm", "📊 시장 지도·재정"), ("salesx", "📈 영업 분석"), ("vizx", "🎨 경영 시각화"), ("qa", "🛡️ 품질 점검"), ("board", "🎭 가상 이사회"), ("usage", "📊 사용 KPI"), ("tseg", "👩‍🏫 교사 세그먼트"), ("member", "👥 회원 분석(매출)"), ("orgw", "🏛️ 교사단체 해석"), ("snsw", "📱 SNS 핵심 계정"), ("bud27", "💰 2027 예산 해석"), ("authors", "📚 교과서 저자"), ("apps", "⭐ 개인 앱스토어")]
-    nav = ("<div class='view-toggle adm-tabs' role='tablist' style='margin:0 0 14px;flex-wrap:wrap;'>"
-           + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(i == 0).lower()}' onclick='admPane(\"{k}\")'>{lab}</button>" for i, (k, lab) in enumerate(panes))
-           + "</div>")
+    # 두 단계 메뉴(사용자 결정 2026-11-24: A 업무 흐름형 · 왼쪽 세로 메뉴 · 연계 바로가기) — 묶음(1단) → 칸(2단)
+    ADM_GROUPS = [("🏠", "오늘", ["home", "actions", "schedule", "weekly"]),
+                  ("🧭", "경영 판단", ["exec", "decide", "plan", "bud27", "board", "vizx"]),
+                  ("🔭", "시장·정책", ["intel", "edu", "vizm", "strat", "comp"]),
+                  ("🤝", "B2G·B2S 영업", ["sales", "salesx", "branch", "tb3", "authors"]),
+                  ("👤", "회원·상품 B2C", ["member", "tseg", "b2c", "cpl", "samall", "mkt"]),
+                  ("🏛️", "교사 생태계", ["orgw", "snsw"]),
+                  ("⚙️", "운영", ["aiops", "qa", "usage", "sys", "apps"])]
+    lab_of = dict(panes)
+    grouped = {k for _, _, ks in ADM_GROUPS for k in ks}
+    rest = [k for k, _ in panes if k not in grouped]  # 새 칸이 생기면 '운영'에 자동 포함
+    if rest:
+        ADM_GROUPS[-1] = (ADM_GROUPS[-1][0], ADM_GROUPS[-1][1], ADM_GROUPS[-1][2] + rest)
+    nav = ("<nav class='adm-side adm-tabs' aria-label='관리 메뉴'>"
+           + "".join(f"<div class='adm-g' data-g='{gi}'><button type='button' class='adm-gh' aria-expanded='true' onclick='admGroup(this)'>{ic} {gn}<small>{len(ks)}</small></button>"
+                     + "".join(f"<button type='button' data-pane='{k}' aria-pressed='{str(k == 'home').lower()}' onclick='admPane(\"{k}\")'>{lab_of.get(k, k)}</button>" for k in ks if k in lab_of)
+                     + "</div>" for gi, (ic, gn, ks) in enumerate(ADM_GROUPS))
+           + "</nav>")
+    links_bar = "<div class='adm-links' id='admLinks' hidden></div>"
     try:
         mg = __import__("mgmt_owner")
         M = mg.load()
@@ -484,7 +500,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 앱 홈 오류가 관리 탭 전체를 막지 않게(탭 줄은 그대로)
         print(f"[경고] 앱 홈 실패: {type(e).__name__}: {str(e)[:120]}")
         home_html = store_html = ""
-    return (css + '<div class="adm">' + nav
+    return (css + '<div class="adm adm-2d">' + nav + '<div class="adm-main">' + links_bar
             + pane("home", home_html, True)
             + pane("exec", tp_html + blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>')
             + pane("decide", blocks["decide"] + cand_html + ob_hand)
@@ -518,7 +534,7 @@ def build_html(exec_sources=None):
             + pane("bud27", _safe_build("budget_view", sec))
             + pane("authors", _safe_build("textbook_authors", sec))
             + pane("apps", store_html)
-            + "</div>")
+            + "</div></div>")
 
 
 def encrypted_blob(exec_sources=None):

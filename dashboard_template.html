@@ -827,6 +827,23 @@ html.np-lock{overflow:hidden;}
  .tvz-go,.cpx-tb,.vreset,.v3dbtn{min-height:36px;}
  html.vs-side.vs-scroll-down .vside{transform:translateY(100%);}
  .vside{transition:transform var(--dur-2) var(--ease-out);}}
+.adm-2d{display:grid;grid-template-columns:210px minmax(0,1fr);gap:16px;align-items:start;}
+.adm-side{position:sticky;top:10px;max-height:calc(100vh - 20px);overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:8px;border:1px solid var(--border,#e5e7eb);border-radius:14px;background:var(--surface);scrollbar-width:thin;}
+.adm-g{display:flex;flex-direction:column;gap:1px;}.adm-g + .adm-g{border-top:1px solid var(--border,#e5e7eb);padding-top:6px;}
+.adm-side button{all:unset;box-sizing:border-box;cursor:pointer;width:100%;padding:6px 10px;border-radius:8px;font-size:12.5px;color:var(--ink-2);line-height:1.35;}
+.adm-side button:hover{background:var(--surface-2);color:var(--ink);}.adm-side button:focus-visible{outline:2px solid var(--accent,#4f8cff);outline-offset:-2px;}
+.adm-side .adm-gh{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:12.5px;color:var(--ink);}.adm-side .adm-gh small{font-weight:700;color:var(--muted);font-size:11px;}
+.adm-side .adm-gh::after{content:'▾';font-size:10px;color:var(--muted);margin-left:4px;}.adm-g.fold .adm-gh::after{content:'▸';}
+.adm-side button[data-pane]{padding-left:22px;}.adm-g.fold button[data-pane]{display:none;}
+.adm-side button[aria-pressed="true"]{background:color-mix(in srgb,var(--accent,#4f8cff) 14%,transparent);color:var(--ink);font-weight:800;box-shadow:inset 3px 0 0 var(--accent,#4f8cff);}
+.adm-links{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 12px;padding:8px 10px;border:1px dashed var(--border,#d1d5db);border-radius:12px;font-size:12px;}
+.adm-links button{all:unset;cursor:pointer;padding:3px 10px;border-radius:999px;border:1px solid var(--border,#d1d5db);background:var(--surface);color:var(--ink-2);font-weight:700;}.adm-links button:hover{border-color:var(--accent,#4f8cff);color:var(--ink);}
+.adm-lk-h{font-weight:800;color:var(--muted);}.adm-lk-sep{width:1px;height:16px;background:var(--border,#d1d5db);margin:0 4px;}
+@media (max-width:900px){.adm-2d{grid-template-columns:minmax(0,1fr);}
+ .adm-side{position:static;max-height:none;flex-direction:row;overflow-x:auto;gap:4px;padding:6px;}
+ .adm-g{flex-direction:row;flex:none;align-items:center;gap:2px;}.adm-g + .adm-g{border-top:0;border-left:1px solid var(--border,#e5e7eb);padding:0 0 0 6px;}
+ .adm-side button{width:auto;white-space:nowrap;min-height:36px;}.adm-side button[data-pane]{padding-left:10px;}
+ .adm-g:not(:has([aria-pressed="true"])) button[data-pane]{display:none;}.adm-g.fold button[data-pane]{display:none;}.adm-side .adm-gh::after{display:none;}}
 </style>
 
 <div class="wrap">
@@ -6296,10 +6313,28 @@ function openOwner(O, adminBody){
   if (host && O.comp) renderCompWatch(host, O.comp);
 }
 // 관리 탭 안의 분야별 칸(경영 종합 · 이번 주 할 일 · 경쟁사 변화 · 2027 경영계획 · 시스템 구조)
+// 연계 바로가기: 같은 대상을 다른 각도로 보는 칸(사용자 결정 2026-11-24)
+window.ADM_LINKS = [
+  ['같은 고객(B2C)', ['member', 'tseg', 'b2c', 'cpl', 'samall']],
+  ['B2G 흐름', ['bud27', 'edu', 'vizm', 'salesx', 'sales']],
+  ['사람 네트워크', ['orgw', 'snsw', 'authors', 'tseg']],
+  ['경쟁 대응', ['comp', 'intel', 'strat', 'decide']],
+  ['경영 보고', ['exec', 'weekly', 'plan', 'board', 'actions']],
+  ['교과서·총판', ['tb3', 'branch', 'authors', 'samall']]];
+window.admGroup = function(btn){  // 묶음 머리: 넓은 화면은 접기/펴기, 좁은 화면은 그 묶음 첫 칸 열기
+  const g = btn.parentNode, first = g.querySelector('button[data-pane]');
+  if (window.matchMedia('(max-width:900px)').matches) { if (first) window.admPane(first.dataset.pane); return; }
+  g.classList.toggle('fold'); btn.setAttribute('aria-expanded', String(!g.classList.contains('fold'))); };
 window.admPane = function(k){
   try { if (window.__phTab) window.__phTab('adm:' + k); } catch (e) {}  // 관리 칸 열람도 사용 KPI 에 포함(칸 이름만)
   document.querySelectorAll('#adminBody .adm-pane').forEach(p => p.hidden = p.dataset.pane !== k);
-  document.querySelectorAll('#adminBody .adm-tabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.pane === k));
+  document.querySelectorAll('#adminBody .adm-tabs button[data-pane]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pane === k));
+  const cur = document.querySelector(`#adminBody .adm-tabs button[data-pane="${k}"]`); if (cur) { const g = cur.closest('.adm-g'); if (g) g.classList.remove('fold'); }
+  const bar = document.getElementById('admLinks');
+  if (bar) { const lab = x => { const b = document.querySelector(`#adminBody .adm-tabs button[data-pane="${x}"]`); return b ? b.textContent.trim() : null; };
+    const rows = (window.ADM_LINKS || []).filter(r => r[1].includes(k)).map(r => `<span class="adm-lk-h">🔗 ${r[0]}</span>` + r[1].filter(x => x !== k && lab(x)).map(x => `<button type="button" onclick="admPane('${x}')">${lab(x).replace(/[<>&"]/g, '')}</button>`).join(''));
+    bar.innerHTML = rows.join('<i class="adm-lk-sep"></i>'); bar.hidden = !rows.length; }
+  try { localStorage.setItem('admPane.last', k); } catch (e) { /* 저장 불가 */ }
   const tabs = document.querySelector('#adminBody .adm-tabs');
   if (tabs && tabs.getBoundingClientRect().top < 0) tabs.scrollIntoView({block: 'start'});
   setTimeout(() => window.dispatchEvent(new Event('resize')), 30);  // 숨김에서 나온 차트 크기 다시 맞춤
