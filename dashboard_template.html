@@ -11091,6 +11091,13 @@ header.top .gd-hero .gd-mill,header.top .gd-hero .gd-orb{cursor:pointer;}
 @keyframes fmLantern{0%,100%{box-shadow:0 0 18px rgba(255,209,102,.35),0 10px 24px -12px #000;}50%{box-shadow:0 0 30px rgba(255,209,102,.6),0 10px 24px -12px #000;}}
 @media (prefers-reduced-motion:reduce){.fm-night{animation:none;}}
 @media (max-width:760px){.fm-night{position:static;max-width:none;margin:6px;}}
+.fm-bgm{position:absolute;left:12px;bottom:12px;display:flex;align-items:center;gap:4px;background:#fffaf0;border:2px solid #e8d5b0;border-radius:12px;padding:4px 6px;color:#5b3a1e;font-size:12px;font-weight:800;max-width:calc(100% - 210px);}
+.fm-bgm>button{all:unset;cursor:pointer;width:28px;height:28px;text-align:center;line-height:28px;border-radius:8px;background:#fff1d6;font-size:15px;}.fm-bgm>button[aria-pressed="true"]{background:#c5e1a5;}
+.fm-bgm-nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;padding:0 4px;}
+.fm-bgm-pop{position:absolute;left:0;bottom:calc(100% + 8px);width:min(300px,82vw);background:#fffaf0;border:2px solid #e8d5b0;border-radius:12px;padding:8px;box-shadow:0 6px 18px rgba(91,58,30,.18);z-index:5;}
+.fm-bgm-pop button{all:unset;box-sizing:border-box;cursor:pointer;padding:6px 8px;border-radius:8px;background:#fff1d6;font-size:12px;font-weight:700;color:#5b3a1e;text-align:center;}.fm-bgm-pop button.on{background:#7cb342;color:#fff;}
+.fm-bgm-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;}.fm-bgm-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.fm-bgm-vol{display:flex;align-items:center;gap:6px;margin:8px 0 2px;font-size:11.5px;}.fm-bgm-vol input{flex:1;accent-color:#7cb342;}.fm-bgm-pop small{display:block;color:#8d6e63;font-size:10.5px;font-weight:600;}
 .fm-zoom{position:absolute;right:12px;bottom:12px;display:flex;align-items:center;gap:4px;background:#fffaf0;border:2px solid #e8d5b0;border-radius:12px;padding:4px;}
 .fm-zoom button{all:unset;cursor:pointer;width:28px;height:28px;text-align:center;line-height:28px;border-radius:8px;font-weight:900;font-size:15px;color:#5b3a1e;background:#fff1d6;}
 .fm-zoom span{min-width:40px;text-align:center;font-size:11.5px;font-weight:900;color:#7cb342;}
@@ -11991,6 +11998,72 @@ window.renderBranchScore = function(tab){
    탭 화면은 하나 - 바뀌는 건 '목차'뿐(activateTab 그대로 사용). 선택은 이 브라우저에만 기억, '초기화'로 기본으로 */
 /* CP 앱 홈 '🌱 비바샘 텃밭 마을'(아이소메트릭 게임풍). farm3d(host, C)
    C = {groups:[[이름,색,[탭]]], name(t), go(t), fresh(t)→{state,at}|null, icon:{탭:이모지}, agents:[[이모지,이름,탭]], wx:{cond,icon,tmax,tmin}|null, hour?} */
+/* 🎵 텃밭 배경음(사용자 요청 2026-11-24) — 외부 음원 없이 브라우저에서 즉석 합성(Web Audio). 기본은 꺼짐, 누를 때만 소리.
+   스타일 10종 + 🎲 랜덤 + 🌦️ 날씨 맞춤. 텃밭 보기(gd-skin)를 벗어나거나 창을 숨기면 자동으로 멈춘다. 선택은 이 브라우저에만 기억. */
+window.fmBgm = (function () {
+  const KEY = 'farmBgm.v1';
+  const ST = [
+    {id: 'dawn', n: '🌅 아침 들판', root: 261.63, sc: [0, 2, 4, 7, 9], bpm: 76, v: 'pluck', d: .45, pad: [[0, 4, 7], [5, 9, 12], [7, 11, 14], [0, 4, 7]], nz: null, birds: .5},
+    {id: 'sun', n: '☀️ 햇살 산책', root: 196, sc: [0, 2, 4, 7, 9], bpm: 100, v: 'marimba', d: .6, pad: [[0, 4, 7], [7, 11, 14], [9, 12, 16], [5, 9, 12]], nz: null, birds: .25},
+    {id: 'rain', n: '🌧️ 비 오는 오후', root: 220, sc: [0, 3, 5, 7, 10], bpm: 64, v: 'bell', d: .3, pad: [[0, 3, 7], [5, 8, 12], [3, 7, 10], [7, 10, 14]], nz: ['rain', .22]},
+    {id: 'storm', n: '⛈️ 소나기', root: 174.61, sc: [0, 3, 5, 7, 10], bpm: 58, v: 'pad', d: .18, pad: [[0, 3, 7], [8, 12, 15], [5, 8, 12], [7, 10, 14]], nz: ['rain', .4], thunder: .06},
+    {id: 'snow', n: '❄️ 눈 내리는 밤', root: 329.63, sc: [0, 2, 4, 7, 9, 12], bpm: 56, v: 'bell', d: .32, pad: [[0, 4, 7], [9, 12, 16], [5, 9, 12], [7, 11, 14]], nz: ['wind', .05]},
+    {id: 'wind', n: '🍃 바람 부는 언덕', root: 146.83, sc: [0, 2, 3, 5, 7, 9, 10], bpm: 70, v: 'pluck', d: .35, pad: [[0, 3, 7], [5, 9, 12], [3, 7, 10], [0, 3, 7]], nz: ['wind', .16]},
+    {id: 'dusk', n: '🌇 노을 기타', root: 174.61, sc: [0, 2, 4, 7, 9], bpm: 68, v: 'pluck', d: .5, pad: [[0, 4, 7], [9, 12, 16], [5, 9, 12], [7, 11, 14]], nz: null, birds: .1},
+    {id: 'star', n: '🌙 별밤 자장가', root: 523.25, sc: [0, 2, 4, 7, 9, 12], bpm: 60, v: 'box', d: .55, pad: [[0, 4, 7], [5, 9, 12], [0, 4, 7], [7, 11, 14]], nz: ['brown', .04], crickets: .4},
+    {id: 'fest', n: '🎉 수확 축제', root: 220, sc: [0, 2, 4, 7, 9, 12], bpm: 120, v: 'marimba', d: .75, pad: [[0, 4, 7], [5, 9, 12], [7, 11, 14], [0, 4, 7]], nz: null, birds: .15},
+    {id: 'focus', n: '🎧 집중 lo-fi', root: 130.81, sc: [0, 3, 5, 7, 10], bpm: 72, v: 'pad', d: .22, pad: [[0, 3, 7, 10], [5, 8, 12, 15], [3, 7, 10, 14], [7, 10, 14, 17]], nz: ['brown', .07]}];
+  const load = () => { try { return Object.assign({on: false, pick: 'weather', vol: .5}, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { return {on: false, pick: 'weather', vol: .5}; } };
+  const S = load(); const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* 저장 불가 */ } };
+  let ac = null, out = null, nzSrc = null, timer = null, cur = null, step = 0, nextT = 0, ctx = {cond: '', night: false, dusk: false}, randomPick = null;
+  const hz = (st, semi) => st.root * Math.pow(2, semi / 12);
+  const weatherId = c => { const t = c.cond || ''; if (/소나기|뇌우|천둥/.test(t)) return 'storm'; if (/비/.test(t)) return 'rain'; if (/눈/.test(t)) return 'snow';
+    if (c.night) return 'star'; if (c.dusk) return 'dusk'; if (/흐림|구름많|바람/.test(t)) return 'wind'; const h = new Date(Date.now() + 9 * 36e5).getUTCHours(); return h < 10 ? 'dawn' : 'sun'; };
+  const resolve = () => S.pick === 'weather' ? weatherId(ctx) : S.pick === 'random' ? (randomPick || (randomPick = ST[Math.floor(Math.random() * ST.length)].id)) : S.pick;
+  const note = (f, t, dur, kind, g) => { const o = ac.createOscillator(), e = ac.createGain(), o2 = kind === 'pad' || kind === 'box' ? ac.createOscillator() : null;
+    o.type = {pluck: 'triangle', marimba: 'sine', bell: 'sine', pad: 'sawtooth', box: 'sine'}[kind]; o.frequency.value = f;
+    const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = kind === 'pad' ? 900 : 3200;
+    const a = kind === 'pad' ? .6 : .006, peak = g * (kind === 'pad' ? .5 : 1);
+    e.gain.setValueAtTime(0, t); e.gain.linearRampToValueAtTime(peak, t + a); e.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(lp); if (o2) { o2.type = 'sine'; o2.frequency.value = f * (kind === 'box' ? 4 : 1.005); o2.connect(lp); o2.start(t); o2.stop(t + dur + .05); }
+    lp.connect(e); e.connect(out); o.start(t); o.stop(t + dur + .05); };
+  const chirp = (t, base, n) => { for (let i = 0; i < n; i++) { const o = ac.createOscillator(), e = ac.createGain(), s = t + i * .09; o.type = 'sine';
+    o.frequency.setValueAtTime(base, s); o.frequency.exponentialRampToValueAtTime(base * 1.6, s + .06); e.gain.setValueAtTime(0, s); e.gain.linearRampToValueAtTime(.05, s + .01); e.gain.exponentialRampToValueAtTime(.0001, s + .08);
+    o.connect(e); e.connect(out); o.start(s); o.stop(s + .1); } };
+  const thunder = t => { const b = ac.createBuffer(1, ac.sampleRate * 2.5, ac.sampleRate), d = b.getChannelData(0); let l = 0; for (let i = 0; i < d.length; i++) { l = (l + .02 * (Math.random() * 2 - 1)) / 1.02; d[i] = l * 6 * Math.exp(-i / (ac.sampleRate * .8)); }
+    const s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); f.type = 'lowpass'; f.frequency.value = 180; g.gain.value = .9; s.buffer = b; s.connect(f); f.connect(g); g.connect(out); s.start(t); };
+  const noiseBed = st => { if (nzSrc) { try { nzSrc.stop(); } catch (e) { /* 이미 멈춤 */ } nzSrc = null; } if (!st.nz) return;
+    const [kind, lv] = st.nz, len = ac.sampleRate * 3, b = ac.createBuffer(1, len, ac.sampleRate), d = b.getChannelData(0); let l = 0;
+    for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; l = kind === 'brown' || kind === 'wind' ? (l + .02 * w) / 1.02 : w; d[i] = kind === 'brown' || kind === 'wind' ? l * 3.5 : w; }
+    const s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); s.buffer = b; s.loop = true;
+    f.type = kind === 'rain' ? 'highpass' : 'lowpass'; f.frequency.value = kind === 'rain' ? 1800 : kind === 'wind' ? 500 : 300; g.gain.value = lv;
+    if (kind === 'wind') { const lfo = ac.createOscillator(), lg = ac.createGain(); lfo.frequency.value = .09; lg.gain.value = lv * .7; lfo.connect(lg); lg.connect(g.gain); lfo.start(); }
+    s.connect(f); f.connect(g); g.connect(out); s.start(); nzSrc = s; };
+  const tick = () => { if (!ac || !cur) return;
+    const live = document.documentElement.classList.contains('gd-skin') && !document.hidden;
+    if (!live) { if (ac.state === 'running') ac.suspend(); return; } if (ac.state === 'suspended') { ac.resume(); nextT = ac.currentTime + .1; }
+    const sp = 60 / cur.bpm / 2;  // 8분음표
+    while (nextT < ac.currentTime + .4) { const bar = Math.floor(step / 8) % cur.pad.length, beat = step % 8;
+      if (beat === 0) cur.pad[bar].forEach(s => note(hz(cur, s - 12), nextT, sp * 8.4, 'pad', .05));
+      if (Math.random() < cur.d) { const s = cur.sc[Math.floor(Math.random() * cur.sc.length)] + (Math.random() < .3 ? 12 : 0); note(hz(cur, s), nextT, cur.v === 'bell' || cur.v === 'box' ? 2.2 : .9, cur.v, cur.v === 'pad' ? .06 : .09); }
+      if (cur.birds && beat === 4 && Math.random() < cur.birds * .5) chirp(nextT, 2200 + Math.random() * 1400, 2 + Math.floor(Math.random() * 3));
+      if (cur.crickets && beat % 2 === 0 && Math.random() < cur.crickets * .4) chirp(nextT, 4200, 3);
+      if (cur.thunder && beat === 0 && Math.random() < cur.thunder) thunder(nextT);
+      nextT += sp; step++; } };
+  function start() { if (!ac) { const A = window.AudioContext || window.webkitAudioContext; if (!A) return false; ac = new A(); out = ac.createGain(); const comp = ac.createDynamicsCompressor(); out.connect(comp); comp.connect(ac.destination); }
+    out.gain.value = .25 * S.vol; cur = ST.find(x => x.id === resolve()) || ST[0]; step = 0; nextT = ac.currentTime + .15; noiseBed(cur); if (ac.state === 'suspended') ac.resume();
+    if (!timer) timer = setInterval(tick, 150); return true; }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } if (nzSrc) { try { nzSrc.stop(); } catch (e) { /* 이미 멈춤 */ } nzSrc = null; } if (ac) ac.suspend(); cur = null; }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && S.on && cur) tick(); });
+  return {
+    styles: ST, state: S, current: () => cur, weatherId: () => weatherId(ctx),
+    setContext(c) { ctx = Object.assign(ctx, c || {}); if (S.on && S.pick === 'weather' && cur && cur.id !== weatherId(ctx)) start(); },
+    toggle() { S.on = !S.on; save(); if (S.on) start(); else stop(); return S.on; },
+    pick(id) { S.pick = id; if (id === 'random') randomPick = null; save(); if (S.on) start(); },
+    shuffle() { randomPick = null; if (S.pick !== 'random') S.pick = 'random'; save(); if (S.on) start(); },
+    volume(v) { S.vol = Math.max(0, Math.min(1, +v)); save(); if (out) out.gain.value = .25 * S.vol; },
+    stop };
+})();
 window.farm3d = function (host, C) {
   const NS = 'http://www.w3.org/2000/svg';
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -12294,6 +12367,23 @@ window.farm3d = function (host, C) {
   pick.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) C.go(g.dataset.go); else if (e.target.closest('[data-x]')) choose(null); });
   let zk = 1; const B0 = host.clientWidth && host.clientWidth < 760 ? [150, 150, 1100, 600] : [0, 0, VW, VH];
   const zoomTo = k => { zk = Math.max(1, Math.min(2.6, k)); const w = B0[2] / zk, hh = B0[3] / zk; svg.setAttribute('viewBox', `${(B0[0] + (B0[2] - w) / 2).toFixed(1)} ${(B0[1] + (B0[3] - hh) / 2).toFixed(1)} ${w.toFixed(1)} ${hh.toFixed(1)}`); zl.textContent = Math.round(zk * 100) + '%'; };
+  if (window.fmBgm) {  // 🎵 배경음 조절(텃밭 전용) — 기본 꺼짐, 누를 때만 소리
+    const M = window.fmBgm, S0 = M.state; M.setContext({cond, night, dusk});
+    const nm = () => { const c = M.current(); const id = S0.pick === 'weather' ? M.weatherId() : S0.pick; const st = M.styles.find(x => x.id === (c ? c.id : id)); return st ? st.n : ''; };
+    const bg = ov('fm-bgm', `<button type="button" class="fm-bgm-on" aria-pressed="${S0.on}" title="배경음 켜기/끄기">${S0.on ? '🔊' : '🔇'}</button><span class="fm-bgm-nm"></span><button type="button" class="fm-bgm-more" aria-expanded="false" title="스타일 고르기">🎵</button>
+      <div class="fm-bgm-pop" hidden><div class="fm-bgm-row"><button type="button" data-bp="weather">🌦️ 날씨 맞춤</button><button type="button" data-bp="random">🎲 랜덤</button></div>
+      <div class="fm-bgm-grid">${M.styles.map(s => `<button type="button" data-bp="${s.id}">${h(s.n)}</button>`).join('')}</div>
+      <label class="fm-bgm-vol">음량 <input type="range" min="0" max="1" step="0.05" value="${S0.vol}" aria-label="배경음 음량"></label><small>외부 음원 없이 즉석 합성 · 텃밭 보기에서만 재생</small></div>`);
+    const sync = () => { bg.querySelector('.fm-bgm-on').textContent = S0.on ? '🔊' : '🔇'; bg.querySelector('.fm-bgm-on').setAttribute('aria-pressed', String(S0.on));
+      bg.querySelector('.fm-bgm-nm').textContent = (S0.pick === 'weather' ? '🌦️ ' : S0.pick === 'random' ? '🎲 ' : '') + nm().replace(/^\S+\s/, '');
+      bg.querySelectorAll('[data-bp]').forEach(b => b.classList.toggle('on', b.dataset.bp === S0.pick)); };
+    bg.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+      if (b.classList.contains('fm-bgm-on')) M.toggle();
+      else if (b.classList.contains('fm-bgm-more')) { const p = bg.querySelector('.fm-bgm-pop'); p.hidden = !p.hidden; b.setAttribute('aria-expanded', String(!p.hidden)); }
+      else if (b.dataset.bp) { if (b.dataset.bp === 'random' && S0.pick === 'random') M.shuffle(); else M.pick(b.dataset.bp); if (!S0.on) M.toggle(); }
+      sync(); });
+    bg.querySelector('input[type=range]').addEventListener('input', e => M.volume(e.target.value)); sync();
+  }
   const zb = ov('fm-zoom', '<button type="button" data-z="1" aria-label="확대">＋</button><span>100%</span><button type="button" data-z="-1" aria-label="축소">－</button><button type="button" data-z="0" aria-label="원래 크기">⟲</button>'), zl = zb.querySelector('span');
   zb.addEventListener('click', e => { const b = e.target.closest('[data-z]'); if (!b) return; const d = +b.dataset.z; zoomTo(d ? zk * (d > 0 ? 1.25 : .8) : 1); });
   svg.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); zoomTo(zk * (e.deltaY > 0 ? .9 : 1.1)); }, {passive: false});
