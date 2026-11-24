@@ -780,36 +780,38 @@ html.vs-side body{padding-left:96px;}
 .vside-g{display:flex;margin:0;}.vside-h{writing-mode:vertical-rl;border-top:0;border-left:2px solid var(--gc);margin:4px 2px;padding:2px;font-size:9.5px;}.vside-i{width:64px;flex:0 0 64px;padding:6px 2px;}.vside-i[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--gc);}}
 @media print{.vside{display:none;}html.vs-side body{padding-left:0;}}
 .np-ov{position:fixed;inset:0;z-index:9000;background:rgba(17,24,39,.55);display:flex;align-items:center;justify-content:center;padding:14px;}
-.np-paper{position:relative;width:min(920px,100%);max-height:92vh;display:flex;flex-direction:column;background:#fffdf5;color:#111;border:4px solid #111;border-radius:6px;box-shadow:10px 10px 0 #111;font-family:inherit;transform:rotate(-.4deg);
+.np-paper{position:relative;width:min(1040px,100%);height:min(760px,94vh);display:flex;flex-direction:column;background:#fffdf5;color:#111;border:4px solid #111;border-radius:6px;box-shadow:10px 10px 0 #111;transform:rotate(-.3deg);
  background-image:radial-gradient(#11111110 1.2px,transparent 1.3px);background-size:9px 9px;}
 .np-x{all:unset;position:absolute;right:-14px;top:-14px;width:34px;height:34px;border-radius:50%;background:#facc15;border:3px solid #111;text-align:center;line-height:30px;font-weight:900;cursor:pointer;box-shadow:3px 3px 0 #111;z-index:2;}
-.np-mast{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;padding:10px 16px 8px;border-bottom:4px double #111;}
-.np-mast h1{margin:0;font-size:clamp(24px,4.4vw,40px);font-weight:900;letter-spacing:-1px;text-align:center;text-shadow:3px 3px 0 #facc15;}.np-mast h1 span{display:inline-block;color:#ef4444;transform:rotate(-6deg);font-size:.7em;}
+.np-mast{flex:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;padding:8px 16px 6px;border-bottom:4px double #111;}
+.np-mast h1{margin:0;font-size:clamp(22px,3.6vw,34px);font-weight:900;letter-spacing:-1px;text-align:center;text-shadow:3px 3px 0 #facc15;}.np-mast h1 span{display:inline-block;color:#ef4444;transform:rotate(-6deg);font-size:.7em;}
 .np-mast-l,.np-mast-r{font-size:11px;font-weight:800;}.np-mast-r{text-align:right;}
-.np-tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:3px solid #111;scrollbar-width:thin;}
-.np-tabs button{all:unset;flex:none;cursor:pointer;display:flex;align-items:center;gap:4px;padding:5px 10px;border:2.5px solid #111;border-radius:10px;background:#fff;font-size:12.5px;font-weight:900;box-shadow:2px 2px 0 #111;}
+.np-tabs{flex:none;display:flex;gap:6px;overflow-x:auto;padding:7px 12px;border-bottom:3px solid #111;scrollbar-width:thin;}
+.np-tabs button{all:unset;flex:none;cursor:pointer;display:flex;align-items:center;gap:4px;padding:4px 9px;border:2.5px solid #111;border-radius:10px;background:#fff;font-size:12.5px;font-weight:900;box-shadow:2px 2px 0 #111;}
 .np-tabs button[aria-selected="true"]{background:var(--c);color:#fff;transform:translateY(-2px) rotate(-1deg);box-shadow:3px 4px 0 #111;}
-.np-body{flex:1;overflow-y:auto;padding:16px 18px;}
-.np-page{position:relative;border:3px solid #111;border-radius:8px;background:#fff;padding:18px 18px 14px;box-shadow:5px 5px 0 var(--c);animation:npIn .25s ease-out;}
-@keyframes npIn{from{transform:translateX(18px) rotate(1deg);opacity:0;}to{transform:none;opacity:1;}}
-.np-burst{position:absolute;right:14px;top:-18px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-size:26px;background:#facc15;border:3px solid #111;clip-path:polygon(50% 0,61% 32%,98% 22%,70% 50%,98% 78%,61% 68%,50% 100%,39% 68%,2% 78%,30% 50%,2% 22%,39% 32%);}
-.np-label{display:inline-block;background:var(--c);color:#fff;font-weight:900;font-size:12px;padding:3px 10px;border:2px solid #111;border-radius:4px;transform:rotate(-2deg);margin-bottom:10px;}
-.np-kick{font-weight:900;color:var(--c);font-size:13px;}.np-hl{margin:4px 0 6px;font-size:clamp(20px,3.2vw,30px);line-height:1.25;font-weight:900;letter-spacing:-.5px;}
-.np-sub{margin:0 0 10px;font-weight:700;color:#374151;}.np-lede{font-size:15px;line-height:1.7;}
-.np-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;}.np-fact{border:2px solid #111;border-radius:8px;padding:8px;background:#fef9c3;font-size:13px;}.np-fact i{display:block;font-style:normal;font-weight:900;color:var(--c);font-size:11px;}
-.np-h3{margin:4px 0 10px;font-size:18px;line-height:1.45;font-weight:900;}
-.np-bubble{position:relative;border:2.5px solid #111;border-radius:16px;padding:10px 12px;background:#eff6ff;font-size:14px;line-height:1.6;margin-top:6px;}.np-bubble::after{content:'';position:absolute;left:26px;top:-11px;border:9px solid transparent;border-bottom-color:#111;border-top:0;}
-.np-ol{margin:0;padding-left:22px;font-size:15px;line-height:1.65;}.np-ol li{margin:6px 0;}.np-time{font-size:12px;font-weight:800;color:#b45309;white-space:nowrap;}
-.np-ul{list-style:none;margin:0;padding:0;}.np-ul li{border-bottom:2px dashed #d1d5db;padding:8px 0;font-size:14px;line-height:1.6;}.np-ul li b{display:block;}.np-ul li span{display:block;color:#374151;}.np-why{color:#1d4ed8!important;}
-.np-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;}.np-card{border:2.5px solid #111;border-left:8px solid var(--c);border-radius:8px;padding:8px;font-size:13px;background:#fff;}.np-card b{display:block;}.np-card em{font-style:normal;color:var(--c);}
-.np-t{width:100%;border-collapse:collapse;font-size:13px;}.np-t th,.np-t td{border-bottom:2px solid #111;padding:6px 4px;text-align:left;vertical-align:top;}.np-t a{font-weight:900;}
-.np-imp{display:inline-block;min-width:22px;text-align:center;border:2px solid #111;border-radius:6px;font-weight:900;}.np-imp.i상{background:#fecaca;}.np-imp.i중{background:#fde68a;}.np-imp.i하{background:#e5e7eb;}
-.np-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}.np-act button{all:unset;cursor:pointer;padding:7px 12px;border:2.5px solid #111;border-radius:10px;font-weight:900;font-size:13px;background:#facc15;box-shadow:3px 3px 0 #111;}.np-act .np-go{background:#fff;}
+.np-body{flex:1;min-height:0;padding:14px 16px 10px;overflow:hidden;display:flex;}
+.np-page{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;border:3px solid #111;border-radius:8px;background:#fff;padding:14px 16px 10px;box-shadow:5px 5px 0 var(--c);overflow:hidden;}
+.np-page.np-anim{animation:npIn .22s ease-out;}@keyframes npIn{from{transform:translateX(16px) rotate(.6deg);opacity:0;}to{transform:none;opacity:1;}}
+.np-burst{position:absolute;right:12px;top:6px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#facc15;border:3px solid #111;clip-path:polygon(50% 0,61% 32%,98% 22%,70% 50%,98% 78%,61% 68%,50% 100%,39% 68%,2% 78%,30% 50%,2% 22%,39% 32%);}
+.np-label{flex:none;align-self:flex-start;background:var(--c);color:#fff;font-weight:900;font-size:12px;padding:3px 10px;border:2px solid #111;border-radius:4px;transform:rotate(-2deg);margin-bottom:8px;}
+.np-cols{flex:1;min-height:0;column-count:2;column-gap:26px;column-rule:2px dashed #d1d5db;column-fill:auto;overflow:hidden;}
+.np-cols.np-bal{column-fill:balance;}.np-b{break-inside:avoid;margin:0 0 10px;font-size:13.5px;line-height:1.62;}
+.np-flow{background:#fef9c3;border:2.5px solid #111;border-radius:10px;padding:8px 10px;column-span:all;margin-bottom:12px;}.np-flow i{display:block;font-style:normal;font-weight:900;font-size:11.5px;color:var(--c);}
+.np-leadb{column-span:all;}.np-kick{font-weight:900;color:var(--c);font-size:13px;}.np-hl{margin:2px 0 4px;font-size:clamp(19px,2.6vw,26px);line-height:1.28;font-weight:900;letter-spacing:-.5px;}.np-sub{margin:0;font-weight:700;color:#374151;}
+.np-lede{margin:0;font-size:14.5px;line-height:1.75;}.np-lede::first-letter{font-size:2.2em;font-weight:900;float:left;line-height:1;margin:2px 6px 0 0;color:var(--c);}
+.np-facts{display:grid;grid-template-columns:1fr 1fr;gap:6px;}.np-fact{border:2px solid #111;border-radius:8px;padding:6px 8px;background:#fef9c3;font-size:12.5px;line-height:1.45;}.np-fact i{display:block;font-style:normal;font-weight:900;color:var(--c);font-size:11px;}
+.np-art h3{margin:0 0 4px;font-size:15px;line-height:1.45;font-weight:900;}.np-art p{margin:0 0 4px;color:#1f2937;}.np-art small{color:#6b7280;font-size:11.5px;}
+.np-bubble{position:relative;border:2.5px solid #111;border-radius:14px;padding:7px 10px;background:#eff6ff;font-size:13px;line-height:1.6;margin-top:8px;}.np-bubble::after{content:'';position:absolute;left:24px;top:-10px;border:8px solid transparent;border-bottom-color:#111;border-top:0;}
+.np-sumb{display:flex;gap:8px;align-items:flex-start;}.np-sumb b{flex:none;width:24px;height:24px;border-radius:50%;background:var(--c);color:#fff;border:2px solid #111;text-align:center;line-height:20px;font-size:12px;}
+.np-card{border:2.5px solid #111;border-left:8px solid var(--d);border-radius:8px;padding:8px 10px;}.np-card b{display:block;}.np-card em{font-style:normal;color:var(--d);}.np-card span{display:block;}
+.np-imp{display:inline-block;min-width:20px;text-align:center;border:2px solid #111;border-radius:6px;font-weight:900;font-size:11.5px;}.np-imp.i상{background:#fecaca;}.np-imp.i중{background:#fde68a;}.np-imp.i하{background:#e5e7eb;}
+.np-act{flex:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}.np-act button{all:unset;cursor:pointer;padding:6px 12px;border:2.5px solid #111;border-radius:10px;font-weight:900;font-size:12.5px;background:#facc15;box-shadow:3px 3px 0 #111;}.np-act .np-go{background:#fff;}
 .np-act button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #111;}.np-empty{font-weight:800;color:#6b7280;}
-.np-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 14px;border-top:3px solid #111;font-size:12px;font-weight:900;}.np-foot button{all:unset;cursor:pointer;padding:4px 10px;border:2px solid #111;border-radius:8px;background:#fff;}
-.np-paper a{color:#1d4ed8;}
-@media (max-width:600px){.np-mast{grid-template-columns:1fr;text-align:center;}.np-mast-r{text-align:center;}.np-paper{transform:none;box-shadow:5px 5px 0 #111;}.np-body{padding:12px 10px;}.np-page{padding:16px 12px 12px;}}
-@media (prefers-reduced-motion:reduce){.np-page{animation:none;}}
+.np-foot{flex:none;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 14px;border-top:3px solid #111;font-size:12px;font-weight:800;}.np-foot button{all:unset;cursor:pointer;padding:4px 10px;border:2px solid #111;border-radius:8px;background:#fff;font-weight:900;white-space:nowrap;}
+.np-pg{text-align:center;}.np-dots{display:inline-flex;gap:3px;margin-left:6px;vertical-align:middle;}.np-dots i{width:8px;height:8px;border-radius:50%;border:1.5px solid #111;background:#fff;}.np-dots i.detail{border-radius:2px;}.np-dots i.on{background:#111;}
+.np-paper a{color:#1d4ed8;font-weight:800;}
+@media (max-width:760px){.np-cols{column-count:1;}.np-mast{grid-template-columns:1fr;text-align:center;}.np-mast-l,.np-mast-r{display:none;}.np-paper{transform:none;box-shadow:5px 5px 0 #111;height:94vh;}.np-body{padding:10px 8px 8px;}.np-page{padding:12px 10px 8px;}.np-facts{grid-template-columns:1fr;}.np-burst{display:none;}}
+@media (prefers-reduced-motion:reduce){.np-page.np-anim{animation:none;}}
 </style>
 
 <div class="wrap">
@@ -12096,93 +12098,99 @@ window.fmBgm = (function () {
     volume(v) { S.vol = Math.max(0, Math.min(1, +v)); save(); if (out) out.gain.value = .25 * S.vol; },
     stop };
 })();
-/* 📰 텃밭 신문소(사용자 요청 2026-11-24) — 오늘 꼭 볼 핵심만 만화풍 신문으로. 주제 10개 탭, 각 탭 = 핵심 면 → '상세 면'(쪽 넘김) → 대시보드 해당 화면 이동.
+/* 📰 텃밭 신문소(사용자 요청 2026-11-24, 보완) — 오늘 꼭 볼 핵심만 만화풍 신문으로. 주제 10개 탭.
+   한 면은 화면 안에 딱 맞게(면 안 스크롤 없음): 기사 블록을 넣어 보다가 넘치면 다음 면으로 넘긴다(핵심 면 → 상세 면 → 대시보드 화면).
    내용 = 오늘의 조간(공개 지면) + 에듀테크 전략 브리핑(로그인 뒤 CP 탭과 같은 범위). 모든 글자 escape, <strong> 만 살림, 링크는 https 만. */
 window.fmNewsstand = function (go) {
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const rich = v => h(v).replace(/&lt;(\/?)strong&gt;/g, '<$1strong>');
   const plain = v => String(v == null ? '' : v).replace(/<[^>]+>/g, '');
-  const lk = (u, t) => /^https:\/\//.test(u || '') ? `<a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t || '원문 ↗')}</a>` : '';
+  const lk = (u, t) => /^https:\/\//.test(u || '') ? ` <a href="${h(u)}" target="_blank" rel="noopener noreferrer">${h(t || '원문 ↗')}</a>` : '';
   let ST = null; try { ST = (typeof STRATEGY !== 'undefined' && STRATEGY && STRATEGY.available && (STRATEGY.issues || [])[0]) || null; } catch (e) { ST = null; }
   const NP = window.__NEWSSTAND || null;
-  const sec = id => ((NP && NP.sections) || []).find(s => s.id === id) || {items: []};
+  const sec = id => (((NP && NP.sections) || []).find(s => s.id === id) || {}).items || [];
   const chg = a => ((ST && ST.changes) || []).filter(c => c.area === a);
+  const SUM = (ST && ST.summary) || [], TOP = (ST && ST.top_news) || [], IMPL = (NP && NP.implications) || [];
+  const pickSum = rx => SUM.filter(s => rx.test(plain(s)));
+  const pickTop = rx => TOP.filter(n => rx.test(n.title + ' ' + (n.summary || '') + ' ' + (n.source || '')));
+  // 블록(기사 한 덩어리) 만들기
+  const B = {
+    flow: txt => `<div class="np-b np-flow"><i>🧭 오늘의 흐름</i>${rich(txt)}</div>`,
+    lead: L => `<div class="np-b np-leadb"><div class="np-kick">${h(L.kicker || '오늘의 1면')}</div><h2 class="np-hl">${rich(L.headline)}</h2><p class="np-sub">${rich(L.sub || '')}</p></div>`,
+    lede: t => `<div class="np-b"><p class="np-lede">${rich(t)}</p></div>`,
+    facts: F => `<div class="np-b np-facts">${F.map(f => `<div class="np-fact"><i>${h(f.label)}</i>${rich(f.text)}</div>`).join('')}</div>`,
+    change: c => `<div class="np-b np-art"><h3>${rich(c.fact)}</h3><div class="np-bubble"><b>💭 그래서?</b> ${rich(c.interpretation || '')}</div></div>`,
+    item: it => `<div class="np-b np-art"><h3>${rich(it.title)}</h3><p>${rich(it.body || '')}</p></div>`,
+    news: n => `<div class="np-b np-art"><h3><span class="np-imp i${h(n.importance)}">${h(n.importance)}</span> ${h(n.title)}</h3><p>${h(n.summary || '')}</p><small>${h(n.source || '')} · ${h(n.date || '')}${lk(n.url)}</small></div>`,
+    sum: (s, i) => `<div class="np-b np-sumb"><b>${i + 1}</b><span>${rich(s)}</span></div>`,
+    impact: x => `<div class="np-b np-card" style="--d:${{'기회': '#16a34a', '위협': '#dc2626'}[x.direction] || '#64748b'}"><b>${h(x.biz)} <em>${h(x.direction)}</em></b><span>${rich(x.impact)}</span></div>`,
+    opp: (o, i) => `<div class="np-b np-art"><h3>${i + 1}. ${rich(o.idea)}</h3><p>▶ ${rich(o.action)}</p><small>🔗 ${h(o.link)} · ⏰ ${h(o.timing)}</small></div>`,
+    watch: w => `<div class="np-b np-art"><h3>🔭 ${h(w.issue)}</h3><p>📡 <b>볼 신호</b> ${rich(w.kpi_signal)}</p><p>🔮 <b>전망</b> ${rich(w.forecast)}</p></div>`,
+    impl: i => `<div class="np-b np-art"><h3>${h(i.news)}</h3><p>${rich(i.impact)}</p></div>`};
   const T = [];
-  const add = (ic, nm, color, core, detail, to) => { if (core || detail) T.push({ic, nm, color, core: core || '', detail: detail || '', to}); };
-  const li = arr => arr.length ? `<ul class="np-ul">${arr.join('')}</ul>` : '';
-  const sitem = it => `<li><b>${rich(it.title)}</b><span>${rich(it.body || '')}</span></li>`;
-  const citem = c => `<li><b>${rich(c.fact)}</b><span class="np-why">💭 ${rich(c.interpretation || '')}</span></li>`;
+  const add = (ic, nm, color, flow, core, detail, to) => { const c = (flow ? [B.flow(flow)] : []).concat(core.filter(Boolean)); if (c.length > (flow ? 1 : 0) || detail.length) T.push({ic, nm, color, core: c, detail: detail.filter(Boolean), to}); };
   const L = (NP && NP.lead) || {};
-  // 1 헤드라인
-  add('📰', '1면 헤드라인', '#e11d48', L.headline ? `<div class="np-kick">${h(L.kicker || '오늘의 1면')}</div><h2 class="np-hl">${rich(L.headline)}</h2><p class="np-sub">${rich(L.sub || '')}</p><div class="np-facts">${(L.facts || []).map(f => `<div class="np-fact"><i>${h(f.label)}</i>${rich(f.text)}</div>`).join('')}</div>` : '',
-    L.lede ? `<p class="np-lede">${rich(L.lede)}</p>` : '', 'strategy');
-  // 2 핵심 요약
-  const SUM = (ST && ST.summary) || [];
-  add('⚡', '오늘의 핵심', '#f59e0b', SUM.length ? `<ol class="np-ol">${SUM.slice(0, 3).map(s => `<li>${rich(s)}</li>`).join('')}</ol>` : '',
-    (ST && ST.top_news && ST.top_news.length) ? `<table class="np-t"><tr><th>뉴스</th><th>날짜</th><th>중요</th></tr>${ST.top_news.map(n => `<tr><td>${h(n.title)} ${lk(n.url, '↗')}</td><td>${h((n.date || '').slice(5))}</td><td><span class="np-imp i${h(n.importance)}">${h(n.importance)}</span></td></tr>`).join('')}</table>` : (SUM.length > 3 ? `<ol class="np-ol" start="4">${SUM.slice(3).map(s => `<li>${rich(s)}</li>`).join('')}</ol>` : ''), 'strategy');
-  // 3 정책
-  const P1 = chg('정책'), E1 = sec('education').items || [];
-  add('🏛️', '정책', '#2563eb', P1[0] ? `<h3 class="np-h3">${rich(P1[0].fact)}</h3><div class="np-bubble">💭 ${rich(P1[0].interpretation)}</div>` : (E1[0] ? `<h3 class="np-h3">${rich(E1[0].title)}</h3><p>${rich(E1[0].body)}</p>` : ''),
-    li(P1.slice(1).map(citem).concat(E1.map(sitem))), 'market');
-  // 4 시장·교육청
-  const M1 = chg('시장'), EC = sec('economy').items || [];
-  add('💹', '시장·교육청', '#059669', M1[0] ? `<h3 class="np-h3">${rich(M1[0].fact)}</h3><div class="np-bubble">💭 ${rich(M1[0].interpretation)}</div>` : (EC[0] ? `<h3 class="np-h3">${rich(EC[0].title)}</h3><p>${rich(EC[0].body)}</p>` : ''),
-    li(M1.slice(1).map(citem).concat(EC.map(sitem))), 'pipeline');
-  // 5 경쟁사
-  const C1 = chg('경쟁사');
-  add('🥊', '경쟁사', '#dc2626', C1[0] ? `<h3 class="np-h3">${rich(C1[0].fact)}</h3><div class="np-bubble">💭 ${rich(C1[0].interpretation)}</div>` : '', li(C1.slice(1).map(citem)), 'competitor');
-  // 6 교사 생태계
-  const G1 = chg('교사·강사 생태계');
-  add('👩‍🏫', '교사 생태계', '#7c3aed', G1[0] ? `<h3 class="np-h3">${rich(plain(G1[0].fact).slice(0, 140))}${plain(G1[0].fact).length > 140 ? '…' : ''}</h3><div class="np-bubble">💭 ${rich(G1[0].interpretation)}</div>` : '',
-    li(G1.map(citem)), 'eco');
-  // 7 에듀테크 기업
-  const ED = sec('edtech').items || [], SO = sec('society').items || [];
-  add('🏢', '에듀테크·사회', '#0891b2', ED[0] ? `<h3 class="np-h3">${rich(ED[0].title)}</h3><p>${rich(ED[0].body)}</p>` : '', li(ED.slice(1).map(sitem).concat(SO.map(sitem))), 'biz2027');
-  // 8 비바샘 영향
-  const IM = (ST && ST.impact) || [], DIRC = {'기회': '#16a34a', '위협': '#dc2626', '중립': '#64748b'};
-  add('🎯', '비바샘 영향', '#ea580c', IM.length ? `<div class="np-grid">${IM.map(x => `<div class="np-card" style="--c:${DIRC[x.direction] || '#64748b'}"><b>${h(x.biz)} <em>${h(x.direction)}</em></b><span>${rich(plain(x.impact).slice(0, 80))}…</span></div>`).join('')}</div>` : '',
-    li(IM.map(x => `<li><b>${h(x.biz)} · ${h(x.direction)}</b><span>${rich(x.impact)}</span></li>`)), 'strategy');
-  // 9 기회·실행
+  if (L.headline) add('📰', '1면 헤드라인', '#e11d48', '', [B.lead(L), L.lede && B.lede(L.lede), (L.facts || []).length && B.facts(L.facts)], IMPL.map(B.impl), 'strategy');
+  add('⚡', '오늘의 핵심', '#f59e0b', '', SUM.map(B.sum), TOP.map(B.news), 'strategy');
+  const rxP = /교육부|장관|정책|법|대책|교육청|평가|수능|내신/, P1 = chg('정책'), E1 = sec('education');
+  add('🏛️', '정책', '#2563eb', plain(pickSum(rxP)[0] || ''), P1.map(B.change), E1.map(B.item).concat(pickTop(rxP).map(B.news)), 'market');
+  const rxM = /예산|사업|시장|교육청|발주|공고|협약|KERIS/, M1 = chg('시장'), EC = sec('economy');
+  add('💹', '시장·교육청', '#059669', plain(pickSum(rxM)[0] || ''), M1.map(B.change).concat(EC.slice(0, 1).map(B.item)), EC.slice(1).map(B.item).concat(pickTop(rxM).map(B.news)), 'pipeline');
+  const rxC = /천재|T셀파|미래엔|엠티처|아이스크림|티처빌|지학사|동아|경쟁/, C1 = chg('경쟁사');
+  add('🥊', '경쟁사', '#dc2626', plain(pickSum(rxC)[0] || ''), C1.map(B.change), pickTop(rxC).map(B.news), 'competitor');
+  const rxG = /교사 플랫폼|바이브|원데이|연수\+|SET|크리에이터|교사/, G1 = chg('교사·강사 생태계');
+  add('👩‍🏫', '교사 생태계', '#7c3aed', plain(pickSum(rxG)[0] || ''), G1.map(B.change), ((ST && ST.opportunities) || []).filter(o => /교사|샘|바이브/.test(o.idea + o.link)).map(B.opp), 'eco');
+  const ED = sec('edtech'), SO = sec('society');
+  add('🏢', '에듀테크·사회', '#0891b2', '', ED.map(B.item), SO.map(B.item), 'biz2027');
+  const IM = (ST && ST.impact) || [];
+  add('🎯', '비바샘 영향', '#ea580c', IM.length ? `오늘 소식이 사업별로 어떤 방향(기회·위협)인지 정리했어요 — 기회 ${IM.filter(x => x.direction === '기회').length} · 위협 ${IM.filter(x => x.direction === '위협').length}.` : '', IM.map(B.impact), [], 'strategy');
   const OP = (ST && ST.opportunities) || [];
-  add('🚀', '기회·실행', '#16a34a', OP.length ? `<ol class="np-ol">${OP.slice(0, 3).map(o => `<li><b>${rich(o.idea)}</b> <span class="np-time">⏰ ${h(o.timing)}</span></li>`).join('')}</ol>` : '',
-    li(OP.map(o => `<li><b>${rich(o.idea)}</b><span>▶ ${rich(o.action)} <i>(${h(o.link)} · ${h(o.timing)})</i></span></li>`)), 'strategy');
-  // 10 추적 이슈 + 시사점
-  const WA = (ST && ST.watch) || [], IMPL = (NP && NP.implications) || [];
-  add('🔭', '추적·시사점', '#475569', WA.length ? `<ol class="np-ol">${WA.slice(0, 3).map(w => `<li><b>${h(w.issue)}</b> → ${rich(w.forecast)}</li>`).join('')}</ol>` : (IMPL[0] ? `<ol class="np-ol">${IMPL.slice(0, 3).map(i => `<li><b>${h(i.news)}</b> — ${rich(i.impact)}</li>`).join('')}</ol>` : ''),
-    li(WA.map(w => `<li><b>${h(w.issue)}</b><span>📡 ${rich(w.kpi_signal)}<br>🔮 ${rich(w.forecast)}</span></li>`).concat(IMPL.map(i => `<li><b>${h(i.news)}</b><span>${rich(i.impact)}</span></li>`))), 'strategy');
-  const date = (ST && ST.date) || (NP && NP.date) || '';
-  const wd = (ST && ST.weekday) || (NP && NP.weekday) || '';
+  add('🚀', '기회·실행', '#16a34a', OP.length ? `지금 바로 검토할 실행 제안 ${OP.length}가지 — 시점(⏰)이 빠른 것부터 보세요.` : '', OP.slice(0, 3).map(B.opp), OP.slice(3).map((o, i) => B.opp(o, i + 3)), 'strategy');
+  const WA = (ST && ST.watch) || [];
+  add('🔭', '추적·시사점', '#475569', WA.length ? `이번 주 계속 지켜볼 이슈 ${WA.length}개 — 신호(📡)가 보이면 전망(🔮)대로 움직일 가능성이 커요.` : '', WA.map(B.watch), IMPL.map(B.impl), 'strategy');
+  const date = (ST && ST.date) || (NP && NP.date) || '', wd = (ST && ST.weekday) || (NP && NP.weekday) || '';
   let old = document.getElementById('fmNews'); if (old) old.remove();
   const ov = document.createElement('div'); ov.id = 'fmNews'; ov.className = 'np-ov'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', '오늘의 텃밭 신문');
-  if (!T.length) { ov.innerHTML = `<div class="np-paper"><button type="button" class="np-x" aria-label="닫기">✕</button><p style="padding:30px;text-align:center;font-weight:800;">데이터 준비 중</p></div>`; }
-  else ov.innerHTML = `<div class="np-paper"><button type="button" class="np-x" aria-label="닫기">✕</button>
+  ov.innerHTML = T.length ? `<div class="np-paper"><button type="button" class="np-x" aria-label="닫기">✕</button>
     <header class="np-mast"><div class="np-mast-l">VOL.${h(date.replace(/-/g, '.'))} (${h(wd)})</div><h1>텃밭 데일리 <span>NEWS!</span></h1><div class="np-mast-r">오늘 꼭 볼 것만 · ${T.length}개 주제</div></header>
     <nav class="np-tabs" role="tablist">${T.map((t, i) => `<button type="button" role="tab" data-i="${i}" style="--c:${t.color}" aria-selected="${i === 0}">${t.ic}<span>${h(t.nm)}</span></button>`).join('')}</nav>
-    <div class="np-body"></div>
-    <footer class="np-foot"><button type="button" class="np-prev">◀ 이전 주제</button><span class="np-pg"></span><button type="button" class="np-next">다음 주제 ▶</button></footer></div>`;
+    <div class="np-body"><article class="np-page"></article></div>
+    <footer class="np-foot"><button type="button" class="np-prev">◀ 이전</button><span class="np-pg"></span><button type="button" class="np-next">다음 ▶</button></footer></div>`
+    : `<div class="np-paper"><button type="button" class="np-x" aria-label="닫기">✕</button><p style="padding:30px;text-align:center;font-weight:800;">데이터 준비 중</p></div>`;
   document.body.appendChild(ov);
-  let ti = 0, page = 0;
-  const body = ov.querySelector('.np-body');
-  const render = () => { if (!T.length) return; const t = T[ti];
+  if (!T.length) { ov.addEventListener('click', e => { if (e.target === ov || e.target.closest('.np-x')) ov.remove(); }); return; }
+  const pageEl = ov.querySelector('.np-page');
+  // 면 나누기: 블록을 하나씩 넣어 보다가 넘치면 새 면(면 안 스크롤 없음)
+  const head = (t, kind, n) => `<div class="np-burst">${t.ic}</div><div class="np-label">${kind === 'core' ? '핵심' : '상세'} · ${h(t.nm)}${n > 1 ? ` <small>(${n})</small>` : ''}</div>`;
+  const paginate = (t, blocks, kind) => { const pages = []; let cur = [];
+    const fits = arr => { pageEl.innerHTML = head(t, kind, 2) + `<div class="np-cols">${arr.join('')}</div><div class="np-act"><button type="button">자리</button></div>`; const c = pageEl.querySelector('.np-cols'); return c.scrollWidth <= c.clientWidth + 2 && c.scrollHeight <= c.clientHeight + 2; };
+    blocks.forEach(b => { if (fits(cur.concat(b))) cur.push(b); else { if (cur.length) pages.push(cur); cur = [b]; } });
+    if (cur.length) pages.push(cur); return pages.map(p => ({kind, blocks: p})); };
+  const cache = {};
+  const pagesOf = i => { if (cache[i]) return cache[i]; const t = T[i]; pageEl.style.visibility = 'hidden';
+    const ps = paginate(t, t.core, 'core').concat(t.detail.length ? paginate(t, t.detail, 'detail') : []); pageEl.style.visibility = '';
+    return (cache[i] = ps.length ? ps : [{kind: 'core', blocks: ['<p class="np-empty">오늘 이 주제의 새 소식은 없어요.</p>']}]); };
+  let ti = 0, pg = 0;
+  const render = () => { const t = T[ti], P = pagesOf(ti); pg = Math.max(0, Math.min(pg, P.length - 1)); const p = P[pg];
     ov.querySelectorAll('.np-tabs button').forEach(b => b.setAttribute('aria-selected', String(+b.dataset.i === ti)));
-    body.style.setProperty('--c', t.color);
-    body.innerHTML = page === 0
-      ? `<article class="np-page np-core"><div class="np-burst">${t.ic}</div><div class="np-label">핵심 · ${h(t.nm)}</div>${t.core || '<p class="np-empty">오늘 이 주제의 새 소식은 없어요.</p>'}
-         <div class="np-act">${t.detail ? '<button type="button" class="np-more">📖 상세 면 보기 →</button>' : ''}${t.to ? `<button type="button" class="np-go" data-to="${h(t.to)}">🧭 대시보드에서 자세히</button>` : ''}</div></article>`
-      : `<article class="np-page np-detail"><div class="np-label">상세 · ${h(t.nm)}</div>${t.detail}<div class="np-act"><button type="button" class="np-back">← 핵심 면으로</button>${t.to ? `<button type="button" class="np-go" data-to="${h(t.to)}">🧭 대시보드에서 자세히</button>` : ''}</div></article>`;
-    ov.querySelector('.np-pg').textContent = `${ti + 1} / ${T.length} · ${page ? '상세 면' : '핵심 면'}`;
-    body.scrollTop = 0; };
+    pageEl.style.setProperty('--c', t.color);
+    const kIdx = P.slice(0, pg + 1).filter(x => x.kind === p.kind).length, kN = P.filter(x => x.kind === p.kind).length, firstDetail = P.findIndex(x => x.kind === 'detail');
+    pageEl.innerHTML = head(t, p.kind, 1).replace('</div><div class="np-label">', '</div><div class="np-label">') + `<div class="np-cols np-bal">${p.blocks.join('')}</div>`
+      + `<div class="np-act">${p.kind === 'core' && firstDetail > 0 ? `<button type="button" data-pg="${firstDetail}">📖 상세 면으로 →</button>` : ''}${p.kind === 'detail' ? '<button type="button" data-pg="0">← 핵심 면으로</button>' : ''}${t.to ? `<button type="button" class="np-go" data-to="${h(t.to)}">🧭 대시보드에서 자세히</button>` : ''}</div>`;
+    pageEl.classList.remove('np-anim'); void pageEl.offsetWidth; pageEl.classList.add('np-anim');
+    ov.querySelector('.np-pg').innerHTML = `<b>${h(t.nm)}</b> · ${p.kind === 'core' ? '핵심' : '상세'} ${kIdx}/${kN}면 <span class="np-dots">${P.map((x, j) => `<i class="${j === pg ? 'on' : ''} ${x.kind}"></i>`).join('')}</span>`;
+    ov.querySelector('.np-prev').textContent = pg > 0 ? '◀ 앞 면' : '◀ 이전 주제'; ov.querySelector('.np-next').textContent = pg < P.length - 1 ? '다음 면 ▶' : '다음 주제 ▶'; };
+  const step = d => { const P = pagesOf(ti); if (d > 0) { if (pg < P.length - 1) pg++; else { ti = (ti + 1) % T.length; pg = 0; } } else if (pg > 0) pg--; else { ti = (ti + T.length - 1) % T.length; pg = 0; } render(); };
   ov.addEventListener('click', e => { const b = e.target.closest('button');
     if (e.target === ov || (b && b.classList.contains('np-x'))) { ov.remove(); return; }
     if (!b) return;
-    if (b.dataset.i != null) { ti = +b.dataset.i; page = 0; }
-    else if (b.classList.contains('np-more')) page = 1;
-    else if (b.classList.contains('np-back')) page = 0;
-    else if (b.classList.contains('np-prev')) { ti = (ti + T.length - 1) % T.length; page = 0; }
-    else if (b.classList.contains('np-next')) { ti = (ti + 1) % T.length; page = 0; }
-    else if (b.dataset.to) { ov.remove(); if (typeof go === 'function') go(b.dataset.to); return; }
-    render(); });
-  ov.addEventListener('keydown', e => { if (e.key === 'Escape') ov.remove(); else if (e.key === 'ArrowRight') { ti = (ti + 1) % T.length; page = 0; render(); } else if (e.key === 'ArrowLeft') { ti = (ti + T.length - 1) % T.length; page = 0; render(); } });
+    if (b.dataset.i != null) { ti = +b.dataset.i; pg = 0; render(); }
+    else if (b.dataset.pg != null) { pg = +b.dataset.pg; render(); }
+    else if (b.classList.contains('np-prev')) step(-1);
+    else if (b.classList.contains('np-next')) step(1);
+    else if (b.dataset.to) { ov.remove(); if (typeof go === 'function') go(b.dataset.to); } });
+  ov.addEventListener('keydown', e => { if (e.key === 'Escape') ov.remove(); else if (e.key === 'ArrowRight') step(1); else if (e.key === 'ArrowLeft') step(-1); });
+  let rz; window.addEventListener('resize', () => { if (!document.body.contains(ov)) return; clearTimeout(rz); rz = setTimeout(() => { for (const k in cache) delete cache[k]; render(); }, 200); });
   render(); const x = ov.querySelector('.np-x'); if (x) x.focus();
 };
 window.farm3d = function (host, C) {
