@@ -10612,6 +10612,7 @@ window.__renderPdfx = function(root, P){
 /* 결과보고 등 바깥 링크: 주소는 비공개 저장소(config/links.json)에서 배포 때만 넣는다 */
 (function extLinks(){
   const L = __EXT_LINKS_JSON__ || {};
+  window.__EXT_LINKS = L;  // 텃밭 오락실 등 화면 안 링크용(https://claude.ai/ 만)
   [['reportLink', 'report_auto'], ['opsPlanLink', 'ops_plan'], ['salesLink', 'sales_data']].forEach(([id, k]) => {
     const a = document.getElementById(id), u = L[k];
     if (a && typeof u === 'string' && /^https:\/\/claude\.ai\//.test(u)) { a.href = u; a.hidden = false; }
@@ -11035,7 +11036,7 @@ header.top .gd-hero .gd-mill,header.top .gd-hero .gd-orb{cursor:pointer;}
 .fm{position:relative;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(91,58,30,.08);}
 .fm-svg{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none;}
 .fm-tt{font-size:12.5px;font-weight:800;fill:#5b3a1e;pointer-events:none;}
-.fm-sign,.fm-plot,.fm-bld{cursor:pointer;}.fm-sign:hover rect:nth-child(2),.fm-sign.on rect:nth-child(2){stroke:#ff9800;stroke-width:3.4;}
+.fm-sign,.fm-plot,.fm-bld{cursor:pointer;}.fm-arc-t{font:900 10px/1 system-ui,sans-serif;fill:#fff;letter-spacing:1px;pointer-events:none;}.fm-arc-blink{animation:fmArcBlink 1.1s steps(2,end) infinite;}@keyframes fmArcBlink{50%{opacity:.35;}}.fm-arc-bob{animation:fmArcBob 1.6s ease-in-out infinite;}@keyframes fmArcBob{50%{transform:translateY(-5px);}}.fm-arc:hover{filter:brightness(1.12) drop-shadow(0 0 6px #e040fb);}.fm-arc:focus{outline:none;filter:drop-shadow(0 0 6px #e040fb);}@media (prefers-reduced-motion:reduce){.fm-arc-blink,.fm-arc-bob{animation:none;}}.fm-sign:hover rect:nth-child(2),.fm-sign.on rect:nth-child(2){stroke:#ff9800;stroke-width:3.4;}
 .fm-plot:hover .fm-row polygon:first-child{fill:#9c6a47;}
 .fm-sway{transform-box:fill-box;transform-origin:50% 100%;animation:fmSway 3.2s ease-in-out infinite;}@keyframes fmSway{50%{transform:rotate(4deg);}}
 .fm-bob{animation:fmBob .6s ease-in-out infinite;}@keyframes fmBob{50%{transform:translateY(-2.5px);}}
@@ -12128,6 +12129,20 @@ window.farm3d = function (host, C) {
     for (let k = 0; k <= 3; k++) { const [a, b] = P(x + 2.6, y + k * .8, 0), [c, d] = P(x + 2.6, y + k * .8, 30); el('line', {x1: a, y1: b, x2: c, y2: d, stroke: '#ffffff', 'stroke-width': 1.6}, g); }
     for (let k = 0; k < 4; k++) { const [a, b] = P(x + .5 + k * .7, y + 2.2, 4); el('circle', {cx: a, cy: b - 6, r: 6, fill: '#66bb6a', opacity: .85}, g); el('circle', {cx: a + 2, cy: b - 10, r: 2.4, fill: '#f06292'}, g); }
     el('title', {}, g).textContent = '2027 온실 · 기획 중인 과제'; }});
+  const ARC = ((window.__EXT_LINKS || {}).arcade || '');  // 🕹️ 오락실(사용자 요청 2026-11-24): 텃밭 테마에서만, 누르면 게임 새 창
+  const ARC_OK = /^https:\/\/claude\.ai\//.test(ARC);
+  if (ARC_OK) objs.push({k: 24.2 + 16.6 + 1.6, f: () => { const g = el('g', {class: 'fm-bld fm-arc', 'data-arc': '1', role: 'link', tabindex: '0', 'aria-label': '오락실 — 게임 열기(새 창)'}, world), x = 24.2, y = 16.6;
+    shadow(g, x + 1, y + .9, 40, 17); box(g, x, y, 2, 1.8, 30, '#7c3aed', 0, '#a78bfa');
+    el('polygon', {points: pts([P(x - .1, y + 1.8, 30), P(x + 2.1, y + 1.8, 30), P(x + 2.1, y + 1.8, 40), P(x - .1, y + 1.8, 40)]), fill: '#ff4fa3'}, g);  // 네온 간판
+    const [sa, sb] = P(x + 1, y + 1.8, 35); el('text', {x: sa, y: sb + 2, 'text-anchor': 'middle', class: 'fm-arc-t'}, g).textContent = 'GAME';
+    el('polygon', {points: pts([P(x + .6, y + 1.8, 0), P(x + 1.4, y + 1.8, 0), P(x + 1.4, y + 1.8, 18), P(x + .6, y + 1.8, 18)]), fill: night ? '#ffd166' : '#1e1b4b', filter: night ? 'url(#fmGlow)' : ''}, g);  // 문
+    el('polygon', {points: pts([P(x + 2, y + .3, 12), P(x + 2, y + 1.3, 12), P(x + 2, y + 1.3, 24), P(x + 2, y + .3, 24)]), fill: '#22d3ee', class: still ? '' : 'fm-arc-blink'}, g);  // 화면 창
+    [[.25, '#facc15'], [1.75, '#22d3ee']].forEach(([dx, c]) => { const [la, lb] = P(x + dx, y + 1.8, 30); el('circle', {cx: la, cy: lb - 2, r: 3.2, fill: c, class: still ? '' : 'fm-arc-blink'}, g); });
+    const [ba, bb] = P(x + 1, y + .9, 78), bg = el('g', {class: still ? '' : 'fm-arc-bob'}, g);  // 클릭 유도 말풍선
+    el('rect', {x: ba - 52, y: bb - 22, width: 104, height: 24, rx: 12, fill: '#fff', stroke: '#7c3aed', 'stroke-width': 2.4}, bg);
+    el('path', {d: `M${ba - 5} ${bb + 2} l5 8 l5 -8 z`, fill: '#fff', stroke: '#7c3aed', 'stroke-width': 2}, bg);
+    el('text', {x: ba, y: bb - 6, 'text-anchor': 'middle', class: 'fm-tt'}, bg).textContent = '▶ 한 판 할래요?';
+    el('title', {}, g).textContent = '🕹️ 오락실 · 눌러서 게임하기(새 창)'; }});
   objs.push({k: 2.8 + 6.8, f: () => { const g = el('g', {class: 'fm-bld', 'data-t': 'market'}, world), [a, b] = P(1.4, 9.4);  // 풍차
     shadow(g, 1.6, 9.6, 26, 11); el('polygon', {points: `${a - 15},${b} ${a + 15},${b} ${a + 9},${b - 78} ${a - 9},${b - 78}`, fill: '#fff1d6', stroke: '#e0cfa9', 'stroke-width': 1.5}, g);
     el('polygon', {points: `${a + 4},${b} ${a + 15},${b} ${a + 9},${b - 78} ${a + 4},${b - 78}`, fill: '#e9d7b2'}, g);
@@ -12227,6 +12242,7 @@ window.farm3d = function (host, C) {
     el('text', {x: pt[0], y: pt[1] + 3.5, 'text-anchor': 'middle', class: 'fm-tt'}, g).textContent = txt; return g; };
   plots.forEach(p => sign(p.sign, `${EMO[p.kind]} ${p.nm} 밭${p.wilt ? ' · 🥀' + p.wilt : ''}`, p.wilt ? '#f59e0b' : p.col, {'data-p': p.i}));
   sign(P(8, 20.2, 92), '🧺 수확 창고', '#e57373', {'data-t': 'strategy'}); sign(P(21.5, 19.4, 74), '🌱 2027 온실', '#4fc3f7', {'data-t': 'biz2027'});
+  if (ARC_OK) sign(P(25.6, 18.6, 40), '🕹️ 오락실', '#e040fb', {'data-arc': '1'});
   sign(P(1.4, 9.4, 140), '🌬️ 시장 풍차', '#9ccc65', {'data-t': 'market'}); sign(P(21.8, 10.2, 96), '🔭 허수아비 망루', '#9575cd', {'data-t': 'competitor'});
   // 말풍선(SVG)
   const bubG = el('g', {class: 'fm-bub'}, svg);
@@ -12259,6 +12275,9 @@ window.farm3d = function (host, C) {
     pick.hidden = k == null; if (k == null) return;
     const p = plots.find(q => String(q.i) === k), tabs = p ? p.tabs : [k];
     pick.innerHTML = `<b>${p ? EMO[p.kind] + ' ' + h(p.nm) + ' 밭' : (C.icon[k] || '📄') + ' ' + h(C.name(k))}</b>${tabs.map(t => { const s = ST(C.fresh(t)); return `<button type="button" data-go="${t}" class="${s}">${C.icon[t] || '📄'} ${h(C.name(t))}</button>`; }).join('')}<button type="button" data-x aria-label="닫기">✕</button>`; };
+  const openArc = () => { if (ARC_OK) { const w = window.open(ARC, '_blank', 'noopener,noreferrer'); if (w) w.opener = null; } };
+  svg.addEventListener('click', e => { if (e.target.closest('[data-arc]')) { e.stopImmediatePropagation(); openArc(); } }, true);
+  svg.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('[data-arc]')) { e.preventDefault(); openArc(); } });
   svg.addEventListener('click', e => { const t = e.target.closest('[data-p],[data-t]'); const k = t ? (t.dataset.p != null ? t.dataset.p : t.dataset.t) : null; choose(k != null && k !== sel ? k : null); });
   side.addEventListener('click', e => { const b = e.target.closest('[data-p]'); if (b) choose(b.dataset.p); });
   pick.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) C.go(g.dataset.go); else if (e.target.closest('[data-x]')) choose(null); });
