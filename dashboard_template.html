@@ -4,7 +4,7 @@
 <script>/* 처음 화면 깜빡임 방지: 저장된 보기가 기본이 아니면(처음은 그룹) 비상 디자인으로 바로, 어느 보기든 다 그려질 때까지 비상 로고 화면.
    그룹 메뉴·로고·사진이 다 그려질 때까지(renderViews) 화면을 잠깐 가린다 - 기존 화면이 1초 보였다가 바뀌던 문제. 4초 안전장치 */
 (function(){var r=document.documentElement,v="farm";try{v=localStorage.getItem("viewMode.v1")||"farm";}catch(e){}
-r.classList.add("vs-boot");if(v!=="basic")r.classList.add("vs-skin");if(v==="farm")r.classList.add("gd-skin");  /* 처음 보기 = 🌱 텃밭(2026-11-20) */  /* 여는 중 로고는 모든 보기(그룹·카드·책장·기본) 공통 */
+r.classList.add("vs-boot");if(v!=="basic"&&v!=="side")r.classList.add("vs-skin");if(v==="side")r.classList.add("vs-side");if(v==="farm")r.classList.add("gd-skin");  /* 처음 보기 = 🌱 텃밭(2026-11-20) */  /* 여는 중 로고는 모든 보기(그룹·카드·책장·기본) 공통 */
 var L=__BOOT_LOGO_JSON__||"";var st=document.createElement("style");
 st.textContent="html.vs-boot body{visibility:hidden}html.vs-boot{background:#fff}"
 +"html.vs-boot::after{content:'';position:fixed;left:0;right:0;top:0;bottom:0;z-index:9;"+(L?"background:url('"+L+"') center 44%/170px auto no-repeat;":"")+"animation:vsBoot 1.2s ease-in-out infinite alternate}"
@@ -769,6 +769,16 @@ svg { max-width: 100%; }
 .ow-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.ow-chips button{border:1px solid var(--border,#d1d5db);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:4px 12px;font:inherit;font-size:12.5px;cursor:pointer}.ow-chips button.on{background:var(--accent,#4f8cff);color:#fff;border-color:transparent}
 .ow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:10px}.ow-card{background:var(--surface-2);border-radius:10px;padding:10px 12px}.ow-ch{display:flex;justify-content:space-between;gap:8px;font-size:13.5px;color:var(--ink)}.ow-ch span{font-size:11.5px;font-weight:700}.ow-meta{font-size:12px;color:var(--muted);margin:2px 0 4px}
 .bd-tag{display:inline-block;margin-left:6px;font-size:11px;font-weight:700;padding:1px 8px;border-radius:9px;background:#fff7ed;color:#c2410c;border:1px solid #fdba74}.bd-cols{display:flex;align-items:flex-end;gap:14px;height:170px;padding:6px 4px}.bd-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;font-size:12px;color:var(--ink)}.bd-col span{display:block;width:100%;max-width:56px;border-radius:6px 6px 0 0}.bd-col small{color:var(--muted)}
+html.vs-side body{padding-left:96px;}
+.vside{position:fixed;left:0;top:0;bottom:0;width:88px;z-index:60;overflow-y:auto;overflow-x:hidden;background:var(--surface);border-right:1px solid var(--border,#e5e7eb);padding:10px 6px 20px;box-shadow:2px 0 12px rgba(0,0,0,.05);scrollbar-width:thin;}
+.vside-g{margin-bottom:10px;}.vside-h{font-size:10px;font-weight:800;color:var(--gc);text-align:center;letter-spacing:.2px;padding:6px 2px 4px;border-top:2px solid var(--gc);margin:0 6px 2px;}
+.vside-i{all:unset;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;padding:8px 2px;border-radius:12px;cursor:pointer;color:var(--ink-2);text-align:center;font-size:11px;line-height:1.25;word-break:keep-all;}
+.vside-i .ic{font-size:20px;line-height:1;}.vside-i:hover{background:var(--surface-2);color:var(--ink);}
+.vside-i[aria-current="page"]{background:color-mix(in srgb,var(--gc) 16%,transparent);color:var(--ink);font-weight:800;box-shadow:inset 3px 0 0 var(--gc);}
+.vside-i:focus-visible{outline:2px solid var(--gc);outline-offset:-2px;}.vside-x{font-size:10.5px;color:var(--muted);}.vside-x::before{content:'↗';font-size:14px;}
+@media (max-width:760px){html.vs-side body{padding-left:0;padding-bottom:78px;}.vside{top:auto;right:0;width:auto;height:70px;display:flex;overflow-x:auto;overflow-y:hidden;padding:4px 6px;border-right:0;border-top:1px solid var(--border,#e5e7eb);box-shadow:0 -2px 12px rgba(0,0,0,.08);}
+.vside-g{display:flex;margin:0;}.vside-h{writing-mode:vertical-rl;border-top:0;border-left:2px solid var(--gc);margin:4px 2px;padding:2px;font-size:9.5px;}.vside-i{width:64px;flex:0 0 64px;padding:6px 2px;}.vside-i[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--gc);}}
+@media print{.vside{display:none;}html.vs-side body{padding-left:0;}}
 </style>
 
 <div class="wrap">
@@ -13916,7 +13926,7 @@ window.farm3d = function (host, C) {
   const FC = {'정상': ['#10b98133', '#34d399', '최신'], '지연': ['#f59e0b33', '#fbbf24', '지연'], '대체본': ['#f59e0b33', '#fbbf24', '대체본'], '중단': ['#ef444433', '#f87171', '갱신 필요'], '없음': ['#94a3b833', '#94a3b8', '없음']};
   const PAL = {'#4f8cff': ['#2f5fb3', '#3b74d6', '#4f8cff', '#6aa0ff'], '#f59e0b': ['#b45309', '#d97706', '#f59e0b', '#c2710c', '#e08a1e'], '#10b981': ['#047857', '#0f766e', '#10b981', '#14b8a6', '#059669'], '#ef4444': ['#b91c1c', '#dc2626', '#ef4444'], '#8b5cf6': ['#6d28d9', '#7c3aed', '#8b5cf6', '#a78bfa']};
   const bar = document.createElement('div'); bar.id = 'viewBar';
-  bar.innerHTML = `<span class="vlab">보기</span><div class="vseg" role="group" aria-label="목차 보기 방식">${[['farm', '🌱 텃밭'], ['group', '그룹'], ['card', '카드'], ['shelf', '책장'], ['basic', '기본']].map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join('')}</div><button type="button" class="vreset" title="처음 상태(🌱 텃밭 보기)로 되돌리고 기억도 지웁니다">↺ 초기화</button><button type="button" class="v3dbtn" title="차트를 입체(3D)로 보기 — 누르면 끄고 켬">🧊 입체</button>`;
+  bar.innerHTML = `<span class="vlab">보기</span><div class="vseg" role="group" aria-label="목차 보기 방식">${[['farm', '🌱 텃밭'], ['group', '그룹'], ['card', '카드'], ['shelf', '책장'], ['basic', '기본'], ['side', '세로']].map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join('')}</div><button type="button" class="vreset" title="처음 상태(🌱 텃밭 보기)로 되돌리고 기억도 지웁니다">↺ 초기화</button><button type="button" class="v3dbtn" title="차트를 입체(3D)로 보기 — 누르면 끄고 켬">🧊 입체</button>`;
   { const vb = bar.querySelector('.v3dbtn'); const sync = () => vb.setAttribute('aria-pressed', window.v3d && window.v3d.isOn() ? 'true' : 'false'); sync(); vb.addEventListener('click', () => { if (window.v3d) { window.v3d.set(!window.v3d.isOn()); sync(); } }); }
   const box = document.createElement('div'); box.id = 'viewNav';
   nav.before(bar); nav.after(box);
@@ -13971,13 +13981,21 @@ window.farm3d = function (host, C) {
     bar.querySelectorAll('.vseg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === mode)));
     bar.querySelector('.vreset').hidden = mode === DEF;
     nav.style.display = mode === 'basic' ? '' : 'none';  // .tabnav{display:flex} 가 hidden 속성을 덮으므로 직접
-    document.documentElement.classList.toggle('vs-skin', mode !== 'basic');  // 그룹·카드·책장 = 비상 디자인, 기본 = 기존 스타일
+    document.documentElement.classList.toggle('vs-skin', mode !== 'basic' && mode !== 'side');
+    document.documentElement.classList.toggle('vs-side', mode === 'side');  // 세로: 왼쪽 아이콘 레일(사용자 요청 2026-11-24)  // 그룹·카드·책장 = 비상 디자인, 기본 = 기존 스타일
     const GD = mode === 'farm', isG = GD || mode === 'group';  // 텃밭 = 그룹 보기 구조 + 텃밭 색·마을 머리글·이랑 장면
     document.documentElement.classList.toggle('gd-skin', GD);
     gdSync(GD, t);
     const HI = {group: LG.hero1, card: LG.hero2, shelf: LG.hero3 || LG.hero1}[mode];  // 보기마다 다른 사옥 공간 사진
     if (HI) document.documentElement.style.setProperty('--vs-hero', `url("${HI}")`); else document.documentElement.style.removeProperty('--vs-hero');
     if (mode === 'basic') { box.innerHTML = ''; return; }
+    if (mode === 'side') {
+      document.documentElement.classList.remove('vs-home');
+      box.innerHTML = `<aside class="vside" aria-label="화면 목차(세로)">${GROUPS.map(G => `<div class="vside-g"><div class="vside-h" style="--gc:${G[1]}">${h(G[0])}</div>${G[2].map(x => `<button type="button" data-t="${x}" class="vside-i" style="--gc:${G[1]}" title="${h(name(x))}" ${x === t ? 'aria-current="page"' : ''}><span class="ic">${ICON[x] || '📄'}</span><span class="nm">${h(SHORT[x] || name(x))}</span></button>${EXT(x, 'vside-i vside-x')}`).join('')}</div>`).join('')}</aside>`;
+      box.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => { home = false; gsel = null; go(b.dataset.t); }));
+      const on = box.querySelector('[aria-current="page"]'); if (on && on.scrollIntoView) on.scrollIntoView({block: 'nearest', inline: 'center'});
+      return;
+    }
     document.documentElement.classList.toggle('vs-home', isG && home);
     if (isG) {
       box.innerHTML = `<div class="vgroups"><button type="button" data-home="1" style="--gc:#0f6cbd" aria-pressed="${home}">${GD ? '🏡 마을 홈' : '🏠 앱 홈'}<small>${GD ? '텃밭 마을 한눈에' : '타일로 한눈에'}</small>${GD ? '<span class="gd-crop">🏡</span>' : ''}</button>${GROUPS.map((G, i) => `<button type="button" data-g="${i}" style="--gc:${G[1]}" aria-pressed="${!home && i === g}">${GD ? h(G[0]) + ' 밭' : `${i + 1}. ${h(G[0])}`}<small>${GD ? `${h(name(G[2][0] || ''))}${G[2].length > 1 ? ` 외 ${G[2].length - 1}` : ''}` : `${G[2].length}개 탭`}</small>${GD ? `<span class="gd-crop">${['🌽', '🍅', '🥕', '🎃', '🌻'][i % 5]}</span>` : ''}</button>`).join('')}</div>
