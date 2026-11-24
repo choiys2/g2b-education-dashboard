@@ -1,6 +1,6 @@
 {
  "2026Q4": {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "rank": [
    {
     "id": "ai",
@@ -28,13 +28,13 @@
     "stage": "성숙"
    },
    {
-    "id": "safety",
-    "score": 23,
+    "id": "humanities",
+    "score": 24,
     "stage": "성숙"
    },
    {
-    "id": "humanities",
-    "score": 22,
+    "id": "safety",
+    "score": 23,
     "stage": "성숙"
    },
    {
