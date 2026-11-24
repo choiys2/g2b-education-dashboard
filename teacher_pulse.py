@@ -358,7 +358,7 @@ def ai_message(cur, tr, items, today):
 
 def main():
     global NAMES_RE
-    NAMES_RE = re.compile("|".join(rx for *_, rx in TARGETS) + r"|대표|회장", re.I)
+    NAMES_RE = re.compile("|".join(rx for *_, rx in TARGETS) + r"|교사크리에이터|크리에이터협|대표|회장", re.I)
     today = datetime.now(timezone(timedelta(hours=9))).date()
     print("NAVER:", "설정됨" if os.environ.get("NAVER_CLIENT_ID") else "미설정", "· KAKAO:", "설정됨" if os.environ.get("KAKAO_REST_KEY") else "미설정", "· YOUTUBE:", "설정됨" if os.environ.get("YOUTUBE_API_KEY") else "미설정",
           "· GEMINI:", "설정됨" if os.environ.get("GEMINI_API_KEY") else "미설정")
