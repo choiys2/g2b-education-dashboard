@@ -1,7 +1,7 @@
 name: 교사 커뮤니티 동향(매일)
 
 # 교사 트렌드 2027 최상단 '오늘의 교사 커뮤니티 핵심' + 관리 칸 '📡 커뮤니티 동향'.
-# 공개·공식 경로만: 네이버 검색 API(뉴스·블로그·카페, 약 51회/일) · YouTube Data API(약 110유닛/일) · Gemini 무료 등급 1회/일.
+# 공개·공식 경로만: 네이버 검색 API(뉴스·블로그·카페, 약 51회/일, 막히면 공개 뉴스 RSS·다음 블로그/카페 검색으로 대체) · YouTube Data API(약 110유닛/일) · Gemini 무료 등급 1회/일.
 # 인스타그램·페이스북은 쿠키 수집을 하지 않는다(사용자 결정 2026-11-24). 결과는 다음 06:00 배포에 반영된다.
 on:
   schedule:
@@ -28,6 +28,7 @@ jobs:
         env:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}   # 블로그·카페 대체 검색(무료 일 30,000회)
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python teacher_pulse.py

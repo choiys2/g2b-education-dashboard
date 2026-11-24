@@ -77,7 +77,7 @@ def build(sec=None):
                  + f"</td><td>{h(', '.join(i.get('tp') or []))}</td></tr>" for i in (D.get("items") or [])[:120])
     out.append('<h4>최근 7일 글·영상 전체</h4><div class="w"><table><tr><th>날짜</th><th>단체</th><th>종류</th><th>제목(실명 가림)</th><th>주제</th></tr>' + li + "</table></div>")
     ch = ", ".join(f"{h(name.get(k, k))}: {h(v.get('title', ''))}" for k, v in (D.get("channels") or {}).items())
-    out.append(f'<p class="n">출처: 네이버 검색 API(뉴스·블로그·카페, 무료 한도) · YouTube Data API(무료 한도{", 확인된 채널 " + ch if ch else ""}) · 핵심 문장 Gemini 무료 등급 1회/일. '
+    out.append(f'<p class="n">출처: 네이버 검색 API(뉴스·블로그·카페, 무료 한도 — 막히면 구글 뉴스 RSS·다음 블로그/카페 검색으로 대체) · YouTube Data API(무료 한도{", 확인된 채널 " + ch if ch else ""}) · 핵심 문장 Gemini 무료 등급 1회/일. '
                '인스타그램·페이스북은 쿠키 수집을 하지 않기로 결정(2026-11-24) — 공식 경로가 생기면 추가. 본문·작성자 이름은 저장하지 않음. 원천 history/teacher_pulse.json.</p></div>')
     return "".join(out)
 

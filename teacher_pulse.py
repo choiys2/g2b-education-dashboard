@@ -65,17 +65,21 @@ def get(url, headers=None, timeout=20):
         return r.read().decode("utf-8", "replace")
 
 
+NAVER_OK = [True]
+
+
 def naver(kind, q):
-    """kind: news|blog|cafearticle -> [{t, d, u, kind}] (키 없으면 None)."""
+    """kind: news|blog|cafearticle -> [{t, x, d, u, kind}]. 키가 없거나 막혀 있으면 None(→ 대체 출처)."""
     cid, sec = os.environ.get("NAVER_CLIENT_ID"), os.environ.get("NAVER_CLIENT_SECRET")
-    if not (cid and sec):
+    if not (cid and sec) or not NAVER_OK[0]:
         return None
     url = f"https://openapi.naver.com/v1/search/{kind}.json?" + urllib.parse.urlencode({"query": q, "display": 30, "sort": "date"})
     try:
         d = json.loads(get(url, {"X-Naver-Client-Id": cid, "X-Naver-Client-Secret": sec}))
-    except Exception as e:  # noqa: BLE001
-        print(f"  [{kind}] 실패 {type(e).__name__}", file=sys.stderr)
-        return []
+    except Exception as e:  # noqa: BLE001  - 한 번 막히면 이번 실행에선 다시 부르지 않는다
+        NAVER_OK[0] = False
+        print(f"  [검색A] 사용 불가({getattr(e, 'code', type(e).__name__)}) → 대체 출처로", file=sys.stderr)
+        return None
     out = []
     for it in d.get("items", []):
         dt = None
@@ -93,6 +97,57 @@ def naver(kind, q):
                     "x": html.unescape(TAG.sub("", it.get("description", ""))).strip()[:160],
                     "d": dt.isoformat() if dt else None, "u": u, "kind": {"news": "news", "blog": "blog", "cafearticle": "cafe"}[kind]})
     return out
+
+
+def kakao(kind, q):
+    """대체: 다음(카카오) 블로그·카페 검색(무료 일 30,000회, KAKAO_REST_KEY). kind: blog|cafe."""
+    k = os.environ.get("KAKAO_REST_KEY")
+    if not k:
+        return None
+    url = f"https://dapi.kakao.com/v2/search/{kind}?" + urllib.parse.urlencode({"query": q, "sort": "recency", "size": 30})
+    try:
+        d = json.loads(get(url, {"Authorization": "KakaoAK " + k}))
+    except Exception as e:  # noqa: BLE001
+        print(f"  [검색B {kind}] 실패({getattr(e, 'code', type(e).__name__)})", file=sys.stderr)
+        return []
+    out = []
+    for it in d.get("documents", []):
+        u = it.get("url") or ""
+        u = u.replace("http://", "https://", 1) if u.startswith("http://") else u
+        out.append({"t": html.unescape(TAG.sub("", it.get("title", ""))).strip(), "x": html.unescape(TAG.sub("", it.get("contents", ""))).strip()[:160],
+                    "d": (it.get("datetime") or "")[:10] or None, "u": u if u.startswith("https://") else "", "kind": kind})
+    return out
+
+
+def gnews(q):
+    """대체: 공개 뉴스 RSS(키 없음) 최근 7일."""
+    import xml.etree.ElementTree as ET
+    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode({"q": f'"{q}" when:7d', "hl": "ko", "gl": "KR", "ceid": "KR:ko"})
+    try:
+        root = ET.fromstring(get(url))
+    except Exception as e:  # noqa: BLE001
+        print(f"  [뉴스] 실패({getattr(e, 'code', type(e).__name__)})", file=sys.stderr)
+        return []
+    out = []
+    for it in root.iter("item"):
+        try:
+            dt = parsedate_to_datetime(it.findtext("pubDate")).date().isoformat()
+        except Exception:  # noqa: BLE001
+            continue
+        t, src = it.findtext("title") or "", it.findtext("source") or ""
+        if src and t.endswith(" - " + src):
+            t = t[: -len(src) - 3]
+        out.append({"t": t.strip(), "x": "", "d": dt, "u": it.findtext("link") or "", "kind": "news"})
+    return out
+
+
+def search(kind, q):
+    """kind: news|blog|cafe -> (rows, 사용한 출처) — 1순위가 안 되면 대체 출처."""
+    r = naver({"cafe": "cafearticle"}.get(kind, kind), q)
+    if r is not None:
+        return r, "A"
+    r = gnews(q) if kind == "news" else kakao(kind, q)
+    return (r, "B") if r is not None else (None, "")
 
 
 def yt(path, **p):
@@ -176,20 +231,23 @@ def hit(k, rx, text):
 def collect(today):
     since = (today - timedelta(7)).isoformat()
     items, seen, keys = [], set(), {"naver": False, "yt": False}
+    used = Counter()
     for k, name, qs, rx in TARGETS:
         for q in qs + [LEADER_Q[k]]:
-            for kind in ("news", "blog", "cafearticle"):
-                rows = naver(kind, q)
+            for kind in ("news", "blog", "cafe"):
+                rows, src = search(kind, q)
                 if rows is None:
-                    break
+                    continue
                 keys["naver"] = True
+                used[kind + src] += 1
                 for r in rows:
-                    if not r["d"] or r["d"] < since or r["u"] in seen:
+                    if not r["d"] or r["d"] < since or not r["u"] or r["u"] in seen:
                         continue
                     if not hit(k, rx, r["t"] + " " + r["x"]):
                         continue
                     seen.add(r["u"])
                     items.append({**r, "tg": k})
+    print("검색 호출:", dict(used))
     prev = load()
     vids, channels = videos(since, prev.get("channels"))
     if vids is not None:
@@ -296,7 +354,7 @@ def main():
     global NAMES_RE
     NAMES_RE = re.compile("|".join(rx for *_, rx in TARGETS) + r"|대표|회장", re.I)
     today = datetime.now(timezone(timedelta(hours=9))).date()
-    print("NAVER:", "설정됨" if os.environ.get("NAVER_CLIENT_ID") else "미설정", "· YOUTUBE:", "설정됨" if os.environ.get("YOUTUBE_API_KEY") else "미설정",
+    print("NAVER:", "설정됨" if os.environ.get("NAVER_CLIENT_ID") else "미설정", "· KAKAO:", "설정됨" if os.environ.get("KAKAO_REST_KEY") else "미설정", "· YOUTUBE:", "설정됨" if os.environ.get("YOUTUBE_API_KEY") else "미설정",
           "· GEMINI:", "설정됨" if os.environ.get("GEMINI_API_KEY") else "미설정")
     prev = load()
     items, channels, keys = collect(today)
@@ -307,10 +365,11 @@ def main():
     days[today.isoformat()] = aggregate(items, today)
     tr = trend(days, today)
     msg = None
-    if (prev.get("msg") or {}).get("date") == today.isoformat() and (prev.get("msg") or {}).get("by") == "ai":
+    pm = prev.get("msg") or {}
+    if pm.get("date") == today.isoformat() and pm.get("by") == "ai" and pm.get("n") == len(items):
         msg = prev["msg"]  # 같은 날 두 번 돌면 AI 를 다시 부르지 않는다
     msg = msg or ai_message(days[today.isoformat()], tr, items, today) or rule_message(days[today.isoformat()], tr)
-    msg["date"] = today.isoformat()
+    msg["date"], msg["n"] = today.isoformat(), len(items)
     out = {"generated": today.isoformat(), "targets": [{"k": k, "name": n} for k, n, *_ in TARGETS], "channels": channels,
            "days": days, "trend": tr, "msg": msg,
            "items": sorted(items, key=lambda i: (i["d"] or "", i["kind"]), reverse=True)[:200]}
