@@ -224,8 +224,14 @@ def words(t):
     return out
 
 
-def hit(k, rx, text):
-    return bool(re.search(rx, text, re.I)) and (k not in AMBIG or bool(CTX.search(text)))
+def hit(k, rx, text, title=None):
+    """이름이 있어야 하고, 동음이의(쿼카·트라이팟)는 제목에 이름이 있거나 제목에 교사 맥락이 있어야 인정."""
+    if not re.search(rx, text, re.I):
+        return False
+    if k not in AMBIG:
+        return True
+    t = title if title is not None else text
+    return bool(CTX.search(text)) and (bool(re.search(rx, t, re.I)) or bool(CTX.search(t)))
 
 
 def collect(today):
@@ -243,7 +249,7 @@ def collect(today):
                 for r in rows:
                     if not r["d"] or r["d"] < since or not r["u"] or r["u"] in seen:
                         continue
-                    if not hit(k, rx, r["t"] + " " + r["x"]):
+                    if not hit(k, rx, r["t"] + " " + r["x"], r["t"]):
                         continue
                     seen.add(r["u"])
                     items.append({**r, "tg": k})
