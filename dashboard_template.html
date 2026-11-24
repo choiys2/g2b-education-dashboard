@@ -768,6 +768,7 @@ svg { max-width: 100%; }
 .ow-tag{display:inline-block;font-size:10.5px;padding:0 5px;border-radius:4px;margin-left:3px;color:var(--c);border:1px solid var(--c)}
 .ow-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.ow-chips button{border:1px solid var(--border,#d1d5db);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:4px 12px;font:inherit;font-size:12.5px;cursor:pointer}.ow-chips button.on{background:var(--accent,#4f8cff);color:#fff;border-color:transparent}
 .ow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:10px}.ow-card{background:var(--surface-2);border-radius:10px;padding:10px 12px}.ow-ch{display:flex;justify-content:space-between;gap:8px;font-size:13.5px;color:var(--ink)}.ow-ch span{font-size:11.5px;font-weight:700}.ow-meta{font-size:12px;color:var(--muted);margin:2px 0 4px}
+.bd-tag{display:inline-block;margin-left:6px;font-size:11px;font-weight:700;padding:1px 8px;border-radius:9px;background:#fff7ed;color:#c2410c;border:1px solid #fdba74}.bd-cols{display:flex;align-items:flex-end;gap:14px;height:170px;padding:6px 4px}.bd-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;font-size:12px;color:var(--ink)}.bd-col span{display:block;width:100%;max-width:56px;border-radius:6px 6px 0 0}.bd-col small{color:var(--muted)}
 </style>
 
 <div class="wrap">
@@ -13532,6 +13533,44 @@ window.farm3d = function (host, C) {
   const keep = () => { const s = P.querySelector(':scope > .tab-asof'); if (s ? s.nextElementSibling !== sec : P.firstElementChild !== sec) (s ? s.after(sec) : P.prepend(sec)); };
   new MutationObserver(keep).observe(P, {childList: true}); keep();  // 한눈에 보기 등이 늦게 끼어들어도 '데이터 기준' 바로 아래 유지
 })();
+(function budget27(){  // 💰 2027 교육부 예산안(정부안) — 시장·정책 탭 요약 + B2G영업 탭 교부금 기준선. 사용자 요청 2026-11-24
+  const D = __BUDGET27_JSON__; if (!D) return;
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const jo = v => v >= 10000 ? (v / 10000).toFixed(1) + '조' : (+v).toLocaleString() + '억';
+  const T = D.total || {}, G = D.grant || {}, S = D.sectors || [], F = D.fund || {};
+  const tag = `<span class="bd-tag">${h(D.status || '')}</span>`;
+  const card = (k, v, d) => `<div class="mb-card"><div class="mb-ck">${h(k)}</div><div class="mb-cv">${v}</div><div class="mb-cd">${d}</div></div>`;
+  // ── A. 시장·정책 탭: 2027 교육부 예산 한눈에
+  const M = document.getElementById('panel-market');
+  if (M) {
+    const sec = document.createElement('section'); sec.className = 'panel mb-panel'; sec.id = 'budget27';
+    const sx = S.find(s => /고등/.test(s.k)) || {}, sl = S.find(s => /평생/.test(s.k)) || {};
+    const mx = Math.max(1, ...S.map(s => s.y27));
+    const bars = S.map(s => `<div class="mb-row" style="grid-template-columns:minmax(120px,30%) 1fr auto"><span class="mb-l">${h(s.k.trim())}</span><span class="mb-track"><span class="mb-fill" style="width:${(s.y27 / mx * 100).toFixed(1)}%;background:#4f8cff"></span></span><span class="mb-v">${jo(s.y27)} <span class="mb-chip" style="color:#059669">+${s.pct}%</span></span></div>`).join('');
+    const areas = [...new Set((D.items || []).map(x => x.area))];
+    const items = `<table class="mb-t"><tr><th>분야</th><th>사업</th><th>2026</th><th>2027안</th></tr>${(D.items || []).map(x => `<tr><td>${h(x.area)}</td><td class="l">${h(x.k)}</td><td>${x.y26 == null ? '-' : x.y26 ? (+x.y26).toLocaleString() + '억' : '<span class="mb-chip" style="color:#059669">신규</span>'}</td><td><b>${(+x.y27).toLocaleString()}억</b></td></tr>`).join('')}</table>`;
+    const fs = (F.groups || []).reduce((a, g) => a + g[1], 0) || 1;
+    const fund = `<div class="ow-stack" style="height:16px">${(F.groups || []).map((g, i) => `<i style="width:${(g[1] / fs * 100).toFixed(1)}%;background:${['#ec4899', '#f59e0b', '#6366f1'][i % 3]}" title="${h(g[0])} ${jo(g[1])}"></i>`).join('')}</div><div class="mb-lg" style="margin-top:6px">${(F.groups || []).map((g, i) => `<span><i style="background:${['#ec4899', '#f59e0b', '#6366f1'][i % 3]}"></i>${h(g[0])} ${jo(g[1])}</span>`).join('')}</div>`;
+    sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">🏛️ ${h(D.title)} 한눈에<span class="mb-sub">${h(D.as_of)} 발표 ${tag}</span></p></div></div>
+      <div class="mb-cards">${card('총지출', jo(T.y27), `2026 본예산 ${jo(T.y26)} 대비 <b>+${jo(T.diff)}(+${T.pct}%)</b>`)}${card('지방교육재정교부금', G.y27 + '조', `+10.1% · 2030년 ${((G.fc || []).slice(-1)[0] || [])[1]}조 추계`)}${card('고등교육', jo(sx.y27 || 0), `+${sx.pct}%`)}${card('평생·직업교육', jo(sl.y27 || 0), `+${sl.pct}%`)}${card(F.name || '미래대응기금', jo(F.total || 0), '영유아·지역청년·AI 인재 사업 재원')}</div>
+      <div class="mb-g2" style="margin-top:12px"><div><h5>분야별 2027안(전년 본예산 대비)</h5><div class="mb-bars">${bars}</div><h5 style="margin-top:14px">${h(F.name || '')} 구성</h5>${fund}</div><div><h5>주요 증액·신규 사업</h5><div class="mb-scroll">${items}</div></div></div>
+      <p class="mb-note">출처: ${h(D.source)}. 정부안이며 국회 심의 결과에 따라 바뀔 수 있습니다(확정 후 갱신).</p>`;
+    const k = document.getElementById('kpis'); if (k && k.parentNode === M) k.after(sec); else M.appendChild(sec);
+  }
+  // ── B. B2G영업 탭: 교부금 전국 기준선(시도 예산 여력 표 바로 위)
+  const bp = document.getElementById('budgetPanel');
+  if (bp) {
+    const fc = [['2026', G.y26]].concat(G.fc || []), mx = Math.max(1, ...fc.map(x => x[1]));
+    const col = fc.map((x, i) => `<div class="bd-col"><b>${x[1]}조</b><span style="height:${(x[1] / mx * 120).toFixed(0)}px;background:${i === 0 ? '#94a3b8' : i === 1 ? '#4f8cff' : 'rgba(79,140,255,.45)'}"></span><small>${h(x[0])}${i === 1 ? ' 안' : i > 1 ? ' 추계' : ''}</small></div>`).join('');
+    const sec = document.createElement('section'); sec.className = 'panel mb-panel'; sec.id = 'budget27Grant';
+    sec.innerHTML = `<div class="panel-head"><div><p class="panel-title">지방교육재정교부금 전국 기준선 — 2027 정부안<span class="mb-sub">시도교육청 예산의 주 재원 ${tag}</span></p></div></div>
+      <div class="mb-g2"><div><div class="bd-cols">${col}</div></div><div><div class="mb-cards">${card('2027안', G.y27 + '조', `2026 ${G.y26}조 대비 +${(G.y27 - G.y26).toFixed(1)}조(+10.1%)`)}${card('2030 추계', ((G.fc || []).slice(-1)[0] || [])[1] + '조', '개편 산식 기준')}</div>
+      <p class="mb-note"><b>산식 개편</b>: ${h(G.formula)}<br>${h(G.guard)}.</p></div></div>
+      <p class="mb-note">아래 시도별 예산 여력 표는 결산 기준이고, 이 칸은 내년 전국 총량입니다. 출처: ${h(D.source)}.</p>`;
+    bp.before(sec);
+  }
+})();
+
 (function teacherOrgView(){  // 🏛️ 교사단체 분석(CP): 교원단체·노조 / 출판사·연수원 / 연구회 / 정책 협의체 활동 움직임. 사용자 요청 2026-11-22
   const D = __ORGWATCH_JSON__, P = document.getElementById('panel-orgs'); if (!P) return;
   const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

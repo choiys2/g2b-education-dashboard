@@ -119,7 +119,7 @@ MANUAL_ASOF = {  # 날짜 키가 없는 수동 파일: (기준일, 내용 지문
 }
 LIVE = ("*live", None)
 TAB_SOURCES = {
-    "market": [("교육재정 통계", "history/eduinfo_status.json", "date", "d"), ("학교 시장 정보", "history/schoolinfo_status.json", "date", "d"), ("공고 집계", *LIVE, "d")],
+    "market": [("2027 교육부 예산안", "_private/strategy_room/budget_2027.json", "as_of", "m"), ("교육재정 통계", "history/eduinfo_status.json", "date", "d"), ("학교 시장 정보", "history/schoolinfo_status.json", "date", "d"), ("공고 집계", *LIVE, "d")],
     "strategy": [("에듀테크 뉴스", "history/edutech_radar.json", "collected_at", "d"), ("전략 브리핑", "strategy_briefings", "*enc", "d"), ("조간", "briefings", "*json", "d")],
     "keris": [("KERIS 공고·낙찰", "history/keris_procurement.json", "updated", "d")],
     "g2bfull": [("자사 강점 프로필", "static_data/own_profile.json", "", "m"), ("입찰·계약 공고", *LIVE, "d"), ("연수 공고(최근 건)", "history/training_bids.jsonl", "d", "r"),
@@ -136,7 +136,7 @@ TAB_SOURCES = {
     "biz2027": [("기업·대학 동향 정리", "static_data/industry_trend_2027.json", "", "m"), ("협력 후보 소식", "history/partner_news.json", "generated", "w"),
                 ("기업 협력 메모", "static_data/industry_trend_private.enc.json", "", "m")],
     "aiep": [("AIEP 조달", "history/aiep_market.json", "updated", "d"), ("시도 플랫폼 정리", "static_data/aiep_platforms.json", "", "m"), ("시도 협력 메모", "static_data/aiep_private.enc.json", "", "m")],
-    "pipeline": [("영업 파이프라인", "history/pipeline_status.json", "date", "d"), ("입찰 운영 현황", "history/sheets_ops_status.json", "date", "d")],
+    "pipeline": [("2027 교부금 기준선", "_private/strategy_room/budget_2027.json", "as_of", "m"), ("영업 파이프라인", "history/pipeline_status.json", "date", "d"), ("입찰 운영 현황", "history/sheets_ops_status.json", "date", "d")],
     "branch": [("총판 현황", "static_data/branch_summary.json", "as_of", "m"), ("총판 지역망", "static_data/branch_network.enc.json", "", "m")],
     "adopt": [("교과서 채택 현황", "static_data/textbook_adoption.enc.json", "", "m")],
     "b2s": [("학교 시장 정보", "history/schoolinfo_status.json", "date", "d"), ("학사일정 표본", "history/neis_schedule.json", "generated", "w"),
