@@ -1,5 +1,5 @@
 {
- "date": "2026-11-24",
+ "date": "2026-11-25",
  "bids": {
   "tab_gid": "435501388",
   "header_row": 1,
@@ -81,7 +81,7 @@
    "slip",
    "state"
   ],
-  "rows": 89,
+  "rows": 90,
   "vocab_invoice": {
    "-": 5
   }
