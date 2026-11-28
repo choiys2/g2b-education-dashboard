@@ -844,6 +844,14 @@ html.np-lock{overflow:hidden;}
 .tp-tags span{font-size:11px;padding:1px 7px;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink-2);}
 .tp-org ul{margin:4px 0 0;padding-left:16px;}.tp-org li{line-height:1.45;margin:2px 0;overflow-wrap:anywhere;}.tp-org li small{color:var(--muted);}
 @media (max-width:760px){.tp-g{grid-template-columns:minmax(0,1fr);}}
+/* 🆕 새 데이터 표시 */
+.vs-newb{display:inline-block;margin-left:6px;padding:0 6px;border-radius:var(--r-pill);background:#ef4444;color:#fff;font-size:10px;font-weight:800;line-height:16px;letter-spacing:.3px;vertical-align:middle;}
+.vs-new-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin:0 0 12px;padding:8px 12px;border-radius:var(--r-4);border:1px solid color-mix(in srgb,#ef4444 35%,transparent);background:color-mix(in srgb,#ef4444 7%,var(--surface,#fff));font-size:12.5px;}
+.vs-new-bar small{color:var(--muted);}.vs-new-bar button{all:unset;cursor:pointer;padding:3px 10px;border-radius:var(--r-pill);border:1px solid var(--border,#d1d5db);background:var(--surface,#fff);font-weight:700;font-size:12px;}
+.vs-new-bar button:focus-visible{outline:2px solid #ef4444;outline-offset:1px;}
+.vs-new-row{box-shadow:inset 3px 0 0 #ef4444;background:color-mix(in srgb,#ef4444 5%,transparent);}
+.vs-new-flash{outline:2px solid #ef4444;outline-offset:2px;transition:outline-color var(--dur-2,.3s) var(--ease-out,ease);}
+.vs-new-pill{display:inline-block;align-self:flex-start;width:fit-content;margin-right:6px;padding:0 6px;border-radius:var(--r-pill);background:#ef4444;color:#fff;font-size:10px;font-weight:800;line-height:16px;vertical-align:middle;white-space:nowrap;}
 /* 늦게 그려지는 칸 자리 미리 잡기(디자인 점검 2026-11-28): 비어 있는 동안만 높이를 확보하고 은은한 로딩 표시 */
 #farmStage:empty{min-height:420px;}
 :is(.school-card-grid,.segment-grid,.tt-grid,.rfp-list,.kpis,.ex-summary,.ex-pillars,.compare,.cloud):empty,
@@ -13951,6 +13959,74 @@ window.farm3d = function (host, C) {
   P.insertAdjacentHTML('beforeend', out.join(''));
   P.querySelector('.ow-chips').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; P.querySelectorAll('.ow-chips button').forEach(x => x.classList.toggle('on', x === b));
     P.querySelectorAll('.ow-card').forEach(c => c.style.display = b.dataset.f === 'all' || c.dataset.c === b.dataset.f ? '' : 'none'); });
+})();
+
+(function vsNew(){  // 🆕 새로 들어온 데이터 표시(사용자 요청 2026-11-28): 메뉴엔 NEW 배지, 화면 안엔 새 줄·바뀐 수치 표시. 기준 = 이 브라우저에서 그 화면을 마지막으로 본 때
+  const KEY = 'vsNew.v1', F = window.__FRESH || {}, FT = F.tabs || {};
+  const h = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let S = {}; try { S = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { S = {}; }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* 저장 불가 환경: 표시만 생략 */ } };
+  const hash = t => { let x = 5381; for (let i = 0; i < t.length; i++) x = ((x << 5) + x + t.charCodeAt(i)) | 0; return (x >>> 0).toString(36); };
+  const norm = t => String(t || '').replace(/\s+/g, ' ').replace(/NEW/g, '').trim();
+  const fmt = s => { const m = /^(\d{4})-(\d{2})-(\d{2})(?: (\d{2}:\d{2}))?/.exec(s || ''); return m ? `${+m[2]}.${+m[3]}${m[4] ? ' ' + m[4] : ''}` : (s || ''); };
+  const SKIP = '.tab-asof, .vs-new-bar, nav, .vs-seg, .gd-field, .cpv-box, .tvz, script, style, template';
+  // 화면 안의 '항목'과 '수치'를 뽑는다(표의 줄·목록·카드 제목 / KPI 라벨→값)
+  const items = panel => { const out = new Map();
+    panel.querySelectorAll('tbody tr, ul > li, ol > li, .ow-card, .tp-org, .rfp-list > *, .school-card-grid > *').forEach(el => {
+      if (el.closest(SKIP)) return;
+      const t = norm(el.matches('tr') ? [...el.cells].slice(0, 3).map(c => c.textContent).join('|') : el.textContent).slice(0, 140);
+      if (t.length >= 4 && !out.has(hash(t))) out.set(hash(t), el); });
+    return out; };
+  const kpis = panel => { const out = {};
+    panel.querySelectorAll('.kpi, .mb-card').forEach(el => { if (el.closest(SKIP)) return;
+      const l = norm((el.querySelector('.lbl, .mb-ck') || {}).textContent), v = norm((el.querySelector('.val, .mb-cv') || {}).textContent);
+      if (l && v) out[l.slice(0, 60)] = {v: v.slice(0, 40), el}; });
+    return out; };
+  const src = k => { const o = {}; (FT[k] || []).forEach(x => { if (x && x.at) o[x.l] = x.at; }); return o; };
+  const changedSrc = k => { const st = S[k]; if (!st || !st.src) return []; const cur = src(k);
+    return Object.keys(cur).filter(l => st.src[l] && cur[l] > st.src[l]).map(l => ({l, from: st.src[l], to: cur[l]})); };
+  const panels = () => [...document.querySelectorAll('.tabpanel[id^="panel-"]')].map(p => [p.id.slice(6), p]).filter(([k]) => k !== 'admin');
+  const NEWC = {};  // 탭별 새 항목 수(이미 그려진 화면 기준)
+  function baseline(){ panels().forEach(([k, p]) => { const it = items(p);
+      if (!S[k]) { S[k] = {src: src(k), keys: [...it.keys()].slice(0, 900), kv: Object.fromEntries(Object.entries(kpis(p)).map(([l, x]) => [l, x.v])), seen: F.built || ''}; return; }
+      if (it.size && S[k].keys && S[k].keys.length) { const prev = new Set(S[k].keys); NEWC[k] = [...it.keys()].filter(x => !prev.has(x)).length; } });
+    save(); decorate(); }
+  // 메뉴(탭 줄·그룹·세로·카드·책장·타일) 배지
+  function badge(k){ const cs = changedSrc(k), n = NEWC[k] || 0; if (!cs.length && !n) return null;
+    const tip = [n ? `새 항목 ${n}개` : '', ...cs.map(c => `${c.l}: ${fmt(c.from)} → ${fmt(c.to)}`)].filter(Boolean).join('\n');
+    return {txt: n ? `NEW ${n > 99 ? '99+' : n}` : 'NEW', tip}; }
+  function decorate(){ document.querySelectorAll('.tabbtn[data-tab], #viewNav [data-t]').forEach(el => {
+      const k = el.dataset.tab || el.dataset.t, b = badge(k); let s = el.querySelector(':scope > .vs-newb');
+      if (!b) { if (s) s.remove(); return; }
+      if (!s) { s = document.createElement('span'); s.className = 'vs-newb'; el.appendChild(s); }
+      if (s.textContent !== b.txt) s.textContent = b.txt; s.title = b.tip; el.setAttribute('data-new', '1'); }); }
+  // 화면을 열면: 새 줄·바뀐 수치 표시 + 위쪽 요약 띠, 그리고 '본 것'으로 기록
+  function visit(k, p){ const st = S[k]; const it = items(p), kv = kpis(p);
+    p.querySelectorAll('.vs-new-row').forEach(e => e.classList.remove('vs-new-row')); p.querySelectorAll('.vs-new-pill').forEach(e => e.remove());
+    let nNew = 0, nChg = 0;
+    if (st && st.keys && st.keys.length) { const prev = new Set(st.keys);
+      it.forEach((el, key) => { if (prev.has(key)) return; nNew++; el.classList.add('vs-new-row');
+        const tgt = el.matches('tr') ? el.cells[0] : el; if (tgt && !tgt.querySelector(':scope > .vs-new-pill')) tgt.insertAdjacentHTML('afterbegin', '<span class="vs-new-pill">NEW</span>'); }); }
+    if (st && st.kv) Object.entries(kv).forEach(([l, x]) => { const was = st.kv[l]; if (was == null || was === x.v) return; nChg++; x.el.classList.add('vs-new-row');
+        x.el.insertAdjacentHTML('afterbegin', `<span class="vs-new-pill" title="이전 값: ${h(was)}">바뀜 · 이전 ${h(was)}</span>`); });
+    const cs = changedSrc(k);
+    let bar = p.querySelector(':scope > .vs-new-bar'); if (bar) bar.remove();
+    if (nNew || nChg || cs.length) { bar = document.createElement('div'); bar.className = 'vs-new-bar'; bar.setAttribute('role', 'status');
+      bar.innerHTML = `<b>🆕 지난 확인${st && st.seen ? `(${h(fmt(st.seen))})` : ''} 이후</b>`
+        + (cs.length ? `<span>갱신: ${cs.map(c => `${h(c.l)} <small>${h(fmt(c.from))}→${h(fmt(c.to))}</small>`).join(' · ')}</span>` : '')
+        + (nNew ? `<span>새 항목 <b>${nNew}</b>개</span>` : '') + (nChg ? `<span>바뀐 수치 <b>${nChg}</b>개</span>` : '')
+        + (nNew + nChg ? '<button type="button" data-go>다음 NEW ↓</button>' : '') + '<button type="button" data-ok>확인</button>';
+      const a = p.querySelector(':scope > .tab-asof'); if (a) a.after(bar); else p.prepend(bar);
+      let i = 0; const go = bar.querySelector('[data-go]'); if (go) go.addEventListener('click', () => { const L = [...p.querySelectorAll('.vs-new-row')].filter(e => e.offsetParent !== null); if (!L.length) return; const e = L[i++ % L.length]; e.scrollIntoView({behavior: 'smooth', block: 'center'}); e.classList.add('vs-new-flash'); setTimeout(() => e.classList.remove('vs-new-flash'), 1200); });
+      bar.querySelector('[data-ok]').addEventListener('click', () => { bar.remove(); p.querySelectorAll('.vs-new-row').forEach(e => e.classList.remove('vs-new-row')); p.querySelectorAll('.vs-new-pill').forEach(e => e.remove()); }); }
+    S[k] = {src: src(k), keys: [...it.keys()].slice(0, 900), kv: Object.fromEntries(Object.entries(kv).map(([l, x]) => [l, x.v])), seen: F.built || new Date().toISOString().slice(0, 16).replace('T', ' ')};
+    NEWC[k] = 0; save(); decorate(); }
+  let cur = null, tm = null;
+  const check = () => { const p = document.querySelector('.tabpanel.active[id^="panel-"]'); if (!p) return; const k = p.id.slice(6); if (k === cur || k === 'admin') return; cur = k;
+    clearTimeout(tm); tm = setTimeout(() => visit(k, p), 1800); };  // 화면이 다 그려진 뒤 비교
+  setTimeout(() => { baseline(); check(); new MutationObserver(check).observe(document.body, {subtree: true, attributes: true, attributeFilter: ['class']}); }, 3000);
+  let dt = null; const nav = () => { clearTimeout(dt); dt = setTimeout(decorate, 150); };
+  ['viewNav'].forEach(id => { const el = document.getElementById(id); if (el) new MutationObserver(ms => { if (ms.some(m => [...m.addedNodes].some(n => n.nodeType === 1 && !n.classList.contains('vs-newb')))) nav(); }).observe(el, {childList: true, subtree: true}); });
 })();
 
 (function segSelects(){  // 디자인 점검 2026-11-28: 선택지 2~3개·짧은 목록은 버튼형으로(한눈에 보이고 한 번에 고름)
