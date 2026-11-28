@@ -844,6 +844,9 @@ html.np-lock{overflow:hidden;}
 .tp-tags span{font-size:11px;padding:1px 7px;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink-2);}
 .tp-org ul{margin:4px 0 0;padding-left:16px;}.tp-org li{line-height:1.45;margin:2px 0;overflow-wrap:anywhere;}.tp-org li small{color:var(--muted);}
 @media (max-width:760px){.tp-g{grid-template-columns:minmax(0,1fr);}}
+details.tvz-fold > summary{list-style:none;cursor:pointer;}details.tvz-fold > summary::-webkit-details-marker{display:none;}
+details.tvz-fold:not([open]){padding-bottom:0;}details.tvz-fold .tvz-tg{font-style:normal;font-size:12px;font-weight:700;color:var(--accent,#4f8cff);margin-left:auto;}
+details.tvz-fold:not([open]) .tvz-go{display:none;}
 /* 🆕 새 데이터 표시 */
 .vs-newb{display:inline-block;margin-left:6px;padding:0 6px;border-radius:var(--r-pill);background:#ef4444;color:#fff;font-size:10px;font-weight:800;line-height:16px;letter-spacing:.3px;vertical-align:middle;}
 .vs-new-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin:0 0 12px;padding:8px 12px;border-radius:var(--r-4);border:1px solid color-mix(in srgb,#ef4444 35%,transparent);background:color-mix(in srgb,#ef4444 7%,var(--surface,#fff));font-size:12.5px;}
@@ -13507,10 +13510,15 @@ window.farm3d = function (host, C) {
       else { c.style.maxWidth = Math.min(ow || 720, 720) + 'px'; c.style.fontSize = '12px'; }
       html = c.outerHTML;
     } else { const t = tableFig(root); if (!t) return; html = t.svg; title = t.title; target = t.target; }
-    const box = document.createElement('section'); box.className = 'tvz'; box.dataset.kind = fs.length ? 'fig' : 'table';
-    box.innerHTML = `<div class="tvz-head"><b>📊 한눈에 보기</b><span>${esc(title)}</span><button type="button" class="tvz-go">자세히 ↓</button></div><div class="tvz-fig">${html}</div>`;
-    box.querySelector('.tvz-go').addEventListener('click', () => target && target.scrollIntoView({behavior: 'smooth', block: 'center'}));
-    const anchor = root.querySelector(':scope > .tp-top') || root.querySelector(':scope > .gd-field'); if (anchor) anchor.after(box); else root.prepend(box);
+    const adm = root.classList.contains('adm-pane');  // 관리 칸: 해석이 메인, 그림 요약은 접어 두고 누르면 펼침(사용자 요청 2026-11-28)
+    const box = document.createElement(adm ? 'details' : 'section'); box.className = 'tvz' + (adm ? ' tvz-fold' : ''); box.dataset.kind = fs.length ? 'fig' : 'table';
+    const head = `<b>📊 한눈에 보기</b><span>${esc(title)}</span><button type="button" class="tvz-go">자세히 ↓</button>`;
+    box.innerHTML = adm ? `<summary class="tvz-head">${head}<em class="tvz-tg">펼치기</em></summary><div class="tvz-fig">${html}</div>` : `<div class="tvz-head">${head}</div><div class="tvz-fig">${html}</div>`;
+    box.querySelector('.tvz-go').addEventListener('click', e => { e.preventDefault(); target && target.scrollIntoView({behavior: 'smooth', block: 'center'}); });
+    if (adm) { const K = 'admTvz.' + (root.dataset.pane || ''); try { box.open = localStorage.getItem(K) === '1'; } catch (e) { /* 기억 불가 */ }
+      const tg = () => { box.querySelector('.tvz-tg').textContent = box.open ? '접기' : '펼치기'; }; tg();
+      box.addEventListener('toggle', () => { tg(); try { localStorage.setItem(K, box.open ? '1' : '0'); } catch (e) { /* 기억 불가 */ } if (box.open && window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run()); }); }
+    const anchor = root.querySelector(':scope > .adm-guide') || root.querySelector(':scope > .tp-top') || root.querySelector(':scope > .gd-field'); if (anchor) anchor.after(box); else root.prepend(box);
     if (window.v3d && window.v3d.run) requestAnimationFrame(() => window.v3d.run());
   }
   const roots = () => { const out = []; const a = document.querySelector('.tabpanel.active'); if (!a) return out;

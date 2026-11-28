@@ -485,7 +485,11 @@ def build_html(exec_sources=None):
                 print(f"[경고] 관리 탭 {k} 섹션 실패: {type(e).__name__}: {str(e)[:120]}")
     except Exception as e:  # noqa: BLE001
         print(f"[경고] growth_alerts 로드 실패: {type(e).__name__}")
-    pane = lambda k, body, on=False: f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}>{body}</div>"
+    bodies = {}  # 칸별 본문 — 맨 위 '이 칸 해석' 카드 비교용(admin_guide)
+
+    def pane(k, body, on=False):
+        bodies[k] = body
+        return f"<div class='adm-pane' data-pane='{k}'{'' if on else ' hidden'}><!--ADMG:{k}-->{body}</div>"
     actions = ('<section class="panel"><div class="panel-head"><div><p class="panel-title">이번 주 할 일</p>'
                '<p class="panel-desc">모집 경보 · 재계약 접촉 · 청구 누락 · 입찰 결과 미기재 · 집합연수 준비를 마감 순으로. 누르면 해당 화면으로 이동합니다(관리자 전용).</p></div></div>'
                '<div id="admActions"></div></section>')
@@ -515,7 +519,7 @@ def build_html(exec_sources=None):
     except Exception as e:  # 앱 홈 오류가 관리 탭 전체를 막지 않게(탭 줄은 그대로)
         print(f"[경고] 앱 홈 실패: {type(e).__name__}: {str(e)[:120]}")
         home_html = store_html = ""
-    return (css + '<div class="adm adm-2d">' + nav + '<div class="adm-main">' + links_bar
+    out_html = (css + '<div class="adm adm-2d">' + nav + '<div class="adm-main">' + links_bar
             + pane("home", adm_map + home_html, True)
             + pane("exec", tp_html + blocks["targets"] + mg_exec + extra["weekly"] + extra["budget"] + '<div id="admExec"><p style="color:var(--muted);font-size:13px;">경영 종합을 불러오는 중입니다.</p></div>')
             + pane("decide", blocks["decide"] + cand_html + ob_hand)
@@ -551,6 +555,14 @@ def build_html(exec_sources=None):
             + pane("authors", _safe_build("textbook_authors", sec))
             + pane("apps", store_html)
             + "</div></div>")
+    try:  # 칸마다 맨 위 '🧭 이 칸 해석'(고정 설명 + 어제 대비 변화: 공개 칸은 AI 초안, 내부 칸은 규칙 문장)
+        ag = __import__("admin_guide")
+        for k, card in ag.cards(bodies, lab_of).items():
+            out_html = out_html.replace(f"<!--ADMG:{k}-->", card, 1)
+        out_html = ag.CSS + out_html
+    except Exception as e:  # noqa: BLE001  - 해석 카드 오류가 관리 탭 전체를 막지 않게
+        print(f"[경고] 관리 해석 카드 실패: {type(e).__name__}: {str(e)[:120]}")
+    return re.sub(r"<!--ADMG:[a-z0-9]+-->", "", out_html)
 
 
 def encrypted_blob(exec_sources=None):
