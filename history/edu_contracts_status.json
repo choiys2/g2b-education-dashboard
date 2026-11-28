@@ -1,11 +1,11 @@
 {
- "date": "2026-11-27",
+ "date": "2026-11-28",
  "jbe": {
   "pages": 24,
-  "rows": 223,
+  "rows": 225,
   "per_variant": {
-   "base": 111,
-   "school": 112
+   "base": 112,
+   "school": 113
   },
   "head": [
    "No.",
@@ -32,25 +32,10 @@
   ]
  },
  "pen": {
-  "pages": 16,
-  "rows": 6,
-  "months": 2,
-  "diag": {
-   "first_text": "('data-nm'); var paramUrl = $(this).attr('data-url'); $(\"#paramVal\").val(paramVal); $(\"#paramNm\").val(paramNm); setTrimMenuId(); $(\"#mainMenuForm\").attr('action', paramUrl).submit(); }); }); //파라미터 페이지 이동 function goParamPage( setVal, setNm, setUrl ) { $(\"#paramNm\").val(setNm); $(\"#paramVal\").val(setVal); setTrimMenuId(); $(\"#mainMenuForm\").attr('action', setUrl).submit(); }; //메뉴 아이디 공백제거 function setTrimMenuId(){ var nowMenuId = $.trim($(\"#nowMenuId\").val()); $(\"nowMenuId\").val(nowMenuId); }; "
-  },
-  "head": [
-   "번호",
-   "회계년도",
-   "계약기관",
-   "계약방법구분",
-   "계약명",
-   "계약일자",
-   "계약금액",
-   "계약대상자"
-  ]
+  "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1011)>"
  },
- "fetched": 329,
- "training": 159,
- "new": 3,
- "total": 821
+ "fetched": 325,
+ "training": 158,
+ "new": 1,
+ "total": 822
 }
