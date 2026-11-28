@@ -14503,4 +14503,47 @@ window.farm3d = function (host, C) {
   draw();
   requestAnimationFrame(() => document.documentElement.classList.remove('vs-boot'));  // 비상 디자인이 다 그려진 뒤 한 번에 보여 준다
 })();
+
+(function dailyFirst(){  // 데이터가 자주 바뀌는 칸을 탭 위쪽으로(사용자 요청 2026-11-28): 매일 → 매주 → 나머지(원래 순서)
+  // [선택자 또는 't:제목 앞부분', 주기 d=매일 w=매주 ''=표시 없음]
+  const M = {
+    market: [['#marketNewsPanel', 'd']],
+    g2bfull: [['#kpisG2BFull', ''], ['#earlyWarnPanel', 'd'], ['#rfpPanel', 'd'], ['t:상세 검색', 'd'], ['t:AI 인사이트', 'd']],
+    school: [['#eduCntrPanel', 'd']],
+    competitor: [['#kpisCompetitor', ''], ['#contractPanel', 'd'], ['t:낙찰 레코드', 'd'], ['t:홈페이지 이벤트 스냅샷', 'd'], ['#courseCatalogPanel', 'w'], ['#contentGapPanel', 'w'], ['t:경쟁사 브랜드 검색 관심도', 'w']],
+    pipeline: [['#kpisPipeline', ''], ['#recruitPanel', 'd'], ['t:전체 사업 리스트', 'd'], ['#commsPanel', 'd'], ['#opsPlanPanel', 'd'], ['t:상태 · 계약방식', 'd']],
+    b2s: [['#b2sMarketPanel', 'd'], ['#schoolSchedPanel', 'w'], ['#ggB2SPanel', 'w']],
+  };
+  const LB = {d: '매일 갱신', w: '매주 갱신'};
+  if (!document.getElementById('dfCss')) { const st = document.createElement('style'); st.id = 'dfCss';
+    st.textContent = '.df-chip{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:var(--r-pill,999px);font-size:11px;font-weight:700;vertical-align:middle;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}.df-chip.w{background:var(--surface-2);color:var(--muted)}';
+    document.head.appendChild(st); }
+  const find = (P, s) => {
+    if (s.startsWith('t:')) { const k = s.slice(2); const tt = [...P.querySelectorAll(':scope > section .panel-title, :scope > div > section .panel-title')].find(x => x.textContent.trim().startsWith(k)); return tt && tt.closest('section'); }
+    const e = P.querySelector(s); return e && (e.matches('section') ? e : e.closest('section'));
+  };
+  const top = s => s && s.parentNode;
+  function run(tab){
+    const P = document.getElementById('panel-' + tab), L = M[tab]; if (!P || !L) return;
+    const els = L.map(([s, c]) => [find(P, s), c]).filter(([e]) => e && top(e) === P);
+    if (!els.length) return;
+    const set = new Set(els.map(([e]) => e));
+    const first = [...P.children].find(c => c.matches('section.panel, section.kpis, div.grid-2') && !c.classList.contains('tvz') && !set.has(c) && !c.querySelector('.df-chip'));
+    const anchor = first || null;
+    els.forEach(([e, c]) => {
+      if (anchor) P.insertBefore(e, anchor); else P.appendChild(e);
+      if (c && !e.querySelector(':scope .df-chip')) { const t = e.querySelector('.panel-title'); if (t) { const b = document.createElement('span'); b.className = 'df-chip' + (c === 'w' ? ' w' : ''); b.textContent = LB[c]; t.appendChild(b); } }
+    });
+  }
+  function aiep(){  // 시도 AIEP: 칸 안에서 조달(매일)·동향을 지도 위로
+    const s = document.getElementById('aiepPanel'); if (!s || s.dataset.df) return;
+    const a = s.querySelector('#apMarket'), tr = s.querySelector('#apTrend'), tp = s.querySelector('#apTop'); if (!a || !tp) return;
+    tp.before(a); if (tr) tp.before(tr); a.style.marginTop = '0'; tp.style.marginTop = '14px'; s.dataset.df = '1';
+    const t = s.querySelector('.panel-title'); if (t && !t.querySelector('.df-chip')) { const b = document.createElement('span'); b.className = 'df-chip'; b.textContent = '조달 매일 갱신'; t.appendChild(b); }
+  }
+  const all = () => { Object.keys(M).forEach(k => { try { run(k); } catch (e) { console.warn('dailyFirst', k, e); } }); try { aiep(); } catch (e) { /* 무시 */ } };
+  const go = () => { all(); setTimeout(all, 1500); setTimeout(all, 4000); };
+  if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
+  document.querySelectorAll('.tabbtn').forEach(b => b.addEventListener('click', () => setTimeout(all, 900)));
+})();
 </script>
