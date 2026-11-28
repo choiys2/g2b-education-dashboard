@@ -347,7 +347,7 @@ def fetch_order_plan(cfg, **_):
         기준으로 등록/갱신된 발주계획 전체'를 돌려주는 롤링 스냅샷이다(조회일마다
         nticeDt가 당일로 찍힌 건들만 잡힘). 즉 한 번 호출로 연간 전체를 못 받고,
         파이프라인을 매일 돌려야 시간이 지날수록 예정사업이 누적된다.
-      - inqryDiv=1 은 필수(없으면 ERROR-08 필수값 누락).
+      - inqryDiv=1 은 필수(없으면 ERROR-08 필수값 누락). 2026-11-28부터 inqryBgnDt/inqryEndDt 도 필수.
     """
     svc = cfg["services"]["order_plan"]
     interval = cfg.get("request_interval_sec", 0.15)
@@ -358,6 +358,9 @@ def fetch_order_plan(cfg, **_):
         "inqryDiv": 1,
         "orderBgnYm": today.strftime("%Y%m"),
         "orderEndYm": today.strftime("%Y%m"),
+        # 2026-11-28: 서버가 등록일시 범위를 필수로 바꿈(없으면 ERROR-08 필수값 입력 에러) — 최근 7일
+        "inqryBgnDt": (today - timedelta(days=7)).strftime("%Y%m%d0000"),
+        "inqryEndDt": today.strftime("%Y%m%d2359"),
     }
     all_items = []
     page = 1
